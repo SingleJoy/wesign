@@ -1,0 +1,73 @@
+.content{
+    clear: both;
+    width: 1200px;
+    margin:20px auto;
+    background: #fff;
+    height: 800px;
+}
+.title{
+    padding-top: 10px;
+
+    padding-left: 10px;
+
+    display: -o-flex;
+    display: -webkit-flex;
+    display: -moz-flex;
+    font-size:12px;
+    font-family:"微软雅黑";
+    border-bottom:1px solid  #ccc;
+
+}
+.title img{
+    height:45px;
+}
+.title i{
+    color: red;
+}
+.title a{
+    color:#22a7ea;
+    border-bottom: 1px solid #22a7ea;
+}
+.title span{
+    color:#ff0000;
+}
+.title p{
+    flex:1;
+   text-align: center;
+   line-height: 56px;
+}
+.contentInfo p{
+    padding-left:46px;
+    padding-top: 22px;
+}
+
+.userInfo {
+    font-size:12px;
+    font-family:"微软雅黑";
+    color:#333;
+
+    height: 50px;
+}
+.userInfo p{
+    float: left;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.userInfo>p>span{
+  font-family:"微软雅黑";
+}
+.userInfo a{
+    float: left;
+    padding-left:52px;
+    padding-top: 22px;
+    color: #22a7ea;
+}
+.accountPic img{
+    padding: 30px 0 10px 30px;
+}
+.accountPic{
+    width: 108px;
+    height: 108px;
+}

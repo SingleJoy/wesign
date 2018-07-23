@@ -1,0 +1,90 @@
+.main{
+    width:1200px;
+    height: 800px;
+    background: #fff;
+    margin: 20px auto;
+}
+.top{
+    height: 84px;
+    line-height: 84px;
+    border-bottom: 1px solid #ccc;
+}
+.top .set{
+    padding-top: 20px;
+    float: left;
+     padding-left: 10px;
+}
+.top .copy{
+    float: right;
+    padding-right: 30px;
+}
+.top .copy span{
+    color: #999;
+}
+
+
+/* 内容开始 */
+.content{
+    clear: both;
+}
+.content .cleft{
+    position: relative;
+    margin-right: 47px;
+    margin-left: 200px;
+    width: 280px;
+    height: 520px;
+    background: url('../../../static/images/Room/phone.png') no-repeat;
+    background-size: 100% 100%;
+    float: left;
+}
+.cleft b{
+    width: 13px;
+    position: absolute;
+    top:130px;
+    left: 96px;
+}
+.cleft #text{
+    position: absolute;
+}
+.cleft img{
+    width: 80px;
+    height: 80px;
+}
+.cright{
+    float: left;
+}
+.cright h3{
+    clear: both;
+    font-weight: normal;
+    font-size: 14px;
+    color: #999;
+}
+.cright h4{
+    font-weight: normal;
+    font-size: 14px;
+    color: #999;
+}
+.cright{
+    margin-top: 20px;
+    float: left;
+}
+.cright span:nth-child(1){
+    margin-top: 21px;
+}
+.cright span:nth-child(2){
+    margin-top: 21px;
+    display: inline-block;
+}
+.cright dd:nth-child(1){
+    margin-bottom: 20px;
+}
+.cright dd:nth-child(3){
+    margin-left: 10px;
+    margin-top: 20px;
+}
+.cright dd:nth-child(4){
+    padding-top: 87px;
+}
+.cright dd:nth-child(4) a{
+    color: #eb5a5d
+}

@@ -1,0 +1,67 @@
+<template>
+  <div class="Procontracts" style="margin-top: 20px;">
+    <div class='main'>
+        <el-tabs v-model="activeName" tab-position="40px">
+          <el-tab-pane label="全部文件" name="first">
+            <total-contract></total-contract>
+          </el-tab-pane>
+          <el-tab-pane label="待我签署" name="second">
+            <inquiry-wait-me></inquiry-wait-me>
+          </el-tab-pane>
+          <el-tab-pane label="待他人签署" name="third">
+            <inquiry-wait-others></inquiry-wait-others>
+          </el-tab-pane>
+          <el-tab-pane label="已生效" name="fourth">
+            <inquiry-into-force></inquiry-into-force>
+          </el-tab-pane>
+          <el-tab-pane label="已截止" name="five">
+            <inquiry-expired></inquiry-expired>
+          </el-tab-pane>
+        </el-tabs>
+    </div>
+
+  </div>
+</template>
+<style>
+  .el-tabs__nav-scroll{
+    font-size: 16px;
+    color: #333;
+  }
+  #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
+    font-size: 16px;
+  }
+.el-table th>.cell{
+  text-align: center;
+}
+#app{
+  overflow: hidden;
+}
+.el-table__row .cell{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
+
+<script>
+import TotalContract from './TotalContract'
+import InquiryWaitMe from './InquiryWaitMe'
+import InquiryWaitOthers from './InquiryWaitOthers'
+import InquiryIntoForce from './InquiryIntoForce'
+import InquiryExpired from './InquiryExpired'
+export default {
+  name: 'Procontracts',
+  components: { TotalContract,InquiryWaitMe,InquiryWaitOthers,InquiryIntoForce,InquiryExpired },
+  data() {
+    return {
+        // activeName:sessionStorage.getItem('second')
+      activeName:'first'
+    }
+  }
+}
+</script>
+<style lange='css' scoped>
+@import '../../styles/Multiparty/Multiparties.css'
+</style>
+
+

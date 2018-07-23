@@ -1,0 +1,325 @@
+.Mercharnts{
+  width: 100%;
+  height: 100%;
+}
+.Merchants>.main{
+  width: 1200px;
+  margin: 0 auto;
+}
+.Merchants>.main>.main_left{
+  float:left;
+  width: 680px;
+  height: 268px;
+  box-sizing: border-box;
+}
+.merchant-upload{
+  height: 152px;
+  background: #fff;
+}
+.context{
+  line-height: 40px;
+}
+.Merchants>.main>.main_left p{
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  padding:12px 0 30px 20px;
+
+}
+.Merchants>.main>.main_left a {
+  display: block;
+  width: 130px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  color: #fff;
+  background:#22a7ea;
+  margin: 0px 35px 3px 20px;
+  font-size: 16px;
+}
+
+.icons > .single{
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  margin-top: -86px;
+}
+.more .more1 h3{
+  margin-top: -13px;
+  background: #fff;
+  /* text-align: center; */
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  display: flex;
+}
+.more .more1 h3 img{
+  padding-left: 200px;
+}
+.more .more1 h3 span{
+  padding-left: 150px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 40px;
+  color: #22a7ea;
+  cursor:pointer;
+}
+.one{
+  width: 169px;
+  clear: both;
+  color: #666;
+  margin-top: 55px;
+  line-height: 60px;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin-right: 13px;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.one img{
+  margin-top: 15px;
+  margin-left: 6px;
+  float: left;
+}
+.two{
+  width: 138px;
+  clear: both;
+  margin-top: 55px;
+  line-height: 60px;
+  border: 1px solid #ccc;
+  text-align: center;
+  background: #fff;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+}
+.main_right{
+
+  margin-left:10px;
+  float: left;
+  width: 508px;
+  border: 1px solid #ccc;
+  height: 266px;
+  background: #fff;
+  margin-bottom: 22px;
+}
+.main_right p{
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  padding:20px 0 10px 20px;
+}
+.main_right .right1{
+  float: left;
+  width: 200px;
+  height: 87px;
+  background: url('../../../static/images/Container/red.png');
+  background-size: 100% 100%;
+  margin-left: 16px;
+  cursor: pointer;
+}
+.main_right .right1 span:nth-child(1){
+  padding-left: 93px;
+  padding-top: 21px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right1 span:nth-child(2){
+  padding-left: 93px;
+  padding-top: 12px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right2{
+  float: left;
+  width: 200px;
+  height: 87px;
+  background: url('../../../static/images/Container/green.png');
+  background-size: 100% 100%;
+  margin-left: 16px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+.main_right .right2 span:nth-child(1){
+  padding-left: 93px;
+  padding-top: 21px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right2 span:nth-child(2){
+  padding-left: 93px;
+  padding-top: 12px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right3{
+  float: left;
+  width: 200px;
+  height: 87px;
+  background: url('../../../static/images/Container/blue.png');
+  background-size: 100% 100%;
+  margin-left: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.main_right .right3 span:nth-child(1){
+  padding-left: 93px;
+  padding-top: 21px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right3 span:nth-child(2){
+  padding-left: 93px;
+  padding-top: 12px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right4{
+  float: left;
+  width: 200px;
+  height: 87px;
+  background: url('../../../static/images/Container/orange.png');
+  background-size: 100% 100%;
+  margin-left: 16px;
+  margin-top: 20px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+.main_right .right4 span:nth-child(1){
+  padding-left: 93px;
+  padding-top: 21px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_right .right4 span:nth-child(2){
+  padding-left: 93px;
+  padding-top: 12px;
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.main_container{
+  background: #fff;
+}
+.main_container{
+  clear: both;
+  padding-top: 22px;
+}
+.main_table{
+  clear: both;
+  background: #fff;
+  height: 500px;
+  margin-top: 22px;
+}
+.main_table .Merchant-title h1{
+  padding: 20px 0px 0 15px;
+  float: left;
+}
+.main_table .Merchant-title a{
+  float: right;
+  padding: 31px 80px 0 20px;
+  color: #22a7ea;
+}
+/* table样式 */
+.el-table .warning-row {
+  background: #f5f5f5;
+}
+
+.el-table .success-row {
+  background: #f5f5f5;
+}
+.table th{
+    text-align: center;
+    background: #f5f5f5;
+    font-weight: bold;
+    color: #666;
+    font-size: 15px;
+}
+.table tr:nth-child(even){
+  background: #f5f5f5;
+}
+.table{
+      margin-top: 16px;
+    margin-left: 20px;
+}
+.single .one:hover{
+    border:1px solid #22a7ea !important;
+}
+/* 拖拽上传样式 */
+/* .el-upload-dragger{
+    width: 151px;
+    height: 44px;
+    margin-left: 270px;
+}
+.el-upload-dragger{
+    background: #22a7ea;
+    line-height: 44px;
+}
+.el-upload-dragger>i{
+    color: #fff;
+}
+.el-upload__text{
+    text-align: center;
+} */
+
+.dilog{
+  width:656px;
+  height:300px;
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+  z-index:1000;
+  border-radius:10px;
+  background:url('../../../static/images/Login/context.png');
+  background-size:100% 100%;
+  z-index:2000
+}
+ .dilog .left{
+    float: left;
+    width:252px;
+    height:191px;
+    background:#fff;
+    margin-left:63px;
+    margin-top:50px;
+    background:url('../../../static/images/Login/b2b.png');
+    background-size:100% 100%;
+
+ }
+  .dilog .left .upload-demo{
+     width:252px !important;
+    height:191px ;
+  }
+ .dilog .right{
+    float: left;
+    width:252px;
+    height:191px;
+    background:#fff;
+    margin-left:30px;
+    margin-top:50px;
+    background:url('../../../static/images/Login/b2c.png');
+    background-size:100% 100%;
+ }

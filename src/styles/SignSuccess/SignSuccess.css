@@ -1,0 +1,328 @@
+.SignSuccess{
+    width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    height: 800px;
+}
+.main{
+    width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    height: 800px;
+}
+
+/* 步骤条状态样式 */
+
+
+.step{
+  width: 890px;
+  margin: 0 auto;
+  height:120px;
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
+/* 步骤条状态样式 */
+.step ul li{
+    float: left;
+    width: 72px;
+    height: 72px;
+    border: 1px dashed #ccc;
+    border-radius: 50%;
+    padding: 5px;
+    margin:0px 5px 0 5px;
+}
+.step ul li>i{
+    text-align: center;
+    line-height: 72px;
+    display: block;
+    font-size: 32px;
+    background: #ccc;
+    border-radius: 50%;
+    color: #fff;
+}
+.step ul li> b{
+  margin-top: 14px;
+  text-align: center;
+  display: block;
+  font-weight: normal;
+  color: #ccc;
+}
+.step ul li.active{
+  border-color: #00a7e7;
+}
+.step ul li.active i{
+  background: #00a7e7;
+}
+.step ul li.active b{
+ color: #00a7e7;
+}
+.step ul p{
+    float: left;
+    border-bottom:1px dashed #ccc;
+    width: 60px;
+    height: 1px;
+    margin-top: 40px;
+}
+
+
+
+
+/* 步骤条状态样式 结束*/
+/* 合同签署成功样式 */
+.state {
+    margin: 0px auto;
+    width: 600px;
+    /* margin-bottom: 40px; */
+    box-sizing: border-box;
+    height: 80px;
+}
+.stateInfo{
+    padding-bottom: 200px;
+    margin-top: 50px;
+}
+.stateInfo  dt{
+    width: 104px;
+    float: left;
+    margin-right: 25px;
+}
+.stateInfo  dd{
+    margin-left: 24px;
+}
+.stateInfo  dd span{
+    padding-top: 30px;
+    color: #22a7ea;
+}
+.stateInfo  dd p{
+    padding-top: 20px;
+
+}
+/* 合同所有信息开始 */
+.contractInfo{
+
+    padding: 60px 10px 0 10px;
+}
+.contractInfo .first{
+    width: 350px;
+    background: #f9f7f7;
+    padding: 20px;
+    height: 265px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 5px;
+}
+.first dd:nth-child(1) h3{
+    color:#22a7ea;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+.first dd:nth-child(2) p{
+    padding-top: 10px;
+}
+.first dd:nth-child(2) p span:nth-child(2){
+    color: #666;
+}
+.first dd:nth-child(2) p a{
+    padding-left: 50px;
+    color:#22a7ea;
+}
+.first dd:nth-child(3) p{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.first dd:nth-child(4) b{
+    float: left;
+}
+.first dd:nth-child(4) p:nth-child(1){
+    float: right;
+}
+.first dd:nth-child(4) ul{
+    float: left;
+    height: 50px;
+}
+.first dd:nth-child(4) ul li a{
+    padding-left: 170px;
+    line-height: 30px;
+}
+
+
+
+.contractInfo .second{
+    width: 330px;
+    background: #f9f7f7;
+    padding: 20px;
+    height: 265px;
+    float: left;
+    margin-right: 20px;
+}
+.second dd:nth-child(1) h3{
+    color:#22a7ea;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+.second dd:nth-child(2) p{
+    padding-top: 10px;
+}
+.second dd:nth-child(2) p span:nth-child(2){
+    color: #666;
+}
+.second dd:nth-child(3){
+    padding-top: 30px;
+}
+.second dd:nth-child(2) p a{
+    padding-left: 110px;
+    color:#22a7ea;
+}
+/* .second dd:nth-child(3) p{
+    padding-top: 10px;
+    padding-bottom: 10px;
+} */
+.second dd:nth-child(3) b{
+    padding-top: 10px;
+    float: left;
+}
+.second dd:nth-child(3) dl{
+    display: flex;
+    padding-top: 10px;
+}
+.second dd:nth-child(3) dl dd p a{
+    padding-left: 50px;
+}
+
+
+.contractInfo .third{
+    width: 330px;
+    background: #f9f7f7;
+    padding: 20px;
+    height: 265px;
+    float: left;
+    margin-right: 5px;
+}
+.third dd:nth-child(1) h3{
+    color:#22a7ea;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+.third dd:nth-child(3){
+    padding-top: 30px;
+}
+.third dd:nth-child(2) p{
+    padding-top: 10px;
+}
+.third dd:nth-child(2) p span:nth-child(2){
+    color: #666;
+}
+.third dd:nth-child(2) p a{
+    padding-left: 110px;
+    color:#22a7ea;
+}
+/* .third dd:nth-child(3) p{
+    padding-top: 10px;
+    padding-bottom: 10px;
+} */
+.third dd:nth-child(3) b{
+    padding-top: 10px;
+    float: left;
+}
+.third dd:nth-child(3) dl{
+    display: flex;
+    padding-top: 10px;
+}
+.third dd:nth-child(3) dl dd p a{
+    padding-left: 50px;
+}
+/* 底部按钮 */
+.btns{
+    clear: both;
+    margin: 10px auto;
+    width: 516px;
+    padding-top: 30px;
+    text-align: center;
+}
+/* 修改 */
+.oneInfo{
+    width: 330px;
+    background: #f9f7f7;
+    padding: 20px;
+    height: 265px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 5px;
+}
+.oneInfo .infoss{
+    color: #22a7ea;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+#oneInfos li:nth-child(1) {
+    padding-top: 10px;
+}
+#oneInfos li:nth-child(2) {
+    padding-top: 10px;
+}
+#oneInfos li:nth-child(3) {
+    padding-top: 10px;
+}
+#oneInfos li:nth-child(4) {
+    padding-top: 10px;
+}
+.personState{
+    width: 680px;
+    background:#fafafa;
+    margin-left: 255px;
+    padding: 20px;
+}
+.person{
+    background: #fff;
+    padding-top: 30px;
+    padding-bottom:30px;
+
+}
+.stateCentral{
+    background: url('../../../static/images/SignSuccess/SignSuccess.png');
+    height: 280px;
+    width: 466px;
+    background-size:100% 100%;
+    margin: 0 auto;
+}
+.stateCentral h5{
+    padding-left: 11px;
+    padding-top: 48px;
+
+    margin-left: 30px;
+    width: 364px;
+    color: #fff;
+    font-size: 18px;
+}
+.stateCentral a{
+    padding-left: 70%;
+    color:#fff;
+}
+.stateCentral ul{
+    padding-left: 47px;
+    color: #fff;
+}
+.stateCentral ul li{
+    line-height: 32px;
+}
+#ele{
+    display: inline-block;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 100px;
+    vertical-align:bottom;
+
+}
+#second{
+    padding-left: 70px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 100px;
+    vertical-align:bottom;
+}
