@@ -177,7 +177,7 @@
   .table{
       margin-top: 16px;
       margin-left: 20px;
-      height: 300px;
+      min-height: 300px;
   }
   /* 渲染table样式结束 */
   .btns{

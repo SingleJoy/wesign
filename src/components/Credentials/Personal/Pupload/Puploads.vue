@@ -97,7 +97,12 @@
         url:'',
         falg:false
       }
-    },
+	},
+	created(){
+        var userCode =sessionStorage.getItem('userCode')
+		userCode = JSON.parse(userCode)
+		console.log(userCode)
+	},
     methods: {
       fileClick() {
         document.getElementById('upload_file').click()
@@ -338,7 +343,8 @@
           if(this.falg == false){
             this.falg = true
             var userCode =sessionStorage.getItem('userCode')
-            userCode = JSON.parse(userCode)
+			userCode = JSON.parse(userCode)
+			// console.log(userCode)
             this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/saveIdCardImgUrl',{'frontPhoto':this.IDcardUrl,'backPhoto':this.url,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{
               if(res.data.resultCode == '1'){
                 this.$message({

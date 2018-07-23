@@ -145,6 +145,19 @@
         });
       },
       sendCode(){
+        if(this.ruleForm.username == ''){
+            this.$message({
+              message: '请输入手机号',
+              type: 'warning'
+            })
+            return
+        }else if(!validateMoblie(this.ruleForm.username)){
+            this.$message({
+            message: '手机号输入错误',
+            type: 'warning'
+          })
+            return
+        }
         if(this.disCode){
           return
         }

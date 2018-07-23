@@ -191,6 +191,7 @@
                   type: 'success'
                 })
                 cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
+               
                 this.$router.push('/Home')
               }
           })

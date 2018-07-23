@@ -52,7 +52,7 @@
                      <span>已截止</span>
                  </div>
             </div>
-            <div class='main_table'>
+            <div class='main_table' style="padding-bottom:20px">
 
                 <div class='title' style="padding: 0;">
                     <h1 style="padding-left: 10px;"><img src="../../../static/images/Container/title.png" alt=""></h1>
