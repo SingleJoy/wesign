@@ -95,7 +95,8 @@
         imgSize:0,
         IDcardUrl:'',
         url:'',
-        falg:false
+        falg:false,
+        isSubmit:false
       }
 	},
 	created(){
@@ -330,7 +331,13 @@
       },
       submitIDcardImg() {                          //正反面缩略图显示页面 准备提交后台
         //保存身份证正反面
-
+        if(this.isSubmit){
+          this.$message({
+            message:'请勿重复提交',
+            type:'warning'
+          })
+          return 
+        }
         var interfaceCode = sessionStorage.getItem('interfaceCode')
         interfaceCode = JSON.parse(interfaceCode)
         if(this.IDcardFront.src == undefined || this.IDcardSide.src == undefined){
@@ -343,8 +350,8 @@
           if(this.falg == false){
             this.falg = true
             var userCode =sessionStorage.getItem('userCode')
-			userCode = JSON.parse(userCode)
-			// console.log(userCode)
+                userCode = JSON.parse(userCode);
+            this.isSubmit = true;
             this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/saveIdCardImgUrl',{'frontPhoto':this.IDcardUrl,'backPhoto':this.url,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{
               if(res.data.resultCode == '1'){
                 this.$message({
@@ -352,6 +359,7 @@
                   message: res.data.resultMessage,
                   type: 'success'
                 })
+                this.isSubmit = true;
                 sessionStorage.setItem('idcard',res.data.data.idcard)
                 sessionStorage.setItem('name', res.data.data.name)
                 this.$router.push('/Information')
@@ -361,12 +369,14 @@
                   message: res.data.resultMessage,
                   type: 'error'
                 })
+                this.isSubmit = false;
               }else {
                 this.$message({
                   showClose: true,
                   message: res.data.resultMessage,
                   type: 'error'
                 })
+                this.isSubmit = false;
                 this.$router.push('/ErrorPupload')
               }
             })

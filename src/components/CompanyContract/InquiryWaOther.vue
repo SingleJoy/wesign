@@ -37,6 +37,7 @@
         <img src="../../../static/images/notavailable.png" alt="">
       </div>
       <el-table
+        :header-cell-style="getRowClass"
         :data="tableInformation"
         style="width: 100%;text-align:center"
         v-loading="loading"
@@ -146,6 +147,13 @@ export default {
     }
   },
   methods: {
+     getRowClass({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return 'background:#f5f5f5'
+      } else {
+        return ''
+      }
+    },
     getRecord (requestVo) {
     var data =[];
     var isCreater='';
