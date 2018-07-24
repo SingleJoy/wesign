@@ -10,6 +10,7 @@ import MuTop from '../../common/components/MuTop'
 import BuyProducts from './BuyProducts'
 import Bottom from '../../common/components/Bottom'
 export default {
+  
   name: 'Merchant',
   components: {
     MuTop,
