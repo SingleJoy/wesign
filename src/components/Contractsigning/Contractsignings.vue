@@ -38,7 +38,7 @@
           </h2>
           <h3 class='proper'>
             <p class='first'><b>合同名称：</b>
-             <input type="text" :value=this.$store.state.contractName1 id='firstText' :maxlength= 50  @blur="changeContName">
+             <input type="text" :value=this.$store.state.contractName1 id='firstText' :maxlength= 50>
             <a class='select' @click="lookContractImg" style='padding-top:2px;cursor:pointer'>查看</a>
             <el-upload
             ref='upload'
@@ -345,16 +345,16 @@ export default {
         this.$refs[formName].resetFields()
       },
       changeContName (){
-        // var firstText = document.getElementById('firstText').value
-        // if(firstText == ''){
-        //   this.$alert('您还没有填写合同名称!','签署', {
-        //     confirmButtonText: '确定'
-        //   });
-        //   return false
-        // }
-        // this.$store.dispatch('fileSuccess1',{contractName:firstText,contractNo:this.$store.state.contractNo1})
-        // sessionStorage.setItem('contractName', JSON.stringify(firstText))
-        // sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+        var firstText = document.getElementById('firstText').value
+        if(firstText == ''){
+          this.$alert('您还没有填写合同名称!','签署', {
+            confirmButtonText: '确定'
+          });
+          return false
+        }
+        this.$store.dispatch('fileSuccess1',{contractName:firstText,contractNo:this.$store.state.contractNo1})
+        sessionStorage.setItem('contractName', JSON.stringify(firstText))
+        sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
       },
       checkedBox () {
         if(this.checked == true){
@@ -491,7 +491,7 @@ export default {
             });
             return false
           }
-        if( this.checked1 == false && this.tableData5 == ''){
+        if( this.checked1 == true && this.tableData5 == ''){
           this.$alert('您还没有添加人员!','添加签署人', {
             confirmButtonText: '确定'
           });
@@ -614,6 +614,7 @@ export default {
        }
       },
       addSigners(){
+        console.log(this.$store.state.contractName1)
         if(this.editSigner == false){
           this.$alert('您还没有完成添加签署人操作','添加签署人',{
             confirmButtonText: '确定'

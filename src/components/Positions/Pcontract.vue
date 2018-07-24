@@ -443,13 +443,13 @@ export default {
     box-sizing: border-box;
     position: absolute;
   }
-  .infoStyle{
+ .infoStyle{
     text-align:center;
     line-height:86px;
     font-size:16px;
     font-weight:normal;
   }
-  .textStyle{
+.textStyle{
     text-align:center;
     font-size:16px;
     font-weight:normal;
