@@ -33,7 +33,7 @@
             <img src="../../../../static/images/Contractsigning/person.png" alt="">
           </h2>
           <h3 class='proper'>
-            <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='inputText' :maxlength= 50  @blur="changeContName">
+            <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='inputText' :maxlength= 50 >
             <a class='select' @click="seeTemplate">查看</a>
             <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p>
             <p class='second'><span>签署截止日期：</span>
@@ -150,7 +150,7 @@
         </div>
         <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog">
             <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+               <img :src="['http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
             </div>
         </el-dialog>
@@ -413,6 +413,13 @@ export default {
         })
       },
       nextStepFit () { //下一步
+        var inputText = document.getElementById('inputText').value;
+        if(TrimAll(inputText) == ''){
+           this.$alert('合同名称不能为空!','签署', {
+            confirmButtonText: '确定'
+          })
+          return false
+        }
         if( this.checked1 == true ){
           this.operate = true
         }
@@ -434,6 +441,12 @@ export default {
             })
             return false
           }
+        if(this.tableData2.length==0){
+           this.$alert('您还没有添加签署人员!','添加签署人', {
+            confirmButtonText: '确定'
+          });
+          return false
+        }
         if( this.checked1 == false && this.tableData2 == ''){
           this.$alert('您还没有添加人员!','添加签署人', {
             confirmButtonText: '确定'

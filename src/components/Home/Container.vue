@@ -247,7 +247,7 @@ export default {
     remindClick(row) {
       //提醒
       var remindParam={
-			  contractType:row.contractType
+			  contractType:row.contractType==0?0:1
       };
       this.$http.get(process.env.API_HOST + "v1/tenant/" + cookie.getJSON("tenant")[1].interfaceCode + "/contract/" + row.contractNum +"/remind",{params:remindParam}).then(function(res) {
           var resultCode = res.data.resultCode;
@@ -277,13 +277,13 @@ export default {
       // return `${this.baseURL.BASE_URL}/v1/tenant/${
       //   this.interfaceCode
       // }/contractfile`;
-      return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+      return `http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
     },
     uploadUrl() {
       // return `${this.baseURL.BASE_URL}/v1.4/tenant/${
       //   this.interfaceCode
       // }/contractfile`;
-      return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+      return `http://test.wesign.zqsign.com/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
     },
     seeClick(row) {
       //延期
@@ -329,12 +329,12 @@ export default {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
         sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
         cookie.set("state", "A");
-        this.$router.push("/CompanyExa");
+        this.$router.push("/CompanyExa");//企业对企业
       } else {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
         sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
         cookie.set("state", "B");
-        this.$router.push("/ContractInfo");
+        this.$router.push("/ContractInfo");//企业对个人
       }
     },
     handleChange(name) {

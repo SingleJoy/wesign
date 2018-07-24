@@ -36,9 +36,9 @@
         </div>
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id="contractImg">
-            <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:842px;">
+            <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
 
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" id='imgSign' style='width: 639px;'>
+              <img :src="['http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" id='imgSign' style='width: 639px;'>
             </li>
           </ul>
         </div>

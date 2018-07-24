@@ -27,7 +27,7 @@
           <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible">
 
             <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+               <img :src="['http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
                <!-- <img :src="['http://www.zqsign.com/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
             </div>
           </el-dialog>
@@ -135,8 +135,8 @@ export default {
     remindSignClick (row) {
       //  var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
         var remindParam = {
-			userCode:row.userCode,
-			contractType:0
+          userCode:row.userCode,
+          contractType:1
         }
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ this.$store.state.rowNumber +'/remind',{params:remindParam} ,{emulateJSON:true}).then(function (res) {
           var resultCode = res.data.resultCode

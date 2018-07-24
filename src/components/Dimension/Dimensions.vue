@@ -45,9 +45,9 @@
       <!-- 合同内容开始 -->
       <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
-          <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:842px;">
+          <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:100%;'> -->
-             <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
+             <img :src="['http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
           </li>
           <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
           <div id='signCanvas' style='display:none;'><img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px"></div>
@@ -313,11 +313,12 @@ export default {
           var firstImg =parentBox.getElementsByTagName('img')[1]
           var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
           var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
+          console.log(imgHeight)
           var hidden =document.getElementById('hidden')
           var leftX = offsetX * imgWight;
-          // var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum;
-          var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum - parseInt(signCanvasImg/4);
-          var signCanvasImg = document.getElementById('signCanvasImg').offsetHeight
+          var topY = (pageNum - 1 + offsetY) * imgHeight;
+          // var signCanvasImg = document.getElementById('signCanvasImg').offsetHeight
+          // var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum - parseInt(signCanvasImg/4);
           var signPic = document.getElementById('signImg').cloneNode(true)
           parentBox.appendChild(signPic);
           signPic.style.position= 'absolute';
@@ -384,9 +385,9 @@ export default {
      this.$loading.show(); //显示
      var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
      var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
-     var signH = parseInt(document.getElementById('signImg').style.height)
+     var signH = parseInt(document.getElementById('signImg').style.height)//签章高度
      var signW =  parseInt(document.getElementById('signImg').style.width)
-     var signatureW =  parseInt(document.getElementById('signCanvasImg').style.width)
+     var signatureW =  parseInt(document.getElementById('signCanvasImg').style.width)//手写
      var signatureH =  parseInt(document.getElementById('signCanvasImg').style.height)
      let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[0].userCode + '/contractmoresign/'+this.$store.state.contractNo1
       this.$http.post(url,{
@@ -444,7 +445,7 @@ export default {
             var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
             var signCanvas =document.getElementById('signCanvas')
             var leftX = offsetX * imgWight;
-            var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum;
+            var topY = (pageNum - 1 + offsetY) * imgHeight;
             var signPng = document.getElementById('signCanvasImg').cloneNode(true);
             parentBox.appendChild(signPng);
             signPng.style.position= 'absolute';

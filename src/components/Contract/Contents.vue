@@ -45,9 +45,9 @@
       <!-- 合同内容开始 -->
       <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
-          <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:842px;">
+          <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:100%;'> -->
-             <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
+             <img :src="['http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
           </li>
           <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
         </ul>
@@ -253,9 +253,10 @@ export default {
         var firstImg =parentBox.getElementsByTagName('img')[1]
         var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
         var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-        var hidden =document.getElementById('hidden');
+        console.log(imgHeight)
+        var hidden = document.getElementById('hidden');
         var leftX = offsetX * imgWight;
-				var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum;
+				var topY = (pageNum - 1 + offsetY) * imgHeight;
         var signPic = document.getElementById('signImg').cloneNode(true)
         parentBox.appendChild(signPic);
         signPic.style.position= 'absolute';
@@ -270,6 +271,7 @@ export default {
         }
         }
         this.signPosition = signPositionStr
+        console.log(this.signPosition)
         }
       })
        this.flag = false
@@ -329,6 +331,7 @@ export default {
        'signW':signW,
        'signPositionStr':this.signPosition
      }
+     console.log(signContractVo)
      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractmoresign/'+this.$store.state.contractNo1
      this.$http.post(url,signContractVo,{emulateJSON: true}).then(function (res) {
        if(res.data.sessionStatus == '0'){

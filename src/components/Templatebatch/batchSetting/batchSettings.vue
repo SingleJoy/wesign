@@ -31,7 +31,8 @@
             <img src="../../../../static/images/Contractsigning/person.png" alt="">
           </h2>
           <h3 class='proper'>
-            <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='batchText' :maxlength= 50  @blur="changeContName">
+            <!-- <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='batchText' :maxlength= 50  @blur="changeContName"> -->
+            <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='batchText' :maxlength= 50>
             <a class='select' @click="showBatchTemplate" style='cursor:pointer'>查看</a>
 
             <p class='second'><span>签署截止日期：</span>
@@ -142,7 +143,7 @@
     <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showBatchDialog">
       <div v-for="(item,index) in imgList" :key="index" >
           <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+          <img :src="['http://test.wesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -407,6 +408,15 @@ export default {
         })
       },
       nextStepFit () { //下一步
+        var batchText = document.getElementById('batchText').value
+        if(batchText == ''){
+          if(batchText == ''){
+            this.$alert('您还没有填写合同名称!','签署', {
+              confirmButtonText: '确定'
+            });
+            return false
+          }
+        }
         if(this.checked == false && this.value8 == ''){
             this.$alert('您还没有选择签署时间!','签署时间', {
               confirmButtonText: '确定'
