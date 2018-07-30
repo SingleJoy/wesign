@@ -44,7 +44,7 @@
               style='width:330px;'
               placeholder="请输入内容"
               v-model="EnterpriseName"
-             
+
               :disabled= disabled
               >
             </el-input>
@@ -56,7 +56,7 @@
               style='width:330px;'
               placeholder="请输入内容"
               v-model="phone"
-             
+
               :disabled= disabled
               >
             </el-input>
@@ -67,7 +67,7 @@
               style='width:330px;'
               placeholder="请输入姓名"
               v-model="userName"
-             
+
               :disabled= disabled
               >
             </el-input>
@@ -89,7 +89,7 @@
               placeholder="请输入密码"
               type='password'
               v-model="passWord"
-             
+
               :disabled= forbid
               >
             </el-input>
@@ -342,7 +342,7 @@
         }
       },
 
-      
+
       submitFrom() {
         this.validateSmsCode()
         if(this.validateEntName() == false) {
@@ -446,6 +446,8 @@
     },
     created() {
       this.interfaceCode = GetQueryString("appId")
+      sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode));
+
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.interfaceCode+'/userIsExist').then(res =>{
         if (res.data.resultCode == '1') {
           this.$message({
