@@ -318,7 +318,8 @@
     },
     created() {
       //查询银行信息
-      var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
+      var interfaceCode = sessionStorage.getItem('interfaceCode')
+      interfaceCode = JSON.parse(interfaceCode)
       var accountSteps = sessionStorage.getItem('accountSteps')
       var testStatus = 1;
        // console.log(accountSteps)

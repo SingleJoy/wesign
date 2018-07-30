@@ -1817,7 +1817,7 @@
         }
         // document.getElementById('errorInfo').innerHTML = ''
         var interfaceCode = sessionStorage.getItem('interfaceCode')
-        interfaceCode = JSON.parse(interfaceCode)
+            interfaceCode = JSON.parse(interfaceCode)
         console.log("interfaceCode:"+interfaceCode);
         //提交接口
         this.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/bank',
