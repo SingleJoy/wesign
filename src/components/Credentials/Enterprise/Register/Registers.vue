@@ -44,7 +44,7 @@
               style='width:330px;'
               placeholder="请输入内容"
               v-model="EnterpriseName"
-
+             
               :disabled= disabled
               >
             </el-input>
@@ -56,7 +56,7 @@
               style='width:330px;'
               placeholder="请输入内容"
               v-model="phone"
-
+             
               :disabled= disabled
               >
             </el-input>
@@ -67,7 +67,7 @@
               style='width:330px;'
               placeholder="请输入姓名"
               v-model="userName"
-
+             
               :disabled= disabled
               >
             </el-input>
@@ -90,7 +90,7 @@
               placeholder="请输入密码"
               type='password'
               v-model="passWord"
-
+             
               :disabled= forbid
               >
             </el-input>
@@ -269,6 +269,7 @@
           this.smval=res.data.smsCode
           var appId = res.data.appId
           this.appId = appId
+          // console.log('我拿到了appId哦')
           var resultCode = res.data.resultCode
           var smsNo = res.data.smsNo
           var smsCode = res.data.smsCode
@@ -323,7 +324,6 @@
             'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
           }}).then(response =>{
             if (response.data.resultCode != 1) {
-              this.verCode = false;
               this.$message({
                 showClose: true,
                 message: response.data.resultMessage,
@@ -343,7 +343,7 @@
         }
       },
 
-
+      
       submitFrom() {
         if(this.validateEntName() == false) {
           return false
@@ -388,6 +388,7 @@
         }
         this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
+
             this.$message({
               showClose: true,
               message: res.data.resultMessage,
@@ -452,8 +453,6 @@
     },
     created() {
       this.interfaceCode = GetQueryString("appId")
-      sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode));
-
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.interfaceCode+'/userIsExist').then(res =>{
         if (res.data.resultCode == '1') {
           this.$message({

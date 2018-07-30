@@ -390,7 +390,7 @@
         }
       },
       VaildEmail(){
-        if(this.analogueEmail == "" || !validateEmail(this.analogueEmail)){
+        if(this.analogueEmail != "" && !validateEmail(this.analogueEmail)){
           this.$alert('邮箱格式错误!','提示', {
             confirmButtonText: '确定'
           });
