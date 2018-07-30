@@ -269,7 +269,6 @@
           this.smval=res.data.smsCode
           var appId = res.data.appId
           this.appId = appId
-          // console.log('我拿到了appId哦')
           var resultCode = res.data.resultCode
           var smsNo = res.data.smsNo
           var smsCode = res.data.smsCode
@@ -324,6 +323,7 @@
             'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
           }}).then(response =>{
             if (response.data.resultCode != 1) {
+              this.verCode = false;
               this.$message({
                 showClose: true,
                 message: response.data.resultMessage,
@@ -388,7 +388,6 @@
         }
         this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
-
             this.$message({
               showClose: true,
               message: res.data.resultMessage,
