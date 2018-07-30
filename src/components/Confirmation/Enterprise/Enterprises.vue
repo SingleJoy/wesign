@@ -178,7 +178,8 @@
         }
       },
       creditInfo() {
-        var reg = /^[0-9a-zA-Z]+$/
+        // var reg = /^[0-9a-zA-Z]+$/;
+        var reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/   //必须为数字和字母组合
         if(TrimAll(this.creditCode) == ''){
           // this.$alert('统一社会信用代码不能为空！','企业认证', {
           //   confirmButtonText: '确定'

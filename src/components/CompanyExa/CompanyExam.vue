@@ -89,7 +89,7 @@
             </el-table>
             </div>
             <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
-            <div style="height: 560px;margin-top: 30px;margin-left: 70px;">
+            <div style="height: 400px;margin-top: 30px;margin-left: 70px;">
             <el-steps direction="vertical" :active=History.length>
               <el-step :title=item.signUserName+item.logInfo  :description=item.signTime v-for="(item,index) in History" :key="index" icon="el-icon-location" style="font-size: 40px;"></el-step>
             </el-steps>
