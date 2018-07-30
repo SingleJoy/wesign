@@ -78,7 +78,6 @@
               style='width:330px;'
               placeholder="验证码"
               v-model="smsCode"
-             @blur='validateSmsCode'
               >
             </el-input>
             <el-button  type="primary" style="margin-left: -125px;width: 120px;height: 40px;z-index: 999;position: relative;" @click='getSmsCode' id='code'>获取验证码</el-button>
@@ -345,6 +344,7 @@
 
       
       submitFrom() {
+        this.validateSmsCode()
         if(this.validateEntName() == false) {
           return false
         }
@@ -370,14 +370,7 @@
           })
           return false
         }
-        if(this.verCode == false) {
-          this.$message({
-            showClose: true,
-            message: '验证码填写错误！',
-            type: 'error'
-          })
-          return false
-        }
+        
         if(this.passWord ==''){
           if(this.validatePassWords() == false) {
             return false
@@ -386,6 +379,7 @@
             return false
           }
         }
+        
         this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
             this.$message({
