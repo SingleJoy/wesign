@@ -184,7 +184,8 @@
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
-          this.$router.push('/PersonWait')
+          // this.$router.push('/PersonWait')
+          this.$router.push('/ErrorPupload')
         }
       },
       submitForm(formName) {
