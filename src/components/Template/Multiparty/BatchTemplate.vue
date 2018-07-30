@@ -1,52 +1,56 @@
 <template>
   <div class="BatchTemplate">
     <h6 style="text-align: left;">温馨提示：一次批量发起多份合同，发起方与每个签署方签署一份独立合同</h6>
-    <h2 style="text-align: left;"><span>输入关键字</span> <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch"><el-button type="primary" icon="el-icon-search" style='margin-left:5px;' @click="queryTempBatch"></el-button></h2>
-    <div class='beacthImg' v-if="num === 0">
+    <h2 style="text-align: left;"><span>输入关键字</span> <input type="text" id='textInfo' placeholder="请输入关键字" max-length='20' v-model="inputTempBatch"><el-button type="primary" icon="el-icon-search" style='margin-left:5px;' @click="queryTempBatch"></el-button></h2>
+    <div v-if="num === 0 && show == false" style="text-align: center;margin-top: 9%;">
+      <img src="../../../../static/images/Multiparty/multiparties1.png" alt="" >
+    </div>
+    <div class='beacthImg' v-else-if="num === 0 && show == true">
       <img src="../../../../static/images/notavailable.png" alt="" >
     </div>
-    <el-table
-      :data="tableData"
-      stripe
-      style="width: 100%;text-align:center"
-      @row-click="generatClick"
-      v-else
-      >
-      <el-table-column
-        prop="templateName"
-        label="模板名称"
-        width="300"
-        style="text-align:center"
+    <div v-else>
+      <el-table
+        :data="tableData"
+        stripe
+        style="width: 100%;text-align:center"
+        @row-click="generatClick"
         >
-      </el-table-column>
-      <el-table-column
-        prop="tempalateDate"
-        label="创建时间"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="signatory"
-        label="签署方"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="operation"
-          width="250"
-        label="操作">
-        <template slot-scope="scope">
-          <el-button @click="generatClick(scope.row)" type="primary" size="mini">生成合同</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class='pagetion'>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-size="10"
-        layout="total,prev, pager, next, jumper"
-        :total=Number(num)>
-      </el-pagination>
+        <el-table-column
+          prop="templateName"
+          label="模板名称"
+          width="300"
+          style="text-align:center"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="tempalateDate"
+          label="创建时间"
+          width="300">
+        </el-table-column>
+        <el-table-column
+          prop="signatory"
+          label="签署方"
+          width="300">
+        </el-table-column>
+        <el-table-column
+          prop="operation"
+            width="250"
+          label="操作">
+          <template slot-scope="scope">                         
+            <el-button @click="generatClick(scope.row)" type="primary" size="mini">生成合同</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class='pagetion'>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size="10"
+          layout="total,prev, pager, next, jumper"
+          :total=Number(num)>
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +79,8 @@ export default {
       currentPage: 1,
       num:'',
       inputTempBatch:'',
-      query:false
+      query:false,
+      show:false
     };
   },
   methods: {
@@ -148,6 +153,7 @@ export default {
         type: 'success'
       })
       this.query = true
+      this.show = true
     }
   },
   created() {

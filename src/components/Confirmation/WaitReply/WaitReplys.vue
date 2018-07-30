@@ -318,9 +318,10 @@
     },
     created() {
       //查询银行信息
-      var interfaceCode = cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'';
+      var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
       var accountSteps = sessionStorage.getItem('accountSteps')
       var testStatus = 1;
+       // console.log(accountSteps)
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/getBank').then(response =>{
         if (response.data.resultCode == '1') {
           this.payeeName = response.data.data.to_acc_name; // 收款人姓名
