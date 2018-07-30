@@ -42,7 +42,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="enterpriseOpenName"
-                  
+
                 >
                 </el-input>
               </div>
@@ -65,7 +65,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bankAffiliate"
-                  
+
                 >
                 </el-input>
               </div>
@@ -77,7 +77,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bankAccount"
-                 
+
                 >
                 </el-input>
               </div>
@@ -89,7 +89,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bank"
-                
+
                 >
                 </el-input>
               </div>
@@ -106,7 +106,6 @@
       </div>
     </div>
 
-    
   </div>
 </template>
 <script>
@@ -1819,7 +1818,7 @@
         // document.getElementById('errorInfo').innerHTML = ''
         var interfaceCode = sessionStorage.getItem('interfaceCode')
         interfaceCode = JSON.parse(interfaceCode)
-
+        console.log("interfaceCode:"+interfaceCode);
         //提交接口
         this.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/bank',
           {
@@ -1833,6 +1832,9 @@
           this.$router.push('/WaitReply')
         })
       }
+    },
+    created(){
+
     }
   }
 </script>
