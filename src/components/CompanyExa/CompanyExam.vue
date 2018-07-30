@@ -22,8 +22,8 @@
                 {{contractName}}
 
                </span>
-               <a href="javascript:;" @click="seeContractImg">查看</a>
-               <a href="javascript:;" @click="downloadClick">下载</a>
+               <a href="javascript:void(0);" @click="seeContractImg">查看</a>
+               <a href="javascript:void(0);" @click="downloadClick">下载</a>
                <strong>发起方式：</strong><span>{{createType}}</span>
                <strong>签署截止日期：</strong><span>{{validTime}}</span>
                <strong style="margin-right: 30px;font-weight: normal;float: right;display: inline-block;">
@@ -83,7 +83,7 @@
                 width="170"
                 >
                 <template slot-scope="scope">
-                  <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status!="已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                  <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" ' @click="remindSignClick(scope.row)">提醒签署</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -151,6 +151,7 @@ export default {
     };
   },
   methods: {
+
     remindSignClick (row) {
       //  var notificationReq = {"type":'0',"contractNo":this.ContractCode,"userCode":row.userCode,"mobile":row.mobile}
         var remindParam = {
@@ -236,6 +237,7 @@ export default {
         // }
         this.validTime = res.data.data.validTime
         var signUserVo = res.data.dataList
+        var contractStatus = res.data.data.status
         var isCreater='';
         if(currentFaceCode == res.data.data.interfaceCode){
             isCreater = true
@@ -252,8 +254,8 @@ export default {
           obj.signStatus = signUserVo[i].signStatus
           obj.userCode = signUserVo[i].authorizerCode;
           obj.status = signUserVo[i].status;
-		  obj.isCreater = isCreater;
-		//   obj.contractType = 
+          obj.isCreater = isCreater;
+          obj.contractStatus = contractStatus
           switch ( obj.signStatus ){
           case "0":
             obj.signStatus = 0

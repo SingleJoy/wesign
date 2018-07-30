@@ -6,7 +6,7 @@
 */
 <template>
   <div>
-    <div class="Topes" style="position: fixed;top:0;z-index: 9999">
+    <div class="Topes" style="position: fixed;top:0;z-index: 999">
       <nav class='nav'>
         <p class='logo'>
           <img src="../../../../static/images/logo2.png" alt="">
@@ -58,7 +58,7 @@
               >
               </el-input>
 
-              <p class='secondTitle'>支持中国大陆工商局或市场监督管理局登记的企业。请填写工商营业执照上的企业全称。</p>
+              <p class='secondTitle' style="text-align:left">支持中国大陆工商局或市场监督管理局登记的企业。请填写工商营业执照上的企业全称。</p>
             </div>
             <div class='second'>
               <span style='margin-left:-53px;'>统一社会信用代码</span>
@@ -66,24 +66,22 @@
                 style='width:336px;height:20px;'
                 placeholder="请输入内容"
                 v-model="creditCode"
-                @blur="creditInfo"
                 :maxlength=25
               >
               </el-input>
               <p class='secondTitle' style="color:#ff0040;"></p>
             </div>
-            <div class='third'>
+            <div class='third' style="margin-top:20px;">
               <span class='thirdInfo'>法人代表/企业负责人姓名</span>
               <el-input
                 style="width:336px;height:20px;margin-left:11px;"
                 placeholder="请输入内容"
                 v-model="legalPerson"
-                @blur="nonnumeric"
                 :maxlength=15
               >
               </el-input>
               <p class='secondTitle'>如果属于分公司则填写工商营业执照上明确的负责人,个体工商户请填写经营者姓名,合伙企业请填写合伙人姓名，个人独资企业请填写投资人姓名，企业法人的非法人分支机构填写负责人。</p>
-              <a href="javascript:(0)" class='check' @click="dialogAgreement = true">查看示例</a>
+              <a href="javascript:void(0)" class='check' @click="dialogAgreement = true">查看示例</a>
               <el-dialog
                 :visible.sync="dialogAgreement"
                 width="500px"
@@ -112,7 +110,7 @@
               <div class='personInfo' style='float:left;margin-left:25%;'>本人角色</div>
               <el-radio v-model="radio" label="1" style='float:left;padding-top: 5px;'>企业授权人</el-radio>
               <el-radio v-model="radio" label="2" style='float:left;padding-top: 5px;'>企业法人</el-radio>
-              <a href="javascript:(0)" class='check' style='visibility: hidden;'>查看示例</a>
+              <a href="javascript:void(0)" class='check' style='visibility: hidden;'>查看示例</a>
             </div>
             <div class='four' style="clear: both;">
               <span  class='fourInfo' style='float:left'>认证授权书</span>
@@ -132,9 +130,9 @@
               </div>
             </div>
             <div class='agreement' style='clear:both'>
-              <p>如果为法人本人操作请下载<a href='javascript:;' @click="coveringLetter">法人说明函</a></p>
-              <p>一般企业请下载<a href='javascript:;' @click='authorization'>一般企业认证授权书</a></p>
-              <p>个体请下载<a href='javascript:;' @click="letterAttorney">个体工商户认证授权书</a></p>
+              <p>如果为法人本人操作请下载<a href='javascript:void(0);' @click="coveringLetter">法人说明函</a></p>
+              <p>一般企业请下载<a href='javascript:void(0);' @click='authorization'>一般企业认证授权书</a></p>
+              <p>个体请下载<a href='javascript:void(0);' @click="letterAttorney">个体工商户认证授权书</a></p>
               <p>上传加盖企业公章的原件照片或扫描件</p>
               <p>支持.jpg .jpeg .png格式照片，大小不超过2M.</p>
             </div>
@@ -147,7 +145,7 @@
 </template>
 <script>
   import { Message } from 'element-ui';
-  import { validateCredit,validateOpenName } from '@/common/js/validate'
+  import { validateCredit,validateOpenName, TrimAll} from '@/common/js/validate'
   export default {
     name: 'Enterprises',
     data() {
@@ -181,28 +179,48 @@
       },
       creditInfo() {
         var reg = /^[0-9a-zA-Z]+$/
-        if(this.creditCode == ''){
-          this.$alert('统一社会信用代码不能为空！','企业认证', {
-            confirmButtonText: '确定'
-          });
+        if(TrimAll(this.creditCode) == ''){
+          // this.$alert('统一社会信用代码不能为空！','企业认证', {
+          //   confirmButtonText: '确定'
+          // });
+          this.$message({
+            showClose: true,
+            message: '统一社会信用代码不能为空！',
+            type: 'warning'
+          })
           return false
-        }else if(this.creditCode != '' && !reg.test(this.creditCode)){
-          this.$alert('统一社会信用代码格式错误！','企业认证', {
-            confirmButtonText: '确定'
-          });
+        }else if(TrimAll(this.creditCode) != '' && !reg.test(TrimAll(this.creditCode))){
+          // this.$alert('统一社会信用代码格式错误！','企业认证', {
+          //   confirmButtonText: '确定'
+          // });
+          this.$message({
+            showClose: true,
+            message: '统一社会信用代码格式错误！',
+            type: 'warning'
+          })
           return false
         }
       },
       nonnumeric() {
         if(this.legalPerson == ''){
-          this.$alert('法人代表/企业负责人姓名不能为空！','企业认证', {
-            confirmButtonText: '确定'
-          });
+          // this.$alert('法人代表/企业负责人姓名不能为空！','企业认证', {
+          //   confirmButtonText: '确定'
+          // })
+          this.$message({
+            showClose: true,
+            message: '法人代表/企业负责人姓名不能为空！',
+            type: 'warning'
+          })
           return false
-        }else if(this.legalPerson != '' && !validateOpenName(this.legalPerson)){
-          this.$alert('法人代表/企业负责人姓名格式错误！','企业认证', {
-            confirmButtonText: '确定'
-          });
+        }else if(TrimAll(this.legalPerson) != '' && !validateOpenName(TrimAll(this.legalPerson))){
+          // this.$alert('法人代表/企业负责人姓名格式错误！','企业认证', {
+          //   confirmButtonText: '确定'
+          // })
+           this.$message({
+            showClose: true,
+            message: '法人代表/企业负责人姓名格式错误！',
+            type: 'warning'
+          })
           return false
         }
       },
@@ -486,10 +504,17 @@
 
       //企业认证
       entCertification(){
+        let that = this;
         if(this.enterpriseType ==''){
-           this.$alert('请选择企业类型','提示', {
-            confirmButtonText: '确定'
-          });
+          //  this.$alert('请选择企业类型','提示', {
+          //   confirmButtonText: '确定'
+          // });
+           this.$message({
+            showClose: true,
+            message: '请选择企业类型',
+            type: 'warning'
+          })
+          
           return false
         }
         if(this.radio == '1'){
@@ -497,28 +522,38 @@
         }else {
           this.authorizerType = '0'
         }
-        if(this.creditInfo() == false){
+        if(this.creditInfo() == false){ //信用代码校验
           return false
         }
         if(this.nonnumeric() == false){
           return false
         }
         if(this.creditPhoto == ''){
-          this.$alert('营业执照未上传！','上传', {
-            confirmButtonText: '确定'
-          });
+          // this.$alert('营业执照未上传！','上传', {
+          //   confirmButtonText: '确定'
+          // });
+          this.$message({
+            showClose: true,
+            message: '营业执照未上传！',
+            type: 'warning'
+          })
           return false
         }
         if(this.authorizationPhoto == ''){
-          this.$alert('认证授权书未上传！','上传', {
-            confirmButtonText: '确定'
-          });
+          // this.$alert('认证授权书未上传！','上传', {
+          //   confirmButtonText: '确定'
+          // });
+          this.$message({
+            showClose: true,
+            message: '认证授权书未上传！',
+            type: 'warning'
+          })
           return false
         }
 
         var interfaceCode = sessionStorage.getItem('interfaceCode')
         interfaceCode = JSON.parse(interfaceCode)
-        this.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/authentication',{
+        that.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/authentication',{
           'tenantName':this.tenantName,//企业名称
           'enterpriseType':this.enterpriseType,//企业类型
           'creditCode':this.creditCode,//信用代码
@@ -526,19 +561,19 @@
           'creditPhoto':this.creditPhoto,//信用代码证书
           'authorizerType':this.authorizerType,//授权人类型(0企业法人、1企业授权人)
           'authorizationPhoto':this.authorizationPhoto//授权书
-        },{emulateJSON: true}).then(response =>{
-          if (response.data.resultCode == '1') {
-            this.$message({
+        },{emulateJSON: true}).then(res =>{
+          if (res.data.resultCode == '1') {
+            that.$message({
               showClose: true,
-              message: response.data.resultMessage,
+              message: res.data.resultMessage,
               type: 'success'
             })
             this.$router.push('/Payment')
           } else {
-            this.$message({
+            that.$message({
               showClose: true,
-              message: response.data.resultMessage,
-              type: 'error'
+              message: res.data.resultMessage,
+              type: 'warning'
             })
           }
         })

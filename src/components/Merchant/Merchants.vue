@@ -62,7 +62,7 @@
       <div class='main_table'>
         <div class='Merchant-title'>
           <h1><img src="../../../static/images/Container/title.png" alt=""></h1>
-          <a href="javascript:;" @click='jump'>查看更多>></a>
+          <a href="javascript:void(0);" @click='jump'>查看更多>></a>
         </div>
         <div class='table'>
           <el-table

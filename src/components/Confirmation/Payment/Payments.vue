@@ -5,9 +5,7 @@
         <p class='logo'>
           <img src="../../../../static/images/logo2.png" alt="">
         </p>
-        <div class='buttons'>
 
-        </div>
       </nav>
     </div>
     <div class='Payments'>
@@ -44,7 +42,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="enterpriseOpenName"
-                  @blur="checkEntName"
+                  
                 >
                 </el-input>
               </div>
@@ -67,7 +65,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bankAffiliate"
-                  @blur="checkBankAff"
+                  
                 >
                 </el-input>
               </div>
@@ -79,7 +77,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bankAccount"
-                  @blur="checkBankAcc"
+                 
                 >
                 </el-input>
               </div>
@@ -91,7 +89,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bank"
-                  @blur="checkBank"
+                
                 >
                 </el-input>
               </div>
@@ -108,8 +106,7 @@
       </div>
     </div>
 
-
-
+    
   </div>
 </template>
 <script>
@@ -1713,10 +1710,15 @@
       },
       checkEntName() {
         if(this.enterpriseOpenName == '') {
-          document.getElementById('errorInfo').innerHTML = '企业开户名称不能为空';
+          // document.getElementById('errorInfo').innerHTML = '企业开户名称不能为空';
+          this.$message({
+              showClose: true,
+              message: '企业开户名称不能为空',
+              type: 'error'
+            })
           return false
         } else{
-          document.getElementById('errorInfo').innerHTML = '';
+          // document.getElementById('errorInfo').innerHTML = '';
           if(!validateOpenName(this.enterpriseOpenName)){
             this.$message({
               showClose: true,
@@ -1729,10 +1731,15 @@
       },
       checkBank(){
         if(this.bank == '') {
-          document.getElementById('errorInfo').innerHTML = '银行名称不能为空'
+          // document.getElementById('errorInfo').innerHTML = '银行名称不能为空'
+           this.$message({
+              showClose: true,
+              message: '银行名称不能为空',
+              type: 'error'
+            })
           return false
         } else {
-          document.getElementById('errorInfo').innerHTML = '';
+          // document.getElementById('errorInfo').innerHTML = '';
           if(!validateName(this.bank)){
             this.$message({
               showClose: true,
@@ -1745,10 +1752,16 @@
       },
       checkBankAff() {
         if(this.bankAffiliate == '') {
-          document.getElementById('errorInfo').innerHTML = '开户支行名称不能为空'
+          // document.getElementById('errorInfo').innerHTML = '开户支行名称不能为空'
+           this.$message({
+              showClose: true,
+              message: '开户支行名称不能为空',
+              type: 'error'
+            })
           return false
         } else {
-            document.getElementById('errorInfo').innerHTML = '';
+            // document.getElementById('errorInfo').innerHTML = '';
+
             if(!validateVerbal(this.bankAffiliate)){
             this.$message({
               showClose: true,
@@ -1761,10 +1774,15 @@
       },
       checkBankAcc() {
         if(this.bankAccount == '') {
-          document.getElementById('errorInfo').innerHTML = '企业银行账号不能为空'
+          // document.getElementById('errorInfo').innerHTML = '企业银行账号不能为空'
+          this.$message({
+              showClose: true,
+              message: '企业银行账号不能为空',
+              type: 'error'
+            })
           return false
         } else {
-            document.getElementById('errorInfo').innerHTML = '';
+            // document.getElementById('errorInfo').innerHTML = '';
             if(!validateNumber(this.bankAccount)){
             this.$message({
               showClose: true,
@@ -1786,7 +1804,7 @@
             message: '请选择相关城市',
             type: 'error'
           })
-          document.getElementById('errorInfo').innerText='请选择相关城市'
+          // document.getElementById('errorInfo').innerText='请选择相关城市'
           return false
         }
         if(this.checkBankAff() == false) {
@@ -1798,7 +1816,7 @@
         if(this.checkBank() == false){
           return false
         }
-        document.getElementById('errorInfo').innerHTML = ''
+        // document.getElementById('errorInfo').innerHTML = ''
         var interfaceCode = sessionStorage.getItem('interfaceCode')
         interfaceCode = JSON.parse(interfaceCode)
 

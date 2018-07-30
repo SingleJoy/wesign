@@ -3,8 +3,8 @@
     <div  class='content'>
       <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;">
         <img src="../../../../static/images/Confirmation/Account/my.jpg" alt="">
-        <p v-if="identifier == false"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:;">重新提交企业信息</a></p>
-        <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:;">继续完善信息</a></p>
+        <p v-if="identifier == false"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
+        <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
         <div class='userInfo'>
@@ -17,7 +17,7 @@
           <p>
             <span>密码：</span><span>******</span>
           </p>
-          <a href="javascipt:;" @click="centerDialogVisible = true">修改密码</a>
+          <a href="javascript:void(0);" @click="centerDialogVisible = true">修改密码</a>
         </div>
         <h2 class='title' style='border-top:none;padding-bottom: 20px;'>
           <img src="../../../../static/images/Confirmation/Account/my1.jpg" alt="" >
@@ -62,7 +62,7 @@
           <div class="modal-header-title">
             <div>提示<span>(未通过原因)</span></div>
           </div>
-          <a href="javascript:;" @click="shutDown" class="close">X</a>
+          <a href="javascript:void(0);" @click="shutDown" class="close">X</a>
         </div>
         <div class="modal-body-account">
            <div class="refuse-reason">
@@ -70,8 +70,8 @@
            </div>
         </div>
         <div class="modal-footer">
-          <a href="javascript:;" class="btn btn-sure" @click="audit">确定</a>
-          <a href="javascript:;" class="btn btn-quit" @click="shutDown">取消</a>
+          <a href="javascript:void(0);" class="btn btn-sure" @click="audit">确定</a>
+          <a href="javascript:void(0);" class="btn btn-quit" @click="shutDown">取消</a>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
     <div class="modal " v-show ="modalTips == true">
       <div class="modal-box" style="width: 400px;height: 200px;">
         <div class="modal-header" style="border: none;">
-          <a href="javascript:;" @click="close" class="close">X</a>
+          <a href="javascript:void(0);" @click="close" class="close">X</a>
         </div>
         <div class="modal-body-account">
           <div style="height: 50px;margin: 50px 0 30px 20px;">
@@ -87,8 +87,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <a href="javascript:;" class="btn btn-sure" @click="ToAccount">确定</a>
-          <a href="javascript:;" class="btn btn-quit" @click="close">取消</a>
+          <a href="javascript:void(0);" class="btn btn-sure" @click="ToAccount">确定</a>
+          <a href="javascript:void(0);" class="btn btn-quit" @click="close">取消</a>
         </div>
       </div>
     </div>
@@ -147,6 +147,7 @@
         identifier: false,
         personal:'',
         finalRejection:false,
+        toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
@@ -178,7 +179,7 @@
         this.centerDialogVisible = false
       },
       realName() {
-        if(this.personalRealName == '3'){
+        if(this.personalRealName == '1' || this.personalRealName == '2' ||this.personalRealName == '3'){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
@@ -244,7 +245,9 @@
       audit(){
         sessionStorage.setItem('enterpriseName', cookie.getJSON('tenant')[1].companyName)
         sessionStorage.setItem('interfaceCode', JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
-        this.$router.push('/Enterprise')
+        if(this.toEnterprise != '3'){
+          this.$router.push('/Enterprise')
+        }
       },
       ToAccount(){
         if(this.personalRealName == '1' || this.personalRealName == '2'){
@@ -319,7 +322,8 @@
       })
       //意见（待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
-        this.auditOpinion=res.data.data
+        this.auditOpinion=res.data.data.moneyStatus;
+        this.toEnterprise = res.data.data.verifyMoneyNum
       })
     }
   }

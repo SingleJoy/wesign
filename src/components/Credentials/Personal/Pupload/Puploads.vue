@@ -85,6 +85,7 @@
 </style>
 <script>
   import cookie from '@/common/js/getTenant'
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'Puploads',
     data() {
@@ -99,10 +100,13 @@
         isSubmit:false
       }
 	},
+    mounted() {
+      prohibit()
+    },
 	created(){
         var userCode =sessionStorage.getItem('userCode')
-		userCode = JSON.parse(userCode)
-		console.log(userCode)
+	     	userCode = JSON.parse(userCode)
+		// console.log(userCode)
 	},
     methods: {
       fileClick() {
@@ -336,7 +340,7 @@
             message:'请勿重复提交',
             type:'warning'
           })
-          return 
+          return
         }
         var interfaceCode = sessionStorage.getItem('interfaceCode')
         interfaceCode = JSON.parse(interfaceCode)
@@ -351,7 +355,6 @@
             this.falg = true
             var userCode =sessionStorage.getItem('userCode')
                 userCode = JSON.parse(userCode);
-            this.isSubmit = true;
             this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/saveIdCardImgUrl',{'frontPhoto':this.IDcardUrl,'backPhoto':this.url,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{
               if(res.data.resultCode == '1'){
                 this.$message({

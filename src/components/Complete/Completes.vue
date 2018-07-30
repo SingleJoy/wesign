@@ -38,10 +38,10 @@
           <ul id='oneInfos'>
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
-              <div slot="content">{{this.$store.state.contractName1}}</div>
-              <span id='textInfo'>{{this.$store.state.contractName1}}</span>
+              <div slot="content">{{getContractName}}</div>
+              <span id='textInfo'>{{getContractName}}</span>
             </el-tooltip>
-            <a href="javascript:;" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+            <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
             </p></li>
             <li><p><span>截止时间：</span><span>{{validTime}}</span></p></li>
             <li style='float:left'>签署人员：</li>
@@ -51,8 +51,8 @@
                   <div slot="content">{{item.signUserName}}</div>
                   <span class='name'>{{item.signUserName}}</span>
                 </el-tooltip>
-                <span style='color:#22a7ea;' href="javascript:;" v-if="item.signStatus == 1">已签署</span>
-                <span style='color:red;' href="javascript:;" v-else>未签署</span>
+                <span style='color:#22a7ea;'  v-if="item.signStatus == 1">已签署</span>
+                <span style='color:red;'  v-else>未签署</span>
               </li>
             </ol>
           </ul>
@@ -62,7 +62,7 @@
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{contractlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
-            <a href="javascript:;" @click='handleCopy(contractlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
+            <a href="javascript:void(0);" @click='handleCopy(contractlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
             color: #22a7ea;'>复制链接</a>
           </dd>
         </dl>
@@ -71,7 +71,7 @@
           <dd><p><span>签约室链接：</span><span id='contractAddress1'>{{roomlink}}</span></p></dd>  <!--签约室链接：-->
           <dt id='roomInfo'><img src="../../../static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>
-            <a href="javascript:;" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
+            <a href="javascript:void(0);" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
             color: #22a7ea;'>复制链接</a>
           </dd>
         </dl>
@@ -103,7 +103,8 @@ export default {
       dialogTableVisible:false,
       imgList:[],
       contractlink:'',
-      roomlink:''
+      roomlink:'',
+      getContractName:'' //显示的合同名称
     }
   },
   methods: {
@@ -158,18 +159,19 @@ export default {
         this.$store.state.contractNo1 = contractNo
       }
     }
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1;
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1).then(function (res) {
+    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+ contractNo;
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+ contractNo).then(function (res) {
      if(res.sessionStatus == '0'){
         this.$router.push('/Server')
       } else {
       this.signUser = res.data.signUserVo
       var contractVo = res.data.contractVo
       this.validTime = contractVo.validTime
+      this.getContractName = contractVo.contractName
       }
     })
 
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1).then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo).then(function (res) {
       if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

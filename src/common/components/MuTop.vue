@@ -5,21 +5,21 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <ul id='ul'>
-        <router-link to='/Merchant'><li><a href="javascript:;">首页</a></li></router-link>
-        <router-link to='/Procontract'><li><a href="javascript:;">我的合同</a></li></router-link>
-        <router-link to='/BuyProduct'><li><a href="javascript:;">我的模板</a></li></router-link>
-        <router-link to='/BuyProduct'><li><a href="javascript:;">签约室</a></li></router-link>
+        <router-link to='/Merchant'><li><a href="javascript:void(0);">首页</a></li></router-link>
+        <router-link to='/Procontract'><li><a href="javascript:void(0);">我的合同</a></li></router-link>
+        <router-link to='/BuyProduct'><li><a href="javascript:void(0);">我的模板</a></li></router-link>
+        <router-link to='/BuyProduct'><li><a href="javascript:void(0);">签约室</a></li></router-link>
         <li @click="dialogVisible" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
-        <li><router-link to='/BuyProduct'><a href="javascript:;">模板发起</a></router-link></li>
+        <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li>
-          <a href="javascript:;" @click='choice'>上传发起</a>
+          <a href="javascript:void(0);" @click='choice'>上传发起</a>
           <!-- </el-upload> -->
         </li>
-        <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:;">退出</a></li>
-        <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:;">修改密码</a></li> -->
-        <li style="margin-left:30px;"><router-link to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:;">我的账户</a></router-link></li>
+        <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
+        <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
+        <li style="margin-left:30px;"><router-link to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
       </ol>
       <div id='update'>
       </div>
@@ -32,7 +32,7 @@
           <p>2.优化了原版本使用卡顿的现象</p>
           <p>3.增加了众签在线客服，随时为您服务</p>
           <p>4.增加了新手教程，通过引导使用户更容易上手</p> -->
-          <a href="javascript:;" id='close' @click='closes'>X</a>
+          <a href="javascript:void(0);" id='close' @click='closes'>X</a>
         </div>
       </div>
     </div>

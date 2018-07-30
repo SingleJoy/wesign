@@ -1,5 +1,5 @@
 <template>
-  <div class="InquiryExpired">
+  <div class="InquiryExpired" style="margin-top: 20px;">
     <div class='title' style="border:none;text-align:left;padding-left:20px;">
       <span>输入关键字：</span>
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
@@ -145,7 +145,7 @@ export default {
           obj.createTime = res.data.content[i].createTime;
           obj.signers =  res.data.content[i].signers;
           obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.validTime =  res.data.content[i].validTime.slice(0,12)
+          obj.validTime =  res.data.content[i].validTime;
           obj.contractType = res.data.content[i].contractType
           obj.operation = ''
           switch (obj.contractStatus){

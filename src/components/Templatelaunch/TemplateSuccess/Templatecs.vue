@@ -39,7 +39,7 @@
               <div slot="content">{{this.$store.state.contractName1}}</div>
               <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
             </el-tooltip>
-            <a href="javascript:;" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+            <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
             </p></li>
             <li><span>截止时间：</span><span>{{validTime}}</span></li>
             <li style='float:left'>签署人员：</li>
@@ -49,8 +49,8 @@
                   <div slot="content">{{item.signUserName}}</div>
                   <span class='name' >{{item.signUserName}}</span>
                 </el-tooltip>
-                <a style='color:#22a7ea; cursor: default;' href="javascript:;" v-if="item.signStatus == 1">已签署</a>
-                <a style='color:red; cursor: default;' href="javascript:;" v-else>未签署</a>
+                <a style='color:#22a7ea; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
+                <a style='color:red; cursor: default;' href="javascript:void(0);" v-else>未签署</a>
               </li>
             </ol>
           </ul>
@@ -60,7 +60,7 @@
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{dataURL}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../../static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
-            <a href="javascript:;" @click='handleCopy(dataURL,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
+            <a href="javascript:void(0);" @click='handleCopy(dataURL,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
             color: #22a7ea;'>复制链接</a>
           </dd>
         </dl>
@@ -69,7 +69,7 @@
           <dd><p><span>签约室链接：</span><span id='contractAddress1'>{{roomlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../../static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>
-            <a href="javascript:;" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
+            <a href="javascript:void(0);" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
             color: #22a7ea;'>复制链接</a>
           </dd>
         </dl>

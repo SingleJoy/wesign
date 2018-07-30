@@ -22,8 +22,8 @@
                 <div slot="content">{{contractName}}</div>
                 <span style='display:inline-block;width:150px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align:sub'>{{contractName}}</span>
               </el-tooltip>
-              <a href="javascript:;" @click="seeContractImg">查看</a>
-              <a href="javascript:;" @click="downloadClick">下载</a>
+              <a href="javascript:void(0);" @click="seeContractImg">查看</a>
+              <a href="javascript:void(0);" @click="downloadClick">下载</a>
               <strong>发起方式：</strong><span>{{createType}}</span>
               <strong>签署截止日期：</strong>
               <span>

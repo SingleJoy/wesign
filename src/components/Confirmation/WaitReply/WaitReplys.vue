@@ -6,7 +6,7 @@
 */
 <template>
   <div>
-    <div class="Topes"  style="position: fixed;top:0;z-index: 9999;">
+    <div class="Topes"  style="position: fixed;top:0;z-index: 999;">
       <nav class='nav'>
         <p class='logo'>
           <img src="../../../../static/images/logo2.png" alt="">
@@ -52,7 +52,6 @@
                 style='width:330px;height:48px;'
                 placeholder="请输入内容"
                 v-model="trans_money"
-                @blur='money'
               >
               </el-input>
 
@@ -198,7 +197,7 @@
           <!--</div>-->
 
           <!--<div class="modal-footer">-->
-            <!--<a href="javascript:;" class="btn btn-quit" @click="close" style="width: 150px">确定</a>-->
+            <!--<a href="javascript:void(0);" class="btn btn-quit" @click="close" style="width: 150px">确定</a>-->
           <!--</div>-->
         <!--</div>-->
       <!--</div>-->
@@ -230,10 +229,38 @@
     methods:{
       //取消操作
       money(){
+        if(this.trans_money>=1){
+            // this.$alert('打款金额填写格式错误！','打款', {
+            //   confirmButtonText: '确定'
+            // })
+             this.$message({
+              showClose: true,
+              message: '打款金额填写错误！',
+              type: 'error'
+            })
+            return false
+        }
         if(!validateDecimal(this.trans_money)){
-          this.$alert('打款金额填写格式错误！','打款', {
-            confirmButtonText: '确定'
-          })
+          if(this.trans_money==''){
+            // this.$alert('打款金额为必填','打款', {
+            //   confirmButtonText: '确定'
+            // })
+             this.$message({
+              showClose: true,
+              message: '打款金额为必填',
+              type: 'error'
+            })
+          }else{
+            // this.$alert('打款金额填写格式错误！','打款', {
+            //   confirmButtonText: '确定'
+            // })
+            this.$message({
+              showClose: true,
+              message: '打款金额填写格式错误！',
+              type: 'error'
+            })
+          }
+
           return false
         }
       },
@@ -267,19 +294,10 @@
       },
       // 验证企业打款验证码
       validateSMS() {
-        if(this.trans_money == '') {
-          this.$message({
-            showClose: true,
-            message: '打款金额不能为空',
-            type: 'error'
-          })
-          return false
-        }
         if(this.money() == false){
           return false
         }
         var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
-        //  console.log(interfaceCode)
         this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/remittance',{params:{
             'trans_money':this.trans_money,
           }}).then(response =>{
@@ -316,6 +334,8 @@
         } else {
           this.$alert(response.data.resultMessage,'打款认证', {
             confirmButtonText: '确定'
+          }).then(()=>{
+
           })
         }
       })

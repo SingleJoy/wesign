@@ -48,13 +48,16 @@
 </div>
 </template>
 <script>
-
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'Authentication',
     data() {
       return {
         num:3
       }
+    },
+    mounted() {
+      prohibit()
     },
     created() {
     var timer = null

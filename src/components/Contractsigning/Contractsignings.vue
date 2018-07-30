@@ -38,7 +38,7 @@
           </h2>
           <h3 class='proper'>
             <p class='first'><b>合同名称：</b>
-             <input type="text" :value=this.$store.state.contractName1 id='firstText' :maxlength= 50>
+             <input type="text" v-model="contractName" id='firstText' :maxlength= 50>
             <a class='select' @click="lookContractImg" style='padding-top:2px;cursor:pointer'>查看</a>
             <el-upload
             ref='upload'
@@ -225,6 +225,7 @@ export default {
           mobile:''
         },
         formLabelWidth: '70px',
+        contractName:this.$store.state.contractName1,
         rules: {
           signUserName: [
             { required: true, validator: validateName, trigger: 'blur' }
@@ -281,6 +282,7 @@ export default {
         this.$loading.hide(); //隐藏
         var index1=contractName.lastIndexOf(".");
         var suffix=contractName.slice(0,index1);
+        this.contractName = suffix
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
         sessionStorage.setItem('contractName', JSON.stringify(suffix))
         sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
@@ -491,7 +493,7 @@ export default {
             });
             return false
           }
-        if( this.checked1 == true && this.tableData5 == ''){
+        if( this.checked1 == false && this.tableData5 == ''){
           this.$alert('您还没有添加人员!','添加签署人', {
             confirmButtonText: '确定'
           });
@@ -571,7 +573,7 @@ export default {
           } else {
             var contractVo = {
               "needSign":needSign,
-              "contractName":TrimAll(this.$store.state.contractName1),
+              "contractName":TrimAll(this.contractName),
               "validTime":this.value8,
               "perpetualValid":perpetualValid,
               "sms_notice":'0',
@@ -592,9 +594,9 @@ export default {
                   message: res.data.resultMessage,
                   type: 'success'
               })
-              this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.$store.state.contractName1),contractNo:this.$store.state.contractNo1})
+              this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
               this.$store.dispatch('needSign',{needSign:needSign})
-              sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.$store.state.contractName1)))
+              sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
               sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
               sessionStorage.setItem('needSign',JSON.stringify(needSign))
               if(needSign == '1'){
@@ -614,7 +616,7 @@ export default {
        }
       },
       addSigners(){
-        console.log(this.$store.state.contractName1)
+
         if(this.editSigner == false){
           this.$alert('您还没有完成添加签署人操作','添加签署人',{
             confirmButtonText: '确定'

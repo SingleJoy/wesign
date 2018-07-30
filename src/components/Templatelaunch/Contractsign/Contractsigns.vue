@@ -38,11 +38,11 @@
       <div class='signing'>   <!--签署合同开始-->
         <div class='sign_left' ref="leftWrapper">
           <ul class="pagination">
-            <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:;"></a></p>
+            <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
              <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index" @click="clickNav(index)">
-              <a href="javascript:;" >{{index}}</a>
+              <a href="javascript:void(0);" >{{index}}</a>
             </li>
-            <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:;" ></a></p>
+            <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
           </ul>
         </div>
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
@@ -55,7 +55,7 @@
         </ul>
         </div>
         <div class='sign_right' v-show="signTempImg == false">
-          <a href="javascript:;" @click="gainPosition"><img src="../../../../static/images/Contract/submit.png" alt=""></a>
+          <a href="javascript:void(0);" @click="gainPosition"><img src="../../../../static/images/Contract/submit.png" alt=""></a>
           <br>
         </div>
         <!-- 右侧签署按钮结束 -->
@@ -142,6 +142,7 @@ export default {
   },
   created() {
     var contractName = sessionStorage.getItem('contractName')
+    console.log(contractName)
     var contractNo = sessionStorage.getItem('contractNo')
     var data =[]
     if (contractName) {
@@ -336,6 +337,9 @@ export default {
     },
     submitContract () { //确认签署
      this.$loading.show(); //显示
+
+     var contractNo = sessionStorage.getItem('contractNo')
+          contractNo = JSON.parse(contractNo);
      if(this.resubmit == true){
       this.resubmit = false
       var imgWight = document.getElementById('imgSign').clientWidth //获取合同页面的宽度
@@ -352,7 +356,7 @@ export default {
         'signW':signW,
         'signPositionStr':this.signPosition
       }
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractmoresign/'+this.$store.state.contractNo1
+      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractmoresign/'+ contractNo
       this.$http.post(url,signContractVo,{emulateJSON: true}).then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')

@@ -64,6 +64,7 @@
  @import "../../../../common/styles/Topes.css";
 </style>
 <script>
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'Informations',
     data () {
@@ -73,6 +74,9 @@
         falg:false,
         enjoin:false,
       }
+    },
+    mounted() {
+      prohibit()
     },
     methods:{
       submitInfo () {

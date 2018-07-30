@@ -113,7 +113,7 @@
   color: #333;
   font-size: 20px;
   font-weight: bold;
-  padding:20px 0 10px 20px;
+  padding:20px 0 10px 25px;
 }
 .main_right .right1{
   float: left;
@@ -121,7 +121,7 @@
   height: 87px;
   background: url('../../../static/images/Container/red.png');
   background-size: 100% 100%;
-  margin-left: 16px;
+  margin-left: 30px;
   cursor: pointer;
 }
 .main_right .right1 span:nth-child(1){
@@ -172,7 +172,7 @@
   height: 87px;
   background: url('../../../static/images/Container/blue.png');
   background-size: 100% 100%;
-  margin-left: 16px;
+  margin-left: 30px;
   margin-top: 20px;
   cursor: pointer;
 }

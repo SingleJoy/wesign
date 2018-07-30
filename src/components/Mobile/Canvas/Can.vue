@@ -23,13 +23,13 @@
       <div class='bg'>
           <div class='center_cen'>
               <p>您还没有完成签署！</p>
-              <a href="javascript:;" id='closeBtn' @click='closeBtn'>确定</a>
+              <a href="javascript:void(0);" id='closeBtn' @click='closeBtn'>确定</a>
           </div>
       </div>
     <div class='bg1'>
           <div class='center1'>
               <p>为了更好的签署体验，请关闭手机自动旋转功能！</p>
-              <a href="javascript:;" id='closeBtn' @click='closeBtn1'>确定</a>
+              <a href="javascript:void(0);" id='closeBtn' @click='closeBtn1'>确定</a>
           </div>
       </div>
     <div id='bg'>

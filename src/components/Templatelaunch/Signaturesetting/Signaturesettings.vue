@@ -33,7 +33,7 @@
             <img src="../../../../static/images/Contractsigning/person.png" alt="">
           </h2>
           <h3 class='proper'>
-            <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='inputText' :maxlength= 50 >
+            <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='inputText' :maxlength= 50 >
             <a class='select' @click="seeTemplate">查看</a>
             <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p>
             <p class='second'><span>签署截止日期：</span>
@@ -236,7 +236,8 @@ export default {
           disabledDate(time) {
             return time.getTime() < Date.now();
           }
-        }
+        },
+        templateName:this.$store.state.templateName
       }
     },
     methods: {
@@ -441,13 +442,7 @@ export default {
             })
             return false
           }
-        if(this.tableData2.length==0){
-           this.$alert('您还没有添加签署人员!','添加签署人', {
-            confirmButtonText: '确定'
-          });
-          return false
-        }
-        if( this.checked1 == false && this.tableData2 == ''){
+        if( this.checked1 == false && this.tableData2.length == 0){
           this.$alert('您还没有添加人员!','添加签署人', {
             confirmButtonText: '确定'
           })
@@ -503,7 +498,7 @@ export default {
               var contractVo = {
                 "needSign":needSign,
                 "operateType":this.operateType,
-                "contractName":TrimAll(this.$store.state.templateName),
+                "contractName":TrimAll(this.templateName),
                 "validTime":this.value8,
                 "perpetualValid":perpetualValid,
                 "sms_notice":'0',
@@ -516,7 +511,7 @@ export default {
             } else {
               var contractVo = {
                 "needSign":needSign,
-                "contractName":TrimAll(this.$store.state.templateName),
+                "contractName":TrimAll(this.templateName),
                 "validTime":this.value8,
                 "perpetualValid":perpetualValid,
                 "sms_notice":'0',
@@ -537,10 +532,10 @@ export default {
                     message: res.data.resultMessage,
                     type: 'success'
                 })
-                this.$store.dispatch('template',{templateName:TrimAll(this.$store.state.templateName),templateNo:this.$store.state.templateNo})
+                this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
                 this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
                 this.$store.dispatch('needSign',{needSign:needSign})
-                sessionStorage.setItem('templateName', JSON.stringify(TrimAll(this.$store.state.templateName)))
+                sessionStorage.setItem('templateName', JSON.stringify(TrimAll(this.templateName)))
                 sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
                 sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
                 sessionStorage.setItem('needSign',JSON.stringify(needSign))

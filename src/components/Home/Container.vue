@@ -1,6 +1,6 @@
 <template>
         <div class='Container' style="margin-top: 20px;">
-        <div class='main' style="background:#f5f5f5;">
+        <div class='main'>
             <div class='main_left'>
               <div class='upload' style='border:none;'>
                   <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
@@ -56,7 +56,7 @@
 
                 <div class='title' style="padding: 0;">
                     <h1 style="padding-left: 10px;"><img src="../../../static/images/Container/title.png" alt=""></h1>
-                    <a href="javascript:;" @click='jump'>查看更多>></a>
+                    <a href="javascript:void(0);" @click='jump'>查看更多>></a>
                 </div>
 
                 <div class='table' style="clear: both;">
@@ -121,7 +121,7 @@
         <div class='dilogbg' v-show="popupContainer">
 
         <div class='upload-dilog'>
-           <a  href="javascript:;" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
+           <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
           <div style="color:#22a7ea;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
           <div class='leftDilog'>
               <el-upload
@@ -653,5 +653,9 @@ export default {
   display: block;
   background: #fff;
   color: #000;
+}
+.el-button--primary:focus{
+  background: #73b7e0;
+  border-color: #73b7e0;
 }
 </style>

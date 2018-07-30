@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top: 20px;">
     <div class='title' style="border:none;text-align:left;padding-left:20px;">
       <span>输入关键字：</span>
       <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>

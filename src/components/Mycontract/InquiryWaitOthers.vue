@@ -266,7 +266,7 @@ export default {
     },
     remindClick (row) { //提醒
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+row.contractNum+'/remind',{params:{
-          'contractType':0,
+          'contractType':1,
           'remindType':0
         }}).then(function (res) {
         if(res.data.sessionStatus == '0'){

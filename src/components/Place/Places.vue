@@ -18,7 +18,7 @@
       </div>
     </nav>
   </div>
-  <div class='Pcontract'>
+  <div class='Pcontract Place'>
     <!-- <div class='loading' ><img src="../../../static/images/timg.gif" alt=""></div> -->
     <div class='step' style="width: 720px;">
         <ul>
@@ -38,13 +38,13 @@
           <div class='sign_left' ref="leftWrapper">
             <ul class="pagination">
               <div id="top_box">
-                <p id='top' v-show="currentIndex != 0" @click="goto(currentIndex)"><a class='el-icon-arrow-up' href="javascript:;"></a></p>
+                <p id='top' v-show="currentIndex != 0" @click="goto(currentIndex)"><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
               </div>
               <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index" @click="clickNave(index)">
-                <a href="javascript:;" >{{index}}</a>
+                <a href="javascript:void(0);" >{{index}}</a>
               </li>
               <div id="bottom_box">
-                <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:;" ></a></p>
+                <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
               </div>
             </ul>
           </div>
@@ -357,7 +357,7 @@ export default {
             let t = e.clientY - disY + document.documentElement.scrollTop;
             //移动当前元素
             item.className ='signBox'
-            item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'<br>'+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><input type="hidden" class="user" value="'+el.childNodes[6].innerText+'"><b href="javascript:;" class="delete">X</b>';
+            item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'<br>'+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><input type="hidden" class="user" value="'+el.childNodes[6].innerText+'"><b  class="delete">X</b>';
 
             item.style.left = l + 'px';
             item.style.top = t + 'px';
@@ -477,7 +477,7 @@ export default {
     white-space: nowrap;
     width:138px;
   }
-  .textStyle{
+  .Place .textStyle{
     text-align:center;
     font-size:16px;
     font-weight:normal;

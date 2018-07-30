@@ -35,7 +35,7 @@
               <div slot="content">{{this.$store.state.contractName1}}</div>
               <span id='textInfo'>{{this.$store.state.contractName1}}</span>
             </el-tooltip>
-            <a href="javascript:;" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+            <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
             </p></li>
             <li><p><span>截至时间：</span><span>{{validTime}}</span></p></li>
             <li>签署人员：</li>
@@ -45,8 +45,8 @@
                 <div slot="content">{{item.signUserName}}</div>
                 <span class='name'>{{item.signUserName}}</span>
               </el-tooltip>
-                <span style='color:#22a7ea;' href="javascript:;" v-if="item.signStatus == 1">已签署</span>
-                <span style='color:red;' href="javascript:;" v-else>未签署</span>
+                <span style='color:#22a7ea;'  v-if="item.signStatus == 1">已签署</span>
+                <span style='color:red;'  v-else>未签署</span>
               </li>
             </ol>
           </ul>
@@ -58,7 +58,7 @@
             <dl>
               <dt><img src="../../../static/images/Room/hand.png" alt=""></dt>
               <dd>
-                <p><a href="javascript:;" @click='handleCopy(contractlink,$event)'>复制链接</a></p>
+                <p><a href="javascript:void(0);" @click='handleCopy(contractlink,$event)'>复制链接</a></p>
               </dd>
             </dl>
           </dd>
@@ -70,7 +70,7 @@
             <dl>
               <dt><img src="../../../static/images/Room/room.png" alt=""></dt>
               <dd>
-                <p><a href="javascript:;" @click='handleCopy(roomlink,$event)'>复制链接</a></p>
+                <p><a href="javascript:void(0);" @click='handleCopy(roomlink,$event)'>复制链接</a></p>
               </dd>
             </dl>
           </dd>

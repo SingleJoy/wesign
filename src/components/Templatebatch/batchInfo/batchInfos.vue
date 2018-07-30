@@ -37,11 +37,11 @@
       <div class='signing'>   <!--签署合同开始-->
         <div class='sign_left' ref="leftWrapper">
           <ul class="pagination">
-            <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:;"></a></p>
+            <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
              <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index"  @click="clickNav(index)">
-              <a href="javascript:;" >{{index}}</a>
+              <a href="javascript:void(0);" >{{index}}</a>
             </li>
-            <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:;" ></a></p>
+            <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
           </ul>
         </div>
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->

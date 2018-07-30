@@ -39,11 +39,11 @@
     font-size: 16px;
 }
 
-.icons > .single{ 
-    display: -moz-box;  
-    display: -ms-box;  
-    display: -o-box;  
-    display: box;  
+.icons > .single{
+    display: -moz-box;
+    display: -ms-box;
+    display: -o-box;
+    display: box;
     display: flex;
     margin-top: -86px;
 }
@@ -51,10 +51,10 @@
     margin-top: -13px;
     background: #fff;
     /* text-align: center; */
-    display: -moz-box;  
-    display: -ms-box;  
-    display: -o-box;  
-    display: box;  
+    display: -moz-box;
+    display: -ms-box;
+    display: -o-box;
+    display: box;
     display: flex;
 }
 .more .more1 h3 img{
@@ -114,7 +114,7 @@
 .main_right p{
     font-size: 18px;
     font-weight: bold;
-    padding:20px 0 10px 20px;
+    padding:20px 0 10px 25px;
 }
 .main_right .right1{
     float: left;
@@ -197,7 +197,7 @@
     float: left;
     width: 200px;
     height: 87px;
-    background: url('../../../static/images/Container/orange.png'); 
+    background: url('../../../static/images/Container/orange.png');
     background-size: 100% 100%;
     margin-left: 16px;
     margin-top: 20px;
@@ -306,7 +306,7 @@
       margin-left:63px;
       margin-top:50px;
       background-size:100% 100%;
-  
+
    }
     .dilog .left .upload-demo{
        width:252px !important;

@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     urlloadUrl(){
-      return `http://192.168.1.15:8080/zqsign-web-wesignstapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
+      return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     //  return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     },
     handleCopy(text, event) {

@@ -5,20 +5,20 @@
         <span>我的合同</span>
         <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
         <span v-else style="padding-right: 75%;">>合同详情</span>
-          <a class="backHome back-home" href="javascript:void(0);"  @click="backHome" style="padding-left: 40px;">返回</a>
+          <a class="backHome back-home" href="javascript:void(0);"  @click="backHome" >返回</a>
       </p>
       <p class='second'>
         <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
         <span class='text'>
-               <strong>当前状态：</strong>
-               <span>{{status}}</span>
-             </span>
+          <strong>当前状态：</strong>
+          <span>{{status}}</span>
+        </span>
       </p>
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit" style="vertical-align: middle;">{{contractName}}</span>
-          <a href="javascript:;" @click="seeContractImg">查看</a>
-          <a href="javascript:;" @click="downloadClick">下载</a>
+          <a href="javascript:void(0);" @click="seeContractImg">查看</a>
+          <a href="javascript:void(0);" @click="downloadClick">下载</a>
           <strong>发起方式：</strong><span>{{createType}}</span>
 
           <strong style="padding-left: 15px;">签署截止日期：</strong>
@@ -38,8 +38,9 @@
           </el-date-picker>
 
           <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
-          <strong style="font-weight: normal;">业务场景：</strong><span>{{businessScenario}}</span>
           <el-button type="primary" plain size='medium' @click="dateModified" style="margin-left: 10px;">确认</el-button>
+          <strong style="font-weight: normal;margin-left: 15px;">业务场景：</strong><span>{{businessScenario}}</span>
+
         </p>
         <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pic-a' style="display:block;margin-left:8px;margin-top:20px;" >
       </div>

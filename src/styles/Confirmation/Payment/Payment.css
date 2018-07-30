@@ -61,9 +61,8 @@
 /* 步骤条状态样式 结束*/
 .productes{
     clear: both;
-
 }
-.title{
+.productes>.title{
     padding-top: 25px;
     border-top:1px solid #ddd;
     padding-left: 15px;

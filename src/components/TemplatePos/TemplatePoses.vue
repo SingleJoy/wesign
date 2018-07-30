@@ -38,11 +38,11 @@
        <div class='signing' style="margin-top:40px;">   <!--签署合同开始-->
           <div class='sign_left' ref="leftWrapper">
             <ul class="pagination" >
-              <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:;"></a></p>
+              <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
                <li v-for="index in pages" :key="index" :class="{'active':currentIndex === (index - 1)}" @click="clickNav(index)" >
-                <a href="javascript:;" >{{index}}</a>
+                <a href="javascript:void(0);" >{{index}}</a>
               </li>
-              <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:;" ></a></p>
+              <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
             </ul>
           </div>
           <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
@@ -351,7 +351,7 @@ export default {
             let t = e.clientY - disY + document.documentElement.scrollTop;
             //移动当前元素
             item.className ='signBox'
-            item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b href="javascript:;" class="delete">X</b>';
+            item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
 
 
             var del = document.getElementsByClassName('delete')

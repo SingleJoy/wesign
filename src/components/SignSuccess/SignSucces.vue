@@ -106,7 +106,7 @@ export default {
       }
     }
 
-    this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.$store.state.contractNo1+'/signFinish').then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1.4/contract/'+contractNo+'/signFinish').then(function (res) {
      if(res.sessionStatus == '0'){
         this.$router.push('/Server')
       } else {
@@ -118,9 +118,11 @@ export default {
   },
   methods:{
     examine() {
+      var contractNo = sessionStorage.getItem('contractNo')
+          contractNo = JSON.parse(contractNo)
       this.$loading.show(); //显示
       var data =[];
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo +'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

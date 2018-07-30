@@ -70,6 +70,7 @@
  @import "../../../../common/styles/Topes.css";
 </style>
 <script>
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'ErrorPuploads',
     data() {
@@ -80,6 +81,9 @@
         IDcardFile:'',
         url:''
       }
+    },
+    mounted() {
+      prohibit()
     },
     methods: {
       imageClick() {

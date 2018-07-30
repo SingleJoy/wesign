@@ -104,7 +104,8 @@
           password: '',
           passwordAgain: '',
           appId:'',
-          disCode:false
+          disCode:false,
+          mobile:''
         },
         rules: {
           username: [
@@ -125,6 +126,13 @@
     },
     methods: {
       submitForm(formName) {
+        if(this.ruleForm.mobile != this.ruleForm.username){//校验发送验证码的手机和提交时的手机是否是一个
+          this.$message({
+                  message: '请检查手机号是否正确',
+                  type: 'warning'
+                })
+          return false
+        } 
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var pass = md5(this.ruleForm.password);
@@ -173,6 +181,7 @@
           var resultCode = res.data.resultCode
           var smsNo = res.data.smsNo
           var smsCode = res.data.smsCode
+          this.ruleForm.mobile = res.data.mobile  //发送验证码后返回的手机号
           if (resultCode === '0') {
             var codeInfo = document.getElementById('code')
             codeInfo.innerText =  curCount + '秒'

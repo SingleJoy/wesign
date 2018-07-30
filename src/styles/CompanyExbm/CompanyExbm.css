@@ -75,7 +75,7 @@
     padding-left: 22px;
 }
 .lengthLimit{
-    width: 100px;
+    width: 300px;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;

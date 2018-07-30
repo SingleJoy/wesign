@@ -44,7 +44,7 @@
               style='width:330px;'
               placeholder="请输入内容"
               v-model="EnterpriseName"
-              @blur='validateEntName'
+             
               :disabled= disabled
               >
             </el-input>
@@ -56,7 +56,7 @@
               style='width:330px;'
               placeholder="请输入内容"
               v-model="phone"
-              @blur='validatePhone'
+             
               :disabled= disabled
               >
             </el-input>
@@ -67,7 +67,7 @@
               style='width:330px;'
               placeholder="请输入姓名"
               v-model="userName"
-              @blur='validateUserName'
+             
               :disabled= disabled
               >
             </el-input>
@@ -78,10 +78,10 @@
               style='width:330px;'
               placeholder="验证码"
               v-model="smsCode"
-              @blur='validateSmsCode'
+             @blur='validateSmsCode'
               >
             </el-input>
-            <el-button type="primary" style="margin-left: -125px;width: 120px;height: 40px;z-index: 999;position: relative;" @click='getSmsCode' id='code'>获取验证码</el-button>
+            <el-button  type="primary" style="margin-left: -125px;width: 120px;height: 40px;z-index: 999;position: relative;" @click='getSmsCode' id='code'>获取验证码</el-button>
           </div>
           <div class='second'>
             <span>请设置密码</span>
@@ -90,7 +90,7 @@
               placeholder="请输入密码"
               type='password'
               v-model="passWord"
-              @blur='validatePassWords'
+             
               :disabled= forbid
               >
             </el-input>
@@ -102,7 +102,6 @@
               placeholder="请再次输入密码"
               type='password'
               v-model="verifyPassWord"
-              @blur='validateVerifyPassWord'
               :disabled= forbid
               >
             </el-input>
@@ -147,6 +146,7 @@
   import { Message } from 'element-ui';
   import {validateMoblie,validatePassWord} from '../../../../common/js/validate.js'
   import {GetQueryString} from '@/common/js/InterceptUrl'
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'Register',
     data() {
@@ -170,8 +170,14 @@
         repeat:false,
         accountStatus:'',
         num:3,
-        verCode:false
+        verCode:false,
+        verifyMobile:'',
+        isDisabled:false,
+        smsCodeNum:0,
       }
+    },
+    mounted() {
+      prohibit()
     },
     methods:{
       validateEntName() {
@@ -260,15 +266,21 @@
         var timer = null
         this.sms = true
         this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.phone, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
-
           this.smval=res.data.smsCode
           var appId = res.data.appId
           this.appId = appId
+          // console.log('我拿到了appId哦')
           var resultCode = res.data.resultCode
           var smsNo = res.data.smsNo
           var smsCode = res.data.smsCode
           var message = res.data.resultMessage;
           if (resultCode === '1') {
+            this.smsCodeNum +=1
+            if(this.smsCodeNum == 3){
+              this.isDisabled = true
+            } else{
+              this.isDisabled = false
+            }
             var codeInfo = document.getElementById('code')
             codeInfo.innerText =  curCount + '秒'
             this.smsNum = smsNo
@@ -314,7 +326,7 @@
             if (response.data.resultCode != 1) {
               this.$message({
                 showClose: true,
-                message: '验证码填写错误！',
+                message: response.data.resultMessage,
                 type: 'error'
               })
             }else{
@@ -330,15 +342,9 @@
           this.flag=!this.flag
         }
       },
+
+      
       submitFrom() {
-        if(this.sms == false) {
-          this.$message({
-              showClose: true,
-              message: '请先获取验证码',
-              type: 'error'
-            })
-            return false
-        }
         if(this.validateEntName() == false) {
           return false
         }
@@ -347,6 +353,14 @@
         }
         if(this.validateUserName() == false) {
           return false
+        }
+        if(this.sms == false) {
+          this.$message({
+              showClose: true,
+              message: '请先获取验证码',
+              type: 'error'
+            })
+            return false
         }
         if(this.smsCode == '') {
           this.$message({
@@ -372,9 +386,7 @@
             return false
           }
         }
-
-        this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord}, {emulateJSON: true}).then(function (res) {
-          console.log(res.data.resultCode)
+        this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
 
             this.$message({

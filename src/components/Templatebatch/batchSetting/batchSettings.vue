@@ -32,7 +32,7 @@
           </h2>
           <h3 class='proper'>
             <!-- <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='batchText' :maxlength= 50  @blur="changeContName"> -->
-            <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='batchText' :maxlength= 50>
+            <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='batchText' :maxlength= 50>
             <a class='select' @click="showBatchTemplate" style='cursor:pointer'>查看</a>
 
             <p class='second'><span>签署截止日期：</span>
@@ -217,7 +217,7 @@ export default {
             { required: true, validator: validateName, trigger: 'blur' }
           ],
           idCard:[
-            { required:true, validator: validateIdCard, trigger: 'blur'}
+            { required:false, validator: validateIdCard, trigger: 'blur'}
           ],
           mobile:[
             { required: true,  validator: validatePhone, trigger: 'blur' }
@@ -227,7 +227,8 @@ export default {
           disabledDate(time) {
             return  time.getTime() < Date.now();
           }
-        }
+        },
+       templateName:this.$store.state.templateName
       }
     },
     methods: {
@@ -466,7 +467,7 @@ export default {
               "creater":cookie.getJSON('tenant')[1].interfaceCode,
               "operateType":this.operateType,
               "contractTempNo":this.$store.state.contractNo1,
-              "contractName":TrimAll(this.$store.state.templateName),
+              "contractName":TrimAll(this.templateName),
               "templateNo":this.$store.state.templateNo,
               "validTime":this.value8,
               "perpetualValid":perpetualValid,
@@ -479,7 +480,7 @@ export default {
           } else {
             var zqUserContractTempVo = {
               "creater":cookie.getJSON('tenant')[1].interfaceCode,
-              "contractName":TrimAll(this.$store.state.templateName),
+              "contractName":TrimAll(this.templateName),
               "templateNo":this.$store.state.templateNo,
               "validTime":this.value8,
               "perpetualValid":perpetualValid,
@@ -501,10 +502,10 @@ export default {
                   message: res.data.resultMessage,
                   type: 'success'
               })
-              this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
+              this.$store.dispatch('template',{templateName:this.templateName,templateNo:this.$store.state.templateNo})
               this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
               this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-              sessionStorage.setItem('templateName', JSON.stringify(this.$store.state.templateName))
+              sessionStorage.setItem('templateName', JSON.stringify(this.templateName))
               sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
               sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
               sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
@@ -533,6 +534,7 @@ export default {
       }
   },
   created() {
+
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
     var contractNo = sessionStorage.getItem('contractNo');

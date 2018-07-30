@@ -5,7 +5,7 @@
         <span>我的合同</span>
         <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
         <span v-else style="padding-right: 75%;">>合同详情</span>
-          <a  class="backHome back-home" href="javascript:void(0);"  @click="backHome" style="padding-left: 40px;">
+          <a  class="backHome back-home" href="javascript:void(0);"  @click="backHome" >
             返回
           </a>
 
@@ -20,8 +20,8 @@
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit">{{contractName}}</span>
-          <a href="javascript:;" @click="seeContractImg">查看</a>
-          <a href="javascript:;" @click="downloadClick">下载</a>
+          <a href="javascript:void(0);" @click="seeContractImg">查看</a>
+          <a href="javascript:void(0);" @click="downloadClick">下载</a>
           <strong>发起方式：</strong><span>{{createType}}</span>
           <strong>签署截止日期：</strong><span>{{validTime}}</span>
           <strong style="padding-left: 41px;font-weight: normal;">业务场景：</strong><span>{{businessScenario}}</span>
