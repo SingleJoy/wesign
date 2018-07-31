@@ -185,11 +185,11 @@
         this.centerDialogVisible = false
       },
       realName() {
-        if(this.personalRealName == '1' || this.personalRealName == '2' ||this.personalRealName == '3'){
+        if(this.personalRealName == '1' || this.personalRealName == '2' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
-        }else if (this.personalRealName == '4'){
+        }else if (this.personalRealName == '4'||this.personalRealName == '3'){
           // this.$router.push('/PersonWait')
           this.$router.push('/ErrorPupload')
         }
@@ -331,7 +331,7 @@
       })
       //意见（待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
-        this.auditOpinion=res.data.data.moneyStatus;
+        this.auditOpinion=res.data.data;
         this.toEnterprise = res.data.data.verifyMoneyNum
       })
     }

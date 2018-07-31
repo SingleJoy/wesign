@@ -105,14 +105,16 @@
     cursor: pointer;
 }
 .main_right{
-    margin-top: 5px;
-    margin-left:10px;
-    float: left;
-    width: 508px;
-    border: 1px solid #ccc;
-    height: 266px;
-    background: #fff;
-    margin-bottom: 22px;
+
+  margin-left:18px;
+  float: left;
+  width: 490px;
+  border: 1px solid #ccc;
+  height: 266px;
+  background: #fff;
+  margin-bottom: 22px;
+  margin-top: 10px;
+  border-radius: 4px;
 }
 .main_right p{
     font-size: 18px;

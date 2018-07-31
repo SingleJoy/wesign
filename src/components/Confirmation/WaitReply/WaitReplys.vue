@@ -297,7 +297,8 @@
         if(this.money() == false){
           return false
         }
-        var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
+        var interfaceCode = sessionStorage.getItem('interfaceCode')
+        interfaceCode = JSON.parse(interfaceCode)
         this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/remittance',{params:{
             'trans_money':this.trans_money,
           }}).then(response =>{
@@ -318,7 +319,8 @@
     },
     created() {
       //查询银行信息
-      var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
+      var interfaceCode = sessionStorage.getItem('interfaceCode')
+      interfaceCode = JSON.parse(interfaceCode)
       var accountSteps = sessionStorage.getItem('accountSteps')
       var testStatus = 1;
        // console.log(accountSteps)
@@ -340,7 +342,7 @@
         }
       })
       if(accountSteps){
-        // console.log(13123)
+
         this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/findTenantMakeMoneyStatus').then(response =>{
           if (response.data.resultCode == '1') {
            // this.respondsValue=1;

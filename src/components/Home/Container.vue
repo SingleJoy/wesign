@@ -1,10 +1,10 @@
 <template>
         <div class='Container' style="margin-top: 20px;">
-        <div class='main'>
+        <div class='main' style="background-color: #fff;">
             <div class='main_left'>
               <div class='upload' style='border:none;'>
                   <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
-                    <img src="../../../static/images/add1.png" alt="" style='width:680px;height:152px;'>
+                    <img src="../../../static/images/add1.png" alt="" style='width:680px;height:152px;margin: 5px;border-radius: 2px;'>
                   </div>
               </div>
               <div >
@@ -107,7 +107,7 @@
                         <template slot-scope="scope">
                         <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
                         <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true' >
-                        <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+                        <el-button @click="remindClick(scope.row)" type="warning" size="mini">提&nbsp;&nbsp;醒</el-button>
                         </el-tooltip>
                         <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载 </el-button>
                         <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if='scope.row.flag == true' >延&nbsp;&nbsp;期</el-button>
@@ -245,6 +245,7 @@ export default {
       }
     },
     remindClick(row) {
+      // this.style.opacity='0.6';
       //提醒
       var remindParam={
 			  contractType:row.contractType==0?0:1

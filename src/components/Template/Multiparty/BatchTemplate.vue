@@ -6,7 +6,7 @@
       <img src="../../../../static/images/Multiparty/multiparties1.png" alt="" >
     </div>
     <div class='beacthImg' v-else-if="num === 0 && show == true">
-      <img src="../../../../static/images/notavailable.png" alt="" >
+      <img src="../../../../static/images/Multiparty/multiparties1.png" alt="">
     </div>
     <div v-else>
       <el-table
@@ -36,7 +36,7 @@
           prop="operation"
             width="250"
           label="操作">
-          <template slot-scope="scope">                         
+          <template slot-scope="scope">
             <el-button @click="generatClick(scope.row)" type="primary" size="mini">生成合同</el-button>
           </template>
         </el-table-column>

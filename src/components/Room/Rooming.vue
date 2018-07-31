@@ -46,11 +46,13 @@
           </dd>
         <dt>
           <div style="margin-top:27px">
-             <img :src="'http://testwesign.zqsign.com/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id">
-             <!-- <img :src="`${this.baseURL.BASE_URL}`+'/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id"> -->
+             <img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id" v-if="showImage==true">
+             <img src="../../../static/images/Room/room-logo.png" style="height:150px;width:150px" v-else-if="showImage==false">
+
           </div>
         </dt>
-        <dd><a href="###">* 支持jpg、png等格式，最佳尺寸是430X320， 建议使用矢量图</a><br><a href="###">* gif格式图片不得大于1M，否则压缩时失效。</a></dd>
+        <dd><a href="javascript:void(0);">* 支持jpg、png等格式，最佳尺寸是430X320， 建议使用矢量图</a>
+          <br><a href="javascript:void(0);">* gif格式图片不得大于1M，否则压缩时失效。</a></dd>
         <el-button type="primary" style='margin-left:140px;margin-top:30px;' @click="saveImg">保&nbsp;&nbsp;&nbsp;&nbsp;存</el-button>
       </dl>
     </div>
@@ -75,7 +77,8 @@ export default {
       },
       value1:'',
       value2:'',
-      file:''
+      file:'',
+      showImage:true
     }
   },
   methods: {
@@ -98,7 +101,12 @@ export default {
     },
     fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
       this.signRoomLogo = file.name
-      this.showImg()
+      this.showImg();
+      if(this.signRoomLogo){
+        this.showImage=true
+      }else{
+        this.showImage=false
+      }
     },
     // fileError(name, file, fileList){
     //   console.log(name,file,fileList)
@@ -109,9 +117,15 @@ export default {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
-        this.inputData = res.data.data.signRoomLink
-        this.signRoomLogo = res.data.data.signRoomLogo
-        this.message = res.data.data.signRoomName
+        this.inputData = res.data.data.signRoomLink;
+        this.signRoomLogo = res.data.data.signRoomLogo;
+        this.message = res.data.data.signRoomName;
+          if(this.signRoomLogo==null ||this.signRoomLogo=='null'){
+            this.showImage=false
+
+          }else{
+            this.showImage=true
+          }
         }
       })
     },
