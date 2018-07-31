@@ -61,7 +61,7 @@
         </span>
     </el-dialog>
 
-    <div class="modal">
+    <div class="modal " v-show ="finalRejection == true">
       <div class="modal-box" >
         <div class="modal-header">
           <div class="modal-header-title">
