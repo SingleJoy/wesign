@@ -6,7 +6,7 @@
       <img src="../../../../static/images/Multiparty/multiparties.png" alt="" >
      </div>
      <div class='beacthImg' v-else-if="num === 0 && show == true">
-       <img src="../../../../static/images/Multiparty/multiparties.png" alt="">
+       <img src="../../../../static/images/notavailable.png" alt="" >
      </div>
      <div v-else>
       <el-table
