@@ -343,7 +343,6 @@
         }
       },
 
-
       submitFrom() {
         this.validateSmsCode()
         if(this.validateEntName() == false) {

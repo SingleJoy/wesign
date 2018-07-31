@@ -179,11 +179,11 @@
         this.centerDialogVisible = false
       },
       realName() {
-        if(this.personalRealName == '1' || this.personalRealName == '2' ){
+        if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
-        }else if (this.personalRealName == '4'||this.personalRealName == '3'){
+        }else if (this.personalRealName == '4'){
           // this.$router.push('/PersonWait')
           this.$router.push('/ErrorPupload')
         }
@@ -393,6 +393,7 @@
     border-radius: 4px;
     margin: 20px 35px 0 35px;
     resize: none;
+    overflow: scroll;
   }
   .modal-header-title>div>span{
     font-size: 14px;
