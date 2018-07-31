@@ -83,7 +83,7 @@
           <template slot-scope="scope">
           <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
           <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
-          <el-button @click="remindClick(scope.row)"type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+          <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
           <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater' >延&nbsp;&nbsp;期</el-button>
@@ -328,5 +328,10 @@ export default {
 .totalImg>img{
   width: 100%;
   height:100%;
+}
+.el-button--primary:focus{
+  background: #eee;
+  border-color: #95989d;
+  color: #333;
 }
 </style>

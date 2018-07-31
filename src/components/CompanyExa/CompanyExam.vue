@@ -127,6 +127,11 @@
   margin-top: 10px;
   font-size: 16px;
 }
+  .el-button--primary:focus{
+    background: #eee;
+    border-color: #95989d;
+    color: #333;
+  }
 </style>
 <script>
 import { mapActions, mapState } from 'vuex'

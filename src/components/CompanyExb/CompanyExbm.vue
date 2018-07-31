@@ -291,4 +291,5 @@
 </script>
 <style scoped>
   @import "../../styles/CompanyExbm/CompanyExbm.css";
+
 </style>

@@ -12,8 +12,8 @@
           <img src="../../../../static/images/logo2.png" alt="">
         </p>
         <div class='buttons'>
-          <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style='color:#22a7ea' @click="entCertification">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button>
+          <el-button type="info" style="background:#ccc" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+          <el-button style="color:#22a7ea" @click="entCertification" :disabled="disabled">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button>
         </div>
       </nav>
     </div>
@@ -164,7 +164,8 @@
         fileSize:0,
         dialogAgreement:false,
         radio:'1',
-        fullName:true
+        fullName:true,
+        disabled:false
       }
     },
     created() {
@@ -505,6 +506,7 @@
       //企业认证
       entCertification(){
         let that = this;
+        that.disabled=true;
         if(this.enterpriseType ==''){
           //  this.$alert('请选择企业类型','提示', {
           //   confirmButtonText: '确定'
@@ -514,7 +516,7 @@
             message: '请选择企业类型',
             type: 'warning'
           })
-          
+
           return false
         }
         if(this.radio == '1'){
@@ -552,7 +554,7 @@
         }
 
         var interfaceCode = sessionStorage.getItem('interfaceCode')
-        interfaceCode = JSON.parse(interfaceCode)
+           interfaceCode = JSON.parse(interfaceCode)
         that.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/authentication',{
           'tenantName':this.tenantName,//企业名称
           'enterpriseType':this.enterpriseType,//企业类型
