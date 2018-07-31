@@ -49,7 +49,7 @@
         <ul class='content contractImg' id="contractImg">
           <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook" style="height:844px;">
              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractName='+templateName+'&contractUrl='+item]" alt="" style='width:100%;height:100%;'> -->
-          <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item]" alt="" style='width:100%;height:844px;'>
+          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item]" alt="" style='width:100%;height:844px;'>
           </li>
          </ul>
         </div>

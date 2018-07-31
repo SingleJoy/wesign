@@ -14,7 +14,7 @@
       <div class='content'>
       <div class='cleft'>
         <!-- <b><img :src="`${this.baseURL.BASE_URL}`+'/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b> -->
-        <b><img :src="'http://testwesign.zqsign.com/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
+        <b><img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
         <p class='inputInfo' style='text-align: center;width: 220px;font-weight:bolder'>{{message}}</p>
         <!-- <h6 id='text' style="position:absolute;left:100px;">欢迎来到众签签约室</h6> -->
       </div>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     urlloadUrl(){
-      return `http://testwesign.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
+      return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     //  return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     },
     handleCopy(text, event) {
