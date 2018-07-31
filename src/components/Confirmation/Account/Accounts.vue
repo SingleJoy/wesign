@@ -264,15 +264,10 @@
     },
     created() {
       this.mobile = cookie.getJSON('tenant')[0].mobile
-<<<<<<< HEAD
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
       var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态
       var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步数 
-=======
-      var authStatus = cookie.getJSON('tenant')[0].authStatus //是否通过状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps //个人认证步数
->>>>>>> e1b9321dc120bcf8bb11d27e5e59fbb53b2021bd
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
