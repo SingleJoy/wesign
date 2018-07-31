@@ -325,14 +325,14 @@
           this.$http.get(process.env.API_HOST+'v1.4/sms',{params:{
             'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
           }}).then(response =>{
-            if (response.data.resultCode != 1) {
+            if (response.data.resultCode != 1 ) {
               this.verCode = false;
               this.$message({
                 showClose: true,
                 message: response.data.resultMessage,
                 type: 'error'
               })
-               return false
+              return false
             }else{
               this.verCode = true;
             }
@@ -349,7 +349,9 @@
       },
 
       submitFrom() {
-        this.validateSmsCode()
+        if(this.sms){
+          this.validateSmsCode()          
+        }
         if(this.validateEntName() == false) {
           return false
         }
@@ -384,12 +386,7 @@
             return false
           }
         }
-        if(this.smsNo==false){
-           this.$message({
-            showClose: true,
-            message: '验证码错误！',
-            type: 'error'
-          })
+        if(this.verCode == false){
           return false
         }
         this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
