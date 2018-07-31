@@ -30,7 +30,7 @@
     <div class='productes'>
       <div class='center'>
         <div class='container'>
-          <div class="content-title puploads-title">
+          <div class="puploads-title">
             <ul>
               <li><b>证件上传</b></li>
               <li><b>信息确认</b></li>
@@ -38,7 +38,7 @@
             </ul>
             <p class='personInfo'>
               <span>对不起！您的实名未通过</span>
-              <span>请上传手持身份证正面照片，工作人员将会进行人工审核</span>
+              <span>请上传被授权人手持身份证照片信息，工作人员将会进行人工审核</span>
             </p>
           </div>
           <div class="header-title-3">
