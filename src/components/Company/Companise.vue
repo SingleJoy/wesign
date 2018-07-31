@@ -517,4 +517,9 @@ export default {
   background:#fff;
   color:#000;
 }
+.el-button--primary:focus{
+  background: #eee;
+  border-color: #95989d;
+  color: #333;
+}
 </style>
