@@ -7,6 +7,11 @@
         <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
+        <div class='companyName'>
+          <p>
+            <span>企业名称：</span><span>{{companyName}}</span>
+          </p>
+        </div>
         <div class='userInfo'>
           <p>
             <span>账号：</span><span>{{mobile}}</span>
@@ -151,6 +156,7 @@
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
+        companyName:'',
         ruleForm: {
           oldPassWord: '',
           newPassWord: '',
@@ -186,7 +192,6 @@
         }else if (this.personalRealName == '4'){
           // this.$router.push('/PersonWait')
           this.$router.push('/ErrorPupload')
-          // this.$router.push('/Pupload')
         }
       },
       submitForm(formName) {
@@ -266,11 +271,11 @@
       this.mobile = cookie.getJSON('tenant')[0].mobile
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
-      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步数
+      var authStatus = cookie.getJSON('tenant')[0].authStatus //是否通过状态
+      var auditSteps = cookie.getJSON('tenant')[0].auditSteps //个人认证步数
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
-      var status = cookie.getJSON('tenant')[2].status            // 打款状态
+      var status = cookie.getJSON('tenant')[2].status        // 打款状态
       // 是否判断
       if(authStatus == '1') {
         this.authStatus = true
@@ -327,7 +332,7 @@
       //意见（待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
         this.auditOpinion=res.data.data;
-        // this.toEnterprise = res.data.data.verifyMoneyNum
+        this.toEnterprise = res.data.data.verifyMoneyNum
       })
     }
   }
@@ -395,8 +400,6 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     margin: 20px 35px 0 20px;
-    resize: none;
-    word-break:break-all;
     padding: 5px;
 
 
