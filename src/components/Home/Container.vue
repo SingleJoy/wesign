@@ -246,7 +246,7 @@ export default {
     },
     remindClick(row,el) {
        console.log(el);
-       el.css.backgroundColor="#eee";
+       el.style.backgroundColor="#eee"
 
       //提醒
       var remindParam={
@@ -657,8 +657,5 @@ export default {
   background: #fff;
   color: #000;
 }
-.el-button--primary:focus{
-  background: #73b7e0;
-  border-color: #73b7e0;
-}
+
 </style>
