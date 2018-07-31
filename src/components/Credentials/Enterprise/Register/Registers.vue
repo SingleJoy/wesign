@@ -313,33 +313,42 @@
         }
       },
 
-      validateSmsCode() {
-        if( this.smsCode == ''){
-          this.$message({
-            showClose: true,
-            message: '验证码（必填项）',
-            type: 'error'
-          })
-          return false
-        } else{
-          this.$http.get(process.env.API_HOST+'v1.4/sms',{params:{
-            'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
-          }}).then(response =>{
-            if (response.data.resultCode != 1 ) {
-              this.verCode = false;
-              this.$message({
-                showClose: true,
-                message: response.data.resultMessage,
-                type: 'error'
-              })
-              return false
-            }else{
-              this.verCode = true;
-            }
+      // validateSmsCode() {
+      //   if( this.smsCode == ''){
+      //     this.$message({
+      //       showClose: true,
+      //       message: '验证码（必填项）',
+      //       type: 'error'
+      //     })
+      //     return false
+      //   } else{
+      //     this.$http.get(process.env.API_HOST+'v1.4/sms',{params:{
+      //       'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
+      //     }}).then(response =>{
+      //       if (response.data.resultCode != 1 ) {
+      //         this.verCode = false;
+      //         if(this.sms == true){
+      //            this.$message({
+      //             showClose: true,
+      //             message: response.data.resultMessage,
+      //             type: 'error'
+      //           })
+      //         }
+             
+      //         return false
+      //       }else{
+      //         this.verCode = true;
+      //         return true
+      //       }
            
-          })
-        }
-      },
+      //     })
+      //   if(this.verCode == false){
+      //     return false
+      //   }else{
+      //      return true
+      //   }
+      //   }
+      // },
       changEvent(){
         if(this.agree==false){
           this.flag=true
@@ -349,9 +358,6 @@
       },
 
       submitFrom() {
-        if(this.sms){
-          this.validateSmsCode()          
-        }
         if(this.validateEntName() == false) {
           return false
         }
@@ -369,15 +375,6 @@
             })
             return false
         }
-        if(this.smsCode == '') {
-          this.$message({
-            showClose: true,
-            message: '验证码（必填项）！',
-            type: 'error'
-          })
-          return false
-        }
-
         if(this.passWord ==''){
           if(this.validatePassWords() == false) {
             return false
@@ -386,12 +383,38 @@
             return false
           }
         }
-        if(this.verCode == false){
+        if( this.smsCode == ''){
+          this.$message({
+            showClose: true,
+            message: '验证码（必填项）',
+            type: 'error'
+          })
           return false
-        }
-        this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
+        } else{
+          this.$http.get(process.env.API_HOST+'v1.4/sms',{params:{
+            'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
+          }}).then(response =>{
+            if (response.data.resultCode != 1 ) {
+              this.verCode = false;
+              if(this.sms == true){
+                 this.$message({
+                  showClose: true,
+                  message: response.data.resultMessage,
+                  type: 'error'
+                })
+              }
+            }else{
+              this.verCode = true;
+              this.vertifySuccess()
+            }
+           
+          })
+        
+      }
+    },
+    vertifySuccess(){
+      this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
-
             this.$message({
               showClose: true,
               message: res.data.resultMessage,
@@ -452,7 +475,7 @@
             })
           }
         })
-      }
+    }
     },
     created() {
       this.interfaceCode = GetQueryString("appId");

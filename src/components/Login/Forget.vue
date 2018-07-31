@@ -70,8 +70,10 @@
             }}).then(response =>{
             if (response.body === 0) {
               callback()
+              this.getCode = true
             } else {
               callback(new Error('短信验证码填写错误'))
+              this.getCode = false
             }
           })
         }
@@ -105,7 +107,8 @@
           passwordAgain: '',
           appId:'',
           disCode:false,
-          mobile:''
+          mobile:'',
+          getCode:false
         },
         rules: {
           username: [
@@ -197,6 +200,11 @@
                 curCount--
               }
             }, 1000)
+          }else{
+            this.$message({
+            message: res.data.resultMessage,
+            type: 'warning'
+          })
           }
         })
       }
