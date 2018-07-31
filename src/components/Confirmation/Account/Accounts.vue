@@ -7,6 +7,11 @@
         <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
+         <div class='companyName'>
+          <p>
+            <span>企业名称：</span><span>{{companyName}}</span>
+          </p>
+        </div>
         <div class='userInfo'>
           <p>
             <span>账号：</span><span>{{mobile}}</span>
@@ -136,6 +141,7 @@
         }
       }
       return{
+        companyName:'',
         chapter:'合同章',
         contractSign:'',
         mobile:'',
@@ -184,9 +190,9 @@
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
-          // this.$router.push('/PersonWait')
+       
           this.$router.push('/ErrorPupload')
-          // this.$router.push('/Pupload')
+          
         }
       },
       submitForm(formName) {
@@ -266,8 +272,8 @@
       this.mobile = cookie.getJSON('tenant')[0].mobile
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
-      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步数 
+      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
+      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤  
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
@@ -278,7 +284,7 @@
         this.personalRealName = '1'
         this.chapter = '暂无签章'
         this.modalTips = true
-      }else if(authStatus == '-1' && auditSteps == '2'){
+      }else if(authStatus == '-1' && auditSteps == '2'){ 
         this.personalRealName = '2'
         this.chapter = '暂无签章'
         this.modalTips = true
@@ -317,6 +323,9 @@
             this.enterpriseRealName = '4'
             this.chapter = '暂无签章'
             this.identifier = true
+          }else{
+             this.enterpriseRealName = '3'
+            this.identifier = true;
           }
         }
       }

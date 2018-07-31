@@ -113,10 +113,10 @@ a {
   width:100%;
   height:100%;
 }
-.el-button--primary:focus{
+/* .el-button--primary:focus{
   background: #eee;
   border-color: #95989d;
   color: #333;
-}
+} */
 
 </style>

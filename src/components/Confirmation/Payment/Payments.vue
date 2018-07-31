@@ -110,7 +110,7 @@
   </div>
 </template>
 <script>
-  import {validateCredit,validateOpenName,validateNumber,validateName,validateVerbal} from '@/common/js/validate'
+  import {validateCredit,validateOpenName,validateNumber,validateName,validateVerbal,TrimAll} from '@/common/js/validate'
   export default {
     name: 'Payments',
     data () {
@@ -1794,6 +1794,7 @@
         }
       },
       submitPayment(){
+        sessionStorage.setItem('accountSteps','') 
         // console.log(this.checkEntName())
         if(this.checkEntName() == false) {
           return false
@@ -1829,8 +1830,17 @@
             'to_acc_dept':this.bankAffiliate,           //支行名称
             'to_acc_no':this.bankAccount,               //收款人
             'to_bank_name':this.bank                    //银行名称
-          },{emulateJSON: true}).then(response =>{
-          this.$router.push('/WaitReply')
+          },{emulateJSON: true}).then(res =>{
+            if(res.data.resultCode == 0){
+                this.$alert(res.data.resultMessage,'提示', {
+                  confirmButtonText: '确定'
+                }).then(()=>{
+                  this.$router.push('/WaitReply')
+                })
+            }else{
+                this.$router.push('/WaitReply')
+            }
+           
         })
       }
     }

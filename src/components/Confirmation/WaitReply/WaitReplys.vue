@@ -320,7 +320,7 @@
     created() {
       //查询银行信息
       var interfaceCode = sessionStorage.getItem('interfaceCode')
-      interfaceCode = JSON.parse(interfaceCode)
+          interfaceCode = JSON.parse(interfaceCode)
       var accountSteps = sessionStorage.getItem('accountSteps')
       var testStatus = 1;
        // console.log(accountSteps)
@@ -342,7 +342,6 @@
         }
       })
       if(accountSteps){
-
         this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/findTenantMakeMoneyStatus').then(response =>{
           if (response.data.resultCode == '1') {
            // this.respondsValue=1;
@@ -367,12 +366,16 @@
             this.$alert('正在打款中，请等待...','提示', {
               confirmButtonText: '确定'
             })
-            // this.respondsValue=0;
           } else if(response.data.resultCode == '-4'){
             this.$alert('对不起，该账号已被冻结，请联系众签客服处理！联系电话 400-0000-6923.','提示', {
               confirmButtonText: '确定'
             })
-            // this.respondsValue=-4;
+          }else if(response.data.resultCode == "-3"){
+             this.$alert('企业信息填写有误','提示', {
+              confirmButtonText: '确定'
+            }).then(()=>{
+              this.$router.push('/Enterprise')
+            })
           }
         })
       }else{

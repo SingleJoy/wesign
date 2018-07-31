@@ -38,7 +38,7 @@
             </ul>
             <p class='personInfo'>
               <span>对不起！您的实名未通过</span>
-              <span>请上传被授权人手持身份证照片信息，工作人员将会进行人工审核</span>
+              <span>请上传被授权人身份证件信息</span>
             </p>
           </div>
           <div class="header-title-3">

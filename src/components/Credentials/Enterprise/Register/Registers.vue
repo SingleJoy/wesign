@@ -173,6 +173,7 @@
         verifyMobile:'',
         isDisabled:false,
         smsCodeNum:0,
+        smsNo:false,
       }
     },
     mounted() {
@@ -274,6 +275,7 @@
           var smsCode = res.data.smsCode
           var message = res.data.resultMessage;
           if (resultCode === '1') {
+            this.smsNo = true
             this.smsCodeNum +=1
             if(this.smsCodeNum == 3){
               this.isDisabled = true
@@ -304,6 +306,7 @@
               message: message?message:'验证码获取失败',
               type: 'error'
             })
+            that.smsNo = false
             that.repeat = false
           }
         })
@@ -329,9 +332,11 @@
                 message: response.data.resultMessage,
                 type: 'error'
               })
+               return false
             }else{
               this.verCode = true;
             }
+           
           })
         }
       },
@@ -379,7 +384,14 @@
             return false
           }
         }
-
+        if(this.smsNo==false){
+           this.$message({
+            showClose: true,
+            message: '验证码错误！',
+            type: 'error'
+          })
+          return false
+        }
         this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
 
@@ -446,7 +458,8 @@
       }
     },
     created() {
-      this.interfaceCode = GetQueryString("appId")
+      this.interfaceCode = GetQueryString("appId");
+      sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode));
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.interfaceCode+'/userIsExist').then(res =>{
         if (res.data.resultCode == '1') {
           this.$message({
