@@ -390,14 +390,14 @@
         }
       },
       VaildEmail(){
-        if(TrimAll(this.analogueEmail) != "" && !validateEmail(this.analogueEmail)){
+        if(TrimAll(this.analogueEmail) != "" && !validateEmail(TrimAll(this.analogueEmail))){
           this.$alert('邮箱格式错误!','提示', {
             confirmButtonText: '确定'
           });
         }
       },
       agentEmail() {
-        if(TrimAll(this.handleEmail) != '' && !validateEmail(this.handleEmail)){
+        if(TrimAll(this.handleEmail) != '' && !validateEmail(TrimAll(this.handleEmail))){
           this.$alert('邮箱格式错误!','添加经办人', {
             confirmButtonText: '确定'
           });
@@ -456,7 +456,7 @@
             confirmButtonText: '确定'
           });
           return false
-        } else if(TrimAll(this.analogueEmail) != '' && !validateEmail(this.analogueEmail)){
+        } else if(TrimAll(this.analogueEmail) != '' && !validateEmail(TrimAll(this.analogueEmail))){
           this.$alert('对手方邮箱格式错误!','添加对手方', {
             confirmButtonText: '确定'
           });
@@ -497,7 +497,7 @@
           });
           return false
         }
-        if(TrimAll(this.handleEmail) != '' && !validateEmail(this.handleEmail)){
+        if(TrimAll(this.handleEmail) != '' && !validateEmail(TrimAll(this.handleEmail))){
           this.$alert('邮箱格式错误!','添加经办人', {
             confirmButtonText: '确定'
           });
