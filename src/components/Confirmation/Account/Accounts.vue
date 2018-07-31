@@ -70,9 +70,9 @@
           <a href="javascript:void(0);" @click="shutDown" class="close">X</a>
         </div>
         <div class="modal-body-account">
-           <div class="refuse-reason">
-             {{auditOpinion}}
-           </div>
+          <div class="refuse-reason">
+            {{auditOpinion}}
+          </div>
         </div>
         <div class="modal-footer">
           <a href="javascript:void(0);" class="btn btn-sure" @click="audit">确定</a>
@@ -141,6 +141,7 @@
         }
       }
       return{
+        companyName:'',
         chapter:'合同章',
         contractSign:'',
         mobile:'',
@@ -156,7 +157,6 @@
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
-        companyName:'',
         ruleForm: {
           oldPassWord: '',
           newPassWord: '',
@@ -190,8 +190,9 @@
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
-          // this.$router.push('/PersonWait')
+
           this.$router.push('/ErrorPupload')
+
         }
       },
       submitForm(formName) {
@@ -258,9 +259,9 @@
       },
       ToAccount(){
         if(this.personalRealName == '1' || this.personalRealName == '2'){
-            sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode))
-            sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
-            this.$router.push('/ErrorPupload')
+          sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode))
+          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+          this.$router.push('/ErrorPupload')
         }
       },
       close(){
@@ -271,11 +272,11 @@
       this.mobile = cookie.getJSON('tenant')[0].mobile
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
-      var authStatus = cookie.getJSON('tenant')[0].authStatus //是否通过状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps //个人认证步数
+      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
+      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
-      var status = cookie.getJSON('tenant')[2].status        // 打款状态
+      var status = cookie.getJSON('tenant')[2].status            // 打款状态
       // 是否判断
       if(authStatus == '1') {
         this.authStatus = true
@@ -322,6 +323,9 @@
             this.enterpriseRealName = '4'
             this.chapter = '暂无签章'
             this.identifier = true
+          }else{
+            this.enterpriseRealName = '3'
+            this.identifier = true;
           }
         }
       }
@@ -332,7 +336,7 @@
       //意见（待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
         this.auditOpinion=res.data.data;
-        this.toEnterprise = res.data.data.verifyMoneyNum
+        // this.toEnterprise = res.data.data.verifyMoneyNum
       })
     }
   }
@@ -401,7 +405,6 @@
     border-radius: 4px;
     margin: 20px 35px 0 20px;
     padding: 5px;
-
 
   }
   .modal-header-title>div>span{

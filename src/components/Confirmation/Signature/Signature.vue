@@ -433,7 +433,7 @@
       },
       nextFit() {
         sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.input)))
-        if(this.input == ''){
+        if(TrimAll(this.input) == ''){
           this.$alert('您还没有填写合同名称!','签署', {
               confirmButtonText: '确定'
             });
@@ -462,13 +462,13 @@
           });
           return false
         }
-        if( TrimAll(this.analogueName) == ''){
+        if(TrimAll(this.analogueName) == ''){
           this.$alert('您还没有添加对手方姓名!','添加对手方', {
             confirmButtonText: '确定'
           });
           return false
         }
-        if( this.analogueMobile == ''){
+        if(this.analogueMobile == ''){
           this.$alert('您还没有添加对手方手机号!','添加对手方', {
             confirmButtonText: '确定'
           });
@@ -523,10 +523,10 @@
           userCode:this.userCode, //签署企业授权人编号
           userName:TrimAll(this.analogueName), //签署企业授权人名称
           mobile:this.analogueMobile, //授权人手机号
-          email:this.analogueEmail, //授权人邮箱
+          email:TrimAll(this.analogueEmail), //授权人邮箱
           handleUserName:this.handleUserName,//经办人姓名
           handleMobile:this.handleMobile,//经办人手机号
-          handleEmail:this.handleEmail,//经办人邮箱
+          handleEmail:TrimAll(this.handleEmail),//经办人邮箱
           contractName:TrimAll(this.input), //合同名称
           perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
           validTime:this.date //签署截止时间
