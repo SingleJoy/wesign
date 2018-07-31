@@ -1,20 +1,20 @@
 /*
- * @Author: wangjia
- * @Date: 2018-06-06 17:38:37
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-06-27 18:44:05
- */
+* @Author: wangjia
+* @Date: 2018-06-06 17:38:37
+* @Last Modified by: wangjia
+* @Last Modified time: 2018-06-27 18:44:05
+*/
 <template>
-<div class="Login">
-  <div class="login-wrap">
-    <div class="ms-login">
+  <div class="Login">
+    <div class="login-wrap">
+      <div class="ms-login">
         <!-- <div class="water-qrurl-code" >
           <a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
         </div> -->
         <div class='center'>
           <div class='user'>
-             <h2 class='userInfo'>用户登录</h2>
-             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+            <h2 class='userInfo'>用户登录</h2>
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
               <el-form-item prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
               </el-form-item>
@@ -44,77 +44,76 @@
       </div>
       <el-button class="select-btn"  type="primary" round @click="changeClick">确&nbsp;&nbsp;定</el-button>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-
-    import cookie from '@/common/js/getTenant'
-    import Img from '../../../static/images/Login/qrcode.png'
-    import {validateMoblie} from '@/common/js/validate'
-    import md5 from 'js-md5'
-    import { mapActions, mapState } from 'vuex'
-    export default {
-      name:'Login',
-      data () {
-        var checkName = (rule,value,callback) => {
-          if (value === ''){
-            callback(new Error('请输入手机号'))
-          } else if (!validateMoblie(value)){
-            callback(new Error('手机号输入错误'))
-          } else {
-            this.$http.get(process.env.API_HOST+'v1/tenant',{params:{
+  import cookie from '@/common/js/getTenant'
+  import Img from '../../../static/images/Login/qrcode.png'
+  import {validateMoblie} from '@/common/js/validate'
+  import md5 from 'js-md5'
+  import { mapActions, mapState } from 'vuex'
+  export default {
+    name:'Login',
+    data () {
+      var checkName = (rule,value,callback) => {
+        if (value === ''){
+          callback(new Error('请输入手机号'))
+        } else if (!validateMoblie(value)){
+          callback(new Error('手机号输入错误'))
+        } else {
+          this.$http.get(process.env.API_HOST+'v1/tenant',{params:{
               'username':this.ruleForm.username
             }}).then(response =>{
-              if (response.data === 0) {
-                callback()
-              } else {
-                callback(new Error('此用户不存在'))
-              }
-            })
+            if (response.data === 0) {
+              callback()
+            } else {
+              callback(new Error('此用户不存在'))
+            }
+          })
             .catch(error=>{
             })
-          }
         }
-        var checkPassWord = (rule,value,callback) => {
-          if (value === ''){
-            callback(new Error('请输入密码'))
-          } else {
-            callback()
-          }
+      }
+      var checkPassWord = (rule,value,callback) => {
+        if (value === ''){
+          callback(new Error('请输入密码'))
+        } else {
+          callback()
         }
-        return {
-          ruleForm: {
-            username: '',
-            password: ''
-          },
-          rules: {
-              username: [
-                { validator: checkName, trigger: 'blur' }
-              ],
-              password: [
-                { validator: checkPassWord, trigger: 'blur' }
-            ]
-          },
-          img:Img,
-          tenantNum:[],
-          selectedEnterprise:null,
-          radio:0
-        }
-      },
-      methods: {
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-            if (valid) {
-                var pass = md5(this.ruleForm.password);
-                this.$http.get(process.env.API_HOST+'v1/tenant/login',{params:{
-                  'username':this.ruleForm.username,
-                  'password':pass
-                }}).then(response =>{
-                if (response.data.resultCode === '1') {
+      }
+      return {
+        ruleForm: {
+          username: '',
+          password: ''
+        },
+        rules: {
+          username: [
+            { validator: checkName, trigger: 'blur' }
+          ],
+          password: [
+            { validator: checkPassWord, trigger: 'blur' }
+          ]
+        },
+        img:Img,
+        tenantNum:[],
+        selectedEnterprise:null,
+        radio:0
+      }
+    },
+    methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var pass = md5(this.ruleForm.password);
+            this.$http.get(process.env.API_HOST+'v1/tenant/login',{params:{
+                'username':this.ruleForm.username,
+                'password':pass
+              }}).then(response =>{
+              if (response.data.resultCode === '1') {
                 this.$http.get(process.env.API_HOST+'v1.4/user/bindEnterprises',{params:{
-                  'mobile':this.ruleForm.username
-                }}).then(response =>{
+                    'mobile':this.ruleForm.username
+                  }}).then(response =>{
                   var stateCode = response.data.bindTenantNum
                   var interfaceCode = response.data.dataList[0].interfaceCode
                   var mobile = response.data.dataList[0].mobile
@@ -147,127 +146,119 @@
                     this.tenantNum = response.data.dataList
                   }
                 })
-                } else {
-                  this.$message({
-                    showClose: true,
-                    message: '账户或密码错误',
-                    type: 'error'
-                  })
-                }
-              })
-            }
-          })
-        },
-        forgetPassWord(){
-          this.$router.push('/FoundUser')
-        },
-        variety(el) {
-          this.selectedEnterprise = el
-        },
-        changeClick() {
-            if(this.selectedEnterprise == '' || this.selectedEnterprise == null){
-              this.selectedEnterprise = this.tenantNum[0]
-            }
-            this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.selectedEnterprise.interfaceCode+'/homePage',{params:{
-              'mobile':this.selectedEnterprise.mobile,
-              'interfaceCode':this.selectedEnterprise.interfaceCode
-            }}).then(res =>{
-              // console.log("res.data.auditStatus"+res.data.auditStatus);
-
-              if( res.data.dataList[1].isBusiness == '0'){ // 不是众签商户
+              } else {
                 this.$message({
                   showClose: true,
-                  duration:1000,
-                  message: '登录成功',
-                  type: 'success'
+                  message: '账户或密码错误',
+                  type: 'error'
                 })
-              cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
-              this.$router.push('/Merchant')
-              }else{
-                this.$message({
-                  showClose: true,
-                  duration:1000,
-                  message: '登录成功',
-                  type: 'success'
-                })
-                cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
-               
-                this.$router.push('/Home')
               }
-          })
-        }
+            })
+          }
+        })
       },
-      mounted() {
-        sessionStorage.removeItem("type")
-        sessionStorage.removeItem("contractNo")
-        sessionStorage.removeItem("enterpriseName")
-        sessionStorage.removeItem("idcard")
-        sessionStorage.removeItem("interfaceCode")
-        sessionStorage.removeItem("mobile")
-        sessionStorage.removeItem("name")
-        sessionStorage.removeItem("userCode")
+      forgetPassWord(){
+        this.$router.push('/FoundUser')
+      },
+      variety(el) {
+        this.selectedEnterprise = el
+      },
+      changeClick() {
+        if(this.selectedEnterprise == '' || this.selectedEnterprise == null){
+          this.selectedEnterprise = this.tenantNum[0]
+        }
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.selectedEnterprise.interfaceCode+'/homePage',{params:{
+            'mobile':this.selectedEnterprise.mobile,
+            'interfaceCode':this.selectedEnterprise.interfaceCode
+          }}).then(res =>{
+          // console.log("res.data.auditStatus"+res.data.auditStatus);
+
+          if( res.data.dataList[1].isBusiness == '0'){ // 不是众签商户
+            this.$message({
+              showClose: true,
+              duration:1000,
+              message: '登录成功',
+              type: 'success'
+            })
+            cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
+            this.$router.push('/Merchant')
+          }else{
+            this.$message({
+              showClose: true,
+              duration:1000,
+              message: '登录成功',
+              type: 'success'
+            })
+            cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
+
+            this.$router.push('/Home')
+          }
+        })
       }
+    },
+    mounted() {
+      sessionStorage.removeItem("type")
+      sessionStorage.removeItem("contractNo")
+      sessionStorage.removeItem("enterpriseName")
+      sessionStorage.removeItem("idcard")
+      sessionStorage.removeItem("interfaceCode")
+      sessionStorage.removeItem("mobile")
+      sessionStorage.removeItem("name")
+      sessionStorage.removeItem("userCode")
     }
+  }
 </script>
 
-<style lang="scss" scoped>
-    @import "../../../static/icon/iconfont.css";
-    .Login{
-      width: 100%;
-      height: 350px;
-      .select-btn{
-        background-color: #fff;
-        color:#666
-      }
-      .select-btn:hover{
-        border: 2px solid #44caf7;
-        color: #22a7ea;
-      }
-    }
-    .login-wrap{
-      width:100%;
+<style scoped>
+  @import "../../../static/icon/iconfont.css";
+  .Login{
+    width: 100%;
+    height: 350px;
+  }
+  .login-wrap{
+    width:100%;
 
-      background: #f4f2f2;
-    }
-    .center{
-      width: 1240px;
-      height: 527px;
-      background:url('../../../static/images/Login/try.png') no-repeat;
-      position: absolute;
-      top: 315px;
-      left: 266px;
-    }
-    .userInfo{
-      color:#16a8f2;
-      font-size:36px;
-      text-align: center;
-    }
-    /* .water-qrurl-code{
+    background: #f4f2f2;
+  }
+  .center{
+    width: 1240px;
+    height: 527px;
+    background:url('../../../static/images/Login/try.png') no-repeat;
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 42px;
-    height: 42px;
-    z-index: 2;
-    margin-left: 338px;
-    background-repeat: no-repeat;
-    background-position: -1px -1px;
-    } */
+    top: 315px;
+    left: 266px;
+  }
+  .userInfo{
+    color:#16a8f2;
+    font-size:36px;
+    text-align: center;
+  }
+  /* .water-qrurl-code{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42px;
+  height: 42px;
+  z-index: 2;
+  margin-left: 338px;
+  background-repeat: no-repeat;
+  background-position: -1px -1px;
+  } */
 
-    .user{
-      width: 328px;
-      height: 310px;
-      position: absolute;
-      right: 10%;
-      top: 130px;
-    }
-    .login-logo{
-        width: 100px;
-        height: 50px;
-        margin-top:-10px;
-        margin-left: 85px;
-    }
-    .sy_close {
+  .user{
+    width: 328px;
+    height: 310px;
+    position: absolute;
+    right: 10%;
+    top: 130px;
+  }
+  .login-logo{
+    width: 100px;
+    height: 50px;
+    margin-top:-10px;
+    margin-left: 85px;
+  }
+  .sy_close {
     width: 42px;
     height: 42px;
     position: absolute;
@@ -275,44 +266,44 @@
     z-index: 3;
     background-repeat: no-repeat;
     background-position: -1px -1px;
-    }
-    .sy_close:hover{
-        background-position: -1px -46px;
-    }
-    .icon-user{
+  }
+  .sy_close:hover{
+    background-position: -1px -46px;
+  }
+  .icon-user{
     position: absolute;
     right: 20px;
     top: 32px;
-    }
-    .icon-suo{
+  }
+  .icon-suo{
     position: absolute;
     right: 20px;
-    }
-    /* .ms-login{
-        position: absolute;
-        left:50%;
-        top:50%;
-        width:300px;
-        height:240px;
-        margin:-150px 0 0 -190px;
-        padding:40px;
-        border-radius: 5px;
+  }
+  /* .ms-login{
+      position: absolute;
+      left:50%;
+      top:50%;
+      width:300px;
+      height:240px;
+      margin:-150px 0 0 -190px;
+      padding:40px;
+      border-radius: 5px;
 
-    } */
-    .login-input{
-        margin-top: 30px;
-    }
-    .login-btn{
-        text-align: center;
-    }
-    .login-btn button{
-        width:100%;
-        height:36px;
-    }
-    #submit{
-      color: #22a7ea;
-      float:right;
-    }
+  } */
+  .login-input{
+    margin-top: 30px;
+  }
+  .login-btn{
+    text-align: center;
+  }
+  .login-btn button{
+    width:100%;
+    height:36px;
+  }
+  #submit{
+    color: #22a7ea;
+    float:right;
+  }
 
   .fade{
     width:100%;
@@ -324,7 +315,7 @@
     z-index: 99;
     display: none;
   }
-/*弹出层*/
+  /*弹出层*/
   .succ-pop{
     width: 500px;
     height: 400px;
@@ -373,5 +364,5 @@
     margin-left: 110px !important;
     margin-top: 320px !important;
     font-size: 16px !important;
-}
+  }
 </style>

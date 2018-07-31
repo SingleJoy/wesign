@@ -7,7 +7,7 @@
         <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
-         <div class='companyName'>
+        <div class='companyName'>
           <p>
             <span>企业名称：</span><span>{{companyName}}</span>
           </p>
@@ -70,9 +70,9 @@
           <a href="javascript:void(0);" @click="shutDown" class="close">X</a>
         </div>
         <div class="modal-body-account">
-           <div class="refuse-reason">
-             {{auditOpinion}}
-           </div>
+          <div class="refuse-reason">
+            {{auditOpinion}}
+          </div>
         </div>
         <div class="modal-footer">
           <a href="javascript:void(0);" class="btn btn-sure" @click="audit">确定</a>
@@ -190,9 +190,9 @@
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
-       
+
           this.$router.push('/ErrorPupload')
-          
+
         }
       },
       submitForm(formName) {
@@ -259,9 +259,9 @@
       },
       ToAccount(){
         if(this.personalRealName == '1' || this.personalRealName == '2'){
-            sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode))
-            sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
-            this.$router.push('/ErrorPupload')
+          sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode))
+          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+          this.$router.push('/ErrorPupload')
         }
       },
       close(){
@@ -273,7 +273,7 @@
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
       var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤  
+      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
@@ -284,7 +284,7 @@
         this.personalRealName = '1'
         this.chapter = '暂无签章'
         this.modalTips = true
-      }else if(authStatus == '-1' && auditSteps == '2'){ 
+      }else if(authStatus == '-1' && auditSteps == '2'){
         this.personalRealName = '2'
         this.chapter = '暂无签章'
         this.modalTips = true
@@ -324,7 +324,7 @@
             this.chapter = '暂无签章'
             this.identifier = true
           }else{
-             this.enterpriseRealName = '3'
+            this.enterpriseRealName = '3'
             this.identifier = true;
           }
         }
@@ -399,13 +399,13 @@
     color: #22a7ea;
   }
   .refuse-reason {
-    width: 330px;
+    width: 350px;
     height: 150px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin: 20px 35px 0 35px;
-    resize: none;
-    overflow: scroll;
+    margin: 20px 35px 0 20px;
+    padding: 5px;
+
   }
   .modal-header-title>div>span{
     font-size: 14px;
