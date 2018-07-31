@@ -323,7 +323,7 @@
       })
       //意见（待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
-        this.auditOpinion=res.data.data.moneyStatus;
+        this.auditOpinion=res.data.data;
         this.toEnterprise = res.data.data.verifyMoneyNum
       })
     }
