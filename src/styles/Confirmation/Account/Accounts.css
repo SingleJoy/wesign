@@ -41,12 +41,25 @@
     padding-top: 22px;
 }
 
-.userInfo {
+.userInfo{
     font-size:12px;
     font-family:"微软雅黑";
     color:#333;
 
     height: 50px;
+}
+.companyName{
+    font-size:12px;
+    font-family:"微软雅黑";
+    color:#333;
+    height: 50px;
+}
+.companyName p{
+    float: left;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .userInfo p{
     float: left;

@@ -5,11 +5,11 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <ul id='ul'>
-        <router-link to='/Home'><li><a href="javascript:void(0);">首页</a></li></router-link>
-        <router-link to='/Mycontract'><li><a href="javascript:void(0);">我的合同</a></li></router-link>
-        <router-link to='/Multiparty'><li><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/Room'><li><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li @click="dialogVisible" style='color:#fff;cursor:pointer'>版本</li>
+        <router-link to='/Home' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
+        <router-link to='/Mycontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
+        <router-link to='/Multiparty' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
+        <router-link to='/Room' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}" class=""><a href="javascript:void(0);">签约室</a></li></router-link>
+        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
         <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
@@ -31,7 +31,7 @@
           <!-- </el-upload> -->
         </li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-        <li style="margin-left:30px;"><router-link to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;"><router-link  @click.native="tabActive(5)" to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
       </ol>
 
       <div id='update'>
@@ -88,86 +88,18 @@
       </div>
   </div>
 </template>
-<style scoped>
-@import "../styles/Top.css";
-</style>
-<style>
-  #dilog{
-    width:100%;
-    height: 100%;
-    background:#000;
-    position: absolute;
-    z-index:1000;
-    background-color:rgba(0,0,0,0.5);
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    margin:auto;
-    display:none;
-    }
-  .box{
-    width:360px;
-    height: 430px;
-    background:url('../../../static/images/Top/xiao1.gif');
-    position: absolute;
-    left:0;
-    top:0;
-    right: 0;
-    bottom:0;
-    margin: auto;
-  }
-  .box .container{
-    margin-top:180px;
-  }
-  .box .container h2{
-    text-align:center;
-  }
-   .box .container p{
-    line-height:30px;
-    padding-left:30px;
-    color:#999;
-  }
-  .box .container p:nth-child(2){
-    padding-left:30px;
-    padding-top:20px;
-  }
-  #close{
-    position: absolute;
-    right:-30px;
-    top:-16px;
-    width:30px;
-    height: 30px;
-    color:#fff;
-    background:#ccc;
-    border-radius:50%;
-    text-align:center;
-    line-height:30px;
-  }
-  .el-dialog--center .el-dialog__footer {
-    margin-top: -30px;
-  }
-    .loginOut{
-    height:200px !important;
-    width:400px !important;
-    overflow: hidden !important;
-  }
-  .dlstyle{
-    width:400px  !important;
-    height: 380px !important;
-    overflow: hidden !important;
-  }
-</style>
 <script>
 import cookie from '@/common/js/getTenant'
 export default {
   name: 'Top',
       data() {
       return {
+        activeName:'',
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
+        tabIndex:'',
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
       }
     },
@@ -177,11 +109,11 @@ export default {
       },
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `http://testwesign.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl(){
         // return `${this.baseURL.BASE_URL}/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `http://testwesign.zqsign.com/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name) {
         this.$loading.show();
@@ -270,7 +202,8 @@ export default {
       openFullScreen() {
         this.fullscreenLoading = true
       },
-      dialogVisible () {
+      dialogVisible (value) {
+        this.$store.dispatch('tabIndex',{tabIndex:value})
         var dilog = document.getElementById('dilog')
         dilog.style.display='block'
       },
@@ -325,8 +258,108 @@ export default {
             this.$router.push('/')
           }
         })
-      }
+      },
+      tabActive(value){
+        console.log(value)
+        this.$store.dispatch('tabIndex',{tabIndex:value})
+       
+      },
+    },
+    created(){
+      this.tabIndex = this.$store.state.tabIndex;
+       console.log(this.tabIndex)
     }
 }
 </script>
+
+<style  scoped>
+    @import "../styles/Top.css";
+</style>
+<style lang="scss">
+.el-tabs__item.is-active{
+  color:#fff
+}
+.el-tabs__item:hover{
+  color:#fff
+}
+.el-tabs__item{
+  color:#fff
+}
+.el-tabs__active-bar{
+  background-color:red
+}
+.el-tabs__nav-wrap::after{
+  height:0
+}
+  #dilog{
+    width:100%;
+    height: 100%;
+    background:#000;
+    position: absolute;
+    z-index:1000;
+    background-color:rgba(0,0,0,0.5);
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    display:none;
+    }
+  .box{
+    width:360px;
+    height: 430px;
+    background:url('../../../static/images/Top/xiao1.gif');
+    position: absolute;
+    left:0;
+    top:0;
+    right: 0;
+    bottom:0;
+    margin: auto;
+  }
+  .box .container{
+    margin-top:180px;
+  }
+  .box .container h2{
+    text-align:center;
+  }
+   .box .container p{
+    line-height:30px;
+    padding-left:30px;
+    color:#999;
+  }
+  .box .container p:nth-child(2){
+    padding-left:30px;
+    padding-top:20px;
+  }
+  #close{
+    position: absolute;
+    right:-30px;
+    top:-16px;
+    width:30px;
+    height: 30px;
+    color:#fff;
+    background:#ccc;
+    border-radius:50%;
+    text-align:center;
+    line-height:30px;
+  }
+  .el-dialog--center .el-dialog__footer {
+    margin-top: -30px;
+  }
+    .loginOut{
+    height:200px !important;
+    width:400px !important;
+    overflow: hidden !important;
+  }
+  .dlstyle{
+    width:400px  !important;
+    height: 380px !important;
+    overflow: hidden !important;
+  }
+  .active-tab{
+    border-bottom: 3px solid red;
+    font-weight: 700;
+    
+  }
+</style>
 

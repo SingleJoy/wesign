@@ -7,6 +7,11 @@
         <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
+        <div class='companyName'>
+          <p>
+            <span>企业名称：</span><span>{{companyName}}</span>
+          </p>
+        </div>
         <div class='userInfo'>
           <p>
             <span>账号：</span><span>{{mobile}}</span>
@@ -151,6 +156,7 @@
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
+        companyName:'',
         ruleForm: {
           oldPassWord: '',
           newPassWord: '',
@@ -263,6 +269,8 @@
     },
     created() {
       this.mobile = cookie.getJSON('tenant')[0].mobile
+      this.companyName = cookie.getJSON('tenant')[1].companyName
+      // console.log(cookie.getJSON('tenant')[0])
       var authStatus = cookie.getJSON('tenant')[0].authStatus //是否通过状态
       var auditSteps = cookie.getJSON('tenant')[0].auditSteps //个人认证步数
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
