@@ -179,11 +179,11 @@
         this.centerDialogVisible = false
       },
       realName() {
-        if(this.personalRealName == '1' || this.personalRealName == '2' ||this.personalRealName == '3'){
+        if(this.personalRealName == '1' || this.personalRealName == '2' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
-        }else if (this.personalRealName == '4'){
+        }else if (this.personalRealName == '4'||this.personalRealName == '3'){
           // this.$router.push('/PersonWait')
           this.$router.push('/ErrorPupload')
         }

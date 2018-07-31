@@ -32,7 +32,7 @@
             </ul>
             <p class='personInfo1'>
               <span style="color: red;">对不起！您的实名未通过</span>
-              <span>请手持身份证照片，工作人员将会进行人工审核</span>
+              <span>请上传手持身份证正面照片，工作人员将会进行人工审核</span>
             </p>
           </div>
           <div class="header-title-2">

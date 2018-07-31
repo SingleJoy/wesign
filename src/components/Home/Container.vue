@@ -1,10 +1,10 @@
 <template>
         <div class='Container' style="margin-top: 20px;">
-        <div class='main'>
+        <div class='main' style="background-color: #fff;">
             <div class='main_left'>
               <div class='upload' style='border:none;'>
                   <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
-                    <img src="../../../static/images/add1.png" alt="" style='width:680px;height:152px;'>
+                    <img src="../../../static/images/add1.png" alt="" style='width:680px;height:152px;margin: 5px;border-radius: 2px;'>
                   </div>
               </div>
               <div >
