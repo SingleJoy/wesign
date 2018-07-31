@@ -5,11 +5,11 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <ul id='ul'>
-        <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
-        <router-link to='/Procontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
-        <router-link to='/BuyProduct' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
+        <router-link to='/Merchant' @click.native="tabActive(0)"><li><a href="javascript:void(0);">首页</a></li></router-link>
+        <router-link to='/Procontract' @click.native="tabActive(1)"><li><a href="javascript:void(0);">我的合同</a></li></router-link>
+        <router-link to='/BuyProduct' @click.native="tabActive(2)"><li><a href="javascript:void(0);">我的模板</a></li></router-link>
+        <router-link to='/BuyProduct' @click.native="tabActive(3)"><li><a href="javascript:void(0);">签约室</a></li></router-link>
+        <li @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
         <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>
@@ -19,7 +19,7 @@
         </li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
         <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;"><router-link to='/Account'  @click.native="tabActive(5)"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+        <li style="margin-left:30px;"><router-link to='/Account'  @click.native="tabActive(5)"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
       </ol>
       <div id='update'>
       </div>
