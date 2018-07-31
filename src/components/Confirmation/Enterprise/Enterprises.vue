@@ -13,7 +13,7 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style="background:#ccc" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style="color:#22a7ea" @click="entCertification" :disabled="disabled">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button>
+          <el-button style="color:#22a7ea" @click="entCertification" >提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button>
         </div>
       </nav>
     </div>
@@ -506,11 +506,8 @@
       //企业认证
       entCertification(){
         let that = this;
-        that.disabled=true;
+        // that.disabled=true;
         if(this.enterpriseType ==''){
-          //  this.$alert('请选择企业类型','提示', {
-          //   confirmButtonText: '确定'
-          // });
            this.$message({
             showClose: true,
             message: '请选择企业类型',

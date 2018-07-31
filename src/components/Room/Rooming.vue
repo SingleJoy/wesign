@@ -14,7 +14,7 @@
       <div class='content'>
       <div class='cleft'>
         <!-- <b><img :src="`${this.baseURL.BASE_URL}`+'/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b> -->
-        <b><img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
+        <b><img :src="'https://www.zqsign.com/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
         <p class='inputInfo' style='text-align: center;width: 220px;font-weight:bolder'>{{message}}</p>
         <!-- <h6 id='text' style="position:absolute;left:100px;">欢迎来到众签签约室</h6> -->
       </div>
@@ -46,7 +46,7 @@
           </dd>
         <dt>
           <div style="margin-top:27px">
-             <img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id" v-if="showImage==true">
+             <img :src="'https://www.zqsign.com/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id" v-if="showImage==true">
              <img src="../../../static/images/Room/room-logo.png" style="height:150px;width:150px" v-else-if="showImage==false">
 
           </div>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     urlloadUrl(){
-      return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
+      return `https://www.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     //  return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     },
     handleCopy(text, event) {
