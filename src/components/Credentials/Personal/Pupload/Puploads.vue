@@ -38,7 +38,7 @@
             </ul>
             <p class='personInfo'>
               <span>对不起！您的实名未通过</span>
-              <span>请上传手持身份证正面照片，工作人员将会进行人工审核</span>
+              <span>请上传被授权人身份证信息</span>
             </p>
           </div>
           <div class="header-title-3">
@@ -343,7 +343,7 @@
           return
         }
         var interfaceCode = sessionStorage.getItem('interfaceCode')
-        interfaceCode = JSON.parse(interfaceCode)
+            interfaceCode = JSON.parse(interfaceCode)
         if(this.IDcardFront.src == undefined || this.IDcardSide.src == undefined){
           this.$message({
             showClose: true,
@@ -353,7 +353,7 @@
         } else {
           if(this.falg == false){
             this.falg = true
-            var userCode =sessionStorage.getItem('userCode')
+            var userCode = sessionStorage.getItem('userCode')
                 userCode = JSON.parse(userCode);
             this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/saveIdCardImgUrl',{'frontPhoto':this.IDcardUrl,'backPhoto':this.url,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{
               if(res.data.resultCode == '1'){

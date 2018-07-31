@@ -185,13 +185,16 @@
         this.centerDialogVisible = false
       },
       realName() {
+        sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
+        sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
         if(this.personalRealName == '1' || this.personalRealName == '2' ){
-          sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
-          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'||this.personalRealName == '3'){
+          // sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));//从Account进入
+          // sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           // this.$router.push('/PersonWait')
-          this.$router.push('/ErrorPupload')
+          // this.$router.push('/ErrorPupload')
+          this.$router.push('/Pupload')
         }
       },
       submitForm(formName) {
@@ -271,11 +274,11 @@
       this.mobile = cookie.getJSON('tenant')[0].mobile
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
-      var authStatus = cookie.getJSON('tenant')[0].authStatus //是否通过状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps //个人认证步数
+      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态
+      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步数 
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
-      var status = cookie.getJSON('tenant')[2].status        // 打款状态
+      var status = cookie.getJSON('tenant')[2].status            // 打款状态
       // 是否判断
       if(authStatus == '1') {
         this.authStatus = true
@@ -332,7 +335,7 @@
       //意见（待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
         this.auditOpinion=res.data.data;
-        this.toEnterprise = res.data.data.verifyMoneyNum
+        // this.toEnterprise = res.data.data.verifyMoneyNum
       })
     }
   }
