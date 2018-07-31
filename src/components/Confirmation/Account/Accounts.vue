@@ -61,7 +61,7 @@
         </span>
     </el-dialog>
 
-    <div class="modal " v-show ="finalRejection == true">
+    <div class="modal">
       <div class="modal-box" >
         <div class="modal-header">
           <div class="modal-header-title">
@@ -70,7 +70,7 @@
           <a href="javascript:void(0);" @click="shutDown" class="close">X</a>
         </div>
         <div class="modal-body-account">
-          <div class="refuse-reason">
+          <div class="refuse-reason" style=" word-break:break-all;">
             {{auditOpinion}}
           </div>
         </div>
@@ -405,6 +405,7 @@
     border-radius: 4px;
     margin: 20px 35px 0 20px;
     padding: 5px;
+
 
   }
   .modal-header-title>div>span{
