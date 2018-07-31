@@ -74,7 +74,7 @@
           <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
 
           <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
-          <el-button @click="warnClick(scope.row)" type="warning" size="mini">提&nbsp;&nbsp;醒</el-button>
+          <el-button @click="warnClick(scope.row)"type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
 
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>

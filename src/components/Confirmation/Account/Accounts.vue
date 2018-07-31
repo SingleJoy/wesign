@@ -7,11 +7,6 @@
         <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
-        <div class='companyName'>
-          <p>
-            <span>企业名称：</span><span>{{companyName}}</span>
-          </p>
-        </div>
         <div class='userInfo'>
           <p>
             <span>账号：</span><span>{{mobile}}</span>
@@ -156,7 +151,6 @@
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
-        companyName:'',
         ruleForm: {
           oldPassWord: '',
           newPassWord: '',
@@ -185,16 +179,14 @@
         this.centerDialogVisible = false
       },
       realName() {
-        sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
-        sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
-        if(this.personalRealName == '1' || this.personalRealName == '2' ){
+        if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
+          sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
+          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
           this.$router.push('/Pupload')
-        }else if (this.personalRealName == '4'||this.personalRealName == '3'){
-          // sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));//从Account进入
-          // sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
+        }else if (this.personalRealName == '4'){
           // this.$router.push('/PersonWait')
-          // this.$router.push('/ErrorPupload')
-          this.$router.push('/Pupload')
+          this.$router.push('/ErrorPupload')
+          // this.$router.push('/Pupload')
         }
       },
       submitForm(formName) {
@@ -272,10 +264,15 @@
     },
     created() {
       this.mobile = cookie.getJSON('tenant')[0].mobile
+<<<<<<< HEAD
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
       var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态
       var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步数 
+=======
+      var authStatus = cookie.getJSON('tenant')[0].authStatus //是否通过状态
+      var auditSteps = cookie.getJSON('tenant')[0].auditSteps //个人认证步数
+>>>>>>> e1b9321dc120bcf8bb11d27e5e59fbb53b2021bd
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
@@ -404,6 +401,7 @@
     border-radius: 4px;
     margin: 20px 35px 0 35px;
     resize: none;
+    overflow: scroll;
   }
   .modal-header-title>div>span{
     font-size: 14px;

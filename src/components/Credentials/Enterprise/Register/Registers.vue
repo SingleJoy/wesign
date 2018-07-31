@@ -329,7 +329,6 @@
                 message: response.data.resultMessage,
                 type: 'error'
               })
-              return false
             }else{
               this.verCode = true;
             }
@@ -343,7 +342,6 @@
           this.flag=!this.flag
         }
       },
-
 
       submitFrom() {
         this.validateSmsCode()
@@ -384,6 +382,7 @@
 
         this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
+
             this.$message({
               showClose: true,
               message: res.data.resultMessage,
@@ -392,6 +391,7 @@
             sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode))
            this.$router.push('/Pupload')
           } else if(res.data.resultCode == '2'){
+
             if(res.data.dataList[1].authAccountStatus == '0'){
               this.$message({
                 showClose: true,
@@ -447,7 +447,6 @@
     },
     created() {
       this.interfaceCode = GetQueryString("appId")
-      sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode));
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.interfaceCode+'/userIsExist').then(res =>{
         if (res.data.resultCode == '1') {
           this.$message({

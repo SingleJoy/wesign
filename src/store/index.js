@@ -14,8 +14,7 @@ const state = {
   templateGenre: '', //批量模板类型
   signatory:'',  // 批量模板几方签署
   type:'',        // 数据回显类型
-  needSign:'',    //平台方是否签署
-  tabIndex:''     //当前活动tab
+  needSign:''    //平台方是否签署
 }
 const actions = {
     fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
@@ -23,13 +22,10 @@ const actions = {
     template:({ commit },obj) => commit('template',obj),
     templateType:({ commit },obj) => commit('templateType',obj),
     type:({ commit },obj) => commit('type',obj),
-    needSign:({ commit },obj) => commit('needSign',obj),
-    tabIndex:({commit},obj) => commit('tabIndex',obj)
+    needSign:({ commit },obj) => commit('needSign',obj)
 }
 const mutations = {
-  tabIndex (state,res) {
-    state.tabIndex = res.tabIndex
-  },
+
   fileSuccess1 (state,res) {
     state.contractName1 = res.contractName,
     state.contractNo1 = res.contractNo

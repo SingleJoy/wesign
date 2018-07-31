@@ -130,6 +130,79 @@
 
       </div>
     </div>
+
+    <!--<div class="modal " v-show ="paymentsTips == true">-->
+      <!--<div class="modal-box" style="width: 400px;height: 220px;">-->
+        <!--<div class="modal-header">-->
+          <!--<div class="modal-header-title">-->
+            <!--<div>提示</div>-->
+          <!--</div>-->
+          <!--<a href="javascript:void(0);" @click="close" class="close">X</a>-->
+        <!--</div>-->
+        <!--<div class="modal-body-account">-->
+          <!--<div style="height: 50px;margin: 40px 20px 30px 20px;">-->
+
+            <!--&lt;!&ndash;弹窗1&ndash;&gt;-->
+
+            <!--<div style="font-size: 14px;color: #333;"  v-show="respondsValue=='1' ">-->
+              <!--<div style="text-align: center">-->
+                <!--打款成功-->
+              <!--</div>-->
+
+            <!--</div>-->
+
+
+            <!--<div style="font-size: 14px;color: #333;"  v-show="respondsValue=='-5' ">-->
+              <!--<div style="text-align: center">-->
+                <!--商户打款冻结-->
+              <!--</div>-->
+              <!--<div style="text-align: center; margin-top: 10px;">-->
+                <!--你还剩余 <span style="color: red;">{{number}}</span>次机会-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div style="font-size: 14px;color: #333;"  v-show="respondsValue=='-1' ">-->
+              <!--<div style="text-align: center">-->
+                <!--对公账户打款失败，请检查信息后重新输入，打款失败三次后认证流程就会被冻结-->
+              <!--</div>-->
+              <!--<div style="text-align: center; margin-top: 10px;">-->
+                <!--你还剩余 <span style="color: red;">{{number}}</span>次机会-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;弹窗2&ndash;&gt;-->
+            <!--<div style="font-size: 14px;color: #333;"  v-show="respondsValue=='2' ">-->
+              <!--<div>-->
+                <!--正在打款中，请耐心等待...-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;弹窗3&ndash;&gt;-->
+            <!--<div style="font-size: 14px;color: #666;"  v-show="respondsValue=='3' ">-->
+              <!--<div>-->
+                <!--您输入的金额与打款金额不匹配，请确认后重新填写-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;弹窗4&ndash;&gt;-->
+            <!--<div style="font-size: 14px;color: #666;"  v-show="respondsValue=='-5' ">-->
+              <!--<div style="text-align: center">-->
+                <!--对不起，改账号已被冻结，请联系众签客服处理-->
+              <!--</div>-->
+              <!--<div style="text-align: center;margin-top: 20px;">-->
+                <!--联系电话 400-0000-6923-->
+              <!--</div>-->
+            <!--</div>-->
+
+          <!--</div>-->
+
+          <!--<div class="modal-footer">-->
+            <!--<a href="javascript:void(0);" class="btn btn-quit" @click="close" style="width: 150px">确定</a>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
   </div>
 </template>
 <script>

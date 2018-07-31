@@ -5,11 +5,11 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <ul id='ul'>
-        <router-link to='/Merchant' @click.native="tabActive(0)"><li><a href="javascript:void(0);">首页</a></li></router-link>
-        <router-link to='/Procontract' @click.native="tabActive(1)"><li><a href="javascript:void(0);">我的合同</a></li></router-link>
-        <router-link to='/BuyProduct' @click.native="tabActive(2)"><li><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/BuyProduct' @click.native="tabActive(3)"><li><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
+        <router-link to='/Merchant'><li><a href="javascript:void(0);">首页</a></li></router-link>
+        <router-link to='/Procontract'><li><a href="javascript:void(0);">我的合同</a></li></router-link>
+        <router-link to='/BuyProduct'><li><a href="javascript:void(0);">我的模板</a></li></router-link>
+        <router-link to='/BuyProduct'><li><a href="javascript:void(0);">签约室</a></li></router-link>
+        <li @click="dialogVisible" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
         <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>
@@ -19,7 +19,7 @@
         </li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
         <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
-        <li style="margin-left:30px;"><router-link to='/Account'  @click.native="tabActive(5)"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+        <li style="margin-left:30px;"><router-link to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
       </ol>
       <div id='update'>
       </div>
@@ -143,11 +143,6 @@
       background:url('../../../static/images/Login/b2c.png');
       background-size:100% 100%;
    }
-  .active-tab{
-    border-bottom: 3px solid red;
-    font-weight: 700;
-    
-  }
 </style>
 <script>
 import md5 from 'js-md5'
@@ -157,23 +152,13 @@ export default {
   name: 'MuTop',
       data() {
       return {
-        tabIndex:'',
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
       }
     },
-    created(){
-      this.tabIndex = this.$store.state.tabIndex;
-      console.log(this.tabIndex)
-    },
     methods: {
-      tabActive(value){
-        // console.log(value)
-        this.$store.dispatch('tabIndex',{tabIndex:value})
-      },
-      
       choice(){
         this.$router.push('/BuyProduct')
       },
@@ -272,8 +257,7 @@ export default {
       openFullScreen() {
         this.fullscreenLoading = true
       },
-      dialogVisible (value) {
-        this.$store.dispatch('tabIndex',{tabIndex:value})
+      dialogVisible () {
         var dilog = document.getElementById('dilog')
         dilog.style.display='block'
       },

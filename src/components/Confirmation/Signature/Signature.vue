@@ -390,14 +390,14 @@
         }
       },
       VaildEmail(){
-        if(this.analogueEmail != "" && !validateEmail(this.analogueEmail)){
+        if(TrimAll(this.analogueEmail) != "" && !validateEmail(this.analogueEmail)){
           this.$alert('邮箱格式错误!','提示', {
             confirmButtonText: '确定'
           });
         }
       },
       agentEmail() {
-        if(this.handleEmail != '' && !validateEmail(this.handleEmail)){
+        if(TrimAll(this.handleEmail) != '' && !validateEmail(this.handleEmail)){
           this.$alert('邮箱格式错误!','添加经办人', {
             confirmButtonText: '确定'
           });
@@ -451,12 +451,12 @@
           });
           return false
         }
-        if( this.analogueEmail == ''){
+        if( TrimAll(this.analogueEmail) == ''){
           this.$alert('您还没有添加对手方邮箱!','添加对手方', {
             confirmButtonText: '确定'
           });
           return false
-        } else if(this.analogueEmail != '' && !validateEmail(this.analogueEmail)){
+        } else if(TrimAll(this.analogueEmail) != '' && !validateEmail(this.analogueEmail)){
           this.$alert('对手方邮箱格式错误!','添加对手方', {
             confirmButtonText: '确定'
           });
@@ -479,13 +479,13 @@
           });
           return false
         }
-        if(this.handleUserName != '' && this.handleMobile == '' && this.handleEmail == ''||this.handleUserName != '' && this.handleMobile == '' && this.handleEmail != ''||this.handleUserName != '' && this.handleMobile != '' && this.handleEmail == ''){
+        if(this.handleUserName != '' && this.handleMobile == '' && TrimAll(this.handleEmail) == ''||this.handleUserName != '' && this.handleMobile == '' && TrimAll(this.handleEmail) != ''||this.handleUserName != '' && this.handleMobile != '' && TrimAll(this.handleEmail) == ''){
           this.$alert('您还没有完成添加经办人!','添加经办人', {
             confirmButtonText: '确定'
           });
           return false
         }
-        if(this.handleUserName == '' && this.handleMobile != '' && this.handleEmail != ''||this.handleUserName == '' && this.handleMobile == '' && this.handleEmail != ''||this.handleUserName == '' && this.handleMobile != '' && this.handleEmail == ''){
+        if(this.handleUserName == '' && this.handleMobile != '' && TrimAll(this.handleEmail) != ''||this.handleUserName == '' && this.handleMobile == '' && TrimAll(this.handleEmail) != ''||this.handleUserName == '' && this.handleMobile != '' && TrimAll(this.handleEmail) == ''){
           this.$alert('您还没有完成添加经办人!','添加经办人', {
             confirmButtonText: '确定'
           });
@@ -497,7 +497,7 @@
           });
           return false
         }
-        if(this.handleEmail != '' && !validateEmail(this.handleEmail)){
+        if(TrimAll(this.handleEmail) != '' && !validateEmail(this.handleEmail)){
           this.$alert('邮箱格式错误!','添加经办人', {
             confirmButtonText: '确定'
           });
