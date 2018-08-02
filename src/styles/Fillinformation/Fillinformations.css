@@ -85,7 +85,7 @@
 }
 .pagination {
   position: relative;
-  top: 80px;
+  top: 30px;
 }
 .pagination li a{
   width: 35px;
@@ -145,7 +145,7 @@
 
 /* 提交样式 */
 .sign_right{
-  margin-top: 80px;
+  margin-top: 30px;
   float: left;
   margin-left: 22px;
   overflow: auto;

@@ -148,7 +148,7 @@
             </el-table-column>
           </el-table>
         </div>
-        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog">
+        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog" >
             <div v-for="(item,index) in imgList" :key="index" >
                <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
@@ -625,9 +625,7 @@ export default {
 <style scoped>
   @import "../../../styles/Signaturesetting/Signaturesettings.css";
   @import "../../../common/styles/Tops.css";
-</style>
 
-<style>
  .first #inputText{
     -webkit-appearance: none;
     background-color: #fff;
@@ -638,7 +636,6 @@ export default {
     box-sizing: border-box;
     color: #606266;
     display: inline-block;
-    font-size: inherit;
     height: 40px;
     line-height: 1;
     outline: 0;
@@ -653,10 +650,8 @@ export default {
     overflow-y: hidden !important;
   }
   .showTempDialog{
-    position: relative !important;
-    -webkit-box-sizing: border-box !important;
-    box-sizing: border-box !important;
-    height: 800px !important;
-    overflow-y: scroll !important;
+    height:335px !important;
+    width:400px !important;
+    overflow-y: hidden !important;
   }
 </style>

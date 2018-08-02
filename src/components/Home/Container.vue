@@ -118,7 +118,7 @@
         </div>
       </div>
     </div>
-    <div class='dilogbg' v-show="popupContainer">
+    <div class='dialogbg' v-show="popupContainer">
 
       <div class='upload-dilog'>
         <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
@@ -575,8 +575,7 @@
     -o-transform: scale(1.08);
     -moz-transform: scale(1.08);
   }
-</style>
-<style>
+
   .view {
     width: 100%;
     height: 100%;
@@ -588,7 +587,7 @@
     left: 0;
     top: 0;
   }
-  .dilogbg {
+  .dialogbg {
     background: #000;
     background: rgba(0, 0, 0, 0.6);
     width: 100%;

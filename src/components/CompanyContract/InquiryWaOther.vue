@@ -341,7 +341,7 @@ export default {
 .waitOtherImg{
   width: 153px;
   margin: 300px auto;
-  height: 89px;
+  height: 90px;
   margin-bottom: 175px;
 }
 .waitOtherImg>img{

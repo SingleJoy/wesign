@@ -350,12 +350,11 @@
     position: absolute;
     z-index: 4000;
     background-color: rgba(0,0,0,0.5);
-
     left:0;
     top:0;
 
   }
-  .dilogbg{
+  .dialogbg{
     background:#000;
     background:rgba(0,0,0,.3);
     width:100%;

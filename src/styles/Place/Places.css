@@ -2,7 +2,7 @@
   width: 1200px;
   margin:100px auto 0 auto;
   background: #fff;
-  height: 1180px;
+  height: 1130px;
 }
 /*步骤条样式开始  */
 
@@ -22,7 +22,7 @@
   border: 1px dashed #ccc;
   border-radius: 50%;
   padding: 5px;
-  margin:0px 5px 0 5px;
+  margin:0 5px 0 5px;
 }
 .step ul li>i{
   text-align: center;
@@ -58,10 +58,10 @@
 }
 
 /* 分页样式 */
-.signing{
+.Pcontract>.signing{
   clear: both;
   height: 800px;
-  margin-top: 50px;
+  border-top: 1px solid #ddd;
 }
 
 .sign_left{
@@ -84,7 +84,7 @@
 
 .pagination {
   position: relative;
-  top: 80px;
+  top: 0;
 }
 .pagination li a{
   width: 35px;
@@ -199,12 +199,13 @@
   color: #fff;
 }
 
-#textInfo{
+.Pcontract>.signing>#textInfo{
   clear:both;
-  padding-top:60px;
   color:red;
   font-size:12px;
-  width: 900px;
+  width: 100%;
+  text-align: center;
+  margin: 20px auto 40px auto;
 }
 .morePerson{
   padding: 10px;
