@@ -136,4 +136,7 @@ input::-webkit-input-placeholder {
  padding-bottom: 10px !important;
  padding-top: 10px !important;
 }
+.cell>span{
+  color: #333;
+}
 </style>
