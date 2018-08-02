@@ -209,11 +209,19 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @import "../../../static/icon/iconfont.css";
   .Login{
     width: 100%;
     height: 350px;
+     .select-btn{
+        background-color: #fff;
+        color:#666
+      }
+      .select-btn:hover{
+        border: 2px solid #44caf7;
+        color: #22a7ea;
+      }
   }
   .login-wrap{
     width:100%;

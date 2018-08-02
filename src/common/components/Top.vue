@@ -5,33 +5,17 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <ul id='ul'>
-        <router-link to='/Home'><li><a href="javascript:void(0);">首页</a></li></router-link>
-        <router-link to='/Mycontract'><li><a href="javascript:void(0);">我的合同</a></li></router-link>
-        <router-link to='/Multiparty'><li><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/Room'><li><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li @click="dialogVisible" style='color:#fff;cursor:pointer'>版本</li>
+        <router-link to='/Home' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
+        <router-link to='/Mycontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
+        <router-link to='/Multiparty' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
+        <router-link to='/Room' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
+        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
         <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
-        <li>
-          <!-- <el-upload
-          ref='upload'
-          class="upload-demo"
-          :action='urlloadUrl()'
-          :before-upload="handleChange"
-          :on-success="fileSuccess"
-          :show-file-list= false
-          :limit=1
-          accept='.docx,.pdf,.doc,.txt'
-          v-loading.fullscreen.lock="fullscreenLoading"
-          element-loading-text="拼命上传中"
-          element-loading-background="rgba(0, 0, 0, 0.75)"
-          > -->
-          <a href="javascript:void(0);" @click='choice'>上传发起</a>
-          <!-- </el-upload> -->
-        </li>
+        <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-        <li style="margin-left:30px;"><router-link to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;"><router-link  @click.native="tabActive(5)" to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
       </ol>
 
       <div id='update'>
@@ -92,7 +76,23 @@
 <style scoped>
 @import "../styles/Top.css";
 </style>
-<style>
+<style lang="scss" scoped>
+
+.el-tabs__item.is-active{
+  color:#fff
+}
+.el-tabs__item:hover{
+  color:#fff
+}
+.el-tabs__item{
+  color:#fff
+}
+.el-tabs__active-bar{
+  background-color:red
+}
+.el-tabs__nav-wrap::after{
+  height:0
+}
   #dilog{
     width:100%;
     height: 100%;
@@ -158,6 +158,9 @@
     height: 380px !important;
     overflow: hidden !important;
   }
+  .active-tab{
+    border-bottom: 3px solid red;
+  }
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
@@ -169,7 +172,8 @@ export default {
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode.$message,
+        tabIndex:''
       }
     },
     methods: {
@@ -178,11 +182,11 @@ export default {
       },
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-        return `https://www.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl(){
         // return `${this.baseURL.BASE_URL}/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `https://www.zqsign.com/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name) {
         this.$loading.show();
@@ -271,7 +275,8 @@ export default {
       openFullScreen() {
         this.fullscreenLoading = true
       },
-      dialogVisible () {
+      dialogVisible (value) {
+        this.tabIndex = value
         var dilog = document.getElementById('dilog')
         dilog.style.display='block'
       },
@@ -326,7 +331,15 @@ export default {
             this.$router.push('/')
           }
         })
-      }
+      },
+       tabActive(value){
+        this.$store.dispatch('tabIndex',{tabIndex:value});
+        this.tabIndex = this.$store.state.tabIndex;
+       
+      },
+    },
+    created(){
+      this.tabIndex = this.$store.state.tabIndex;
     }
 }
 </script>

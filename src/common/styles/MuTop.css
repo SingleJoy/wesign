@@ -38,7 +38,7 @@
 .nav .btns li{
     float: left;
     width: 90px;
-    height: 44px;
+    height: 60px;
 }
 .nav .btns li:nth-child(1){
     float: left;
@@ -85,9 +85,9 @@
 
 .nav .btns li:nth-child(4){
     float: left;
-    line-height: 80px;
+    line-height: 47px;
     text-align: center;
-    margin-top: -44px;
+    margin-top: -42px;
 }
 .nav .btns li:nth-child(4) img{
     vertical-align:middle;
