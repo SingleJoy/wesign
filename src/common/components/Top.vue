@@ -160,6 +160,7 @@
   }
   .active-tab{
     border-bottom: 3px solid red;
+    font-weight: 700;
   }
 </style>
 <script>
@@ -281,6 +282,7 @@ export default {
         dilog.style.display='block'
       },
       closes(){
+        this.tabIndex = this.$store.state.tabIndex
         var dilog = document.getElementById('dilog')
         dilog.style.display='none'
       },
@@ -340,7 +342,9 @@ export default {
     },
     created(){
       this.tabIndex = this.$store.state.tabIndex;
-    }
+    },
+   
+    
 }
 </script>
 

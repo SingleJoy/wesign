@@ -139,7 +139,7 @@ export default {
         this.$store.state.contractNo1 = contractNo
       }
     }
-    console.log(contractNo,"图片")
+    // console.log(contractNo,"图片")
     this.$loading.show(); //显示
     var data =[]
     //  console.log(this.$store.state.contractNo1)

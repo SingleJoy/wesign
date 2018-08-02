@@ -166,7 +166,6 @@ export default {
     },
     created(){
       this.tabIndex = this.$store.state.tabIndex;
-      console.log(this.tabIndex)
     },
     methods: {
       tabActive(value){
@@ -334,4 +333,5 @@ export default {
     }
 }
 </script>
+
 

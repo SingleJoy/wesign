@@ -81,7 +81,10 @@ const mutations = {
 //       })
 //     }
 //   }
+
+
 export default new vuex.Store({
+  // plugins: [createPersistedState()],  
   state,
   actions,
   mutations
