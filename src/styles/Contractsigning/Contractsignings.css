@@ -1,6 +1,6 @@
 .Contractsignings{
     width: 1200px;
-    margin: 90px auto;
+    margin: 100px auto 0 auto;
     background: #fff;
     overflow:hidden
 }
@@ -59,14 +59,16 @@
 
 /* 文件信息样式开始 */
 .file{
-    clear: both;
-     margin-top: 50px;
+  clear: both;
+  border-top: 1px solid #ddd;
+  margin-top: 50px;
+  padding-top: 20px;
 }
 .file>.fileInfo{
-    margin-left: 10px;
+    margin-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
-   
+
 }
 .proper{
     font-weight: normal;
@@ -77,6 +79,7 @@
 }
 .proper .first {
     padding-top: 40px;
+  vertical-align: middle;
 }
 .proper .first b{
     font-size: 14px;
@@ -114,11 +117,11 @@
 }
 /* 签署人设置开始 */
 .setting{
-    clear: both; 
+    clear: both;
 }
 .setting>.settingInfo{
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;

@@ -47,7 +47,7 @@
           <div class='twoProuct'>
             <p style="margin-top:37px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+this.signBadgePath]" alt="" style="width:170px;"> -->
-               <img :src="['https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+this.signBadgePath]" alt="" style='width:170px'>
+               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+this.signBadgePath]" alt="" style='width:170px'>
             </p>
           </div>
           <div style='clear:both;text-align:center;'>

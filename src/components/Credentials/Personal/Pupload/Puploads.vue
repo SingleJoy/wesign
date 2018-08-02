@@ -27,6 +27,7 @@
         <li><i class='el-icon-check'></i><b>完成</b></li>
       </ul>
     </div>
+      <div style="width: 100%;border-top: 1px solid #ddd;"></div>
     <div class='productes'>
       <div class='center'>
         <div class='container'>
@@ -70,7 +71,7 @@
               <p class='textInfo'>温馨提示:上传单张图片大小应小于2M，可支持JPEG.JPG.PNG格式图片</p>
             <div class='btns' style='clear:both'>
               <!-- <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link> -->
-              <el-button type="primary" style='width:200px' @click="submitIDcardImg">提&nbsp;&nbsp;交</el-button>
+              <el-button type="primary" style='width:300px' @click="submitIDcardImg">提&nbsp;&nbsp;交</el-button>
             </div>
             </div>
           </div>

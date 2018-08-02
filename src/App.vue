@@ -113,5 +113,27 @@ a {
   width:100%;
   height:100%;
 }
+input::-webkit-input-placeholder {
+  /* placeholder颜色  */
+   color: #999;
+   font-size: 12px;
+ /* placeholder位置  */
 
+ }
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    #999;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #999;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #999;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:    #999;
+}
+.el-dialog--center .el-dialog__body{
+ padding-bottom: 10px !important;
+ padding-top: 10px !important;
+}
 </style>

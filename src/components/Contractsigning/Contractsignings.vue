@@ -84,7 +84,7 @@
        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-              <img :src="['https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
             </div>
         </el-dialog>
         <!-- 文件信息结束 -->
@@ -462,7 +462,7 @@ export default {
       },
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-       return `https://www.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+       return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       nextStepFit () { //下一步
         var firstText = document.getElementById('firstText').value
@@ -700,7 +700,7 @@ export default {
     display: -ms-flex;
   }
   .first #firstText{
-       -webkit-appearance: none;
+    -webkit-appearance: none;
     background-color: #fff;
     background-image: none;
     border-radius: 4px;
@@ -709,7 +709,6 @@ export default {
     box-sizing: border-box;
     color: #606266;
     display: inline-block;
-    font-size: inherit;
     height: 40px;
     line-height: 1;
     outline: 0;
@@ -732,7 +731,7 @@ export default {
   text-align: center;
 }
 .outInfo{
-  height:450px !important;
+  height:335px !important;
   width:400px !important;
   overflow-y: hidden !important;
 }

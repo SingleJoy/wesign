@@ -28,7 +28,7 @@
         </ul>
         <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
       </div>
-       <div class='signing' style="margin-top: 40px;">   <!--签署合同开始-->
+       <div class='signing' style="margin-top: 40px;margin-bottom: 40px;">   <!--签署合同开始-->
           <div class='sign_left' ref="leftWrapper">
             <ul class="pagination">
               <div id="top_box">
@@ -46,7 +46,7 @@
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->
-              <img :src="['https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
+              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
             </li>
           </ul>
           </div>
