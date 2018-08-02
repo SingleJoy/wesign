@@ -53,7 +53,7 @@
         </dt>
         <dd><a href="javascript:void(0);">* 支持jpg、png等格式，最佳尺寸是430X320， 建议使用矢量图</a>
           <br><a href="javascript:void(0);">* gif格式图片不得大于1M，否则压缩时失效。</a></dd>
-        <el-button type="primary" style='margin-left:140px;margin-top:30px;' @click="saveImg">保&nbsp;&nbsp;&nbsp;&nbsp;存</el-button>
+        <el-button type="primary" style='margin-left:140px;margin-top:30px;padding:8px 20px' @click="saveImg">保&nbsp;&nbsp;&nbsp;&nbsp;存</el-button>
       </dl>
     </div>
     </div>
