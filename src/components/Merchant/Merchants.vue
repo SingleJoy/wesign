@@ -1,12 +1,11 @@
 <template>
   <div class='Merchants'>
-
     <div v-show="topTip == false" class="main_tips" id="main_tips">
       <span style="text-align: left;padding-left: 10px;">您还未完成实名认证，为了不影响您正常业务办理，请进入<span class="to-account" @click="toMyAccount">【我的账户】</span>完成实名认证</span>
       <span class="cancelBtn" @click="cancelTip">X</span>
     </div>
 
-    <div class="main" style="background-color: #fff;">
+    <div class="main" style="background-color: #fff;margin-top: 20px;">
 
       <div class='main_left'>
         <!--<div class='upload' style='cursor:point'>-->
@@ -350,12 +349,11 @@
     position: absolute;
     z-index: 4000;
     background-color: rgba(0,0,0,0.5);
-
     left:0;
     top:0;
 
   }
-  .dilogbg{
+  .dialogbg{
     background:#000;
     background:rgba(0,0,0,.3);
     width:100%;

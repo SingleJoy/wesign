@@ -700,7 +700,7 @@ export default {
     display: -ms-flex;
   }
   .first #firstText{
-       -webkit-appearance: none;
+    -webkit-appearance: none;
     background-color: #fff;
     background-image: none;
     border-radius: 4px;
@@ -709,7 +709,6 @@ export default {
     box-sizing: border-box;
     color: #606266;
     display: inline-block;
-    font-size: inherit;
     height: 40px;
     line-height: 1;
     outline: 0;
@@ -732,7 +731,7 @@ export default {
   text-align: center;
 }
 .outInfo{
-  height:450px !important;
+  height:335px !important;
   width:400px !important;
   overflow-y: hidden !important;
 }

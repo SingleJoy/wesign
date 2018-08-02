@@ -22,7 +22,7 @@
       </div>
     </nav>
 
-   <div class='dilogbg' v-show="popup">
+   <div class='dialogbg' v-show="popup">
 
      <div class='upload-dilog'>
            <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
@@ -73,10 +73,8 @@
       </div>
   </div>
 </template>
-<style scoped>
-@import "../styles/Top.css";
-</style>
 <style lang="scss" scoped>
+@import "../styles/Top.css";
 
 .el-tabs__item.is-active{
   color:#fff
@@ -92,6 +90,17 @@
 }
 .el-tabs__nav-wrap::after{
   height:0
+}
+.dialogbg{
+  background:#000;
+  background:rgba(0,0,0,.3);
+  width:100%;
+  height:1080px;
+  position: absolute;
+  left:0;
+  top:0;
+  z-index: 1999;
+
 }
   #dilog{
     width:100%;
@@ -337,7 +346,7 @@ export default {
        tabActive(value){
         this.$store.dispatch('tabIndex',{tabIndex:value});
         this.tabIndex = this.$store.state.tabIndex;
-       
+
       },
     },
     created(){

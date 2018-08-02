@@ -28,7 +28,7 @@
         </ul>
         <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
       </div>
-       <div class='signing' style="margin-top: 40px;">   <!--签署合同开始-->
+       <div class='signing' style="margin-top: 40px;margin-bottom: 40px;">   <!--签署合同开始-->
           <div class='sign_left' ref="leftWrapper">
             <ul class="pagination">
               <div id="top_box">

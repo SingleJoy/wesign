@@ -1,12 +1,10 @@
 .Fillinformations{
-    width: 1200px;
-    margin: 0 auto;
-    background: #fff;
-    overflow:hidden
+  width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  overflow:hidden
 }
-/*步骤条样式开始  */
 
-/*步骤条样式开始  */
 .step{
   width: 890px;
   margin: 0 auto;
@@ -16,22 +14,22 @@
 }
 /* 步骤条状态样式 */
 .step ul li{
-    float: left;
-    width: 72px;
-    height: 72px;
-    border: 1px dashed #ccc;
-    border-radius: 50%;
-    padding: 5px;
-    margin:0px 5px 0 5px;
+  float: left;
+  width: 72px;
+  height: 72px;
+  border: 1px dashed #ccc;
+  border-radius: 50%;
+  padding: 5px;
+  margin:0px 5px 0 5px;
 }
 .step ul li>i{
-    text-align: center;
-    line-height: 72px;
-    display: block;
-    font-size: 32px;
-    background: #ccc;
-    border-radius: 50%;
-    color: #fff;
+  text-align: center;
+  line-height: 72px;
+  display: block;
+  font-size: 32px;
+  background: #ccc;
+  border-radius: 50%;
+  color: #fff;
 }
 .step ul li> b{
   margin-top: 14px;
@@ -47,14 +45,14 @@
   background: #00a7e7;
 }
 .step ul li.active b{
- color: #00a7e7;
+  color: #00a7e7;
 }
 .step ul p{
-    float: left;
-    border-bottom:1px dashed #ccc;
-    width: 60px;
-    height: 1px;
-    margin-top: 40px;
+  float: left;
+  border-bottom:1px dashed #ccc;
+  width: 60px;
+  height: 1px;
+  margin-top: 40px;
 }
 /* 步骤条状态样式 */
 
@@ -64,289 +62,235 @@
 
 /* 分页样式 */
 .signing{
-    clear: both;
-    height: 800px;
+  clear: both;
+  height: 800px;
 }
 
 .sign_left{
-    margin-left: 110px;
-    width: 60px;
-    float: left;
+  margin-left: 110px;
+  width: 60px;
+  float: left;
 }
 #top{
-    width: 47px;
-    height: 20px;text-align: center;
-    background: #ccc;
-    margin-bottom: 36px;
+  width: 47px;
+  height: 20px;text-align: center;
+  background: #ccc;
+  margin-bottom: 36px;
 }
 #bottom{
-    width: 47px;
-    height: 20px;text-align: center;
-    background: #ccc;
-    margin-top: 36px;
+  width: 47px;
+  height: 20px;text-align: center;
+  background: #ccc;
+  margin-top: 36px;
 }
-
 .pagination {
-    position: relative;
-    top: 80px;
+  position: relative;
+  top: 30px;
 }
 .pagination li a{
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: block;
-    background:#dddddd;
-    text-align: center;
-    line-height: 35px;
-    color: #666;
-    margin-bottom: 3px;
-    margin-top: 3px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: block;
+  background:#dddddd;
+  text-align: center;
+  line-height: 35px;
+  color: #666;
+  margin-bottom: 3px;
+  margin-top: 3px;
 }
 .pagination li:after
 {
-    content:"";
-    font-weight:bold;
-    border: 1px dashed #999;
-    margin-left: 15px;
+  content:"";
+  font-weight:bold;
+  border: 1px dashed #999;
+  margin-left: 15px;
 }
 .pagination li:nth-child(11):after{
-    content:"";
-    font-weight:none;
-    border: none;
-    display: block;
-    margin-top: -10px;
+  content:"";
+  font-weight:normal;
+  border: none;
+  display: block;
+  margin-top: -10px;
 }
 .pagination li a:hover{
-    background:#0E90D2;
-    color: #fff;
+  background:#0E90D2;
+  color: #fff;
 }
 .pagination li.active a{
-    background:#0E90D2;
-    color:#fff;
+  background:#0E90D2;
+  color:#fff;
 }
 .pagination li{
-    margin-left: 6px;
+  margin-left: 6px;
 }
 .pagination p>a{
-    color: #fff;
+  color: #fff;
 }
 .pagination li.active a{
-    background:#0E90D2;
-    color:#fff;
+  background:#0E90D2;
+  color:#fff;
 }
 /* 渲染合同样式 */
 .sign_center{
-    width: 656px;
-    height: 820px;
-    border: 1px solid #ccc;
-    float: left;
-    overflow-y: scroll;
-    margin-top: 80px;
-    margin-left: 25px;
+  width: 656px;
+  height: 820px;
+  border: 1px solid #ccc;
+  float: left;
+  overflow-y: scroll;
+  margin-top: 80px;
+  margin-left: 25px;
 }
 /*得到合同图片，并渲染到页面*/
 
 /* 提交样式 */
 .sign_right{
-    margin-top: 80px;
-    float: left;
-    margin-left: 22px;
-    overflow: auto;
-    height: 841px;
-    width: 267px;
+  margin-top: 30px;
+  float: left;
+  margin-left: 22px;
+  overflow: auto;
+  height: 841px;
+  width: 267px;
 }
 /*定义滚动条轨道 内阴影+圆角*/
 .sign_right ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background: #fff ;
-  }
-  /*定义滑块 内阴影+圆角*/
-  .sign_right ::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color:rgb(149, 196, 240);
-  }
-  .sign_right::-webkit-scrollbar-thumb:hover {
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color:rgb(149, 196, 240);
-  }
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background: #fff ;
+}
+/*定义滑块 内阴影+圆角*/
+.sign_right ::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:rgb(149, 196, 240);
+}
+.sign_right::-webkit-scrollbar-thumb:hover {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:rgb(149, 196, 240);
+}
 .sign_right .right_title{
-    height: 50px;
-    line-height: 50px;
-    font-size: 12px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 12px;
 }
 .sign_right .input_title{
-    height: 46px;
-    line-height: 46px;
-    font-size: 14px;
+  height: 46px;
+  line-height: 46px;
+  font-size: 14px;
 }
 .sign_right .input_box{
-    width: 240px;
+  width: 240px;
 }
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 4px;
-    background-color: #F5F5F5;
-  }
+  width: 10px;
+  height: 4px;
+  background-color: #F5F5F5;
+}
 
-
-
-
-
-  /* 12 */
-  .Pcontract{
-    width: 1200px;
-    margin: 5px auto;
-    background: #fff;
-    overflow:hidden
+/* 12 */
+.Pcontract{
+  width: 1200px;
+  margin: 5px auto;
+  background: #fff;
+  overflow:hidden
 }
 
 /* 步骤条状态样式 结束*/
 /* 分页样式 */
 .signing{
-    clear: both;
-    height: 800px;
+  clear: both;
+  height: 800px;
+  border-top: 1px solid #ddd;
 }
 
 .sign_left{
-    margin-left: 160px;
-    width: 60px;
-    float: left;
-    margin-top: 20px;
+  margin-left: 110px;
+  width: 60px;
+  float: left;
 }
 #top{
-    width: 47px;
-    height: 20px;text-align: center;
-    background: #ccc;
-    margin-bottom: 36px;
+  width: 47px;
+  height: 20px;text-align: center;
+  background: #ccc;
+  margin-bottom: 36px;
 }
 #bottom{
-    width: 47px;
-    height: 20px;text-align: center;
-    background: #ccc;
-    margin-top: 36px;
+  width: 47px;
+  height: 20px;text-align: center;
+  background: #ccc;
+  margin-top: 36px;
 }
 
-  .pagination {
-      position: relative;
-        top: 80px;
-    }
-    .pagination li a{
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: block;
-        background:#dddddd;
-        text-align: center;
-        line-height: 35px;
-        color: #666;
-        margin-bottom: 3px;
-        margin-top: 3px;
-    }
-    .pagination li:after
-        {
-            content:"";
-            font-weight:bold;
-            border: 1px dashed #999;
-            margin-left: 15px;
-        }
-        .pagination li:nth-child(11):after
-        {
-            content:"";
-            font-weight:none;
-            border: none;
-            display: block;
-            margin-top: -10px;
-        }
-    .pagination li a:hover{
-      background:#0E90D2;
-      color: #fff;
-    }
-    .pagination li.active a{
-      background:#0E90D2;
-      color:#fff;
-    }
-    .pagination li{
-        margin-left: 6px;
-    }
-    .pagination p>a{
-        color: #fff;
-    }
-    .pagination li.active a{
-        background:#0E90D2;
-        color:#fff;
-      }
 
-      /* 渲染合同样式 */
-    .sign_center{
-        width: 595px;
-        height: 822px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        float: left;
-        overflow: hidden;
-        margin-top: 100px;
-        margin-left: 40px;
-    }
-    /* 渲染合同图片 */
-    .contractImg{
-        width: 100%;
-    }
-    .contractImg li{
-        /* height: 844px; */
-        box-sizing: border-box;
-        font-size: 0;
-    }
-    .contractImg li img{
-        width: 100%;
-    }
+/* 渲染合同样式 */
+.sign_center{
+  width: 595px;
+  height: 822px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  float: left;
+  overflow: hidden;
+  margin-top: 40px;
+  margin-left: 40px;
+}
+/* 渲染合同图片 */
+.contractImg{
+  width: 100%;
+}
+.contractImg li{
+  /* height: 844px; */
+  box-sizing: border-box;
+  font-size: 0;
+}
+.contractImg li img{
+  width: 100%;
+}
 
-    /* 多位置签署样式 */
-    .sign_right{
-        float: left;
-        margin-left: 17px;
-    }
-    .sign_right h1{
-      font-weight: normal;
-      font-size: 14px;
-      margin-top: 10px;
-      margin-bottom: 22px;
-    }
-    .sign_right h2{
-      font-weight: normal;
-      font-size: 14px;
-      color: #e82f34;
-    }
-    .more dl{
-      width: 138px;
-      height: 138px;
-      border: 1px solid #22a7ea;
-      box-sizing: border-box;
-      margin-bottom: 5px;
-    }
-    .more dl dd:nth-child(1){
-      margin-top: 30px;
-      color: #666;
-    }
-    .more dl dd:nth-child(2){
-      color: #666;
-    }
-    .more dl dd:nth-child(4){
-      margin-top: 16px;
-      background:#22a7ea;
-      line-height: 30px;
-      color: #fff;
-    }
-    .more dl dd{
-      text-align: center;
-      line-height: 30px;
-    }
+/* 多位置签署样式 */
+.sign_right{
+  float: left;
+  margin-left: 17px;
+}
+.sign_right h1{
+  font-weight: normal;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 22px;
+}
+.sign_right h2{
+  font-weight: normal;
+  font-size: 14px;
+  color: #e82f34;
+}
+.more dl{
+  width: 138px;
+  height: 138px;
+  border: 1px solid #22a7ea;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+}
+.more dl dd:nth-child(1){
+  margin-top: 30px;
+  color: #666;
+}
+.more dl dd:nth-child(2){
+  color: #666;
+}
+.more dl dd:nth-child(4){
+  margin-top: 16px;
+  background:#22a7ea;
+  line-height: 30px;
+  color: #fff;
+}
+.more dl dd{
+  text-align: center;
+  line-height: 30px;
+}
 
-    #textInfo{
-      clear:both;
-      padding-top:60px;
-      color:red;
-      font-size:12px;
-      text-align:center;
-    }
+#textInfo{
+  clear:both;
+  padding-top:60px;
+  color:red;
+  font-size:12px;
+  text-align:center;
+}

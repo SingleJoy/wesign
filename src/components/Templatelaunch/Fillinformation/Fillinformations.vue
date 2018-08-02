@@ -20,7 +20,7 @@
     </nav>
   </div>
   <div class='Fillinformations' style="margin-top: 100px;">
-    <div class='step' style="width: 890px;">
+    <div class='step' style="width: 870px;">
       <ul>
         <li class="active"><i class='el-icon-document'></i><b>选择模板</b></li>
         <p></p>

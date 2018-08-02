@@ -59,11 +59,13 @@
 /* 步骤条状态样式 结束*/
 
 /* 文件信息样式开始 */
-.file{
+.Signaturesettings>.file{
     clear: both;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
 
 }
-.file>.fileInfo{
+.Signaturesettings>.file>.fileInfo{
     margin-left: 10px;
     height: 70px;
     border-bottom: 1px solid #ccc;

@@ -109,7 +109,7 @@
                 </div>
             </div>
         </div>
-        <div class='dilogbg' v-show="popup">
+        <div class='dialogbg' v-show="popup">
         <div class='dilog' >
           <div class='left'>
               <el-upload
@@ -453,7 +453,7 @@ export default {
     top:0;
 
 }
-.dilogbg{
+.dialogbg{
   background:#000;
   background:rgba(0,0,0,.3);
   width:100%;

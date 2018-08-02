@@ -116,7 +116,7 @@
         .pagination li:nth-child(11):after
         {
             content:"";
-            font-weight:none;
+            font-weight:normal;
             border: none;
             display: block;
             margin-top: -10px;

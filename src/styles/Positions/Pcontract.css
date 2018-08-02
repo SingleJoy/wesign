@@ -4,11 +4,6 @@
     background: #fff;
     overflow:hidden
 }
- /*步骤条样式开始  */
-
-/* 步骤条状态样式 */
-
-
 .focus{
     text-align: center;
     line-height: 72px;
@@ -97,7 +92,7 @@
 
   .pagination {
       position: relative;
-        top: 80px;
+        top: 5px;
     }
     .pagination li a{
         width: 35px;
@@ -121,7 +116,7 @@
         .pagination li:nth-child(11):after
         {
             content:"";
-            font-weight:none;
+            font-weight:normal;
             border: none;
             display: block;
             margin-top: -10px;
