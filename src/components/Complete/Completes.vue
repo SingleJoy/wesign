@@ -5,8 +5,8 @@
  * @Last Modified time: 2018-06-20 15:50:28
  */
 <template>
-  <div class='Completes'>
-    <div class='step' style="width: 720px;">  <!--步骤条 -->
+  <div class="Completes">
+    <div class="step" style="width: 720px;">  <!--步骤条 -->
       <ul>
         <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
         <p></p>
@@ -20,22 +20,23 @@
       </ul>
     </div>
     <!-- 合同返回用户成功or失败 -->
-    <div class='state'>
-      <dl class='stateInfo'>
-        <dt>
-          <img src="../../../static/images/Complete/success.png" alt="">
-        </dt>
-        <dd>
-          <span>恭喜,合同签署成功！</span>
-          <p>众签已将该合同通过短信方式通知其他签署人</p>
-        </dd>
-      </dl>
+    <div class="state">
+    <div class="stateInfo">
+      <div>
+        <img src="../../../static/images/Complete/success.png" alt="" style="margin-top: 40px;">
+      </div>
+      <div style="margin-left: 30px;">
+        <span>恭喜,合同签署成功！</span>
+
+        <p style="margin-top: 30px;">众签已将该合同通过短信方式通知其他签署人</p>
+      </div>
     </div>
+  </div>
     <!-- 合同所有信息开始 -->
-    <div class='contractInfo'>
-        <div class='oneInfo'>
+    <div class="contractInfo">
+        <div class="oneInfo">
             <p><h3 class='infoss'>合同信息</h3></p>
-          <ul id='oneInfos'>
+          <ul id="oneInfos">
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
               <div slot="content">{{getContractName}}</div>
@@ -57,7 +58,7 @@
             </ol>
           </ul>
         </div>
-        <dl class='second'>
+        <dl class="second">
           <dd><h3>合同分享</h3></dd>
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{contractlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../static/images/Room/hand.png" alt=""></dt>

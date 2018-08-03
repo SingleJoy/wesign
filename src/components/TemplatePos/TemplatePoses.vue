@@ -33,10 +33,12 @@
           <p></p>
           <li class="active"><i class='el-icon-check'></i><b >完成</b></li>
         </ul>
-        <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
       </div>
-       <div class='signing' style="margin-top:40px;">   <!--签署合同开始-->
-          <div class='sign_left' ref="leftWrapper">
+
+    <div class='signing' >   <!--签署合同开始-->
+      <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
+
+      <div class='sign_left' ref="leftWrapper">
             <ul class="pagination" >
               <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
                <li v-for="index in pages" :key="index" :class="{'active':currentIndex === (index - 1)}" @click="clickNav(index)" >
@@ -441,9 +443,7 @@ export default {
 <style lang="css" scoped>
   @import "../../styles/TemplatePos/TemplatePoses.css";
   @import "../../common/styles/Tops.css";
-</style>
 
-<style>
   body{
     -webkit-user-select: none;
     -moz-user-select: none;

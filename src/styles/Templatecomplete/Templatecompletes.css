@@ -29,7 +29,7 @@
     border: 1px dashed #ccc;
     border-radius: 50%;
     padding: 5px;
-    margin:0px 5px 0 5px;
+    margin:0 5px 0 5px;
 }
 .step ul li>i{
     text-align: center;
@@ -64,38 +64,36 @@
     margin-top: 40px;
 }
 
+.Templatecompletes>.main>.state {
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: 1px solid #ddd;
+}
+.Templatecompletes>.main>.state>.stateInfo{
+  text-align: center;
+}
+.Templatecompletes>.main>.state>.stateInfo{
+  width: 600px;
+  margin: 0 auto;
+  height: 180px;
+}
+.Templatecompletes>.main>.state>.stateInfo>div{
+  color: #22a7ea;
+  display: inline-block;
+  text-align: left;
+  vertical-align:middle;
+}
+.Templatecompletes>.main>.state>.stateInfo>div>p{
+  color: #333;
+}
+.Templatecompletes>.main>.state>.stateInfo span{
+  padding-top: 30px;
+  color: #22a7ea;
+}
 
 
-/* 步骤条状态样式 结束*/
-/* 合同签署成功样式 */
-.state {
-    clear: both;
-    margin: 0 auto;
-    width: 600px;
-    box-sizing: border-box;
-}
-.stateInfo{
-    clear: both;
-    padding-bottom: 200px;
-    margin-top: 200px;
-}
-.stateInfo  dt{
-    width: 104px;
-    float: left;
-    margin-right: 25px;
-}
-.stateInfo  dd{
-    margin-left: 24px;
-    /* margin-top: 28px; */
-}
-.stateInfo  dd span{
-    padding-top: 30px;
-    color: #22a7ea;
-}
-.stateInfo  dd p{
-    padding-top: 20px;
 
-}
 /* 合同所有信息开始 */
 .contractInfo{
     /* border-top:1px solid #ccc; */

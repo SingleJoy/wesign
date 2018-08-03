@@ -4,6 +4,24 @@
     background: #fff;
     overflow:hidden
 }
+
+.Pcontract>.signing>#textInfo{
+  clear:both;
+  padding: 30px 0;
+  color:red;
+  font-size:12px;
+  width: 100%;
+  text-align: center;
+}
+.Pcontract>.signing{
+  clear: both;
+  height: 940px;
+  border-top: 1px solid #ddd;
+
+
+}
+
+
 .focus{
     text-align: center;
     line-height: 72px;
@@ -67,10 +85,6 @@
 
 /* 步骤条状态样式 结束*/
 /* 分页样式 */
-.signing{
-    clear: both;
-    height: 800px;
-}
 
 .sign_left{
     margin-left: 160px;
@@ -206,10 +220,4 @@
       line-height: 30px;
     }
 
-    #textInfo{
-      clear:both;
-      padding-top:60px;
-      color:red;
-      font-size:12px;
-      width: 900px;
-    }
+
