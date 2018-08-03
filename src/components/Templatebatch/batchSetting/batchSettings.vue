@@ -6,7 +6,7 @@
         <img src="../../../../static/images/logo2.png" alt="">
       </p>
       <div class='buttons' v-show="delSigner == true">
-        <el-button type="info" style='background:#ccc' @click="batchTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+        <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="batchTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
         <el-button style='color:#22a7ea' @click="nextStepFit" :loading = load>下一步</el-button>
       </div>
     </nav>
@@ -211,6 +211,7 @@ export default {
           idCard:''
         },
         tableDate3: [],
+        hasClick:false,
         formLabelWidth: '80px',
         rules: {
           signUserName: [
@@ -382,6 +383,7 @@ export default {
       },
       batchTempCancel() {    //取消操作
         const h = this.$createElement;
+        this.hasClick = true;
         this.$msgbox({
           title: '提示',
           message: h('p', null, [
@@ -403,6 +405,7 @@ export default {
                 }, 50);
               }, 100);
             } else {
+              this.hasClick = false;
               done();
             }
           }
