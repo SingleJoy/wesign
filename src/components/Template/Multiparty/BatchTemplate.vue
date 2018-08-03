@@ -8,12 +8,14 @@
     <div class='beacthImg' v-else-if="num === 0 && show == true">
       <img src="../../../../static/images/notavailable.png" alt="" >
     </div>
-    <div v-else>
+    <div v-else style="margin-top: 20px;">
       <el-table
+
         :data="tableData"
         stripe
         style="width: 100%;text-align:center"
         @row-click="generatClick"
+        :header-cell-style="getRowClass"
         >
         <el-table-column
           prop="templateName"
@@ -84,6 +86,13 @@ export default {
     };
   },
   methods: {
+    getRowClass({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return "background:#f5f5f5;text-align:center;font-weight:bold;";
+      } else {
+        return "";
+      }
+    },
     handleSizeChange(val) {
       //console.log(`每页 ${val} 条`);
     },

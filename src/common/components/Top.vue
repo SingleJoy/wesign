@@ -105,7 +105,7 @@
   #dilog{
     width:100%;
     height: 100%;
-    background:#000;
+
     position: absolute;
     z-index:1000;
     background-color:rgba(0,0,0,0.5);
