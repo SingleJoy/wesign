@@ -11,6 +11,7 @@
      <div v-else>
       <el-table
         :data="tableData"
+        :header-cell-style="getRowClass"
         stripe
         style="width: 100%;text-align:center"
         @row-click="generateClick"
@@ -87,6 +88,13 @@ export default {
     };
   },
   methods: {
+    getRowClass({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return 'background:#f5f5f5'
+      } else {
+        return ''
+      }
+    },
     handleSizeChange(val) {
       //console.log(`每页 ${val} 条`);
     },
