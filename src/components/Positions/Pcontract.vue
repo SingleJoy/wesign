@@ -12,9 +12,9 @@
       </div>
     </nav>
   </div>
-  <div class='Pcontract' >
+  <div class="Pcontract" >
     <!-- <div class='loading' ><img src="../../../static/images/timg.gif" alt=""></div> -->
-    <div class='step' style="width:720px;">
+    <div class="step" style="width:720px;">
         <ul class=''>
           <li class="active"><i class='el-icon-document focus'></i><b>上传文件</b></li>
           <p></p>
@@ -26,10 +26,12 @@
           <p></p>
           <li><i class='el-icon-check'></i><b>完成</b></li>
         </ul>
-        <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
       </div>
-       <div class='signing' style="margin-top: 40px;margin-bottom: 40px;">   <!--签署合同开始-->
-          <div class='sign_left' ref="leftWrapper">
+
+    <div class="signing" >
+       <p id="textInfo">温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
+
+      <div class='sign_left' ref="leftWrapper">
             <ul class="pagination">
               <div id="top_box">
                 <p id='top' v-show="currentIndex != 0" @click="goto(currentIndex)"><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>

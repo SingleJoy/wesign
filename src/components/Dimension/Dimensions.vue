@@ -26,7 +26,7 @@
       </ul>
     </div>
     <!-- 签署合同开始 -->
-    <div class='signing'>
+    <div class='signing' style="border-top: 1px solid #ddd;">
       <!-- 左侧页码导航开始 -->
       <div class='sign_left' ref="leftWrapper">
         <ul class="pagination">

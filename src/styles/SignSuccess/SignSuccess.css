@@ -64,42 +64,38 @@
     margin-top: 40px;
 }
 
-
-
-
-/* 步骤条状态样式 结束*/
-/* 合同签署成功样式 */
-.state {
-    margin: 0px auto;
-    width: 600px;
-    /* margin-bottom: 40px; */
-    box-sizing: border-box;
-    height: 80px;
+.SignSucces>.main>.state {
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: 1px solid #ddd;
 }
-.stateInfo{
-    padding-bottom: 200px;
-    margin-top: 50px;
+.SignSucces>.main>.state>.stateInfo{
+  text-align: center;
 }
-.stateInfo  dt{
-    width: 104px;
-    float: left;
-    margin-right: 25px;
+.SignSucces>.main>.state>.stateInfo{
+  width: 600px;
+  margin: 0 auto;
+  height: 180px;
 }
-.stateInfo  dd{
-    margin-left: 24px;
+.SignSucces>.main>.state>.stateInfo>div{
+  color: #22a7ea;
+  display: inline-block;
+  text-align: left;
+  vertical-align:middle;
 }
-.stateInfo  dd span{
-    padding-top: 30px;
-    color: #22a7ea;
+.SignSucces>.main>.state>.stateInfo>div>p{
+  color: #333;
 }
-.stateInfo  dd p{
-    padding-top: 20px;
-
+.SignSucces>.main>.state>.stateInfo span{
+  padding-top: 30px;
+  color: #22a7ea;
 }
 /* 合同所有信息开始 */
 .contractInfo{
-
-    padding: 60px 10px 0 10px;
+  width: 100%;
+  border-top: 1px solid #ddd;
+    padding: 0;
 }
 .contractInfo .first{
     width: 350px;

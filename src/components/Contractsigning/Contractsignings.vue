@@ -92,9 +92,9 @@
         <div class="setting">
           <h2 class='settingInfo'>
             <img src="../../../static/images/Contractsigning/settings.png" alt="">
-            <p class='personInfo2'>
+            <p class="personInfo2">
               <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
-              <el-dialog title="添加人员" :visible.sync="dialogFormVisible" custom-class='outInfo' width="25%" top="30vh" center @close="closeDialog('ruleForm')"   :lock-scroll= false>
+              <el-dialog title="添加人员" :visible.sync="dialogFormVisible" custom-class='outInfo' width="360px" top="30vh" center @close="closeDialog('ruleForm')"   :lock-scroll= false>
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
                 <el-form-item label="姓名" :label-width="formLabelWidth" prop="signUserName">
                   <el-input v-model="ruleForm.signUserName" auto-complete="off" placeholder="请输入姓名" :maxlength= 15></el-input>
@@ -120,6 +120,7 @@
           <el-table
               :data="tableData5"
               style="width: 100%;text-align:center"
+              :header-cell-style="getRowClass"
               >
               <el-table-column
               label="签署人名称"
@@ -252,6 +253,13 @@ export default {
       }
     },
     methods: {
+      getRowClass({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex == 0) {
+          return "background:#f5f5f5;text-align:center;font-weight:bold;";
+        } else {
+          return "";
+        }
+      },
       handleChange (name,file) {
         var max_size = 5;// 5M
         var fileNameCont = name.name.replace(/\s+/g, "")
@@ -683,9 +691,7 @@ export default {
 <style scoped>
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
-</style>
 
-<style>
 
   .upload-demo .el-upload .el-upload--text{
     display: block !important;

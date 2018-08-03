@@ -13,8 +13,8 @@
         </nav>
       </div>
 
-     <div class='Contents'>
-      <div class='step' style="width:720px;">
+     <div class="Contents">
+      <div class="step" style="width:720px;">
         <ul>
           <li class="active"><i class='el-icon-upload2'></i><b>上传文件</b></li>
           <p></p>
@@ -28,10 +28,10 @@
         </ul>
       </div>
 
-      <div class="file">
+      <div class="file" style="border-top: 1px solid #ddd;">
         <!--文件信息-->
-        <div class="setting">
-          <h2 class='fileInfo'>
+        <div class="setting" style="padding-top: 15px;">
+          <h2 class="fileInfo">
             <img src="../../../../static/images/Contractsigning/person.png">
           </h2>
           <div class="file-info" style="margin-bottom: 30px;">

@@ -66,7 +66,7 @@
 
 }
 .Signaturesettings>.file>.fileInfo{
-    margin-left: 10px;
+    margin-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
 }
@@ -117,7 +117,7 @@
 }
 .setting>.settingInfo{
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
@@ -177,7 +177,7 @@
   }
   .table{
       margin-top: 16px;
-      margin-left: 20px;
+      margin-left: 25px;
       height: 300px;
   }
   /* 渲染table样式结束 */

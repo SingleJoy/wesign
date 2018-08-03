@@ -14,16 +14,17 @@
       </ul>
     </div>
     <!-- 合同返回用户成功or失败 -->
-    <div class='state' style="display:block;clear:both;">
-      <dl class='stateInfo'>
-        <dt>
-          <img src="../../../static/images/Complete/success.png" alt="">
-        </dt>
-        <dd>
+    <div class="state">
+      <div class="stateInfo">
+        <div>
+          <img src="../../../static/images/Complete/success.png" alt="" style="margin-top: 40px;">
+        </div>
+        <div style="margin-left: 30px;">
           <span>恭喜,合同签署成功！</span>
-          <p>众签已将该合同通过短信方式通知其他签署人</p>
-        </dd>
-      </dl>
+
+          <p style="margin-top: 30px;">众签已将该合同通过短信方式通知其他签署人</p>
+        </div>
+      </div>
     </div>
     <!-- 合同所有信息开始 -->
     <div class='contractInfo'>
