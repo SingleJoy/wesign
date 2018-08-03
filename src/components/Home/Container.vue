@@ -170,7 +170,7 @@
     methods: {
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
-          return "background:#f5faf7";
+          return "background:#f5f5f5;text-align:center;font-weight:bold;";
         } else {
           return "";
         }
@@ -580,7 +580,6 @@
     width: 100%;
     height: 100%;
     background: #000;
-    position: absolute;
     z-index: 4000;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
@@ -600,8 +599,7 @@
   .el-upload-dragger {
     width: 680px !important;
     height: 154px !important;
-    /* margin-left: 284px !important; */
-    /* margin-top: -41px !important; */
+
   }
   .el-table tr:nth-child(odd) {
     background: #fff;
@@ -609,8 +607,11 @@
   .el-table tr:nth-child(even) {
     background: #f5f5f5;
   }
-  .el-table th > .cell {
-    text-align: none;
+  .el-table th>.cell {
+    text-align: center;
+  }
+  .has-gutter tr th{
+    text-align: center !important;
   }
 
   .el-tabs__nav-scroll {

@@ -130,7 +130,7 @@
     methods: {
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
-          return 'background:#f5faf7'
+          return 'background:#f5f5f5;font-weight:bold;'
         } else {
           return ''
         }

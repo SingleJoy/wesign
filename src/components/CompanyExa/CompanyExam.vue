@@ -284,7 +284,7 @@ export default {
     },
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
-        return 'background:#EFEFEF'
+        return 'background:#efefef;font-weight:bold;'
       } else {
         return ''
       }

@@ -6,7 +6,7 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <div class='buttons'>
-        <el-button type="info" style='background:#ccc' @click="contractCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+        <el-button type="info" style='background:#ccc' @click="contractCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
         <el-button style='color:#22a7ea' v-show="clickSign==true" @click="submitBtn">提交签署</el-button>
       </div>
     </nav>
@@ -103,7 +103,8 @@ export default {
       signPosit:'',
       recapture:false,
       arrow:[],
-      timer:null  //轮询定时器
+      timer:null,  //轮询定时器,
+      clickOnce:false
     }
   },
   computed:{
@@ -278,6 +279,7 @@ export default {
       }
     },
     contractCancel() {    //取消操作
+      this.clickOnce=true;
         const h = this.$createElement;
         this.$msgbox({
           title: '提示',
