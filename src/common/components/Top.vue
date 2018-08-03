@@ -119,7 +119,7 @@
   .box{
     width:360px;
     height: 430px;
-    background:url('../../../static/images/Top/version-info.png');
+    background:url('../../../static/images/Top/version-info.gif');
     position: absolute;
     left:0;
     top:0;
@@ -352,8 +352,8 @@ export default {
     created(){
       this.tabIndex = this.$store.state.tabIndex;
     },
-   
-    
+
+
 }
 </script>
 

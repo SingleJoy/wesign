@@ -56,7 +56,8 @@
   .box{
     width:360px;
     height: 430px;
-    background:url('../../../static/images/Top/xiao1.gif');
+    background:url('../../../static/images/Top/version-info.gif');
+
     position: absolute;
     left:0;
     top:0;
@@ -146,7 +147,7 @@
   .active-tab{
     border-bottom: 3px solid red;
     font-weight: 700;
-    
+
   }
 </style>
 <script>
@@ -172,7 +173,7 @@ export default {
         this.$store.dispatch('tabIndex',{tabIndex:value});
         this.tabIndex = this.$store.state.tabIndex;
       },
-      
+
       choice(){
         this.$router.push('/BuyProduct')
       },
