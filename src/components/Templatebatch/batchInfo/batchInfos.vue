@@ -21,7 +21,7 @@
     </nav>
   </div>
   <div class='batchInfos' style="margin-top: 100px;">
-    <div class='step' style="width:720px;padding-bottom: 0;">
+    <div class='step' style="width:720px;">
       <ul>
         <li class="active"><i class='el-icon-document'></i><b>选择模板</b></li>
         <p></p>

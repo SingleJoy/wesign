@@ -142,7 +142,7 @@ export default {
   },
   created() {
     var contractName = sessionStorage.getItem('contractName')
-    console.log(contractName)
+    // console.log(contractName)
     var contractNo = sessionStorage.getItem('contractNo')
     var data =[]
     if (contractName) {

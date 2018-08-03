@@ -62,11 +62,12 @@
 
 /* 文件信息样式开始 */
 .file{
+    border-top: 1px solid #ddd;
     clear: both;
     padding-top: 20px;
 }
 .file>.fileInfo{
-    margin-left: 10px;
+    margin-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
 }
@@ -116,7 +117,7 @@
 }
 .setting>.settingInfo{
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
@@ -176,7 +177,7 @@
   }
   .table{
       margin-top: 16px;
-      margin-left: 20px;
+      margin-left:30px;
       min-height: 300px;
   }
   /* 渲染table样式结束 */

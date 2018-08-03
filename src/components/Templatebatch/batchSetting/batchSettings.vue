@@ -95,6 +95,7 @@
           <el-table
             :data="tableDate3"
             style="width: 100%;text-align:center"
+            :header-cell-style="getRowClass"
             >
             <el-table-column
             label="签署人名称"
@@ -233,6 +234,13 @@ export default {
       }
     },
     methods: {
+      getRowClass({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex == 0) {
+          return "background:#f5f5f5;text-align:center;font-weight:bold;";
+        } else {
+          return "";
+        }
+      },
       tableRowClassName({row, rowIndex}) {
         if (rowIndex === 1) {
           return 'warning-row';
