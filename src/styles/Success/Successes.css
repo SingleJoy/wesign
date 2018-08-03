@@ -227,8 +227,9 @@
 .btns{
     clear: both;
     margin: 10px auto;
-    width: 516px;
-    padding-top: 30px;
+    /* width: 516px; */
+    text-align: center;
+    padding-top: 20px;
 }
 /* 修改 */
 .oneInfo{
