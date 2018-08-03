@@ -11,10 +11,10 @@
      <div v-else style="margin-top: 20px;">
       <el-table
         :data="tableData"
+        :header-cell-style="getRowClass"
         stripe
         style="width: 100%;text-align:center"
         @row-click="generateClick"
-        :header-cell-style="getRowClass"
         >
         <el-table-column
           prop="templateName"

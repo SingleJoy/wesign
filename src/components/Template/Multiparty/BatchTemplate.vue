@@ -10,6 +10,7 @@
     </div>
     <div v-else style="margin-top: 20px;">
       <el-table
+
         :data="tableData"
         stripe
         style="width: 100%;text-align:center"
