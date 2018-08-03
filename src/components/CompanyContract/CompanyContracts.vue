@@ -83,7 +83,7 @@
     padding-left: 5px;
     padding-right: 5px;
     padding-top:30px;
-    padding-bottom: 30px;
+    padding-bottom: 18px;
   }
 </style>
 

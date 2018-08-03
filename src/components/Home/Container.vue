@@ -19,7 +19,7 @@
                   <span style='color:#22a7ea'>{{item.name}}</span>
                 </div>
               </div>
-              <div class='two'  @click='otherTemplate'>
+              <div class='two'  v-if='arr.length>3' @click='otherTemplate'>
                 <span>选择其他>></span>
               </div>
             </div>
@@ -549,7 +549,7 @@
           if (res.data.sessionStatus == "0") {
             this.$router.push("/Server");
           } else {
-            this.arr = res.data.slice(0, 3);
+            this.arr = res.data.slice(0, 2);
             this.count = res.data.length;
           }
         });
