@@ -21,6 +21,7 @@
         <li><i class='el-icon-check'></i><b>完成</b></li>
       </ul>
     </div>
+    <div style="width: 100%;border-top: 1px solid #ddd;margin-bottom:20px;"></div>
     <div class='productes'>
       <div class='center'>
         <div class='container'>
@@ -36,7 +37,7 @@
             </p>
           </div>
           <div class="header-title-4" style="padding:20px;background: #fafafa;">
-            <div class='personUpload' style="background: #fff;height: 350px;">
+            <div class='personUpload' style="background: #fff;height: 370px;">
               <p class="personUpload-p"><span></span><b>确认信息</b></p>
               <div class='leftInfo'>
                 <h2>请确认上传信息是否正确</h2>
@@ -50,7 +51,7 @@
 
             </div>
           <div class='btns' style='clear:both;width: 740px;margin: 30px auto;'>
-            <router-link to='/Pupload'><el-button type="primary" style='width:200px;margin-left: -80px;' >重新上传</el-button></router-link>
+            <router-link to='/Pupload'><el-button type="primary" style='width:200px;margin-right:10px;' >重新上传</el-button></router-link>
             <el-button type="primary" style='width:200px'  @click='submitInfo' :disabled =enjoin  >提&nbsp;&nbsp;交</el-button>
           </div>
           </div>

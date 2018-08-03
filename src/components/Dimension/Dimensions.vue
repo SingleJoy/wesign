@@ -307,6 +307,7 @@ export default {
                 }, 50);
               }, 100);
             } else {
+              this.clickOnce=false;
               done();
             }
           }

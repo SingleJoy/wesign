@@ -7,7 +7,7 @@
             <img src="../../../../static/images/logo2.png" alt="">
           </p>
           <div class='buttons'>
-            <el-button type="info" style='background:#ccc' @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+            <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
             <el-button style='color:#22a7ea' @click="nextFit">下一步</el-button>
           </div>
         </nav>
@@ -275,6 +275,7 @@
         prohibitt:false,
         signInterfaceCode:'',
         userCode:'',
+        hasClick:false,
         ContractNumber:'',
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         operateType:'',
@@ -405,6 +406,7 @@
       },
       signCancel() {    //取消操作
         const h = this.$createElement;
+        this.hasClick = true;
         this.$msgbox({
           title: '提示',
           message: h('p', null, [
@@ -426,6 +428,7 @@
                 }, 50);
               }, 100);
             } else {
+              this.hasClick = false;
               done();
             }
           }

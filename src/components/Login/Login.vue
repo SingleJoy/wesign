@@ -33,7 +33,7 @@
     <div class="fade" id="fade"></div>
     <div class="succ-pop" id="succ-pop">
       <div class="su-pop">
-        <h5 class="title">
+        <h5 class="company-title">
           选择企业角色
         </h5>
         <div class="central_section" v-for="(item,index) in tenantNum" :key="index">
@@ -349,6 +349,9 @@
     overflow-x: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+    .company-title{
+      border:none;
+    }
   }
   .succ-pop h5.title{
     text-align:left;

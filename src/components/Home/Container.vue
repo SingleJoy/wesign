@@ -19,7 +19,7 @@
                   <span style='color:#22a7ea'>{{item.name}}</span>
                 </div>
               </div>
-              <div class='two'  @click='otherTemplate'>
+              <div class='two'  v-if='arr.length>2' @click='otherTemplate'>
                 <span>选择其他>></span>
               </div>
             </div>

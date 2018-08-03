@@ -12,7 +12,7 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <div class='buttons'>
-        <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+        <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
         <el-button style='color:#22a7ea' @click="lastStepFit">上一步</el-button>
         <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
       </div>
@@ -66,7 +66,7 @@
               <div class='more'  id="more">
                 <div class='morePerson' id="morePerson">
                   <p style='line-height: 40px;font-family: 幼圆;'>发起方</p>
-                  <dl v-for="item in signUserList"  v-drag style="position:relative;width:100%;">
+                  <dl v-for="item in signUserList"  v-drag style="position:relative;width:100%;background:#fff">
                     <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.signUserName}}</dd>
                     <!-- <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.userName}}</dd> -->
                     <dd>{{item.userName}}<br>{{item.mobile}}</dd>
@@ -77,9 +77,9 @@
                   </dl>
                 </div>
 
-                <div class='morePerson' style='margin-top:30px' id="moreEnter">
+                <div class='morePerson' style='margin-top:10px' id="moreEnter">
                   <p style="line-height: 40px;font-family: 幼圆;">对手方</p>
-                  <dl v-for="item in analogueList"  v-drag style="position:relative;">
+                  <dl v-for="item in analogueList"  v-drag style="position:relative;background:#fff">
                     <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap;'>{{item.signUserName}}</dd>
                     <dd>{{item.userName}}<br>{{item.mobile}}</dd>
                     <p class='hidden' style="display:none">{{item.interfaceCode}}</p>
@@ -110,6 +110,7 @@ export default {
         analogueList:[],
         imgList:[],
         imgHeight: [],
+        hasClick:false,
         scrollY: 0  //batterScroll 滚动的Y轴距离
 
       }
@@ -190,6 +191,7 @@ export default {
     },
     cancelSign() {    //取消操作
         const h = this.$createElement;
+        this.hasClick = true;
         this.$msgbox({
           title: '提示',
           message: h('p', null, [
@@ -211,6 +213,7 @@ export default {
                 }, 50);
               }, 100);
             } else {
+              this.hasClick = false
               done();
             }
           }

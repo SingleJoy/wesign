@@ -6,7 +6,7 @@
         <img src="../../../static/images/logo2.png" alt="">
       </p>
       <div class='buttons'>
-        <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+        <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
         <el-button style='color:#22a7ea' @click="lastStepFit">上一步</el-button>
         <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
       </div>
@@ -84,6 +84,7 @@ export default {
         signUserList:[],
         imgList:[],
         imgHeight: [],
+        hasClick:false,
         scrollY: 0  //batterScroll 滚动的Y轴距离
 
       }
@@ -163,6 +164,7 @@ export default {
     },
     cancelSign() {    //取消操作
         const h = this.$createElement;
+        this.hasClick = true;
         this.$msgbox({
           title: '提示',
           message: h('p', null, [
@@ -184,6 +186,7 @@ export default {
                 }, 50);
               }, 100);
             } else {
+              this.hasClick = false;
               done();
             }
           }
