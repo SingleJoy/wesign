@@ -171,6 +171,11 @@
     border-bottom: 3px solid red;
     font-weight: 700;
   }
+  //默认会给当前路由加上此类名
+  // .router-link-exact-active li{
+  //   border-bottom: 3px solid red;
+  //   font-weight: 700;
+  // }
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
