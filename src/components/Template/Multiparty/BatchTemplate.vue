@@ -20,7 +20,7 @@
         <el-table-column
           prop="templateName"
           label="模板名称"
-          width="300"
+          width="320"
           style="text-align:center"
           >
         </el-table-column>

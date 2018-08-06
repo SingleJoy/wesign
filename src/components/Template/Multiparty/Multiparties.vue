@@ -1,8 +1,8 @@
 <template>
   <div class='Multiparties'>
-    <div class='main'> 
+    <div class='main'>
        <div class='tab'>
-          <el-tabs v-model="activeName" style="margin-left:30px;">
+          <el-tabs v-model="activeName" style="padding-left:15px;">
             <el-tab-pane label="单次发起合同" name="first">
                <single-template></single-template>
             </el-tab-pane>
