@@ -33,7 +33,7 @@
     <div class="fade" id="fade"></div>
     <div class="succ-pop" id="succ-pop">
       <div class="su-pop">
-        <h5 class="company-title">
+        <h5 class="title">
           选择企业角色
         </h5>
         <div class="central_section" v-for="(item,index) in tenantNum" :key="index">
@@ -128,6 +128,7 @@
                         })
                         // console.log(res.data.dataList)
                         cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
+                        this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
                         this.$router.push('/Merchant')
                       }else{
                         this.$message({
@@ -137,6 +138,7 @@
                           type: 'success'
                         })
                         cookie.set('tenant',res.data.dataList) // 存入cookie 所需信息
+                        this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
                         this.$router.push('/Home')
                       }
                     })
@@ -181,6 +183,7 @@
               type: 'success'
             })
             cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
+            this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             this.$router.push('/Merchant')
           }else{
             this.$message({
@@ -190,7 +193,7 @@
               type: 'success'
             })
             cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
-
+            this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             this.$router.push('/Home')
           }
         })
@@ -349,7 +352,7 @@
     overflow-x: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    .company-title{
+    .title{
       border:none;
     }
   }

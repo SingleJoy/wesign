@@ -298,9 +298,11 @@ export default {
               setTimeout(() => {
                 done();
                 if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-                  this.$router.push('/Merchant')
+                  this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
+                  this.$router.push('/Merchant');
                 }else{
-                  this.$router.push('/Home')
+                  this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
+                  this.$router.push('/Home');
                 }
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;

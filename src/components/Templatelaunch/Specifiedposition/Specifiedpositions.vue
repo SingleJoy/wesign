@@ -168,6 +168,7 @@
         }
       },
       templateCancel() {    //取消操作
+        this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
         const h = this.$createElement;
         this.$msgbox({
           title: '提示',

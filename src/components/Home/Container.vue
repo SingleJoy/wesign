@@ -184,6 +184,7 @@
         return "";
       },
       otherTemplate() {
+        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
         this.$router.push("/Multiparty");
       },
       jumper(item, index) {
@@ -214,21 +215,25 @@
       },
       animated() {
         //待我签署
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
         sessionStorage.setItem("second", "second");
         this.$router.push("Mycontract");
       },
       wait() {
         //待他人签署
+         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
         sessionStorage.setItem("second", "third");
         this.$router.push("Mycontract");
       },
       takeEff() {
         //已生效
+         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
         sessionStorage.setItem("second", "fourth");
         this.$router.push("Mycontract");
       },
       end() {
         //已截止
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
         sessionStorage.setItem("second", "five");
         this.$router.push("Mycontract");
       },
@@ -318,9 +323,11 @@
         this.popupContainer = !this.popupContainer;
       },
       jump() {
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
         this.$router.push("/Mycontract");
       },
       more() {
+        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
         this.$router.push("/More");
       },
       rowLockClick(row) {

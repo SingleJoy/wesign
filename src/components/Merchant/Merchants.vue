@@ -165,19 +165,23 @@
           this.$router.push('/Fillinformation')
         }
       },
-      animated () {                                                                   //待我签署
+      animated () {    
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                               //待我签署
         sessionStorage.setItem('second','second')
         this.$router.push('Procontract')
       },
-      wait () {                                                                       //待他人签署
+      wait () {    
+         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                   //待他人签署
         sessionStorage.setItem('second','third')
         this.$router.push('Procontract')
       },
-      takeEff (){                                                                  //已生效
+      takeEff (){       
+         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                           //已生效
         sessionStorage.setItem('second','fourth')
         this.$router.push('Procontract')
       },
-      end () {                                                                         //已截止
+      end () {   
+         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                      //已截止
         sessionStorage.setItem('second','five')
         this.$router.push('Procontract')
       },
@@ -203,9 +207,11 @@
         this.$router.push('/BuyProduct')
       },
       jump () {
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
         this.$router.push('/Procontract')
       },
       more (){
+        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
         this.$router.push('/BuyProduct')
       },
       rowLockClick (row) { //查看

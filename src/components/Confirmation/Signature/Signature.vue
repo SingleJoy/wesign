@@ -422,6 +422,7 @@
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
+                this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
                 this.$router.push('/Home')
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;

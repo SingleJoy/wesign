@@ -187,7 +187,7 @@ export default {
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode.$message,
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         tabIndex:''
       }
     },
@@ -355,6 +355,7 @@ export default {
       },
     },
     created(){
+      // console.log(this.$store.state.tabIndex)
       this.tabIndex = this.$store.state.tabIndex;
     },
 
