@@ -18,7 +18,7 @@
     </nav>
    </div>
    <div class='Contractsignings'>
-         <div class='step' style="width:720px;">  <!--步骤条 -->
+         <div class="step" style="width:720px;">  <!--步骤条 -->
             <ul>
               <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
               <p></p>
@@ -94,7 +94,7 @@
             <img src="../../../static/images/Contractsigning/settings.png" alt="">
             <p class="personInfo2">
               <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
-              <el-dialog title="添加人员" :visible.sync="dialogFormVisible" custom-class='outInfo' width="360px" top="30vh" center @close="closeDialog('ruleForm')"   :lock-scroll= false>
+              <el-dialog title="添加人员" :visible.sync="dialogFormVisible" custom-class='outInfo' width="360px" height="320px" top="30vh" center @close="closeDialog('ruleForm')"   :lock-scroll= false>
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
                 <el-form-item label="姓名" :label-width="formLabelWidth" prop="signUserName">
                   <el-input v-model="ruleForm.signUserName" auto-complete="off" placeholder="请输入姓名" :maxlength= 15></el-input>
@@ -744,7 +744,7 @@ export default {
 }
 .outInfo{
   height:335px !important;
-  width:400px !important;
+  width:360px !important;
   overflow-y: hidden !important;
 }
 .showDialog{
