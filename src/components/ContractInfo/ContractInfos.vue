@@ -186,13 +186,13 @@ export default {
       let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
        // 从合同列表页面进入
       if(this.$store.state.rowNumber){
-        var contractNo=this.$store.state.rowNumber
-        return contractNo
+        let contractNo=this.$store.state.rowNumber
+          this.contractNo=contractNo;
       }else {   //签署完成页面进入
-        var contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
-        return contractNo
+       let contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
+        this.contractNo=contractNo;
       }
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+contractNo;
+      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
       this.$http.get(url).then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
