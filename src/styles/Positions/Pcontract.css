@@ -182,7 +182,7 @@
     /* 多位置签署样式 */
     .sign_right{
         float: left;
-        margin-left: 62px;
+        margin-left: 60px;
     }
     .sign_right h1{
       font-weight: normal;

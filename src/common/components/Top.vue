@@ -268,7 +268,7 @@ export default {
         var contractName = file.name.replace(/\s+/g, "")
         var contractNo = file.response.contractNo
         var resultCode = file.response.resultCode
-        if(  this.uploadFile == true ){
+        if( this.uploadFile == true ){
           this.$message({
             showClose: true,
             message: '上传成功',

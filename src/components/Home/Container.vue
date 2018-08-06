@@ -59,7 +59,7 @@
           <a href="javascript:void(0);" @click='jump'>查看更多>></a>
         </div>
 
-        <div class='table' style="clear: both;">
+        <div class='table' style="clear: both;width: ">
           <el-table
             :header-cell-style="getRowClass"
             v-loading="loading"
@@ -80,7 +80,7 @@
             <el-table-column
               prop="signers"
               label="签署人"
-              width="200"
+              width="210"
               :show-overflow-tooltip='true'
             >
             </el-table-column>

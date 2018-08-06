@@ -31,7 +31,7 @@
       <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
       <el-button type="primary" icon="el-icon-search" @click='contractInquiryIntoForce' style='margin-left:50px;'></el-button>
     </div>
-    <div class='table'>
+    <div class='table' style="margin-left: 15px;">
       <div class="intoForceImg" v-if="num === 0">
         <img src="../../../static/images/notavailable.png" alt="">
       </div>
@@ -62,7 +62,7 @@
         <el-table-column
         prop="createTime"
         label="发起时间"
-        width="200">
+        width="190">
         </el-table-column>
         <el-table-column
         prop="validTime"
@@ -72,12 +72,12 @@
         <el-table-column
         prop="contractStatus"
         label="当前状态"
-        width="150">
+        width="140">
         </el-table-column>
           <el-table-column
         prop="operation"
         label="操作"
-        width="200"
+        width="190"
         >
         <template slot-scope="scope">
           <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
