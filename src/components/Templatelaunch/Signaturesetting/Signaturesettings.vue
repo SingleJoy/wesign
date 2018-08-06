@@ -74,7 +74,7 @@
               <el-checkbox></el-checkbox>
               <b class='info'>邮箱通知</b> -->
               <el-button type="primary" size="medium" @click='addSign' icon="el-icon-circle-plus-outline">添加签署人</el-button>
-              <el-dialog title="添加人员" :visible.sync="modifyPassword" :lock-scroll=false custom-class='tempOut' width="360px" top="30vh" center @close="closeDialog('ruleForm')">
+              <el-dialog title="添加人员" :visible.sync="modifyPassword" :lock-scroll=false custom-class='tempOut' width="360px" height="320px" top="30vh" center @close="closeDialog('ruleForm')">
                 <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
                   <el-form-item label="姓名" :label-width="formLabelWidth" prop="signUserName">
                     <el-input v-model="ruleForm.signUserName" auto-complete="off" placeholder="请输入姓名"></el-input>
