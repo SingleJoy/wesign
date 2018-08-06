@@ -81,7 +81,7 @@
             </p>
           </h3>
         </div>
-       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
+       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog"  >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
@@ -94,7 +94,7 @@
             <img src="../../../static/images/Contractsigning/settings.png" alt="">
             <p class="personInfo2">
               <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
-              <el-dialog title="添加人员" :visible.sync="dialogFormVisible" custom-class='outInfo' width="360px" height="320px" top="30vh" center @close="closeDialog('ruleForm')"   :lock-scroll= false>
+              <el-dialog title="添加人员" :visible.sync="dialogFormVisible" custom-class='outInfo' width="360px"  height="320px" top="30vh" center @close="closeDialog('ruleForm')"   :lock-scroll= false>
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
                 <el-form-item label="姓名" :label-width="formLabelWidth" prop="signUserName">
                   <el-input v-model="ruleForm.signUserName" auto-complete="off" placeholder="请输入姓名" :maxlength= 15></el-input>
@@ -227,7 +227,7 @@ export default {
         },
         hasClick:false,
         formLabelWidth: '70px',
-        contractName:this.$store.state.contractName1,
+        contractName:JSON.parse(sessionStorage.getItem('contractName')),
         rules: {
           signUserName: [
             { required: true, validator: validateName, trigger: 'blur' }
@@ -652,7 +652,7 @@ export default {
       if (contractNo) {
         contractNo = JSON.parse(contractNo)
         this.contractNumn = contractNo
-        if ( this.$store.state.contractNo1 == ''){
+        if (this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
       }
