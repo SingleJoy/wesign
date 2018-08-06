@@ -158,7 +158,7 @@
               label="操作"
               width="360">
               <template slot-scope="scope">
-                <el-button @click="confirmEdit(scope.row)" type="success"  size="mini" v-if="scope.row.edit">完&nbsp;&nbsp;成</el-button>
+                <el-button @click="confirmEdit(scope.row)" type="primary"  size="mini" v-if="scope.row.edit">完&nbsp;&nbsp;成</el-button>
                 <el-button @click="modifyClick(scope.row)" type="primary" size="mini" v-else v-show="editSign == false">修&nbsp;&nbsp;改</el-button>
                 <el-button @click="deleteClick(scope.$index,tableData5)" type="primary" size="mini" v-show="!scope.row.edit && editSign == false">删&nbsp;&nbsp;除</el-button>
               </template>
@@ -630,7 +630,6 @@ export default {
        }
       },
       addSigners(){
-
         if(this.editSigner == false){
           this.$alert('您还没有完成添加签署人操作','添加签署人',{
             confirmButtonText: '确定'
@@ -694,7 +693,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style scoped >
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
 

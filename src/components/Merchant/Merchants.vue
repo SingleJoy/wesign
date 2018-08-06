@@ -13,7 +13,19 @@
         <!--</div>-->
         <div class='merchant-upload' style='border:none;'>
           <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
-            <img src="../../../static/images/add1.png" alt="" style='width:680px;height:152px;margin: 10px;border-radius: 2px;'>
+            <div class="content-upload">
+              <h3>上传发起合同</h3>
+              <div class="content-body">
+                <div class="circle">+</div>
+                <div class="tips">
+                  <p>上传发起</p><br/>
+                  <span>点击上传文件到此处</span>
+                </div>
+                <div class="footer">
+                  <span>文件支持.docx / pdf/ .txt / .doc文件，文件大小不超过5M</span>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -165,22 +177,22 @@
           this.$router.push('/Fillinformation')
         }
       },
-      animated () {    
+      animated () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                               //待我签署
         sessionStorage.setItem('second','second')
         this.$router.push('Procontract')
       },
-      wait () {    
+      wait () {
          this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                   //待他人签署
         sessionStorage.setItem('second','third')
         this.$router.push('Procontract')
       },
-      takeEff (){       
+      takeEff (){
          this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                           //已生效
         sessionStorage.setItem('second','fourth')
         this.$router.push('Procontract')
       },
-      end () {   
+      end () {
          this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                      //已截止
         sessionStorage.setItem('second','five')
         this.$router.push('Procontract')

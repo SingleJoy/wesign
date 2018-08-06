@@ -150,7 +150,7 @@ export default {
 
     if (contractName) {
       contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
+      if (this.$store.state.contractName1 == ''){
         this.$store.state.contractName1 = contractName
       }
     }

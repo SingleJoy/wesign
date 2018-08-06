@@ -143,7 +143,7 @@
             label="操作"
             width="250">
             <template slot-scope="scope">
-              <el-button @click="confirmEdit(scope.row)" type="success"  size="mini" v-if="scope.row.edit">完&nbsp;&nbsp;成</el-button>
+              <el-button @click="confirmEdit(scope.row)" type="primary"  size="mini" v-if="scope.row.edit">完&nbsp;&nbsp;成</el-button>
               <el-button @click="modifyClick(scope.row)" type="primary" size="mini" v-else v-show="editSign == false">修&nbsp;&nbsp;改</el-button>
               <el-button @click="deleteClick(scope.$index,tableData2)" type="primary" size="mini" v-show="!scope.row.edit && editSign == false">删&nbsp;&nbsp;除</el-button>
             </template>
@@ -239,7 +239,7 @@ export default {
             return time.getTime() < Date.now();
           }
         },
-        templateName:this.$store.state.templateName
+        templateName:JSON.parse(sessionStorage.getItem('templateName'))
       }
     },
     methods: {

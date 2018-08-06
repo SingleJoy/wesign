@@ -184,7 +184,15 @@ export default {
       var data =[];
       var isCreater='';
       let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.rowNumber;
+       // 从合同列表页面进入
+      if(this.$store.state.rowNumber){
+        var contractNo=this.$store.state.rowNumber
+        return contractNo
+      }else {   //签署完成页面进入
+        var contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
+        return contractNo
+      }
+      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+contractNo;
       this.$http.get(url).then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -264,7 +272,7 @@ export default {
         this.$store.state.rowNumber = contractNo
       }
     }
-    this.seeContractDetails ()
+    this.seeContractDetails()
   }
 }
 </script>

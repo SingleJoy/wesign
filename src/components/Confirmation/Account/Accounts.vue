@@ -1,7 +1,7 @@
 <template>
   <div class='Accounts'>
     <div  class='content'>
-      <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;">
+      <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;padding-left: 15px;">
         <img src="../../../../static/images/Confirmation/Account/my.jpg" alt="">
         <p v-if="identifier == false"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
         <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
@@ -24,7 +24,7 @@
           </p>
           <a href="javascript:void(0);" @click="centerDialogVisible = true">修改密码</a>
         </div>
-        <h2 class='title' style='border-top:none;padding-bottom: 20px;'>
+        <h2 class='title' style='border-top:none;padding-bottom: 20px;padding-left: 15px;'>
           <img src="../../../../static/images/Confirmation/Account/my1.jpg" alt="" >
         </h2>
         <div class='accountPic'>
