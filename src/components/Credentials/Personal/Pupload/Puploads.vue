@@ -45,6 +45,7 @@
           <div class="header-title-3">
             <div class='personUpload'>
               <h6><span></span><b style="color:#22a7ea;">图片示例</b></h6>
+              <!-- <img src="" alt=""> -->
               <div class='left'>
                 <div class="upload_warp">
                   <div class="upload_warp_left" @click="fileClick" style="font-size:0">

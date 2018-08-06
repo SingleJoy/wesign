@@ -44,7 +44,7 @@
               </div>
             </ul>
           </div>
-          <div class='sign_center' ref="rightWrapper" id="div1" style="margin-left: 200px;"> <!-- 渲染合同页面 -->
+          <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->
@@ -312,7 +312,9 @@ export default {
     bind :function (el, binding) {
         var n = 0
         el.onmousedown = function (e) {
-          e.preventDefault();
+          if(e){
+            e.preventDefault();            
+          }
           //鼠标按下，计算当前元素距离可视区的距离
           //el.style.position='absolute';
           n++;
@@ -354,16 +356,18 @@ export default {
                   var del = document.getElementsByClassName('delete')
               for(var i= 0;i<del.length;i++){
                     del[i].addEventListener('click', function () {
-                    this.parentNode.parentNode.removeChild(this.parentNode)
+                      if(this.parentNode.parentNode){
+                        this.parentNode.parentNode.removeChild(this.parentNode)
+                      }
                       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
                        el.style.display='block'
 
                       n--
                       m--
-                     el.childNodes[6].innerText ='拖入位置（'+m +'）次'
-                     el.childNodes[6].style.fontSize='12px'
-                     el.childNodes[6].style.color ='white'
-                      }, true);
+                      el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+                      el.childNodes[6].style.fontSize='12px'
+                      el.childNodes[6].style.color ='white'
+                        }, true);
                   }
              more.removeChild(item)
              var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
