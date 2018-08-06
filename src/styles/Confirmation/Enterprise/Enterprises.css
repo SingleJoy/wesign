@@ -71,7 +71,7 @@
 .center{
     width: 850px;
     height: 500px;
-    background: #fafafa;
+    /* background: #fafafa; */
     margin: 0 auto;
    padding-top: 40px;
 }
