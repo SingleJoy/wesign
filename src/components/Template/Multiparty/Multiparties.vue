@@ -1,6 +1,6 @@
 <template>
   <div class='Multiparties'>
-    <div class='main'>
+    <div class='main' style="height:800px;">
        <div class='tab'>
           <el-tabs v-model="activeName" style="padding-left:15px;">
             <el-tab-pane label="单次发起合同" name="first">
