@@ -32,6 +32,7 @@
     </div>
     <div class="fade" id="fade"></div>
     <div class="succ-pop" id="succ-pop">
+      <span class="login-cancel" @click="cancelLogin">+</span>
       <div class="su-pop">
         <h5 class="title">
           选择企业角色
@@ -164,6 +165,10 @@
       },
       variety(el) {
         this.selectedEnterprise = el
+      },
+      cancelLogin(){
+          document.getElementById('fade').style.display ='none'
+          document.getElementById('succ-pop').style.display ='none'
       },
       changeClick() {
         if(this.selectedEnterprise == '' || this.selectedEnterprise == null){
@@ -339,6 +344,19 @@
     border-radius: 5px;
     background:url('../../../static/images/Login/context.png') no-repeat;
     display: none;
+    .login-cancel{
+      font-size: 24px;
+      position: absolute;
+      right: 11px;
+      top: 10px;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      transform: rotate(135deg);
+      width: 28px;
+      text-align: center;
+      cursor: pointer;
+    }
   }
   .su-pop{
     width: 420px;

@@ -353,12 +353,13 @@ export default {
              document.onmouseup = function (e) {
              document.onmousemove = null;
              document.onmouseup = null;
-                  var del = document.getElementsByClassName('delete')
+             var del = document.getElementsByClassName('delete')
               for(var i= 0;i<del.length;i++){
                     del[i].addEventListener('click', function () {
                       if(this.parentNode.parentNode){
                         this.parentNode.parentNode.removeChild(this.parentNode)
                       }
+                      console.log(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split(''));
                       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
                        el.style.display='block'
 

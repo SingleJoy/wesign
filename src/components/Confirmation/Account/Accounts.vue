@@ -9,7 +9,7 @@
       <div class='contentInfo'>
         <div class='companyName'>
           <p>
-            <span>企业名称：</span><span>{{companyName}}</span>
+            <span className="company-name">企业名称：</span><span>{{companyName}}</span>
           </p>
         </div>
         <div class='userInfo'>

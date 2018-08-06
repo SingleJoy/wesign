@@ -34,6 +34,7 @@
           <div class="puploads-title">
             <ul>
               <li><b>证件上传</b></li>
+             
               <li><b>信息确认</b></li>
               <li><b>完成</b></li>
             </ul>
@@ -45,11 +46,11 @@
           <div class="header-title-3">
             <div class='personUpload'>
               <h6><span></span><b style="color:#22a7ea;">图片示例</b></h6>
-              <!-- <img src="" alt=""> -->
               <div class='left'>
                 <div class="upload_warp">
                   <div class="upload_warp_left" @click="fileClick" style="font-size:0">
                     <img :src="IDcardFront.src" style="width:100%;height:100%;border:none;" v-show="IDcardFront.src!=null">
+                     <!-- <img src="../../../../../static/images/001.png" alt=""> -->
                   </div>
                 </div>
                 <div class="upload_warp_text">
@@ -61,6 +62,7 @@
                 <div class="upload_warp">
                   <div class="upload_warp_left" @click="imageClick" style="font-size:0">
                     <img :src="IDcardSide.src" style="width:100%;height:100%;border:none;" v-show="IDcardSide.src!=null">
+                    <!-- <img src="../../../../../static/images/003.png" alt=""> -->
                   </div>
                 </div>
                 <div class="upload_warp_text">
@@ -69,7 +71,7 @@
                 <input @change="imgChange($event)" type="file" id="upload_img" multiple style="display: none"/>
               </div>
             </div>
-            <p class='textInfo'>温馨提示:上传单张图片大小应小于2M，可支持JPEG.JPG.PNG格式图片</p>
+            <p class='textInfo' style="padding-bottom:100px">温馨提示:上传单张图片大小应小于2M，可支持JPEG.JPG.PNG格式图片</p>
             <div class='btns' style='clear:both'>
               <!-- <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link> -->
               <el-button type="primary" style='width:300px' @click="submitIDcardImg">提&nbsp;&nbsp;交</el-button>
