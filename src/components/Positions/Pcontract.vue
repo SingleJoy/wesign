@@ -44,7 +44,7 @@
               </div>
             </ul>
           </div>
-          <div class='sign_center' ref="rightWrapper" id="div1" style="margin-left: 200px;"> <!-- 渲染合同页面 -->
+          <div class='sign_center' ref="rightWrapper" id="div1" > <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->

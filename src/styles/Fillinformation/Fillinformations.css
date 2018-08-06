@@ -20,7 +20,7 @@
   border: 1px dashed #ccc;
   border-radius: 50%;
   padding: 5px;
-  margin:0px 5px 0 5px;
+  margin:0 5px 0 5px;
 }
 .step ul li>i{
   text-align: center;
@@ -55,8 +55,6 @@
   margin-top: 40px;
 }
 /* 步骤条状态样式 */
-
-
 
 
 
@@ -195,56 +193,8 @@
   overflow:hidden
 }
 
-/* 步骤条状态样式 结束*/
-/* 分页样式 */
-.signing{
-  clear: both;
-  height: 800px;
-  border-top: 1px solid #ddd;
-}
-
-.sign_left{
-  margin-left: 110px;
-  width: 60px;
-  float: left;
-}
-#top{
-  width: 47px;
-  height: 20px;text-align: center;
-  background: #ccc;
-  margin-bottom: 36px;
-}
-#bottom{
-  width: 47px;
-  height: 20px;text-align: center;
-  background: #ccc;
-  margin-top: 36px;
-}
 
 
-/* 渲染合同样式 */
-.sign_center{
-  width: 595px;
-  height: 822px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  float: left;
-  overflow: hidden;
-  margin-top: 40px;
-  margin-left: 40px;
-}
-/* 渲染合同图片 */
-.contractImg{
-  width: 100%;
-}
-.contractImg li{
-  /* height: 844px; */
-  box-sizing: border-box;
-  font-size: 0;
-}
-.contractImg li img{
-  width: 100%;
-}
 
 /* 多位置签署样式 */
 .sign_right{
