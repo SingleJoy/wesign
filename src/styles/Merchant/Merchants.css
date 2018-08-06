@@ -38,6 +38,55 @@
   font-size: 16px;
 }
 
+.content-upload{
+  width:680px;
+  height:152px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 5px;
+}
+.content-upload>h3{
+  padding: 20px 0 0 15px;
+}
+.content-upload>.content-body{
+  margin: 20px 0 0 250px;
+}
+.content-upload>.content-body>.circle{
+  width: 40px;
+  height: 40px;
+  background-color: #22a7ea;
+  font-size: 34px;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 40px;
+  float: left;
+}
+
+.content-upload>.content-body>.tips{
+  display: block;
+}
+.content-upload>.content-body>.tips>p{
+  text-align: left;
+  display: inline;
+  font-weight: normal;
+  font-size: 16px;
+  padding-left: 10px;
+  color: #666;
+}
+.content-upload>.content-body>.tips>span{
+  font-size: 14px;
+  text-align: left;
+  padding-left: 10px;
+  color: #666;
+}
+.content-upload>.content-body>.footer{
+  margin-top: 15px;
+}
+.content-upload>.content-body>.footer>span{
+  font-size: 12px;
+  color: #999;
+}
 .icons > .single{
   display: -moz-box;
   display: -ms-box;

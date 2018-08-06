@@ -61,7 +61,8 @@
 /* 分页样式 */
 .signing{
   clear: both;
-  height: 800px;
+  height: 930px;
+  border-top: 1px solid #ddd;
 }
 
 .sign_left{
@@ -182,7 +183,6 @@
 ::-webkit-scrollbar {
   width: 10px;
   height: 4px;
-  background-color: #F5F5F5;
 }
 
 /* 12 */

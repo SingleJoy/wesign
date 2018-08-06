@@ -184,7 +184,14 @@ export default {
       var data =[];
       var isCreater='';
       let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.rowNumber;
+
+      if(this.$store.state.rowNumber){
+        var contractNo=this.$store.state.rowNumber
+        return contractNo
+      }else {
+        var contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
+      }
+      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+contractNo;
       this.$http.get(url).then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -264,7 +271,7 @@ export default {
         this.$store.state.rowNumber = contractNo
       }
     }
-    this.seeContractDetails ()
+    this.seeContractDetails()
   }
 }
 </script>

@@ -4,17 +4,30 @@
       <div class='main_left'>
         <div class='upload' style='border:none;'>
           <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
-            <img src="../../../static/images/add1.png" alt="" style='width:680px;height:152px;margin: 5px;border-radius: 2px;'>
+
+            <div class="content-upload">
+               <h3>上传发起合同</h3>
+              <div class="content-body">
+                 <div class="circle">+</div>
+                 <div class="tips">
+                    <p>上传发起</p><br/>
+                     <span>点击上传文件到此处</span>
+                 </div>
+                <div class="footer">
+                  <span>文件支持.docx / pdf/ .txt / .doc文件，文件大小不超过5M</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div >
+        <div  class="main_left_down">
           <p class='context1'>
             模板发起合同
           </p>
           <div class='icons'>
             <div  class='single' v-if='count>0'>
-              <div v-for="(item,index) in arr" :key="index">
-                <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>
+              <div v-for="(item,index) in arr" :key="index" >
+                <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;margin-left: 5px;'>
                   <img src="../../../static/images/Container/icons_1.png" alt="">
                   <span style='color:#22a7ea'>{{item.name}}</span>
                 </div>
@@ -30,7 +43,6 @@
             </div>
           </div>
         </div>
-
 
       </div>
       <div class='main_right'>
