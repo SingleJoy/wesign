@@ -79,8 +79,8 @@ export default {
       return {
         //centerDialogVisible:false,
         current:0,
-        showItem:10,
-        allpage:10,
+        showItem:1,
+        allpage:1,
         signUserList:[],
         imgList:[],
         imgHeight: [],
@@ -104,6 +104,7 @@ export default {
     },
     pages:function(){
     var pag = [];
+    this.showItem =10;
       if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条
             var i = Math.min(this.showItem,this.allpage);
@@ -233,11 +234,11 @@ export default {
           this.$router.push('/Server')
         } else {
           if(res.data.resultCode == '0') {
-            this.$message({
-              showClose: true,
-              message: '指定位置成功!',
-              type: 'success'
-            })
+            // this.$message({
+            //   showClose: true,
+            //   message: '指定位置成功!',
+            //   type: 'success'
+            // })
             this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
             sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
             sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))

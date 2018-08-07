@@ -603,11 +603,11 @@ export default {
               this.$router.push('/Server')
             } else {
             if ( res.data.resultCode == '0') {
-                this.$message({
-                  showClose: true,
-                  message: res.data.resultMessage,
-                  type: 'success'
-              })
+                // this.$message({
+                //   showClose: true,
+                //   message: res.data.resultMessage,
+                //   type: 'success'
+                // })
               this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
               this.$store.dispatch('needSign',{needSign:needSign})
               sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))

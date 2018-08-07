@@ -48,7 +48,7 @@
               <h6><span></span><b style="color:#22a7ea;">图片示例</b></h6>
               <div class='left'>
                 <div class="upload_warp">
-                  <div class="upload_warp_left" @click="fileClick" style="font-size:0">
+                  <div class="upload_warp_left" @click="fileClick" style="font-size:0;border:none">
                     <img :src="IDcardFront.src" style="width:100%;height:100%;border:none;" v-show="IDcardFront.src!=null">
                      <!-- <img src="../../../../../static/images/001.png" alt=""> -->
                   </div>
@@ -60,7 +60,7 @@
               </div>
               <div class='right'>
                 <div class="upload_warp">
-                  <div class="upload_warp_left" @click="imageClick" style="font-size:0">
+                  <div class="upload_warp_left" @click="imageClick" style="font-size:0;border:none">
                     <img :src="IDcardSide.src" style="width:100%;height:100%;border:none;" v-show="IDcardSide.src!=null">
                     <!-- <img src="../../../../../static/images/003.png" alt=""> -->
                   </div>

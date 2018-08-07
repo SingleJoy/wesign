@@ -78,8 +78,8 @@ export default {
         //初始化左侧页码，并使第一个高亮
         current:1,
         // 左侧页码显示的个数
-        showItem:10,
-        allpage:10,
+        showItem:1,
+        allpage:1,
         // 左侧页码的总数
         allpage:10,
         imgList:[],
@@ -107,6 +107,7 @@ export default {
       return 0
     },
     pages:function(){
+    this.showItem = 10;
     var pag = [];
       if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条

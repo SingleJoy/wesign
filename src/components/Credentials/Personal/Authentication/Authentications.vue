@@ -61,7 +61,7 @@
     },
     created() {
     var timer = null
-     var that = this
+    var that = this
       timer = setInterval(function () {
           that.num--
           if(that.num == 0){

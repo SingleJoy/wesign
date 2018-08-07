@@ -82,8 +82,8 @@
     data () {
       return {
         current:0,
-        showItem:10,
-        allpage:10,
+        showItem:1,
+        allpage:1,
         centerDialogVisible:false,
         signUserList:[],
         imgList:[],
@@ -105,6 +105,7 @@
         return 0
       },
       pages:function(){
+        this.showItem = 10;
         var pag = [];
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
           //总页数和要显示的条数那个大就显示多少条

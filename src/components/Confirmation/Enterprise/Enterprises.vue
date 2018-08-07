@@ -35,7 +35,7 @@
         <h2 class='title' style='padding-left:15px;padding-top: 20px;'>
           <img src="../../../../static/images/Confirmation/Enterprise/title.jpg" alt="">
         </h2>
-        <div class='center' style="background:#ffff">
+        <div class='center' style="background:#fff">
           <div class='container'>
             <div class='firstSelect'>
               <span>企业类型</span>
