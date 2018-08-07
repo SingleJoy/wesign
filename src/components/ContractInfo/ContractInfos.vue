@@ -189,8 +189,8 @@ export default {
         let contractNo=this.$store.state.rowNumber
           this.contractNo=contractNo;
       }else {   //签署完成页面进入
-       let contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
-        this.contractNo=contractNo;
+      let contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
+      this.contractNo=contractNo;
       }
       let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
       this.$http.get(url).then(function (res) {
