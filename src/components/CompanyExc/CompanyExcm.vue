@@ -44,7 +44,7 @@
         </p>
         <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pic-a' style="display:block;margin-left:8px;margin-top:20px;" >
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible">
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
         <div v-for="(item,index) in imgList" :key="index" >
           <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
           <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
@@ -123,7 +123,7 @@
   #app{
     overflow: hidden
   }
-  .el-dialog{
+  .contract-info{
     height: 700px;
     overflow-y: scroll;
     overflow-x: hidden;

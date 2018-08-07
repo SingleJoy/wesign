@@ -627,8 +627,8 @@ export default {
     margin-right:20px;
   }
   .tempBatchOut{
-    height:350px !important;
-    width:420px !important;
+    height:320px !important;
+    width:400px !important;
     overflow-y: hidden !important;
   }
   .showBatchDialog{

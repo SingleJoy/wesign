@@ -110,13 +110,16 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-      this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
+      var contractNo = JSON.parse(sessionStorage.getItem('contractNo'))
+
+      this.$store.dispatch('contractsInfo',{contractNo:contractNo})
       this.$router.push('/ContractInfo')
     },
     seeContractImg (){
+      var contractNo = JSON.parse(sessionStorage.getItem('contractNo'))
       this.$loading.show(); //显示
       var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
         if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

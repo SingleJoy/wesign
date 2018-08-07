@@ -655,12 +655,12 @@ export default {
     margin-right:20px;
   }
   .tempOut{
-    height:380px !important;
+    height:320px !important;
     width:400px !important;
     overflow-y: hidden !important;
   }
   .showTempDialog{
-    height:335px !important;
+    height:320px !important;
     width:400px !important;
     overflow-y: hidden !important;
   }
