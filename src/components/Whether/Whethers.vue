@@ -54,7 +54,7 @@
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
+              <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
             </li>
           </ul>
           </div>
@@ -236,11 +236,11 @@ export default {
           this.$router.push('/Server')
         } else {
           if(res.data.resultCode == '0') {
-            this.$message({
-              showClose: true,
-              message: '指定位置成功!',
-              type: 'success'
-            })
+            // this.$message({
+            //   showClose: true,
+            //   message: '指定位置成功!',
+            //   type: 'success'
+            // })
             this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
             sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
             sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
