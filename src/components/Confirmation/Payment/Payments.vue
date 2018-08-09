@@ -42,7 +42,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="enterpriseOpenName"
-                  
+
                 >
                 </el-input>
               </div>
@@ -65,7 +65,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bankAffiliate"
-                  
+
                 >
                 </el-input>
               </div>
@@ -77,7 +77,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bankAccount"
-                 
+
                 >
                 </el-input>
               </div>
@@ -89,7 +89,7 @@
                   style='width:329px;height:22px;'
                   placeholder="请输入内容"
                   v-model="bank"
-                
+
                 >
                 </el-input>
               </div>
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    
+
   </div>
 </template>
 <script>
@@ -1794,7 +1794,7 @@
         }
       },
       submitPayment(){
-        sessionStorage.setItem('accountSteps','') 
+        sessionStorage.setItem('accountSteps','')
         // console.log(this.checkEntName())
         if(this.checkEntName() == false) {
           return false
@@ -1840,7 +1840,7 @@
             }else{
                 this.$router.push('/WaitReply')
             }
-           
+
         })
       }
     }
@@ -1849,6 +1849,7 @@
 <style>
   @import "../../../styles/Confirmation/Payment/Payment.css";
   @import "../../../common/styles/Topes.css";
+  @import "../../../common/styles/SigningSteps.css";
 
   .modal{
     width: 100%;

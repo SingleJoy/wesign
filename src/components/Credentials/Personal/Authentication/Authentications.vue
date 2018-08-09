@@ -75,5 +75,6 @@
 <style scoped>
   @import "../../../../styles/Credentials/Personal/Authentication/Authentication.css";
   @import "../../../../common/styles/Topes.css";
+  @import "../../../../common/styles/SigningSteps.css";
 </style>
 

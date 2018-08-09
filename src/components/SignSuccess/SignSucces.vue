@@ -82,6 +82,7 @@
 
 <style scoped>
   @import "../../styles/SignSuccess/SignSuccess.css";
+  @import "../../common/styles/SigningSteps.css";
 </style>
 
 <script>

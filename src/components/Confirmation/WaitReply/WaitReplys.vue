@@ -131,7 +131,7 @@
       </div>
     </div>
 
-   
+
 
   </div>
 </template>
@@ -319,4 +319,5 @@
 <style scoped>
   @import "../../../styles/Confirmation/WaitReply/WaitReply.css";
   @import "../../../common/styles/Topes.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>

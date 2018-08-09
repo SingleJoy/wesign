@@ -101,4 +101,5 @@
 </script>
 <style scoped>
   @import "../../../styles/Confirmation/Completion/Completions.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>

@@ -628,5 +628,6 @@
 <style scoped>
   @import "../../../styles/Confirmation/Signature/Signature.css";
   @import "../../../common/styles/Tops.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 

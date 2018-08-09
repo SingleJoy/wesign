@@ -635,6 +635,7 @@ export default {
 <style scoped>
   @import "../../../styles/Signaturesetting/Signaturesettings.css";
   @import "../../../common/styles/Tops.css";
+  @import "../../../common/styles/SigningSteps.css";
 
  .first #inputText{
     -webkit-appearance: none;

@@ -40,6 +40,7 @@
 
 <style scoped>
   @import "../../../styles/Templatecomplete/Templatecompletes.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 
 <script>

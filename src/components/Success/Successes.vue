@@ -185,6 +185,7 @@
 
 <style scoped>
   @import "../../styles/Success/Successes.css";
+  @import "../../common/styles/SigningSteps.css";
   #textInfo{
     display: inline-block;
     width: 150px;

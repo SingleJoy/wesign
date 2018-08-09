@@ -68,6 +68,7 @@
 <style>
  @import "../../../../styles/Credentials/Personal/ErrorPupload/ErrorPuploads.css";
  @import "../../../../common/styles/Topes.css";
+ @import "../../../../common/styles/SigningSteps.css";
 </style>
 <script>
   import {prohibit} from '@/common/js/prohibitBrowser'

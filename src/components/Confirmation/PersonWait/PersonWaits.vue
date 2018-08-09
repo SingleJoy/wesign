@@ -69,5 +69,6 @@
 <style scoped>
   @import "../../../styles/Confirmation/PersonWait/PersonWait.css";
   @import "../../../common/styles/Topes.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 

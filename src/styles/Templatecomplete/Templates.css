@@ -10,50 +10,6 @@
     margin: 0 auto;
     background: #fff;
 }
-.step{
-  width: 890px;
-  margin: 0 auto;
-  height:120px;
-  padding-top: 40px;
-  padding-bottom: 30px;
-}
-.step ul{
-    height: 160px;
-
-}
-.step ul  li{
-    float: left;
-    width: 72px;
-    height: 72px;
-    border: 1px dashed #22a7ea;
-    border-radius: 50%;
-    padding: 5px;
-    margin:0px 5px 0 5px;
-}
-
-.step ul li b{
-    margin-top: 14px;
-    text-align: center;
-    display: block;
-    font-weight: normal;
-    color: #22a7ea;
-}
-.step ul  li>i{
-    text-align: center;
-    line-height: 72px;
-    display: block;
-    font-size: 32px;
-    background: #22a7ea;
-    border-radius: 50%;
-    color: #fff;
-}
-.step ul p{
-    float: left;
-    border-bottom:1px dashed #ccc;
-    width: 60px;
-    height: 1px;
-    margin-top: 40px;
-}
 
 .Templatecs>.main>.state {
   margin: 0 auto;

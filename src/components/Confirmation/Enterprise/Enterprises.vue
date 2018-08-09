@@ -607,4 +607,5 @@
 <style scoped>
   @import "../../../styles/Confirmation/Enterprise/Enterprises.css";
   @import "../../../common/styles/Topes.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>

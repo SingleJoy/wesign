@@ -30,7 +30,8 @@ export default {
 </script>
 <style>
     @import "../../../styles/Multiparty/Mores.css";
-  
+    @import "../../../common/styles/SigningSteps.css";
+
   .one{
     margin: 30px auto;
     width: 490px;
@@ -39,7 +40,7 @@ export default {
     margin: 30px auto;
     width: 490px;
   }
-  
+
 </style>
 
 

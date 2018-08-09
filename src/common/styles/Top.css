@@ -23,7 +23,7 @@
 }
 .nav ul li{
     float: left;
-    padding: 0 22px 0 22px; 
+    padding: 0 22px 0 22px;
 }
 #ul li:hover{
    border-bottom: 3px solid red;
@@ -37,7 +37,7 @@
 }
 .nav .btns li{
     float: left;
-    width: 90px;
+    width: 94px;
     height: 60px;
 }
 .nav .btns li:nth-child(1){
@@ -87,7 +87,7 @@
     float: left;
     line-height: 50px;
     text-align: center;
-    margin-top: -42px;
+    margin-top: -45px;
 }
 .nav .btns li:nth-child(4) img{
     vertical-align:middle;
@@ -100,7 +100,6 @@
 #dloa{
     margin-left: 30px;
 }
-
 
 .upload-dilog{
     width:656px;
@@ -124,7 +123,7 @@
       margin-left:63px;
       margin-top:30px;
       background-size:100% 100%;
-  
+
    }
     .upload-dilog .leftDilog .upload-demo{
        width:252px !important;

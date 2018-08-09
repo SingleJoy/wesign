@@ -314,7 +314,7 @@ export default {
         var n = 0
         el.onmousedown = function (e) {
           if(e){
-            e.preventDefault();            
+            e.preventDefault();
           }
           //鼠标按下，计算当前元素距离可视区的距离
           //el.style.position='absolute';
@@ -424,6 +424,7 @@ export default {
 <style lang="css" scoped>
   @import "../../styles/Positions/Pcontract.css";
   @import "../../common/styles/Tops.css";
+  @import "../../common/styles/SigningSteps.css";
 </style>
 
 <style>

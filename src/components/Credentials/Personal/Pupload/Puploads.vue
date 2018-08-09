@@ -34,7 +34,7 @@
           <div class="puploads-title">
             <ul>
               <li><b>证件上传</b></li>
-             
+
               <li><b>信息确认</b></li>
               <li><b>完成</b></li>
             </ul>
@@ -86,6 +86,7 @@
 <style>
  @import "../../../../styles/Credentials/Personal/Pupload/Puploads.css";
  @import "../../../../common/styles/Topes.css";
+ @import "../../../../common/styles/SigningSteps.css";
 </style>
 <script>
   import cookie from '@/common/js/getTenant'

@@ -385,5 +385,6 @@ export default {
 <style scoped>
   @import "../../../styles/Contractsign/Contractsigns.css";
   @import "../../../common/styles/Tops.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 

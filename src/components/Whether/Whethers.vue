@@ -440,6 +440,7 @@ export default {
 <style lang="css" scoped>
   @import "../../styles/Whether/Whethers.css";
   @import "../../common/styles/Tops.css";
+  @import "../../common/styles/SigningSteps.css";
 </style>
 
 <style>

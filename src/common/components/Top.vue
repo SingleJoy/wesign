@@ -15,7 +15,12 @@
         <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;"><router-link  @click.native="tabActive(5)" to='/Account'><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;">
+           <router-link  @click.native="tabActive(5)" to='/Account'>
+             <img src="../../../static/images/setup.png" alt="">
+             <a href="javascript:void(0);">我的账户</a>
+           </router-link>
+         </li>
       </ol>
 
       <div id='update'>

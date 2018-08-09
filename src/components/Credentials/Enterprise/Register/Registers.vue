@@ -334,13 +334,13 @@
       //             type: 'error'
       //           })
       //         }
-             
+
       //         return false
       //       }else{
       //         this.verCode = true;
       //         return true
       //       }
-           
+
       //     })
       //   if(this.verCode == false){
       //     return false
@@ -407,9 +407,9 @@
               this.verCode = true;
               this.vertifySuccess()
             }
-           
+
           })
-        
+
       }
     },
     vertifySuccess(){
@@ -539,6 +539,7 @@
 <style scoped>
   @import "../../../../styles/Credentials/Enterprise/Register/Register.css";
   @import "../../../../common/styles/Topes.css";
+  @import "../../../../common/styles/SigningSteps.css";
 
   #register-dialog{
     width:100%;

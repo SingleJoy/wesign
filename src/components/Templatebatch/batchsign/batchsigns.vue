@@ -279,5 +279,6 @@
 <style scoped>
   @import "../../../styles/batchInfo/batchsigns.css";
   @import "../../../common/styles/Tops.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 

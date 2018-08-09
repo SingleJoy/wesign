@@ -696,6 +696,7 @@ export default {
 <style scoped >
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
+  @import "../../common/styles/SigningSteps.css";
 
   .upload-demo .el-upload .el-upload--text{
     display: block !important;

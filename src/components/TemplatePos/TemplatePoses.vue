@@ -444,6 +444,7 @@ export default {
 <style lang="css" scoped>
   @import "../../styles/TemplatePos/TemplatePoses.css";
   @import "../../common/styles/Tops.css";
+  @import "../../common/styles/SigningSteps.css";
 
   body{
     -webkit-user-select: none;
@@ -477,7 +478,6 @@ export default {
     top: -17px;
     border:  1px solid #22a7ea;
     border-radius:  50%;
-    width:  50px;
     width:  20px;
     height:  20px;
     line-height: 20px;

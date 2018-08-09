@@ -90,6 +90,7 @@
 
 <style scoped>
   @import "../../../styles/Templatecomplete/Templates.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 
 <script>

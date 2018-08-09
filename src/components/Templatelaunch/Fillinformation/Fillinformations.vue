@@ -280,5 +280,6 @@ export default {
 <style scoped>
   @import "../../../styles/Fillinformation/Fillinformations.css";
   @import "../../../common/styles/Tops.css";
+  @import "../../../common/styles/SigningSteps.css";
 </style>
 

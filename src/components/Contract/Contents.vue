@@ -374,7 +374,8 @@ export default {
 </script>
 <style scoped>
   @import "../../styles/Contract/Contents.css";
-  @import "../../common/styles/Tops.css"
+  @import "../../common/styles/Tops.css";
+  @import "../../common/styles/SigningSteps.css";
 </style>
 <style>
   .out{

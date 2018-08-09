@@ -179,6 +179,7 @@ export default {
 
 <style scoped>
   @import "../../styles/TemplateInfo/TemplateInfos.css";
+  @import "../../common/styles/SigningSteps.css";
   #textInfo{
     display: inline-block;
     width: 150px;
