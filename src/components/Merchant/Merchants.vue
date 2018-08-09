@@ -428,11 +428,16 @@
   #close{
     width:30px;
     height:30px;
-    border-raduis:50%;
+    border-radius: 50%;
     text-align:center;
     line-height:30px;
     display:block;
     background:#fff;
     color:#000;
+  }
+  .el-button--primary:focus{
+    background: #eee;
+    border-color: #95989d;
+    color: #333;
   }
 </style>

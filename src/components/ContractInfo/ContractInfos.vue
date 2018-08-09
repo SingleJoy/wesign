@@ -27,7 +27,7 @@
           <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
 
             <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
                <!-- <img :src="['http://www.zqsign.com/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
             </div>
           </el-dialog>
@@ -157,9 +157,10 @@ export default {
 
     },
     seeContractImg (){
-      this.$loading.show(); //显示
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
+       this.imgList =[];
+       this.$loading.show(); //显示
+        var data =[];
+        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

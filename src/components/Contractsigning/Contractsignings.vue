@@ -84,7 +84,7 @@
        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog"  >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-              <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
             </div>
         </el-dialog>
         <!-- 文件信息结束 -->
@@ -306,8 +306,10 @@ export default {
         return '';
       },
       lookContractImg (){
-      this.$loading.show(); //显示
-      var data =[];
+        this.imgList=[];
+        this.$loading.show(); //显示
+        var data =[];
+
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -476,7 +478,7 @@ export default {
       },
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-       return `http://testwesign.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+       return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       nextStepFit () { //下一步
         var firstText = document.getElementById('firstText').value

@@ -68,7 +68,7 @@
     color: #22a7ea;
 }
 .nav .btns li:nth-child(3){
-    width: 116px;
+    width: 114px;
     float: left;
     line-height: 80px;
     margin-left: 110px;
@@ -110,7 +110,6 @@
     left:0;
     right:0;
     margin:auto;
-    z-index:1000;
     border-radius:10px;
     background:#fff;;
     background-size:100% 100%;
