@@ -205,15 +205,12 @@
             templateName: item.name,
             templateNo: item.templateNo
           });
-          this.$store.dispatch("templateType", {
-            templateGenre: item.templateSpecies
-          });
+
+          this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
           sessionStorage.setItem("templateName", JSON.stringify(item.name));
           sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
-          sessionStorage.setItem(
-            "templateGenre",
-            JSON.stringify(item.templateSpecies)
-          );
+          sessionStorage.setItem( "templateGenre", JSON.stringify(item.templateSpecificType));
+          // console.log(this.$store.state.templateGenre,'fillidcardreference')
           this.$router.push("/batchSetting");
         } else {
           this.$store.dispatch("template", {

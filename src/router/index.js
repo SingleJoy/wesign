@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import cookie from '@/common/js/getTenant'
 //b2c
 import User from '../components/Login/User.vue'                                   //登录
 import Forget from '../components/Login/Forget.vue'                               //忘记密码
@@ -339,15 +340,12 @@ export const router =  new Router({
 
 // router.beforeEach((to, from, next) => {
 //   // 导航钩子，全局钩子
-// localStorage.setItem('user','user');
-//   var user = localStorage.getItem('user');
-//   if(!user){
-//           if(to.name != 'Login' && to.name != 'Signin' && to.name != 'Register'){
-//                 !!user ? next() : next('/login');
-//           }else{
-//                 next();
-//           }
-//   }else{
-//         next();
-//   }
+//   // console.log(to,from)
+//   // if(to.name == "Home"){
+//       var userInfo = cookie.getJSON('tenant')
+//       if(!userInfo){
+//           next('/');
+//       }
+//   // }
+  
 // })
