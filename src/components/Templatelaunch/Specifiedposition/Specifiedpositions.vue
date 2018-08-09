@@ -82,8 +82,8 @@
     data () {
       return {
         current:0,
-        showItem:1,
-        allpage:1,
+        showItem:0,
+        allpage:0,
         centerDialogVisible:false,
         signUserList:[],
         imgList:[],

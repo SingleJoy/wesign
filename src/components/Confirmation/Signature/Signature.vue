@@ -292,6 +292,9 @@
     methods:{
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1.4/tenant/${this.interfaceCode}/contractfile`
+        this.operateType=''
+        sessionStorage.setItem('type','')
+
         return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name,file) {
@@ -361,7 +364,7 @@
           if(res.data.resultCode == '1'){
             this.$message({
               showClose: true,
-              message: '查询成功，已自动添加',
+              message: '企业已实名',
               type: 'success'
             })
             this.analogueName = res.data.data.userName

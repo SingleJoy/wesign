@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import router from './router'
+import {router} from './router'
 import ElementUI from 'element-ui'
 // import createPersistedState from 'vuex-persistedstate'   //vuex数据持久化
 import 'element-ui/lib/theme-chalk/index.css'
@@ -34,26 +34,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-
-// router.beforeEach((to, from, next) => {
-//   axios.get('../static/version.json?_=' + Math.random()).then(response => {
-//       if (200 == response.status) {
-//           if (process.env.VERSION !== response.data.version) {
-
-//               var message = "系统版本有更新，点击确认加载最新，或按【CTRL + F5】！"
-//               Vue.prototype.$alert(message, '系统提示', {
-//                 confirmButtonText: '确定',
-//                 callback: function(){
-//                   window.location.reload(true);
-//                 }
-//               });
-
-//               return;
-//           }
-//           next();
-//       }
-//   }).catch(err => {
-//       console.error(err);
-//       next();
-//   });
-// });

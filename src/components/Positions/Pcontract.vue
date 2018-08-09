@@ -34,7 +34,7 @@
       <div class='sign_left' ref="leftWrapper">
             <ul class="pagination">
               <div id="top_box">
-                <p id='top' v-show="currentIndex != 0" @click="goto(currentIndex)"><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
+                <p id='top' v-show="currentIndex != 0" @click="goto(currentIndex)"><a :class="['el-icon-arrow-up',topActive?topActive:'']" href="javascript:void(0);"></a></p>
               </div>
               <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index" @click="clickNave(index)">
                 <a href="javascript:void(0);" >{{index}}</a>
@@ -85,7 +85,8 @@ export default {
         imgList:[],
         imgHeight: [],
         hasClick:false,
-        scrollY: 0  //batterScroll 滚动的Y轴距离
+        scrollY: 0,  //batterScroll 滚动的Y轴距离
+        topActive:1
 
       }
   },
@@ -130,6 +131,8 @@ export default {
         this.clickNave(currentIndex)
       },
       goto2 (currentIndex){
+        // console.log(this.allpage,currentIndex)
+        // if(this.allpage)/10)
         currentIndex++
         this.clickNave(currentIndex)
       },

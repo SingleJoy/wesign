@@ -477,6 +477,8 @@ export default {
       },
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
+      this.operateType=''
+      sessionStorage.setItem('type','')
        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       nextStepFit () { //下一步

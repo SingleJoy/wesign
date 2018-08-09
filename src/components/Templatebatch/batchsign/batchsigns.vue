@@ -63,10 +63,10 @@
         //初始化左侧页码，并使第一个高亮
         current:0,
         // 左侧页码显示的个数
-        showItem:1,
+        showItem:0,
         // allpage:allpage
         // 左侧页码的总数
-        allpage:1,
+        allpage:0,
         imgArray:[],
         imgHeight: [],
         contractImgHeight: 0,

@@ -169,7 +169,7 @@
     line-height:30px;
   }
   .el-dialog--center .el-dialog__footer {
-    margin-top: -30px;
+    margin-top: -17px;
   }
     .loginOut{
     height:200px !important;

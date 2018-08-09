@@ -14,6 +14,7 @@
       <div class='content'>
       <div class='cleft'>
         <!-- <b><img :src="`${this.baseURL.BASE_URL}`+'/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b> -->
+
         <b v-if="showImage==true"><img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
         <b v-if="showImage==false"><img src="../../../static/images/Room/room-logo.png"  ></b>
 
