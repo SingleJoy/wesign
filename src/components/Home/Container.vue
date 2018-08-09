@@ -557,12 +557,7 @@
         .then(function(res) {
           this.deadline = res.data.count;
         });
-      this.$http
-        .get(
-          process.env.API_HOST +
-          "v1/tenant/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/templateList"
+      this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList"
         )
         .then(function(res) {
           if (res.data.sessionStatus == "0") {

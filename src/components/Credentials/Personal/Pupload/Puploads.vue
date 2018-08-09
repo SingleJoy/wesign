@@ -1,9 +1,9 @@
 /*
- * @Author: wangjia
- * @Date: 2018-05-29 20:47:00
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-06-26 09:20:12
- */
+* @Author: wangjia
+* @Date: 2018-05-29 20:47:00
+* @Last Modified by: wangjia
+* @Last Modified time: 2018-06-26 09:20:12
+*/
 <template>
   <div class='Puploads'>
     <div class="Topes">
@@ -14,79 +14,79 @@
       </nav>
     </div>
     <div class='contents'>
-     <div class='step' style="width:720px;">
-      <ul>
-        <li class="active"><i class='el-icon-document'></i><b>注册</b></li>
-        <p></p>
-        <li class="active"><i class='el-icon-goods'></i><b>个人认证</b></li>
-        <p></p>
-        <li><i class='el-icon-edit'></i><b>企业认证</b></li>
-        <p></p>
-        <li><i class='el-icon-menu'></i><b>打款确认</b></li>
-        <p></p>
-        <li><i class='el-icon-check'></i><b>完成</b></li>
-      </ul>
-    </div>
-    <div style="width: 100%;border-top: 1px solid #ddd;"></div>
-    <div class='productes'>
-      <div class='pupload-center'>
-        <div class='container'>
-          <div class="puploads-title">
-            <ul>
-              <li><b>证件上传</b></li>
+      <div class='step' style="width:720px;">
+        <ul>
+          <li class="active"><i class='el-icon-document'></i><b>注册</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-goods'></i><b>个人认证</b></li>
+          <p></p>
+          <li><i class='el-icon-edit'></i><b>企业认证</b></li>
+          <p></p>
+          <li><i class='el-icon-menu'></i><b>打款确认</b></li>
+          <p></p>
+          <li><i class='el-icon-check'></i><b>完成</b></li>
+        </ul>
+      </div>
+      <div style="width: 100%;border-top: 1px solid #ddd;"></div>
+      <div class='productes'>
+        <div class='pupload-center'>
+          <div class='container'>
+            <div class="puploads-title">
+              <ul>
+                <li><b>证件上传</b></li>
 
-              <li><b>信息确认</b></li>
-              <li><b>完成</b></li>
-            </ul>
-            <p class='personInfo'>
-              <span>对不起！您的实名未通过</span>
-              <span>请上传被授权人身份证件信息</span>
-            </p>
-          </div>
-          <div class="header-title-3">
-            <div class='personPupload'>
-              <h6><span></span><b style="color:#22a7ea;">图片示例</b></h6>
-              <div class='left'>
-                <div class="upload_warp">
-                  <div class="upload_warp_left" @click="fileClick" style="font-size:0;border:none">
-                    <img :src="IDcardFront.src" style="width:100%;height:100%;border:none;" v-show="IDcardFront.src!=null">
-                     <!-- <img src="../../../../../static/images/001.png" alt=""> -->
-                  </div>
-                </div>
-                <div class="upload_warp_text">
-                  共&nbsp;{{bytesToSize(this.size)}}
-                </div>
-                <input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none"/>
-              </div>
-              <div class='right'>
-                <div class="upload_warp">
-                  <div class="upload_warp_left" @click="imageClick" style="font-size:0;border:none">
-                    <img :src="IDcardSide.src" style="width:100%;height:100%;border:none;" v-show="IDcardSide.src!=null">
-                    <!-- <img src="../../../../../static/images/003.png" alt=""> -->
-                  </div>
-                </div>
-                <div class="upload_warp_text">
-                  共&nbsp;{{imgBytesToSize(this.imgSize)}}
-                </div>
-                <input @change="imgChange($event)" type="file" id="upload_img" multiple style="display: none"/>
-              </div>
+                <li><b>信息确认</b></li>
+                <li><b>完成</b></li>
+              </ul>
+              <p class='personInfo'>
+                <span>对不起！您的实名未通过</span>
+                <span>请上传被授权人身份证件信息</span>
+              </p>
             </div>
-            <p class='textInfo' style="padding-bottom:100px">温馨提示:上传单张图片大小应小于2M，可支持JPEG.JPG.PNG格式图片</p>
-            <div class='btns' style='clear:both'>
-              <!-- <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link> -->
-              <el-button type="primary" style='width:300px' @click="submitIDcardImg">提&nbsp;&nbsp;交</el-button>
-            </div>
+            <div class="header-title-3">
+              <div class='personPupload'>
+                <h6><span></span><b style="color:#22a7ea;">图片示例</b></h6>
+                <div class='left'>
+                  <div class="upload_warp">
+                    <div class="upload_warp_left" @click="fileClick" style="font-size:0;border:none">
+                      <img :src="IDcardFront.src" style="width:100%;height:100%;border:none;" v-show="IDcardFront.src!=null">
+                      <!-- <img src="../../../../../static/images/001.png" alt=""> -->
+                    </div>
+                  </div>
+                  <div class="upload_warp_text">
+                    共&nbsp;{{bytesToSize(this.size)}}
+                  </div>
+                  <input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none"/>
+                </div>
+                <div class='right'>
+                  <div class="upload_warp">
+                    <div class="upload_warp_left" @click="imageClick" style="font-size:0;border:none">
+                      <img :src="IDcardSide.src" style="width:100%;height:100%;border:none;" v-show="IDcardSide.src!=null">
+                      <!-- <img src="../../../../../static/images/003.png" alt=""> -->
+                    </div>
+                  </div>
+                  <div class="upload_warp_text">
+                    共&nbsp;{{imgBytesToSize(this.imgSize)}}
+                  </div>
+                  <input @change="imgChange($event)" type="file" id="upload_img" multiple style="display: none"/>
+                </div>
+              </div>
+              <p class='textInfo' style="padding-bottom:100px">温馨提示:上传单张图片大小应小于2M，可支持JPEG.JPG.PNG格式图片</p>
+              <div class='btns' style='clear:both'>
+                <!-- <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link> -->
+                <el-button type="primary" style='width:300px' @click="submitIDcardImg">提&nbsp;&nbsp;交</el-button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 <style>
- @import "../../../../styles/Credentials/Personal/Pupload/Puploads.css";
- @import "../../../../common/styles/Topes.css";
- @import "../../../../common/styles/SigningSteps.css";
+  @import "../../../../styles/Credentials/Personal/Pupload/Puploads.css";
+  @import "../../../../common/styles/Topes.css";
+  @import "../../../../common/styles/SigningSteps.css";
 </style>
 <script>
   import cookie from '@/common/js/getTenant'
@@ -104,15 +104,15 @@
         falg:false,
         isSubmit:false
       }
-	},
+    },
     mounted() {
       prohibit()
     },
-	created(){
-        var userCode =sessionStorage.getItem('userCode')
-	     	userCode = JSON.parse(userCode)
-		// console.log(userCode)
-	},
+    created(){
+      var userCode =sessionStorage.getItem('userCode')
+      userCode = JSON.parse(userCode)
+      // console.log(userCode)
+    },
     methods: {
       fileClick() {
         document.getElementById('upload_file').click()
@@ -138,7 +138,7 @@
           if (files[i].type != '') {
             this.fileAdd(files[i]);
           } else {
-              //文件夹处理
+            //文件夹处理
             this.folders(fileList.items[i]);
           }
         }
@@ -150,7 +150,7 @@
           if (files[i].type != '') {
             this.imgFileAdd(files[i]);
           } else {
-              //文件夹处理
+            //文件夹处理
             this.imgfolders(imgList.items[i]);
           }
         }
@@ -271,7 +271,7 @@
         //判断是否为图片文件
         var reg= /[.](png|PNG|jpg|JPG|jpeg|JPEG)$/
         var index = file.name.lastIndexOf('.')
-       //file.type.indexOf('image') == -1
+        //file.type.indexOf('image') == -1
         if (!reg.test(file.name.slice(index))) {
           this.$alert('图片格式不正确!','上传', {
             confirmButtonText: '确定'
@@ -302,7 +302,7 @@
             };
             image.src= file.src;
 
-             _this.$http.post(process.env.API_HOST+'v1.4/async/imgUpload',{'image':file.src},{emulateJSON: true}).then(res =>{
+            _this.$http.post(process.env.API_HOST+'v1.4/async/imgUpload',{'image':file.src},{emulateJSON: true}).then(res =>{
               if(res.data.resultCode == '1'){
                 _this.$message({
                   showClose: true,
@@ -326,16 +326,16 @@
       bytesToSize(bytes) {
         if (bytes === 0) return '0 B';
         let k = 1024,
-        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-        i = Math.floor(Math.log(bytes) / Math.log(k));
+          sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+          i = Math.floor(Math.log(bytes) / Math.log(k));
         return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
 
       },
       imgBytesToSize(bytes) {
         if (bytes === 0) return '0 B';
         let k = 1024,
-        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-        i = Math.floor(Math.log(bytes) / Math.log(k));
+          sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+          i = Math.floor(Math.log(bytes) / Math.log(k));
         return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
       },
       submitIDcardImg() {                          //正反面缩略图显示页面 准备提交后台
@@ -348,7 +348,7 @@
           return
         }
         var interfaceCode = sessionStorage.getItem('interfaceCode')
-            interfaceCode = JSON.parse(interfaceCode)
+        interfaceCode = JSON.parse(interfaceCode)
         if(this.IDcardFront.src == undefined || this.IDcardSide.src == undefined){
           this.$message({
             showClose: true,
@@ -359,7 +359,7 @@
           if(this.falg == false){
             this.falg = true
             var userCode = sessionStorage.getItem('userCode')
-                userCode = JSON.parse(userCode);
+            userCode = JSON.parse(userCode);
             this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/saveIdCardImgUrl',{'frontPhoto':this.IDcardUrl,'backPhoto':this.url,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{
               if(res.data.resultCode == '1'){
                 this.$message({

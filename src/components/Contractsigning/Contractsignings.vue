@@ -306,10 +306,9 @@ export default {
         return '';
       },
       lookContractImg (){
+      this.$loading.show(); //显示
         this.imgList=[];
-        this.$loading.show(); //显示
-        var data =[];
-
+      var data =[];
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
