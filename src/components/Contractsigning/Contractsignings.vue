@@ -295,6 +295,8 @@ export default {
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
         sessionStorage.setItem('contractName', JSON.stringify(suffix))
         sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+
+
       // }
       },
       tableRowClassName({row, rowIndex}) {

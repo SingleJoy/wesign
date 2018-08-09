@@ -114,7 +114,12 @@ export default {
 }
 </script>
 <style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+@import '../../styles/Multiparty/Multiparties.css';
+.el-button--primary:focus{
+  background: #eee;
+  border-color: #95989d;
+  color: #333;
+}
 </style>
 
 
