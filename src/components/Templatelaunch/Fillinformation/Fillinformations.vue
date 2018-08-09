@@ -78,8 +78,8 @@ export default {
         //初始化左侧页码，并使第一个高亮
         current:1,
         // 左侧页码显示的个数
-        showItem:1,
-        allpage:1,
+        showItem:0,
+        allpage:0,
         // 左侧页码的总数
         allpage:10,
         imgList:[],

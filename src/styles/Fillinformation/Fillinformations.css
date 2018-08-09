@@ -14,25 +14,31 @@
 }
 
 .sign_left{
-  margin-left: 110px;
+  /* margin-left: 110px;
   width: 60px;
+  float: left; */
+  width: 170px;
+  height:822px;
   float: left;
 }
 #top{
   width: 47px;
   height: 20px;text-align: center;
-  background: #ccc;
+  /* background: #ccc; */
+  background: #0e90d2;
   margin-bottom: 36px;
 }
 #bottom{
   width: 47px;
   height: 20px;text-align: center;
-  background: #ccc;
+  /* background: #ccc; */
+  background: #0e90d2;
   margin-top: 36px;
 }
 .pagination {
   position: relative;
-  top: 30px;
+  top: 40px;
+  float:right;
 }
 .pagination li a{
   width: 35px;
@@ -85,14 +91,14 @@
   border: 1px solid #ccc;
   float: left;
   overflow-y: scroll;
-  margin-top: 80px;
+  margin-top: 40px;
   margin-left: 25px;
 }
 /*得到合同图片，并渲染到页面*/
 
 /* 提交样式 */
 .sign_right{
-  margin-top: 30px;
+  margin-top: 20px;
   float: left;
   margin-left: 22px;
   overflow: auto;
@@ -179,6 +185,7 @@
   background:#22a7ea;
   line-height: 30px;
   color: #fff;
+  font-size: 12px;
 }
 .more dl dd{
   text-align: center;

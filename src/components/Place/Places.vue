@@ -104,8 +104,8 @@ export default {
       return {
         //centerDialogVisible:false,
         current:0,
-        showItem:1,
-        allpage:1,
+        showItem:0,
+        allpage:0,
         signUserList:[],
         analogueList:[],
         imgList:[],

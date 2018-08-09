@@ -37,26 +37,28 @@
 /* 分页样式 */
 
 .sign_left{
-  margin-left: 160px;
-  width: 60px;
+  /* margin-left: 160px; */
+  width: 220px;
+  height:822px;
   float: left;
 }
 #top{
   width: 47px;
   height: 20px;text-align: center;
-  background: #ccc;
+  background: #0e90d2;
   margin-bottom: 36px;
 }
 #bottom{
   width: 47px;
   height: 20px;text-align: center;
-  background: #ccc;
+  background: #0e90d2;
   margin-top: 36px;
 }
 
 .pagination {
   position: relative;
   top: 5px;
+  float:right;
 }
 .pagination li a{
   width: 35px;
@@ -164,6 +166,7 @@
   background:#22a7ea;
   line-height: 30px;
   color: #fff;
+  font-size: 12px;
 }
 .more dl dd{
   text-align: center;

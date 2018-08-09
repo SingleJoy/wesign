@@ -83,8 +83,8 @@ export default {
   data () {
     return {
       current: 0,
-      showItem:1,
-      allpage: 1,
+      showItem:0,
+      allpage: 0,
       imgArray:[],
       imgHeight: [],
       contractImgHeight: 0,

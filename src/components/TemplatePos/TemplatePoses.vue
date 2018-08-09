@@ -81,8 +81,8 @@ export default {
   data () {
     return {
       current:0,
-      showItem:1,
-      allpage:1,
+      showItem:0,
+      allpage:0,
       centerDialogVisible:false,
       signUserList:[],
       imgList:[],
@@ -391,15 +391,15 @@ export default {
               var dragNum = el.childNodes[6]
               dragNum.innerText ='拖入位置（'+ n +'）次'
 
-              if (n >= 10){
-                dragNum.style.fontSize='12px'
-                dragNum.innerText ='已达到最大拖拽次数（'+ n +'）次'
-                dragNum.style.color='red'
-                el.onmousedown = null
-                el.onmousemove = null
-                el.onmouseup = null
-                return false;
-              }
+              // if (n >= 10){
+              //   dragNum.style.fontSize='12px'
+              //   dragNum.innerText ='已达到最大拖拽次数（'+ n +'）次'
+              //   dragNum.style.color='red'
+              //   el.onmousedown = null
+              //   el.onmousemove = null
+              //   el.onmouseup = null
+              //   return false;
+              // }
               var signBox =document.getElementsByClassName("signBox");
               for (var i =0;i<signBox.length;i++){
                 signBox[i].onmousedown = function (e){

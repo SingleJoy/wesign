@@ -20,7 +20,7 @@
       </el-dialog> -->
     </nav>
   </div>
-  <div class='Pcontract'style="margin-top: 100px;">
+  <div class='Pcontract' style="margin-top: 100px;">
     <div class='step' style="width: 600px;">
         <ul>
           <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
@@ -85,8 +85,8 @@ export default {
       return {
         //centerDialogVisible:false,
         current:0,
-        showItem:1,
-        allpage:1,
+        showItem:0,
+        allpage:0,
         signUserList:[],
         imgList:[],
         imgHeight: [],
@@ -387,15 +387,15 @@ export default {
               var dragNum = el.childNodes[6]
               dragNum.innerText ='拖入位置（'+ n +'）次'
 
-              if (n >= 10){
-                dragNum.style.fontSize='12px'
-                dragNum.innerText ='最大拖拽次数（'+ n +'）次'
-                dragNum.style.color='red'
-                el.onmousedown = null
-                el.onmousemove = null
-                el.onmouseup = null
-                return false;
-              }
+              // if (n >= 10){
+              //   dragNum.style.fontSize='12px'
+              //   dragNum.innerText ='最大拖拽次数（'+ n +'）次'
+              //   dragNum.style.color='red'
+              //   el.onmousedown = null
+              //   el.onmousemove = null
+              //   el.onmouseup = null
+              //   return false;
+              // }
               var signBox =document.getElementsByClassName("signBox");
               for (var i =0;i<signBox.length;i++){
                 signBox[i].onmousedown = function (e){

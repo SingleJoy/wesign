@@ -67,26 +67,32 @@
 }
 
 .sign_left{
-  margin-left: 110px;
+  /* margin-left: 110px;
   width: 60px;
+  float: left; */
+  width: 170px;
+  height:822px;
   float: left;
 }
 #top{
   width: 47px;
   height: 20px;text-align: center;
-  background: #ccc;
+  /* background: #ccc; */
+  background: #0e90d2;
   margin-bottom: 36px;
 }
 #bottom{
   width: 47px;
   height: 20px;text-align: center;
-  background: #ccc;
+  /* background: #ccc; */
+  background: #0e90d2;
   margin-top: 36px;
 }
 
 .pagination {
   position: relative;
   top: 40px;
+  float:right;
 }
 .pagination li a{
   width: 35px;
