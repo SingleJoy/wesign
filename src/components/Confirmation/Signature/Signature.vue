@@ -80,7 +80,7 @@
         <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-              <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
             </div>
         </el-dialog>
          <!--签署人设置-->
@@ -292,7 +292,9 @@
     methods:{
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `http://testwesign.zqsign.com/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        this.operateType=''
+        sessionStorage.setItem('type','')
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name,file) {
         var max_size = 5;// 5M
@@ -361,7 +363,7 @@
           if(res.data.resultCode == '1'){
             this.$message({
               showClose: true,
-              message: '查询成功，已自动添加',
+              message: '企业已实名',
               type: 'success'
             })
             this.analogueName = res.data.data.userName

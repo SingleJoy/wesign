@@ -61,7 +61,7 @@ import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 Vue.use(Router)
 
-export default new Router({
+export const router =  new Router({
 
   routes: [
     {
@@ -336,3 +336,18 @@ export default new Router({
     }
   ]
 })
+
+// router.beforeEach((to, from, next) => {
+//   // 导航钩子，全局钩子
+// localStorage.setItem('user','user');
+//   var user = localStorage.getItem('user');
+//   if(!user){
+//           if(to.name != 'Login' && to.name != 'Signin' && to.name != 'Register'){
+//                 !!user ? next() : next('/login');
+//           }else{
+//                 next();
+//           }
+//   }else{
+//         next();
+//   }
+// })

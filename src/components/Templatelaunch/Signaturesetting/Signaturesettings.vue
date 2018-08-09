@@ -35,7 +35,8 @@
           <h3 class='proper'>
             <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='inputText' :maxlength= 50 >
             <a class='select' @click="seeTemplate">查看</a>
-            <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p>
+            <a class='replace' @click="changeTemlplate" style="cursor: pointer;">更换</a>
+            <!-- <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p> -->
             <p class='second'><span>签署截止日期：</span>
               <el-date-picker
                 style='width:138px;margin-right:20px'
@@ -152,7 +153,7 @@
         </div>
         <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog" >
             <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
             </div>
         </el-dialog>
@@ -243,6 +244,11 @@ export default {
       }
     },
     methods: {
+      changeTemlplate(){
+        this.operateType=''
+        sessionStorage.setItem('type','')
+        this.$router.push('/Multiparty')
+      },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return "background:#f5f5f5;text-align:center;font-weight:bold;";
