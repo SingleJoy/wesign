@@ -12,6 +12,7 @@ import store from './store'
 import Es6Promise from 'es6-promise'
 import Loading from 'wc-loading'
 import 'wc-loading/style.css'
+import axios from 'axios'
 import moment  from 'moment'
 
 import BASE_URL from '../config/global'
@@ -33,3 +34,26 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+// router.beforeEach((to, from, next) => {
+//   axios.get('../static/version.json?_=' + Math.random()).then(response => {
+//       if (200 == response.status) {
+//           if (process.env.VERSION !== response.data.version) {
+
+//               var message = "系统版本有更新，点击确认加载最新，或按【CTRL + F5】！"
+//               Vue.prototype.$alert(message, '系统提示', {
+//                 confirmButtonText: '确定',
+//                 callback: function(){
+//                   window.location.reload(true);
+//                 }
+//               });
+
+//               return;
+//           }
+//           next();
+//       }
+//   }).catch(err => {
+//       console.error(err);
+//       next();
+//   });
+// });
