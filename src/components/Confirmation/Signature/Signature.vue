@@ -8,7 +8,7 @@
           </p>
           <div class='buttons'>
             <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-            <el-button style='color:#22a7ea' @click="nextFit">下一步</el-button>
+            <el-button style='color:#22a7ea' :disabled="nextBtn" @click="nextFit">下一步</el-button>
           </div>
         </nav>
       </div>
@@ -48,6 +48,7 @@
                   :data=Type
                   :before-upload="handleChange"
                   :on-success="fileSuccess"
+                  :on-error="fileErron"
                   :show-file-list= false
                   accept='.docx,.pdf,.doc,.txt'
                   >
@@ -256,6 +257,7 @@
       return {
         date:'',
         checked:true,
+        nextBtn:false,
         input:'',
         companyName:'',
         email:'',
@@ -291,13 +293,13 @@
     },
     methods:{
       urlloadUrl(){
-        // return `${this.baseURL.BASE_URL}/v1.4/tenant/${this.interfaceCode}/contractfile`
-        // this.operateType=''
-        // sessionStorage.setItem('type','')
+        var contractNo = sessionStorage.getItem('contractNo');
+		        contractNo = JSON.parse(contractNo)
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
 
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name,file) {
+        this.nextBtn = true;
         var max_size = 5;// 5M
         var fileNameCont = name.name.replace(/\s+/g, "")
         var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
@@ -322,6 +324,7 @@
 
       },
       fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+        this.nextBtn = false;
        var contractName = file.name.replace(/\s+/g, "")
        var contractNo = file.response.contractNo
        var resultCode = file.response.resultCode
@@ -333,6 +336,14 @@
         sessionStorage.setItem('contractName', JSON.stringify(suffix))
         sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
       // }
+      },
+      fileErron(){
+        this.nextBtn = false;
+        this.$message({
+          showClose: true,
+          message: '上传失败',
+          type: 'success'
+        })
       },
       show() {
         this.agentShow=!this.agentShow;
@@ -550,9 +561,12 @@
       },
       lookContractImg (){
         this.imgList=[];
-      this.$loading.show(); //显示
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+        this.$loading.show(); //显示
+        var data =[];
+        var contractNo = sessionStorage.getItem('contractNo');
+		        contractNo = JSON.parse(contractNo)
+
+      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -595,7 +609,7 @@
       this.email = cookie.getJSON('tenant')[1].email
       if(type == 'back'){
         var Jurisdiction = sessionStorage.getItem('Jurisdiction');
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/echoContractSetting').then(function (res) {
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/echoContractSetting').then(function (res) {
 
           this.input = res.data.data.contractName
           this.date = res.data.data.validTime

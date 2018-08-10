@@ -245,8 +245,7 @@ export default {
     },
     methods: {
       changeTemlplate(){
-        // this.operateType=''
-        // sessionStorage.setItem('type','')
+       
         this.$router.push('/Multiparty')
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {

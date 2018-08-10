@@ -13,7 +13,7 @@
       </p>
       <div class='buttons' v-show="delSigner == true">
         <el-button type="info" style='background:#ccc' :disabled="hasClick"  @click="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
+        <el-button style='color:#22a7ea' :disabled="isNext" @click="nextStepFit">下一步</el-button>
       </div>
     </nav>
    </div>
@@ -46,6 +46,7 @@
             :action='urlloadUrl()'
             :before-upload="handleChange"
             :on-success="fileSuccess"
+            :on-error="fileErron"
             :show-file-list= false
             accept='.docx,.pdf,.doc,.txt'
             >
@@ -219,6 +220,7 @@ export default {
         checked1: true,
         tableData5: [],
         imgList:[],
+        isNext:false,//下一步按钮
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         ruleForm: {
           signUserName: '',
@@ -262,6 +264,7 @@ export default {
         }
       },
       handleChange (name,file) {
+        this.isNext = true;
         var max_size = 5;// 5M
         var fileNameCont = name.name.replace(/\s+/g, "")
         var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
@@ -284,34 +287,43 @@ export default {
           this.$loading.show(); //显示
         }
       },
-      fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-       var contractName = file.name.replace(/\s+/g, "")
-       var contractNo = file.response.contractNo
-       var resultCode = file.response.resultCode
-        this.$loading.hide(); //隐藏
-        var index1=contractName.lastIndexOf(".");
-        var suffix=contractName.slice(0,index1);
-        this.contractName = suffix
-        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
-
-
-      // }
-      },
-      tableRowClassName({row, rowIndex}) {
-        if (rowIndex === 1) {
-          return 'warning-row';
-        } else if (rowIndex === 3) {
-          return 'success-row';
-        }
-        return '';
-      },
+		fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+			this.isNext = false;
+			var contractName = file.name.replace(/\s+/g, "")
+			var contractNo = file.response.contractNo
+			var resultCode = file.response.resultCode
+			this.$loading.hide(); //隐藏
+			var index1=contractName.lastIndexOf(".");
+			var suffix=contractName.slice(0,index1);
+			this.contractName = suffix
+			this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+			sessionStorage.setItem('contractName', JSON.stringify(suffix))
+			sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+		},
+		fileErron(){
+			this.nextBtn = false;
+			this.$message({
+			showClose: true,
+			message: '上传失败',
+			type: 'success'
+			})
+		},
+		tableRowClassName({row, rowIndex}) {
+			if (rowIndex === 1) {
+			return 'warning-row';
+			} else if (rowIndex === 3) {
+			return 'success-row';
+			}
+			return '';
+		},
       lookContractImg (){
-      this.$loading.show(); //显示
-        this.imgList=[];
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+		this.$loading.show(); //显示
+		this.imgList=[];
+		var data =[];
+		var contractNo = sessionStorage.getItem('contractNo');
+			contractNo = JSON.parse(contractNo)
+	  
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -478,10 +490,11 @@ export default {
         })
       },
       urlloadUrl(){
-        // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-      // this.operateType=''
-      // sessionStorage.setItem('type','')
-       return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        //更换合同时传旧合同编号从session里取
+		var contractNo = sessionStorage.getItem('contractNo');
+		    contractNo = JSON.parse(contractNo)
+
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
       },
       nextStepFit () { //下一步
         var firstText = document.getElementById('firstText').value
@@ -494,12 +507,16 @@ export default {
           })
           return false
         }
-        if(this.checked1 == true && this.tableData5.length > 4 ||this.checked1 == false && this.tableData5.length > 5){
-          this.$alert('上传发起合同签署人数不能超过5人!','添加签署人', {
-            confirmButtonText: '确定'
-          })
-          return false
+        // console.log(!!this.tableData5)
+        if(!!this.tableData5){
+           if((this.checked1 == true && this.tableData5.length > 4) || (this.checked1 == false && this.tableData5.length > 5)){
+            this.$alert('上传发起合同签署人数不能超过5人!','添加签署人', {
+              confirmButtonText: '确定'
+            })
+            return false
+          }
         }
+       
         if(this.checked == false && this.value8 == ''){
             this.$alert('您还没有选择签署时间!','签署时间', {
               confirmButtonText: '确定'
@@ -538,19 +555,22 @@ export default {
           } else {
             needSign = '0'
           }
-          for(var i = 0; i < this.tableData5.length;i++ ){
-            var name = this.tableData5[i].signUserName
-            var mobile = this.tableData5[i].mobile
-            var idCard = this.tableData5[i].idCard
-            var email = this.tableData5[i].email
-            if(email == undefined || email == 'undefined'){
-              email = ''
+          if(this.tableData5){
+              for(var i = 0; i < this.tableData5.length;i++ ){
+              var name = this.tableData5[i].signUserName
+              var mobile = this.tableData5[i].mobile
+              var idCard = this.tableData5[i].idCard
+              var email = this.tableData5[i].email
+              if(email == undefined || email == 'undefined'){
+                email = ''
+              }
+              names += name + ','
+              mobiles += mobile + ','
+              id_nums += idCard + ','
+              emails += email + ','
             }
-            names += name + ','
-            mobiles += mobile + ','
-            id_nums += idCard + ','
-            emails += email + ','
           }
+          
           names = names.substring(0, names.length-1)
           mobiles = mobiles.substring(0,mobiles.length-1)
           id_nums = id_nums.substring(0,id_nums.length-1)
@@ -603,7 +623,10 @@ export default {
               "emails":emails
             }
           }
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1,contractVo,{emulateJSON:true}).then(function (res) {
+		  this.isNext = true;
+		  var contractNo = sessionStorage.getItem('contractNo');
+			  contractNo = JSON.parse(contractNo)
+          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo,contractVo,{emulateJSON:true}).then(function (res) {
             if(res.data.sessionStatus == '0'){
               this.$router.push('/Server')
             } else {
@@ -613,6 +636,8 @@ export default {
                 //   message: res.data.resultMessage,
                 //   type: 'success'
                 // })
+			  this.isNext = false;
+			  console.log(this.$store.state.contractNo1)
               this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
               this.$store.dispatch('needSign',{needSign:needSign})
               sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
@@ -627,7 +652,8 @@ export default {
               this.$alert('您还没有选择签署时间!','签署时间', {
                 confirmButtonText: '确定'
               })
-              this.falg = true
+              this.falg = true;
+              this.isNext = false;
             }
             }
           })
@@ -647,7 +673,7 @@ export default {
     created() {
       var contractName = sessionStorage.getItem('contractName');
       var contractNo = sessionStorage.getItem('contractNo');
-      var type = sessionStorage.getItem('type');
+	  var type = sessionStorage.getItem('type');
       if (contractName) {
         contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
@@ -669,7 +695,7 @@ export default {
       }
       if( type == 'back' ){
          this.operate = true
-         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/echoContractInfo').then(function (res) {
+         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/echoContractInfo').then(function (res) {
            if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -684,9 +710,9 @@ export default {
             this.checked1 = false
           }
           if(perpetualValid == "1"){
-					  this.checked = true
-				  }else{
-					  this.checked = false
+				this.checked = true
+			}else{
+				this.checked = false
           }
           if(validTime!=""){
 					  this.value8 = validTime
