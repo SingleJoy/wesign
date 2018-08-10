@@ -7,8 +7,8 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="lastStepFit">上一步</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
+        <el-button style='color:#22a7ea' :disabled="isAction" @click="lastStepFit">上一步</el-button>
+        <el-button style='color:#22a7ea' :disabled="isAction" @click="nextStepFit">下一步</el-button>
       </div>
     </nav>
   </div>
@@ -86,7 +86,8 @@ export default {
         imgHeight: [],
         hasClick:false,
         scrollY: 0,  //batterScroll 滚动的Y轴距离
-        topActive:1
+        topActive:1,
+        isAction:true
 
       }
   },
@@ -295,19 +296,20 @@ export default {
     this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
       if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
-        } else {
-      this.allpage = res.data.length
-      this.$nextTick(() => {
-        this.initScroll()
-        this.calculateHeight()
-      })
-      for (let i = 0; i < res.data.length;i++) {
-        let contractUrl = res.data[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
+      }else{
+        this.allpage = res.data.length
+        this.$nextTick(() => {
+          this.initScroll()
+          this.calculateHeight()
+        })
+        for (let i = 0; i < res.data.length;i++) {
+          let contractUrl = res.data[i].contractUrl
+          data[i] = contractUrl
+          this.$loading.hide(); //隐藏
         }
         this.imgList = data
-        }
+      }
+      this.isAction = false;
     })
 
   },

@@ -7,8 +7,8 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="templateCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style='color:#22a7ea' @click="lastStepFit">上一步</el-button>
-          <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
+          <el-button style='color:#22a7ea' :disabled="isAction" @click="lastStepFit">上一步</el-button>
+          <el-button style='color:#22a7ea' :disabled="isAction" @click="nextStepFit">下一步</el-button>
         </div>
         <!-- <el-dialog
           title="提示"
@@ -87,6 +87,7 @@
         centerDialogVisible:false,
         signUserList:[],
         imgList:[],
+        isAction:true,//默认为true不可点击,接口请求完成之后可点
         imgHeight: [],
         scrollY: 0  //batterScroll 滚动的Y轴距离
       }
@@ -310,6 +311,7 @@
           }
           this.imgList = data
         }
+        this.isAction = false;
       })
 
     },

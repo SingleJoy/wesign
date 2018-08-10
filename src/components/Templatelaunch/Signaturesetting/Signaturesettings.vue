@@ -438,13 +438,16 @@ export default {
         }
         if( this.checked1 == true ){
           this.operate = true
-        }
-        if(this.checked1 == true && this.tableData2.length > 4 ||this.checked1 == false && this.tableData2.length > 5){
-          this.$alert('模板发起合同签署人数不能超过5人!','添加签署人', {
-            confirmButtonText: '确定'
-          })
-          return false
-        }
+		}
+		if(!!this.tableData2){ //判断签署人数组是否存在 .length报错
+			if(this.checked1 == true && this.tableData2.length > 4 ||this.checked1 == false && this.tableData2.length > 5){
+				this.$alert('模板发起合同签署人数不能超过5人!','添加签署人', {
+					confirmButtonText: '确定'
+				})
+				return false
+			}
+		}
+        
         if(this.checked == false && this.value8 == ''){
             this.$alert('您还没有选择签署时间!','签署时间', {
               confirmButtonText: '确定'
@@ -483,20 +486,23 @@ export default {
               emails+=",";
             } else {
               needSign = '0'
-            }
-            for(var i = 0; i < this.tableData2.length;i++ ){
-              var name = this.tableData2[i].signUserName
-              var mobile = this.tableData2[i].mobile
-              var idCard = this.tableData2[i].idCard
-              var email = this.tableData2[i].email
-              if(email == undefined || email == 'undefined'){
-               email = ''
-              }
-              names += name + ','
-              mobiles += mobile + ','
-              id_nums += idCard + ','
-              emails += email + ','
-            }
+			}
+			if(!!this.tableData2){
+				for(var i = 0; i < this.tableData2.length;i++ ){
+					var name = this.tableData2[i].signUserName
+					var mobile = this.tableData2[i].mobile
+					var idCard = this.tableData2[i].idCard
+					var email = this.tableData2[i].email
+					if(email == undefined || email == 'undefined'){
+					email = ''
+				}
+					names += name + ','
+					mobiles += mobile + ','
+					id_nums += idCard + ','
+					emails += email + ','
+				}
+			}
+           
 
             if ( this.checked == true ) {
               perpetualValid = '1'
