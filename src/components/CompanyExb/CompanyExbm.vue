@@ -267,9 +267,8 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-         this.$store.dispatch('tabIndex',{tabIndex:1});
         if(cookie.getJSON('state') == 'C'||cookie.getJSON('state') == 'H' ){
-          // this.$router.push("/Merchant")
+          this.$router.push("/Merchant")
           this.$router.push("/Procontract")
         }else if(cookie.getJSON('state') == 'C2'){
           this.$router.push("/Procontract")

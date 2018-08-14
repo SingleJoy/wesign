@@ -259,8 +259,7 @@ export default {
       // console.log("state"+cookie.getJSON('state'))
       this.$store.dispatch('tabIndex',{tabIndex:1});
       if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-        // this.$router.push("/Home")
-        this.$router.push("/Mycontract")
+        this.$router.push("/Home")
       }else{
         this.$router.push("/Mycontract")
       }

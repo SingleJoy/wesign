@@ -637,7 +637,6 @@
                   //   type: 'success'
                   // })
                   this.isNext = false;
-                  console.log(this.$store.state.contractNo1)
                   this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
                   this.$store.dispatch('needSign',{needSign:needSign})
                   sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
