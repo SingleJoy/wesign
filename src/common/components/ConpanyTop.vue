@@ -295,11 +295,11 @@ export default {
       },
       urlloadUrl(){
         // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-        return `https://www.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl(){
         // return `${this.baseURL.BASE_URL}/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `https://www.zqsign.com/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name, file, fileList) {
         var max_size = 5;// 5M
