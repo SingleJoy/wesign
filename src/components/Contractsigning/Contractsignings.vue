@@ -673,7 +673,7 @@ export default {
     created() {
       var contractName = sessionStorage.getItem('contractName');
       var contractNo = sessionStorage.getItem('contractNo');
-	  var type = sessionStorage.getItem('type');
+	    var type = sessionStorage.getItem('type');
       if (contractName) {
         contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
@@ -694,37 +694,39 @@ export default {
         }
       }
       if( type == 'back' ){
+         this.isNext = true;
          this.operate = true
          this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/echoContractInfo').then(function (res) {
            if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          var needSign = res.data.needSign;
-          var perpetualValid = res.data.perpetualValid;
-          var validTime = res.data.validTime;
-          var list = res.data.list;
-          this.operateType = res.data.operateType
-          if(needSign == "1"){
-            this.checked1 = true
-          } else {
-            this.checked1 = false
-          }
-          if(perpetualValid == "1"){
-				this.checked = true
-			}else{
-				this.checked = false
-          }
-          if(validTime!=""){
-					  this.value8 = validTime
-          }
-          this.tableData5 = list
-        }
+            this.$router.push('/Server')
+            } else {
+              this.isNext = false;
+              var needSign = res.data.needSign;
+              var perpetualValid = res.data.perpetualValid;
+              var validTime = res.data.validTime;
+              var list = res.data.list;
+              this.operateType = res.data.operateType
+              if(needSign == "1"){
+                this.checked1 = true
+              } else {
+                this.checked1 = false
+              }
+              if(perpetualValid == "1"){
+                this.checked = true
+              }else{
+                this.checked = false
+              }
+              if(validTime!=""){
+                this.value8 = validTime
+              }
+              this.tableData5 = list
+            }
          })
       }
     }
 }
 </script>
-<style scoped >
+<style lang="scss" scoped >
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";

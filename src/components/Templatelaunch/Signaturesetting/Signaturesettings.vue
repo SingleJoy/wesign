@@ -609,11 +609,13 @@ export default {
         }
       }
       if ( type == 'back'){
+         this.nextStepFit = true;
         this.operate = true
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/echoContractInfo').then(function (res) {
           if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
+           this.nextStepFit = false;
           var needSign = res.data.needSign;
           var perpetualValid = res.data.perpetualValid;
           var validTime = res.data.validTime;
