@@ -220,7 +220,7 @@ export default {
   position: relative !important;
   -webkit-box-sizing: border-box !important;
   box-sizing: border-box !important;
-  height: 800px !important;
+  min-height: 700px !important;
   overflow-y: scroll !important;
 }
 #contractAddress{
