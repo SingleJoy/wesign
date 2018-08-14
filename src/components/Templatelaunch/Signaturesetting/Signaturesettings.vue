@@ -7,7 +7,7 @@
       </p>
       <div class='buttons' v-show="delSigner == true">
         <el-button type="info" style='background:#ccc' @click="tempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit" :loading= load>下一步</el-button>
+        <el-button style='color:#22a7ea' :disabled="isNext" @click="nextStepBtn" :loading= load>下一步</el-button>
       </div>
     </nav>
    </div>
@@ -206,6 +206,7 @@ export default {
       return {
         value8: '',
         checked: true,
+        isNext:false,
         checked1:true,
         falg:true,       //重复提交标示
         operateType:'', //数据回显标示
@@ -428,7 +429,7 @@ export default {
           }
         })
       },
-      nextStepFit () { //下一步
+      nextStepBtn () { //下一步
         var inputText = document.getElementById('inputText').value;
         if(TrimAll(inputText) == ''){
            this.$alert('合同名称不能为空!','签署', {
@@ -438,15 +439,15 @@ export default {
         }
         if( this.checked1 == true ){
           this.operate = true
-		}
-		if(!!this.tableData2){ //判断签署人数组是否存在 .length报错
-			if(this.checked1 == true && this.tableData2.length > 4 ||this.checked1 == false && this.tableData2.length > 5){
-				this.$alert('模板发起合同签署人数不能超过5人!','添加签署人', {
-					confirmButtonText: '确定'
-				})
-				return false
-			}
-		}
+		    }
+        if(!!this.tableData2){ //判断签署人数组是否存在 .length报错
+          if(this.checked1 == true && this.tableData2.length > 4 ||this.checked1 == false && this.tableData2.length > 5){
+            this.$alert('模板发起合同签署人数不能超过5人!','添加签署人', {
+              confirmButtonText: '确定'
+            })
+            return false
+          }
+        }
 
         if(this.checked == false && this.value8 == ''){
             this.$alert('您还没有选择签署时间!','签署时间', {
@@ -609,13 +610,13 @@ export default {
         }
       }
       if ( type == 'back'){
-         this.nextStepFit = true;
+         this.isNext = true;
         this.operate = true
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/echoContractInfo').then(function (res) {
           if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
-           this.nextStepFit = false;
+           this.isNext = false;
           var needSign = res.data.needSign;
           var perpetualValid = res.data.perpetualValid;
           var validTime = res.data.validTime;
