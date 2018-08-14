@@ -202,13 +202,7 @@
     vertical-align:sub;
     color:#22a7ea;
   }
-  .showDialogs{
-    position: relative !important;
-    -webkit-box-sizing: border-box !important;
-    box-sizing: border-box !important;
-    height: 800px !important;
-    overflow-y: scroll !important;
-  }
+
   #contractAddress{
     display: inline-block;
     overflow: hidden;

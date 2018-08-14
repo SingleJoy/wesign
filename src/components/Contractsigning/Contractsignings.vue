@@ -1,109 +1,109 @@
 /*
- * @Author: wangjia
- * @Date: 2018-06-07 10:26:42
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-06-28 13:25:39
- */
+* @Author: wangjia
+* @Date: 2018-06-07 10:26:42
+* @Last Modified by: wangjia
+* @Last Modified time: 2018-06-28 13:25:39
+*/
 <template>
   <div>
-   <div class="Tops">
-    <nav class='nav'>
-      <p class='logo'>
-        <img src="../../../static/images/logo2.png" alt="">
-      </p>
-      <div class='buttons' v-show="delSigner == true">
-        <el-button type="info" style='background:#ccc' :disabled="hasClick"  @click="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' :disabled="isNext" @click="nextStepFit">下一步</el-button>
-      </div>
-    </nav>
-   </div>
-   <div class='Contractsignings'>
-         <div class="step" style="width:720px;">  <!--步骤条 -->
-            <ul>
-              <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
-              <p></p>
-              <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-              <p></p>
-              <li ><i class='el-icon-edit'></i><b>指定位置</b></li>
-              <p></p>
-              <li><i class='el-icon-menu'></i><b>合同签署</b></li>
-              <p></p>
-              <li><i class='el-icon-check'></i><b>完成</b></li>
-            </ul>
+    <div class="Tops">
+      <nav class='nav'>
+        <p class='logo'>
+          <img src="../../../static/images/logo2.png" alt="">
+        </p>
+        <div class='buttons' v-show="delSigner == true">
+          <el-button type="info" style='background:#ccc' :disabled="hasClick"  @click="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+          <el-button style='color:#22a7ea' :disabled="isNext" @click="nextStepFit">下一步</el-button>
         </div>
-        <!-- 文件信息开始 -->
-        <div class="file">
-          <h2 class='fileInfo'>
-            <img src="../../../static/images/Contractsigning/person.png" alt="">
-          </h2>
-          <h3 class='proper'>
-            <p class='first'><b>合同名称：</b>
-             <input type="text" v-model="contractName" id='firstText' :maxlength= 50>
+      </nav>
+    </div>
+    <div class='Contractsignings'>
+      <div class="step" style="width:720px;">  <!--步骤条 -->
+        <ul>
+          <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
+          <p></p>
+          <li ><i class='el-icon-edit'></i><b>指定位置</b></li>
+          <p></p>
+          <li><i class='el-icon-menu'></i><b>合同签署</b></li>
+          <p></p>
+          <li><i class='el-icon-check'></i><b>完成</b></li>
+        </ul>
+      </div>
+      <!-- 文件信息开始 -->
+      <div class="file">
+        <h2 class='fileInfo'>
+          <img src="../../../static/images/Contractsigning/person.png" alt="">
+        </h2>
+        <h3 class='proper'>
+          <p class='first'><b>合同名称：</b>
+            <input type="text" v-model="contractName" id='firstText' :maxlength= 50>
             <a class='select' @click="lookContractImg" style='padding-top:2px;cursor:pointer'>查看</a>
             <el-upload
-            ref='upload'
-            class="upload-demo"
-            :action='urlloadUrl()'
-            :before-upload="handleChange"
-            :on-success="fileSuccess"
-            :on-error="fileErron"
-            :show-file-list= false
-            accept='.docx,.pdf,.doc,.txt'
+              ref='upload'
+              class="upload-demo"
+              :action='urlloadUrl()'
+              :before-upload="handleChange"
+              :on-success="fileSuccess"
+              :on-error="fileErron"
+              :show-file-list= false
+              accept='.docx,.pdf,.doc,.txt'
             >
-            <a class='replace'>更换</a>
+              <a class='replace'>更换</a>
             </el-upload>
-            </p>
-            <p class='second'><span>签署截止日期：</span>
-              <el-date-picker
-                style='width:138px;margin-right:20px'
-                height='height:40px'
-                v-model="value8"
-                type="date"
-                :editable= false
-                :clearable= false
-                placeholder="选择日期"
-                format="yyyy-MM-dd 23:59:59"
-                value-format="yyyy-MM-dd 23:59:59"
-                @change="dateInput"
-                :picker-options="pickerOptions0"
-                >
-              </el-date-picker>
-              <el-checkbox
+          </p>
+          <p class='second'><span>签署截止日期：</span>
+            <el-date-picker
+              style='width:138px;margin-right:20px'
+              height='height:40px'
+              v-model="value8"
+              type="date"
+              :editable= false
+              :clearable= false
+              placeholder="选择日期"
+              format="yyyy-MM-dd 23:59:59"
+              value-format="yyyy-MM-dd 23:59:59"
+              @change="dateInput"
+              :picker-options="pickerOptions0"
+            >
+            </el-date-picker>
+            <el-checkbox
               v-model="checked"
               @change='checkedBox'
-              >
-              </el-checkbox>
-              <b class='info'>永久有效</b>
-              <el-checkbox
+            >
+            </el-checkbox>
+            <b class='info'>永久有效</b>
+            <el-checkbox
               v-model="checked1"
-              >
-              </el-checkbox>
-              <b class='info'>平台方是否签署</b>
-            </p>
-          </h3>
+            >
+            </el-checkbox>
+            <b class='info'>平台方是否签署</b>
+          </p>
+        </h3>
+      </div>
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs"  >    <!-- :lock-scroll= false有问题！！！！ -->
+        <div v-for="(item,index) in imgList" :key="index">
+          <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
+          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
         </div>
-       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog"  >    <!-- :lock-scroll= false有问题！！！！ -->
-            <div v-for="(item,index) in imgList" :key="index">
-               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
-            </div>
-        </el-dialog>
-        <!-- 文件信息结束 -->
-        <!-- 签署人设置开始 -->
-        <div class="setting">
-          <h2 class='settingInfo'>
-            <img src="../../../static/images/Contractsigning/settings.png" alt="">
-            <p class="personInfo2">
-              <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
-              <el-dialog title="添加人员" :visible.sync="dialogFormVisible"  width="360px"  top="30vh"   custom-class='outInfo' center @close="closeDialog('ruleForm')"   :lock-scroll= false>
+      </el-dialog>
+      <!-- 文件信息结束 -->
+      <!-- 签署人设置开始 -->
+      <div class="setting">
+        <h2 class='settingInfo'>
+          <img src="../../../static/images/Contractsigning/settings.png" alt="">
+          <p class="personInfo2">
+            <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
+            <el-dialog title="添加人员" :visible.sync="dialogFormVisible"  width="360px"  top="30vh"   custom-class='outInfo' center @close="closeDialog('ruleForm')"   :lock-scroll= false>
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
                 <el-form-item label="姓名" :label-width="formLabelWidth" prop="signUserName">
                   <el-input v-model="ruleForm.signUserName" auto-complete="off" placeholder="请输入姓名" :maxlength= 15></el-input>
                 </el-form-item>
-                 <el-form-item label="身份证号" :label-width="formLabelWidth" prop="idCard">
+                <el-form-item label="身份证号" :label-width="formLabelWidth" prop="idCard">
                   <el-input v-model="ruleForm.idCard" auto-complete="off" placeholder="请输入身份证号" :maxlength= 18></el-input>
                 </el-form-item>
-                 <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobile">
+                <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobile">
                   <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号" :maxlength= 11></el-input>
                 </el-form-item>
               </el-form>
@@ -112,70 +112,70 @@
                 <el-button type="primary" @click="submitForm('ruleForm')" size="medium">确 定</el-button>
               </div>
             </el-dialog>
-            </p>
-          </h2>
-        </div>
-        <!-- 签署人设置结束 -->
-        <!-- 渲染表格数据开始 -->
-        <div class='table' style='height:300px;'>
-          <el-table
-              :data="tableData5"
-              style="width: 100%;text-align:center"
-              :header-cell-style="getRowClass"
-              >
-              <el-table-column
-              label="签署人名称"
-              width="250"
-              >
-              <template slot-scope="scope">
-                <template v-if="scope.row.edit">
+          </p>
+        </h2>
+      </div>
+      <!-- 签署人设置结束 -->
+      <!-- 渲染表格数据开始 -->
+      <div class='table' style='height:300px;'>
+        <el-table
+          :data="tableData5"
+          style="width: 100%;text-align:center"
+          :header-cell-style="getRowClass"
+        >
+          <el-table-column
+            label="签署人名称"
+            width="250"
+          >
+            <template slot-scope="scope">
+              <template v-if="scope.row.edit">
                 <el-input v-model="scope.row.signUserName" placeholder="" :maxlength= 20 size="mini"></el-input>
-                </template>
-                <span v-else>{{ scope.row.signUserName }}</span>
               </template>
-              </el-table-column>
-              <el-table-column
-              label="手机号"
-              width="300">
-              <template slot-scope="scope">
-                <template v-if="scope.row.edit">
+              <span v-else>{{ scope.row.signUserName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="手机号"
+            width="300">
+            <template slot-scope="scope">
+              <template v-if="scope.row.edit">
                 <el-input v-model="scope.row.mobile" placeholder="" :maxlength= 11 size="mini"></el-input>
-                </template>
-                <span v-else>{{ scope.row.mobile }}</span>
               </template>
-              </el-table-column>
-              <el-table-column
-              label="身份证号"
-              width="260">
-              <template slot-scope="scope">
-                <template v-if="scope.row.edit">
+              <span v-else>{{ scope.row.mobile }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="身份证号"
+            width="260">
+            <template slot-scope="scope">
+              <template v-if="scope.row.edit">
                 <el-input v-model="scope.row.idCard" placeholder="" :maxlength= 18 size="mini"></el-input>
-                </template>
-                <span v-else>{{ scope.row.idCard }}</span>
               </template>
-              </el-table-column>
-              <el-table-column
-              prop="state"
-              label="操作"
-              width="360">
-              <template slot-scope="scope">
-                <el-button @click="confirmEdit(scope.row)" type="primary"  size="mini" v-if="scope.row.edit">完&nbsp;&nbsp;成</el-button>
-                <el-button @click="modifyClick(scope.row)" type="primary" size="mini" v-else v-show="editSign == false">修&nbsp;&nbsp;改</el-button>
-                <el-button @click="deleteClick(scope.$index,tableData5)" type="primary" size="mini" v-show="!scope.row.edit && editSign == false">删&nbsp;&nbsp;除</el-button>
-              </template>
-              </el-table-column>
-          </el-table>
+              <span v-else>{{ scope.row.idCard }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="state"
+            label="操作"
+            width="360">
+            <template slot-scope="scope">
+              <el-button @click="confirmEdit(scope.row)" type="primary"  size="mini" v-if="scope.row.edit">完&nbsp;&nbsp;成</el-button>
+              <el-button @click="modifyClick(scope.row)" type="primary" size="mini" v-else v-show="editSign == false">修&nbsp;&nbsp;改</el-button>
+              <el-button @click="deleteClick(scope.$index,tableData5)" type="primary" size="mini" v-show="!scope.row.edit && editSign == false">删&nbsp;&nbsp;除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
-import cookie from '@/common/js/getTenant'
-import Loading from '@/common/components/Loading'
-export default {
-  name: 'Contractsignings',
-  data() {
+  import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
+  import cookie from '@/common/js/getTenant'
+  import Loading from '@/common/components/Loading'
+  export default {
+    name: 'Contractsignings',
+    data() {
       var validateName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
@@ -287,76 +287,76 @@ export default {
           this.$loading.show(); //显示
         }
       },
-		fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-			this.isNext = false;
-			var contractName = file.name.replace(/\s+/g, "")
-			var contractNo = file.response.contractNo
-			var resultCode = file.response.resultCode
-			this.$loading.hide(); //隐藏
-			var index1=contractName.lastIndexOf(".");
-			var suffix=contractName.slice(0,index1);
-			this.contractName = suffix
-			this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-			sessionStorage.setItem('contractName', JSON.stringify(suffix))
-			sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
-		},
-		fileErron(){
-			this.nextBtn = false;
-			this.$message({
-			showClose: true,
-			message: '上传失败',
-			type: 'success'
-			})
-		},
-		tableRowClassName({row, rowIndex}) {
-			if (rowIndex === 1) {
-			return 'warning-row';
-			} else if (rowIndex === 3) {
-			return 'success-row';
-			}
-			return '';
-		},
-      lookContractImg (){
-		this.$loading.show(); //显示
-		this.imgList=[];
-		var data =[];
-		var contractNo = sessionStorage.getItem('contractNo');
-			contractNo = JSON.parse(contractNo)
-
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.length;i++) {
-        let contractUrl = res.data[i].contractUrl
-        data[i] = contractUrl
+      fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+        this.isNext = false;
+        var contractName = file.name.replace(/\s+/g, "")
+        var contractNo = file.response.contractNo
+        var resultCode = file.response.resultCode
         this.$loading.hide(); //隐藏
+        var index1=contractName.lastIndexOf(".");
+        var suffix=contractName.slice(0,index1);
+        this.contractName = suffix
+        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+        sessionStorage.setItem('contractName', JSON.stringify(suffix))
+        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+      },
+      fileErron(){
+        this.nextBtn = false;
+        this.$message({
+          showClose: true,
+          message: '上传失败',
+          type: 'success'
+        })
+      },
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex === 1) {
+          return 'warning-row';
+        } else if (rowIndex === 3) {
+          return 'success-row';
         }
-        this.imgList = data
+        return '';
+      },
+      lookContractImg (){
+        this.$loading.show(); //显示
+        this.imgList=[];
+        var data =[];
+        var contractNo = sessionStorage.getItem('contractNo');
+        contractNo = JSON.parse(contractNo)
 
-        }
-      })
-      this.dialogTableVisible = true
+        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
+          if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+          } else {
+            for (let i = 0; i < res.data.length;i++) {
+              let contractUrl = res.data[i].contractUrl
+              data[i] = contractUrl
+              this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+
+          }
+        })
+        this.dialogTableVisible = true
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-              if(this.checked1 == true && this.tableData5.length < 4 ||this.checked1 == false && this.tableData5.length < 5){
-                var obj = {}
-                obj.signUserName = TrimAll(this.ruleForm.signUserName)
-                obj.mobile = this.ruleForm.mobile
-                obj.idCard = this.ruleForm.idCard
-                obj.edit = false                        //修改标示
-                this.tableData5.push(obj)
-                this.resetForm(formName)
-                this.dialogFormVisible = false
-                this.operate = true
-              } else {
-                this.dialogFormVisible = false
-                this.$alert('(平台方不签署)上传发起合同签署人数不能超过5人!否则，签署人数不能超过4人','添加签署人', {
-                  confirmButtonText: '确定'
-                })
-              }
+            if(this.checked1 == true && this.tableData5.length < 4 ||this.checked1 == false && this.tableData5.length < 5){
+              var obj = {}
+              obj.signUserName = TrimAll(this.ruleForm.signUserName)
+              obj.mobile = this.ruleForm.mobile
+              obj.idCard = this.ruleForm.idCard
+              obj.edit = false                        //修改标示
+              this.tableData5.push(obj)
+              this.resetForm(formName)
+              this.dialogFormVisible = false
+              this.operate = true
+            } else {
+              this.dialogFormVisible = false
+              this.$alert('(平台方不签署)上传发起合同签署人数不能超过5人!否则，签署人数不能超过4人','添加签署人', {
+                confirmButtonText: '确定'
+              })
+            }
 
           } else {
             return false;
@@ -491,8 +491,8 @@ export default {
       },
       urlloadUrl(){
         //更换合同时传旧合同编号从session里取
-		var contractNo = sessionStorage.getItem('contractNo');
-		    contractNo = JSON.parse(contractNo)
+        var contractNo = sessionStorage.getItem('contractNo');
+        contractNo = JSON.parse(contractNo)
 
         return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
       },
@@ -502,14 +502,14 @@ export default {
           this.operate = true
         }
         if(TrimAll(firstText) == ''){
-           this.$alert('合同名称不能为空!','签署', {
+          this.$alert('合同名称不能为空!','签署', {
             confirmButtonText: '确定'
           })
           return false
         }
         // console.log(!!this.tableData5)
         if(!!this.tableData5){
-           if((this.checked1 == true && this.tableData5.length > 4) || (this.checked1 == false && this.tableData5.length > 5)){
+          if((this.checked1 == true && this.tableData5.length > 4) || (this.checked1 == false && this.tableData5.length > 5)){
             this.$alert('上传发起合同签署人数不能超过5人!','添加签署人', {
               confirmButtonText: '确定'
             })
@@ -518,87 +518,101 @@ export default {
         }
 
         if(this.checked == false && this.value8 == ''){
-            this.$alert('您还没有选择签署时间!','签署时间', {
-              confirmButtonText: '确定'
-            });
-            return false
-          }
+          this.$alert('您还没有选择签署时间!','签署时间', {
+            confirmButtonText: '确定'
+          });
+          return false
+        }
         if(this.operate == false){
-            this.$alert('您还没有完成添加签署人操作!','添加签署人', {
-              confirmButtonText: '确定'
-            });
-            return false
-          }
+          this.$alert('您还没有完成添加签署人操作!','添加签署人', {
+            confirmButtonText: '确定'
+          });
+          return false
+        }
         if( this.checked1 == false && this.tableData5 == ''){
           this.$alert('您还没有添加人员!','添加签署人', {
             confirmButtonText: '确定'
           });
         } else {
           if (this.falg == true){
-          this.falg = false
-          var names = ''
-          var mobiles = ''
-          var id_nums = ''
-          var emails = ''
-          var perpetualValid = ''
-          var needSign =''
-          if ( this.checked1 == true){
-            needSign = '1'
-            names += cookie.getJSON('tenant')[1].companyName;
-            names += ",";
-            id_nums+= "";
-            id_nums+=",";
-            mobiles += cookie.getJSON('tenant')[0].mobile;
-            mobiles += ",";
-            emails+= '';
-            emails+=",";
-          } else {
-            needSign = '0'
-          }
-          if(this.tableData5){
-              for(var i = 0; i < this.tableData5.length;i++ ){
-              var name = this.tableData5[i].signUserName
-              var mobile = this.tableData5[i].mobile
-              var idCard = this.tableData5[i].idCard
-              var email = this.tableData5[i].email
-              if(email == undefined || email == 'undefined'){
-                email = ''
-              }
-              names += name + ','
-              mobiles += mobile + ','
-              id_nums += idCard + ','
-              emails += email + ','
+            this.falg = false
+            var names = ''
+            var mobiles = ''
+            var id_nums = ''
+            var emails = ''
+            var perpetualValid = ''
+            var needSign =''
+            if ( this.checked1 == true){
+              needSign = '1'
+              names += cookie.getJSON('tenant')[1].companyName;
+              names += ",";
+              id_nums+= "";
+              id_nums+=",";
+              mobiles += cookie.getJSON('tenant')[0].mobile;
+              mobiles += ",";
+              emails+= '';
+              emails+=",";
+            } else {
+              needSign = '0'
             }
-          }
-
-          names = names.substring(0, names.length-1)
-          mobiles = mobiles.substring(0,mobiles.length-1)
-          id_nums = id_nums.substring(0,id_nums.length-1)
-          emails = emails.substring(0,emails.length-1)
-          if ( this.checked == true ) {
-            perpetualValid = '1'
-          } else {
-            perpetualValid = '0'
-          }
-          if( this.operateType !='' ){
-            if(this.contractNumn != this.$store.state.contractNo1){
-               var contractVo = {
-                "needSign":needSign,
-                "contractName":TrimAll(this.$store.state.contractName1),
-                "validTime":this.value8,
-                "perpetualValid":perpetualValid,
-                "sms_notice":'0',
-                "email_notice":'0',
-                "names":names,
-                "id_nums":id_nums,
-                "mobiles":mobiles,
-                "emails":emails
+            if(this.tableData5){
+              for(var i = 0; i < this.tableData5.length;i++ ){
+                var name = this.tableData5[i].signUserName
+                var mobile = this.tableData5[i].mobile
+                var idCard = this.tableData5[i].idCard
+                var email = this.tableData5[i].email
+                if(email == undefined || email == 'undefined'){
+                  email = ''
+                }
+                names += name + ','
+                mobiles += mobile + ','
+                id_nums += idCard + ','
+                emails += email + ','
               }
-            }else{
+            }
+
+            names = names.substring(0, names.length-1)
+            mobiles = mobiles.substring(0,mobiles.length-1)
+            id_nums = id_nums.substring(0,id_nums.length-1)
+            emails = emails.substring(0,emails.length-1)
+            if ( this.checked == true ) {
+              perpetualValid = '1'
+            } else {
+              perpetualValid = '0'
+            }
+            if( this.operateType !='' ){
+              if(this.contractNumn != this.$store.state.contractNo1){
+                var contractVo = {
+                  "needSign":needSign,
+                  "contractName":TrimAll(this.$store.state.contractName1),
+                  "validTime":this.value8,
+                  "perpetualValid":perpetualValid,
+                  "sms_notice":'0',
+                  "email_notice":'0',
+                  "names":names,
+                  "id_nums":id_nums,
+                  "mobiles":mobiles,
+                  "emails":emails
+                }
+              }else{
+                var contractVo = {
+                  "needSign":needSign,
+                  "operateType":this.operateType,
+                  "contractName":TrimAll(this.$store.state.contractName1),
+                  "validTime":this.value8,
+                  "perpetualValid":perpetualValid,
+                  "sms_notice":'0',
+                  "email_notice":'0',
+                  "names":names,
+                  "id_nums":id_nums,
+                  "mobiles":mobiles,
+                  "emails":emails
+                }
+              }
+            } else {
               var contractVo = {
                 "needSign":needSign,
-                "operateType":this.operateType,
-                "contractName":TrimAll(this.$store.state.contractName1),
+                "contractName":TrimAll(this.contractName),
                 "validTime":this.value8,
                 "perpetualValid":perpetualValid,
                 "sms_notice":'0',
@@ -609,56 +623,42 @@ export default {
                 "emails":emails
               }
             }
-          } else {
-            var contractVo = {
-              "needSign":needSign,
-              "contractName":TrimAll(this.contractName),
-              "validTime":this.value8,
-              "perpetualValid":perpetualValid,
-              "sms_notice":'0',
-              "email_notice":'0',
-              "names":names,
-              "id_nums":id_nums,
-              "mobiles":mobiles,
-              "emails":emails
-            }
-          }
-		  this.isNext = true;
-		  var contractNo = sessionStorage.getItem('contractNo');
-			  contractNo = JSON.parse(contractNo)
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo,contractVo,{emulateJSON:true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-              this.$router.push('/Server')
-            } else {
-            if ( res.data.resultCode == '0') {
-                // this.$message({
-                //   showClose: true,
-                //   message: res.data.resultMessage,
-                //   type: 'success'
-                // })
-			  this.isNext = false;
-			  console.log(this.$store.state.contractNo1)
-              this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
-              this.$store.dispatch('needSign',{needSign:needSign})
-              sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
-              sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-              sessionStorage.setItem('needSign',JSON.stringify(needSign))
-              if(needSign == '1'){
-                this.$router.push('/Positions')
+            this.isNext = true;
+            var contractNo = sessionStorage.getItem('contractNo');
+            contractNo = JSON.parse(contractNo)
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo,contractVo,{emulateJSON:true}).then(function (res) {
+              if(res.data.sessionStatus == '0'){
+                this.$router.push('/Server')
               } else {
-                this.$router.push('/Whether')
+                if ( res.data.resultCode == '0') {
+                  // this.$message({
+                  //   showClose: true,
+                  //   message: res.data.resultMessage,
+                  //   type: 'success'
+                  // })
+                  this.isNext = false;
+                  console.log(this.$store.state.contractNo1)
+                  this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
+                  this.$store.dispatch('needSign',{needSign:needSign})
+                  sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
+                  sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+                  sessionStorage.setItem('needSign',JSON.stringify(needSign))
+                  if(needSign == '1'){
+                    this.$router.push('/Positions')
+                  } else {
+                    this.$router.push('/Whether')
+                  }
+                } else {
+                  this.$alert('您还没有选择签署时间!','签署时间', {
+                    confirmButtonText: '确定'
+                  })
+                  this.falg = true;
+                  this.isNext = false;
+                }
               }
-            } else {
-              this.$alert('您还没有选择签署时间!','签署时间', {
-                confirmButtonText: '确定'
-              })
-              this.falg = true;
-              this.isNext = false;
-            }
-            }
-          })
-         }
-       }
+            })
+          }
+        }
       },
       addSigners(){
         if(this.editSigner == false){
@@ -673,7 +673,7 @@ export default {
     created() {
       var contractName = sessionStorage.getItem('contractName');
       var contractNo = sessionStorage.getItem('contractNo');
-	    var type = sessionStorage.getItem('type');
+      var type = sessionStorage.getItem('type');
       if (contractName) {
         contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
@@ -724,13 +724,20 @@ export default {
          })
       }
     }
-}
+  }
 </script>
 <style lang="scss" scoped >
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";
+  .showDialogs{
+    position: relative !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
 
+    overflow-y: scroll !important;
+    min-height: 700px !important;
+  }
   .upload-demo .el-upload .el-upload--text{
     display: block !important;
     margin-left: 250px !important;
@@ -770,21 +777,15 @@ export default {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-}
-.el-table th>.cell{
-  text-align: center;
-}
-.outInfo{
-  height:320px !important;
-  width:400px !important;
-  overflow-y: hidden !important;
-}
-.showDialog{
-  position: relative !important;
-  -webkit-box-sizing: border-box !important;
-  box-sizing: border-box !important;
-  height: 800px !important;
-  overflow-y: scroll !important;
-}
+  }
+  .el-table th>.cell{
+    text-align: center;
+  }
+  .outInfo{
+    height:320px !important;
+    width:400px !important;
+    overflow-y: hidden !important;
+  }
+
 </style>
 
