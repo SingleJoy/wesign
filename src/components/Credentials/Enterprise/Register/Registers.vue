@@ -78,6 +78,7 @@
               style='width:330px;'
               placeholder="验证码"
               v-model="smsCode"
+
               >
             </el-input>
             <el-button  type="primary" style="margin-left: -125px;width: 120px;height: 40px;z-index: 999;position: relative;" @click='getSmsCode' id='code'>获取验证码</el-button>
@@ -270,9 +271,9 @@
           var appId = res.data.appId
           this.appId = appId
           // console.log('我拿到了appId哦')
-          var resultCode = res.data.resultCode
-          var smsNo = res.data.smsNo
-          var smsCode = res.data.smsCode
+          var resultCode = res.data.resultCode;
+          var smsNo = res.data.smsNo;
+          var smsCode = res.data.smsCode;
           var message = res.data.resultMessage;
           if (resultCode === '1') {
             this.smsNo = true
@@ -301,11 +302,11 @@
             }, 1000)
           }else{
             let that =this;
-            this.$message({
-              showClose: true,
-              message: message?message:'验证码获取失败',
-              type: 'error'
-            })
+            // this.$message({
+            //   showClose: true,
+            //   message: message?message:'验证码获取失败',
+            //   type: 'error'
+            // })
             that.smsNo = false
             that.repeat = false
           }
