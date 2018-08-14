@@ -507,7 +507,7 @@
           })
           return false
         }
-        // console.log(!!this.tableData5)
+
         if(!!this.tableData5){
           if((this.checked1 == true && this.tableData5.length > 4) || (this.checked1 == false && this.tableData5.length > 5)){
             this.$alert('上传发起合同签署人数不能超过5人!','添加签署人', {

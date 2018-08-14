@@ -5,7 +5,7 @@
       <span class="cancelBtn" @click="cancelTip">X</span>
     </div>
 
-    <div class="main" style="background-color: #fff;margin-top: 20px;">
+    <div class="main" style="background-color: #fff;padding-top: 10px;">
 
       <div class='main_left'>
         <!--<div class='upload' style='cursor:point'>-->
