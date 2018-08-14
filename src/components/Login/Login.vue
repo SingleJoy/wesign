@@ -117,7 +117,10 @@
                   }}).then(response =>{
                   var stateCode = response.data.bindTenantNum
                   var interfaceCode = response.data.dataList[0].interfaceCode
+                  var enterpriseName = response.data.dataList[0].enterpriseName
+                  sessionStorage.setItem('enterpriseName',enterpriseName)
                   var mobile = response.data.dataList[0].mobile
+
                   if(stateCode == '1') {
                     this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/homePage').then(res =>{
                       if( res.data.dataList[1].isBusiness == '0'){ // 不是众签商户
