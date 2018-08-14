@@ -245,7 +245,7 @@ export default {
     },
     methods: {
       changeTemlplate(){
-       
+
         this.$router.push('/Multiparty')
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
@@ -447,7 +447,7 @@ export default {
 				return false
 			}
 		}
-        
+
         if(this.checked == false && this.value8 == ''){
             this.$alert('您还没有选择签署时间!','签署时间', {
               confirmButtonText: '确定'
@@ -502,7 +502,7 @@ export default {
 					emails += email + ','
 				}
 			}
-           
+
 
             if ( this.checked == true ) {
               perpetualValid = '1'

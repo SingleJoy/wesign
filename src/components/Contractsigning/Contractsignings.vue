@@ -322,7 +322,7 @@ export default {
 		var data =[];
 		var contractNo = sessionStorage.getItem('contractNo');
 			contractNo = JSON.parse(contractNo)
-	  
+
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -516,7 +516,7 @@ export default {
             return false
           }
         }
-       
+
         if(this.checked == false && this.value8 == ''){
             this.$alert('您还没有选择签署时间!','签署时间', {
               confirmButtonText: '确定'
@@ -570,7 +570,7 @@ export default {
               emails += email + ','
             }
           }
-          
+
           names = names.substring(0, names.length-1)
           mobiles = mobiles.substring(0,mobiles.length-1)
           id_nums = id_nums.substring(0,id_nums.length-1)
