@@ -188,6 +188,7 @@
         if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
+          console.log()
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
 

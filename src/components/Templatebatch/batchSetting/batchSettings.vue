@@ -144,7 +144,7 @@
     <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showBatchDialog">
       <div v-for="(item,index) in imgList" :key="index" >
           <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-          <img :src="['https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -586,7 +586,7 @@ export default {
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type}}).then(function (res) {
         var perpetualValid = res.data.perpetualValid;
         var validTime = res.data.validTime;
-        var list = res.data.list;
+        var list = res.data.list!=null?res.data.list:[];
         this.operateType = res.data.operateType
         if(perpetualValid =="1"){
           this.checked = true

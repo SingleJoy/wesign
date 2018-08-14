@@ -7,7 +7,7 @@
       </p>
       <div class='buttons' v-show="delSigner == true">
         <el-button type="info" style='background:#ccc' @click="tempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit" :loading= load>下一步</el-button>
+        <button style='color:#22a7ea' @click="nextStepFit" :loading= load >下一步</button>
       </div>
     </nav>
    </div>
@@ -153,7 +153,7 @@
         </div>
         <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog" >
             <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="['https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
             </div>
         </el-dialog>
@@ -619,7 +619,7 @@ export default {
           var needSign = res.data.needSign;
           var perpetualValid = res.data.perpetualValid;
           var validTime = res.data.validTime;
-          var list = res.data.list;
+          var list = res.data.list!=null?res.data.list:[];
           this.operateType = res.data.operateType
           if(needSign == "1"){
             this.checked1 = true

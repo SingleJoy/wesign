@@ -85,7 +85,7 @@
       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs"  >    <!-- :lock-scroll= false有问题！！！！ -->
         <div v-for="(item,index) in imgList" :key="index">
           <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-          <img :src="['https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
         </div>
       </el-dialog>
       <!-- 文件信息结束 -->
@@ -494,7 +494,7 @@
         var contractNo = sessionStorage.getItem('contractNo');
         contractNo = JSON.parse(contractNo)
 
-        return `https://www.zqsign.com/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
+        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
       },
       nextStepFit () { //下一步
         var firstText = document.getElementById('firstText').value
@@ -704,7 +704,7 @@
               var needSign = res.data.needSign;
               var perpetualValid = res.data.perpetualValid;
               var validTime = res.data.validTime;
-              var list = res.data.list;
+              var list = res.data.list!=null?res.data.list:[];
               this.operateType = res.data.operateType
               if(needSign == "1"){
                 this.checked1 = true
