@@ -119,6 +119,8 @@
                   var interfaceCode = response.data.dataList[0].interfaceCode
                   var enterpriseName = response.data.dataList[0].enterpriseName
                   sessionStorage.setItem('enterpriseName',enterpriseName)
+                  localStorage.setItem('enterpriseName',enterpriseName)
+                  cookie.set('enterpriseName',enterpriseName)
                   var mobile = response.data.dataList[0].mobile
 
                   if(stateCode == '1') {
