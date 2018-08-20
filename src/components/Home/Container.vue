@@ -288,16 +288,10 @@
         });
       },
       urlloadUrl() {
-        // return `${this.baseURL.BASE_URL}/v1/tenant/${
-        //   this.interfaceCode
-        // }/contractfile`;
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl() {
-        // return `${this.baseURL.BASE_URL}/v1.4/tenant/${
-        //   this.interfaceCode
-        // }/contractfile`;
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       seeClick(row) {
         //延期
@@ -442,6 +436,7 @@
     },
     data() {
       return {
+        baseURL:this.baseURL.BASE_URL,
         popupContainer: false,
         tableData: [],
         download: "",

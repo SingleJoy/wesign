@@ -83,8 +83,7 @@
     </div>
     <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index" >
-        <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'> -->
-        <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'>
+        <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -99,6 +98,7 @@ import clipboard from '@/common/directive/clipboard/index.js' // use clipboard b
 export default {
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       signUser:[],
       validTime:'',
       dialogTableVisible:false,
@@ -146,8 +146,6 @@ export default {
   },
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
-    // console.log(cookie.getJSON('tenant'))
-    // this.roomlink = 'http://192.168.1.15:8080/zqsign-web-wesign/wesign_h5/m_register.html?token=ZQ61251bbc4542618bdd1cc7bf7c2409';
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
 

@@ -47,8 +47,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
           <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
-              <!-- <img :src="[this.baseURL.BASE_URL+'/v1/tenant/contract/img?contractName='+templateName+'&contractUrl='+item]" alt="" style='width:100%;'> -->
-            <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item]" alt="" style='width:100%;'>
+            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" style='width:100%;'>
           </li>
          </ul>
         </div>
@@ -95,6 +94,7 @@ export default {
   name: 'batchInfos',
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       //初始化左侧页码，并使第一个高亮
       current:1,
       // 左侧页码显示的个数

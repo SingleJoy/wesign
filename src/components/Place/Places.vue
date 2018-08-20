@@ -54,8 +54,7 @@
           <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
-              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele" alt="" style="width:100%;height:844px;" id='signImg'>
             </li>
           </ul>
           </div>
@@ -103,6 +102,7 @@ export default {
     data () {
       return {
         //centerDialogVisible:false,
+        baseURL:this.baseURL.BASE_URL,
         current:0,
         showItem:0,
         allpage:0,

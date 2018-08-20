@@ -80,8 +80,7 @@
       </div>
       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class="showDialogs">
         <div v-for="(item,index) in imgList" :key="index" >
-          <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'> -->
-          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'>
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt=""  style='width: 100%'>
         </div>
       </el-dialog>
     </div>
@@ -102,6 +101,7 @@
   export default {
     data () {
       return {
+        baseURL:this.baseURL.BASE_URL,
         signUser:[],
         validTime:'',
         dialogTableVisible:false,

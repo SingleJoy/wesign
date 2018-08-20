@@ -188,6 +188,7 @@ export default {
   name: 'Top',
       data() {
       return {
+        baseURL:this.baseURL.BASE_URL,
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
@@ -201,12 +202,10 @@ export default {
         this.popup =!this.popup
       },
       urlloadUrl(){
-        // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl(){
-        // return `${this.baseURL.BASE_URL}/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name) {
         this.$loading.show();
