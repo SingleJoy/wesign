@@ -37,15 +37,23 @@
     <div class="signing">   <!--签署合同开始-->
       <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
 
-
+      <!-- <div>
+          <li @click="test1">测试按钮2</li>
+              <li @click.native="test2">测试按钮2</li>
+              <li v-on:click="test3">测试按钮3</li>
+              
+      </div> -->
       <div class="sign_left" ref="leftWrapper">
+        
             <ul class="pagination">
               <div id="top_box">
                 <p id='top' v-show="currentIndex != 0" @click="goto(currentIndex)"><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
               </div>
-              <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index" @click="clickNave(index)">
+            
+              <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index" @click="alert(1111)">
                 <a href="javascript:void(0);" >{{index}}</a>
               </li>
+              <span @click="clickNave">测试按钮</span>
               <div id="bottom_box">
                 <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
               </div>
@@ -161,6 +169,8 @@ export default {
         this.clickNave(currentIndex)
       },
      clickNave(index) {
+      console.log(123)
+      alert("行不行")
       let imgLists = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
       let el = imgLists[index - 1]
       this.rightScroll.scrollToElement(el, 300)
