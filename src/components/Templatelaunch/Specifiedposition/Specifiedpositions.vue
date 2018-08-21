@@ -52,7 +52,7 @@
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li v-for="(item, index) in imgList" :key="index" class="contractImg-hook" style="height:844px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width: 100%;height:100%;' id='signImg'> -->
-              <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width: 100%;height:844px;' id='signImg'>
+              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width: 100%;height:844px;' id='signImg'>
             </li>
           </ul>
         </div>
@@ -145,12 +145,19 @@
         this.rightScroll.scrollToElement(el, 300)
       },
       _initScroll(){
-        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-          click: true,
-          preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
-        })
+        // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+        //   click: true,
+        //   preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
+        // })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+          mouseWheel: {
+            speed: 1200,
+            invert: false,
+            easeTime: 300
+          },
+          preventDefault:false,
+          probeType: 3,
           probeType: 3,
           preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
         })
@@ -309,6 +316,11 @@
             data[i] = contractUrl
             this.$loading.hide(); //隐藏
           }
+          this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            scrollY: true,
+            preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
+          });
           this.imgList = data
         }
         this.isAction = false;

@@ -47,7 +47,7 @@
         <ul class='content contractImg' id="contractImg">
           <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:100%;'> -->
-             <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
+             <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
           </li>
           <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
           <div id='signCanvas' style='display:none;'><img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px"></div>
@@ -180,6 +180,11 @@ export default {
         this._initScroll()
         this._calculateHeight()
       })
+      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+				probeType: 3,
+				scrollY: true,
+				preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
+			});
       }
     }).catch(function (error) {
       this.$message.error('请求失败！请刷新再试！')
@@ -257,12 +262,19 @@ export default {
       this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true
-      })
+      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+      //   click: true
+      // })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+        mouseWheel: {
+					speed: 1200,
+					invert: false,
+					easeTime: 300
+				},
+				preventDefault:false,
         probeType: 3,
+        preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
       })
 
       this.rightScroll.on('scroll', (pos) => {

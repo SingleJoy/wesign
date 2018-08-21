@@ -48,7 +48,7 @@
         <ul class='content contractImg' id="contractImg">
           <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
               <!-- <img :src="[this.baseURL.BASE_URL+'/v1/tenant/contract/img?contractName='+templateName+'&contractUrl='+item]" alt="" style='width:100%;'> -->
-            <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item]" alt="" style='width:100%;'>
+            <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item]" alt="" style='width:100%;'>
           </li>
          </ul>
         </div>
@@ -197,6 +197,11 @@ export default {
         this._initScroll()
         this._calculateHeight()
       })
+      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+				probeType: 3,
+				scrollY: true,
+				preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
+			});
       for (let i = 0; i < res.data.list.length;i++) {
       let templateUrl = res.data.list[i]
       data[i] = templateUrl
@@ -256,7 +261,14 @@ export default {
       })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+        	mouseWheel: {
+					speed: 1200,
+					invert: false,
+					easeTime: 300
+				},
+				preventDefault:false,
         probeType: 3,
+        // preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
       })
 
       this.rightScroll.on('scroll', (pos) => {

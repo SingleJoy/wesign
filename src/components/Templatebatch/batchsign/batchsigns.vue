@@ -38,7 +38,7 @@
           <ul class='content contractImg' id="contractImg">
             <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
 
-              <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" id='imgSign' style='width: 639px;'>
+              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" id='imgSign' style='width: 639px;'>
             </li>
           </ul>
         </div>
@@ -168,11 +168,17 @@
 
       },
       _initScroll(){
-        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-          click: true
-        })
+        // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+        //   click: true
+        // })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+          	mouseWheel: {
+            speed: 1200,
+            invert: false,
+            easeTime: 300
+          },
+				  preventDefault:false,
           probeType: 3,
         })
 
