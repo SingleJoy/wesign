@@ -105,6 +105,7 @@
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
+          console.log(process.env.API_HOST+'v1/tenant/login')
           if (valid) {
             var pass = md5(this.ruleForm.password);
             this.$http.get(process.env.API_HOST+'v1/tenant/login',{params:{
