@@ -46,6 +46,7 @@
               <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index" @click="clickNave(index)">
                 <a href="javascript:void(0);" >{{index}}</a>
               </li>
+              <!-- <span @click=>测试按钮</span> -->
               <div id="bottom_box">
                 <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
               </div>
@@ -55,7 +56,7 @@
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
+              <img :src="['http://testwesign.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
             </li>
           </ul>
           </div>
@@ -112,9 +113,18 @@ export default {
         imgHeight: [],
         hasClick:false,
         isAction:true,
-        scrollY: 0  //batterScroll 滚动的Y轴距离
-
+        scrollY: 0,  //batterScroll 滚动的Y轴距离
+        rightScroll:''
       }
+  },
+  mounted() { 
+    this.$nextTick(() => { 
+      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+        probeType: 3,
+        scrollY: true,
+        preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+      }) 
+    }) 
   },
   computed:{
     currentIndex() {
@@ -161,15 +171,17 @@ export default {
         this.clickNave(currentIndex)
       },
      clickNave(index) {
-      let imgLists = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+      // let imgLists = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+      let imgLists = document.getElementsByClassName('contractImg-hook')  //上下两种获取dom写法均可
       let el = imgLists[index - 1]
       this.rightScroll.scrollToElement(el, 300)
     },
     initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true,
-          preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
-      })
+      if (!this.$refs.rightWrapper) { return }
+      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+      //   click: true,
+      //     preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
+      // })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
@@ -331,6 +343,11 @@ export default {
         this.$loading.hide(); //隐藏
         }
         this.imgList = data
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+          probeType: 3,
+          scrollY: true,
+          preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+        })
       }
       this.isAction = false;
     })
