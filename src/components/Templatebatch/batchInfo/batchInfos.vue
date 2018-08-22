@@ -256,9 +256,9 @@ export default {
       this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true
-      })
+      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+      //   click: true
+      // })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         	mouseWheel: {

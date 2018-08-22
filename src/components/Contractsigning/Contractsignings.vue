@@ -264,28 +264,35 @@
         }
       },
       handleChange (name,file) {
-        this.isNext = true;
-        var max_size = 5;// 5M
-        var fileNameCont = name.name.replace(/\s+/g, "")
-        var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
-        if(!reg.test(fileNameCont)){
-          this.$alert('只能传pdf,doc,txt,docx格式的文件!','上传文件', {
-            confirmButtonText: '确定'
-          })
-          this.$refs.upload.clearFiles()
-        } else if( name.size > max_size*1024*1024){
-          this.$alert('文件大小超过限制!','上传文件', {
-            confirmButtonText: '确定'
-          })
-          this.$refs.upload.clearFiles()
-        } else if(fileNameCont.length > 50){
-          this.$alert('上传文件名称不得超过50字符！','上传文件', {
-            confirmButtonText: '确定'
-          })
-          this.$refs.upload.clearFiles()
-        } else {
-          this.$loading.show(); //显示
-        }
+          this.isNext = true;
+          var max_size = 5;// 5M
+          var fileNameCont = name.name.replace(/\s+/g, "")
+          var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
+          if(!reg.test(fileNameCont)){
+            this.$alert('只能传pdf,doc,txt,docx格式的文件!','上传文件', {
+              confirmButtonText: '确定'
+            })
+             this.isNext = false;
+             return false
+            this.$refs.upload.clearFiles()
+          } else if( name.size > max_size*1024*1024){
+            this.$alert('文件大小超过限制!','上传文件', {
+              confirmButtonText: '确定'
+            })
+            this.isNext = false;
+             return false
+            this.$refs.upload.clearFiles()
+          } else if(fileNameCont.length > 50){
+            this.$alert('上传文件名称不得超过50字符！','上传文件', {
+              confirmButtonText: '确定'
+            })
+            this.isNext = false;
+               return false
+            this.$refs.upload.clearFiles()
+         
+          } else {
+            this.$loading.show(); //显示
+          }        
       },
       fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
         this.isNext = false;
