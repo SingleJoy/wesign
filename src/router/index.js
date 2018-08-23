@@ -5,6 +5,10 @@ import cookie from '@/common/js/getTenant'
 import User from '../components/Login/User.vue'                                   //登录
 import Forget from '../components/Login/Forget.vue'                               //忘记密码
 import FoundUser from '../components/Login/FoundUser.vue'
+
+import Role from '../components/Login/Role.vue'                                  //登录角色选择
+                      
+
 import Home from '../components/Home/Home.vue'                                    //主页
 import Contract from '../components/Contract/Contract.vue'                        //点击签署
 import Contractsigning from '../components/Contractsigning/Contractsigning.vue'   //签署设置页面
@@ -79,6 +83,11 @@ export const router =  new Router({
       path: '/FoundUser',
       name: 'FoundUser',
       component: FoundUser
+    },
+    {
+      path:'/Role',
+      name:'Role',
+      component: Role
     },
     {
       path: '/Home',
