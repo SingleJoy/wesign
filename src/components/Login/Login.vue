@@ -122,7 +122,6 @@
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-          console.log(process.env.API_HOST+'v1/tenant/login')
           if (valid) {
             var pass = md5(this.ruleForm.password);
             this.$http.get(process.env.API_HOST+'v1/tenant/login',{params:{
@@ -168,6 +167,9 @@
                     document.getElementById('fade').style.display ='block'
                     document.getElementById('succ-pop').style.display ='block'
                     this.tenantNum = response.data.dataList
+
+
+                    //有多个角色存在
                   }
                 })
               } else {
@@ -220,7 +222,9 @@
             })
             cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-            this.$router.push('/Home')
+            // this.$router.push('/Home')
+                    this.$router.push('/Role')
+
           }
         })
       }
