@@ -176,7 +176,7 @@
 <script>
   import { mapActions, mapState } from "vuex";
   import cookie from "@/common/js/getTenant";
-
+ 
   export default {
     name: "Container",
     methods: {

@@ -12,9 +12,7 @@ import store from './store'
 import Es6Promise from 'es6-promise'
 import Loading from 'wc-loading'
 import 'wc-loading/style.css'
-import axios from 'axios'
 import moment  from 'moment'
-
 import BASE_URL from '../config/global'
 
 

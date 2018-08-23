@@ -54,6 +54,7 @@
   import {validateMoblie} from '@/common/js/validate'
   import md5 from 'js-md5'
   import { mapActions, mapState } from 'vuex'
+  import server from "@/api/login";
   export default {
     name:'Login',
     data () {
@@ -63,19 +64,35 @@
         } else if (!validateMoblie(value)){
           callback(new Error('手机号输入错误'))
         } else {
-          this.$http.get(process.env.API_HOST+'v1/tenant',{params:{
-              'username':this.ruleForm.username
-            }}).then(response =>{
-            if (response.data === 0) {
-              callback()
-            } else {
-              callback(new Error('此用户不存在'))
-            }
-          })
-            .catch(error=>{
-            })
-        }
-      }
+           	// let params={
+            //    'username':this.ruleForm.username,
+            // }
+            // server.login(params).then(response=>{
+            //   if(response.data === 0){
+            //     console.log("登陆成功")
+            //     callback()
+            //   }else{
+            //     callback(new Error('此用户不存在'))
+            //   }
+            // }).catch(erro=>{
+
+			      // })
+
+			this.$http.get(process.env.API_HOST+'v1/tenant',{
+				params:{
+					'username':this.ruleForm.username
+				}
+			}).then(response =>{
+				if (response.data === 0) {
+					callback()
+				} else {
+					callback(new Error('此用户不存在'))
+				}
+			}).catch(error=>{	
+		
+			})
+		}
+	}
       var checkPassWord = (rule,value,callback) => {
         if (value === ''){
           callback(new Error('请输入密码'))
