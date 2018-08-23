@@ -20,8 +20,8 @@ import Signaturesetting from '../components/Templatelaunch/Signaturesetting/Sign
 import Contractsign from '../components/Templatelaunch/Contractsign/Contractsign.vue'  //模板合同签署
 import Specifiedposition from '../components/Templatelaunch/Specifiedposition/Specifiedposition.vue'//模板指定位置
 import Fillinformation from '../components/Templatelaunch/Fillinformation/Fillinformation.vue'//模板填充信息
-import TotalContract from '../components/Mycontract/TotalContract.vue' // 全部合同
-import InquiryWaitMe from '../components/Mycontract/InquiryWaitMe.vue' // 待我签署合同
+
+
 import batchInfo from '../components/Templatebatch/batchInfo/batchInfo.vue'  //批量模板填充信息
 import batchSetting from '../components/Templatebatch/batchSetting/batchSetting.vue'  //批量模板签署设置
 import Templatecomplete from '../components/Templatebatch/Templatecomplete/Templatecomplete.vue'//批量模板签署完成
@@ -40,7 +40,10 @@ import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'   
 import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
 import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
 import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
+
 import Account from '../components/Confirmation/Account/Account.vue'                              //个人账户(签章，账号管理)
+import AddChildAccount from '../components/Confirmation/Account/AddChildAccount/AddChildAccount.vue'                              //我的账户->新增二级账户(签章，账号管理)
+
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
 import Signature from '../components/Confirmation/Signature/Signature.vue'                        //企业签署设置
 import Place from '../components/Place/Place.vue'                                                 //b2b多位置
@@ -238,7 +241,15 @@ export const router =  new Router({
     {
       path: '/Account',
       name: 'Account',
-      component: Account
+      component: Account,
+      children: [  //这里就是二级路由的配置
+        {
+          path: '/AddChildAccount',
+          name: 'AddChildAccount',
+          component: AddChildAccount
+        },
+
+      ]
     },
     {
       path: '/PersonWait',
@@ -347,5 +358,5 @@ export const router =  new Router({
 //           next('/');
 //       }
 //   // }
-  
+
 // })
