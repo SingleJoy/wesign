@@ -255,7 +255,6 @@ export const router =  new Router({
     },
     //新增二级子账号
     {
-
       path: '/AddChildAccount',
       name: 'AddChildAccount',
       component: AddChildAccount
@@ -263,11 +262,9 @@ export const router =  new Router({
     },
     //编辑二级子账号
     {
-
       path: '/EditChildAccount',
       name: 'EditChildAccount',
       component: EditChildAccount
-
     },
 
     {

@@ -1,5 +1,5 @@
 <template>
-  <div class='Account'>
+  <div class="EditChildAccount">
     <Top v-if="Jurisdiction == true"></Top>
     <mu-top v-else></mu-top>
     <EditChildAccounts></EditChildAccounts>
@@ -13,7 +13,7 @@
   import EditChildAccounts from './EditChildAccounts.vue'
   import Bottom from '../../../../common/components/Bottom.vue'
   export default {
-    name: 'Account',
+    name: 'EditChildAccount',
     components: {
       Top,
       MuTop,

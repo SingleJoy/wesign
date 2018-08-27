@@ -15,7 +15,6 @@
 
               <div class="show-info-list">
 
-
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
 
                   <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="accountName">
@@ -31,7 +30,7 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="rule.Form.password"  auto-complete="off" placeholder="请输入密码" ></el-input>
+                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" ></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
@@ -47,74 +46,6 @@
               </div>
 
 
-              <!--<div class="show-info-list">-->
-              <!--<div class="info-list align-right">-->
-              <!--<span>管理员姓名</span>-->
-              <!--<el-input-->
-              <!--:maxlength='200'-->
-              <!--style="width:320px;height:22px;margin-left: 15px"-->
-              <!--placeholder="请输入管理员姓名"-->
-              <!--v-model="accountName">-->
-              <!--</el-input>-->
-              <!--</div>-->
-
-              <!--<div class="info-list align-left" >-->
-              <!--<span>账户名称 </span>-->
-              <!--<el-input-->
-              <!--:maxlength='200'-->
-              <!--style="width:320px;height:22px;margin-left: 15px"-->
-              <!--placeholder="请输入账户名称"-->
-              <!--v-model="administrators">-->
-              <!--</el-input>-->
-              <!--</div>-->
-
-              <!--<div class="info-list align-right" >-->
-              <!--<span>身份证号 </span>-->
-              <!--<el-input-->
-              <!--:maxlength='200'-->
-              <!--style="width:320px;height:22px;margin-left: 15px"-->
-              <!--placeholder="请输入身份证号"-->
-              <!--v-model="ID"-->
-              <!--@blur="validateCard"-->
-              <!--&gt;-->
-              <!--</el-input>-->
-              <!--</div>-->
-              <!--<div class="info-list align-left" >-->
-              <!--<span>输入密码 </span>-->
-              <!--<el-input-->
-              <!--:maxlength='200'-->
-              <!--style="width:320px;height:22px;margin-left: 15px"-->
-              <!--placeholder="请输入密码"-->
-              <!--v-model="password"-->
-
-              <!--&gt;-->
-              <!--</el-input>-->
-              <!--</div>-->
-
-              <!--<div class="info-list align-right" >-->
-              <!--<span>手机号码 </span>-->
-              <!--<el-input-->
-              <!--:maxlength='200'-->
-              <!--style="width:320px;height:22px;margin-left: 15px"-->
-              <!--placeholder="请输入手机号码"-->
-              <!--v-model="phone"-->
-              <!--@blur="agentMobile"-->
-              <!--&gt;-->
-              <!--</el-input>-->
-              <!--</div>-->
-
-              <!--<div class="info-list align-left" >-->
-              <!--<span>联系邮箱 </span>-->
-              <!--<el-input-->
-              <!--:maxlength='200'-->
-              <!--style="width:320px;height:22px;margin-left: 15px"-->
-              <!--placeholder="请输入联系邮箱"-->
-              <!--v-model="Email"-->
-              <!--@blur="VaildEmail">-->
-              <!--</el-input>-->
-              <!--</div>-->
-
-              <!--</div>-->
 
             </div>
           </div>
@@ -168,7 +99,7 @@
 
                       <p>致：北京众签科技有限公司</p>
 
-                      兹授权我公司员工：<span v-text="accountName"></span>，身份证号：<span v-text="ID"></span> ，性别：男  ，去贵单位办理关于的一切相关事宜。
+                      兹授权我公司员工：<span ></span>，身份证号：<span ></span> ，性别：男  ，去贵单位办理关于的一切相关事宜。
                       在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合!谢谢
 
                       授权期限：（授权人填充）
@@ -190,7 +121,7 @@
               </el-dialog>
 
               <div class="buttons">
-                <!--<a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>-->
+                <a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>
                 <a class="submit"  @click="submitBtn" href="javascript:void(0)">提交</a>
               </div>
             </div>
@@ -227,9 +158,9 @@
       // 校验二级账号管理员账户
       var validateAdministrators = (rule,value,callback) => {
         if (TrimAll(value) === ''){
-          callback(new Error('请输入姓名'))
+          callback(new Error('请输入管理员账户'))
         } else if (value.length<2 || value.length > 15 ) {
-          callback(new Error('管理员账户'))
+          callback(new Error('管理员账户格式错误'))
         } else {
           callback()
         }
@@ -240,7 +171,7 @@
         if (TrimAll(value) === ''){
           callback(new Error('请输入身份证号'))
         } else if (value !== '' && !validateCard(value)){
-          callback(new Error('身份证格式错误'))
+          callback(new Error('身份证格式输入错误'))
         } else {
           callback()
         }
@@ -303,7 +234,7 @@
         isIndeterminate: true,
         agree:'',  //同意协议
         dialogAgreement:false, //点击同意协议协议弹窗,
-        rules: {
+        rules:{
           accountName: [
             { required: true, validator: validateUserName, trigger: 'blur' }
           ],
@@ -313,11 +244,9 @@
           password: [
             { required: true, validator: validateChildPassWord, trigger: 'blur' }
           ],
-
           Email:[
             {required:true,validator:validateChildEmail,trigger: 'blur'}
           ],
-
           ID:[
             { required: true,validator: validateIdCard, trigger: 'blur'}
           ],
@@ -333,7 +262,7 @@
       },
       // 取消
       quit(formName){
-        this.$refs[formName].resetFields();
+        // this.$refs[formName].resetFields();
         this.$router.push('/Account');
       },
 
@@ -341,17 +270,6 @@
       submitBtn(){
 
 
-      },
-      //校验姓名
-      validateUserName() {
-        if( this.userName == ''){
-          this.$message({
-            showClose: true,
-            message: '姓名（必填项）',
-            type: 'warning'
-          })
-          return false
-        }
       },
 
     },
@@ -362,7 +280,7 @@
 </script>
 
 <style lang="stylus">
-  @import "../../../../styles/Confirmation/Account/AddChildAccount.styl";
+  @import "../../../../styles/Confirmation/Account/ChildAccount.styl";
   .el-checkbox-group>.el-checkbox{
     display: inline-block !important;
     height: 40px !important;
@@ -378,18 +296,24 @@
     margin-left:20px!important;
 
   }
-  .demo-ruleForm>.el-form-item,.demo-ruleForm>.el-form-item>el-form-item__content{
-    float: left;
-  }
   .demo-ruleForm>.el-form-item{
-    width: 50%;
-  }
-  .demo-ruleForm>.el-form-item>.el-form-item__content{
-    margin-left: 20px;
+   width: 50%;
     float: left;
+  }
+  .demo-ruleForm>.el-form-item>.el-form-item__label{
+    /*clear: both !important;*/
+  }
+
+  .demo-ruleForm>.el-form-item{
+    /*width: 50%;*/
+  }
+  .demo-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
+    margin-left: 20px;
+
   }
   .demo-ruleForm>.el-form-item>.el-form-item__content>.el-input>.el-input__inner{
     width:330px;
+    margin-left: 20px;
   }
   .content-body>p.title{
     background: url("../../../../../static/images/Common/title.png") no-repeat;
