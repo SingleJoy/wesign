@@ -1,145 +1,145 @@
 /*
- * @Author: wangjia
- * @Date: 2018-06-19 11:29:05
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-07-04 14:27:19
- */
+* @Author: wangjia
+* @Date: 2018-06-19 11:29:05
+* @Last Modified by: wangjia
+* @Last Modified time: 2018-07-04 14:27:19
+*/
 <template>
-<div>
-  <div class="Topes">
-    <nav class='nav'>
-      <p class='logo'>
-        <img src="../../../../../static/images/logo2.png" alt="">
-      </p>
-      <div class='buttons'>
+  <div>
+    <div class="Topes">
+      <nav class='nav'>
+        <p class='logo'>
+          <img src="../../../../../static/images/logo2.png" alt="">
+        </p>
+        <div class='buttons'>
 
-      </div>
-    </nav>
-  </div>
-  <div class='Enterprises'>
-    <div class='step' style="width: 720px;">
-      <ul>
-        <li class="active"><i class='el-icon-document'></i><b>注册</b></li>
-        <p></p>
-        <li><i class='el-icon-goods'></i><b>个人认证</b></li>
-        <p></p>
-        <li><i class='el-icon-edit'></i><b>企业认证</b></li>
-        <p></p>
-        <li><i class='el-icon-menu'></i><b>打款确认</b></li>
-        <p></p>
-        <li><i class='el-icon-check'></i><b>完成</b></li>
-      </ul>
-    </div>
-    <div class='productes'>
-     <div class="title" style="padding: 20px 0 0 15px;">
-        <div style="display: block;">
-          <img src="../../../../../static/images/Credentials/Enterprise/Register/register.png" alt="" >
         </div>
+      </nav>
+    </div>
+    <div class='Enterprises'>
+      <div class='step' style="width: 720px;">
+        <ul>
+          <li class="active"><i class='el-icon-document'></i><b>注册</b></li>
+          <p></p>
+          <li><i class='el-icon-goods'></i><b>个人认证</b></li>
+          <p></p>
+          <li><i class='el-icon-edit'></i><b>企业认证</b></li>
+          <p></p>
+          <li><i class='el-icon-menu'></i><b>打款确认</b></li>
+          <p></p>
+          <li><i class='el-icon-check'></i><b>完成</b></li>
+        </ul>
       </div>
-      <div class='center' style="margin-top: 50px;">
-        <div class='container'>
-          <div class='second'>
-            <span >企业全称</span>
-            <el-input
-              style='width:330px;'
-              placeholder="请输入内容"
-              v-model="EnterpriseName"
+      <div class='productes'>
+        <div class="title" style="padding: 20px 0 0 15px;">
+          <div style="display: block;">
+            <img src="../../../../../static/images/Credentials/Enterprise/Register/register.png" alt="" >
+          </div>
+        </div>
+        <div class='center' style="margin-top: 50px;">
+          <div class='container'>
+            <div class='second'>
+              <span >企业全称</span>
+              <el-input
+                style='width:330px;'
+                placeholder="请输入内容"
+                v-model="EnterpriseName"
 
-              :disabled= disabled
+                :disabled= disabled
               >
-            </el-input>
-             <p class="tips">若此处企业全称与您所在的公司企业全称名字不符，请联系合同发起方，重新发起合同。</p>
-          </div>
-          <div class='second'>
-            <span >手机号</span>
-            <el-input
-              style='width:330px;'
-              placeholder="请输入内容"
-              v-model="phone"
-
-              :disabled= disabled
-              >
-            </el-input>
-          </div>
-          <div class='second'>
-            <span>姓名</span>
-            <el-input
-              style='width:330px;'
-              placeholder="请输入姓名"
-              v-model="userName"
-
-              :disabled= disabled
-              >
-            </el-input>
-          </div>
-          <div class='second'>
-            <span>验证码</span>
-            <el-input
-              style='width:330px;'
-              placeholder="验证码"
-              v-model="smsCode"
-
-              >
-            </el-input>
-            <el-button  type="primary" style="margin-left: -125px;width: 120px;height: 40px;z-index: 999;position: relative;" @click='getSmsCode' id='code'>获取验证码</el-button>
-          </div>
-          <div class='second'>
-            <span>请设置密码</span>
-            <el-input
-              style='width:330px;'
-              placeholder="请输入密码"
-              type='password'
-              v-model="passWord"
-
-              :disabled= forbid
-              >
-            </el-input>
-          </div>
-          <div class='second'>
-            <span >再次确认密码</span>
-            <el-input
-              style='width:330px;'
-              placeholder="请再次输入密码"
-              type='password'
-              v-model="verifyPassWord"
-              :disabled= forbid
-              >
-            </el-input>
-          </div>
-          <div class='second' style="margin-left:68px;">
-            <el-checkbox v-model="agree" name="type" @change='changEvent'></el-checkbox>
-            <b style="color:#424242;font-size: 14px;padding-left: 15px;">我同意<b style="padding-left: 10px;color:#22a7ea;cursor: pointer;" @click="dialogAgreement = true">《微签使用协议》</b></b>
-          </div>
-          <div class='second'>
-            <div class="edit-btn" >
-              <!-- <el-button type="primary" style="width: 200px;">返回</el-button> -->
-              <el-button  type="primary" style="width: 330px;margin-left: 80px;" :disabled='flag' @click="submitFrom">提交</el-button>
+              </el-input>
+              <p class="tips">若此处企业全称与您所在的公司企业全称名字不符，请联系合同发起方，重新发起合同。</p>
             </div>
+            <div class='second'>
+              <span >手机号</span>
+              <el-input
+                style='width:330px;'
+                placeholder="请输入内容"
+                v-model="phone"
+
+                :disabled= disabled
+              >
+              </el-input>
+            </div>
+            <div class='second'>
+              <span>姓名</span>
+              <el-input
+                style='width:330px;'
+                placeholder="请输入姓名"
+                v-model="userName"
+
+                :disabled= disabled
+              >
+              </el-input>
+            </div>
+            <div class='second'>
+              <span>验证码</span>
+              <el-input
+                style='width:330px;'
+                placeholder="验证码"
+                v-model="smsCode"
+
+              >
+              </el-input>
+              <el-button  type="primary" style="margin-left: -125px;width: 120px;height: 40px;z-index: 999;position: relative;" @click='getSmsCode' id='code'>获取验证码</el-button>
+            </div>
+            <div class='second'>
+              <span>请设置密码</span>
+              <el-input
+                style='width:330px;'
+                placeholder="请输入密码"
+                type='password'
+                v-model="passWord"
+
+                :disabled= forbid
+              >
+              </el-input>
+            </div>
+            <div class='second'>
+              <span >再次确认密码</span>
+              <el-input
+                style='width:330px;'
+                placeholder="请再次输入密码"
+                type='password'
+                v-model="verifyPassWord"
+                :disabled= forbid
+              >
+              </el-input>
+            </div>
+            <div class='second' style="margin-left:68px;">
+              <el-checkbox v-model="agree" name="type" @change='changEvent'></el-checkbox>
+              <b style="color:#424242;font-size: 14px;padding-left: 15px;">我同意<b style="padding-left: 10px;color:#22a7ea;cursor: pointer;" @click="dialogAgreement = true">《微签使用协议》</b></b>
+            </div>
+            <div class='second'>
+              <div class="edit-btn" >
+                <!-- <el-button type="primary" style="width: 200px;">返回</el-button> -->
+                <el-button  type="primary" style="width: 330px;margin-left: 80px;" :disabled='flag' @click="submitFrom">提交</el-button>
+              </div>
+            </div>
+            <el-dialog
+              :visible.sync="dialogAgreement"
+              width="40%"
+            >
+              <img src="../../../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="" style="width:100%;height:100%;">
+            </el-dialog>
+
+
           </div>
-          <el-dialog
-            :visible.sync="dialogAgreement"
-            width="40%"
-          >
-            <img src="../../../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="" style="width:100%;height:100%;">
-          </el-dialog>
-
-
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="register-dialog">
-    <div class='box'>
-      <div class='box-container'>
+    <div id="register-dialog">
+      <div class='box'>
+        <div class='box-container'>
 
+        </div>
+        <p style="text-align: center;padding-top: 20px;font-size: 12px;color: #22a7ea;line-height: 20px;">
+          您已完成注册，请使用账号密码进行登录
+          即将跳转至登录页面<span style="color:red;padding-left: 10px;">{{num}}</span>
+        </p>
       </div>
-      <p style="text-align: center;padding-top: 20px;font-size: 12px;color: #22a7ea;line-height: 20px;">
-        您已完成注册，请使用账号密码进行登录
-        即将跳转至登录页面<span style="color:red;padding-left: 10px;">{{num}}</span>
-      </p>
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -226,19 +226,19 @@
             type: 'warning'
           })
         }else if (this.passWord.length < 8 || this.passWord.length > 16) {
-         this.$message({
+          this.$message({
             showClose: true,
             message: '密码长度为8-16位',
             type: 'warning'
           })
         } else if (!validatePassWord(this.passWord)){
-           this.$message({
+          this.$message({
             showClose: true,
             message: '密码格式为数字+字母',
             type: 'warning'
           })
         }
-         return false
+        return false
       },
       validateVerifyPassWord() {
         if( this.verifyPassWord == ''){
@@ -259,58 +259,58 @@
       },
       getSmsCode() {
         if(this.repeat == false){
-        this.repeat = true
-        var codeType = '0'
-        var InterValObj = 60
-        var count = 60
-        var curCount = count
-        var timer = null
-        this.sms = true
-        this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.phone, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
-          this.smval=res.data.smsCode
-          var appId = res.data.appId
-          this.appId = appId
-          // console.log('我拿到了appId哦')
-          var resultCode = res.data.resultCode;
-          var smsNo = res.data.smsNo;
-          var smsCode = res.data.smsCode;
-          var message = res.data.resultMessage;
-          if (resultCode === '1') {
-            this.smsNo = true
-            this.smsCodeNum +=1
-            if(this.smsCodeNum == 3){
-              this.isDisabled = true
-            } else{
-              this.isDisabled = false
-            }
-            var codeInfo = document.getElementById('code')
-            codeInfo.innerText =  curCount + '秒'
-            this.smsNum = smsNo
-
-            codeInfo.setAttribute('disabled', 'true')
-            var that = this
-            timer = setInterval(function () {
-              codeInfo.innerText =  (curCount - 1) + '秒'
-              if (curCount === 0) {
-                codeInfo.innerText = '获取'
-                clearInterval(timer)
-                codeInfo.removeAttribute('disabled')
-                that.repeat = false
-              } else {
-                curCount--
+          this.repeat = true
+          var codeType = '0'
+          var InterValObj = 60
+          var count = 60
+          var curCount = count
+          var timer = null
+          this.sms = true
+          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.phone, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
+            this.smval=res.data.smsCode
+            var appId = res.data.appId
+            this.appId = appId
+            // console.log('我拿到了appId哦')
+            var resultCode = res.data.resultCode;
+            var smsNo = res.data.smsNo;
+            var smsCode = res.data.smsCode;
+            var message = res.data.resultMessage;
+            if (resultCode === '1') {
+              this.smsNo = true
+              this.smsCodeNum +=1
+              if(this.smsCodeNum == 3){
+                this.isDisabled = true
+              } else{
+                this.isDisabled = false
               }
-            }, 1000)
-          }else{
-            let that =this;
-            // this.$message({
-            //   showClose: true,
-            //   message: message?message:'验证码获取失败',
-            //   type: 'error'
-            // })
-            that.smsNo = false
-            that.repeat = false
-          }
-        })
+              var codeInfo = document.getElementById('code')
+              codeInfo.innerText =  curCount + '秒'
+              this.smsNum = smsNo
+
+              codeInfo.setAttribute('disabled', 'true')
+              var that = this
+              timer = setInterval(function () {
+                codeInfo.innerText =  (curCount - 1) + '秒'
+                if (curCount === 0) {
+                  codeInfo.innerText = '获取'
+                  clearInterval(timer)
+                  codeInfo.removeAttribute('disabled')
+                  that.repeat = false
+                } else {
+                  curCount--
+                }
+              }, 1000)
+            }else{
+              let that =this;
+              // this.$message({
+              //   showClose: true,
+              //   message: message?message:'验证码获取失败',
+              //   type: 'error'
+              // })
+              that.smsNo = false
+              that.repeat = false
+            }
+          })
         }
       },
 
@@ -370,11 +370,11 @@
         }
         if(this.sms == false) {
           this.$message({
-              showClose: true,
-              message: '请先获取验证码',
-              type: 'error'
-            })
-            return false
+            showClose: true,
+            message: '请先获取验证码',
+            type: 'error'
+          })
+          return false
         }
         if(this.passWord ==''){
           if(this.validatePassWords() == false) {
@@ -393,12 +393,12 @@
           return false
         } else{
           this.$http.get(process.env.API_HOST+'v1.4/sms',{params:{
-            'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
-          }}).then(response =>{
+              'mobile':this.phone,'smsNo': this.smsNum,'smsCode': this.smsCode,'appId':this.appId
+            }}).then(response =>{
             if (response.data.resultCode != 1 ) {
               this.verCode = false;
               if(this.sms == true){
-                 this.$message({
+                this.$message({
                   showClose: true,
                   message: response.data.resultMessage,
                   type: 'error'
@@ -411,10 +411,10 @@
 
           })
 
-      }
-    },
-    vertifySuccess(){
-      this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
+        }
+      },
+      vertifySuccess(){
+        this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
             this.$message({
               showClose: true,
@@ -422,7 +422,7 @@
               type: 'success'
             })
             sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode))
-           this.$router.push('/Pupload')
+            this.$router.push('/Pupload')
           } else if(res.data.resultCode == '2'){
 
             if(res.data.dataList[1].authAccountStatus == '0'){
@@ -447,13 +447,13 @@
                 this.$router.push('/')
               } else if(authStatus != '1' && auditSteps == '1'){
                 if(authStatus == '0'){
-                 sessionStorage.setItem('userCode',JSON.stringify(res.data.dataList[0].userCode))
-                sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
-                this.$router.push('/Pupload')
+                  sessionStorage.setItem('userCode',JSON.stringify(res.data.dataList[0].userCode))
+                  sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                  this.$router.push('/Pupload')
                 }else{
-                sessionStorage.setItem('userCode',JSON.stringify(res.data.dataList[0].userCode))
-                sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
-                this.$router.push('/ErrorPupload')
+                  sessionStorage.setItem('userCode',JSON.stringify(res.data.dataList[0].userCode))
+                  sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                  this.$router.push('/ErrorPupload')
                 }
               } else if(authStatus != '1' && auditSteps == '2'){
                 this.$router.push('/PersonWait')
@@ -477,7 +477,7 @@
             })
           }
         })
-    }
+      }
     },
     created() {
       this.interfaceCode = GetQueryString("appId");

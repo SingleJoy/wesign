@@ -2,7 +2,7 @@
   <div class='Account'>
     <Top v-if="Jurisdiction == true"></Top>
     <mu-top v-else></mu-top>
-    <AddChildAccounts></AddChildAccounts>
+    <EditChildAccounts></EditChildAccounts>
     <Bottom></Bottom>
   </div>
 </template>
@@ -10,7 +10,7 @@
   import cookie from '@/common/js/getTenant'
   import Top from '../../../../common/components/Top.vue'
   import MuTop from '../../../../common/components/MuTop.vue'
-  import AddChildAccounts from './AddChildAccounts.vue'
+  import EditChildAccounts from './EditChildAccounts.vue'
   import Bottom from '../../../../common/components/Bottom.vue'
   export default {
     name: 'Account',
@@ -18,7 +18,7 @@
       Top,
       MuTop,
       Bottom,
-      AddChildAccounts
+      EditChildAccounts
     },
     data(){
       return{

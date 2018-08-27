@@ -26,7 +26,7 @@
       }
     },
     created() {
-      var Status = cookie.getJSON('tenant')[1].isBusiness  
+      var Status = cookie.getJSON('tenant')[1].isBusiness
       if(Status == '0'){
         this.Jurisdiction = false
       }

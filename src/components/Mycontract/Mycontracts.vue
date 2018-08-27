@@ -4,7 +4,7 @@
      <div style="width: 1200px;margin: 0 auto;background: #fff;padding: 5px;">
        <div class="optPower">
          <div class="btn-active" @click="EnterPer">企业对个人</div>
-         <div class="btn-default" style="margin-left: -5px;"@click="EnterEnter">企业对企业</div>
+         <div class="btn-default" style="margin-left: -5px;" @click="EnterEnter">企业对企业</div>
        </div>
      </div>
 

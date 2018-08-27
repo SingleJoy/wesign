@@ -1,38 +1,250 @@
+<!--我的账户->新增二级账户-->
 <template>
-  <div class='Accounts'>
-    <div  class='content'>
-      <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;padding-left: 15px;">
-        <img src="../../../../static/images/Confirmation/Account/my.jpg" alt="">
-        <p v-if="identifier == false"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
-        <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
-      </h2>
-      <div class='contentInfo'>
-        <div class='companyName'>
-          <p>
-            <span className="company-name">企业名称：</span><span>{{companyName}}</span>
-          </p>
+  <div class="Accounts">
+
+    <div class="main" >
+
+      <div class="container">
+        <!--账号管理   新增二级账号-->
+
+        <div class="tap">
+          <!--<div class="btn-active" @click="EnterAccount">账户中心</div>-->
+          <!--<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>-->
+          <div class="btn-active" >账户中心</div>
+          <div class="btn-default" style="margin-left: -5px;" >费用中心</div>
         </div>
-        <div class='userInfo'>
-          <p>
-            <span>账号：</span><span>{{mobile}}</span>
-          </p>
-          <a href="javascript:void(0);" v-show="authStatus == false" @click="realName">去实名</a>
+
+        <div class="content">
+
+          <!--账户信息-->
+          <div class="content-body">
+
+            <p class="title">账户信息</p>
+            <div class="border-bottom"></div>
+            <div class="left-side common-style">
+
+              <div class="card" style="margin: 20px;">
+
+                <div class="line" style="padding-top: 20px;">
+                  <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:</span>
+                  <b>{{account}}</b>
+
+                </div>
+                <div class="line">
+                  <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
+                  <b>{{enterpriseName}}</b>
+                </div>
+                <div class="line">
+                  <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
+                  <b>{{Email}}</b>
+                </div>
+                <div class="line">
+                  <span>被授权人姓名:</span>
+                  <b>{{authName}}</b>
+                </div>
+
+              </div>
+              <a href="javascript:void(0);" @click="centerDialogVisible = true" class="changePassword">修改密码</a>
+              <div class="real-name-state" v-if="realNameState">
+                <img src="../../../../static/images/Confirmation/Account/realName.png">
+              </div>
+            </div>
+
+
+          </div>
+          <!--企业证书-->
+          <div class="content-body">
+            <p class="title">企业证书</p>
+            <div class="border-bottom"></div>
+            <div class="right-side common-style">
+
+              <div class="card right-card" style="margin-top: 20px;margin-left: 20px;">
+                <div class="right-card-content">
+                  <div class="right-line" >
+                    <span>序列号:</span>
+                    <b>{{serialNumber}}</b>
+                  </div>
+                  <div class="right-line">
+                    <span>颁发给:</span>
+                    <b>{{issuedNumber}}</b>
+                  </div>
+                  <div class="right-line">
+                    <span>证件号:</span>
+                    <b>{{cardNumber}}</b>
+                  </div>
+                  <div class="right-line">
+                    <span>有效起始时间:</span>
+                    <b>{{effectiveStartTime}}</b>
+                  </div>
+                  <div class="right-line">
+                    <span>有效截止时间:</span>
+                    <b>{{effectiveEndTime}}</b>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
         </div>
-        <div class='userInfo'>
-          <p>
-            <span>密码：</span><span>******</span>
-          </p>
-          <a href="javascript:void(0);" @click="centerDialogVisible = true">修改密码</a>
+
+        <div class="sign-management">
+          <p class="title">签章管理</p>
+          <div class="border-bottom"></div>
+          <div class="sign-content">
+            <div class="sign-picture">
+              <!--默认图片-->
+              <!--<img src="" v-if="showImage==false">-->
+              <!--<img src="" v-if="showImage==true">-->
+
+            </div>
+
+            <div class="create-seal">
+              <!--生成公章-->
+              <span>录入公章防伪码在线生成</span>
+              <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
+              <input type="text" v-model="createSeal">
+              <a href="javascript:void(0);" >生成公章</a>
+            </div>
+
+
+          </div>
+
+
         </div>
-        <h2 class='title' style='border-top:none;padding-bottom: 20px;padding-left: 15px;'>
-          <img src="../../../../static/images/Confirmation/Account/my1.jpg" alt="" >
-        </h2>
-        <div class='accountPic'>
-          <img :src="[contractSign]" alt="" style="width:100%">
-          <p style="padding-left: 58px;width: 95px;">{{chapter}}</p>
+
+        <div class="seal-management">
+          <p class="title">账号管理</p>
+          <div class="border-bottom"></div>
+          <div class="child-account">
+
+            <div class="account-list">
+              <!--<div class="list-content" v-for="item in accountList">-->
+              <div class="list-content" >
+                <ul>
+                  <li>
+                    <span>管理员姓名:</span>
+                    <b >张晓霞</b>
+                  </li>
+                  <li>
+                    <span>账<span style="padding: 0 24px;"></span>号:</span>
+                    <b >18876994055</b>
+                  </li>
+                  <li>
+                    <span>状<span style="padding: 0 24px;"></span>态:</span>
+                    <b class="state">使用中</b>
+                  </li>
+                  <li>
+                    <span>可<span style="padding: 0 3px;"></span>用<span style="padding: 0 1px;"></span>模<span style="padding: 0 3px;"></span>板:</span>
+                    <b><strong class="template-number">10</strong>个</b>
+                  </li>
+                </ul>
+                <div class="operate">
+                  <!--<a class="finish" href="javascript:void(0)" @click="finish">完善</a>-->
+                  <a class="edit" href="javascript:void(0)" @click="edit">编辑</a>
+                  <!--<a class="management" href="javascript:void(0)" @click="management">管理</a>-->
+                  <!--<a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>-->
+                  <!--<a class="thaw" href="javascript:void(0)" @click="thaw">解冻</a>-->
+                </div>
+              </div>
+
+              <el-dialog
+                title="提示"
+                :visible.sync="frozenDialogVisible"
+                width="30%"
+                center>
+                <div style="text-align: center">
+                  <div class="tips" style="width: 300px;text-align: center;margin: 0 auto;">
+                    子被冻结后，子账号管理员将无法以该角色登录<br/>
+                    微签平台，为避免业务受阻，请确认操作
+                  </div>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                      <el-button @click="frozenDialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="frozenDialogVisible = false">确 定</el-button>
+                  </span>
+              </el-dialog>
+
+              <el-dialog
+                title="提示"
+                :visible.sync="thawDialogVisible"
+                width="30%"
+                center>
+                <div style="text-align: center">
+                  <div class="tips" style="width: 300px;text-align: center;margin: 0 auto;">
+                    解除冻结后，子账号管理员将恢复所有操作权限
+                  </div>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                      <el-button @click="thawDialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="thawDialogVisible = false">确 定</el-button>
+                </span>
+              </el-dialog>
+
+              <div class="left" @click="sealManagement">
+                <i class="el-icon-plus"></i>
+              </div>
+            </div>
+
+          </div>
+          <!--accountDefault  没有二级子账号-->
+          <div class="right" v-if="accountDefault">
+
+            <!--Q1-->
+            <div class="question">
+              <a href="javascript:void(0)" class="serial-number" style="background-color: #79b6ef;">
+                <b>Q1</b>
+              </a>
+              <p class="question-title" style="color: #79b6ef;">什么是二级账号？</p>
+              <span class="question-answer">
+                    子账号是企业管理员开通授权，使用手机号登录，可发起合同、管理合同
+                  </span>
+            </div>
+
+            <!--Q2-->
+            <div class="question">
+              <a href="javascript:void(0)" class="serial-number" style="background-color:  #d69856;">
+                <b>Q2</b>
+              </a>
+              <p class="question-title" style="color: #d69856;">子账号拥有哪些权限？</p>
+              <span class="question-answer">
+                    子账号仅可管理本账号内的合同，不可接收合同文件<br/><br/>
+                     <span style="color: #d69856;line-height: 25px">发起合同<br/>
+                       <span style="color: #333;">可上传文件发起合同，也可以通过一级账号分配的模板发起合同</span>
+                     </span>
+                    <br/><br/>
+                    <span style="color: #d69856;line-height: 25px">文件签署<br/>
+                       <span style="color: #333;">签署“带我签署”状态的合同</span>
+                     </span>
+                     <br/><br/>
+                    <span style="color: #d69856;line-height: 25px">延期<br/>
+                       <span style="color: #333;">合同已到达截止签署日且仍未签署完成时，子账号管理员可修改签署截止日</span>
+                     </span>
+                  </span>
+            </div>
+
+            <!--Q3-->
+            <div class="question">
+              <a href="javascript:void(0)" class="serial-number" style="background-color: #59c6a1;">
+                <b>Q3</b>
+              </a>
+              <p class="question-title" style="color:#59c6a1;">开通子账号需要哪些步骤？</p>
+              <span class="question-answer" style="line-height: 25px;color: #333;">
+                    1:录入子账号基本信息，对子账号管理员主体进行进行实名认证<br/>
+                    （若账号已经在微签注册、实名过，则不需要设置密码）<br/>
+                    2:为子账号分配模板<br/>
+                    3:提交开通子账号申请<br/>
+                    4:短信通知子账号管理员<br/>
+                    5:子账号管理员登录账号，签署授权书激活子账号<br/>
+                  </span>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
+
+    <!--修改密码-->
     <el-dialog
       custom-class='dlstyle'
       title="修改密码"
@@ -60,51 +272,20 @@
           <el-button type="primary"  @click="submitForm('ruleForm')" size="medium">确 定</el-button>
         </span>
     </el-dialog>
-
-    <div class="modal " v-show ="finalRejection == true">
-      <div class="modal-box" >
-        <div class="modal-header">
-          <div class="modal-header-title">
-            <div>提示<span>(未通过原因)</span></div>
-          </div>
-          <a href="javascript:void(0);" @click="shutDown" class="close">X</a>
-        </div>
-        <div class="modal-body-account">
-          <div class="refuse-reason" style=" word-break:break-all;">
-            {{auditOpinion}}
-          </div>
-        </div>
-        <div class="modal-footer">
-          <a href="javascript:void(0);" class="btn btn-sure" @click="audit">确定</a>
-          <a href="javascript:void(0);" class="btn btn-quit" @click="shutDown">取消</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal " v-show ="modalTips == true">
-      <div class="modal-box" style="width: 400px;height: 200px;">
-        <div class="modal-header" style="border: none;">
-          <a href="javascript:void(0);" @click="close" class="close">X</a>
-        </div>
-        <div class="modal-body-account">
-          <div style="height: 50px;margin: 50px 0 30px 20px;">
-            <p style="font-size: 14px;color: #666;">您上传的手持身份证信息与被授权人手机号主体信息不匹配，请重新上传！</p>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <a href="javascript:void(0);" class="btn btn-sure" @click="ToAccount">确定</a>
-          <a href="javascript:void(0);" class="btn btn-quit" @click="close">取消</a>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
   import md5 from 'js-md5'
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
+  import  AddChildAccount from './AddChildAccount/AddChildAccount'
+  import  Home from '../../Home/Home'
   export default {
     name: 'Accounts',
+    components:{
+      AddChildAccount,
+      Home
+    },
     data() {
       var validateOldPassWord = (rule, value, callback) => {
         if (value === '') {
@@ -141,8 +322,18 @@
         }
       }
       return{
+        account:'',
+        Email:'',
+        authName:'',
+        enterpriseName:'',
         companyName:'',
         chapter:'合同章',
+        serialNumber:'',  //序列号
+        cardNumber:'',  //证件号
+        issuedNumber:'',  //颁发给
+        effectiveStartTime:'',  //有效起始时间
+        effectiveEndTime:'',  //有效截止时间
+        createSeal:'',//生成公章
         contractSign:'',
         mobile:'',
         centerDialogVisible: false,
@@ -154,6 +345,7 @@
         personal:'',
         finalRejection:false,
         toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
+
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
@@ -162,6 +354,7 @@
           newPassWord: '',
           checkPassWord:''
         },
+        realNameState:true,
         rules:{
           oldPassWord: [
             { validator: validateOldPassWord, trigger: 'blur' }
@@ -172,7 +365,12 @@
           checkPassWord:[
             { validator: validateCheckPassWord, trigger: 'blur' }
           ]
-        }
+        },
+        showImage:false ,  //默认图片
+        accountDefault:false ,//没有二级子账号
+        accountList:'', //二级账号列表
+        frozenDialogVisible:false, //子账号冻结弹窗
+        thawDialogVisible:false, //子账号解结弹窗
       }
     },
     methods: {
@@ -267,7 +465,34 @@
       },
       close(){
         this.modalTips = false
+      },
+      sealManagement(){
+
+        this.$router.push('/AddChildAccount')
+      },
+      // 完善子账号
+      finish(){
+
+      },
+      //编辑子账号
+      edit(){
+        this.$router.push('/EditChildAccount')
+      },
+      //管理子账号
+      management(){
+
+      },
+      //冻结子账号
+      frozen(){
+        this.frozenDialogVisible=true
+
+      },
+      //解冻子账号
+      thaw(){
+        this.thawDialogVisible=true
+
       }
+
     },
     created() {
       this.mobile = cookie.getJSON('tenant')[0].mobile
@@ -342,111 +567,23 @@
     }
   }
 </script>
-<style scoped>
-  @import "../../../styles/Confirmation/Account/Accounts.css";
-  .modal{
-    width: 100%;
-    height: 100%;
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    top: 0;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.3);
-    overflow-x: hidden;
-    overflow-y: auto;
-    display:block;
-  }
-  .modal-box{
-    width:400px;
-    height: 310px;
-    background-color: #fff;
-    position:fixed;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
-    margin:auto;
-    border-radius: 5px;
 
+<style lang="stylus">
+  @import "../../../styles/Confirmation/Account/Account.styl";
+  .content-body .title,.sign-management .title,.seal-management .title{
+    background: url("../../../../static/images/Common/title.png") no-repeat;
   }
-  .modal-header{
-    padding: 5px 0 5px 10px;
-    border-bottom: 1px solid #e5e5e5;
-    font-size: 14px;
+  .right-card{
+    background: url('/../../../../static/images/Common/numberCertificate.png') no-repeat 4px 4px;
   }
-  .modal-header h3{
-    text-align: left;
-    font-size: 14px;
+  .create-seal{
+    background: url(" ../../../../static/images/Confirmation/Account/defalut-seal.png")no-repeat;
+  }
+  .seal-management .left,.child-account>.account-list>.list-content{
+    background: url("../../../../static/images/Confirmation/Account/addSeal.png")no-repeat;
+  }
+  .border-bottom{
+    width:100%;height: 1px;border-bottom: 1px solid #ddd;margin-top: 20px
   }
 
-  .close{
-    position: absolute;
-    right: -3px;
-    top: -3px;
-    width: 30px;
-    height: 30px;
-    color: #fff;
-    background: #ccc;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 30px
-  }
-
-  .modal-header-title>div{
-    font-size: 20px;
-    padding: 5px 15px;
-    color: #22a7ea;
-  }
-  .refuse-reason {
-    width: 350px;
-    height: 150px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin: 20px 35px 0 20px;
-    padding: 5px;
-
-
-  }
-  .modal-header-title>div>span{
-    font-size: 14px;
-    padding-left: 15px;
-    color:#333;
-  }
-  textarea.refuse-reason{
-    width: 330px;
-    height: 150px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin: 20px 35px 0 35px;
-    resize: none;
-  }
-  textarea.refuse-reason:focus{
-    outline: none;
-  }
-  .modal-footer{
-    margin-top: 20px;
-    text-align: center;
-  }
-  .modal-footer>a.btn{
-    width: 90px;
-    height: 40px;
-    border-radius: 4px;
-    text-align: center;
-    line-height: 40px;
-    text-decoration : none;
-    display: inline-block;
-  }
-
-  .modal-footer>.btn-sure{
-    background: #22a7ea;
-    color: #fff;
-  }
-
-  .modal-footer>.btn-quit{
-    margin-left: 20px;
-    background:#999;
-    color: #fff;
-  }
 </style>

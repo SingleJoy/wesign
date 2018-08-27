@@ -88,8 +88,8 @@
 				} else {
 					callback(new Error('此用户不存在'))
 				}
-			}).catch(error=>{	
-		
+			}).catch(error=>{
+
 			})
 		}
 	}
@@ -222,8 +222,8 @@
             })
             cookie.set('tenant',res.data.dataList) //存入cookie 所需信息
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-            // this.$router.push('/Home')
-                    this.$router.push('/Role')
+            this.$router.push('/Home')
+            //         this.$router.push('/Role')
 
           }
         })

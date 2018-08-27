@@ -95,6 +95,7 @@ textarea,
 button {
     outline: 0 none;
     -webkit-appearance: none;
+  box-shadow: none;
 }
 
 textarea {
