@@ -48,6 +48,7 @@ import Completion from '../components/Confirmation/Completion/Completion.vue'   
 import Account from '../components/Confirmation/Account/Account.vue'                              //个人账户(签章，账号管理)
 import AddChildAccount from '../components/Confirmation/Account/AddChildAccount/AddChildAccount.vue'                              //我的账户->新增二级账户(签章，账号管理)
 import EditChildAccount from '../components/Confirmation/Account/EditChildAccount/EditChildAccount.vue'                              //我的账户->编辑二级账户(签章，账号管理)
+import ActivateChildAccount from '../components/Confirmation/Account/ActivateChildAccount/ActivateChildAccount.vue'                //我的账户->激活二级账户(签章，账号管理)
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
 import Signature from '../components/Confirmation/Signature/Signature.vue'                        //企业签署设置
@@ -266,7 +267,12 @@ export const router =  new Router({
       name: 'EditChildAccount',
       component: EditChildAccount
     },
-
+    //激活二级子账号
+    {
+      path: '/ActivateChildAccount',
+      name: 'ActivateChildAccount',
+      component: ActivateChildAccount
+    },
     {
       path: '/PersonWait',
       name: 'PersonWait',
