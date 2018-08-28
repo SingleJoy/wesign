@@ -2,7 +2,6 @@
 <template>
   <div class="AddChildAccounts">
     <div class="main" >
-
       <div class="container">
         <div class="content">
           <div class="content-body">

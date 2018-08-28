@@ -1,7 +1,7 @@
 <!--我的账户->新增二级账户-->
 <template>
   <div class="EditChildAccounts">
-    <div class="EditChildAccounts-main" >
+    <div class="main" >
 
       <div class="container">
         <div class="content">
