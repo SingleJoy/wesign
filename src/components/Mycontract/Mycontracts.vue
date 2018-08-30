@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
 	<div class="Mycontracts">
 		<div class="main">
 			<div class="common-top">
@@ -28,37 +27,6 @@
 				</el-tabs>
 			</div>
 		</div>
-=======
-   <div class="Mycontracts" style="margin-top: 20px;">
-
-     <div style="width: 1200px;margin: 0 auto;background: #fff;padding: 5px;">
-       <div class="optPower">
-         <div class="btn-active" @click="EnterPer">企业对个人</div>
-         <div class="btn-default" style="margin-left: -5px;" @click="EnterEnter">企业对企业</div>
-       </div>
-     </div>
-
-     <div class='main' >
-        <el-tabs v-model="activeName" tab-position="40px">
-          <el-tab-pane label="全部文件" name="first">
-            <total-contract></total-contract>
-          </el-tab-pane>
-          <el-tab-pane label="待我签署" name="second">
-            <inquiry-wait-me></inquiry-wait-me>
-          </el-tab-pane>
-          <el-tab-pane label="待他人签署" name="third">
-            <inquiry-wait-others></inquiry-wait-others>
-          </el-tab-pane>
-          <el-tab-pane label="已生效" name="fourth">
-            <inquiry-into-force></inquiry-into-force>
-          </el-tab-pane>
-          <el-tab-pane label="已截止" name="five">
-            <inquiry-expired></inquiry-expired>
-          </el-tab-pane>
-        </el-tabs>
-     </div>
-
->>>>>>> d989496f857c3436eb6fa56691d2bad67f25deac
    </div>
 </template>
 <style lang="scss">
