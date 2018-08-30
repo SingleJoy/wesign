@@ -49,7 +49,9 @@
               <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis" alt="" id='imgSign' style='width:100%;height:844px;'>
           </li>
           <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
-          <div id='signCanvas' style='display:none;'><img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px"></div>
+          <div id='signCanvas' style='display:none;'>
+            <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
+          </div>
         </ul>
       </div>
       <!-- 合同内容结束 -->

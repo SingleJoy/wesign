@@ -40,31 +40,36 @@ import TemplatePos from '../components/TemplatePos/TemplatePos.vue' //平台方�
 import TemplateInfo from '../components/TemplateInfo/TemplateInfo.vue' //平台方是否签署(模板成功)
 
 //b2b
-import Company from '../components/Company/Company.vue' //b2b 首页
-import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue' //企业认证
-import Payment from '../components/Confirmation/Payment/Payment.vue' //打款
-import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue' //等待中
-import Completion from '../components/Confirmation/Completion/Completion.vue' //认证完成
-import Account from '../components/Confirmation/Account/Account.vue' //个人账户(签章，账号管理)
-import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue' //个人认证等待
-import Signature from '../components/Confirmation/Signature/Signature.vue' //企业签署设置
-import Place from '../components/Place/Place.vue' //b2b多位置
-import Dimension from '../components/Dimension/Dimension.vue' //b2b 二维码
-import Mobile from '../components/Mobile/Canvas/Sign.vue' //签名面板
-import MobileSuccess from '../components/Mobile/MobileSuccess/Success.vue' //签名面板成功
-import SignSuccess from '../components/SignSuccess/SignSuccess.vue' //b2b 签署成功
-import CompanyExa from '../components/CompanyExa/CompanyExa.vue' //b2b 合同详情
-import Register from '../components/Credentials/Enterprise/Register/Register.vue' //b2b 注册企业
-import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue' //b2b 个人认证（OCR）
-import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue' //b2b 手持证件照
-import Information from '../components/Credentials/Personal/Information/Information.vue' //b2b 个人认证（三要素）
-import Authentication from '../components/Credentials/Personal/Authentication/Authentication.vue' //b2b 个人认证（三要素认证成功）
-import BuyProduct from '../components/BuyProduct/BuyProduct.vue' //B2B 无权限
-import Merchant from '../components/Merchant/Merchant.vue' //b2b 无权限首页
-import Procontract from '../components/Procontract/Procontract.vue' //b2b 合同列表 (小b)
-import CompanyContract from '../components/CompanyContract/CompanyContract.vue' //b2b 合同列表 （大b）
-import CompanyExb from '../components/CompanyExb/CompanyExb.vue' //小B详情
-import CompanyExc from '../components/CompanyExc/CompanyExc.vue' //合同延期
+import Company from '../components/Company/Company.vue'                                           //b2b 首页
+import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
+import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
+import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
+import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
+
+import Account from '../components/Confirmation/Account/Account.vue'                              //个人账户(签章，账号管理)
+import AddChildAccount from '../components/Confirmation/Account/AddChildAccount/AddChildAccount.vue'                              //我的账户->新增二级账户(签章，账号管理)
+import EditChildAccount from '../components/Confirmation/Account/EditChildAccount/EditChildAccount.vue'                              //我的账户->编辑二级账户(签章，账号管理)
+import ActivateChildAccount from '../components/Confirmation/Account/ActivateChildAccount/ActivateChildAccount.vue'                //我的账户->激活二级账户(签章，账号管理)
+
+import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
+import Signature from '../components/Confirmation/Signature/Signature.vue'                        //企业签署设置
+import Place from '../components/Place/Place.vue'                                                 //b2b多位置
+import Dimension from '../components/Dimension/Dimension.vue'                                    //b2b 二维码
+import Mobile from '../components/Mobile/Canvas/Sign.vue'                                          //签名面板
+import MobileSuccess from '../components/Mobile/MobileSuccess/Success.vue'                        //签名面板成功
+import SignSuccess from '../components/SignSuccess/SignSuccess.vue'                               //b2b 签署成功
+import CompanyExa from '../components/CompanyExa/CompanyExa.vue'                                  //b2b 合同详情
+import Register from '../components/Credentials/Enterprise/Register/Register.vue'                 //b2b 注册企业
+import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue'                 //b2b 个人认证（OCR）
+import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue'       //b2b 手持证件照
+import Information from '../components/Credentials/Personal/Information/Information.vue'     //b2b 个人认证（三要素）
+import Authentication from '../components/Credentials/Personal/Authentication/Authentication.vue'  //b2b 个人认证（三要素认证成功）
+import BuyProduct from '../components/BuyProduct/BuyProduct.vue'                                   //B2B 无权限
+import Merchant from '../components/Merchant/Merchant.vue'                                         //b2b 无权限首页
+import Procontract from '../components/Procontract/Procontract.vue'                                //b2b 合同列表 (小b)
+import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
+import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
+import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 Vue.use(Router)
 
 export const router = new Router({
@@ -364,6 +369,25 @@ export const router = new Router({
       meta: {
         auth: true
       }
+    },
+    //新增二级子账号
+    {
+      path: '/AddChildAccount',
+      name: 'AddChildAccount',
+      component: AddChildAccount
+
+    },
+    //编辑二级子账号
+    {
+      path: '/EditChildAccount',
+      name: 'EditChildAccount',
+      component: EditChildAccount
+    },
+    //激活二级子账号
+    {
+      path: '/ActivateChildAccount',
+      name: 'ActivateChildAccount',
+      component: ActivateChildAccount
     },
     {
       path: '/PersonWait',

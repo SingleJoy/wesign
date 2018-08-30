@@ -47,6 +47,16 @@ module.exports = {
         loader: 'style!css!sass'
       },
       {
+        test: /\.styl$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+        },{
+          loader: "stylus-loader"
+        }]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {

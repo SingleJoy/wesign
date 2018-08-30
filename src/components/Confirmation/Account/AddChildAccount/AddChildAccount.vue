@@ -1,24 +1,26 @@
 <template>
-  <div class='Account'>
-      <Top v-if="Jurisdiction == true"></Top>
-      <mu-top v-else></mu-top>
-      <Accounts></Accounts>
-      <Bottom></Bottom>
+  <div class="AddChildAccount">
+    <Top v-if="Jurisdiction == true"></Top>
+    <mu-top v-else></mu-top>
+    <AddChildAccounts></AddChildAccounts>
+    <Bottom></Bottom>
   </div>
 </template>
 <script>
+
+  import Top from '@/common/components/Top.vue'
+  import MuTop from '@/common/components/MuTop.vue'
+  import AddChildAccounts from './AddChildAccounts.vue'
+  import Bottom from '@/common/components/Bottom.vue'
   import cookie from '@/common/js/getTenant'
-  import Top from '../../../common/components/Top.vue'
-  import MuTop from '../../../common/components/MuTop.vue'
-  import Accounts from './Accounts.vue'
-  import Bottom from '../../../common/components/Bottom.vue'
+
   export default {
     name: 'Account',
     components: {
       Top,
       MuTop,
       Bottom,
-      Accounts
+      AddChildAccounts
     },
     data(){
       return{
