@@ -33,7 +33,7 @@
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
-      <div class='table' style="width: 1200px;">
+      <div class='table' style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
           style="width: 100%;text-align:center"
@@ -84,7 +84,7 @@
       <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
       <div style="margin-top: 30px;margin-left: 70px;">
         <el-steps direction="vertical" :active=History.length>
-          <el-step :title=item.signUserName+item.logInfo  :description=item.signTime v-for="(item,index) in History" :key="index" icon="el-icon-location" style="font-size: 40px;height:100px;"></el-step>
+          <el-step  :class="{'currentStep':index == 0}" :title=item.signUserName+item.logInfo  :description=item.signTime v-for="(item,index) in History" :key="index" icon="el-icon-location" style="font-size: 40px;height:100px;"></el-step>
         </el-steps>
       </div>
     </div>
@@ -95,10 +95,18 @@
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
-
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden;
+  }
+  .currentStep .el-step__icon{
+    color:#22a7ea;
+  }
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
+  }
+  .el-step__title.is-process,.el-step__description.is-process{
+    color:#22a7ea
   }
   #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
     font-size: 16px;

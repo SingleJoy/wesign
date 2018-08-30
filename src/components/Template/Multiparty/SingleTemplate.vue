@@ -1,63 +1,82 @@
 <template>
-  <div class="SingleTemplate">
-    <h6 style="text-align: left;">温馨提示：一次发起一份合同，合同签署方数量以模板限定的签署方数量为准</h6>
-    <h2 style="text-align: left;"><span>输入关键字</span> <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempSingle"><el-button type="primary" icon="el-icon-search" style='margin-left:5px;' @click="queryTemplate"></el-button></h2>
-     <div  v-if="num === 0 && show == false" style="text-align: center;margin-top: 7%;">
-      <img src="../../../../static/images/Multiparty/multiparties.png" alt="" >
-     </div>
-     <div class='beacthImg' v-else-if="num === 0 && show == true">
-       <img src="../../../../static/images/notavailable.png" alt="" >
-     </div>
-     <div v-else style="margin-top: 20px;">
-      <el-table
-        :data="tableData"
-        :header-cell-style="getRowClass"
-        stripe
-        style="width: 100%;text-align:center"
-        @row-click="generateClick"
-        >
-        <el-table-column
-          prop="templateName"
-          label="模板名称"
-          width="320"
-          style="text-align:center"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="tempalateDate"
-          label="创建时间"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="signatory"
-          label="签署方"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="operation"
-            width="250"
-          label="操作">
-          <template slot-scope="scope">
-            <el-button @click="generateClick(scope.row)" type="primary" size="mini">生成合同</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-        <div class='pagetion'>
-          <el-pagination
+  	<div class="SingleTemplate">
+      <div class="template-body">
+        <div class="template-title">
+          <div class="title-bg">
+            <span class="title-name">模板列表</span>
+            <span class="title-tip" >单次发起合同：一次发起一份合同，合同签署方数量以模板限定签署方数量为准</span>
+            <span class="search-btn">
+              <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
+              <el-button type="primary"  style='margin-left:5px;letter-spacing:5px;' @click="queryTempBatch">搜索</el-button>
+            </span>
+          </div>
+        </div>
+         <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
+
+            <div v-for="(item,index) in imgList" :key="index" >
+               <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+            </div>
+          </el-dialog>
+        <div class="line"></div> 
+        <div class="template-list">
+          <ul>
+            <li v-for="(item,index) in tableData" :key="index" >
+              <div class="contract-box">
+                <div class="contract-content">
+                  <div class="content-left">
+                    <p>{{item.templateName}}</p>
+                  </div>
+                  <div class="content-right">
+                    <h3>{{item.templateName}}</h3>
+                  
+                    <p class="item-name">
+                      <span class="initiator item-default">绑定账号：</span>
+                      <span class="initiator">{{item.Character}}</span>
+                    </p>
+                    <p class="item-name">
+                      <span class="initiator item-default">累计发起：</span>
+                      <span class="initiator-total"><span class="total-num">{{item.total}}</span>次</span>
+                    </p>
+                    <p class="item-name upload-time">
+                      <span class="initiator item-default">上传时间：</span>
+                      <span class="initiator">{{item.tempalateDate}}</span>
+                    </p>
+                    <p>
+                      <span class="item-option">
+                        <img src="../../../../static/images/Multiparty/see.png" alt="">
+                        <span @click="previewContract(item)">在线预览</span>
+                      </span>
+                      
+                      <span class="item-option">
+                        <img src="../../../../static/images/Multiparty/creater.png" alt="">
+                        <span @click="generateClick(item)">立即发起</span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="line" v-if="index+1<tableData.length"></div>
+            </li>
+          </ul>
+          <div class='pagetion'>
+            <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
             :page-size="10"
             layout="total,prev, pager, next, jumper"
             :total=Number(num)>
-          </el-pagination>
+            </el-pagination>
+          </div>
+        </div>
+       
       </div>
-    </div>
-  </div>
+  	</div>
 </template>
 
-<style lang="css" scoped>
-  @import "../../../styles/Multiparty/Multiparties.css";
+<style lang="scss" scoped>
+  @import "../../../styles/Multiparty/Multiparties.scss";
+  @import "../../../common/styles/content.css";
   .el-input el-input--small{
     width: 150px !important;
   }
@@ -71,23 +90,54 @@
     width: 100%;
     height:100%;
   }
+  
 </style>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
+import server from '@/api/url.js'
 export default {
   data() {
     return {
+      baseURL:this.baseURL.BASE_URL,
+      total:'',
+      inputTempBatch:'',
       tableData: [],
       currentPage: 1,
       num:'',
       inputTempSingle:'',
       query:false,
-      show:false
+      show:false,
+      dialogTableVisible:false,
+      imgList:[]
     };
   },
   methods: {
+
+    previewContract(item){
+		console.log(item)
+		this.imgList =[];
+		this.$loading.show(); 
+		var data =[];
+		let param={
+			contractNo:item.templateNo
+		}
+		server.contractInfo(param).then(res=>{
+			if(res.data.sessionStatus == '0'){
+				this.$router.push('/Server')
+			}else{
+				for(let i = 0; i < res.data.length;i++) {
+					let contractUrl = res.data[i].contractUrl
+					data[i] = contractUrl
+					this.$loading.hide(); 
+				}
+				this.imgList = data
+			}
+		})
+		this.dialogTableVisible = true
+	},
+	
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return "background:#f5f5f5;text-align:center;font-weight:bold;";
@@ -97,6 +147,9 @@ export default {
     },
     handleSizeChange(val) {
       //console.log(`每页 ${val} 条`);
+    },
+    queryTempBatch(){
+
     },
     handleCurrentChange(val) {
       if (this.inputTemplate !== ''){

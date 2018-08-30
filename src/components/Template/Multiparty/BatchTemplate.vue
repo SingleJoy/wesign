@@ -1,75 +1,85 @@
 <template>
-  <div class="BatchTemplate">
-    <h6 style="text-align: left;">温馨提示：一次批量发起多份合同，发起方与每个签署方签署一份独立合同</h6>
-    <h2 style="text-align: left;"><span>输入关键字</span>
-      <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch"><el-button type="primary" icon="el-icon-search" style='margin-left:5px;' @click="queryTempBatch"></el-button></h2>
-    <div v-if="num === 0 && show == false" style="text-align: center;margin-top: 9%;">
-      <img src="../../../../static/images/Multiparty/multiparties1.png" alt="" >
-    </div>
-    <div class='beacthImg' v-else-if="num === 0 && show == true">
-      <img src="../../../../static/images/notavailable.png" alt="" >
-    </div>
-    <div v-else style="margin-top: 20px;">
-      <el-table
-
-        :data="tableData"
-        stripe
-        style="width: 100%;text-align:center"
-        @row-click="generatClick"
-        :header-cell-style="getRowClass"
-        >
-        <el-table-column
-          prop="templateName"
-          label="模板名称"
-          width="320"
-          style="text-align:center"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="tempalateDate"
-          label="创建时间"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="signatory"
-          label="签署方"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="operation"
-            width="250"
-          label="操作">
-          <template slot-scope="scope">
-            <el-button @click="generatClick(scope.row)" type="primary" size="mini">生成合同</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class='pagetion'>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-size="10"
-          layout="total,prev, pager, next, jumper"
-          :total=Number(num)>
-        </el-pagination>
-      </div>
-    </div>
-  </div>
+	<div class="BatchTemplate">
+		<div class="template-body">
+			<div class="template-title">
+				<div class="title-bg">
+					<span class="title-name">模板列表</span>
+					<span class="title-tip" >批量发起合同：一次批量发起多份合同，发起方与每个签署方签署一份独立合同</span>
+					<span class="search-btn">
+						<input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
+						<el-button type="primary"  style='margin-left:5px;letter-spacing:5px;' @click="queryTempBatch">搜索</el-button>
+					</span>
+				</div>
+            </div>
+            <div class="line"></div> 
+			<div class="template-list">
+				<ul>
+					<li v-for="(item,index) in tableData" :key="index" >
+						<div class="contract-box">
+							<div class="contract-content">
+								<div class="content-left">
+									<p>{{item.templateName}}</p>
+								</div>
+								<div class="content-right">
+									<h3>{{item.templateName}}</h3>
+								
+									<p class="item-name">
+										<span class="initiator item-default">绑定账号：</span>
+										<span class="initiator">{{item.Character}}</span>
+									</p>
+									<p class="item-name">
+										<span class="initiator item-default">累计发起：</span>
+										<span class="initiator-total"><span class="total-num">{{item.total}}</span>次</span>
+									</p>
+									<p class="item-name upload-time">
+										<span class="initiator item-default">上传时间：</span>
+										<span class="initiator">{{item.tempalateDate}}</span>
+									</p>
+									<p>
+										<span class="item-option">
+											<img src="../../../../static/images/Multiparty/see.png" alt="">
+											<span>在线预览</span>
+										</span>
+										
+										<span class="item-option">
+											<img src="../../../../static/images/Multiparty/creater.png" alt="">
+											<span @click="generateClick(item)">立即发起</span>
+										</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="line"></div>
+					</li>
+				</ul>
+				<div class='pagetion'>
+					<el-pagination
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					:current-page="currentPage"
+					:page-size="10"
+					layout="total,prev, pager, next, jumper"
+					:total=Number(num)>
+					</el-pagination>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
-<style lang="css" scoped>
-  @import "../../../styles/Multiparty/Multiparties.css";
-  .beacthImg{
-    width: 153px;
-    margin: 300px auto;
-    height: 89px;
-    margin-bottom: 175px;
-  }
-  .beacthImg>img{
-    width: 100%;
-    height:100%;
-  }
+<style lang="scss" scoped>
+	@import "../../../styles/Multiparty/Multiparties.scss";
+	@import "../../../common/styles/content.css";
+	.beacthImg{
+		width: 153px;
+		margin: 300px auto;
+		height: 89px;
+		margin-bottom: 175px;
+	}
+	.beacthImg>img{
+		width: 100%;
+		height:100%;
+	}
 </style>
 
 <script>
@@ -111,7 +121,7 @@ export default {
         this.getTemplateList (templateInfoRequest)
       }
     },
-    generatClick(row){
+    generateClick(row){
       this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
       this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
       sessionStorage.setItem('templateName', JSON.stringify(row.templateName))

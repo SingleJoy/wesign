@@ -49,7 +49,7 @@
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
-      <div class='table' style="width: 1200px;">
+      <div class='table' style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
           style="width: 100%;text-align:center"
@@ -108,7 +108,12 @@
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
-
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden;
+  }
+  .el-step__title.is-process,.el-step__description.is-process{
+    color:#22a7ea
+  }
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;

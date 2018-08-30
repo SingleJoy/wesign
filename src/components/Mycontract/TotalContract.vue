@@ -1,37 +1,42 @@
 <template>
   <div>
     <div class='contractTitle' style="text-align: left;">
-      <span>输入关键字：</span>
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
-      <span id='text'>发起时间：</span>
-       <el-date-picker
-        style='width:140px;margin-right:20px'
-        height='height:40px'
-        v-model="filters.column.create_start_date"
-        type="date"
-        placeholder="开始时间"
-        format="yyyy-MM-dd"
-         :picker-options="pickerBeginDateBefore"
-        >
-      </el-date-picker>
-      <el-date-picker
-        style='width:140px;margin-right:20px'
-        height='height:40px'
-        v-model="filters.column.create_end_date"
-        type="date"
-        placeholder="结束时间"
-        format="yyyy-MM-dd"
-         :picker-options="pickerBeginDateAfter"
-        >
-      </el-date-picker>
-      <el-checkbox
-      style='padding-right:20px'
-      v-model="checked"
-      ></el-checkbox>
-      <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
-       <el-button type="primary" icon="el-icon-search" @click='contractInquiry' style='margin-left:50px'></el-button>
+		<input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
+		<el-select v-model="value" placeholder="请选择账号类型">
+			<el-option
+				v-for="item in options"
+				:key="item.value"
+				:label="item.label"
+				:value="item.value">
+			</el-option>
+		</el-select>
+		<span id='text'>发起时间：</span>
+		<el-date-picker
+			style='width:140px;margin-right:20px'
+			height='height:40px'
+			v-model="filters.column.create_start_date"
+			type="date"
+			placeholder="开始时间"
+			format="yyyy-MM-dd"
+			:picker-options="pickerBeginDateBefore"
+			>
+		</el-date-picker>
+		<el-date-picker
+			style='width:140px;margin-right:20px'
+			height='height:40px'
+			v-model="filters.column.create_end_date"
+			type="date"
+			placeholder="结束时间"
+			format="yyyy-MM-dd"
+			:picker-options="pickerBeginDateAfter"
+			>
+		</el-date-picker>
+		<el-checkbox style='padding-right:20px' v-model="checked"></el-checkbox>
+      	<b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
+       	<el-button type="primary"  @click='contractInquiry' style='margin-left:20px;letter-spacing:5px;'>搜索</el-button>
     </div>
-    <div class='table' style="margin-left: 15px;">
+    <div class="list-body">
+      <div class='table'>
       <div class="totalImg" v-if="num === 0">
         <img src="../../../static/images/notavailable.png" alt="">
       </div>
@@ -41,6 +46,7 @@
         style="width: 100%;text-align:center"
         v-loading="loading"
         element-loading-text="拼命加载中"
+        :row-class-name="tableRowClassName"
         v-cloak
         v-else
         >
@@ -102,6 +108,8 @@
         :total=Number(num)>
       </el-pagination>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -112,45 +120,67 @@ import moment  from 'moment'
 export default {
   data() {
     return {
-      currentPage: 1,
-      value8: '',
-      value9: '',
-      tableData2: [],
-      num: '',
-      loading: true,
-      inputVal:'',
-      checked:false,
-      inquiry:false, // 查询标示
-      filters: {
-        column: {
-            create_start_date: null,
-            create_end_date: null
-        },
-      },
-      pickerBeginDateBefore:{
-        disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_end_date;
-            if (beginDateVal) {
-                return time.getTime() > beginDateVal;
-            }
-          }
-        },
-      pickerBeginDateAfter:{
-        disabledDate: (time) => {
-          let beginDateVal = this.filters.column.create_start_date;
-          if (beginDateVal) {
-              return time.getTime() < beginDateVal;
-          }
-        }
-      }
-    }
-  },
+		 options: [{
+			value: '选项1',
+			label: '黄金糕'
+			}, {
+			value: '选项2',
+			label: '双皮奶'
+			}, {
+			value: '选项3',
+			label: '蚵仔煎'
+			}, {
+			value: '选项4',
+			label: '龙须面'
+			}, {
+			value: '选项5',
+			label: '北京烤鸭'
+		}],
+		value:'',
+		currentPage: 1,
+		value8: '',
+		value9: '',
+		tableData2: [],
+		num: '',
+		loading: true,
+		inputVal:'',
+		checked:false,
+		inquiry:false, // 查询标示
+		filters: {
+			column: {
+				create_start_date: null,
+				create_end_date: null
+			},
+		},
+		pickerBeginDateBefore:{
+			disabledDate: (time) => {
+				let beginDateVal = this.filters.column.create_end_date;
+				if (beginDateVal) {
+					return time.getTime() > beginDateVal;
+				}
+			}
+			},
+		pickerBeginDateAfter:{
+			disabledDate: (time) => {
+			let beginDateVal = this.filters.column.create_start_date;
+			if (beginDateVal) {
+				return time.getTime() < beginDateVal;
+			}
+			}
+		}
+		}
+	},
   methods: {
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return 'background:#f5f5f5;font-weight:bold;'
       } else {
         return ''
+      }
+    },
+    tableRowClassName(row,rowIndex){
+      if(rowIndex%2==0){
+        return 'height-color'
       }
     },
     getData (requestVo) {
@@ -315,10 +345,9 @@ export default {
 }
 </script>
 
-<style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
-</style>
-<style>
+<style lange='scss' scoped>
+ 	@import '../../styles/Multiparty/Multiparties.scss';
+
 .totalImg{
   width: 153px;
   margin: 300px auto;
@@ -333,5 +362,8 @@ export default {
   background: #eee;
   border-color: #95989d;
   color: #333;
+}
+.height-color{
+  background: #f5f5f5
 }
 </style>

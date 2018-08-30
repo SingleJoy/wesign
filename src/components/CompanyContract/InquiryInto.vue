@@ -1,8 +1,15 @@
 <template>
   <div class="InquiryIntoForce">
     <div class="contractTitle" style="text-align: left;">
-      <span>输入关键字：</span>
       <input type="text" id="textInfo" placeholder="如合同名称/签署人"  v-model="inputVal3" :maxlength = 50>
+      <el-select v-model="value" placeholder="请选择账号类型">
+			<el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <span id="text">发起时间：</span>
       <el-date-picker
         style="width:140px;margin-right:20px;height:40px"
@@ -29,77 +36,79 @@
         v-model="checked"
       ></el-checkbox>
       <b class="info" style="font-size: 12px;display: inline-block;margin-left: -18px;">永久有效</b>
-      <el-button type="primary" icon="el-icon-search" @click='contractInquiryIntoForce' style="margin-left:50px;"></el-button>
+      <el-button type="primary"  @click='contractInquiryIntoForce' style="margin-left:20px;letter-spacing:5px;">搜索</el-button>
     </div>
-    <div class="table" style="margin-left: 15px">
-      <div class="intoForceImg" v-if="num === 0">
-        <img src="../../../static/images/notavailable.png" alt="">
-      </div>
-      <el-table
-        :header-cell-style="getRowClass"
-        :data="tableInformation"
-        style="width: 100%;text-align:center"
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        v-cloak
-        v-else
-        >
-        <el-table-column
-        prop="contractName"
-        label="合同名称"
-        style="text-align:center"
-        width="250"
-        :show-overflow-tooltip= true
-        >
-        </el-table-column>
-        <el-table-column
-        prop="signers"
-        label="签署人"
-        width="250"
-        :show-overflow-tooltip= true
-        >
-        </el-table-column>
-        <el-table-column
-        prop="createTime"
-        label="发起时间"
-        width="190">
-        </el-table-column>
-        <el-table-column
-        prop="validTime"
-        label="结束时间"
-        width="150">
-        </el-table-column>
-        <el-table-column
-        prop="contractStatus"
-        label="当前状态"
-        width="140">
-        </el-table-column>
+    <div class="list-body">
+      <div class="table">
+        <div class="intoForceImg" v-if="num === 0">
+          <img src="../../../static/images/notavailable.png" alt="">
+        </div>
+        <el-table
+          :header-cell-style="getRowClass"
+          :data="tableInformation"
+          style="width: 100%;text-align:center"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          v-cloak
+          v-else
+          >
           <el-table-column
-        prop="operation"
-        label="操作"
-        width="190"
-        >
-        <template slot-scope="scope">
-          <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
-          <el-button @click="warnClick(scope.row)"type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
-          </el-tooltip>
-          <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-          <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater'>延&nbsp;&nbsp;期</el-button>
-          <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    </div>
-    <div class='pagetion'>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange4"
-        :current-page="currentPage3"
-        :page-size="10"
-        layout="total,prev, pager, next, jumper"
-        :total= Number(num)>
-      </el-pagination>
+          prop="contractName"
+          label="合同名称"
+          style="text-align:center"
+          width="250"
+          :show-overflow-tooltip= true
+          >
+          </el-table-column>
+          <el-table-column
+          prop="signers"
+          label="签署人"
+          width="250"
+          :show-overflow-tooltip= true
+          >
+          </el-table-column>
+          <el-table-column
+          prop="createTime"
+          label="发起时间"
+          width="190">
+          </el-table-column>
+          <el-table-column
+          prop="validTime"
+          label="结束时间"
+          width="150">
+          </el-table-column>
+          <el-table-column
+          prop="contractStatus"
+          label="当前状态"
+          width="140">
+          </el-table-column>
+            <el-table-column
+          prop="operation"
+          label="操作"
+          width="190"
+          >
+          <template slot-scope="scope">
+            <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
+            <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
+            <el-button @click="warnClick(scope.row)"type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+            </el-tooltip>
+            <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+            <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater'>延&nbsp;&nbsp;期</el-button>
+            <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      </div>
+      <div class='pagetion'>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange4"
+          :current-page="currentPage3"
+          :page-size="10"
+          layout="total,prev, pager, next, jumper"
+          :total= Number(num)>
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -111,6 +120,23 @@ export default {
   name:'InquiryWaitMe',
   data() {
     return {
+       options: [{
+			value: '选项1',
+			label: '黄金糕'
+			}, {
+			value: '选项2',
+			label: '双皮奶'
+			}, {
+			value: '选项3',
+			label: '蚵仔煎'
+			}, {
+			value: '选项4',
+			label: '龙须面'
+			}, {
+			value: '选项5',
+			label: '北京烤鸭'
+		}],
+		value:'',
       currentPage3: 1,
       value8: '',
       value9: '',
@@ -322,7 +348,7 @@ export default {
 </script>
 
 <style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+@import '../../styles/Multiparty/Multiparties.scss'
 </style>
 
 <style>

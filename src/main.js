@@ -14,7 +14,7 @@ import Loading from 'wc-loading'
 import 'wc-loading/style.css'
 import moment  from 'moment'
 import BASE_URL from '../config/global'
-
+import { Message } from 'element-ui';
 
 Es6Promise.polyfill()
 Vue.use(ElementUI)
@@ -22,9 +22,11 @@ Vue.use(VueResource)
 Vue.use(vuex)
 Vue.use(Loading)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.prototype.baseURL = BASE_URL;
-/* eslint-disable no-new */
+Vue.prototype.$message = Message;
+
+
 new Vue({
   el: '#app',
   router,

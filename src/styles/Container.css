@@ -277,7 +277,7 @@
 .main_table{
   clear: both;
   background: #fff;
-  height:505px;
+  /* height:505px; */
   margin-top: 22px;
 }
 .main_table .title h1{

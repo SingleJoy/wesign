@@ -48,11 +48,11 @@
       <div class='main_right'>
         <p style='clear:both;text-align:left;'>合同概括</p>
         <div class='right1' @click="animated">
-          <span>{{waitMe}}</span>
+          <span>{{waitForMeSign}}</span>
           <span>待我签署</span>
         </div>
         <div class='right2' @click='wait'>
-          <span>{{waitOther}}</span>
+          <span>{{waitForOtherSign}}</span>
           <span>待他人签署</span>
         </div>
         <div class='right3' @click='takeEff'>
@@ -82,12 +82,16 @@
             v-cloak
           >
             <el-table-column
-              prop="contractName"
               label="合同名称"
               width="250"
               style="text-align:center"
               :show-overflow-tooltip='true'
             >
+              <template slot-scope="scope">
+                  <img  class="contract-sign" v-if="scope.row.contractType==0" src="../../../static/images/Login/tocompany.png"/>
+                  <img  class="contract-sign" v-else src="../../../static/images/Login/topersonal.png" />
+                  <span>{{ scope.row.contractName }}</span>
+                </template>
             </el-table-column>
             <el-table-column
               prop="signers"
@@ -176,10 +180,11 @@
 <script>
   import { mapActions, mapState } from "vuex";
   import cookie from "@/common/js/getTenant";
- 
+  import server from "@/api/url";
   export default {
     name: "Container",
     methods: {
+    
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return "background:#f5f5f5;text-align:center;font-weight:bold;";
@@ -444,8 +449,8 @@
         loading: true,
         loading2: false,
         count: "",
-        waitMe: "",
-        waitOther: "",
+        waitForMeSign: "",
+        waitForOtherSign: "",
         takeEffect: "",
         deadline: "",
         arr: [],
@@ -456,22 +461,28 @@
     },
     created() {
       var data = [];
-
       var flag = "";
       var isCreater = "";
-      var requestVo = { pageNo: "1", pageSize: "7", contractStatus: "0" };
-      let url =
-        process.env.API_HOST +
-        "v1.4/tenant/" +
-        cookie.getJSON("tenant")[1].interfaceCode +
-        "/homePageContractLists";
-      let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-      this.$http.get(url, { params: requestVo }).then(function(res) {
-        if (res.data.sessionStatus == "0") {
+
+      let accountCode = sessionStorage.getItem('accountCode');
+      let accountLevel = sessionStorage.getItem('accountLevel');
+      let authorizerCode = sessionStorage.getItem('authorizerCode');
+      let interfaceCode = cookie.getJSON("tenant")[1].interfaceCode;
+      var requestVo = { 
+        pageNo: "1", 
+        pageSize: "7", 
+        contractStatus: "0" ,
+        accountCode:accountCode,
+        accountLevel:accountLevel,
+
+      };
+
+      server.contractLists(requestVo).then(res=>{
+         if (res.data.sessionStatus == "0") {
           this.$router.push("/Server");
         } else {
           for (let i = 0; i < res.data.content.length; i++) {
-            if (res.data.content[i].creater == currentFaceCode) {
+            if (res.data.content[i].creater == interfaceCode) {
               flag = true;
             } else {
               flag = false;
@@ -509,47 +520,25 @@
           this.tableData = data;
           this.loading = false;
         }
-      });
-      this.$http
-        .get(
-          process.env.API_HOST +
-          "v1/tenant/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/waitForMeSign"
-        )
-        .then(function(res) {
-          this.waitMe = res.data.count;
-        });
-      this.$http
-        .get(
-          process.env.API_HOST +
-          "v1/tenant/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/waitForOtherSign"
-        )
-        .then(function(res) {
-          this.waitOther = res.data.count;
-        });
-      this.$http
-        .get(
-          process.env.API_HOST +
-          "v1/tenant/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/takeEffect"
-        )
-        .then(function(res) {
-          this.takeEffect = res.data.count;
-        });
-      this.$http
-        .get(
-          process.env.API_HOST +
-          "v1/tenant/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/deadline"
-        )
-        .then(function(res) {
-          this.deadline = res.data.count;
-        });
+      })
+
+      //合同概括请求
+      //在读取属性[]和.注意！  server.requestType[i]报错
+      let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
+          // accountCode= JSON.parse(accountCode)
+      let param={
+        accountCode:accountCode?accountCode:''
+      }
+      for(var i=0;i< requestType.length;i++){
+          let type =  requestType[i];
+          server[requestType[i]](param).then(res=>{
+            this[type] = res.data.count
+          }).catch(error=>{
+
+          })
+      }
+
+      // 首页模板列表
       this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList"
         )
         .then(function(res) {
@@ -582,7 +571,11 @@
     -o-transform: scale(1.08);
     -moz-transform: scale(1.08);
   }
-
+  .contract-sign{
+    position: absolute;
+    left:0;
+    top:5px;
+  }
   .view {
     width: 100%;
     height: 100%;

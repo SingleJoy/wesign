@@ -4,7 +4,12 @@
           <p class='first' style="display: inherit;">
             <span>我的合同</span>
             <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-            <span v-else style="padding-right: 75%;">>合同详情</span>
+            <span v-else style="">>合同详情</span>
+            <span class="sign-icon">
+              <!-- <img src="../../../static/images/ContractInfo/detail_sign.png" alt=""> -->
+              <span>财务部</span>
+              <span>张丽华</span>
+            </span>
             <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
           </p>
           <p class='second'>
@@ -30,10 +35,11 @@
                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
           </el-dialog>
-          <div class='table'>
+          <div class='table' style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
               <el-table
                 :data="tableData2"
                 style="width: 100%;text-align:center"
+                :header-cell-style="getRowClass"
                 >
                 <el-table-column
                 prop="signUserName"
@@ -79,6 +85,10 @@
   .back-home{
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
+  }
+  .sign-icon{
+    background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat 58px 68px;
+    position: relative;
   }
   .el-tabs__nav-scroll{
     font-size: 16px;
@@ -155,6 +165,13 @@ export default {
     },
     getTenant () {
 
+    },
+    getRowClass({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return 'background:#efefef;font-weight:bold;'
+      } else {
+        return ''
+      }
     },
     seeContractImg (){
        this.imgList =[];

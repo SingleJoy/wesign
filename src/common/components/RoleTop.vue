@@ -33,7 +33,7 @@ export default {
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         tabIndex:''
       }
     },

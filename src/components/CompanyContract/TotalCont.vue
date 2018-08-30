@@ -1,8 +1,15 @@
 <template>
   <div>
     <div class='contractTitle' style="text-align: left;">
-      <span>输入关键字：</span>
       <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
+      <el-select v-model="value" placeholder="请选择账号类型">
+			<el-option
+				v-for="item in options"
+				:key="item.value"
+				:label="item.label"
+				:value="item.value">
+        </el-option>
+      </el-select>
       <span id='text'>发起时间：</span>
        <el-date-picker
         style='width:140px;margin-right:20px'
@@ -30,9 +37,10 @@
       v-model="checked"
       ></el-checkbox>
       <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
-       <el-button type="primary" icon="el-icon-search" @click='contractInquiry' style='margin-left:50px'></el-button>
+       <el-button type="primary" @click='contractInquiry' style="margin-left:20px;letter-spacing:5px;">搜索</el-button>
     </div>
-    <div class="table" style="margin-left: 15px;">
+    <div class="list-body">
+      <div class="table">
       <div class="totalImg" v-if="num === 0">
         <img src="../../../static/images/notavailable.png" alt="">
       </div>
@@ -103,6 +111,8 @@
         :total=Number(num)>
       </el-pagination>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -112,7 +122,23 @@ import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
 export default {
   data() {
-    return {
+    return { options: [{
+			value: '选项1',
+			label: '黄金糕'
+			}, {
+			value: '选项2',
+			label: '双皮奶'
+			}, {
+			value: '选项3',
+			label: '蚵仔煎'
+			}, {
+			value: '选项4',
+			label: '龙须面'
+			}, {
+			value: '选项5',
+			label: '北京烤鸭'
+		}],
+		value:'',
       currentPage: 1,
       value8: '',
       value9: '',
@@ -337,7 +363,7 @@ export default {
 </script>
 
 <style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+@import '../../styles/Multiparty/Multiparties.scss'
 </style>
 <style>
 .totalImg{

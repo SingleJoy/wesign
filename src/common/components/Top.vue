@@ -78,7 +78,7 @@
       </div>
   </div>
 </template>
-<style lang="scss" scoped>
+<style lang="css" scoped>
 @import "../styles/Top.css";
 
 .el-tabs__item.is-active{
@@ -176,11 +176,6 @@
     border-bottom: 3px solid red;
     font-weight: 700;
   }
-  //默认会给当前路由加上此类名
-  // .router-link-exact-active li{
-  //   border-bottom: 3px solid red;
-  //   font-weight: 700;
-  // }
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
@@ -193,7 +188,7 @@ export default {
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         tabIndex:''
       }
     },

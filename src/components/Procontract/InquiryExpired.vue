@@ -1,8 +1,15 @@
 <template>
-  <div class="InquiryExpired" style="margin-top: 20px;">
-    <div class='title' style="border:none;text-align:left;padding-left:20px;">
-      <span>输入关键字：</span>
+  <div class="InquiryExpired">
+    <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
+      <el-select v-model="value" placeholder="请选择账号类型">
+			<el-option
+				v-for="item in options"
+				:key="item.value"
+				:label="item.label"
+				:value="item.value">
+			</el-option>
+		</el-select>
       <span id='text'>发起时间：</span>
        <el-date-picker
         style='width:140px;margin-right:20px'
@@ -24,68 +31,70 @@
          :picker-options="pickerBeginDateAfter"
         >
       </el-date-picker>
-      <el-button type="primary" icon="el-icon-search" @click='contractInquiryExpired' style='margin-left:50px;'></el-button>
+      <el-button type="primary"  @click='contractInquiryExpired' style='letter-spacing: 5px;float: right; margin-right: 51px;'>搜索</el-button>
     </div>
-    <div class='table'>
-      <div class="expiredImg" v-if="num === 0">
-        <img src="../../../static/images/notavailable.png" alt="">
-      </div>
-      <el-table
-        :data="tableData2"
-        style="width: 100%;text-align:center"
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        v-cloak
-        v-else
-        >
-        <el-table-column
-        prop="contractName"
-        label="合同名称"
-        style="text-align:center"
-        width="250">
-        </el-table-column>
-        <el-table-column
-        prop="signers"
-        label="签署人"
-        width="250">
-        </el-table-column>
-        <el-table-column
-        prop="createTime"
-        label="发起时间"
-        width="200">
-        </el-table-column>
-        <el-table-column
-        prop="validTime"
-        label="截止时间"
-        width="150">
-        </el-table-column>
-        <el-table-column
-        prop="contractStatus"
-        label="当前状态"
-        width="150">
-        </el-table-column>
+    <div class="list-body">
+      <div class='table'>
+        <div class="expiredImg" v-if="num === 0">
+          <img src="../../../static/images/notavailable.png" alt="">
+        </div>
+        <el-table
+          :data="tableData2"
+          style="width: 100%;text-align:center"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          v-cloak
+          v-else
+          >
           <el-table-column
-        prop="operation"
-        label="操作"
-        width="200"
-        >
-        <template slot-scope="scope">
-          <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-          <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-          <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    </div>
-    <div class='pagetion'>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange5"
-        :current-page="currentPage4"
-        :page-size="10"
-        layout="total,prev, pager, next, jumper"
-        :total= Number(num)>
-      </el-pagination>
+          prop="contractName"
+          label="合同名称"
+          style="text-align:center"
+          width="250">
+          </el-table-column>
+          <el-table-column
+          prop="signers"
+          label="签署人"
+          width="250">
+          </el-table-column>
+          <el-table-column
+          prop="createTime"
+          label="发起时间"
+          width="200">
+          </el-table-column>
+          <el-table-column
+          prop="validTime"
+          label="截止时间"
+          width="150">
+          </el-table-column>
+          <el-table-column
+          prop="contractStatus"
+          label="当前状态"
+          width="150">
+          </el-table-column>
+            <el-table-column
+          prop="operation"
+          label="操作"
+          width="200"
+          >
+          <template slot-scope="scope">
+            <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
+            <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+            <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      </div>
+      <div class='pagetion'>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange5"
+          :current-page="currentPage4"
+          :page-size="10"
+          layout="total,prev, pager, next, jumper"
+          :total= Number(num)>
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -257,7 +266,7 @@ export default {
 </script>
 
 <style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+@import '../../styles/Multiparty/Multiparties.scss'
 </style>
 
 <style>

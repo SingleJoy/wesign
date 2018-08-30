@@ -1,7 +1,7 @@
 <template>
   <div class='Mycontract'>
     <Top></Top>
-    <Mycontracts></Mycontracts>
+        <Mycontracts></Mycontracts>
     <Bottom></Bottom>
   </div>
 </template>

@@ -7,14 +7,14 @@
 </template>
 <script>
 import Top from '../../../common/components/Top'
-import Templatecs from './Templatecs'
+import TemplateSuccess from './Templatecs'
 import Bottom from '../../../common/components/Bottom'
 export default {
   name: 'Templates',
     components: {
       Top,
       Bottom,
-      Templatecs
+      TemplateSuccess
   }
 }
 </script>

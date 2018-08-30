@@ -132,6 +132,7 @@ export default {
   created() {
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
+    var accountCode = Json.parse(sessionStorage.getItem('accountCode'));
     if (templateName) {
       templateName = JSON.parse(templateName)
       if ( this.$store.state.templateName == ''){
@@ -147,7 +148,12 @@ export default {
     this.$loading.show(); //显示
     var data =[];
     this.templateName = this.$store.state.templateName
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo;
+    let url='';
+    if(accountCode){
+      url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'?accountCode='+accountCode;
+    }else{
+      url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo;
+    }
     this.$http.get(url).then(function (res) {
       if(res.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -181,9 +187,9 @@ export default {
       this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true
-      })
+      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+      //   click: true
+      // })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
