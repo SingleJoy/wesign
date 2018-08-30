@@ -1,7 +1,9 @@
 <template>
     <div class='Merchant'>
         <MuTop></MuTop>
+      <keep-alive>
         <Merchants></Merchants>
+      </keep-alive>
         <Bottom></Bottom>
     </div>
 </template>

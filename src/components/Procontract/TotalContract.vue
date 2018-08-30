@@ -5,7 +5,7 @@
       <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
       <span id='text'>发起时间：</span>
        <el-date-picker
-        style='width:140px;margin-right:20px'      
+        style='width:140px;margin-right:20px'
         height='height:40px'
         v-model="filters.column.create_start_date"
         type="date"
@@ -19,7 +19,7 @@
         height='height:40px'
         v-model="filters.column.create_end_date"
         type="date"
-        
+
         placeholder="结束时间"
         format="yyyy-MM-dd"
          :picker-options="pickerBeginDateAfter"
@@ -80,7 +80,7 @@
         label="操作"
         width="200"
         >
-          <template slot-scope="scope">                         
+          <template slot-scope="scope">
           <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && auditStatus == 2 '>签&nbsp;&nbsp;署</el-button>
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
           <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
@@ -141,7 +141,7 @@ export default {
         }
       }
     }
-  },  
+  },
   methods: {
     getData (requestVo) {
     var data =[];
@@ -190,9 +190,9 @@ export default {
     handleCurrentChange(val) {
       if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
         if (this.checked == true) {
-          var perpetualValid = '1' 
+          var perpetualValid = '1'
         } else {
-          var perpetualValid = '' 
+          var perpetualValid = ''
         }
         if(this.inquiry == true){
         var start = this.filters.column.create_start_date
@@ -205,7 +205,7 @@ export default {
         var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
         this.getData (requestVo)
         }
-      } else {  
+      } else {
         var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
         this.getData (requestVo)
       }
@@ -217,7 +217,7 @@ export default {
       if (this.checked == true) {
         var perpetualValid = '1'
       } else {
-        var perpetualValid = '' 
+        var perpetualValid = ''
       }
       var start = this.filters.column.create_start_date
       var end =   this.filters.column.create_end_date
@@ -282,7 +282,7 @@ export default {
 </script>
 
 <style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+@import '../../styles/Multiparty/Multiparties.css';
 </style>
 <style>
 .totalImg{

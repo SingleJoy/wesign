@@ -1,6 +1,6 @@
 <!--我的账户->未激活前编辑二级账户-->
 <template>
-  <div class="EditChildAccounts">
+  <div class="EditChildNoActives">
     <div class="main" >
 
       <div class="container">
@@ -18,27 +18,27 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
 
                   <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10 :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
                   </el-form-item>
 
-                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="userName">
-                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18 :disabled="disabled"></el-input>
+                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="administrators">
+                    <el-input v-model="ruleForm.administrators" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
                   </el-form-item>
 
                   <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="ID">
-                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" :maxlength= 18></el-input>
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" ></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码"  :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
                   </el-form-item>
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
-                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" :maxlength= 11></el-input>
                   </el-form-item>
 
 
@@ -149,7 +149,7 @@
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   export default {
-    name: 'AddChildAccounts',
+    name: 'EditChildNoActives',
     component:{
       Account
     },

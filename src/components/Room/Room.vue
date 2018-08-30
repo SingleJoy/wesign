@@ -1,8 +1,10 @@
 <template>
   <div class='Room'>
       <Top></Top>
+    <keep-alive>
       <Rooming></Rooming>
-      <Bottom></Bottom>    
+    </keep-alive>
+      <Bottom></Bottom>
   </div>
 </template>
 <script>
@@ -14,7 +16,7 @@ export default {
   components: {
     Top,
     Rooming,
-    Bottom  
+    Bottom
   }
 }
 </script>

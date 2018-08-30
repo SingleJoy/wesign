@@ -32,7 +32,7 @@
                 </div>
                 <div class="line">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
-                  <b>{{enterpriseName}}</b>
+                  <b>{{companyName}}</b>
                 </div>
                 <div class="line">
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
@@ -92,19 +92,27 @@
           <p class="title">签章管理</p>
           <div class="border-bottom"></div>
           <div class="sign-content">
+
             <div class="sign-picture">
               <!--默认图片-->
-              <!--<img src="" v-if="showImage==false">-->
+              <img src="../../../../static/images/Default/default-contrat-seal.png" v-if="showImage==false">
+              <span>默认合同章</span>
+              <!--<img src="" v-if="showImage==true">-->
+            </div>
+
+            <div class="sign-picture" v-if="officeSeal==true">
+              <!--默认图片-->
+              <img src="../../../../static/images/Default/default-contrat-seal.png" >
               <!--<img src="" v-if="showImage==true">-->
 
             </div>
 
-            <div class="create-seal">
+            <div class="create-seal" v-if="officeSeal==false">
               <!--生成公章-->
               <span>录入公章防伪码在线生成</span>
               <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
               <input type="text" v-model="createSeal">
-              <a href="javascript:void(0);" >生成公章</a>
+              <a href="javascript:void(0);" @click="newSeal">生成公章</a>
             </div>
 
 
@@ -198,7 +206,7 @@
               <p class="question-title" style="color: #79b6ef;">什么是二级账号？</p>
               <span class="question-answer">
                     子账号是企业管理员开通授权，使用手机号登录，可发起合同、管理合同
-                  </span>
+              </span>
             </div>
 
             <!--Q2-->
@@ -345,7 +353,7 @@
         personal:'',
         finalRejection:false,
         toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
-
+        officeSeal:false,
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
@@ -370,7 +378,8 @@
         accountDefault:false ,//没有二级子账号
         accountList:'', //二级账号列表
         frozenDialogVisible:false, //子账号冻结弹窗
-        thawDialogVisible:false, //子账号解结弹窗
+        thawDialogVisible:false, //子账号解结弹窗,
+
       }
     },
     methods: {
@@ -426,6 +435,16 @@
           }
         });
       },
+      newSeal(){
+        var requestVo ={'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal};
+        this.$http.get(process.env.API_HOST+'v1.5/createSignature', {params: requestVo}).then(function (res) {
+          if(res.data.resultCode == '0'){
+            this.$router.push('/Server')
+          } else {
+            this.officeSeal=res.data.signBadgePath;
+          }
+        })
+      },
 
       companyRealName() {  //未通过状态
         this.finalRejection = true
@@ -442,7 +461,6 @@
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
           sessionStorage.setItem('accountSteps','accountSteps')
           this.$router.push('/WaitReply')
-
 
         }
       },
@@ -564,7 +582,49 @@
         this.auditOpinion=res.data.data;
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
-    }
+      // 查询证书
+      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
+        if(res.data.resultCode=='1'){
+          this.serialNumber=res.data.userCode;
+          this.issuedNumber=res.data.userName;
+          this.authName=res.data.userName;
+          this.cardNumber=res.data.mobile;
+          this.effectiveStartTime=res.data.certificateStartTime;
+          this.effectiveEndTime=res.data.certificateDueTime;
+        }
+      });
+        // 子账户信息
+      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getAccount').then(function (res) {
+
+        if(res.data.resultCode=='1'){
+
+        }
+
+      });
+
+      //获取合同章
+      this.$http.get(process.env.API_HOST+'v1.5/getSignatures',{params: {interfaceCode:cookie.getJSON('tenant')[1].interfaceCode}}).then(function (res) {
+
+        if(res.data.resultCode == '0'){
+          this.$router.push('/Server')
+        } else {
+          this.officeSeal=res.data.signBadgePath;
+        }
+
+      });
+
+      //获取二级账户集合查询
+      this.$http.get(process.env.API_HOST+'v1.5/secondAccounts',{params: {interfaceCode:cookie.getJSON('tenant')[1].interfaceCode}}).then(function (res) {
+
+        if(res.data.resultCode == '0'){
+          this.$router.push('/Server')
+        } else {
+          
+        }
+
+      });
+
+    },
   }
 </script>
 

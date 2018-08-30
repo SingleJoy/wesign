@@ -246,6 +246,7 @@ export default {
         }
       }
       jsonVal = jsonVal.substring(0,jsonVal.length-1)
+
       this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template',
       {"contractName":this.$store.state.templateName,"templateNum":this.$store.state.templateNo,"jsonVal":jsonVal},{emulateJSON:true}).then(function (res) {
         if(res.sessionStatus == '0'){

@@ -64,35 +64,35 @@
         } else if (!validateMoblie(value)){
           callback(new Error('手机号输入错误'))
         } else {
-           	// let params={
-            //    'username':this.ruleForm.username,
-            // }
-            // server.login(params).then(response=>{
-            //   if(response.data === 0){
-            //     console.log("登陆成功")
-            //     callback()
-            //   }else{
-            //     callback(new Error('此用户不存在'))
-            //   }
-            // }).catch(erro=>{
+          // let params={
+          //    'username':this.ruleForm.username,
+          // }
+          // server.login(params).then(response=>{
+          //   if(response.data === 0){
+          //     console.log("登陆成功")
+          //     callback()
+          //   }else{
+          //     callback(new Error('此用户不存在'))
+          //   }
+          // }).catch(erro=>{
 
-			      // })
+          // })
 
-			this.$http.get(process.env.API_HOST+'v1/tenant',{
-				params:{
-					'username':this.ruleForm.username
-				}
-			}).then(response =>{
-				if (response.data === 0) {
-					callback()
-				} else {
-					callback(new Error('此用户不存在'))
-				}
-			}).catch(error=>{
+          this.$http.get(process.env.API_HOST+'v1/tenant',{
+            params:{
+              'username':this.ruleForm.username
+            }
+          }).then(response =>{
+            if (response.data === 0) {
+              callback()
+            } else {
+              callback(new Error('此用户不存在'))
+            }
+          }).catch(error=>{
 
-			})
-		}
-	}
+          })
+        }
+      }
       var checkPassWord = (rule,value,callback) => {
         if (value === ''){
           callback(new Error('请输入密码'))
@@ -190,8 +190,8 @@
         this.selectedEnterprise = el
       },
       cancelLogin(){
-          document.getElementById('fade').style.display ='none'
-          document.getElementById('succ-pop').style.display ='none'
+        document.getElementById('fade').style.display ='none'
+        document.getElementById('succ-pop').style.display ='none'
       },
       changeClick() {
         if(this.selectedEnterprise == '' || this.selectedEnterprise == null){
@@ -247,14 +247,14 @@
   .Login{
     width: 100%;
     height: 350px;
-     .select-btn{
-        background-color: #fff;
-        color:#666
-      }
-      .select-btn:hover{
-        border: 2px solid #44caf7;
-        color: #22a7ea;
-      }
+  .select-btn{
+    background-color: #fff;
+    color:#666
+  }
+  .select-btn:hover{
+    border: 2px solid #44caf7;
+    color: #22a7ea;
+  }
   }
   .login-wrap{
     width:100%;
@@ -369,19 +369,19 @@
     border-radius: 5px;
     background:url('../../../static/images/Login/context.png') no-repeat;
     display: none;
-    .login-cancel{
-      font-size: 24px;
-      position: absolute;
-      right: 11px;
-      top: 10px;
-      color: #fff;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      transform: rotate(135deg);
-      width: 28px;
-      text-align: center;
-      cursor: pointer;
-    }
+  .login-cancel{
+    font-size: 24px;
+    position: absolute;
+    right: 11px;
+    top: 10px;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    transform: rotate(135deg);
+    width: 28px;
+    text-align: center;
+    cursor: pointer;
+  }
   }
   .su-pop{
     width: 420px;
@@ -395,9 +395,9 @@
     overflow-x: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    .title{
-      border:none;
-    }
+  .title{
+    border:none;
+  }
   }
   .succ-pop h5.title{
     text-align:left;

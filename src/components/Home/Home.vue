@@ -1,7 +1,10 @@
 <template>
     <div class='Home'>
         <Top></Top>
-        <Container></Container>
+         <keep-alive>
+           <Container></Container>
+        </keep-alive>
+
         <Bottom></Bottom>
     </div>
 </template>

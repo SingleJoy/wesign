@@ -176,7 +176,7 @@
 <script>
   import { mapActions, mapState } from "vuex";
   import cookie from "@/common/js/getTenant";
- 
+
   export default {
     name: "Container",
     methods: {
@@ -550,8 +550,7 @@
         .then(function(res) {
           this.deadline = res.data.count;
         });
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList"
-        )
+      this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList")
         .then(function(res) {
           if (res.data.sessionStatus == "0") {
             this.$router.push("/Server");

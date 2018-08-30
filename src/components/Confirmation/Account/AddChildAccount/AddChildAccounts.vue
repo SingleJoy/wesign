@@ -20,31 +20,28 @@
                     <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
                   </el-form-item>
 
-                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="administrators">
-                    <el-input v-model="ruleForm.administrators" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="userName">
+                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
                   </el-form-item>
 
-                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="ID">
-                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" :maxlength= 18></el-input>
+                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
+                    <el-input v-model="ruleForm.idCode" auto-complete="off" placeholder="请输入身份证号码" ></el-input>
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" ></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16></el-input>
                   </el-form-item>
 
-                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
+                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
+                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
                   </el-form-item>
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
-                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" :maxlength= 11></el-input>
+                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" ></el-input>
                   </el-form-item>
-
 
                 </el-form>
               </div>
-
-
 
             </div>
           </div>
@@ -56,12 +53,23 @@
 
             <div class="child-template" >
               <div class="child-template-list">
-                <div class="list-item" >
 
+                <div class="single-list" >
+
+                  <h3>单次发起模板</h3>
                   <template>
+                    <el-checkbox-group v-model="singleTemplate" >
+                      <el-checkbox v-for="item in single" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
 
-                    <el-checkbox-group v-model="checkedCities" >
-                      <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+                    </el-checkbox-group>
+                  </template>
+                </div>
+
+                <div class="batch-list" >
+                  <h3>批量发起模板</h3>
+                  <template>
+                    <el-checkbox-group v-model="batchTemplate" >
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
                   </template>
                 </div>
@@ -121,7 +129,7 @@
 
               <div class="buttons">
                 <a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>
-                <a class="submit"  @click="submitBtn" href="javascript:void(0)">提交</a>
+                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)">提交</a>
               </div>
             </div>
           </div>
@@ -133,10 +141,11 @@
   </div>
 </template>
 <script>
-  const cityOptions = ['模板11111', '模板222222'];
-  import Account from "../Account"
 
+  import Account from "../Account"
+  import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
+  import cookie from '@/common/js/getTenant'
   export default {
     name: 'AddChildAccounts',
     component:{
@@ -144,7 +153,7 @@
     },
     data() {
       // 校验二级账号姓名
-      var validateUserName = (rule,value,callback) => {
+      var validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -153,9 +162,8 @@
           callback()
         }
       }
-
       // 校验二级账号管理员账户
-      var validateAdministrators = (rule,value,callback) => {
+      var validateUserName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入管理员账户'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -164,7 +172,6 @@
           callback()
         }
       }
-
       //校验身份证号
       var validateIdCard = (rule,value,callback) => {
         if (TrimAll(value) === ''){
@@ -175,7 +182,6 @@
           callback()
         }
       }
-
       // 校验密码
       var validateChildPassWord = (rule, value, callback) => {
         if (value === '') {
@@ -188,24 +194,18 @@
           callback();
         }
       }
-
-
       // 校验手机号
       var validateChildMobile = (rule,value,callback) => {
-        var mobileArray = []
+
         if(value === ''){
           callback(new Error('请输入手机号'))
-        } else if (value !== '' && !validateMoblie(value)){
+        } else if (!validateMoblie(value)){
+
           callback(new Error('手机号格式错误'))
-        } else if (mobileArray.indexOf(value) != -1){
-          callback(new Error('此手机号已添加'))
-        } else if (value == cookie.getJSON('tenant')[0].mobile){
-          callback(new Error('手机号不能与一级账号手机号相同'))
         } else {
           callback()
         }
       }
-
       //校验邮箱
       var validateChildEmail=(rule,value,callback)=>{
         if (value === '') {
@@ -220,25 +220,28 @@
       return{
         ruleForm: {
           accountName:'',  //管理员姓名
-          administrators:'',//账户名称
-          ID:'', //省份证号
-          phone:'' ,//手机号码
+          userName:'',//账户名称
+          idCode:'', //省份证号
+          mobile:'' ,//手机号码
           password:'', //密码
           Email:'',  //邮箱
         },
         formLabelWidth:'120px',
         checkAll: false,
-        checkedCities: [],
-        cities: cityOptions,
+        singleTemplate: [],
+        batchTemplate: [],
+        single: [],
+        batch: [],
         isIndeterminate: true,
-        agree:'',  //同意协议
+        agree:false,  //同意协议
         dialogAgreement:false, //点击同意协议协议弹窗,
+        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode, //cookie里存储interfaceCode
         rules:{
           accountName: [
-            { required: true, validator: validateUserName, trigger: 'blur' }
+            { required: true, validator: validateAccountName, trigger: 'blur' }
           ],
-          administrators: [
-            { required: true, validator: validateAdministrators, trigger: 'blur' }
+          userName: [
+            { required: true, validator: validateUserName, trigger: 'blur' }
           ],
           password: [
             { required: true, validator: validateChildPassWord, trigger: 'blur' }
@@ -246,10 +249,10 @@
           Email:[
             {required:true,validator:validateChildEmail,trigger: 'blur'}
           ],
-          ID:[
+          idCode:[
             { required: true,validator: validateIdCard, trigger: 'blur'}
           ],
-          phone:[
+          mobile:[
             { required: true, validator: validateChildMobile, trigger: 'blur' }
           ],
         },
@@ -261,42 +264,119 @@
       },
       // 取消
       quit(formName){
-        // this.$refs[formName].resetFields();
+        this.$refs[formName].resetFields();
         this.$router.push('/Account');
       },
 
-      //提交事件
-      submitBtn(){
 
+      //提交事件
+      submitBtn(formName){
+        if(this.agree) {
+          this.$refs[formName].validate((valid) => {
+
+            let pass = md5(this.ruleForm.password);
+
+            let batchTemplate=JSON.stringify(this.batchTemplate);
+            let singleTemplate=JSON.stringify(this.singleTemplate);
+
+            // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
+            let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
+            let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
+            let templates=(batchTemplate1+singleTemplate1).substr(1);
+            // if (valid) {
+            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount ',{
+              accountName:this.ruleForm.accountName ,  //管理员姓名
+              userName:this.ruleForm.userName,            //账户名称
+              idCode:this.ruleForm.idCode,                  //省份证号
+              mobile:this.ruleForm.mobile ,              //手机号码
+              password:pass,                 //密码
+              email:this.ruleForm.Email,                    //邮箱
+              templates:templates                                //分配模板
+            },{emulateJSON: true}).then(res =>{
+              if(res.data.resultCode=='1'){
+                this.$message({
+                  message: '恭喜你，添加二级账号成功',
+                  type: 'success'
+                });
+              }else{
+                this.$message({
+                  showClose: true,
+                  message: res.data.resultMessage,
+                  type: 'error'
+                })
+              }
+            })
+
+          })
+
+        }else{
+          this.$alert('您还确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
+            confirmButtonText: '确定'
+          });
+          return false
+        }
 
       },
 
     },
     created() {
+      this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList")
+        .then(function(res) {
+          let data=res.data;
+          let singleArray=[];
+          let batchArray=[];
+          for(let i=0;i<data.length;i++){
 
+            if(data[i].templateSpecies=='single'){
+              singleArray.push(data[i]);
+            }else {
+              batchArray.push(data[i]);
+
+            }
+          }
+
+          this.single=singleArray;
+
+          this.batch=batchArray;
+
+
+
+        });
     }
   }
 </script>
 
 <style lang="stylus">
   @import "../../../../styles/Confirmation/Account/ChildAccount.styl";
+  .single-list,.batch-list{
+    width: 470px;
+    float: left;
+  }
+  .batch-list{
+    /*border-left: 1px solid #22a7ea;*/
+  }
+  .single-list>h3,.batch-list>h3{
+    color: #22a7ea;
+    margin: 20px 0 10px 20px;
+  }
+
   .el-checkbox-group>.el-checkbox{
-    display: inline-block !important;
+    display:block !important;
     height: 40px !important;
-    float: left !important;
-    width: 120px !important;
+
     overflow: hidden!important;
     vertical-align: middle;
+    margin-left: 0!important;
   }
-  .el-checkbox-group>.el-checkbox:first-child{
-    margin-left: 30px!important;
+  .single-list>.el-checkbox-group{
+    padding-left: 20px;
   }
-  .el-checkbox+.el-checkbox {
-    margin-left:20px!important;
-
+  .batch-list>.el-checkbox-group {
+    padding-left: 20px;
+    border-left: 1px solid #22a7ea;
   }
   .demo-ruleForm>.el-form-item{
-   width: 50%;
+    width: 50%;
     float: left;
   }
   .demo-ruleForm>.el-form-item>.el-form-item__label{
