@@ -29,7 +29,7 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 :disabled="dis"></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
@@ -146,6 +146,7 @@
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
+  import server from "@/api/url";
   export default {
     name: 'AddChildAccounts',
     component:{
@@ -203,7 +204,19 @@
 
           callback(new Error('手机号格式错误'))
         } else {
-          callback()
+          let params = {
+            username: this.ruleForm.username
+          };
+          server.verficate(params).then(res => {
+            if (res.data === 0) {
+              this.password='';
+              this.dis=true;
+            } else {
+              callback(new Error("此用户不存在"));
+            }
+          }).catch(error => {
+
+          });
         }
       }
       //校验邮箱
@@ -236,6 +249,7 @@
         agree:false,  //同意协议
         dialogAgreement:false, //点击同意协议协议弹窗,
         interfaceCode:cookie.getJSON("tenant")[1].interfaceCode, //cookie里存储interfaceCode
+        dis:false,
         rules:{
           accountName: [
             { required: true, validator: validateAccountName, trigger: 'blur' }
@@ -268,13 +282,16 @@
         this.$router.push('/Account');
       },
 
-
       //提交事件
       submitBtn(formName){
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
-
-            let pass = md5(this.ruleForm.password);
+            if(this.dis){
+              return pass='';
+            }else {
+              return pass = md5(this.ruleForm.password);
+            }
+            console.log(pass)
 
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
@@ -336,9 +353,7 @@
           }
 
           this.single=singleArray;
-
           this.batch=batchArray;
-
 
 
         });

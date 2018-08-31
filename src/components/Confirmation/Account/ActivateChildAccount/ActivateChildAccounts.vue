@@ -207,36 +207,7 @@
           }
         })
       },
-      getPosition () { //点击签署
-        if (this.flag == true){
-          this.flag = false
-          var signPositionStr = ''
-          for (let i =0 ; i<this.arr.length; i++){
-            // var pageNum = this.arr[i].pageNum;
-            // var offsetX = this.arr[i].offsetX;
-            // var offsetY = this.arr[i].offsetY;
-            let parentBox = document.getElementById('activateImg')
-            // var firstImg =parentBox.getElementsByTagName('img')[1]
-            // var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-            // var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-            let hidden =document.getElementById('wechat-img')
-            // var leftX = offsetX * imgWight;
-            // var topY = (pageNum - 1 + offsetY) * imgHeight;
-            // // var signCanvasImg = document.getElementById('signCanvasImg').offsetHeight
-            // // var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum - parseInt(signCanvasImg/4);
-            let signPic = document.getElementById('signImg').cloneNode(true)
-            parentBox.appendChild(signPic);
-            signPic.style.position= 'absolute';
-            signPic.style.top= 200 + 'px'
-            signPic.style.left = 300 + 'px'
-            hidden.style.display='none'
 
-          }
-
-        }
-        this.flag = false
-        this.clickSign = true
-      },
       submitBtn() {
         if(this.resubmit == true){
           this.resubmit = false
@@ -350,7 +321,13 @@
       let qrUrl =process.env.API_HOST+'v1.4/user/contract'+contractNo+'/user'+cookie.getJSON("tenant")[1].interfaceCode+'/getSignatureImg';
       this.$http.get(qrUrl).then(function (res) {
         this.qrSignImg = res.bodyText
-      })
+      });
+
+      let that = this
+      let timer = null
+      this.timer = setInterval(function () {
+        that.pollingPanel(this.timer)
+      }, 3000)
 
     },
 
