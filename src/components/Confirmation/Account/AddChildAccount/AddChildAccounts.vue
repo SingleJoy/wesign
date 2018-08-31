@@ -82,7 +82,6 @@
                 <!--</div>-->
               </div>
 
-
             </div>
 
             <div class="agreement-content" >
@@ -100,23 +99,29 @@
                 width="30%"
                 center>
                 <div class="dialog-container">
-                  <div class="dialog-header">单位授权书范本</div>
+
                   <div class="dialog-body">
                     <div class="content">
 
+                      <p style="text-align: center;font-size: 16px;font-weight: bold;">电子合同子账号管理认证授权书</p>
+
+                      <br/>
                       <p>致：北京众签科技有限公司</p>
 
-                      兹授权我公司员工：<span ></span>，身份证号：<span ></span> ，性别：男  ，去贵单位办理关于的一切相关事宜。
-                      在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合!谢谢
+                      <p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.accountName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>
 
-                      授权期限：（授权人填充）
+                      <p> 1)可以签署本子账号发起的合同，不能签署主账号和其他子账号的待签署的合同；</p>
 
-                      被授权人签名：（手写签名）
+                      <p> 2)管理本子账号发起的合同（查看、下载、延期）；</p>
 
-                      公司名称：*******（自动填充）
+                      <p>在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合，谢谢！</p>
 
-                      日    期：2018-07-13（当前日期）
+                      <p>被授权人签名：{{ruleForm.accountName}}</p>
 
+                      <p> 公司名称：{{enterpriseName}}</p>
+
+                      <p> 日    期：{{data}}</p>
+                      <br/>
                     </div>
                   </div>
 
@@ -255,6 +260,7 @@
         dialogAgreement:false, //点击同意协议协议弹窗,
         interfaceCode:cookie.getJSON("tenant")[1].interfaceCode, //cookie里存储interfaceCode
         dis:false,
+        enterpriseName:sessionStorage.getItem("enterpriseName"),  //企业名称
         rules:{
           accountName: [
             { required: true, validator: validateAccountName, trigger: 'blur' }
@@ -432,6 +438,9 @@
     padding-left: 10px;
     color: #22a7ea;
     cursor: pointer;
+  }
+  .content>p{
+    line-height: 30px;
   }
 
 </style>
