@@ -125,8 +125,11 @@ export default {
 							var enterpriseName = response.data.dataList[0][0].enterpriseName;
 							var mobile = response.data.dataList[0][0].mobile;
               let accountCode = response.data.dataList[0][0].accountCode;
+              let accountLevel = response.data.dataList[0][0].accountLevel;
               let accountStatus = response.data.dataList[0][0].accountStatus;
-								sessionStorage.setItem("enterpriseName", enterpriseName);
+                  sessionStorage.setItem("enterpriseName", enterpriseName);
+                  sessionStorage.setItem('accountCode',JSON.stringify(accountCode))  
+                  sessionStorage.setItem('accountLevel',JSON.stringify(accountLevel))  
 							let param={
 								mobile:this.ruleForm.username,
 								// accountCode:accountCode?accountCode:''
@@ -136,7 +139,8 @@ export default {
                 if(accountStatus==2){
                   this.$router.push('/ActivateChildAccount');
                 }else{
-                     server.login(param,urlParam).then(res => {
+
+                  server.login(param,urlParam).then(res => {
                   if (res.data.dataList[1].isBusiness == "0") {
                     // 不是众签商户
                     this.$message({
