@@ -1,7 +1,5 @@
 import request from '../utils/fetch'
 import cookie from '@/common/js/getTenant'
-const interfaceCode = cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'';
-console.log(interfaceCode)
 const service = {
     //登录前验证用户
     verficate(param) {
@@ -20,7 +18,7 @@ const service = {
         })
     },
     //模板列表
-    templateList(param) {
+    templateList(param,interfaceCode) {
         return request({
             url:'/api/v1/tenant/'+ interfaceCode + '/templates',
             method:'get',
@@ -28,7 +26,7 @@ const service = {
         })
     },
     //查看合同详情
-    contractInfo(param) {
+    contractInfo(param,interfaceCode) {
         return request({
             url:'/api/v1/tenant/'+ interfaceCode +'/contract/'+param.contractNo+'/contractimgs',
             method:'get',
@@ -41,7 +39,7 @@ const service = {
      */
 
     //待我签署
-    waitForMeSign(param) {
+    waitForMeSign(param,interfaceCode) {
         return request({
             url:'/api/v1/tenant/'+ interfaceCode +'/waitForMeSign',
             method:'get',
@@ -49,7 +47,7 @@ const service = {
         })
     },
     //待他人签署
-    waitForOtherSign(param) {
+    waitForOtherSign(param,interfaceCode) {
         return request({
             url:'/api/v1/tenant/'+ interfaceCode +'/waitForOtherSign',
             method:'get',
@@ -57,7 +55,7 @@ const service = {
         })
     },
     //已生效
-    takeEffect(param) {
+    takeEffect(param,interfaceCode) {
         return request({
             url:'/api/v1/tenant/'+ interfaceCode +'/takeEffect',
             method:'get',
@@ -65,7 +63,7 @@ const service = {
         })
     },
     //已截止
-    deadline(param) {
+    deadline(param,interfaceCode) {
         return request({
             url:'/api/v1/tenant/'+ interfaceCode +'/deadline',
             method:'get',
@@ -73,7 +71,7 @@ const service = {
         })
     },
     //首页合同列表
-    contractLists(param) {
+    contractLists(param,interfaceCode) {
         return request({
             url:'/api/v1.4/tenant/'+ interfaceCode +'/homePageContractLists',
             method:'get',

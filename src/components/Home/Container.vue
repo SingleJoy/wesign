@@ -467,7 +467,7 @@
       let accountCode = sessionStorage.getItem('accountCode');
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
-      let interfaceCode = cookie.getJSON("tenant")[1].interfaceCode;
+      let interfaceCode = this.interfaceCode;
       var requestVo = { 
         pageNo: "1", 
         pageSize: "7", 
@@ -477,7 +477,7 @@
 
       };
 
-      server.contractLists(requestVo).then(res=>{
+      server.contractLists(requestVo,interfaceCode).then(res=>{
          if (res.data.sessionStatus == "0") {
           this.$router.push("/Server");
         } else {
@@ -531,7 +531,7 @@
       }
       for(var i=0;i< requestType.length;i++){
           let type =  requestType[i];
-          server[requestType[i]](param).then(res=>{
+          server[requestType[i]](param,interfaceCode).then(res=>{
             this[type] = res.data.count
           }).catch(error=>{
 
