@@ -301,7 +301,7 @@
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
             // if (valid) {
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount ',{
+            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
               idCode:this.ruleForm.idCode,                  //省份证号

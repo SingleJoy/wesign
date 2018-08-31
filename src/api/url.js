@@ -1,6 +1,7 @@
 import request from '../utils/fetch'
 import cookie from '@/common/js/getTenant'
-const interfaceCode = cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:''
+const interfaceCode = cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'';
+console.log(interfaceCode)
 const service = {
     //登录前验证用户
     verficate(param) {
@@ -11,9 +12,9 @@ const service = {
         })
     },
     //登录接口
-    login(param) {
+    login(param,urlParam) {
         return request({
-            url: '/api/v1.4/tenant/'+param.interfaceCode+'/homePage',
+            url: '/api/v1.4/tenant/'+urlParam+'/homePage',
             method: 'get',
             params:param
         })

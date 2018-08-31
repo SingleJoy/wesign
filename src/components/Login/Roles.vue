@@ -167,13 +167,13 @@ import cookie from '@/common/js/getTenant'
 
 			let params = {
 				mobile:item.mobile,
-				interfaceCode:item.interfaceCode,
-				accountCode:item.accountCode?item.accountCode:''
+				// accountCode:item.accountCode?item.accountCode:''
 			}
+			let urlParam = item.interfaceCode;
 			if(item.accountStatus==2){
-				this.$router.push('/')
+				this.$router.push('/ActivateChildAccount')
 			}else{
-				server.login(params).then(res=>{
+				server.login(params,urlParam).then(res=>{
 					if( res.data.dataList[1].isBusiness == '0'){
 						this.$message({
 							showClose: true,

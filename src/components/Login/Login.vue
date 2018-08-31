@@ -56,128 +56,125 @@ import md5 from "js-md5";
 import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 export default {
-	name: "Login",
-	data() {
-		var checkName = (rule, value, callback) => {
-			if (value === "") {
-				callback(new Error("请输入手机号"));
-			} else if (!validateMoblie(value)) {
-				callback(new Error("手机号输入错误"));
-			} else {
-				let params = {
-					username: this.ruleForm.username
-				};
-				server.verficate(params).then(res => {
-					if (res.data === 0) {
-						callback();
-					} else {
-						callback(new Error("此用户不存在"));
-					}
-				}).catch(error => {
-					
-				});
-			}
-		};
-		var checkPassWord = (rule, value, callback) => {
-			if (value === "") {
-				callback(new Error("请输入密码"));
-			} else {
-				callback();
-			}
-		};
-		return {
-			ruleForm: {
-				username: "",
-				password: ""
-			},
-			rules: {
-				username: [{ validator: checkName, trigger: "blur" }],
-				password: [{ validator: checkPassWord, trigger: "blur" }]
-			},
-			img: Img,
-			tenantNum: [],
-			selectedEnterprise: null,
-			radio: 0
-		};
-	},
+  name: "Login",
+  data() {
+    var checkName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入手机号"));
+      } else if (!validateMoblie(value)) {
+        callback(new Error("手机号输入错误"));
+      } else {
+        let params = {
+          username: this.ruleForm.username
+        };
+        server
+          .verficate(params)
+          .then(res => {
+            if (res.data === 0) {
+              callback();
+            } else {
+              callback(new Error("此用户不存在"));
+            }
+          })
+          .catch(error => {});
+      }
+    };
+    var checkPassWord = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      ruleForm: {
+        username: "",
+        password: ""
+      },
+      rules: {
+        username: [{ validator: checkName, trigger: "blur" }],
+        password: [{ validator: checkPassWord, trigger: "blur" }]
+      },
+      img: Img,
+      tenantNum: [],
+      selectedEnterprise: null,
+      radio: 0
+    };
+  },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          var pass = md5(this.ruleForm.password);
-          this.$http
-            .get(process.env.API_HOST + "v1/tenant/login", {
-              params: {
-                username: this.ruleForm.username,
-                password: pass
-              }
-            })
-            .then(response => {
-              if (response.data.resultCode === "1") {
-                this.$http
-                  .get(process.env.API_HOST + "v1.4/user/bindEnterprises", {
-                    params: {
-                      mobile: this.ruleForm.username
-                    }
-                  })
-                  .then(response => {
-                    var stateCode = response.data.bindTenantNum; //绑定企业个数
-                    var interfaceCode = response.data.dataList[0].interfaceCode;
-                    var enterpriseName =
-                      response.data.dataList[0].enterpriseName;
-                    var mobile = response.data.dataList[0].mobile;
-                    sessionStorage.setItem("enterpriseName", enterpriseName);
-                    if (stateCode == "1") {
-                      this.$http
-                        .get(
-                          process.env.API_HOST +
-                            "v1.4/tenant/" +
-                            interfaceCode +
-                            "/homePage"
-                        )
-                        .then(res => {
-                          if (res.data.dataList[1].isBusiness == "0") {
-                            // 不是众签商户
-                            this.$message({
-                              showClose: true,
-                              duration: 1000,
-                              message: "登录成功",
-                              type: "success"
-                            });
-                            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                            this.$router.push("/Merchant");
-                          } else {
-                            this.$message({
-                              showClose: true,
-                              duration: 1000,
-                              message: "登录成功",
-                              type: "success"
-                            });
-                            cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
-                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                            this.$router.push("/Home");
-                          }
-                        });
-                    } else {
-                      // document.getElementById('fade').style.display ='block'
-                      // document.getElementById('succ-pop').style.display ='block'
-                      // this.tenantNum = response.data.dataList;
-                      sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
-                      this.$router.push("/Role");
-                    }
-                  });
-              } else {
-                this.$message({
-                  showClose: true,
-                  message: "账户或密码错误",
-                  type: "error"
-                });
-              }
-            });
-        }
-      });
-    },
+		this.$refs[formName].validate(valid => {
+			if (valid) {
+			var pass = md5(this.ruleForm.password);
+			this.$http
+				.get(process.env.API_HOST + "v1/tenant/login", {
+				params: {
+					username: this.ruleForm.username,
+					password: pass
+				}
+				})
+				.then(response => {
+					if (response.data.resultCode === "1") {
+						this.$http.get(process.env.API_HOST + "v1.4/user/bindEnterprises", {
+							params: {
+								mobile: this.ruleForm.username
+							}
+						})
+						.then(response => {
+							var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
+							var enterpriseName = response.data.dataList[0][0].enterpriseName;
+							var mobile = response.data.dataList[0][0].mobile;
+							let accountCode = response.data.dataList[0][0].accountCode;
+								sessionStorage.setItem("enterpriseName", enterpriseName);
+							let param={
+								mobile:this.ruleForm.username,
+								// accountCode:accountCode?accountCode:''
+							};
+							let urlParam =  response.data.dataList[0][0].interfaceCode;
+							if (stateCode == "1") {
+							server.login(param,urlParam).then(res => {
+								if (res.data.dataList[1].isBusiness == "0") {
+									// 不是众签商户
+									this.$message({
+									showClose: true,
+									duration: 1000,
+									message: "登录成功",
+									type: "success"
+									});
+									cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+									this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+									this.$router.push("/Merchant");
+								} else {
+									this.$message({
+									showClose: true,
+									duration: 1000,
+									message: "登录成功",
+									type: "success"
+									});
+									cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
+									this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+									this.$router.push("/Home");
+								}
+								}).cathch(error => {
+
+								});
+							} else {
+								sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+								this.$router.push("/Role");
+							}
+						});
+					} else {
+						this.$message({
+							showClose: true,
+							message: "账户或密码错误",
+							type: "error"
+						});
+					}
+				});
+			}
+      	});
+	},
+	
     forgetPassWord() {
       this.$router.push("/FoundUser");
     },
