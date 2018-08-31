@@ -464,9 +464,9 @@
       var flag = "";
       var isCreater = "";
 
-      let accountCode = sessionStorage.getItem('accountCode');
-      let accountLevel = sessionStorage.getItem('accountLevel');
-      let authorizerCode = sessionStorage.getItem('authorizerCode');
+      let accountCode = JSON.parse(sessionStorage.getItem('accountCode'));
+      let accountLevel = JSON.parse(sessionStorage.getItem('accountLevel'));
+      let authorizerCode = JSON.parse(sessionStorage.getItem('authorizerCode'));
       let interfaceCode = this.interfaceCode;
       var requestVo = { 
         pageNo: "1", 
@@ -525,7 +525,6 @@
       //合同概括请求
       //在读取属性[]和.注意！  server.requestType[i]报错
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
-          // accountCode= JSON.parse(accountCode)
       let param={
         accountCode:accountCode?accountCode:''
       }

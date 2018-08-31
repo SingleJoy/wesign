@@ -583,7 +583,7 @@
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
       // 查询证书
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.userCode;
           this.issuedNumber=res.data.userName;
@@ -619,7 +619,7 @@
         if(res.data.resultCode == '0'){
           this.$router.push('/Server')
         } else {
-          
+
         }
 
       });
