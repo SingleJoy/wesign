@@ -17,7 +17,7 @@
 						<ul v-if="companyList.length>0" class="role-ul">
 							<li v-for="(item,index) in companyList" :key="index" class="role-item">
 								<div class="item-left">
-									<span class="sign" v-if="item.status==1">
+									<span class="sign" v-if="item.auditStatus==1">
 										<img src="../../../static/images/Login/sign_red.png" alt="">
 										<span class="company-status active">已实名</span>
 									</span>
@@ -136,15 +136,7 @@ import cookie from '@/common/js/getTenant'
 
       return {
 			companyList:[],
-			subCompanyList:[
-				{
-					enterpriseName:'二级账号测试',
-					accountStatus:5,
-					accountLevel:5,
-					waitForMeSign:343,
-					waitForOtherSign:12
-				}
-			],
+			subCompanyList:[],
 			personalList:[]
 		}
 	},
@@ -153,7 +145,7 @@ import cookie from '@/common/js/getTenant'
 			roleList = JSON.parse(roleList)
 		if(roleList.length>0){
 			this.companyList = roleList[0];
-			// this.subCompanyList = roleList[1];
+			this.subCompanyList = roleList[1];
 		}
 
 	},
@@ -164,6 +156,7 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('accountLevel',JSON.stringify(item.accountLevel))      //账号类型一二级
 			sessionStorage.setItem('authorizerCode',JSON.stringify(item.authorizerCode))      	//授权人编号
 			sessionStorage.setItem('mobile',JSON.stringify(item.mobile))      				  //手机号
+
 
 			let params = {
 				mobile:item.mobile,
