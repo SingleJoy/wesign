@@ -124,7 +124,8 @@ export default {
 							var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
 							var enterpriseName = response.data.dataList[0][0].enterpriseName;
 							var mobile = response.data.dataList[0][0].mobile;
-							let accountCode = response.data.dataList[0][0].accountCode;
+              let accountCode = response.data.dataList[0][0].accountCode;
+              let accountStatus = response.data.dataList[0][0].accountStatus;
 								sessionStorage.setItem("enterpriseName", enterpriseName);
 							let param={
 								mobile:this.ruleForm.username,
@@ -132,32 +133,37 @@ export default {
 							};
 							let urlParam =  response.data.dataList[0][0].interfaceCode;
 							if (stateCode == "1") {
-							server.login(param,urlParam).then(res => {
-								if (res.data.dataList[1].isBusiness == "0") {
-									// 不是众签商户
-									this.$message({
-									showClose: true,
-									duration: 1000,
-									message: "登录成功",
-									type: "success"
-									});
-									cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-									this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-									this.$router.push("/Merchant");
-								} else {
-									this.$message({
-									showClose: true,
-									duration: 1000,
-									message: "登录成功",
-									type: "success"
-									});
-									cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
-									this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-									this.$router.push("/Home");
-								}
-								}).cathch(error => {
+                if(accountStatus==2){
+                  this.$router.push('/ActivateChildAccount');
+                }else{
+                     server.login(param,urlParam).then(res => {
+                  if (res.data.dataList[1].isBusiness == "0") {
+                    // 不是众签商户
+                    this.$message({
+                    showClose: true,
+                    duration: 1000,
+                    message: "登录成功",
+                    type: "success"
+                    });
+                    cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+                    this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                    this.$router.push("/Merchant");
+                  } else {
+                    this.$message({
+                    showClose: true,
+                    duration: 1000,
+                    message: "登录成功",
+                    type: "success"
+                    });
+                    cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
+                    this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                    this.$router.push("/Home");
+                  }
+								}).catch(error => {
 
 								});
+                }
+             
 							} else {
 								sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
 								this.$router.push("/Role");

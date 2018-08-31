@@ -151,6 +151,7 @@ import cookie from '@/common/js/getTenant'
 	},
     methods: {
 		loginEnter(item){
+			console.log(item)
 
 			sessionStorage.setItem('accountCode',JSON.stringify(item.accountCode))        //账户编号
 			sessionStorage.setItem('accountLevel',JSON.stringify(item.accountLevel))      //账号类型一二级
