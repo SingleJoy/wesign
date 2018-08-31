@@ -205,18 +205,22 @@
           callback(new Error('手机号格式错误'))
         } else {
           let params = {
-            username: this.ruleForm.username
+            username: this.ruleForm.mobile
           };
-          server.verficate(params).then(res => {
-            if (res.data === 0) {
-              this.password='';
-              this.dis=true;
-            } else {
-              callback(new Error("此用户不存在"));
-            }
-          }).catch(error => {
+          if(this.server){
+            server.verficate(params).then(res => {
+              if (res.data === 0) {
+                this.ruleForm.password="test111111";
+                this.dis=true;
 
-          });
+              } else {
+
+              }
+            }).catch(error => {
+
+            })
+          }
+          callback()
         }
       }
       //校验邮箱
@@ -231,6 +235,7 @@
       }
 
       return{
+        server:true,
         ruleForm: {
           accountName:'',  //管理员姓名
           userName:'',//账户名称
@@ -273,9 +278,11 @@
       }
     },
     methods: {
+
       changEvent(){
 
       },
+
       // 取消
       quit(formName){
         this.$refs[formName].resetFields();
@@ -284,15 +291,12 @@
 
       //提交事件
       submitBtn(formName){
+        this.server=false;
+        console.log(this.agree);
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
-            if(this.dis){
-              return pass='';
-            }else {
-              return pass = md5(this.ruleForm.password);
-            }
-            console.log(pass)
 
+            let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
 
@@ -300,13 +304,14 @@
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
-            // if (valid) {
+            let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
             this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
               idCode:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
+              accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates                                //分配模板
             },{emulateJSON: true}).then(res =>{

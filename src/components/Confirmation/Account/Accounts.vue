@@ -27,7 +27,7 @@
 
                 <div class="line" style="padding-top: 20px;">
                   <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:</span>
-                  <b>{{account}}</b>
+                  <b>{{mobile}}</b>
 
                 </div>
                 <div class="line">
@@ -62,16 +62,16 @@
                 <div class="right-card-content">
                   <div class="right-line" >
                     <span>序列号:</span>
-                    <b>{{serialNumber}}</b>
-                  </div>
-                  <div class="right-line">
-                    <span>颁发给:</span>
                     <b>{{issuedNumber}}</b>
                   </div>
                   <div class="right-line">
-                    <span>证件号:</span>
-                    <b>{{cardNumber}}</b>
+                    <span>颁发给:</span>
+                    <b>{{authName}}</b>
                   </div>
+                  <!--<div class="right-line">-->
+                    <!--<span>证件号:</span>-->
+                    <!--<b>{{cardNumber}}</b>-->
+                  <!--</div>-->
                   <div class="right-line">
                     <span>有效起始时间:</span>
                     <b>{{effectiveStartTime}}</b>
@@ -94,20 +94,21 @@
           <div class="sign-content">
 
             <div class="sign-picture">
-              <!--默认图片-->
-              <img src="../../../../static/images/Default/default-contrat-seal.png" v-if="showImage==false">
+              <!--合同章-->
+              <img :src="[tenantSeal]" alt="合同章">
               <span>默认合同章</span>
-              <!--<img src="" v-if="showImage==true">-->
+
             </div>
 
-            <div class="sign-picture" v-if="officeSeal==true">
+            <div class="sign-picture" v-if="officeSeal">
               <!--默认图片-->
-              <img src="../../../../static/images/Default/default-contrat-seal.png" >
-              <!--<img src="" v-if="showImage==true">-->
+              <!--<img src="../../../../static/images/Default/default-contrat-seal.png" >-->
+              <img :src="[officeSealUrl]" alt="签章图片">
+              <!--<img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">-->
 
             </div>
 
-            <div class="create-seal" v-if="officeSeal==false">
+            <div class="create-seal" else>
               <!--生成公章-->
               <span>录入公章防伪码在线生成</span>
               <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
@@ -115,9 +116,7 @@
               <a href="javascript:void(0);" @click="newSeal">生成公章</a>
             </div>
 
-
           </div>
-
 
         </div>
 
@@ -128,31 +127,40 @@
 
             <div class="account-list">
               <!--<div class="list-content" v-for="item in accountList">-->
-              <div class="list-content" >
+              <div class="list-content" v-for="item in accountList">
                 <ul>
-                  <li>
+                  <li >
                     <span>管理员姓名:</span>
-                    <b >张晓霞</b>
+                    <b >{{item.userName}}</b>
                   </li>
                   <li>
                     <span>账<span style="padding: 0 24px;"></span>号:</span>
-                    <b >18876994055</b>
+                    <b >{{item.mobile}}</b>
                   </li>
                   <li>
                     <span>状<span style="padding: 0 24px;"></span>态:</span>
-                    <b class="state">使用中</b>
+                    <b class="state" v-if="item.accountStatus=='0'">关闭</b>
+                    <b class="state" v-if="item.accountStatus=='1'">开通</b>
+                    <b class="state" v-if="item.accountStatus=='2'">未激活</b>
+                    <b class="state" v-if="item.accountStatus=='3'">已激活</b>
+                    <b class="state" v-if="item.accountStatus=='4'">待完善</b>
+                    <b class="state" v-if="item.accountStatus=='5'">冻结</b>
                   </li>
                   <li>
                     <span>可<span style="padding: 0 3px;"></span>用<span style="padding: 0 1px;"></span>模<span style="padding: 0 3px;"></span>板:</span>
-                    <b><strong class="template-number">10</strong>个</b>
+                    <b><strong class="template-number">{{item.templateNum}}</strong>个</b>
                   </li>
                 </ul>
-                <div class="operate">
-                  <!--<a class="finish" href="javascript:void(0)" @click="finish">完善</a>-->
-                  <a class="edit" href="javascript:void(0)" @click="edit">编辑</a>
-                  <!--<a class="management" href="javascript:void(0)" @click="management">管理</a>-->
-                  <!--<a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>-->
-                  <!--<a class="thaw" href="javascript:void(0)" @click="thaw">解冻</a>-->
+                <div class="operate" v-if="item.accountStatus=='1'">
+
+                  <a class="management" href="javascript:void(0)" @click="management">管理</a>
+                  <a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>
+
+                </div>
+                <div class="operate" v-if="item.accountStatus=='5'">
+
+                  <a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>
+
                 </div>
               </div>
 
@@ -330,7 +338,7 @@
         }
       }
       return{
-        account:'',
+        mobile:'',
         Email:'',
         authName:'',
         enterpriseName:'',
@@ -343,7 +351,6 @@
         effectiveEndTime:'',  //有效截止时间
         createSeal:'',//生成公章
         contractSign:'',
-        mobile:'',
         centerDialogVisible: false,
         authStatus:false,
         auditStatus:false,
@@ -354,6 +361,8 @@
         finalRejection:false,
         toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
         officeSeal:false,
+        officeSealUrl:'',
+
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
@@ -374,11 +383,18 @@
             { validator: validateCheckPassWord, trigger: 'blur' }
           ]
         },
+        signBadgePath:'',
+        tenantSeal:'',     //签章图片
         showImage:false ,  //默认图片
         accountDefault:false ,//没有二级子账号
         accountList:'', //二级账号列表
         frozenDialogVisible:false, //子账号冻结弹窗
         thawDialogVisible:false, //子账号解结弹窗,
+        AccountMobile:'',
+        userName:'',
+        templateNum:'',
+        userState:'',
+
 
       }
     },
@@ -435,17 +451,17 @@
           }
         });
       },
+      // 生成签章
       newSeal(){
         var requestVo ={'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal};
-        this.$http.get(process.env.API_HOST+'v1.5/createSignature', {params: requestVo}).then(function (res) {
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal}).then(function (res) {
           if(res.data.resultCode == '0'){
-            this.$router.push('/Server')
+
           } else {
-            this.officeSeal=res.data.signBadgePath;
+            this.officeSealUrl=res.data.signBadgePath;
           }
         })
       },
-
       companyRealName() {  //未通过状态
         this.finalRejection = true
       },
@@ -573,56 +589,80 @@
           }
         }
       }
-      let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getSignature'
-      this.$http.get(url).then(function (res) {
-        this.contractSign = res.bodyText
-      })
+
+
       //意见（待定
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
-        this.auditOpinion=res.data.data;
-        // this.toEnterprise = res.data.data.verifyMoneyNum
+      // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
+      //   // this.auditOpinion=res.data.data;
+      //      console.log(res.data)
+      //   // this.toEnterprise = res.data.data.verifyMoneyNum
+      // })
+     //  // 查询证书
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
+        if(res.data.resultCode=='1'){
+          this.serialNumber=res.data.data.userCode;
+          this.issuedNumber=res.data.data.certificateNo;
+          // this.authName=res.data.data.userName;
+          this.cardNumber=res.data.data.mobile;
+          this.effectiveStartTime=res.data.data.certificateStartTime;
+          this.effectiveEndTime=res.data.data.certificateDueTime;
+        }
+      });
+     //  账户信息
+      let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
+
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
+        if(res.data.resultCode=='1'){
+
+          this.account=res.data.data.mobile
+          this.account=res.data.data.accountName
+          this.Email=res.data.data.email
+          this.account=res.data.data.enterpriseName
+          this.authName=res.data.data.authorizerName
+        }
       })
-      // 查询证书
-      this.$http.get(process.env.API_HOST+'v1.5/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
-        if(res.data.resultCode=='1'){
-          this.serialNumber=res.data.userCode;
-          this.issuedNumber=res.data.userName;
-          this.authName=res.data.userName;
-          this.cardNumber=res.data.mobile;
-          this.effectiveStartTime=res.data.certificateStartTime;
-          this.effectiveEndTime=res.data.certificateDueTime;
-        }
-      });
-        // 子账户信息
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getAccount').then(function (res) {
+
+      // 子账户信息
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
 
         if(res.data.resultCode=='1'){
+          // let list=[]
+		  //
+          // for(let i=0;i<res.data.dataList.length;i++){
+          //   list.push(res.data.dataList[i])
+          //   // list[i].userName=res.data.dataList[i].userName
+          //   // list[i].AccountMobile=res.data.dataList[i].AccountMobile
+          //   // list[i].userState=res.data.dataList[i].AccountMobile
+          // }
+          this.accountList=res.data.dataList;
+
 
         }
 
       });
 
-      //获取合同章
-      this.$http.get(process.env.API_HOST+'v1.5/getSignatures',{params: {interfaceCode:cookie.getJSON('tenant')[1].interfaceCode}}).then(function (res) {
-
-        if(res.data.resultCode == '0'){
-          this.$router.push('/Server')
-        } else {
-          this.officeSeal=res.data.signBadgePath;
-        }
-
-      });
-
-      //获取二级账户集合查询
-      this.$http.get(process.env.API_HOST+'v1.5/secondAccounts',{params: {interfaceCode:cookie.getJSON('tenant')[1].interfaceCode}}).then(function (res) {
+     //  //获取合同章
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/getSignatures').then(function (res) {
 
         if(res.data.resultCode == '0'){
           this.$router.push('/Server')
         } else {
 
+          this.tenantSeal=res.data.dataList[0].signaturePath;
         }
 
       });
+	 //
+      // //获取二级账户集合查询
+      // this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/secondAccounts').then(function (res) {
+	 //
+      //   if(res.data.resultCode == '0'){
+      //     this.$router.push('/Server')
+      //   } else {
+      //       console.log()
+      //   }
+	 // //
+      // });
 
     },
   }
