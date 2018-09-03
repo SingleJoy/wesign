@@ -2,12 +2,12 @@
   <div>
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
-      <el-select v-model="value" placeholder="请选择账号类型">
+        <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
 			<el-option
 				v-for="item in options"
-				:key="item.value"
-				:label="item.label"
-				:value="item.value">
+				:key="item.accountCode"
+				:label="item.accountName"
+				:value="item.accountCode">
 			</el-option>
 		</el-select>
       <span id='text'>发起时间：</span>
@@ -115,6 +115,7 @@
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url";
 export default {
   data() {
     return {
@@ -123,6 +124,10 @@ export default {
       value9: '',
       tableData2: [],
       num: '',
+      value:'',
+      options:[],
+      queryAccountCode:'',
+      options:[],
       loading: true,
       inputVal:'',
       checked:false,
@@ -230,6 +235,9 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+    selectParam(value){
+      this.queryAccountCode=value
+    },
     contractInquiry () {
       if (this.checked == true) {
         var perpetualValid = '1'
@@ -240,7 +248,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
       this.getData (requestVo)
       this.currentPage = 1
       this.$message({
@@ -293,7 +301,13 @@ export default {
    created() {
     this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
     var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
-    this.getData (requestVo)
+    this.getData (requestVo);
+     let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+    server.queryContractLists(interfaceCode).then(res=>{
+      if(res.data.resultCode = 1){
+        this.options=res.data.dataList;
+      }
+    })
   }
 }
 </script>

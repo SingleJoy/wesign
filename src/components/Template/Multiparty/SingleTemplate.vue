@@ -6,7 +6,7 @@
             <span class="title-name">模板列表</span>
             <span class="title-tip" >单次发起合同：一次发起一份合同，合同签署方数量以模板限定签署方数量为准</span>
             <span class="search-btn">
-              <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
+              <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempSingle">
               <el-button type="primary"  style='margin-left:5px;letter-spacing:5px;' @click="queryTempBatch">搜索</el-button>
             </span>
           </div>
@@ -19,7 +19,7 @@
           </el-dialog>
         <div class="line"></div> 
         <div class="template-list">
-          <ul>
+          <ul v-if="tableData.length>0">
             <li v-for="(item,index) in tableData" :key="index" >
               <div class="contract-box">
                 <div class="contract-content">
@@ -29,9 +29,9 @@
                   <div class="content-right">
                     <h3>{{item.templateName}}</h3>
                   
-                    <p class="item-name">
+                    <p v-if="accountLevel==1" class="item-name">
                       <span class="initiator item-default">绑定账号：</span>
-                      <span class="initiator">{{item.Character}}</span>
+                      <span class="initiator">{{item.Character?item.Character:"——"}}</span>
                     </p>
                     <p class="item-name">
                       <span class="initiator item-default">累计发起：</span>
@@ -57,6 +57,12 @@
               </div>
               <div class="line" v-if="index+1<tableData.length"></div>
             </li>
+          </ul>
+          <ul v-else style="text-align: center;margin-top: 100px;">
+							<li class="no-data">
+								<img src="../../../../static/images/blank.png" alt="">
+								<p>暂无数据</p>
+							</li>
           </ul>
           <div class='pagetion'>
             <el-pagination
@@ -110,13 +116,13 @@ export default {
       query:false,
       show:false,
       dialogTableVisible:false,
-      imgList:[]
+      imgList:[],
+      accountLevel:sessionStorage.getItem("accountLevel")
     };
   },
   methods: {
 
     previewContract(item){
-		console.log(item)
 		this.imgList =[];
 		this.$loading.show(); 
 		var data =[];
@@ -149,6 +155,8 @@ export default {
       //console.log(`每页 ${val} 条`);
     },
     queryTempBatch(){
+      let templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':1,'userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'}
+      this.getTemplateList (templateInfoRequest)
 
     },
     handleCurrentChange(val) {

@@ -1,17 +1,24 @@
 <template>
   <div class='ContractInfos' style="margin-top: 20px;">
       <div class='main'>
-          <p class='first' style="display: inherit;">
-            <span>我的合同</span>
-            <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-            <span v-else style="">>合同详情</span>
-            <span class="sign-icon">
-              <!-- <img src="../../../static/images/ContractInfo/detail_sign.png" alt=""> -->
-              <span>财务部</span>
+          <div class='first' style="display: inherit;">
+            <p style="line-height: 60px;float: left;">
+                <span>我的合同</span>
+                <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+                <span style="color:#22a7ea" v-else> >合同详情</span>
+            </p>
+          
+            <p id="sign-icon" v-if="accountLevel==2">
+              <span class="department">财务部</span>
               <span>张丽华</span>
-            </span>
-            <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-          </p>
+            </p>
+
+            <p>
+                <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+                <span  v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+            </p>
+           
+          </div>
           <p class='second'>
              <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
              <span class='text'>
@@ -73,7 +80,8 @@
                 width="200"
                 >
                 <template slot-scope="scope">
-                  <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode'>签&nbsp;&nbsp;署</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -81,15 +89,47 @@
       </div>
   </div>
 </template>
-<style>
-  .back-home{
-    background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
-    width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
-  }
-  .sign-icon{
-    background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat 58px 68px;
-    position: relative;
-  }
+<style lang="scss">
+    .el-table--scrollable-x .el-table__body-wrapper{
+        overflow: hidden;
+    }
+    .back-home{
+        background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+        width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
+    }
+    .main .first #sign-icon{
+        background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+        height: 70px;
+        width:58px;
+        position: absolute;
+        text-align: center;
+        display: inline-block;
+        margin-top: -10px;
+        margin-left:20px;
+        span{
+            color:#fff;
+            font-size: 12px;
+            padding-left: 0;
+        }
+        .department{
+            font-size: 14px;
+            display: block;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+    }
+    .extension-btn{
+        float: right;
+        background: #22a7ea;
+        padding: 5px 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 5px;
+        color: #fff;
+        margin-top: 15px;
+        cursor: pointer;
+    }
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -129,16 +169,19 @@ export default {
   name: 'ContractInfos',
   data() {
     return {
-      baseURL:this.baseURL.BASE_URL,
-      tableData2: [],
-      contractNo:'',
-      contractName:'',
-      validTime:'',
-      status:'',
-      createType:'',
-      dialogTableVisible: false,
-      imgList:[],
-      signMobile:''
+        baseURL:this.baseURL.BASE_URL,
+        tableData2: [],
+        accountLevel:'',
+        contractNo:'',
+        contractName:'',
+        validTime:'',
+        status:'',
+        createType:'',
+        dialogTableVisible: false,
+        imgList:[],
+        signMobile:'',
+        contractType:'',
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
     };
   },
   methods: {
@@ -166,12 +209,50 @@ export default {
     getTenant () {
 
     },
+    extensionClick(){
+        if (this.contractType == "0") {
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          cookie.set("state", "E");
+          this.$router.push("/CompanyExc");
+        } else {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          cookie.set("state", "D");
+          this.$router.push("/ContractDelay");
+        }
+    },
+    signClick(row){
+        //签署
+        if (this.contractType == "0") {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          this.$router.push("/Dimension");
+        } else {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          this.$router.push("/Contract");
+        }
+    },
+    
+    seeClick(row) {
+        //延期
+        if (row.contractType == "0") {
+          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+          cookie.set("state", "E");
+          this.$router.push("/CompanyExc");
+        } else {
+          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+          cookie.set("state", "D");
+          this.$router.push("/ContractDelay");
+        }
+    },
     getRowClass({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex == 0) {
-        return 'background:#efefef;font-weight:bold;'
-      } else {
-        return ''
-      }
+        if (rowIndex == 0) {
+            return 'background:#efefef;font-weight:bold;'
+        } else {
+            return ''
+        }
     },
     seeContractImg (){
        this.imgList =[];
@@ -219,6 +300,7 @@ export default {
         var signUserVo = res.data.signUserVo
         var type = contractVo.createType
         this.contractNo = contractVo.contractNo
+        this.contractType = contractVo.contractType
         this.contractName = contractVo.contractName
         this.validTime = contractVo.validTime
         this.status = contractVo.status
@@ -295,6 +377,6 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
   @import "../../styles/ContractInfo/ContractInfos.css";
 </style>

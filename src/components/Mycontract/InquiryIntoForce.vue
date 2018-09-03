@@ -2,12 +2,12 @@
   <div class="InquiryIntoForce">
     <div class='contractTitle' style="text-align: left;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal3" :maxlength = 50>
-      <el-select v-model="value" placeholder="请选择账号类型">
+      <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item.accountCode"
+          :label="item.accountName"
+          :value="item.accountCode">
         </el-option>
       </el-select>
       <span id='text'>发起时间：</span>
@@ -117,27 +117,14 @@
 <script>
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url";
 export default {
   name:'InquiryWaitMe',
   data() {
     return {
-       options: [{
-			value: '选项1',
-			label: '黄金糕'
-			}, {
-			value: '选项2',
-			label: '双皮奶'
-			}, {
-			value: '选项3',
-			label: '蚵仔煎'
-			}, {
-			value: '选项4',
-			label: '龙须面'
-			}, {
-			value: '选项5',
-			label: '北京烤鸭'
-		}],
-		value:'',
+      options: [],
+      queryAccountCode:"",
+		  value:'',
       currentPage3: 1,
       value8: '',
       value9: '',
@@ -255,6 +242,9 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+    selectParam(value){
+      this.queryAccountCode=value
+    },
     contractInquiryIntoForce () {
       if (this.checked == true) {
         var perpetualValid = '1'
@@ -265,7 +255,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal3,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'3'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal3,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'3'};
       this.getData (requestVo)
       this.$message({
         showClose: true,
@@ -330,7 +320,13 @@ export default {
   },
    created() {
     var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'3'};
-    this.getData (requestVo)
+    this.getData (requestVo);
+    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+    server.queryContractLists(interfaceCode).then(res=>{
+      if(res.data.resultCode = 1){
+        this.options=res.data.dataList;
+      }
+    })
   }
 }
 </script>

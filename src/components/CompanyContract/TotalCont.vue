@@ -2,14 +2,14 @@
   <div>
     <div class='contractTitle' style="text-align: left;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
-      <el-select v-model="value" placeholder="请选择账号类型">
+      <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
 			<el-option
 				v-for="item in options"
-				:key="item.value"
-				:label="item.label"
-				:value="item.value">
-        </el-option>
-      </el-select>
+				:key="item.accountCode"
+				:label="item.accountName"
+				:value="item.accountCode">
+			</el-option>
+		</el-select>
       <span id='text'>发起时间：</span>
        <el-date-picker
         style='width:140px;margin-right:20px'
@@ -92,7 +92,7 @@
           <template slot-scope="scope">
           <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
           <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
-          <el-button @click="warnClick(scope.row)"type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+          <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
           <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater'>延&nbsp;&nbsp;期</el-button>
@@ -120,117 +120,105 @@
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url"
 export default {
   data() {
-    return { options: [{
-			value: '选项1',
-			label: '黄金糕'
-			}, {
-			value: '选项2',
-			label: '双皮奶'
-			}, {
-			value: '选项3',
-			label: '蚵仔煎'
-			}, {
-			value: '选项4',
-			label: '龙须面'
-			}, {
-			value: '选项5',
-			label: '北京烤鸭'
-		}],
-		value:'',
-      currentPage: 1,
-      value8: '',
-      value9: '',
-      tableInformation: [],
-      num: '',
-      loading: true,
-      inputVal:'',
-      checked:false,
-      inquiry:false, // 查询标示
-      filters: {
-        column: {
-            create_start_date: null,
-            create_end_date: null
+    return { 
+        options: [],
+        value:'',
+        queryAccountCode:'',
+        currentPage: 1,
+        value8: '',
+        value9: '',
+        tableInformation: [],
+        num: '',
+        loading: true,
+        inputVal:'',
+        checked:false,
+        inquiry:false, // 查询标示
+        filters: {
+            column: {
+                create_start_date: null,
+                create_end_date: null
+            },
         },
-      },
-      pickerBeginDateBefore:{
-        disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_end_date;
-            if (beginDateVal) {
-                return time.getTime() > beginDateVal;
+        pickerBeginDateBefore:{
+            disabledDate: (time) => {
+                let beginDateVal = this.filters.column.create_end_date;
+                if (beginDateVal) {
+                    return time.getTime() > beginDateVal;
+                }
             }
-          }
-        },
-      pickerBeginDateAfter:{
-        disabledDate: (time) => {
-          let beginDateVal = this.filters.column.create_start_date;
-          if (beginDateVal) {
-              return time.getTime() < beginDateVal;
-          }
+            },
+        pickerBeginDateAfter:{
+            disabledDate: (time) => {
+            let beginDateVal = this.filters.column.create_start_date;
+            if (beginDateVal) {
+                return time.getTime() < beginDateVal;
+            }
+            }
         }
-      }
-    }
-  },
-  methods: {
-      getRowClass({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex == 0) {
-        return 'background:#f5f5f5;font-weight:bold;'
-      } else {
-        return ''
-      }
+        }
     },
+    methods: {
+        getRowClass({ row, column, rowIndex, columnIndex }) {
+            if (rowIndex == 0) {
+                return 'background:#f5f5f5;font-weight:bold;'
+            } else {
+                return ''
+            }
+        },
     getRecord (requestVo) {
-    var data =[];
-    var isCreater='';
-    let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-    let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/b2bContrants';
-      this.$http.get(url, {params: requestVo}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.content.length;i++) {
-          if(res.data.content[i].creater == currentFaceCode){
-            isCreater = true;
-          }else{
-            isCreater = false;
-          }
-          var obj = {}
-          obj.contractName = res.data.content[i].contractName;
-          obj.contractNum = res.data.content[i].contractNum;
-          obj.createTime = res.data.content[i].createTime;
-          obj.signers =  res.data.content[i].signers;
-          obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.validTime =  res.data.content[i].validTime;
-          obj.contractType = res.data.content[i].contractType;
-          obj.isCreater = isCreater;
-          obj.operation = '';
-          switch (obj.contractStatus){
-            case "1":
-            obj.contractStatus="待我签署";
-            obj.operation = 1
-              break;
-            case "2":
-            obj.contractStatus="待他人签署";
-            obj.operation = 2
-              break;
-            case "3":
-            obj.contractStatus="已生效";
-            obj.operation = 3
-              break;
-            default:
-            obj.contractStatus="已截止";
-            obj.operation = 4
-              break;
-          }
-          data[i] = obj
-        }
-        this.tableInformation = data
+        var data =[];
+        var isCreater='';
+        let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+        let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/b2bContrants';
+        this.$http.get(url, {params: requestVo}).then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            for (let i = 0; i < res.data.content.length;i++) {
+            if(res.data.content[i].creater == currentFaceCode){
+                isCreater = true;
+            }else{
+                isCreater = false;
+            }
+            var obj = {}
+            obj.contractName = res.data.content[i].contractName;
+            obj.contractNum = res.data.content[i].contractNum;
+            obj.createTime = res.data.content[i].createTime;
+            obj.signers =  res.data.content[i].signers;
+            obj.contractStatus =  res.data.content[i].contractStatus;
+            obj.validTime =  res.data.content[i].validTime;
+            obj.contractType = res.data.content[i].contractType;
+            obj.isCreater = isCreater;
+            obj.operation = '';
+            switch (obj.contractStatus){
+                case "1":
+                obj.contractStatus="待我签署";
+                obj.operation = 1
+                break;
+                case "2":
+                obj.contractStatus="待他人签署";
+                obj.operation = 2
+                break;
+                case "3":
+                obj.contractStatus="已生效";
+                obj.operation = 3
+                break;
+                default:
+                obj.contractStatus="已截止";
+                obj.operation = 4
+                break;
+            }
+            data[i] = obj
+            }
+            this.tableInformation = data
 
-        this.num = res.data.totalItemNumber
-        this.loading = false
-        }
-      })
+            this.num = res.data.totalItemNumber
+            this.loading = false
+            }
+        })
     },
     handleCurrentChange(val) {
       if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
@@ -258,6 +246,9 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+    selectParam(value){
+      this.queryAccountCode=value
+    },
     contractInquiry () {
       if (this.checked == true) {
         var perpetualValid = '1'
@@ -268,7 +259,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
       this.getRecord (requestVo)
       this.currentPage = 1
       this.$message({
@@ -358,6 +349,12 @@ export default {
    created() {
     var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
     this.getRecord (requestVo)
+    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+    server.queryContractLists(interfaceCode).then(res=>{
+      if(res.data.resultCode = 1){
+        this.options=res.data.dataList;
+      }
+    })
   }
 }
 </script>

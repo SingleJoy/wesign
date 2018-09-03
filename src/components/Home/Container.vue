@@ -464,9 +464,9 @@
       var flag = "";
       var isCreater = "";
 
-      let accountCode = JSON.parse(sessionStorage.getItem('accountCode'));
-      let accountLevel = JSON.parse(sessionStorage.getItem('accountLevel'));
-      let authorizerCode = JSON.parse(sessionStorage.getItem('authorizerCode'));
+      let accountCode = sessionStorage.getItem('accountCode');
+      let accountLevel = sessionStorage.getItem('accountLevel');
+      let authorizerCode = sessionStorage.getItem('authorizerCode');
       let interfaceCode = this.interfaceCode;
       var requestVo = { 
         pageNo: "1", 

@@ -2,14 +2,14 @@
   <div class="InquiryExpired">
      <div class='contractTitle' style="text-align: left;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
-      <el-select v-model="value" placeholder="请选择账号类型">
-			<el-option
-				v-for="item in options"
-				:key="item.value"
-				:label="item.label"
-				:value="item.value">
-			</el-option>
-		</el-select>
+      <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
+                <el-option
+                    v-for="item in options"
+                    :key="item.accountCode"
+                    :label="item.accountName"
+                    :value="item.accountCode">
+                </el-option>
+            </el-select>
       <span id='text'>发起时间：</span>
        <el-date-picker
         style='width:140px;margin-right:20px'
@@ -109,60 +109,47 @@
 <script>
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url";
 export default {
-  name:'InquiryExpired',
-  data() {
-    return {
-       options: [{
-			value: '选项1',
-			label: '黄金糕'
-			}, {
-			value: '选项2',
-			label: '双皮奶'
-			}, {
-			value: '选项3',
-			label: '蚵仔煎'
-			}, {
-			value: '选项4',
-			label: '龙须面'
-			}, {
-			value: '选项5',
-			label: '北京烤鸭'
-		}],
-		value:'',
-      currentPage4: 1,
-      value8: '',
-      value9: '',
-      tableInformation: [],
-      num: '',
-      inquiry:false,
-      loading: true,
-      inputVal4:'',
-      filters: {
-          column: {
-            create_start_date: null,
-            create_end_date: null
-          },
-        },
-        pickerBeginDateBefore:{
-            disabledDate: (time) => {
-              let beginDateVal = this.filters.column.create_end_date;
-              if (beginDateVal) {
-                  return time.getTime() > beginDateVal;
-              }
-          }
-        },
-        pickerBeginDateAfter:{
-          disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_start_date;
-            if (beginDateVal) {
-                return time.getTime() < beginDateVal;
+    name:'InquiryExpired',
+    data() {
+        return {
+            options: [],
+            queryAccountCode:'',
+            value:'',
+            currentPage4: 1,
+            value8: '',
+            value9: '',
+            tableInformation: [],
+            num: '',
+            inquiry:false,
+            loading: true,
+            inputVal4:'',
+            filters: {
+                column: {
+                    create_start_date: null,
+                    create_end_date: null
+                },
+                },
+                pickerBeginDateBefore:{
+                    disabledDate: (time) => {
+                    let beginDateVal = this.filters.column.create_end_date;
+                    if (beginDateVal) {
+                        return time.getTime() > beginDateVal;
+                    }
+                }
+                },
+                pickerBeginDateAfter:{
+                disabledDate: (time) => {
+                    let beginDateVal = this.filters.column.create_start_date;
+                    if (beginDateVal) {
+                        return time.getTime() < beginDateVal;
+                    }
+                }
             }
-          }
         }
-    }
-  },
-  methods: {
+    },
+    methods: {
      getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return 'background:#f5f5f5;font-weight:bold;'
@@ -246,12 +233,15 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+    selectParam(value) {
+      this.queryAccountCode = value;
+    },
     contractInquiryExpired () {
       var start = this.filters.column.create_start_date
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getRecord (requestVo)
       this.inquiry = true
     },
@@ -336,7 +326,13 @@ export default {
   },
    created() {
     var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4'};
-    this.getRecord (requestVo)
+    this.getRecord (requestVo);
+    let interfaceCode = cookie.getJSON("tenant")[1].interfaceCode;
+    server.queryContractLists(interfaceCode).then(res => {
+      if ((res.data.resultCode = 1)) {
+        this.options = res.data.dataList;
+      }
+    });
 
   }
 }

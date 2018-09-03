@@ -2,12 +2,12 @@
   <div class="InquiryExpired">
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
-      <el-select v-model="value" placeholder="请选择账号类型">
+        <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
 			<el-option
 				v-for="item in options"
-				:key="item.value"
-				:label="item.label"
-				:value="item.value">
+				:key="item.accountCode"
+				:label="item.accountName"
+				:value="item.accountCode">
 			</el-option>
 		</el-select>
       <span id='text'>发起时间：</span>
@@ -102,32 +102,36 @@
 <script>
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url";
 export default {
   name:'InquiryExpired',
   data() {
     return {
-      currentPage4: 1,
-      value8: '',
-      value9: '',
-      tableData2: [],
-      num: '',
-      inquiry:false,
-      loading: true,
-      inputVal4:'',
-      filters: {
-          column: {
-            create_start_date: null,
-            create_end_date: null
-          },
-        },
-        pickerBeginDateBefore:{
-            disabledDate: (time) => {
-              let beginDateVal = this.filters.column.create_end_date;
-              if (beginDateVal) {
-                  return time.getTime() > beginDateVal;
-              }
-          }
-        },
+        queryAccountCode:"",
+        value:'',
+        options:[],
+        currentPage4: 1,
+        value8: '',
+        value9: '',
+        tableData2: [],
+        num: '',
+        inquiry:false,
+        loading: true,
+        inputVal4:'',
+        filters: {
+            column: {
+                create_start_date: null,
+                create_end_date: null
+            },
+            },
+            pickerBeginDateBefore:{
+                disabledDate: (time) => {
+                let beginDateVal = this.filters.column.create_end_date;
+                if (beginDateVal) {
+                    return time.getTime() > beginDateVal;
+                }
+            }
+            },
         pickerBeginDateAfter:{
           disabledDate: (time) => {
             let beginDateVal = this.filters.column.create_start_date;
@@ -204,12 +208,15 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+     selectParam(value){
+      this.queryAccountCode=value
+    },
     contractInquiryExpired () {
       var start = this.filters.column.create_start_date
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+      var requestVo ={ "accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getData (requestVo)
       this.inquiry = true
     },
@@ -260,7 +267,13 @@ export default {
   },
    created() {
     var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4'};
-    this.getData (requestVo)
+    this.getData (requestVo);
+    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+    server.queryContractLists(interfaceCode).then(res=>{
+      if(res.data.resultCode = 1){
+        this.options=res.data.dataList;
+      }
+    })
   }
 }
 </script>

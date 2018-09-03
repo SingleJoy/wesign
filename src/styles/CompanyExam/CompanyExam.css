@@ -6,7 +6,7 @@
     padding-bottom: 50px;
 }
 .main .first{
-    line-height: 60px;
+    height: 60px;
     padding-left: 28px;
     border-bottom: 1px solid #ccc;
 }
@@ -15,10 +15,10 @@
     font-weight: bold;
     color: #666;
 }
-.main .first span:nth-child(2){
+/* .main .first span:nth-child(2){
     color: #22a7ea;
     padding-left: 5px;
-}
+} */
 .main .second{
     line-height: 58px;
     border-bottom: 1px solid #ccc;
@@ -83,4 +83,15 @@
     white-space:nowrap;
     vertical-align: bottom;
 }
+.extension-btn{
+    float: right;
+    background: #22a7ea;
+    padding: 5px 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 15px;
+    cursor: pointer;
+  }
 
