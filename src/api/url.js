@@ -85,6 +85,14 @@ const service = {
             method:'get',
             params:''
         })
+    },
+    //获取详情页账户名
+    getAccountName(param,interfaceCode) {
+        return request({
+            url:'/api/v1.5/tenant/'+interfaceCode+'/getAccountName',
+            method:'get',
+            params:param
+        })
     }
 }
 export default service;

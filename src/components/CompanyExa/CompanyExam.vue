@@ -374,29 +374,37 @@ export default {
       }
     },
     backHome(){
-      // console.log("state"+cookie.getJSON('state'))
-      if(cookie.getJSON('tenant')[1].isBusiness != '0'){
-        if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'G'){
-          this.$router.push("/Home")
-        }else if(cookie.getJSON('state') == 'B'){
-          this.$router.push("/Mycontract")
-        }else if(cookie.getJSON('state') == 'H'){
-          this.$router.push("/Merchant")
-        }else{
-          this.$router.push("/CompanyContract")
+        // console.log("state"+cookie.getJSON('state'))
+        // console.log(cookie.getJSON('tenant')[1].isBusiness)
+        if(cookie.getJSON('tenant')[1].isBusiness != '0'){
+            if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'G'){
+            this.$router.push("/Home")
+            }else if(cookie.getJSON('state') == 'B'){
+            this.$router.push("/Mycontract")
+            }else if(cookie.getJSON('state') == 'H'){
+            this.$router.push("/Merchant")
+            }else{
+            this.$router.push("/CompanyContract")
+            }
         }
-      }
-    }
-  },
+        }
+    },
   created() {
     this.signMobile = cookie.getJSON('tenant')[0].mobile;
-    var contractNo = sessionStorage.getItem('contractNo')
+    var contractNo = sessionStorage.getItem('contractNo');
+    var accountLevel = sessionStorage.getItem('accountLevel');
     if (contractNo) {
       contractNo = JSON.parse(contractNo)
       this.ContractCode = contractNo;
       this.contractNo = contractNo;
     }
     this.seeContractDetails ()
+
+    //判断是不是二级账户如果是请求顶部显示部门姓名
+    if(accountLevel == 2){
+
+        // server.detailName()
+    }
   }
 }
 </script>

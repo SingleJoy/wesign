@@ -87,7 +87,7 @@ export const router = new Router({
       name: 'Forget',
       component: Forget,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -95,7 +95,7 @@ export const router = new Router({
       name: 'FoundUser',
       component: FoundUser,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {

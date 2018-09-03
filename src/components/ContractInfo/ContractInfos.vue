@@ -367,6 +367,7 @@ export default {
   created() {
     this.signMobile = cookie.getJSON('tenant')[0].mobile
     var contractNo = sessionStorage.getItem('contractNo')
+    var accountLevel = sessionStorage.getItem('accountLevel')
     if (contractNo) {
       contractNo = JSON.parse(contractNo)
       if ( this.$store.state.rowNumber == ''){
@@ -374,6 +375,11 @@ export default {
       }
     }
     this.seeContractDetails()
+    //判断是不是二级账户如果是请求顶部显示部门姓名
+    if(accountLevel == 2){
+        // let 
+        // server.getAccountName()
+    }
   }
 }
 </script>
