@@ -18,27 +18,27 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
 
                   <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10 :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10 disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="账户名称" :label-width="formLabelWidth" prop="userName">
-                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18 :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18 disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="ID">
-                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码"  :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码"  disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
-                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" :disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" disabled="disabled"></el-input>
                   </el-form-item>
 
 
@@ -270,14 +270,14 @@
         this.$router.push('/Account');
       },
 
-
       //提交事件
       submitBtn(formName){
+        this.server=false;
+        console.log(this.agree);
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
 
-            var pass = md5(this.ruleForm.password);
-
+            let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
 
@@ -285,19 +285,21 @@
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
-            // if (valid) {
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount ',{
+            let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
+            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
               idCode:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
+              accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
-              templates:templates                                //分配模板
+              templates:templates,                                //分配模板
+              flag:1                    //新增子账户0 编辑1
             },{emulateJSON: true}).then(res =>{
               if(res.data.resultCode=='1'){
                 this.$message({
-                  message: '恭喜你，添加二级账号成功',
+                  message: '恭喜你，二级账号编辑成功',
                   type: 'success'
                 });
               }else{

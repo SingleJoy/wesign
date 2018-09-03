@@ -93,6 +93,13 @@ export function validateDecimal(str){
     return reg.test(str)
 }
 
+// 校验公章防伪码必须是11位数字
+export function validateSeal(str){
+  const reg =/d{11}$/
+  return reg.test(str)
+}
+
+
 export  function Trim(str){
   return str.replace(/(^\s*)|(\s*$)/g, "");
 }

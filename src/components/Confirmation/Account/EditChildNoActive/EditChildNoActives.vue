@@ -273,11 +273,12 @@
 
       //提交事件
       submitBtn(formName){
+        this.server=false;
+        console.log(this.agree);
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
 
-            var pass = md5(this.ruleForm.password);
-
+            let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
 
@@ -285,19 +286,21 @@
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
-            // if (valid) {
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount ',{
+            let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
+            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
               idCode:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
+              accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
-              templates:templates                                //分配模板
+              templates:templates,                                //分配模板
+              flag:1                    //新增子账户0 编辑1
             },{emulateJSON: true}).then(res =>{
               if(res.data.resultCode=='1'){
                 this.$message({
-                  message: '恭喜你，添加二级账号成功',
+                  message: '恭喜你，二级账号编辑成功',
                   type: 'success'
                 });
               }else{
