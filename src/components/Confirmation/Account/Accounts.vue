@@ -69,8 +69,8 @@
                     <b>{{authName}}</b>
                   </div>
                   <!--<div class="right-line">-->
-                    <!--<span>证件号:</span>-->
-                    <!--<b>{{cardNumber}}</b>-->
+                  <!--<span>证件号:</span>-->
+                  <!--<b>{{cardNumber}}</b>-->
                   <!--</div>-->
                   <div class="right-line">
                     <span>有效起始时间:</span>
@@ -93,26 +93,28 @@
           <div class="border-bottom"></div>
           <div class="sign-content">
 
-            <div class="sign-picture">
+            <div class="sign-picture" v-if="tenantSeal">
               <!--合同章-->
               <img :src="[tenantSeal]" alt="合同章">
               <span>默认合同章</span>
 
             </div>
 
-            <div class="sign-picture" v-if="officeSeal">
+            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" v-for="item in officeSealList">
               <!--默认图片-->
               <!--<img src="../../../../static/images/Default/default-contrat-seal.png" >-->
-              <img :src="[officeSealUrl]" alt="签章图片">
+              <!--<img :src="[officeSealUrl]" alt="签章图片">-->
               <!--<img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">-->
-
+              <!--<img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+officeSealUrl" alt="签章图片">-->
+              <img :src="[item]" alt="签章图片">
             </div>
 
-            <div class="create-seal" else>
+            <div class="create-seal" v-if="!officeSeal">
               <!--生成公章-->
               <span>录入公章防伪码在线生成</span>
               <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
-              <input type="text" v-model="createSeal">
+
+              <el-input type="text" v-model="createSeal"  ></el-input>
               <a href="javascript:void(0);" @click="newSeal">生成公章</a>
             </div>
 
@@ -144,22 +146,51 @@
                     <b class="state" v-if="item.accountStatus=='2'">未激活</b>
                     <b class="state" v-if="item.accountStatus=='3'">已激活</b>
                     <b class="state" v-if="item.accountStatus=='4'">待完善</b>
-                    <b class="state" v-if="item.accountStatus=='5'">冻结</b>
+                    <b class="state" v-if="item.accountStatus=='5'">已冻结</b>
                   </li>
                   <li>
                     <span>可<span style="padding: 0 3px;"></span>用<span style="padding: 0 1px;"></span>模<span style="padding: 0 3px;"></span>板:</span>
                     <b><strong class="template-number">{{item.templateNum}}</strong>个</b>
                   </li>
                 </ul>
+
+                <!--<a class="finish" href="javascript:void(0)" @click="finish">完善</a>-->
+                <!--<a class="edit" href="javascript:void(0)" @click="edit">编辑</a>-->
+                <!--<a class="management" href="javascript:void(0)" @click="management">管理</a>-->
+                <!--<a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>-->
+                <!--<a class="thaw" href="javascript:void(0)" @click="thaw">解冻</a>-->
+
+
                 <div class="operate" v-if="item.accountStatus=='1'">
 
-                  <a class="management" href="javascript:void(0)" @click="management">管理</a>
-                  <a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>
+                  <a class="management" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">管理</a>
+                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
 
                 </div>
+                <div class="operate" v-if="item.accountStatus=='2'">
+
+                  <a class="management" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">管理</a>
+                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
+
+                </div>
+
+                <div class="operate" v-if="item.accountStatus=='3'">
+
+                  <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
+
+                  <a class="frozen" href="javascript:void(0)" @click=frozen(item.accountCode,item.accountStatus)">冻结</a>
+
+                </div>
+                <div class="operate" v-if="item.accountStatus=='4'">
+
+                  <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
+                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
+
+                </div>
+
                 <div class="operate" v-if="item.accountStatus=='5'">
 
-                  <a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>
+                  <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
 
                 </div>
               </div>
@@ -176,9 +207,9 @@
                   </div>
                 </div>
                 <span slot="footer" class="dialog-footer">
-                      <el-button @click="frozenDialogVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="frozenDialogVisible = false">确 定</el-button>
-                  </span>
+                  <el-button @click="frozenDialogVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="frozenDialogVisible = false">确 定</el-button>
+                </span>
               </el-dialog>
 
               <el-dialog
@@ -292,6 +323,7 @@
 </template>
 <script>
   import md5 from 'js-md5'
+  import {validateSeal,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
@@ -338,6 +370,7 @@
         }
       }
       return{
+        baseURL:this.baseURL.BASE_URL,
         mobile:'',
         Email:'',
         authName:'',
@@ -394,7 +427,7 @@
         userName:'',
         templateNum:'',
         userState:'',
-
+        officeSealList:[]  //公章列表
 
       }
     },
@@ -419,6 +452,8 @@
 
         }
       },
+
+
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -451,16 +486,60 @@
           }
         });
       },
-      // 生成签章
-      newSeal(){
-        var requestVo ={'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal};
-        this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal}).then(function (res) {
+
+      edit(accountCode,accountStatus){
+        sessionStorage.setItem("accountCode",accountCode);
+        if(accountStatus=='2'){
+          this.$router.push('EditChildNoActive');
+        }else if(accountStatus=='1') {
+          this.$router.push('EditChildAccount');
+        }
+      },
+      // 冻结{，解冻二级账户
+      frozen(accountCode,accountStatus){
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON("tenant")[1].interfaceCode+'updateAccountStatus',{
+          accountCode:accountCode ,  //账户编号
+          accountStatus:accountStatus,            //账户状态
+
+        }).then(function (res) {
           if(res.data.resultCode == '0'){
+            this.$alert('二级账户冻结/解冻失败', '提醒',{
+              confirmButtonText: '确定'
+            });
 
           } else {
-            this.officeSealUrl=res.data.signBadgePath;
+            this.$alert('二级账户冻结/解冻成功', '确定',{
+              confirmButtonText: '确定'
+            });
+
           }
         })
+      },
+      // 生成签章
+      newSeal(){
+
+        if(TrimAll(this.createSeal) == ''){
+          this.$alert('公章防伪码不能为空！','提示', {
+            confirmButtonText: '确定'
+          })
+
+        }else if((TrimAll(this.createSeal)!='')&&!validateSeal(this.createSeal)){
+          this.$alert('公章防伪码必须为11位数字！','提示', {
+            confirmButtonText: '确定'
+          })
+        }else if(validateSeal(this.createSeal)){
+          this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {params:{'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal}}).then(function (res) {
+            if(res.data.resultCode == '0'){
+
+            } else {
+              console.log(res.data.data);
+              this.officeSeal=true;
+              this.officeSealUrl=res.data.data;
+            }
+          })
+
+        }
+
       },
       companyRealName() {  //未通过状态
         this.finalRejection = true
@@ -591,13 +670,16 @@
       }
 
 
-      //意见（待定
-      // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
-      //   // this.auditOpinion=res.data.data;
-      //      console.log(res.data)
-      //   // this.toEnterprise = res.data.data.verifyMoneyNum
-      // })
-     //  // 查询证书
+      // 意见  待定
+      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
+        // this.auditOpinion=res.data.data;
+        if(res.data.resultCode=='1'){
+
+        }
+
+        // this.toEnterprise = res.data.data.verifyMoneyNum
+      })
+      //  // 查询证书
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
@@ -608,7 +690,7 @@
           this.effectiveEndTime=res.data.data.certificateDueTime;
         }
       });
-     //  账户信息
+      //  账户信息
       let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
 
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
@@ -626,43 +708,29 @@
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
 
         if(res.data.resultCode=='1'){
-          // let list=[]
-		  //
-          // for(let i=0;i<res.data.dataList.length;i++){
-          //   list.push(res.data.dataList[i])
-          //   // list[i].userName=res.data.dataList[i].userName
-          //   // list[i].AccountMobile=res.data.dataList[i].AccountMobile
-          //   // list[i].userState=res.data.dataList[i].AccountMobile
-          // }
-          this.accountList=res.data.dataList;
 
+          this.accountList=res.data.dataList;
 
         }
 
       });
 
-     //  //获取合同章
+      //获取合同章
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/getSignatures').then(function (res) {
-
+        let arrayList=[]
         if(res.data.resultCode == '0'){
           this.$router.push('/Server')
         } else {
-
           this.tenantSeal=res.data.dataList[0].signaturePath;
+          for(let i=1;i<res.data.dataList.length;i++){
+            arrayList.push(res.data.dataList[i].signaturePath)
+          }
         }
+        this.officeSealList=arrayList;
+        console.log(arrayList)
 
       });
-	 //
-      // //获取二级账户集合查询
-      // this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/secondAccounts').then(function (res) {
-	 //
-      //   if(res.data.resultCode == '0'){
-      //     this.$router.push('/Server')
-      //   } else {
-      //       console.log()
-      //   }
-	 // //
-      // });
+
 
     },
   }

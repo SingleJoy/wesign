@@ -115,13 +115,13 @@
                       <p> 2)管理本子账号发起的合同（查看、下载、延期）；</p>
 
                       <p>在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合，谢谢！</p>
-
-                      <p>被授权人签名：{{ruleForm.accountName}}</p>
-
-                      <p> 公司名称：{{enterpriseName}}</p>
-
-                      <p> 日    期：{{data}}</p>
                       <br/>
+                      <p>被授权人签名：</p>
+                      <br/>
+                      <p> 公司名称：{{enterpriseName}}</p>
+                      <br/>
+                      <p> 日    期:</p>
+
                     </div>
                   </div>
 
@@ -134,7 +134,7 @@
 
               <div class="buttons">
                 <a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>
-                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)">提交</a>
+                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</a>
               </div>
             </div>
           </div>
@@ -281,6 +281,7 @@
             { required: true, validator: validateChildMobile, trigger: 'blur' }
           ],
         },
+        once:false , //提交按钮不可重复点击
       }
     },
     methods: {
@@ -302,9 +303,10 @@
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
 
-            let pass = md5(this.ruleForm.password);
-            let batchTemplate=JSON.stringify(this.batchTemplate);
-            let singleTemplate=JSON.stringify(this.singleTemplate);
+             this.once=true;//提交按钮不可重复点击
+            let pass = md5(this.ruleForm.password); //密码MD5加密
+            let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
+            let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
 
             // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
@@ -319,7 +321,8 @@
               password:pass,                 //密码
               accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
-              templates:templates                                //分配模板
+              templates:templates,                                //分配模板
+              flag:0                    //新增子账户0 编辑1
             },{emulateJSON: true}).then(res =>{
               if(res.data.resultCode=='1'){
                 this.$message({
@@ -348,8 +351,7 @@
 
     },
     created() {
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList")
-        .then(function(res) {
+      this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList").then(function(res) {
           let data=res.data;
           let singleArray=[];
           let batchArray=[];
@@ -359,13 +361,10 @@
               singleArray.push(data[i]);
             }else {
               batchArray.push(data[i]);
-
             }
           }
-
           this.single=singleArray;
           this.batch=batchArray;
-
 
         });
     }
