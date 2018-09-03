@@ -77,8 +77,15 @@ const service = {
             method:'get',
             params:param
         })
+    },
+    //筛选查询合同列表
+    queryContractLists(interfaceCode) {
+        return request({
+            url:'/api/v1.5/tenant/'+interfaceCode+'/getAccounts',
+            method:'get',
+            params:''
+        })
     }
-
 }
 export default service;
 

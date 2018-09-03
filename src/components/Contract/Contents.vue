@@ -125,33 +125,32 @@ export default {
     }
   },
   created() {
+
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
-
+    console.log(contractNo)
     if (contractName) {
-      contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
+         contractName = JSON.parse(contractName)
+    //   if ( this.$store.state.contractName1 == ''){
+    //     this.$store.state.contractName1 = contractName
+    //   }
     }
     if (contractNo) {
       contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
+    //   if ( this.$store.state.contractNo1 == ''){
+    //     this.$store.state.contractNo1 = contractNo
+    //   }
     }
-    // console.log(contractNo,"图片")
     this.$loading.show(); //显示
     var data =[]
-    //  console.log(this.$store.state.contractNo1)
     let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+contractNo+'/contractimgs'
     let urlPic = process.env.API_HOST+'v1/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signature'
     this.$http.get(url).then(function (res) {
       if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
-      /*获取后台数据，并使用imgArray*/
 
+      /*获取后台数据，并使用imgArray*/
       for(var i=0;i<res.data.length;i++){
         var contractUrl = res.data[i].contractUrl
         data[i] = contractUrl
@@ -242,10 +241,6 @@ export default {
       var contractNo = sessionStorage.getItem('contractNo');
       if (contractNo) {
           contractNo = JSON.parse(contractNo)
-          // if ( this.$store.state.contractNo1 == ''){
-          //   this.$store.state.contractNo1 = contractNo
-          // }
-          console.log(contractNo, "坐标")
       }
       this.contSignImg = true
       if (this.flag == true){

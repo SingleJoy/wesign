@@ -128,8 +128,8 @@ export default {
               let accountLevel = response.data.dataList[0][0].accountLevel;
               let accountStatus = response.data.dataList[0][0].accountStatus;
                   sessionStorage.setItem("enterpriseName", enterpriseName);
-                  sessionStorage.setItem('accountCode',JSON.stringify(accountCode))  
-                  sessionStorage.setItem('accountLevel',JSON.stringify(accountLevel))  
+                  sessionStorage.setItem('accountCode',accountCode);  
+                  sessionStorage.setItem('accountLevel',accountLevel);  
 							let param={
 								mobile:this.ruleForm.username,
 								// accountCode:accountCode?accountCode:''
@@ -246,8 +246,13 @@ export default {
     sessionStorage.removeItem("mobile");
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("userCode");
-    document.documentElement.style.fontSize =
-      document.documentElement.clientWidth / 120 + "px";
+    sessionStorage.removeItem("accountCode");
+    sessionStorage.removeItem("accountLevel");
+    sessionStorage.removeItem("authorizerCode");
+    sessionStorage.removeItem("companyList");
+    cookie.remove('tenant')
+
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
     window.onresize = function temp() {
       document.documentElement.style.fontSize =
         document.documentElement.clientWidth / 120 + "px";

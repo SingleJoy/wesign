@@ -189,7 +189,7 @@ export default {
       this.dialogTableVisible = true
     },
     downloadClick () {
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.$store.state.rowNumber;
+      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+this.contractNo;
       var download = document.createElement('a');
       document.body.appendChild(download)
       download.setAttribute('href',url);
@@ -205,7 +205,7 @@ export default {
     },
     seeContractSign(){
       var data =[];
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.rowNumber;
+      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
       this.$http.get(url).then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -324,11 +324,13 @@ export default {
     this.signMobile = cookie.getJSON('tenant')[0].mobile;
     // console.log(cookie.getJSON('tenant'),this.signMobile)
     var contractNo = sessionStorage.getItem('contractNo')
-    if (contractNo) {
-      contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.rowNumber == ''){
-        this.$store.state.rowNumber = contractNo
-      }
+    if(contractNo){
+        contractNo = JSON.parse(contractNo);
+        this.contractNo = contractNo
+        if ( this.$store.state.rowNumber == ''){
+            this.$store.state.rowNumber = contractNo;
+            this.contractNo = contractNo
+        }
     }
     this.seeContractSign()
   }

@@ -2,14 +2,14 @@
 	<div class='InquiryWaitMe'>
 		<div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
 			<input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal1" :maxlength = 50>
-			<el-select v-model="value" placeholder="请选择账号类型">
-				<el-option
-					v-for="item in options"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value">
-				</el-option>
-			</el-select>
+			 <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
+                <el-option
+                    v-for="item in options"
+                    :key="item.accountCode"
+                    :label="item.accountName"
+                    :value="item.accountCode">
+                </el-option>
+            </el-select>
 			<span id='text'>发起时间：</span>
 			<el-date-picker
 				style='width:140px;margin-right:20px'
@@ -107,26 +107,30 @@
 <script>
 import cookie from "@/common/js/getTenant";
 import moment from "moment";
+import server from "@/api/url";
 export default {
   name: "InquiryWaitMe",
   data() {
     return {
-      currentPage1: 1,
-      value8: "",
-      value9: "",
-      tableData2: [],
-      num: "",
-      loading: true,
-      inputVal1: "",
-      checked: false,
-      inquiry: false,
-      auditStatus: "",
-      filters: {
-        column: {
-          create_start_date: null,
-          create_end_date: null
-        }
-      },
+        queryAccountCode:"",
+        value:'',
+        options:[],
+        currentPage1: 1,
+        value8: "",
+        value9: "",
+        tableData2: [],
+        num: "",
+        loading: true,
+        inputVal1: "",
+        checked: false,
+        inquiry: false,
+        auditStatus: "",
+        filters: {
+            column: {
+            create_start_date: null,
+            create_end_date: null
+            }
+        },
       pickerBeginDateBefore: {
         disabledDate: time => {
           let beginDateVal = this.filters.column.create_end_date;
@@ -245,6 +249,9 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+     selectParam(value){
+      this.queryAccountCode=value
+    },
     contractInquiryWaitMe() {
       if (this.checked == true) {
         var perpetualValid = "1";
@@ -268,6 +275,7 @@ export default {
           .slice(0, 10);
       }
       var requestVo = {
+        "accountCode":this.queryAccountCode,
         contractName: this.inputVal1,
         queryTimeStart: start,
         queryTimeEnd: end,
@@ -335,6 +343,12 @@ export default {
     this.auditStatus = cookie.getJSON("tenant")[1].auditStatus;
     var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "1" };
     this.getData(requestVo);
+    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+    server.queryContractLists(interfaceCode).then(res=>{
+      if(res.data.resultCode = 1){
+        this.options=res.data.dataList;
+      }
+    })
   }
 };
 </script>

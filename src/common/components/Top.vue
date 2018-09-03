@@ -189,6 +189,7 @@ export default {
         Type:{contractType:'0'},
         uploadFile:true,
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         tabIndex:''
       }
     },
@@ -197,10 +198,10 @@ export default {
         this.popup =!this.popup
       },
       urlloadUrl(){
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
       uploadUrl(){
-        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
       handleChange (name) {
         this.$loading.show();

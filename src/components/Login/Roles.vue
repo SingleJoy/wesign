@@ -90,7 +90,7 @@
 									</span>
 
 									<div class="info-content">
-										<p class="subcompany-name">{{item.enterpriseName}}&nbsp;&nbsp;&nbsp;/<span>({{item.personName}})</span></p>
+										<p class="subcompany-name">{{item.enterpriseName}}&nbsp;&nbsp;&nbsp;/<span>({{item.accountName}})</span></p>
 										<div class="sign_info">
 											<span class="dot dot-waitme"></span>
 											<span>待我签署</span>
@@ -151,14 +151,11 @@ import cookie from '@/common/js/getTenant'
 	},
     methods: {
 		loginEnter(item){
-			console.log(item)
 
-			sessionStorage.setItem('accountCode',JSON.stringify(item.accountCode))        //账户编号
-			sessionStorage.setItem('accountLevel',JSON.stringify(item.accountLevel))      //账号类型一二级
-			sessionStorage.setItem('authorizerCode',JSON.stringify(item.authorizerCode))      	//授权人编号
-			sessionStorage.setItem('mobile',JSON.stringify(item.mobile))      				  //手机号
-
-
+			sessionStorage.setItem('accountCode',item.accountCode);      //账户编号
+			sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
+			sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
+			sessionStorage.setItem('mobile',item.mobile);      				  //手机号
 			let params = {
 				mobile:item.mobile,
 				// accountCode:item.accountCode?item.accountCode:''

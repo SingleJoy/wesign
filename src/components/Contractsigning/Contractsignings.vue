@@ -222,6 +222,7 @@
         imgList:[],
         isNext:false,//下一步按钮
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         ruleForm: {
           signUserName: '',
           idCard: '',
@@ -493,7 +494,7 @@
         //更换合同时传旧合同编号从session里取
         var contractNo = sessionStorage.getItem('contractNo');
         contractNo = JSON.parse(contractNo)
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?accountCode=${this.accountCode}`
       },
       nextStepFit () { //下一步
         var firstText = document.getElementById('firstText').value

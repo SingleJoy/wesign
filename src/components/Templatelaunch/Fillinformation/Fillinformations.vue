@@ -132,9 +132,8 @@ export default {
   created() {
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
-    var accountCode = Json.parse(sessionStorage.getItem('accountCode'));
+    var accountCode = sessionStorage.getItem('accountCode');
     if (templateName) {
-      templateName = JSON.parse(templateName)
       if ( this.$store.state.templateName == ''){
         this.$store.state.templateName = templateName
       }
@@ -267,9 +266,9 @@ export default {
           })
            this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
            this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
-           sessionStorage.setItem('templateName', JSON.stringify(this.$store.state.templateName))
-           sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-           sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+           sessionStorage.setItem('templateName', this.$store.state.templateName)
+           sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+           sessionStorage.setItem('contractNo', contractNo)
            this.$router.push('/Signaturesetting')
         } else {
           this.$message({

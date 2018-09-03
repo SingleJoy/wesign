@@ -280,6 +280,7 @@
         hasClick:false,
         ContractNumber:'',
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         operateType:'',
         pickerOptions0: {
           disabledDate(time) {
@@ -295,7 +296,7 @@
       urlloadUrl(){
         var contractNo = sessionStorage.getItem('contractNo');
 		        contractNo = JSON.parse(contractNo)
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?=accountCode=${this.accountCode}`
       },
       handleChange (name,file) {
         this.nextBtn = true;

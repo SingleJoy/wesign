@@ -1,12 +1,31 @@
 <template>
   <div class='CompanyExam'>
       <div class='main'>
-          <p class='first' style="display: inherit;">
+          <!-- <p class='first' style="display: inherit;">
             <span>我的合同</span>
             <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
             <span v-else style="padding-right: 75%;">>合同详情</span>
             <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-          </p>
+            <span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+          </p> -->
+           <div class='first' style="display: inherit;">
+                <p style="line-height: 60px;float: left;">
+                    <span>我的合同</span>
+                    <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+                    <span style="color:#22a7ea" v-else> >合同详情</span>
+                </p>
+            
+                <p id="sign-icon" v-if="accountLevel==2">
+                <span class="department">财务部</span>
+                <span>张丽华</span>
+                </p>
+
+                <p>
+                    <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+                    <span  v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+                </p>
+           
+          </div>
           <p class='second'>
              <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
              <span class='text'>
@@ -81,7 +100,8 @@
                 width="170"
                 >
                 <template slot-scope="scope">
-                  <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" ' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" ' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode'>签&nbsp;&nbsp;署</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -103,11 +123,33 @@
       </div>
   </div>
 </template>
-<style>
+<style lang="scss">
   .back-home{
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
+  .main .first #sign-icon{
+        background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+        height: 70px;
+        width:58px;
+        position: absolute;
+        text-align: center;
+        display: inline-block;
+        margin-top: -10px;
+        margin-left:20px;
+        span{
+            color:#fff;
+            font-size: 12px;
+            padding-left: 0;
+        }
+        .department{
+            font-size: 14px;
+            display: block;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+    }
   .currentStep .el-step__icon{
     color:#22a7ea;
   }
@@ -155,19 +197,21 @@ export default {
   name: 'CompanyExam',
   data() {
     return {
-      baseURL:this.baseURL.BASE_URL,
-      tableData2: [],
-      contractNo:'',
-      contractName:'',
-      validTime:'',
-      status:'',
-      createType:'',
-      dialogTableVisible: false,
-      imgList:[],
-      signMobile:'',
-      History:[],
-      businessScenario:'',
-      ContractCode:'',
+        baseURL:this.baseURL.BASE_URL,
+        tableData2: [],
+        contractNo:'',
+        contractName:'',
+        accountLevel:'',
+        validTime:'',
+        status:'',
+        createType:'',
+        dialogTableVisible: false,
+        imgList:[],
+        signMobile:'',
+        History:[],
+        businessScenario:'',
+        ContractCode:'',
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
     };
   },
   methods: {
@@ -297,6 +341,31 @@ export default {
         }
       })
     },
+    //延期
+    extensionClick(){
+        if (this.contractType == "0") {
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          cookie.set("state", "E");
+          this.$router.push("/CompanyExc");
+        } else {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          cookie.set("state", "D");
+          this.$router.push("/ContractDelay");
+        }
+    },
+    signClick(){
+        //签署
+        if (this.contractType == "0") {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          this.$router.push("/Dimension");
+        } else {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          this.$router.push("/Contract");
+        }
+    },
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return 'background:#efefef;font-weight:bold;'
@@ -324,7 +393,8 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
     if (contractNo) {
       contractNo = JSON.parse(contractNo)
-      this.ContractCode = contractNo
+      this.ContractCode = contractNo;
+      this.contractNo = contractNo;
     }
     this.seeContractDetails ()
   }
@@ -332,4 +402,5 @@ export default {
 </script>
 <style scoped>
   @import "../../styles/CompanyExam/CompanyExam.css";
+
 </style>

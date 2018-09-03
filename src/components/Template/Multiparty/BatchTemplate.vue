@@ -13,7 +13,7 @@
             </div>
             <div class="line"></div> 
 			<div class="template-list">
-				<ul>
+				<ul v-if="tableData.length>0">
 					<li v-for="(item,index) in tableData" :key="index" >
 						<div class="contract-box">
 							<div class="contract-content">
@@ -23,7 +23,7 @@
 								<div class="content-right">
 									<h3>{{item.templateName}}</h3>
 								
-									<p class="item-name">
+									<p v-if="accountLevel==1" class="item-name">
 										<span class="initiator item-default">绑定账号：</span>
 										<span class="initiator">{{item.Character}}</span>
 									</p>
@@ -52,6 +52,12 @@
 						<div class="line"></div>
 					</li>
 				</ul>
+        <ul v-else style="text-align: center;margin-top: 100px;">
+							<li class="no-data">
+								<img src="../../../../static/images/blank.png" alt="">
+								<p>暂无数据</p>
+							</li>
+          </ul>
 				<div class='pagetion'>
 					<el-pagination
 					@size-change="handleSizeChange"
@@ -93,7 +99,8 @@ export default {
       num:'',
       inputTempBatch:'',
       query:false,
-      show:false
+      show:false,
+      accountLevel:sessionStorage.getItem("accountLevel")
     };
   },
   methods: {
@@ -167,11 +174,6 @@ export default {
       }
       var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
       this.getTemplateList (templateInfoRequest)
-      this.$message({
-        showClose: true,
-        message: '查询成功',
-        type: 'success'
-      })
       this.query = true
       this.show = true
     }
