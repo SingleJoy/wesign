@@ -40,7 +40,7 @@
 									</div>
 								</div>
 								<p class="item-right"><span  @click="loginEnter(item)">进入</span></p>
-									
+
 							</li>
 						</ul>
 						<ul v-else>
@@ -101,10 +101,10 @@
 											<span>待他人签署</span>
 											<p style="color: #84a2d4">{{item.waitForOtherSign}}</p>
 										</div>
-										
+
 									</div>
 								</div>
-								<p class="item-right"><span v-if="item.accountStatus!=5&&item.accountStatus!=6" @click="loginEnter(item)">进入</span></p>	
+								<p class="item-right"><span v-if="item.accountStatus!=5&&item.accountStatus!=6" @click="loginEnter(item)">进入</span></p>
 							</li>
 						</ul>
 						<ul v-else>
@@ -114,16 +114,16 @@
 							</li>
 						</ul>
 					</div>
-					
+
               </div>
-             
+
             </div>
         </div>
     </div>
     </div>
-    
-   
-    
+
+
+
   </div>
 </template>
 
@@ -195,10 +195,10 @@ import cookie from '@/common/js/getTenant'
 					})
 				})
 			}
-		},   
+		},
     },
     mounted(){
-     
+
     }
   }
 </script>
@@ -285,7 +285,7 @@ import cookie from '@/common/js/getTenant'
 								transform: rotate(45deg);
 								right: 10px;
 								top: 30px;
-								
+
 								font-size: 14px;
 							}
 							.active{
@@ -326,7 +326,7 @@ import cookie from '@/common/js/getTenant'
 									margin-top:10px;
 								}
 							}
-						}  
+						}
 						.item-right{
 							float: right;
 							display: inline-block;
@@ -441,7 +441,7 @@ import cookie from '@/common/js/getTenant'
 									margin-top:10px;
 								}
 							}
-						}  
+						}
 						.item-right{
 							float: right;
 							display: inline-block;
@@ -465,11 +465,11 @@ import cookie from '@/common/js/getTenant'
 					}
 				}
 			}
-			
+
 	  	}
     }
   }
-    
-  
+
+
 
 </style>

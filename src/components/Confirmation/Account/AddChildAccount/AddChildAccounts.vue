@@ -82,7 +82,6 @@
                 <!--</div>-->
               </div>
 
-
             </div>
 
             <div class="agreement-content" >
@@ -100,23 +99,29 @@
                 width="30%"
                 center>
                 <div class="dialog-container">
-                  <div class="dialog-header">单位授权书范本</div>
+
                   <div class="dialog-body">
                     <div class="content">
 
+                      <p style="text-align: center;font-size: 16px;font-weight: bold;">电子合同子账号管理认证授权书</p>
+
+                      <br/>
                       <p>致：北京众签科技有限公司</p>
 
-                      兹授权我公司员工：<span ></span>，身份证号：<span ></span> ，性别：男  ，去贵单位办理关于的一切相关事宜。
-                      在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合!谢谢
+                      <p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.accountName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>
 
-                      授权期限：（授权人填充）
+                      <p> 1)可以签署本子账号发起的合同，不能签署主账号和其他子账号的待签署的合同；</p>
 
-                      被授权人签名：（手写签名）
+                      <p> 2)管理本子账号发起的合同（查看、下载、延期）；</p>
 
-                      公司名称：*******（自动填充）
+                      <p>在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合，谢谢！</p>
 
-                      日    期：2018-07-13（当前日期）
+                      <p>被授权人签名：{{ruleForm.accountName}}</p>
 
+                      <p> 公司名称：{{enterpriseName}}</p>
+
+                      <p> 日    期：{{data}}</p>
+                      <br/>
                     </div>
                   </div>
 
@@ -205,18 +210,22 @@
           callback(new Error('手机号格式错误'))
         } else {
           let params = {
-            username: this.ruleForm.username
+            username: this.ruleForm.mobile
           };
-          server.verficate(params).then(res => {
-            if (res.data === 0) {
-              this.password='';
-              this.dis=true;
-            } else {
-              callback(new Error("此用户不存在"));
-            }
-          }).catch(error => {
+          if(this.server){
+            server.verficate(params).then(res => {
+              if (res.data === 0) {
+                this.ruleForm.password="test111111";
+                this.dis=true;
 
-          });
+              } else {
+
+              }
+            }).catch(error => {
+
+            })
+          }
+          callback()
         }
       }
       //校验邮箱
@@ -231,6 +240,7 @@
       }
 
       return{
+        server:true,
         ruleForm: {
           accountName:'',  //管理员姓名
           userName:'',//账户名称
@@ -250,6 +260,7 @@
         dialogAgreement:false, //点击同意协议协议弹窗,
         interfaceCode:cookie.getJSON("tenant")[1].interfaceCode, //cookie里存储interfaceCode
         dis:false,
+        enterpriseName:sessionStorage.getItem("enterpriseName"),  //企业名称
         rules:{
           accountName: [
             { required: true, validator: validateAccountName, trigger: 'blur' }
@@ -273,9 +284,11 @@
       }
     },
     methods: {
+
       changEvent(){
 
       },
+
       // 取消
       quit(formName){
         this.$refs[formName].resetFields();
@@ -284,15 +297,12 @@
 
       //提交事件
       submitBtn(formName){
+        this.server=false;
+        console.log(this.agree);
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
-            if(this.dis){
-              return pass='';
-            }else {
-              return pass = md5(this.ruleForm.password);
-            }
-            console.log(pass)
 
+            let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
 
@@ -300,13 +310,14 @@
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
-            // if (valid) {
+            let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
             this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
               idCode:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
+              accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates                                //分配模板
             },{emulateJSON: true}).then(res =>{
@@ -427,6 +438,9 @@
     padding-left: 10px;
     color: #22a7ea;
     cursor: pointer;
+  }
+  .content>p{
+    line-height: 30px;
   }
 
 </style>

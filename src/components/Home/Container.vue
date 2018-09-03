@@ -71,7 +71,7 @@
           <a href="javascript:void(0);" @click='jump'>查看更多>></a>
         </div>
 
-        <div class='table' style="clear: both;width: ">
+        <div class='table' style="clear: both;">
           <el-table
             :header-cell-style="getRowClass"
             v-loading="loading"
@@ -184,7 +184,7 @@
   export default {
     name: "Container",
     methods: {
-    
+
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return "background:#f5f5f5;text-align:center;font-weight:bold;";
@@ -468,9 +468,9 @@
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
       let interfaceCode = this.interfaceCode;
-      var requestVo = { 
-        pageNo: "1", 
-        pageSize: "7", 
+      var requestVo = {
+        pageNo: "1",
+        pageSize: "7",
         contractStatus: "0" ,
         accountCode:accountCode,
         accountLevel:accountLevel,
