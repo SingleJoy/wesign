@@ -86,12 +86,19 @@ export const router = new Router({
       path: '/Forget',
       name: 'Forget',
       component: Forget,
+
+      meta: {
+        auth: false
+      }
     },
     {
       path: '/FoundUser',
       name: 'FoundUser',
       component: FoundUser,
 
+      meta: {
+        auth: false
+      }
     },
     {
       path: '/Role',

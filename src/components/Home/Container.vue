@@ -571,9 +571,11 @@
     -moz-transform: scale(1.08);
   }
   .contract-sign{
-    position: absolute;
+    /* position: absolute; */
     left:0;
     top:5px;
+    float: left;
+    margin-right:5px;
   }
   .view {
     width: 100%;
