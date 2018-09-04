@@ -583,7 +583,7 @@ export default {
     }
     if ( type == 'back'){
       this.operate = true
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type}}).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type,"accountCode":sessionStorage.getItem('accountCode')}}).then(function (res) {
         var perpetualValid = res.data.perpetualValid;
         var validTime = res.data.validTime;
         var list = res.data.list!=null?res.data.list:[];

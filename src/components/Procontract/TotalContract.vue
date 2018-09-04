@@ -119,44 +119,45 @@ import server from "@/api/url";
 export default {
   data() {
     return {
-      currentPage: 1,
-      value8: '',
-      value9: '',
-      tableData2: [],
-      num: '',
-      value:'',
-      options:[],
-      queryAccountCode:'',
-      options:[],
-      loading: true,
-      inputVal:'',
-      checked:false,
-      inquiry:false, // 查询标示
-      auditStatus:'',
-      filters: {
-        column: {
-            create_start_date: null,
-            create_end_date: null
+        accountCode:sessionStorage.getItem('accountCode'),
+        currentPage: 1,
+        value8: '',
+        value9: '',
+        tableData2: [],
+        num: '',
+        value:'',
+        options:[],
+        queryAccountCode:'',
+        options:[],
+        loading: true,
+        inputVal:'',
+        checked:false,
+        inquiry:false, // 查询标示
+        auditStatus:'',
+        filters: {
+            column: {
+                create_start_date: null,
+                create_end_date: null
+            },
         },
-      },
-      pickerBeginDateBefore:{
-        disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_end_date;
-            if (beginDateVal) {
-                return time.getTime() > beginDateVal;
+        pickerBeginDateBefore:{
+            disabledDate: (time) => {
+                let beginDateVal = this.filters.column.create_end_date;
+                if (beginDateVal) {
+                    return time.getTime() > beginDateVal;
+                }
             }
-          }
-        },
-      pickerBeginDateAfter:{
-        disabledDate: (time) => {
-          let beginDateVal = this.filters.column.create_start_date;
-          if (beginDateVal) {
-              return time.getTime() < beginDateVal;
-          }
+            },
+        pickerBeginDateAfter:{
+            disabledDate: (time) => {
+            let beginDateVal = this.filters.column.create_start_date;
+            if (beginDateVal) {
+                return time.getTime() < beginDateVal;
+            }
+            }
         }
-      }
-    }
-  },
+        }
+    },
   methods: {
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
@@ -182,6 +183,7 @@ export default {
           obj.contractStatus =  res.data.content[i].contractStatus;
           obj.validTime =  res.data.content[i].validTime
           obj.contractType = res.data.content[i].contractType
+          obj.operator = res.data.content[i].operator
           obj.operation = ''
           switch (obj.contractStatus){
             case "1":
@@ -306,6 +308,7 @@ export default {
     server.queryContractLists(interfaceCode).then(res=>{
       if(res.data.resultCode = 1){
         this.options=res.data.dataList;
+        this.options.unshift({accountCode:'',accountName:'全部'})
       }
     })
   }

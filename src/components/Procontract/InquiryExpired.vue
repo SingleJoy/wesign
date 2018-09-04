@@ -107,6 +107,7 @@ export default {
   name:'InquiryExpired',
   data() {
     return {
+        accountCode:sessionStorage.getItem('accountCode'),
         queryAccountCode:"",
         value:'',
         options:[],
@@ -159,7 +160,8 @@ export default {
           obj.signers =  res.data.content[i].signers;
           obj.contractStatus =  res.data.content[i].contractStatus;
           obj.validTime =  res.data.content[i].validTime;
-          obj.contractType = res.data.content[i].contractType
+          obj.contractType = res.data.content[i].contractType;
+          obj.operator = res.data.content[i].operator;
           obj.operation = ''
           switch (obj.contractStatus){
             case "1":
@@ -272,6 +274,7 @@ export default {
     server.queryContractLists(interfaceCode).then(res=>{
       if(res.data.resultCode = 1){
         this.options=res.data.dataList;
+        this.options.unshift({accountCode:'',accountName:'全部'})
       }
     })
   }

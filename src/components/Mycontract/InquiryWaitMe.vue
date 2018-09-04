@@ -88,12 +88,12 @@
         width="190"
         >
         <template slot-scope="scope">
-          <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
+          <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
+          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
           <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-          <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater ' >延&nbsp;&nbsp;期</el-button>
+          <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater && accountCode == scope.row.operator ' >延&nbsp;&nbsp;期</el-button>
           <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
           </template>
       </el-table-column>
@@ -123,41 +123,42 @@ export default {
   name:'InquiryWaitMe',
   data() {
     return {
-      options: [],
-      queryAccountCode:"",
-		  value:'',
-      currentPage1: 1,
-      value8:  '',
-      value9: "",
-      tableData2: [],
-      num: '',
-      loading: true,
-      inputVal1:'',
-      checked:false,
-      inquiry:false,
-        filters: {
-          column: {
-              create_start_date:null,
-              create_end_date:null
-          },
-        },
-        pickerBeginDateBefore:{
-          disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_end_date;
-            if (beginDateVal) {
-                return time.getTime() > beginDateVal;
+        options: [],
+        queryAccountCode:"",
+        value:'',
+        accountCode:sessionStorage.getItem('accountCode'),
+        currentPage1: 1,
+        value8:  '',
+        value9: "",
+        tableData2: [],
+        num: '',
+        loading: true,
+        inputVal1:'',
+        checked:false,
+        inquiry:false,
+            filters: {
+            column: {
+                create_start_date:null,
+                create_end_date:null
+            },
+            },
+            pickerBeginDateBefore:{
+            disabledDate: (time) => {
+                let beginDateVal = this.filters.column.create_end_date;
+                if (beginDateVal) {
+                    return time.getTime() > beginDateVal;
+                }
             }
-          }
-        },
-        pickerBeginDateAfter:{
-          disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_start_date;
-            if (beginDateVal) {
-                return time.getTime() < beginDateVal;
+            },
+            pickerBeginDateAfter:{
+            disabledDate: (time) => {
+                let beginDateVal = this.filters.column.create_start_date;
+                if (beginDateVal) {
+                    return time.getTime() < beginDateVal;
+                }
             }
         }
-      }
-    }
+        }
   },
   methods: {
     getRowClass({ row, column, rowIndex, columnIndex }) {
@@ -189,6 +190,7 @@ export default {
           obj.signers =  res.data.content[i].signers;
           obj.validTime =  res.data.content[i].validTime;
           obj.contractStatus =  res.data.content[i].contractStatus;
+          obj.operator = res.data.content[i].operator
           obj.isCreater = isCreater;
           obj.operation = ''
           switch (obj.contractStatus){
@@ -326,6 +328,7 @@ export default {
     server.queryContractLists(interfaceCode).then(res=>{
       if(res.data.resultCode = 1){
         this.options=res.data.dataList;
+        this.options.unshift({accountCode:'',accountName:'全部'})
       }
     })
   }

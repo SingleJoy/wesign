@@ -117,6 +117,7 @@ export default {
   data() {
     return {
         queryAccountCode:"",
+        accountCode:sessionStorage.getItem('accountCode'),
         value:'',
         options:[],
         currentPage3: 1,
@@ -174,6 +175,7 @@ export default {
             obj.contractStatus = res.data.content[i].contractStatus;
             obj.validTime = res.data.content[i].validTime;
             obj.contractType = res.data.content[i].contractType;
+            obj.operator = res.data.content[i].operator;
             obj.operation = "";
             switch (obj.contractStatus) {
               case "1":
@@ -349,6 +351,7 @@ export default {
     server.queryContractLists(interfaceCode).then(res=>{
       if(res.data.resultCode = 1){
         this.options=res.data.dataList;
+        this.options.unshift({accountCode:'',accountName:'全部'})
       }
     })
   }

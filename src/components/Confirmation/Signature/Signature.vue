@@ -534,29 +534,36 @@
         }
 
         this.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/contract/'+contractNo+'/setting',{
-          operateType:this.operateType, //操作类型(回显)
-          signInterfaceCode:this.signInterfaceCode, //签署企业编号
-          signTenantName:this.enterpriseName, //对手方企业名称
-          tenantName:this.companyName, //签署企业名称
-          userCode:this.userCode, //签署企业授权人编号
-          userName:TrimAll(this.analogueName), //签署企业授权人名称
-          mobile:this.analogueMobile, //授权人手机号
-          email:TrimAll(this.analogueEmail), //授权人邮箱
-          handleUserName:this.handleUserName,//经办人姓名
-          handleMobile:this.handleMobile,//经办人手机号
-          handleEmail:TrimAll(this.handleEmail),//经办人邮箱
-          contractName:TrimAll(this.input), //合同名称
-          perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
-          validTime:this.date //签署截止时间
+            accountCode:sessionStorage.getItem('accountCode'),
+            operateType:this.operateType, //操作类型(回显)
+            signInterfaceCode:this.signInterfaceCode, //签署企业编号
+            signTenantName:this.enterpriseName, //对手方企业名称
+            tenantName:this.companyName, //签署企业名称
+            userCode:this.userCode, //签署企业授权人编号
+            userName:TrimAll(this.analogueName), //签署企业授权人名称
+            mobile:this.analogueMobile, //授权人手机号
+            email:TrimAll(this.analogueEmail), //授权人邮箱
+            handleUserName:this.handleUserName,//经办人姓名
+            handleMobile:this.handleMobile,//经办人手机号
+            handleEmail:TrimAll(this.handleEmail),//经办人邮箱
+            contractName:TrimAll(this.input), //合同名称
+            perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
+            validTime:this.date //签署截止时间
         },{emulateJSON: true}).then(res =>{
 
-          if(res.data.resultCode == '1'){
-            this.$router.push('/Place')
-          }else if(res.data.resultCode == '-1'){
-             this.$alert(res.data.resultMessage,'提示', {
-            confirmButtonText: '确定'
-          })
-          }
+            if(res.data.resultCode == '1'){
+                this.$router.push('/Place')
+            }else if(res.data.resultCode == '-1'){
+                this.$alert(res.data.resultMessage,'提示', {
+                    confirmButtonText: '确定'
+                })
+            }else{
+                this.$message({
+                    showClose: true,
+                    message: res.data.resultMessage,
+                    type: 'warning'
+                })
+            }
         })
       },
       lookContractImg (){
@@ -566,21 +573,21 @@
         var contractNo = sessionStorage.getItem('contractNo');
 		        contractNo = JSON.parse(contractNo)
 
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.dataList.length;i++) {
-        let contractUrl = res.data.dataList[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            for (let i = 0; i < res.data.dataList.length;i++) {
+            let contractUrl = res.data.dataList[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
 
-        }
-      })
-      this.dialogVisible = true
-      },
+            }
+        })
+        this.dialogVisible = true
+        },
     },
     created() {
       var contractName = sessionStorage.getItem('contractName');

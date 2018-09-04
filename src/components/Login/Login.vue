@@ -122,20 +122,33 @@ export default {
 						})
 						.then(response => {
 							var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
-							var enterpriseName = response.data.dataList[0][0].enterpriseName;
-							var mobile = response.data.dataList[0][0].mobile;
-                            let accountCode = response.data.dataList[0][0].accountCode;
-                            let accountLevel = response.data.dataList[0][0].accountLevel;
-                            let accountStatus = response.data.dataList[0][0].accountStatus;
-                                sessionStorage.setItem("enterpriseName", enterpriseName);
-                                sessionStorage.setItem('accountCode',accountCode);  
-                                sessionStorage.setItem('accountLevel',accountLevel);  
 							let param={
 								mobile:this.ruleForm.username,
 								// accountCode:accountCode?accountCode:''
 							};
 							let urlParam =  response.data.dataList[0][0].interfaceCode;
 							if (stateCode == "1") {
+                                if(response.data.dataList[0].length>0){
+                                    var enterpriseName = response.data.dataList[0][0].enterpriseName;
+                                    var mobile = response.data.dataList[0][0].mobile;
+                                    let accountCode = response.data.dataList[0][0].accountCode;
+                                    let accountLevel = response.data.dataList[0][0].accountLevel;
+                                    let accountStatus = response.data.dataList[0][0].accountStatus;
+                                    sessionStorage.setItem("enterpriseName", enterpriseName);
+                                    sessionStorage.setItem('accountCode',accountCode);  
+                                    sessionStorage.setItem('accountLevel',accountLevel);  
+
+                                }else{
+                                    var enterpriseName = response.data.dataList[1][0].enterpriseName;
+                                    var mobile = response.data.dataList[1][0].mobile;
+                                    let accountCode = response.data.dataList[1][0].accountCode;
+                                    let accountLevel = response.data.dataList[1][0].accountLevel;
+                                    let accountStatus = response.data.dataList[1][0].accountStatus;
+                                    sessionStorage.setItem("enterpriseName", enterpriseName);
+                                    sessionStorage.setItem('accountCode',accountCode);  
+                                    sessionStorage.setItem('accountLevel',accountLevel);  
+                                }
+                                
                                 if(accountStatus==2){
                                     this.$router.push('/ActivateChildAccount');
                                 }else{
