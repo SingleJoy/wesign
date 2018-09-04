@@ -86,6 +86,7 @@ export const router = new Router({
       path: '/Forget',
       name: 'Forget',
       component: Forget,
+
       meta: {
         auth: false
       }
@@ -94,6 +95,7 @@ export const router = new Router({
       path: '/FoundUser',
       name: 'FoundUser',
       component: FoundUser,
+
       meta: {
         auth: false
       }
@@ -335,7 +337,7 @@ export const router = new Router({
       name: 'Enterprise',
       component: Enterprise,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -387,7 +389,10 @@ export const router = new Router({
     {
       path: '/ActivateChildAccount',
       name: 'ActivateChildAccount',
-      component: ActivateChildAccount
+      component: ActivateChildAccount,
+      meta: {
+        auth: false
+      }
     },
     {
       path: '/PersonWait',

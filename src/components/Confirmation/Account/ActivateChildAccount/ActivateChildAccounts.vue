@@ -96,6 +96,7 @@
       }
 
       return {
+        baseURL:this.baseURL.BASE_URL,
         dialogAgreement:false,  //验证码弹窗
         ruleForm: {
           code: '',         //验证码
@@ -239,7 +240,7 @@
                 this.resubmit = true
                 this.$message({
                   type: 'info',
-                  message: '取消签署'
+                  message: '取消'
                 });
               }
             }
@@ -310,17 +311,21 @@
       }
     },
     created(){
+
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
-      let  requestNo={'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
-      this.$http.get(process.env.API_HOST + "v1.5/user/getAuthBookImg",
-        {params:requestNo}).then(function(res){
+      let interfaceCode=sessionStorage.getItem("interfaceCode");
+      
 
+      let  requestNo={'interfaceCode':interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
+      this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
+        console.log(res.data)
       })
-      let contractNo=accountCode;
-      let qrUrl =process.env.API_HOST+'v1.4/user/contract'+contractNo+'/user'+cookie.getJSON("tenant")[1].interfaceCode+'/getSignatureImg';
-      this.$http.get(qrUrl).then(function (res) {
-        this.qrSignImg = res.bodyText
+
+
+      let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
+      this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
+        console.log(res.data)
       });
 
       let that = this

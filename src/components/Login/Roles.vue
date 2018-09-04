@@ -94,7 +94,7 @@
 										<div class="sign_info">
 											<span class="dot dot-waitme"></span>
 											<span>待我签署</span>
-											<p style="color: #a0d8ef">{{item.waitForMeSign?item.waitForMeSign:0}}</p>
+											<p style="color: #a0d8ef">{{item.waitForMeSign}}</p>
 										</div>
 										<div class="sign_info">
 											<span class="dot dot-waitother"></span>
@@ -104,7 +104,7 @@
 
 									</div>
 								</div>
-								<p class="item-right"><span v-if="item.accountStatus==2||item.accountStatus == 3" @click="loginEnter(item)">进入</span></p>
+								<p class="item-right"><span v-if="item.accountStatus!=5&&item.accountStatus!=6" @click="loginEnter(item)">进入</span></p>
 							</li>
 						</ul>
 						<ul v-else>
@@ -156,7 +156,8 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
 			sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
 			sessionStorage.setItem('mobile',item.mobile);      				  //手机号
-			sessionStorage.setItem('interfaceCode',item.interfaceCode);      //账户编号
+			sessionStorage.setItem('interfaceCode',item.interfaceCode);
+
 			let params = {
 				mobile:item.mobile,
 				// accountCode:item.accountCode?item.accountCode:''
@@ -330,7 +331,7 @@ import cookie from '@/common/js/getTenant'
 						}
 						.item-right{
 							float: right;
-							// display: inline-block;
+							display: inline-block;
 							line-height: 172px;
 							width: 138px;
 							height:172px;
@@ -445,7 +446,7 @@ import cookie from '@/common/js/getTenant'
 						}
 						.item-right{
 							float: right;
-							// display: inline-block;
+							display: inline-block;
 							color: #22a7ea;
 							line-height: 172px;
 							width: 138px;

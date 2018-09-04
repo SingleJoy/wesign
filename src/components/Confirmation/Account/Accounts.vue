@@ -146,10 +146,14 @@
                     <b class="state" v-if="item.accountStatus=='2'">未激活</b>
                     <b class="state" v-if="item.accountStatus=='3'">已激活</b>
                     <b class="state" v-if="item.accountStatus=='4'">待完善</b>
-                    <b class="state" v-if="item.accountStatus=='5'">已冻结</b>
+                    <b class="state" v-if="item.accountStatus=='5'">永久冻结</b>
+                    <b class="state" v-if="item.accountStatus=='6'">已冻结</b>
                   </li>
                   <li>
-                    <span>可<span style="padding: 0 3px;"></span>用<span style="padding: 0 1px;"></span>模<span style="padding: 0 3px;"></span>板:</span>
+                    <span>可
+                      <span style="padding: 0 3px;"></span>用
+                      <span style="padding: 0 1px;"></span>
+                      模<span style="padding: 0 3px;"></span>板:</span>
                     <b><strong class="template-number">{{item.templateNum}}</strong>个</b>
                   </li>
                 </ul>
@@ -170,7 +174,7 @@
                 <div class="operate" v-if="item.accountStatus=='2'">
 
                   <a class="management" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">管理</a>
-                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
+
 
                 </div>
 
@@ -184,11 +188,15 @@
                 <div class="operate" v-if="item.accountStatus=='4'">
 
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
-                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
+
+                </div>
+                <div class="operate" v-if="item.accountStatus=='5'">
+
+                  <div><span>该账号验证次数过多，无法继续使用</span></div>
 
                 </div>
 
-                <div class="operate" v-if="item.accountStatus=='5'">
+                <div class="operate" v-if="item.accountStatus=='6'">
 
                   <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
 
@@ -236,7 +244,6 @@
           </div>
           <!--accountDefault  没有二级子账号-->
           <div class="right" v-if="accountDefault">
-
             <!--Q1-->
             <div class="question">
               <a href="javascript:void(0)" class="serial-number" style="background-color: #79b6ef;">
@@ -247,7 +254,6 @@
                     子账号是企业管理员开通授权，使用手机号登录，可发起合同、管理合同
               </span>
             </div>
-
             <!--Q2-->
             <div class="question">
               <a href="javascript:void(0)" class="serial-number" style="background-color:  #d69856;">
@@ -269,7 +275,6 @@
                      </span>
                   </span>
             </div>
-
             <!--Q3-->
             <div class="question">
               <a href="javascript:void(0)" class="serial-number" style="background-color: #59c6a1;">
@@ -427,7 +432,8 @@
         userName:'',
         templateNum:'',
         userState:'',
-        officeSealList:[]  //公章列表
+        officeSealList:[],  //公章列表,
+        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode  //interfaceCode
 
       }
     },
@@ -440,6 +446,7 @@
         this.$refs[formName].resetFields();
         this.centerDialogVisible = false
       },
+
       realName() {
         if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
@@ -453,7 +460,7 @@
         }
       },
 
-
+       // 修改密码
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -488,7 +495,8 @@
       },
 
       edit(accountCode,accountStatus){
-        sessionStorage.setItem("accountCode",accountCode);
+        var accountCode1=accountCode;
+        sessionStorage.setItem("accountCode",accountCode1);
         if(accountStatus=='2'){
           this.$router.push('EditChildNoActive');
         }else if(accountStatus=='1') {
@@ -497,21 +505,34 @@
       },
       // 冻结{，解冻二级账户
       frozen(accountCode,accountStatus){
-        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON("tenant")[1].interfaceCode+'updateAccountStatus',{
+        var accountStatus=accountStatus=3?6:3;
+
+
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'updateAccountStatus',{
           accountCode:accountCode ,  //账户编号
           accountStatus:accountStatus,            //账户状态
 
         }).then(function (res) {
-          if(res.data.resultCode == '0'){
-            this.$alert('二级账户冻结/解冻失败', '提醒',{
+          if((res.data.resultCode == '0')&&(accountStatus=='6')){
+            this.$alert('二级账户冻结失败', '提醒',{
               confirmButtonText: '确定'
             });
 
-          } else {
-            this.$alert('二级账户冻结/解冻成功', '确定',{
+          } else if((res.data.resultCode == '0')&&(accountStatus=='3')){
+            this.$alert('二级账户解冻失败', '提醒',{
               confirmButtonText: '确定'
             });
 
+          }else if((res.data.resultCode == '1')&&(accountStatus=='6')){
+
+            this.$alert('二级账户冻结成功', '确定',{
+              confirmButtonText: '确定'
+            });
+
+          }else if((res.data.resultCode == '0')&&(accountStatus=='6')){
+            this.$alert('二级账户解冻', '确定',{
+              confirmButtonText: '确定'
+            });
           }
         })
       },
@@ -528,7 +549,7 @@
             confirmButtonText: '确定'
           })
         }else if(validateSeal(this.createSeal)){
-          this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {params:{'interfaceCode':cookie.getJSON("tenant")[1].interfaceCode,'securityCode':this.createSeal}}).then(function (res) {
+          this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {params:{'interfaceCode':this.interfaceCode,'securityCode':this.createSeal}}).then(function (res) {
             if(res.data.resultCode == '0'){
 
             } else {
@@ -591,15 +612,8 @@
       edit(){
         this.$router.push('/EditChildAccount')
       },
-      //管理子账号
-      management(){
 
-      },
-      //冻结子账号
-      frozen(){
-        this.frozenDialogVisible=true
 
-      },
       //解冻子账号
       thaw(){
         this.thawDialogVisible=true
@@ -671,7 +685,7 @@
 
 
       // 意见  待定
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/auditStatus').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/auditStatus').then(function (res) {
         // this.auditOpinion=res.data.data;
         if(res.data.resultCode=='1'){
 
@@ -680,7 +694,7 @@
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
       //  // 查询证书
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getCertificate').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ this.interfaceCode + '/getCertificate').then(function (res) {
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
@@ -691,18 +705,18 @@
         }
       });
       //  账户信息
-      let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
-
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
-        if(res.data.resultCode=='1'){
-
-          this.account=res.data.data.mobile
-          this.account=res.data.data.accountName
-          this.Email=res.data.data.email
-          this.account=res.data.data.enterpriseName
-          this.authName=res.data.data.authorizerName
-        }
-      })
+      let accountCode=sessionStorage.getItem("accountCode");
+	  //
+      // this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
+      //   if(res.data.resultCode=='1'){
+	  //
+      //     this.account=res.data.data.mobile;
+      //     this.account=res.data.data.accountName;
+      //     this.Email=res.data.data.email;
+      //     this.account=res.data.data.enterpriseName;
+      //     this.authName=res.data.data.authorizerName;
+      //   }
+      // })
 
       // 子账户信息
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
@@ -710,16 +724,19 @@
         if(res.data.resultCode=='1'){
 
           this.accountList=res.data.dataList;
+          console.log(this.accountList);
 
+        }if(res.data.resultCode=='0'){
+            this.accountDefault=true;
         }
 
       });
 
       //获取合同章
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/getSignatures').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
         let arrayList=[]
         if(res.data.resultCode == '0'){
-          this.$router.push('/Server')
+         
         } else {
           this.tenantSeal=res.data.dataList[0].signaturePath;
           for(let i=1;i<res.data.dataList.length;i++){

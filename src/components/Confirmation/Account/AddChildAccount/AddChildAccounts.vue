@@ -16,12 +16,12 @@
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
 
-                  <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
+                  <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="userName">
+                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
                   </el-form-item>
 
-                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="userName">
-                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
                   </el-form-item>
 
                   <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
@@ -299,7 +299,7 @@
       //提交事件
       submitBtn(formName){
         this.server=false;
-        console.log(this.agree);
+        let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
 
@@ -312,16 +312,18 @@
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
-            let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
+            let accountCode=sessionStorage.getItem("accountCode")
+
             this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
-              accountName:this.ruleForm.accountName ,  //管理员姓名
-              userName:this.ruleForm.userName,            //账户名称
-              idCode:this.ruleForm.idCode,                  //省份证号
+              accountName:this.ruleForm.accountName ,  //  账户姓名
+              userName:this.ruleForm.userName,            //管理员名称
+              idCard:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
               accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates,                                //分配模板
+              company_name:enterpriseName,             //企业名称
               flag:0                    //新增子账户0 编辑1
             },{emulateJSON: true}).then(res =>{
               if(res.data.resultCode=='1'){

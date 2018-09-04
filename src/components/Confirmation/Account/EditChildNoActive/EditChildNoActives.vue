@@ -131,7 +131,7 @@
 
               <div class="buttons">
                 <a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>
-                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)">提交</a>
+                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</a>
               </div>
             </div>
           </div>
@@ -258,6 +258,7 @@
             { required: true, validator: validateChildMobile, trigger: 'blur' }
           ],
         },
+        once:false    //按钮单次点击
       }
     },
     methods: {
@@ -274,10 +275,10 @@
       //提交事件
       submitBtn(formName){
         this.server=false;
-        console.log(this.agree);
+
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
-
+            this.once=true;
             let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
@@ -286,7 +287,7 @@
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
-            let accountCode=JSON.parse(sessionStorage.getItem("accountCode"))
+            let accountCode=sessionStorage.getItem("accountCode");
             this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
