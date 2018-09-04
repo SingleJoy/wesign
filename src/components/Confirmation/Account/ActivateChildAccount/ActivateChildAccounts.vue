@@ -111,7 +111,7 @@
         },
         clickOnce:false,
         contractSignImg:'',
-        smsNoVer:'',  // 短信编码
+        // smsNoVer:'',  // 短信编码
         qrSignImg:'',
         smsCodeNum:0,
         smsNo:false,
@@ -190,6 +190,10 @@
               that.smsNo = false
               that.repeat = false
 
+              this.$alert(res.data.resultMessage,'提示', {
+                confirmButtonText: '确定'
+              })
+
             }
           })
         }
@@ -236,92 +240,110 @@
       submitForm(formName){
 
         this.$refs[formName].validate((valid) => {
-          let accountCode=sessionStorage.getItem("accountCode");
-          let authorizerCode=sessionStorage.getItem("authorizerCode");
-          let signatureImg=this.canvasTest
-          let requestNo = {
-            'authorizerCode': authorizerCode,
-            'mobile': this.mobile,
-            'smsNo': this.smsNoVer,
-            'appID': this.appID,
-            'smsCode': this.smsCode,
-            'signatureImg':signatureImg,
-            'accountCode':accountCode,
-          };
-          this.$http.get(process.env.API_HOST + 'v1.5//user/SignAuthbook', {params: requestNo}).then(function (res) {
-              console.log(res.data)
+          let accountCode = sessionStorage.getItem("accountCode");
+          let authorizerCode = sessionStorage.getItem("authorizerCode");
+          let signatureImg = this.canvasTest;
 
-          })
-        })
-      },
-
-      submitBtn() {
-        if(this.resubmit == true){
-          this.resubmit = false
-
-          const h = this.$createElement;
-          this.$msgbox({
-            title: '提示',
-            message: h('p', null, [
-              h('span', null, '是否确定要提交？ '),
-              h('i', { style: 'color: teal' }, '')
-            ]),
-            center:true,
-            showCancelButton: true,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            beforeClose: (action, instance, done) => {
-              if (action === 'confirm') {
-                instance.confirmButtonLoading = true;
-                instance.confirmButtonText = '执行中...';
-                setTimeout(() => {
-                  this.submitContract();
-                  done();
-                  setTimeout(() => {
-                    instance.confirmButtonLoading = false;
-                  }, 50);
-                }, 100);
-              } else {
-                done();
-                this.resubmit = true
+          this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+            params: {
+              'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
+            }
+          }).then(res => {
+            if (res.data.resultCode != 1) {
+              if (this.sms == true) {
                 this.$message({
-                  type: 'info',
-                  message: '取消'
-                });
+                  showClose: true,
+                  message: res.data.resultMessage,
+                  type: 'error'
+                })
               }
-            }
-          })
-        }
-      },
-      submitContract () { //确认签署
-        this.$loading.show(); //显示
-        let accountCode=sessionStorage.getItem("accountCode");
-        let authorizerCode=sessionStorage.getItem("authorizerCode");
+            } else {
+              this.$http.post(process.env.API_HOST + 'v1.5//user/SignAuthbook', {
+                'authorizerCode': authorizerCode,
+                'mobile': this.mobile,
+                'smsNo': this.smsNoVer,
+                'appId': this.appId,
+                'smsCode': this.ruleForm.smsCode,
+                'signatureImg': signatureImg,
+                'accountCode': accountCode,
+              }, {emulateJSON: true}).then(function (res) {
+                console.log(res.data)
 
-        let url = process.env.API_HOST+'v1.5/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'activateAccount';
-        this.$http.post(url,{
-          'accountCode':accountCode,
-          'authorizerCode': authorizerCode,
-
-        },{emulateJSON: true}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-            if (res.data.resultCode == 1){
-              // this.centerDialogVisible = false
-              this.$message({
-                showClose: true,
-                message: '子账号激活成功！',
-                type: 'success'
               })
-              this.$loading.hide(); //隐藏
-
-              this.$router.push('/Home');
             }
-          }
+
+          })
+
         })
+
       },
-      pollingPanel(timer) { //轮询手写面板
+      // submitBtn() {
+      //   if(this.resubmit == true){
+      //     this.resubmit = false
+	  //
+      //     const h = this.$createElement;
+      //     this.$msgbox({
+      //       title: '提示',
+      //       message: h('p', null, [
+      //         h('span', null, '是否确定要提交？ '),
+      //         h('i', { style: 'color: teal' }, '')
+      //       ]),
+      //       center:true,
+      //       showCancelButton: true,
+      //       confirmButtonText: '确定',
+      //       cancelButtonText: '取消',
+      //       beforeClose: (action, instance, done) => {
+      //         if (action === 'confirm') {
+      //           instance.confirmButtonLoading = true;
+      //           instance.confirmButtonText = '执行中...';
+      //           setTimeout(() => {
+      //             this.submitContract();
+      //             done();
+      //             setTimeout(() => {
+      //               instance.confirmButtonLoading = false;
+      //             }, 50);
+      //           }, 100);
+      //         } else {
+      //           done();
+      //           this.resubmit = true
+      //           this.$message({
+      //             type: 'info',
+      //             message: '取消'
+      //           });
+      //         }
+      //       }
+      //     })
+      //   }
+      // },
+      // submitContract(){ //确认签署
+      //   this.$loading.show(); //显示
+      //   let accountCode=sessionStorage.getItem("accountCode");
+      //   let authorizerCode=sessionStorage.getItem("authorizerCode");
+	  //
+      //   let url = process.env.API_HOST+'v1.5/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'activateAccount';
+      //   this.$http.post(url,{
+      //     'accountCode':accountCode,
+      //     'authorizerCode': authorizerCode,
+	  //
+      //   },{emulateJSON: true}).then(function (res) {
+      //     if(res.data.sessionStatus == '0'){
+      //       this.$router.push('/Server')
+      //     } else {
+      //       if (res.data.resultCode == 1){
+      //         // this.centerDialogVisible = false
+      //         this.$message({
+      //           showClose: true,
+      //           message: '子账号激活成功！',
+      //           type: 'success'
+      //         })
+      //         this.$loading.hide(); //隐藏
+	  //
+      //         this.$router.push('/Home');
+      //       }
+      //     }
+      //   })
+      // },
+      pollingPanel(timer){ //轮询手写面板
 
 
         let accountCode = sessionStorage.getItem('accountCode');
