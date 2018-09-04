@@ -100,13 +100,13 @@
 
             </div>
 
-            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" v-for="(item,index) in officeSealList" :key="index">
+            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" >
               <!--默认图片-->
               <!--<img src="../../../../static/images/Default/default-contrat-seal.png" >-->
               <!--<img :src="[officeSealUrl]" alt="签章图片">-->
               <!--<img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">-->
               <!--<img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+officeSealUrl" alt="签章图片">-->
-              <img :src="[item]" alt="签章图片">
+              <img :src="[officeSealUrl]" alt="签章图片">
             </div>
 
             <div class="create-seal" v-if="!officeSeal">
@@ -545,17 +545,28 @@
           })
 
         }else if((TrimAll(this.createSeal)!='')&&!validateSeal(this.createSeal)){
-          this.$alert('公章防伪码必须为11位数字！','提示', {
+          this.$alert('公章防伪码必须为13位数字！','提示', {
             confirmButtonText: '确定'
           })
         }else if(validateSeal(this.createSeal)){
           this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {params:{'interfaceCode':this.interfaceCode,'securityCode':this.createSeal}}).then(function (res) {
-            if(res.data.resultCode == '0'){
+            if(res.data.resultCode == '1'){
+              this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
 
-            } else {
-              console.log(res.data.data);
-              this.officeSeal=true;
-              this.officeSealUrl=res.data.data;
+                if(res.data.resultCode == '1'){
+                  if(res.data.dataList[1].signaturePath){
+                    this.officeSeal=true
+                    this.officeSealUrl=res.data.dataList[1].signaturePath;
+                  }else {
+                    this.officeSeal=false
+                  }
+                } else{
+                  this.$alert('生成公章失败！','提示', {
+                    confirmButtonText: '确定'
+                  })
+                }
+
+              });
             }
           })
 
@@ -707,16 +718,17 @@
       //  账户信息
       let accountCode=sessionStorage.getItem("accountCode");
 	  //
-      // this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
-      //   if(res.data.resultCode=='1'){
-	  //
-      //     this.account=res.data.data.mobile;
-      //     this.account=res.data.data.accountName;
-      //     this.Email=res.data.data.email;
-      //     this.account=res.data.data.enterpriseName;
-      //     this.authName=res.data.data.authorizerName;
-      //   }
-      // })
+      console.log(accountCode)
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
+        if(res.data.resultCode=='1'){
+
+          this.account=res.data.data.mobile;
+          this.account=res.data.data.accountName;
+          this.Email=res.data.data.email;
+          this.account=res.data.data.enterpriseName;
+          this.authName=res.data.data.authorizerName;
+        }
+      })
 
       // 子账户信息
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
@@ -736,15 +748,18 @@
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
         let arrayList=[]
         if(res.data.resultCode == '0'){
-         
+
         } else {
           this.tenantSeal=res.data.dataList[0].signaturePath;
-          for(let i=1;i<res.data.dataList.length;i++){
-            arrayList.push(res.data.dataList[i].signaturePath)
+          if(res.data.dataList[1].signaturePath){
+            this.officeSeal=true
+            this.officeSealUrl=res.data.dataList[1].signaturePath;
+          }else {
+            this.officeSeal=false
           }
+
         }
-        this.officeSealList=arrayList;
-        console.log(arrayList)
+
 
       });
 
