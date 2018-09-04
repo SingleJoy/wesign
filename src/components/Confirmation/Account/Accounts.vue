@@ -705,17 +705,17 @@
       });
       //  账户信息
       let accountCode=sessionStorage.getItem("accountCode");
-
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
-        if(res.data.resultCode=='1'){
-
-          this.account=res.data.data.mobile;
-          this.account=res.data.data.accountName;
-          this.Email=res.data.data.email;
-          this.account=res.data.data.enterpriseName;
-          this.authName=res.data.data.authorizerName;
-        }
-      })
+	  //
+      // this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
+      //   if(res.data.resultCode=='1'){
+	  //
+      //     this.account=res.data.data.mobile;
+      //     this.account=res.data.data.accountName;
+      //     this.Email=res.data.data.email;
+      //     this.account=res.data.data.enterpriseName;
+      //     this.authName=res.data.data.authorizerName;
+      //   }
+      // })
 
       // 子账户信息
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
@@ -725,6 +725,8 @@
           this.accountList=res.data.dataList;
           console.log(this.accountList);
 
+        }if(res.data.resultCode=='0'){
+            this.accountDefault=true;
         }
 
       });
@@ -733,7 +735,7 @@
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
         let arrayList=[]
         if(res.data.resultCode == '0'){
-          this.$router.push('/Server')
+         
         } else {
           this.tenantSeal=res.data.dataList[0].signaturePath;
           for(let i=1;i<res.data.dataList.length;i++){
