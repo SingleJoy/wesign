@@ -147,15 +147,17 @@
 </template>
 <script>
 
-  import Account from "../Account"
+  import Account from "../Account"    //返回或者编辑成功跳转到我的账户页面
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
+  import EditChildNoActive from "../EditChildNoActive/EditChildNoActive" //添加失敗跳转到编辑二级账号页面
   export default {
     name: 'AddChildAccounts',
     component:{
-      Account
+      Account,
+      EditChildNoActive
     },
     data() {
       // 校验二级账号姓名
@@ -331,12 +333,14 @@
                   message: '恭喜你，添加二级账号成功',
                   type: 'success'
                 });
+                this.$router.push("/Account");
               }else{
                 this.$message({
                   showClose: true,
                   message: res.data.resultMessage,
                   type: 'error'
                 })
+                this.$router.push("/EditChildNoActive");
               }
             })
 

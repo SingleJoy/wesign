@@ -50,6 +50,7 @@ import Account from '../components/Confirmation/Account/Account.vue'            
 import AddChildAccount from '../components/Confirmation/Account/AddChildAccount/AddChildAccount.vue'                              //我的账户->新增二级账户(签章，账号管理)
 import EditChildAccount from '../components/Confirmation/Account/EditChildAccount/EditChildAccount.vue'                              //我的账户->编辑二级账户(签章，账号管理)
 import ActivateChildAccount from '../components/Confirmation/Account/ActivateChildAccount/ActivateChildAccount.vue'                //我的账户->激活二级账户(签章，账号管理)
+import NoReal from '../components/Confirmation/Account/NoReal/NoReal.vue'                //我的账户->账户未激活(签章，账号管理)
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
 import Signature from '../components/Confirmation/Signature/Signature.vue'                        //企业签署设置
@@ -368,6 +369,14 @@ export const router = new Router({
       path: '/Account',
       name: 'Account',
       component: Account,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/NoReal',
+      name: 'NoReal',
+      component: NoReal,
       meta: {
         auth: true
       }

@@ -279,6 +279,7 @@
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
             this.once=true;
+
             let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);

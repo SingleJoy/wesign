@@ -55,7 +55,7 @@
                   </el-form-item>
 
                   <div class="forget-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 200px;">提&nbsp;&nbsp;交</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 200px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
                   </div>
                 </el-form>
               </el-dialog>
@@ -113,6 +113,7 @@
         smsCodeNum:0,
         smsNo:false,
         repeat:false,
+        once:false,
       }
     },
     methods:{
@@ -315,7 +316,7 @@
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
       let interfaceCode=sessionStorage.getItem("interfaceCode");
-      
+
 
       let  requestNo={'interfaceCode':interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
