@@ -8,7 +8,7 @@
         <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
         <router-link to='/Procontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
         <router-link to='/BuyProduct' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
+        <router-link v-if="accountLevel!=2" to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
         <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
@@ -163,7 +163,8 @@ export default {
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        accountLevel:sessionStorage.getItem("accountLevel")
       }
     },
     created(){
