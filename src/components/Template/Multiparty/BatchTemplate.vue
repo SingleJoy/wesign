@@ -17,47 +17,61 @@
 					<li v-for="(item,index) in tableData" :key="index" >
 						<div class="contract-box">
 							<div class="contract-content">
-								<div class="content-left">
+								<div class="content-left" @click="previewContract(item)">
+                                    <img  style="height: 270px; width: 180px;" v-if="item.imgs" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.imgs[0]" alt="" />
 									<p>{{item.templateName}}</p>
 								</div>
 								<div class="content-right">
 									<h3>{{item.templateName}}</h3>
 								
-									<p v-if="accountLevel==1" class="item-name">
-										<span class="initiator item-default">绑定账号：</span>
-										<span class="initiator">{{item.Character}}</span>
-									</p>
-									<p class="item-name">
-										<span class="initiator item-default">累计发起：</span>
-										<span class="initiator-total"><span class="total-num">{{item.total}}</span>次</span>
-									</p>
+								    <p class="item-name">
+                                        <span class="initiator item-default">合同方：</span>
+                                        <span class="initiator">{{item.signatory}}&nbsp;&nbsp;方</span>
+                                    </p>
+                                    <p v-if="accountLevel==1" class="item-name">
+                                        <span class="initiator item-default">绑定账号：</span>
+                                        <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
+                                            <span class="initiator">{{acountItem[accountIndex]}}</span>
+                                        </span>
+                                        <span>{{'——'}}</span>
+                                     
+                                    </p>
+                                    <p class="item-name">
+                                        <span class="initiator item-default">累计发起：</span>
+                                        <span class="initiator-total"><span class="total-num">{{item.usedNum}}</span>&nbsp;&nbsp;&nbsp;次</span>
+                                    </p>
 									<p class="item-name upload-time">
 										<span class="initiator item-default">上传时间：</span>
 										<span class="initiator">{{item.tempalateDate}}</span>
 									</p>
 									<p>
-										<span class="item-option">
+										<span  @click="previewContract(item)" class="item-option">
 											<img src="../../../../static/images/Multiparty/see.png" alt="">
-											<span>在线预览</span>
+                                            <span>在线预览</span>
 										</span>
 										
-										<span class="item-option">
+										<span @click="generateClick(item)" class="item-option">
 											<img src="../../../../static/images/Multiparty/creater.png" alt="">
-											<span @click="generateClick(item)">立即发起</span>
+											<span >立即发起</span>
 										</span>
 									</p>
 								</div>
 							</div>
 						</div>
+                        <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='contract-info'>
+                            <div v-for="(itemImg,indexImg) in item.imgs" :key="indexImg" >
+                            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+itemImg" alt="" style='width:100%;'>
+                            </div>
+                        </el-dialog>
 						<div class="line"></div>
 					</li>
 				</ul>
-        <ul v-else style="text-align: center;margin-top: 100px;">
-							<li class="no-data">
-								<img src="../../../../static/images/blank.png" alt="">
-								<p>暂无模板</p>
-							</li>
-          </ul>
+                <ul v-else style="text-align: center;margin-top: 100px;">
+                    <li class="no-data">
+                        <img src="../../../../static/images/blank.png" alt="">
+                        <p>暂无模板</p>
+                    </li>
+                </ul>
 				<div class='pagetion'>
 					<el-pagination
 					@size-change="handleSizeChange"
@@ -91,97 +105,115 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
+import server from '@/api/url.js'
 export default {
-  data() {
-    return {
-      tableData: [],
-      currentPage: 1,
-      num:'',
-      inputTempBatch:'',
-      query:false,
-      show:false,
-      accountLevel:sessionStorage.getItem("accountLevel")
-    };
-  },
-  methods: {
-    getRowClass({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex == 0) {
-        return "background:#f5f5f5;text-align:center;font-weight:bold;";
-      } else {
-        return "";
-      }
+    data() {
+        return {
+            tableData: [],
+            currentPage: 1,
+            num:'',
+            inputTempBatch:'',
+            query:false,
+            baseURL:this.baseURL.BASE_URL,
+            show:false,
+            dialogTableVisible:false,
+            accountLevel:sessionStorage.getItem("accountLevel")
+        };
     },
-    handleSizeChange(val) {
-      //console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      if ( this.queryTempBatch !== '') {
-        if(this.query == true){
-          var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
-          this.getTemplateList (templateInfoRequest)
-        }else{
-          var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
-          this.getTemplateList (templateInfoRequest)
-        }
-      } else {
-        var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
-        this.getTemplateList (templateInfoRequest)
-      }
-    },
-    generateClick(row){
-      this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
-      this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
-      sessionStorage.setItem('templateName', JSON.stringify(row.templateName))
-      sessionStorage.setItem('templateNo', JSON.stringify(row.templateNo))
-      sessionStorage.setItem('templateGenre',JSON.stringify(row.templateGenre))
-      this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
-    },
-    getTemplateList (templateInfoRequest) {
-      var data =[];
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templates';
-      this.$http.get(url, {params: templateInfoRequest}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
+    methods: {
+        previewContract(value){
+            let list = this.tableData
+            list.map(function(item,index){
+                if(value.templateNo==item.templateNo){
+                    item.dialogTableVisible = true;
+                }
+            })
+            this.tableData = list;
+            console.log(list)
+        },
+        getRowClass({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex == 0) {
+            return "background:#f5f5f5;text-align:center;font-weight:bold;";
         } else {
-        for (let i = 0; i < res.data.contents.length;i++) {
-          var obj = {}
-          obj.templateNo = res.data.contents[i][1]
-          obj.templateName = res.data.contents[i][3]
-          obj.templateGenre = res.data.contents[i][6]
-          obj.tempalateDate = res.data.contents[i][7]
-          obj.signatory = res.data.contents[i][8]
-           if (obj.signatory == '' || obj.signatory == null){
-            obj.signatory = ''
-          } else {
-            obj.signatory += '方'
-          }
-          data[i] = obj
+            return "";
         }
-        this.tableData = data
-        this.num = res.data.totalItemNumber
-        this.loading = false
+        },
+        handleSizeChange(val) {
+        //console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+        if ( this.queryTempBatch !== '') {
+            if(this.query == true){
+            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            this.getTemplateList (templateInfoRequest)
+            }else{
+            var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            this.getTemplateList (templateInfoRequest)
+            }
+        } else {
+            var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            this.getTemplateList (templateInfoRequest)
         }
-      })
+        },
+        generateClick(row){
+        this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
+        this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
+        sessionStorage.setItem('templateName', JSON.stringify(row.templateName))
+        sessionStorage.setItem('templateNo', JSON.stringify(row.templateNo))
+        sessionStorage.setItem('templateGenre',JSON.stringify(row.templateGenre))
+        this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
+        },
+        getTemplateList (templateInfoRequest) {
+            var data =[];
+            let accountCode=sessionStorage.getItem('accountCode')
+            server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
+                if(res.data.sessionStatus == '0'){
+                    this.$router.push('/Server')
+                } else {
+                    if(res.data.contents){
+                        for (let i = 0; i < res.data.contents.length;i++) {
+                            var obj = {}
+                            obj.templateNo = res.data.contents[i].templateCode;         //模板号
+                            obj.templateName = res.data.contents[i].templateName;       //模板名
+                            obj.tempalateDate = res.data.contents[i].strCreateTime;     //上传日期
+                            obj.signatory = res.data.contents[i].template.partyNumber;  //合同方
+                            obj.bindAccounts = res.data.contents[i].bindAccounts;       //绑定账号
+                            obj.imgs = res.data.contents[i].template.templateImgs;      //图片
+                            obj.usedNum = res.data.contents[i].usedNum;                 //累计发起
+                            obj.dialogTableVisible = false;                             //图片预览弹框默认不显示
+                            if (obj.signatory == '' || obj.signatory == null){
+                                obj.signatory = 0;
+                            }
+                            data[i] = obj
+                        }
+                        this.tableData = data
+                        this.num = res.data.totalItemNumber
+                        this.loading = false
+                    } 
+                }
+            }).catch({
+
+            })
+        },
+        queryTempBatch () {
+            if( this.inputTempBatch === 'null'){
+                this.$message({
+                showClose: true,
+                message: '输入关键字不合法',
+                type: 'error'
+                })
+                return false
+            }
+            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            this.getTemplateList (templateInfoRequest)
+            this.query = true
+            this.show = true
+        }
     },
-    queryTempBatch () {
-      if( this.inputTempBatch === 'null'){
-        this.$message({
-          showClose: true,
-          message: '输入关键字不合法',
-          type: 'error'
-        })
-        return false
-      }
-      var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
-      this.getTemplateList (templateInfoRequest)
-      this.query = true
-      this.show = true
+    created() {
+        var templateInfoRequest ={'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+        this.getTemplateList (templateInfoRequest)
     }
-  },
-  created() {
-    var templateInfoRequest ={'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
-    this.getTemplateList (templateInfoRequest)
-  }
 }
 </script>
 

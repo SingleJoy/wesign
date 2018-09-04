@@ -1,5 +1,4 @@
 import request from '../utils/fetch'
-import cookie from '@/common/js/getTenant'
 const service = {
     //登录前验证用户
     verficate(param) {
@@ -90,6 +89,14 @@ const service = {
     getAccountName(param,interfaceCode) {
         return request({
             url:'/api/v1.5/tenant/'+interfaceCode+'/getAccountName',
+            method:'get',
+            params:param
+        })
+    },
+     //获取模板列表
+    contractTemplate(param,accountCode) {
+        return request({
+            url:'/api/v1.5/tenant/'+accountCode+'/getAccountTemplates',
             method:'get',
             params:param
         })

@@ -147,12 +147,7 @@ export default {
     this.$loading.show(); //显示
     var data =[];
     this.templateName = this.$store.state.templateName
-    let url='';
-    if(accountCode){
-      url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'?accountCode='+accountCode;
-    }else{
-      url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo;
-    }
+    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'?accountCode='+accountCode;
     this.$http.get(url).then(function (res) {
       if(res.sessionStatus == '0'){
           this.$router.push('/Server')

@@ -90,12 +90,12 @@
         width="190"
         >
           <template slot-scope="scope">
-          <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
+          <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
+          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
           <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-          <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater'>延&nbsp;&nbsp;期</el-button>
+          <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator'>延&nbsp;&nbsp;期</el-button>
           <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
           </template>
       </el-table-column>
@@ -124,6 +124,7 @@ import server from "@/api/url"
 export default {
   data() {
     return { 
+        accountCode:sessionStorage.getItem('accountCode'),
         options: [],
         value:'',
         queryAccountCode:'',
@@ -191,6 +192,7 @@ export default {
             obj.contractStatus =  res.data.content[i].contractStatus;
             obj.validTime =  res.data.content[i].validTime;
             obj.contractType = res.data.content[i].contractType;
+            obj.operator = res.data.content[i].operator;
             obj.isCreater = isCreater;
             obj.operation = '';
             switch (obj.contractStatus){
@@ -353,6 +355,7 @@ export default {
     server.queryContractLists(interfaceCode).then(res=>{
       if(res.data.resultCode = 1){
         this.options=res.data.dataList;
+        this.options.unshift({accountCode:'',accountName:'全部'})
       }
     })
   }

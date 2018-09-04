@@ -16,9 +16,9 @@
                 <span style="color:#22a7ea" v-else> >合同详情</span>
             </p>
         
-            <p id="sign-icon" v-if="accountLevel==2">
-            <span class="department">财务部</span>
-            <span>张丽华</span>
+            <p id="sign-icon" v-if="accountName">
+                <span class="department">{{accountName}}</span>
+                <!-- <span>张丽华</span> -->
             </p>
 
             <p>
@@ -172,7 +172,8 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import { Switch } from 'element-ui';
-  import cookie from '@/common/js/getTenant'
+  import cookie from '@/common/js/getTenant';
+  import server from '@/api/url';
   export default {
     name: 'CompanyExbm',
     data() {
@@ -190,7 +191,8 @@
         signMobile:'',
         History:[],
         businessScenario:'',
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        accountName:''
       };
     },
     methods: {
@@ -353,16 +355,31 @@
       }
     },
     created() {
-      this.signMobile = cookie.getJSON('tenant')[0].mobile
-      var contractNo = sessionStorage.getItem('contractNo')
-      if (contractNo) {
-        contractNo = JSON.parse(contractNo);
-        this.contractNo = contractNo;
-        if ( this.$store.state.rowNumber == ''){
-          this.$store.state.rowNumber = contractNo
+        this.signMobile = cookie.getJSON('tenant')[0].mobile;
+        var contractNo = sessionStorage.getItem('contractNo');
+        var accountLevel = sessionStorage.getItem('accountLevel');
+        var accountCode = sessionStorage.getItem('accountCode');
+        if (contractNo) {
+            contractNo = JSON.parse(contractNo);
+            this.contractNo = contractNo;
+            if ( this.$store.state.rowNumber == ''){
+            this.$store.state.rowNumber = contractNo
+            }
         }
-      }
-      this.seeContractDetails ()
+        this.seeContractDetails ();
+      //判断是不是二级账户如果是不请求顶部显示部门姓名
+        if(accountLevel != 2){
+            let param={
+                accountCode:accountCode
+            }
+            server.getAccountName(param,this.interfaceCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    this.accountName = res.data.accountName
+                }
+            }).catch({
+
+            })
+        }
     }
   }
 </script>

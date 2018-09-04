@@ -66,7 +66,7 @@
               <div class='more'  id="more">
                 <div class='morePerson' id="morePerson">
                   <p style='line-height: 40px;font-family: 幼圆;'>发起方</p>
-                  <dl v-for="item in signUserList"  v-drag style="position:relative;width:100%;background:#fff">
+                  <dl v-for="(item,index) in signUserList" :key="index" v-drag style="position:relative;width:100%;background:#fff">
                     <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.signUserName}}</dd>
                     <!-- <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.userName}}</dd> -->
                     <dd>{{item.userName}}<br>{{item.mobile}}</dd>
@@ -79,7 +79,7 @@
 
                 <div class='morePerson' style='margin-top:10px' id="moreEnter">
                   <p style="line-height: 40px;font-family: 幼圆;">对手方</p>
-                  <dl v-for="item in analogueList"  v-drag style="position:relative;background:#fff">
+                  <dl v-for="(item,index) in analogueList" :key="index"  v-drag style="position:relative;background:#fff">
                     <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap;'>{{item.signUserName}}</dd>
                     <dd>{{item.userName}}<br>{{item.mobile}}</dd>
                     <p class='hidden' style="display:none">{{item.interfaceCode}}</p>

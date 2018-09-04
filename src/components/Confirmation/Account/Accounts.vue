@@ -129,7 +129,7 @@
 
             <div class="account-list">
               <!--<div class="list-content" v-for="item in accountList">-->
-              <div class="list-content" v-for="item in accountList">
+              <div class="list-content" v-for="(item,index) in accountList" :key="index">
                 <ul>
                   <li >
                     <span>管理员姓名:</span>
@@ -177,7 +177,9 @@
                 <div class="operate" v-if="item.accountStatus=='3'">
                   <!--已激活-->
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
-                  <a class="frozen" href="javascript:void(0)" @click=frozen(item.accountCode,item.accountStatus)">冻结</a>
+
+                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
+
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='4'">

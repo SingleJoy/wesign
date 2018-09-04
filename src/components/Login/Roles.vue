@@ -17,7 +17,7 @@
 						<ul v-if="companyList.length>0" class="role-ul">
 							<li v-for="(item,index) in companyList" :key="index" class="role-item">
 								<div class="item-left">
-									<span class="sign" v-if="item.auditStatus==1">
+									<span class="sign" v-if="item.auditStatus==2">
 										<img src="../../../static/images/Login/sign_red.png" alt="">
 										<span class="company-status active">已实名</span>
 									</span>
@@ -333,7 +333,7 @@ import cookie from '@/common/js/getTenant'
 						}
 						.item-right{
 							float: right;
-							display: inline-block;
+							// display: inline-block;
 							line-height: 172px;
 							width: 138px;
 							height:172px;
@@ -448,7 +448,7 @@ import cookie from '@/common/js/getTenant'
 						}
 						.item-right{
 							float: right;
-							display: inline-block;
+							// display: inline-block;
 							color: #22a7ea;
 							line-height: 172px;
 							width: 138px;

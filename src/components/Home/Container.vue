@@ -120,15 +120,15 @@
               label="操作"
               width="200"
             >
-              <template slot-scope="scope">
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-                <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true' >
-                  <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+            <template slot-scope="scope">
+                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
+                <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true && accountCode == scope.row.operator'>
+                <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
                 </el-tooltip>
                 <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载 </el-button>
-                <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if='scope.row.flag == true' >延&nbsp;&nbsp;期</el-button>
+                <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if='scope.row.flag == true && accountCode == scope.row.operator'>延&nbsp;&nbsp;期</el-button>
                 <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
-              </template>
+            </template>
             </el-table-column>
           </el-table>
         </div>
@@ -184,287 +184,286 @@
   export default {
     name: "Container",
     methods: {
+        getRowClass({ row, column, rowIndex, columnIndex }) {
+            if (rowIndex == 0) {
+            return "background:#f5f5f5;text-align:center;font-weight:bold;";
+            } else {
+            return "";
+            }
+        },
+        tableRowClassName({ row, rowIndex }) {
+            if (rowIndex === 1) {
+            return "warning-row";
+            } else if (rowIndex === 3) {
+            return "success-row";
+            }
+            return "";
+        },
+        otherTemplate() {
+            this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
+            this.$router.push("/Multiparty");
+        },
+        jumper(item, index) {
+            if (item.templateSpecies == "batch") {
+                this.$store.dispatch("template", {
+                    templateName: item.name,
+                    templateNo: item.templateNo
+                });
 
-      getRowClass({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex == 0) {
-          return "background:#f5f5f5;text-align:center;font-weight:bold;";
-        } else {
-          return "";
-        }
-      },
-      tableRowClassName({ row, rowIndex }) {
-        if (rowIndex === 1) {
-          return "warning-row";
-        } else if (rowIndex === 3) {
-          return "success-row";
-        }
-        return "";
-      },
-      otherTemplate() {
-        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push("/Multiparty");
-      },
-      jumper(item, index) {
-        if (item.templateSpecies == "batch") {
-          this.$store.dispatch("template", {
-            templateName: item.name,
-            templateNo: item.templateNo
-          });
-
-          this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
-          sessionStorage.setItem("templateName", JSON.stringify(item.name));
-          sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
-          sessionStorage.setItem( "templateGenre", JSON.stringify(item.templateSpecificType));
-          // console.log(this.$store.state.templateGenre,'fillidcardreference')
-          this.$router.push("/batchSetting");
-        } else {
-          this.$store.dispatch("template", {
-            templateName: item.name,
-            templateNo: item.templateNo
-          });
-          sessionStorage.setItem("templateName", JSON.stringify(item.name));
-          sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
-          this.$router.push("/Fillinformation");
-        }
-      },
-      animated() {
-        //待我签署
-        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        sessionStorage.setItem("second", "second");
-        this.$router.push("Mycontract");
-      },
-      wait() {
-        //待他人签署
-         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        sessionStorage.setItem("second", "third");
-        this.$router.push("Mycontract");
-      },
-      takeEff() {
-        //已生效
-         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        sessionStorage.setItem("second", "fourth");
-        this.$router.push("Mycontract");
-      },
-      end() {
-        //已截止
-        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        sessionStorage.setItem("second", "five");
-        this.$router.push("Mycontract");
-      },
-      signClick(row) {
-        //签署
-        if (row.contractType == "0") {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-          this.$router.push("/Dimension");
-        } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-          this.$router.push("/Contract");
-        }
-      },
-      remindClick(row) {
-        //提醒
-        var remindParam={
-          contractType:row.contractType==0?0:1
-        };
-        this.$http.get(process.env.API_HOST + "v1/tenant/" + cookie.getJSON("tenant")[1].interfaceCode + "/contract/" + row.contractNum +"/remind",{params:remindParam}).then(function(res) {
-          var resultCode = res.data.resultCode;
-          var resultMessage = res.data.resultMessage;
-          if (resultCode === "0") {
-            this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: "success"
+                this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
+                sessionStorage.setItem("templateName", JSON.stringify(item.name));
+                sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
+                sessionStorage.setItem( "templateGenre", JSON.stringify(item.templateSpecificType));
+                this.$router.push("/batchSetting");
+            } else {
+            this.$store.dispatch("template", {
+                templateName: item.name,
+                templateNo: item.templateNo
             });
-          } else if (resultCode === "2") {
-            this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: "success"
+            sessionStorage.setItem("templateName", JSON.stringify(item.name));
+            sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
+            this.$router.push("/Fillinformation");
+            }
+        },
+        animated() {
+            //待我签署
+            this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
+            sessionStorage.setItem("second", "second");
+            this.$router.push("Mycontract");
+        },
+        wait() {
+            //待他人签署
+            this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
+            sessionStorage.setItem("second", "third");
+            this.$router.push("Mycontract");
+        },
+        takeEff() {
+            //已生效
+            this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
+            sessionStorage.setItem("second", "fourth");
+            this.$router.push("Mycontract");
+        },
+        end() {
+            //已截止
+            this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
+            sessionStorage.setItem("second", "five");
+            this.$router.push("Mycontract");
+        },
+        signClick(row) {
+            //签署
+            if (row.contractType == "0") {
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            this.$router.push("/Dimension");
+            } else {
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            this.$router.push("/Contract");
+            }
+        },
+        remindClick(row) {
+            //提醒
+            var remindParam={
+            contractType:row.contractType==0?0:1
+            };
+            this.$http.get(process.env.API_HOST + "v1/tenant/" + cookie.getJSON("tenant")[1].interfaceCode + "/contract/" + row.contractNum +"/remind",{params:remindParam}).then(function(res) {
+            var resultCode = res.data.resultCode;
+            var resultMessage = res.data.resultMessage;
+            if (resultCode === "0") {
+                this.$message({
+                showClose: true,
+                message: resultMessage,
+                type: "success"
+                });
+            } else if (resultCode === "2") {
+                this.$message({
+                showClose: true,
+                message: resultMessage,
+                type: "success"
+                });
+            } else {
+                this.$message({
+                showClose: true,
+                message: resultMessage,
+                type: "error"
+                });
+            }
             });
-          } else {
+        },
+        urlloadUrl() {
+            return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        },
+        uploadUrl() {
+            // return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+            return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        },
+        seeClick(row) {
+            //延期
+            if (row.contractType == "0") {
+            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            cookie.set("state", "E");
+            this.$router.push("/CompanyExc");
+            } else {
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            cookie.set("state", "D");
+            this.$router.push("/ContractDelay");
+            }
+        },
+        downloadClick(row) {
+            //下载
+            var url =
+            process.env.API_HOST +
+            "v1/contract/" +
+            cookie.getJSON("tenant")[1].interfaceCode +
+            "/" +
+            row.contractNum;
+            var up = document.createElement("a");
+            document.body.appendChild(up);
+            up.setAttribute("href", url);
+            up.click();
+        },
+        choice() {
+            this.popupContainer = !this.popupContainer;
+        },
+        shut() {
+            this.popupContainer = !this.popupContainer;
+        },
+        jump() {
+            this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
+            this.$router.push("/Mycontract");
+        },
+        more() {
+            this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
+            this.$router.push("/More");
+        },
+        rowLockClick(row) {
+            //查看
+            if (row.contractType == "0") {
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            cookie.set("state", "A");
+            this.$router.push("/CompanyExa");//企业对企业
+            } else {
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            cookie.set("state", "B");
+            this.$router.push("/ContractInfo");//企业对个人
+            }
+        },
+        handleChange(name) {
+            this.$loading.show();
+            var max_size = 5; // 5M
+            var fileContName = name.name.replace(/\s+/g, "");
+            var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
+            if (!reg.test(fileContName)) {
             this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: "error"
+                showClose: true,
+                message: "只能传pdf,doc,txt,docx格式的文件",
+                type: "error"
             });
-          }
-        });
-      },
-      urlloadUrl() {
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
-      },
-      uploadUrl() {
-          // return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-      },
-      seeClick(row) {
-        //延期
-        if (row.contractType == "0") {
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-          cookie.set("state", "E");
-          this.$router.push("/CompanyExc");
-        } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-          cookie.set("state", "D");
-          this.$router.push("/ContractDelay");
+            this.$refs.upload.clearFiles();
+            this.uploadFile = false;
+            this.$loading.hide();
+            return false;
+            } else if (name.size > max_size * 1024 * 1024) {
+            this.$message({
+                showClose: true,
+                message: "文件大小超过限制",
+                type: "error"
+            });
+            this.$refs.upload.clearFiles();
+            this.uploadFile = false;
+            this.$loading.hide();
+            return false;
+            } else if (fileContName.length > 50) {
+            this.$message({
+                showClose: true,
+                message: "上传文件名称不得超过50字符！",
+                type: "error"
+            });
+            this.$refs.upload.clearFiles();
+            this.uploadFile = false;
+            this.$loading.hide();
+            return false;
+            } else {
+            this.loading2 = true;
+            this.uploadFile = true;
+            }
+        },
+        fileSuccess(name, file, fileList) {
+            //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+            this.$loading.hide();
+            var contractName = file.name.replace(/\s+/g, "");
+            var contractNo = file.response.contractNo;
+            var resultCode = file.response.resultCode;
+            if (this.uploadFile == true) {
+            this.$message({
+                showClose: true,
+                message: "上传成功",
+                type: "success"
+            });
+            var index1 = contractName.lastIndexOf(".");
+            var suffix = contractName.slice(0, index1);
+            this.$store.dispatch("fileSuccess1", {
+                contractName: suffix,
+                contractNo: contractNo
+            });
+            sessionStorage.setItem("contractName", JSON.stringify(suffix));
+            sessionStorage.setItem("contractNo", JSON.stringify(contractNo));
+            this.$router.push("/Contractsigning");
+            }
+        },
+        fileSuccess1(name, file, fileList) {
+            //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+            this.$loading.hide();
+            var contractName = file.name.replace(/\s+/g, "");
+            var contractNo = file.response.contractNo;
+            var resultCode = file.response.resultCode;
+            if (this.uploadFile == true) {
+            this.$message({
+                showClose: true,
+                message: "上传成功",
+                type: "success"
+            });
+            var index1 = contractName.lastIndexOf(".");
+            var suffix = contractName.slice(0, index1);
+            this.$store.dispatch("fileSuccess1", {
+                contractName: suffix,
+                contractNo: contractNo
+            });
+            sessionStorage.setItem("contractName", JSON.stringify(suffix));
+            sessionStorage.setItem("contractNo", JSON.stringify(contractNo));
+            this.$router.push("/Signature"); //更改路由地址
+            }
         }
-      },
-      downloadClick(row) {
-        //下载
-        var url =
-          process.env.API_HOST +
-          "v1/contract/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/" +
-          row.contractNum;
-        var up = document.createElement("a");
-        document.body.appendChild(up);
-        up.setAttribute("href", url);
-        up.click();
-      },
-      choice() {
-        this.popupContainer = !this.popupContainer;
-      },
-      shut() {
-        this.popupContainer = !this.popupContainer;
-      },
-      jump() {
-        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        this.$router.push("/Mycontract");
-      },
-      more() {
-        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push("/More");
-      },
-      rowLockClick(row) {
-        //查看
-        if (row.contractType == "0") {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-          cookie.set("state", "A");
-          this.$router.push("/CompanyExa");//企业对企业
-        } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-          cookie.set("state", "B");
-          this.$router.push("/ContractInfo");//企业对个人
-        }
-      },
-      handleChange(name) {
-        this.$loading.show();
-        var max_size = 5; // 5M
-        var fileContName = name.name.replace(/\s+/g, "");
-        var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
-        if (!reg.test(fileContName)) {
-          this.$message({
-            showClose: true,
-            message: "只能传pdf,doc,txt,docx格式的文件",
-            type: "error"
-          });
-          this.$refs.upload.clearFiles();
-          this.uploadFile = false;
-          this.$loading.hide();
-          return false;
-        } else if (name.size > max_size * 1024 * 1024) {
-          this.$message({
-            showClose: true,
-            message: "文件大小超过限制",
-            type: "error"
-          });
-          this.$refs.upload.clearFiles();
-          this.uploadFile = false;
-          this.$loading.hide();
-          return false;
-        } else if (fileContName.length > 50) {
-          this.$message({
-            showClose: true,
-            message: "上传文件名称不得超过50字符！",
-            type: "error"
-          });
-          this.$refs.upload.clearFiles();
-          this.uploadFile = false;
-          this.$loading.hide();
-          return false;
-        } else {
-          this.loading2 = true;
-          this.uploadFile = true;
-        }
-      },
-      fileSuccess(name, file, fileList) {
-        //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-        this.$loading.hide();
-        var contractName = file.name.replace(/\s+/g, "");
-        var contractNo = file.response.contractNo;
-        var resultCode = file.response.resultCode;
-        if (this.uploadFile == true) {
-          this.$message({
-            showClose: true,
-            message: "上传成功",
-            type: "success"
-          });
-          var index1 = contractName.lastIndexOf(".");
-          var suffix = contractName.slice(0, index1);
-          this.$store.dispatch("fileSuccess1", {
-            contractName: suffix,
-            contractNo: contractNo
-          });
-          sessionStorage.setItem("contractName", JSON.stringify(suffix));
-          sessionStorage.setItem("contractNo", JSON.stringify(contractNo));
-          this.$router.push("/Contractsigning");
-        }
-      },
-      fileSuccess1(name, file, fileList) {
-        //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-        this.$loading.hide();
-        var contractName = file.name.replace(/\s+/g, "");
-        var contractNo = file.response.contractNo;
-        var resultCode = file.response.resultCode;
-        if (this.uploadFile == true) {
-          this.$message({
-            showClose: true,
-            message: "上传成功",
-            type: "success"
-          });
-          var index1 = contractName.lastIndexOf(".");
-          var suffix = contractName.slice(0, index1);
-          this.$store.dispatch("fileSuccess1", {
-            contractName: suffix,
-            contractNo: contractNo
-          });
-          sessionStorage.setItem("contractName", JSON.stringify(suffix));
-          sessionStorage.setItem("contractNo", JSON.stringify(contractNo));
-          this.$router.push("/Signature"); //更改路由地址
-        }
-      }
     },
     data() {
-      return {
-        baseURL:this.baseURL.BASE_URL,
-        popupContainer: false,
-        tableData: [],
-        download: "",
-        loading: true,
-        loading2: false,
-        count: "",
-        waitForMeSign: "",
-        waitForOtherSign: "",
-        takeEffect: "",
-        deadline: "",
-        arr: [],
-        uploadFile: true,
-        interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
-        Type: { contractType: "0" }
-      };
+        return {
+            baseURL:this.baseURL.BASE_URL,
+            popupContainer: false,
+            tableData: [],
+            download: "",
+            loading: true,
+            loading2: false,
+            count: "",
+            waitForMeSign: "",
+            waitForOtherSign: "",
+            takeEffect: "",
+            deadline: "",
+            arr: [],
+            uploadFile: true,
+            interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+            accountCode:sessionStorage.getItem('accountCode'),
+            Type: { contractType: "0" }
+        };
     },
     created() {
       var data = [];
       var flag = "";
       var isCreater = "";
 
-      let accountCode = sessionStorage.getItem('accountCode');
+      let accountCode = this.accountCode;
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
       let interfaceCode = this.interfaceCode;
@@ -481,44 +480,46 @@
          if (res.data.sessionStatus == "0") {
           this.$router.push("/Server");
         } else {
-          for (let i = 0; i < res.data.content.length; i++) {
-            if (res.data.content[i].creater == interfaceCode) {
-              flag = true;
-            } else {
-              flag = false;
+            for (let i = 0; i < res.data.content.length; i++) {
+                if (res.data.content[i].creater == interfaceCode) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+                res.data.content[i].flag = flag;
+                var obj = {};
+                obj.contractName = res.data.content[i].contractName;
+                obj.contractNum = res.data.content[i].contractNum;
+                obj.createTime = res.data.content[i].createTime;
+                obj.signers = res.data.content[i].signers;
+                obj.contractStatus = res.data.content[i].contractStatus;
+                obj.validTime = res.data.content[i].validTime;
+                obj.contractType = res.data.content[i].contractType;
+                obj.flag = res.data.content[i].flag;
+                obj.operator = res.data.content[i].operator        
+                obj.operation = "";
+                switch (obj.contractStatus) {
+                    case "1":
+                        obj.contractStatus = "待我签署";
+                        obj.operation = 1;
+                        break;
+                    case "2":
+                        obj.contractStatus = "待他人签署";
+                        obj.operation = 2;
+                        break;
+                    case "3":
+                        obj.contractStatus = "已生效";
+                        obj.operation = 3;
+                        break;
+                    default:
+                        obj.contractStatus = "已截止";
+                        obj.operation = 4;
+                }
+                data[i] = obj;
             }
-            res.data.content[i].flag = flag;
-            var obj = {};
-            obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
-            obj.createTime = res.data.content[i].createTime;
-            obj.signers = res.data.content[i].signers;
-            obj.contractStatus = res.data.content[i].contractStatus;
-            obj.validTime = res.data.content[i].validTime;
-            obj.contractType = res.data.content[i].contractType;
-            obj.flag = res.data.content[i].flag;
-            obj.operation = "";
-            switch (obj.contractStatus) {
-              case "1":
-                obj.contractStatus = "待我签署";
-                obj.operation = 1;
-                break;
-              case "2":
-                obj.contractStatus = "待他人签署";
-                obj.operation = 2;
-                break;
-              case "3":
-                obj.contractStatus = "已生效";
-                obj.operation = 3;
-                break;
-              default:
-                obj.contractStatus = "已截止";
-                obj.operation = 4;
-            }
-            data[i] = obj;
-          }
-          this.tableData = data;
-          this.loading = false;
+            console.log(data[1],typeof sessionStorage.getItem('accountCode'))
+            this.tableData = data;
+            this.loading = false;
         }
       })
 
@@ -538,15 +539,13 @@
       }
 
       // 首页模板列表
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList"
-        )
-        .then(function(res) {
-          if (res.data.sessionStatus == "0") {
-            this.$router.push("/Server");
-          } else {
-            this.arr = res.data.slice(0, 3);
-            this.count = res.data.length;
-          }
+        this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList").then(function(res) {
+            if (res.data.sessionStatus == "0") {
+                this.$router.push("/Server");
+            } else {
+                this.arr = res.data.slice(0, 3);
+                this.count = res.data.length;
+            }
         });
     },
     mounted() {
