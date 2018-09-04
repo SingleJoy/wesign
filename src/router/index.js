@@ -449,9 +449,6 @@ export const router = new Router({
       path: '/Mobile',
       name: 'Mobile',
       component: Mobile,
-      meta: {
-        auth: true
-      }
     },
     {
       path: '/MobileSuccess',

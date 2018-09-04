@@ -19,15 +19,16 @@
               </div>
 
               <div class="active-account-contract-img">
-                <img src="../../../../../static/images/Default/contract-img.jpg" id="activateImg">
+
+                <img :src="[authorizationImg]" id="activateImg">
 
               </div>
 
-              <div class="scan-code">
+              <div class="scan-code" id="smCode">
 
                 <el-tooltip class="item" effect="dark" content="微信扫一扫" placement="top">
-                  <img :src="[qrSignImg]" alt="微信扫一扫"  class="wechat-img" id="wechat-img" v-if="qrSignImg">
-                  <img src="../../../../../static/images/Default/default-scan-code.png" alt="微信扫一扫"  class="wechat-img" else>
+                  <img :src="[qrSignImg]" alt="微信扫一扫"  class="wechat-img" id="wechat-img" >
+                  <!--<img src="../../../../../static/images/Default/default-scan-code.png" alt="微信扫一扫"  class="wechat-img" else>-->
 
                 </el-tooltip>
                 <div class="wechat-scan-tips">
@@ -39,7 +40,8 @@
               </div>
 
               <div class="active-button">
-                <a class="sure-active"  @click="dialogAgreement = true" href="javascript:void(0)">确认激活</a>
+                <!--<a class="sure-active"  @click="dialogAgreement = true" href="javascript:void(0)">确认激活</a>-->
+                <a class="sure-active"  @click="sureActive" href="javascript:void(0)">确认激活</a>
               </div>
 
               <el-dialog
@@ -50,7 +52,7 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
                   <el-form-item prop="code">
-                    <el-input type="text" placeholder="请输入短信验证码" class="forget-messageInput" v-model="ruleForm.code" style="width: 200px;"></el-input>
+                    <el-input type="text" placeholder="请输入短信验证码" class="forget-messageInput" v-model="ruleForm.smsCode" style="width: 200px;"></el-input>
                     <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 20px;">获取</el-button>
                   </el-form-item>
 
@@ -63,7 +65,7 @@
               <div id="hidden" style="display:none">
                 <img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px">
               </div>
-              <div id="signCanvas" style="display:none;">
+              <div id="signCanvas" style="display:none;position: absolute;top:560px;left: 380px">
                 <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
               </div>
             </div>
@@ -81,6 +83,7 @@
 <script>
   import cookie from '@/common/js/getTenant'
   import Accounts from '../Accounts'
+  import {validateSmsCode} from '@/common/js/validate'
   export default {
     component:{
       Accounts
@@ -90,7 +93,7 @@
       var validateCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
-        } else if (value.length!= 6) {
+        } else if (value!== ''&&!validateSmsCode(value)) {
           callback(new Error('验证码密码长度是6位'))
         }
       }
@@ -99,24 +102,42 @@
         baseURL:this.baseURL.BASE_URL,
         dialogAgreement:false,  //验证码弹窗
         ruleForm: {
-          code: '',         //验证码
+          smsCode: '',         //验证码
         },
         rules:{
-          code: [
+          smsCode: [
             { required: true, validator: validateCode, trigger: 'blur' }
           ],
         },
         clickOnce:false,
         contractSignImg:'',
-        canvasTest:'',
+        smsNoVer:'',  // 短信编码
         qrSignImg:'',
         smsCodeNum:0,
         smsNo:false,
         repeat:false,
         once:false,
+        authorizationImg:'',
+        timer:null,
+        canvasTest:'',
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        mobile:sessionStorage.getItem("mobile"),
+        smsCode:'',   //短信码
+        smsNoVer:'',   //
+        appId:''  //验证码返回appId
       }
     },
     methods:{
+      sureActive(){
+        if(this.canvasTest == null ||this.canvasTest == ''){
+          this.$alert('你还未在移动端签署面板完成扫码签名','提示', {
+            confirmButtonText: '确定'
+          })
+        }else{
+          this.dialogAgreement=true
+        }
+      },
+
       //获取验证码
       sendCode(){
         if(this.repeat == false){
@@ -125,9 +146,14 @@
           var count = 60;
           var curCount = count;
           var timer = null;
+
+          let mobile=sessionStorage.getItem("mobile")
           this.sms = true;
-          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.phone, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
-            this.smval=res.data.smsCode
+          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
+            // this.smsCode=res.data.smsCode
+            this.smsNoVer=res.data.smsNo   //短信编号
+            this.appId=res.data.appId     //appId
+
 
             var resultCode = res.data.resultCode;
             var smsNo = res.data.smsNo;
@@ -160,13 +186,10 @@
               }, 1000)
             }else{
               let that =this;
-              // this.$message({
-              //   showClose: true,
-              //   message: message?message:'验证码获取失败',
-              //   type: 'error'
-              // })
+
               that.smsNo = false
               that.repeat = false
+
             }
           })
         }
@@ -207,6 +230,28 @@
               done();
             }
           }
+        })
+      },
+
+      submitForm(formName){
+
+        this.$refs[formName].validate((valid) => {
+          let accountCode=sessionStorage.getItem("accountCode");
+          let authorizerCode=sessionStorage.getItem("authorizerCode");
+          let signatureImg=this.canvasTest
+          let requestNo = {
+            'authorizerCode': authorizerCode,
+            'mobile': this.mobile,
+            'smsNo': this.smsNoVer,
+            'appID': this.appID,
+            'smsCode': this.smsCode,
+            'signatureImg':signatureImg,
+            'accountCode':accountCode,
+          };
+          this.$http.get(process.env.API_HOST + 'v1.5//user/SignAuthbook', {params: requestNo}).then(function (res) {
+              console.log(res.data)
+
+          })
         })
       },
 
@@ -266,7 +311,7 @@
               // this.centerDialogVisible = false
               this.$message({
                 showClose: true,
-                message: '子账号成功！',
+                message: '子账号激活成功！',
                 type: 'success'
               })
               this.$loading.hide(); //隐藏
@@ -278,35 +323,26 @@
       },
       pollingPanel(timer) { //轮询手写面板
 
-        let userCode = cookie.getJSON('tenant')[0].userCode
-        let accountCode = sessionStorage.getItem('accountCode');
 
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+userCode+'/getSignatureImg').then(function (res) {
+        let accountCode = sessionStorage.getItem('accountCode');
+        let authorizerCode = sessionStorage.getItem('authorizerCode');
+
+        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg').then(function (res) {
           this.canvasTest =  res.bodyText
+          console.log(res.bodyText)
           if(res.bodyText != '') {
-            var smCode = document.getElementById('smCode')
-            smCode.style.display ='none';
+            let smCode = document.getElementById('smCode')
+                  smCode.style.display ='none';
+            let  signCanvas= document.getElementById('signCanvas')
+                  signCanvas.style.display ='block';
           }
           setTimeout(() => {
             if(this.canvasTest!=''){
-              let signPosit = '';
 
-              let parentBox = document.getElementById('activateImg')
-
-              let signCanvas =document.getElementById('signCanvas')
-
-              let signPng = document.getElementById('signCanvasImg').cloneNode(true);
-              parentBox.appendChild(signPng);
-              signPng.style.position= 'absolute';
-              signPng.style.top= 200 + 'px'
-              signPng.style.left = 300 + 'px'
-              signPng.setAttribute("id", "div-" + i);
-              this.arrow.push (i)
-              signCanvas.style.display='none'
 
               clearInterval(this.timer)
-              this.signPosit = signPosit
-              this.recapture = true
+
+
             }
           },1000)
         })
@@ -316,25 +352,27 @@
 
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
-      let interfaceCode=sessionStorage.getItem("interfaceCode");
+
 
 	  //
-      let  requestNo={'interfaceCode':interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
+      let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
-        console.log(res.data)
+
+        this.authorizationImg=res.bodyText;
       })
 
 
       let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
       this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
-        console.log(res.data)
+
+        this.qrSignImg=res.bodyText;
       });
 
-      // let that = this
-      // let timer = null
-      // this.timer = setInterval(function () {
-      //   that.pollingPanel(this.timer)
-      // }, 3000)
+      let that = this
+      let timer = null
+      this.timer = setInterval(function () {
+        that.pollingPanel(this.timer)
+      }, 3000)
 
     },
 

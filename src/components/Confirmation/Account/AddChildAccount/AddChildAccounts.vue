@@ -84,14 +84,13 @@
 
             </div>
 
-            <div class="agreement-content" >
+            <div class="agreement-content" @change="changEvent">
               <template>
                 <!-- `checked` 为 true 或 false -->
-                <el-checkbox v-model="agree" name="type" @change="changEvent">确认签署</el-checkbox>
+                <el-checkbox v-model="agree" name="type" >确认签署</el-checkbox>
                 <b  class="agreement-sign">
-                  <a  @click="dialogAgreement = true" href="javascript:void(0)">
-                    《电子合同子账号管理认证授权书》
-                  </a>
+                  <!--<a  @click="dialogAgreement = true" href="javascript:void(0)" >《电子合同子账号管理认证授权书》</a>-->
+                  <a  @click="dialogAgreement = true" href="javascript:void(0)" >《电子合同子账号管理认证授权书》</a>
                 </b>
               </template>
               <el-dialog
@@ -120,7 +119,7 @@
                       <br/>
                       <p> 公司名称：{{enterpriseName}}</p>
                       <br/>
-                      <p> 日    期:</p>
+                      <p> 日    期:{{date}}</p>
 
                     </div>
                   </div>
@@ -134,7 +133,7 @@
 
               <div class="buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
-                <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" disabled="once">提交</button>
+                <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
               </div>
             </div>
           </div>
@@ -284,12 +283,18 @@
           ],
         },
         once:false , //提交按钮不可重复点击
+        date:'' ,//当前日期
       }
     },
     methods: {
 
       changEvent(){
+        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
+              console.log(res.bodyText)
 
+           this.date=res.bodyText;
+
+        });
       },
 
       // 取消
@@ -300,7 +305,7 @@
 
       //提交事件
       submitBtn(formName){
-        this.server=false;
+
         let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
@@ -337,7 +342,7 @@
                   title: '提醒',
                   message: h('p', null, [
                     h('span', null, '恭喜你，添加二级账号成功'),
-                    h('i', { style: 'color: teal' }, 'VNode')
+                    h('i', { style: 'color: teal' }, '恭喜你，添加二级账号成功')
                   ]),
                   showCancelButton: true,
                   confirmButtonText: '确定',
@@ -377,7 +382,7 @@
                   title: '提醒',
                   message: h('p', null, [
                     h('span', null, res.data.resultMessage),            //res.data.resultMessage 为二级账号添加失败提醒信息
-                    h('i', { style: 'color: teal' }, 'VNode')
+                    h('i', { style: 'color: teal' }, '二级账号添加失败')
                   ]),
                   showCancelButton: true,
                   confirmButtonText: '确定',
@@ -405,8 +410,6 @@
                     message: 'action: ' + action
                   });
                 });
-
-
 
 
               }

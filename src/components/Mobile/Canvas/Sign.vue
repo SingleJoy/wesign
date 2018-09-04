@@ -147,7 +147,7 @@
           return false
         }
         var signToken = GetQueryString("signToken")
-        this.$http.post(process.env.API_HOST+'/v1.4/signToken/'+ signToken +'/saveSignatureImg',{signatureImg: this.signImage},{emulateJSON:true}).then(function(res){
+        this.$http.post(process.env.API_HOST+'restapi/wesign/v1.4/signToken/'+ signToken +'/saveSignatureImg',{signatureImg: this.signImage},{emulateJSON:true}).then(function(res){
           this.$router.push('/MobileSuccess')
         })
       },

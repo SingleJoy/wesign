@@ -128,9 +128,13 @@ export default {
                             let accountLevel = response.data.dataList[0][0].accountLevel;
                             let accountStatus = response.data.dataList[0][0].accountStatus;
                             let authorizerCode = response.data.dataList[0][0].authorizerCode;
+                            let userCode = response.data.dataList[0][0].userCode;
                                 sessionStorage.setItem("enterpriseName", enterpriseName);
                                 sessionStorage.setItem('accountCode',accountCode);
                                 sessionStorage.setItem('accountLevel',accountLevel);
+                                sessionStorage.setItem('authorizerCode',authorizerCode);
+                                sessionStorage.setItem(' userCode', userCode);
+
 							let param={
 								mobile:this.ruleForm.username,
 								// accountCode:accountCode?accountCode:''
