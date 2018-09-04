@@ -179,7 +179,7 @@ export default {
 
                                     });
                                 }
-             
+
 							} else {
 								sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
 								this.$router.push("/Role");
@@ -196,7 +196,7 @@ export default {
 			}
       	});
 	},
-	
+
     forgetPassWord() {
       this.$router.push("/FoundUser");
     },

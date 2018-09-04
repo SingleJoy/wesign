@@ -7,12 +7,12 @@
       <div class="container">
         <!--账号管理   新增二级账号-->
 
-        <div class="tap">
-          <!--<div class="btn-active" @click="EnterAccount">账户中心</div>-->
-          <!--<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>-->
-          <div class="btn-active" >账户中心</div>
-          <div class="btn-default" style="margin-left: -5px;" >费用中心</div>
-        </div>
+        <!--<div class="tap">-->
+          <!--&lt;!&ndash;<div class="btn-active" @click="EnterAccount">账户中心</div>&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>&ndash;&gt;-->
+          <!--<div class="btn-active" >账户中心</div>-->
+          <!--<div class="btn-default" style="margin-left: -5px;" >费用中心</div>-->
+        <!--</div>-->
 
         <div class="content">
 
@@ -66,7 +66,7 @@
                   </div>
                   <div class="right-line">
                     <span>颁发给:</span>
-                    <b>{{authName}}</b>
+                    <b>{{companyName}}</b>
                   </div>
                   <!--<div class="right-line">-->
                   <!--<span>证件号:</span>-->
@@ -164,40 +164,36 @@
                 <!--<a class="frozen" href="javascript:void(0)" @click="frozen">冻结</a>-->
                 <!--<a class="thaw" href="javascript:void(0)" @click="thaw">解冻</a>-->
 
-
                 <div class="operate" v-if="item.accountStatus=='1'">
-
-                  <a class="management" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">管理</a>
                   <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
-
                 </div>
+
                 <div class="operate" v-if="item.accountStatus=='2'">
-
-                  <a class="management" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">管理</a>
-
-
+                  <!--未激活-->
+                  <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
+                  <!--<a class="management" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">管理</a>-->
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='3'">
-
+                  <!--已激活-->
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
 
                   <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
 
                 </div>
+
                 <div class="operate" v-if="item.accountStatus=='4'">
-
+                 <!--待完善-->
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
-
                 </div>
+
                 <div class="operate" v-if="item.accountStatus=='5'">
-
+                  <!--永久冻结-->
                   <div><span>该账号验证次数过多，无法继续使用</span></div>
-
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='6'">
-
+                 <!--已冻结-->
                   <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
 
                 </div>
@@ -236,7 +232,7 @@
                 </span>
               </el-dialog>
 
-              <div class="left" @click="sealManagement">
+              <div class="left" @click="sealManagement" v-if="accountDefault">
                 <i class="el-icon-plus"></i>
               </div>
             </div>
@@ -451,7 +447,7 @@
         if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
           sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
-          console.log()
+
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
 
@@ -495,12 +491,16 @@
       },
 
       edit(accountCode,accountStatus){
+
+        console.log(accountStatus);
+
         var accountCode1=accountCode;
         sessionStorage.setItem("accountCode",accountCode1);
-        if(accountStatus=='2'){
-          this.$router.push('EditChildNoActive');
-        }else if(accountStatus=='1') {
+        if(accountStatus=='3'){
           this.$router.push('EditChildAccount');
+        }else if(accountStatus=='2') {
+
+          this.$router.push('EditChildNoActive');
         }
       },
       // 冻结{，解冻二级账户
@@ -619,11 +619,6 @@
       finish(){
 
       },
-      //编辑子账号
-      edit(){
-        this.$router.push('/EditChildAccount')
-      },
-
 
       //解冻子账号
       thaw(){
@@ -705,7 +700,7 @@
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
       //  // 查询证书
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ this.interfaceCode + '/getCertificate').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/getCertificate').then(function (res) {
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
@@ -719,7 +714,7 @@
       let accountCode=sessionStorage.getItem("accountCode");
 	  //
       console.log(accountCode)
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/getAccountInformation').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+accountCode+'/getAccountInformation').then(function (res) {
         if(res.data.resultCode=='1'){
 
           this.account=res.data.data.mobile;
@@ -731,12 +726,19 @@
       })
 
       // 子账户信息
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/secondAccounts').then(function (res) {
 
         if(res.data.resultCode=='1'){
 
           this.accountList=res.data.dataList;
-          console.log(this.accountList);
+          let num=res.data.dataList.length;
+          let maxNum=res.data.dataList.accountNumMax;
+          if(num<maxNum){
+            this.accountDefault=false;
+            console.log(num+"+++++++"+maxNum)
+          }else{
+            this.accountDefault=true
+          }
 
         }if(res.data.resultCode=='0'){
             this.accountDefault=true;
@@ -746,11 +748,10 @@
 
       //获取合同章
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
-        let arrayList=[]
-        if(res.data.resultCode == '0'){
 
-        } else {
+
           this.tenantSeal=res.data.dataList[0].signaturePath;
+          console.log(this.tenantSeal)
           if(res.data.dataList[1].signaturePath){
             this.officeSeal=true
             this.officeSealUrl=res.data.dataList[1].signaturePath;
@@ -758,7 +759,6 @@
             this.officeSeal=false
           }
 
-        }
 
 
       });

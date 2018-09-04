@@ -55,7 +55,7 @@
                   </el-form-item>
 
                   <div class="forget-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 200px;">提&nbsp;&nbsp;交</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 200px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
                   </div>
                 </el-form>
               </el-dialog>
@@ -113,6 +113,7 @@
         smsCodeNum:0,
         smsNo:false,
         repeat:false,
+        once:false,
       }
     },
     methods:{
@@ -276,10 +277,11 @@
         })
       },
       pollingPanel(timer) { //轮询手写面板
-        var userCode = cookie.getJSON('tenant')[0].userCode
-        var contractNo = sessionStorage.getItem('contractNo')
-        contractNo = JSON.parse(contractNo)
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg').then(function (res) {
+
+        let userCode = cookie.getJSON('tenant')[0].userCode
+        let accountCode = sessionStorage.getItem('accountCode');
+
+        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+userCode+'/getSignatureImg').then(function (res) {
           this.canvasTest =  res.bodyText
           if(res.bodyText != '') {
             var smCode = document.getElementById('smCode')
@@ -315,8 +317,8 @@
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
       let interfaceCode=sessionStorage.getItem("interfaceCode");
-      
 
+	  //
       let  requestNo={'interfaceCode':interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
         console.log(res.data)
@@ -328,11 +330,11 @@
         console.log(res.data)
       });
 
-      let that = this
-      let timer = null
-      this.timer = setInterval(function () {
-        that.pollingPanel(this.timer)
-      }, 3000)
+      // let that = this
+      // let timer = null
+      // this.timer = setInterval(function () {
+      //   that.pollingPanel(this.timer)
+      // }, 3000)
 
     },
 
