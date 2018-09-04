@@ -126,24 +126,25 @@ export default {
 								mobile:this.ruleForm.username,
 								// accountCode:accountCode?accountCode:''
 							};
-							let urlParam =  response.data.dataList[0][0].interfaceCode;
 							if (stateCode == "1") {
                                 if(response.data.dataList[0].length>0){
+							        var urlParam =  response.data.dataList[0][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[0][0].enterpriseName;
                                     var mobile = response.data.dataList[0][0].mobile;
-                                    let accountCode = response.data.dataList[0][0].accountCode;
-                                    let accountLevel = response.data.dataList[0][0].accountLevel;
-                                    let accountStatus = response.data.dataList[0][0].accountStatus;
+                                    var accountCode = response.data.dataList[0][0].accountCode;
+                                    var accountLevel = response.data.dataList[0][0].accountLevel;
+                                    var accountStatus = response.data.dataList[0][0].accountStatus;
                                     sessionStorage.setItem("enterpriseName", enterpriseName);
                                     sessionStorage.setItem('accountCode',accountCode);  
                                     sessionStorage.setItem('accountLevel',accountLevel);  
 
                                 }else{
+                                    var urlParam =  response.data.dataList[1][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[1][0].enterpriseName;
                                     var mobile = response.data.dataList[1][0].mobile;
-                                    let accountCode = response.data.dataList[1][0].accountCode;
-                                    let accountLevel = response.data.dataList[1][0].accountLevel;
-                                    let accountStatus = response.data.dataList[1][0].accountStatus;
+                                    var accountCode = response.data.dataList[1][0].accountCode;
+                                    var accountLevel = response.data.dataList[1][0].accountLevel;
+                                    var accountStatus = response.data.dataList[1][0].accountStatus;
                                     sessionStorage.setItem("enterpriseName", enterpriseName);
                                     sessionStorage.setItem('accountCode',accountCode);  
                                     sessionStorage.setItem('accountLevel',accountLevel);  
