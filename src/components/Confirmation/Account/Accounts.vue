@@ -100,7 +100,7 @@
 
             </div>
 
-            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" v-for="item in officeSealList">
+            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" v-for="(item,index) in officeSealList" :key="index">
               <!--默认图片-->
               <!--<img src="../../../../static/images/Default/default-contrat-seal.png" >-->
               <!--<img :src="[officeSealUrl]" alt="签章图片">-->
@@ -129,7 +129,7 @@
 
             <div class="account-list">
               <!--<div class="list-content" v-for="item in accountList">-->
-              <div class="list-content" v-for="item in accountList">
+              <div class="list-content" v-for="(item,index) in accountList" :key="index">
                 <ul>
                   <li >
                     <span>管理员姓名:</span>
@@ -178,7 +178,7 @@
 
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
 
-                  <a class="frozen" href="javascript:void(0)" @click=frozen(item.accountCode,item.accountStatus)">冻结</a>
+                  <a class="frozen" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">冻结</a>
 
                 </div>
                 <div class="operate" v-if="item.accountStatus=='4'">
