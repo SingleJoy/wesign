@@ -209,7 +209,6 @@
         })
       },
 
-
       submitBtn() {
         if(this.resubmit == true){
           this.resubmit = false
@@ -312,21 +311,21 @@
       }
     },
     created(){
-      let accountCode=sessionStorage.getItem("accountCode");
 
+      let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
       let interfaceCode=sessionStorage.getItem("interfaceCode");
-      console.log("interface"+interfaceCode)
+      
 
       let  requestNo={'interfaceCode':interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
         console.log(res.data)
       })
 
-      let contractNo=sessionStorage.getItem("accountCode");
-      let qrUrl =process.env.API_HOST+'v1.4/user/contract'+interfaceCode+'/getSignatureImg';
-      this.$http.get(qrUrl).then(function (res) {
-        this.qrSignImg = res.bodyText
+
+      let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
+      this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
+        console.log(res.data)
       });
 
       let that = this

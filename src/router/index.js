@@ -337,7 +337,7 @@ export const router = new Router({
       name: 'Enterprise',
       component: Enterprise,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
