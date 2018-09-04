@@ -8,7 +8,7 @@
           <div class="content-body">
 
             <p class="title">我的账户</p>
-            <span class="new-child-account">(新增子账号)</span>
+            <span class="new-child-account">(编辑子账号)</span>
             <div class="border-bottom"  style="margin-top: 0"></div>
 
             <div class="account-fill" >
@@ -17,30 +17,29 @@
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
 
-                  <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
+                  <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="userName">
+                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
                   </el-form-item>
 
-                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="administrators">
-                    <el-input v-model="ruleForm.administrators" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
                   </el-form-item>
 
-                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="ID">
-                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" :maxlength= 18></el-input>
+                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
+                    <el-input v-model="ruleForm.idCode" auto-complete="off" placeholder="请输入身份证号码" ></el-input>
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" ></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 ></el-input>
                   </el-form-item>
 
-                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
+                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
+                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
                   </el-form-item>
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
-                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" :maxlength= 11></el-input>
+                    <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" ></el-input>
                   </el-form-item>
-
 
                 </el-form>
               </div>
@@ -61,7 +60,7 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo"  :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
                   </template>
@@ -71,7 +70,7 @@
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
                   </template>
                 </div>
@@ -130,8 +129,8 @@
               </el-dialog>
 
               <div class="buttons">
-                <a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>
-                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</a>
+                <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+                <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
               </div>
             </div>
           </div>
@@ -148,6 +147,7 @@
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
+  import server from "@/api/url";
   export default {
     name: 'EditChildNoActives',
     component:{
@@ -205,6 +205,22 @@
 
           callback(new Error('手机号格式错误'))
         } else {
+
+          let params = {
+            username: this.ruleForm.mobile
+          };
+          server.verficate(params).then(res => {
+            if (res.data === 0) {
+              this.ruleForm.password="test111111";
+              this.dis=true;
+
+            } else {
+
+            }
+          }).catch(error => {
+
+          })
+
           callback()
         }
       }
@@ -259,6 +275,7 @@
           ],
         },
         once:false    //按钮单次点击
+
       }
     },
     methods: {
@@ -271,15 +288,12 @@
         this.$router.push('/Account');
       },
 
-
       //提交事件
       submitBtn(formName){
         this.server=false;
-
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
             this.once=true;
-
             let pass = md5(this.ruleForm.password);
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
@@ -289,16 +303,18 @@
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
             let accountCode=sessionStorage.getItem("accountCode");
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
+            let enterpriseName=sessionStorage.getItem("enterpriseName")
+            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
-              idCode:this.ruleForm.idCode,                  //省份证号
+              idCard:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
               accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates,                                //分配模板
-              flag:1                    //新增子账户0 编辑1
+              company_name:enterpriseName
+
             },{emulateJSON: true}).then(res =>{
               if(res.data.resultCode=='1'){
                 this.$message({
@@ -327,29 +343,41 @@
 
     },
     created() {
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList")
-        .then(function(res) {
-          let data=res.data;
+      let accountCode = sessionStorage.getItem("accountCode");
+      console.log(accountCode)
+      this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
+        params: {
+          accountCode: accountCode,        //账户编号
+        }
+      }).then(res => {
+
+        //
+        if (res.data.resultCode == '1'){
+
+          this.ruleForm.accountName = res.data.data.accountName;            //账户名称
+
+          this.ruleForm.Email= res.data.data.email;                    //邮箱
+
           let singleArray=[];
           let batchArray=[];
-          for(let i=0;i<data.length;i++){
 
-            if(data[i].templateSpecies=='single'){
-              singleArray.push(data[i]);
+          for(let i=0;i<res.data.dataList.length;i++){
+
+            if(res.data.dataList[i].templateSpecies=='single'){
+              singleArray.push(res.data.dataList[i]);
             }else {
-              batchArray.push(data[i]);
-
+              batchArray.push(res.data.dataList[i]);
             }
           }
-
           this.single=singleArray;
-
           this.batch=batchArray;
+        }
+      })
 
 
-
-        });
     }
+
+
   }
 </script>
 

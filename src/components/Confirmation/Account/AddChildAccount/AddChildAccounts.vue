@@ -133,8 +133,8 @@
               </el-dialog>
 
               <div class="buttons">
-                <a class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</a>
-                <a class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</a>
+                <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+                <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" disabled="once">提交</button>
               </div>
             </div>
           </div>
@@ -326,21 +326,89 @@
               email:this.ruleForm.Email,                    //邮箱
               templates:templates,                                //分配模板
               company_name:enterpriseName,             //企业名称
-              flag:0                    //新增子账户0 编辑1
+
             },{emulateJSON: true}).then(res =>{
+             let accountCode=res.data.accountCode;  //存储accountCode
+              sessionStorage.setItem('accountCode','accountCode')
+              //二级账号添加成功
               if(res.data.resultCode=='1'){
-                this.$message({
-                  message: '恭喜你，添加二级账号成功',
-                  type: 'success'
+                const h = this.$createElement;
+                this.$msgbox({
+                  title: '提醒',
+                  message: h('p', null, [
+                    h('span', null, '恭喜你，添加二级账号成功'),
+                    h('i', { style: 'color: teal' }, 'VNode')
+                  ]),
+                  showCancelButton: true,
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  beforeClose: (action, instance, done) => {
+                    if (action === 'confirm') {
+                      instance.confirmButtonLoading = true;
+                      instance.confirmButtonText = '执行中...';
+                      setTimeout(() => {
+                        done();
+                        setTimeout(() => {
+                          instance.confirmButtonLoading = false;
+                        }, 300);
+                      }, 3000);
+                      this.$router.push("/Account");
+                    } else {
+                      done();
+                    }
+                  }
+                }).then(action => {
+                  this.$message({
+                    type: 'info',
+                    message: 'action: ' + action
+                  });
                 });
-                this.$router.push("/Account");
+
+
+                // this.$message({
+                //   message: '恭喜你，添加二级账号成功',
+                //   type: 'success'
+                // });
+                // this.$router.push("/Account");
               }else{
-                this.$message({
-                  showClose: true,
-                  message: res.data.resultMessage,
-                  type: 'error'
-                })
-                this.$router.push("/EditChildNoActive");
+                //二级账号添加失败
+                const h = this.$createElement;
+                this.$msgbox({
+                  title: '提醒',
+                  message: h('p', null, [
+                    h('span', null, res.data.resultMessage),            //res.data.resultMessage 为二级账号添加失败提醒信息
+                    h('i', { style: 'color: teal' }, 'VNode')
+                  ]),
+                  showCancelButton: true,
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  beforeClose: (action, instance, done) => {
+                    if (action === 'confirm') {
+                      instance.confirmButtonLoading = true;
+                      instance.confirmButtonText = '执行中...';
+
+                      this.$router.push("/EditChildNoActive");
+
+                      setTimeout(() => {
+                        done();
+                        setTimeout(() => {
+                          instance.confirmButtonLoading = false;
+                        }, 300);
+                      }, 3000);
+                    } else {
+                      done();
+                    }
+                  }
+                }).then(action => {
+                  this.$message({
+                    type: 'info',
+                    message: 'action: ' + action
+                  });
+                });
+
+
+
+
               }
             })
 

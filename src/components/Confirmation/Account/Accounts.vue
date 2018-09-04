@@ -698,7 +698,7 @@
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
       //  // 查询证书
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ this.interfaceCode + '/getCertificate').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/getCertificate').then(function (res) {
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
@@ -724,20 +724,19 @@
       })
 
       // 子账户信息
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+ accountCode + '/secondAccounts').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/secondAccounts').then(function (res) {
 
         if(res.data.resultCode=='1'){
 
           this.accountList=res.data.dataList;
           let num=res.data.dataList.length;
-          let maxNum=res.data.data.accountNumMax;
-          if(num<=maxNum){
-            this.accountDefault=false
+          let maxNum=res.data.dataList.accountNumMax;
+          if(num<maxNum){
+            this.accountDefault=false;
+            console.log(num+"+++++++"+maxNum)
           }else{
             this.accountDefault=true
           }
-
-
 
         }if(res.data.resultCode=='0'){
             this.accountDefault=true;
