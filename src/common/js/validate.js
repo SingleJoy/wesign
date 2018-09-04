@@ -95,7 +95,7 @@ export function validateDecimal(str){
 
 // 校验公章防伪码必须是11位数字
 export function validateSeal(str){
-  const reg =/d{11}$/
+  const reg = /^1\d{12}$/;
   return reg.test(str)
 }
 
