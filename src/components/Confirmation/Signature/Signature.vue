@@ -541,7 +541,8 @@
             tenantName:this.companyName, //签署企业名称
             userCode:this.userCode, //签署企业授权人编号
             userName:TrimAll(this.analogueName), //签署企业授权人名称
-            mobile:this.analogueMobile, //授权人手机号
+            mobile:this.analogueMobile, //授权人手机号（对手方）
+            tenantMobile:this.mobile,   //发起方手机号
             email:TrimAll(this.analogueEmail), //授权人邮箱
             handleUserName:this.handleUserName,//经办人姓名
             handleMobile:this.handleMobile,//经办人手机号
@@ -550,7 +551,6 @@
             perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
             validTime:this.date //签署截止时间
         },{emulateJSON: true}).then(res =>{
-
             if(res.data.resultCode == '1'){
                 this.$router.push('/Place')
             }else if(res.data.resultCode == '-1'){

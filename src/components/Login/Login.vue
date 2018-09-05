@@ -14,7 +14,7 @@
         <div class='center'>
           <div class='user'>
             <h2 class='userInfo'>用户登录</h2>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
               <el-form-item prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
               </el-form-item>
@@ -127,7 +127,7 @@ export default {
 								// accountCode:accountCode?accountCode:''
 							};
 							if (stateCode == "1") {
-                                if(response.data.dataList[0].length>0){
+                                if(response.data.dataList[0].length>0){     //当只有一个企业时判断是一级账号还是二级账号 一级取[0] 二级取[1]
 							        var urlParam =  response.data.dataList[0][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[0][0].enterpriseName;
                                     var mobile = response.data.dataList[0][0].mobile;
