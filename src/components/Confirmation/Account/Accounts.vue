@@ -88,7 +88,7 @@
           </div>
         </div>
 
-        <div class="sign-management">
+        <div class="sign-management" v-if="oneLever">
           <p class="title">签章管理</p>
           <div class="border-bottom"></div>
           <div class="sign-content">
@@ -221,6 +221,10 @@
                 </div>
               </div>
 
+              <div class="left" @click="sealManagement" v-if="addOperate">
+                <i class="el-icon-plus"></i>
+              </div>
+
               <el-dialog
                 title="提示"
                 :visible.sync="frozenDialogVisible"
@@ -254,9 +258,7 @@
                 </span>
               </el-dialog>
 
-              <div class="left" @click="sealManagement" v-if="addOperate">
-                <i class="el-icon-plus"></i>
-              </div>
+
             </div>
 
           </div>
@@ -565,39 +567,40 @@
         let accountCode1=accountCode;
         // 查询二级账号
 
-
         this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccountStatus',{
           accountCode:accountCode1 ,  //账户编号
           accountStatus:this.accountStatusNumber,            //账户状态
         },{emulateJSON: true}).then(function (res) {
           if((res.data.resultCode == '0')&&(accountStatus=='6')){
-            this.$alert('二级账户冻结失败', '提醒',{
+            this.$alert(res.data.resultMessage, '提醒',{
               confirmButtonText: '确定'
             });
 
           } else if((res.data.resultCode == '0')&&(accountStatus=='3')){
-            this.$alert('二级账户解冻失败', '提醒',{
+            this.$alert(res.data.resultMessage, '提醒',{
               confirmButtonText: '确定'
             });
 
           }else if((res.data.resultCode=='1')&&(accountStatus=='6')){
             // 冻结成功后二级账号列表重新查询
+            this.$loading.show(); //显示
             this.accountList=[];
             this.searchSecondAccounts();
-            this.$alert('二级账户冻结成功', '确定',{
+            this.$loading.hide(); //显示
+            this.$alert(res.data.resultMessage, '确定',{
               confirmButtonText: '确定'
             });
             // console.log("请求数据")
-            // this.$loading.show(); //显示
 
 
-          }else if((res.data.resultCode == '1')&&(accountStatus=='6')){
+
+          }else if((res.data.resultCode == '1')&&(accountStatus=='3')){
             //冻结成功重新查询二级账号
-            // this.$loading.show(); //显示
+             this.$loading.show(); //显示
             this.accountList=[];
             this.searchSecondAccounts();
-            // this.$loading.hide(); //loading隐藏
-            this.$alert('二级账户解冻', '确定',{
+            this.$loading.hide(); //loading隐藏
+            this.$alert(res.data.resultMessage, '确定',{
               confirmButtonText: '确定'
             });
           }

@@ -61,7 +61,7 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
                   </template>
@@ -71,7 +71,7 @@
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
                   </template>
                 </div>
@@ -140,6 +140,7 @@
       </div>
     </div>
 
+
   </div>
 </template>
 <script>
@@ -190,8 +191,6 @@
           callback(new Error('请输入密码'));
         } else if (value.length < 8 || value.length > 16) {
           callback(new Error('密码长度必须为8-16位'))
-        } else if (!validatePassWord(value)){
-          callback(new Error('密码格式为数字+字母'))
         }else {
           callback();
         }

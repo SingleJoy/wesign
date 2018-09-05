@@ -15,13 +15,13 @@
         <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="oneAccount">
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="oneAccount==2">
            <router-link  @click.native="tabActive(5)" to='/Account'>
              <img src="../../../static/images/setup.png" alt="">
              <a href="javascript:void(0);">我的账户</a>
            </router-link>
          </li>
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" else>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-else>
           <router-link  @click.native="tabActive(5)" to='/NoReal'>
             <img src="../../../static/images/setup.png" alt="">
             <a href="javascript:void(0);">我的账户</a>
@@ -199,7 +199,7 @@ export default {
         accountLevel:sessionStorage.getItem("accountLevel"),
         tabIndex:'',
         auditStatus:"" ,  //企业实名情况 2表示实名通过大B号  其他数字表示实名未通过 小B号
-        oneAccount:true
+        oneAccount:sessionStorage.getItem("auditStatus")
       }
     },
     methods: {
@@ -366,13 +366,13 @@ export default {
     created(){
 
       this.tabIndex = this.$store.state.tabIndex;
-      this.auditStatus=sessionStorage.getItem("auditStatus");
-      console.log(this.auditStatus);
-      if(this.auditStatus=='2'){
-        this.oneAccount=true;
-      }else {
-        this.oneAccount=false;
-      }
+      // this.auditStatus=sessionStorage.getItem("auditStatus");
+      // console.log(this.auditStatus);
+      // if(this.auditStatus=='2'){
+      //   this.oneAccount=true;
+      // }else {
+      //   this.oneAccount=false;
+      // }
 
     },
 
