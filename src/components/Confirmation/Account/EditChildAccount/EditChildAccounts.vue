@@ -25,16 +25,16 @@
                     <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18 disabled="disabled"></el-input>
                   </el-form-item>
 
-                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="ID">
-                    <el-input v-model="ruleForm.ID" auto-complete="off" placeholder="请输入身份证号码" disabled="disabled"></el-input>
+                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCard">
+                    <el-input v-model="ruleForm.idCard" auto-complete="off" placeholder="请输入身份证号码" disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
                     <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled"></el-input>
                   </el-form-item>
 
-                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="ruleForm.phone" auto-complete="off" placeholder="请输入手机号码"  disabled="disabled"></el-input>
+                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
+                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码"  disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
@@ -61,7 +61,7 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
                   </template>
@@ -223,7 +223,7 @@
         ruleForm: {
           accountName:'',  //管理员姓名
           userName:'',//账户名称
-          idCode:'', //省份证号
+          idCard:'', //省份证号
           mobile:'' ,//手机号码
           password:'', //密码
           Email:'',  //邮箱
@@ -237,7 +237,7 @@
         isIndeterminate: true,
         agree:false,  //同意协议
         dialogAgreement:false, //点击同意协议协议弹窗,
-        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode, //cookie里存储interfaceCode
+        interfaceCode:sessionStorage.getItem("interfaceCode"), //session里存储interfaceCode
         rules:{
           accountName: [
             { required: true, validator: validateAccountName, trigger: 'blur' }
@@ -251,7 +251,7 @@
           Email:[
             {required:true,validator:validateChildEmail,trigger: 'blur'}
           ],
-          idCode:[
+          idCard:[
             { required: true,validator: validateIdCard, trigger: 'blur'}
           ],
           mobile:[
@@ -274,8 +274,6 @@
       //提交事件
       submitBtn(formName){
         this.server=false;
-        let enterpriseName= sessionStorage.getItem("enterpriseName");
-        console.log(this.agree);
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
             this.once=true;
@@ -283,21 +281,22 @@
             let batchTemplate=JSON.stringify(this.batchTemplate);
             let singleTemplate=JSON.stringify(this.singleTemplate);
 
-            // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
             let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
             let templates=(batchTemplate1+singleTemplate1).substr(1);
             let accountCode=sessionStorage.getItem("accountCode");
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
+            let enterpriseName=sessionStorage.getItem("enterpriseName")
+            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccount',{
               accountName:this.ruleForm.accountName ,  //管理员姓名
               userName:this.ruleForm.userName,            //账户名称
-              idCode:this.ruleForm.idCode,                  //省份证号
+              idCard:this.ruleForm.idCard,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
               accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates,                                //分配模板
-              flag:1                    //新增子账户0 编辑1
+              company_name:enterpriseName
+
             },{emulateJSON: true}).then(res =>{
               if(res.data.resultCode=='1'){
                 this.$message({
@@ -326,28 +325,45 @@
 
     },
     created() {
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList")
-        .then(function(res) {
-          let data=res.data;
+      let accountCode = sessionStorage.getItem("accountCode");
+
+      this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
+        params: {
+          accountCode: accountCode,        //账户编号
+        }
+      }).then(res => {
+
+        //
+        if (res.data.resultCode == '1'){
+
+          this.ruleForm.accountName = res.data.data.accountName;            //账户名称
+
+          this.ruleForm.Email= res.data.data.email;                    //邮箱
+          this.ruleForm.mobile= res.data.data.mobile;                    //手机号
+          this.ruleForm.userName= res.data.data.userName;                    //管理员姓名
+          this.ruleForm.idCard= res.data.data.idCard;                    //身份证号
+          this.ruleForm.password="********";                    //管理员姓名
+
           let singleArray=[];
           let batchArray=[];
-          for(let i=0;i<data.length;i++){
+          if(res.data.dataList.length){
+            for(let i=0;i<res.data.dataList.length;i++){
 
-            if(data[i].templateSpecies=='single'){
-              singleArray.push(data[i]);
-            }else {
-              batchArray.push(data[i]);
-
+              if(res.data.dataList[i].templateSpecies=='single'){
+                singleArray.push(res.data.dataList[i]);
+              }else {
+                batchArray.push(res.data.dataList[i]);
+              }
             }
+            this.single=singleArray;
+            this.batch=batchArray;
           }
 
-          this.single=singleArray;
 
-          this.batch=batchArray;
+        }
+      })
 
 
-
-        });
     }
   }
 </script>
@@ -384,6 +400,7 @@
   .demo-ruleForm>.el-form-item{
     width: 50%;
     float: left;
+    height: 36px;
   }
   .demo-ruleForm>.el-form-item>.el-form-item__label{
     /*clear: both !important;*/

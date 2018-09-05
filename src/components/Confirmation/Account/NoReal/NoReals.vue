@@ -104,7 +104,7 @@
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
   export default {
-    name: 'NoReals',
+    name: 'NoReal',
     data() {
       var validateOldPassWord = (rule, value, callback) => {
         if (value === '') {

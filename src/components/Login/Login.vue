@@ -134,12 +134,15 @@
                           var accountCode = response.data.dataList[0][0].accountCode;
                           var accountLevel = response.data.dataList[0][0].accountLevel;
                           var accountStatus = response.data.dataList[0][0].accountStatus;
+                          var auditStatus = response.data.dataList[0][0].auditStatus;
                           sessionStorage.setItem("enterpriseName", enterpriseName);
                           sessionStorage.setItem('accountCode',accountCode);
                           sessionStorage.setItem('accountLevel',accountLevel);
+                          sessionStorage.setItem('auditStatus',auditStatus);
+                          sessionStorage.setItem('interfaceCode',urlParam);
                         }else{
                           var urlParam =  response.data.dataList[1][0].interfaceCode;
-                          var interfaceCode =  response.data.dataList[1][0].interfaceCode;
+
                           var enterpriseName = response.data.dataList[1][0].enterpriseName;
                           var mobile = response.data.dataList[1][0].mobile;
                           var accountCode = response.data.dataList[1][0].accountCode;
@@ -147,12 +150,15 @@
                           var accountStatus = response.data.dataList[1][0].accountStatus;
                           var authorizerCode = response.data.dataList[1][0].authorizerCode;
                           var mobile = response.data.dataList[1][0].mobile;
+                          var auditStatus = response.data.dataList[1][0].auditStatus;
                           sessionStorage.setItem("enterpriseName", enterpriseName);
-                          sessionStorage.setItem("interfaceCode", interfaceCode);
+
                           sessionStorage.setItem('accountCode',accountCode);
                           sessionStorage.setItem('accountLevel',accountLevel);
                           sessionStorage.setItem('authorizerCode',authorizerCode);
                           sessionStorage.setItem('mobile',mobile);
+                          sessionStorage.setItem('auditStatus',auditStatus);
+                          sessionStorage.setItem('interfaceCode',urlParam);
                         }
                         if(accountStatus==2){
                           this.$router.push('/ActivateChildAccount');

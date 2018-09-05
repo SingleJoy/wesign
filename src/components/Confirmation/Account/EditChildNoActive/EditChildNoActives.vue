@@ -344,7 +344,7 @@
     },
     created() {
       let accountCode = sessionStorage.getItem("accountCode");
-      console.log(accountCode)
+
       this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
         params: {
           accountCode: accountCode,        //账户编号

@@ -30,8 +30,8 @@
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
 
-                    <el-tooltip class="item" effect="dark" content="Top Left 提示文字" placement="top-start" v-if="showToolTip">
-                      <el-button>当前手机号已在平台注册，密码自动填充</el-button>
+                    <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="top-start" v-show="showToolTip">
+
                     </el-tooltip>
 
                     <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 :disabled="dis"></el-input>
@@ -224,9 +224,10 @@
 
                 this.ruleForm.password="test111111";
                 this.dis=true;
+                this.showToolTip=true;
 
               } else {
-
+                this.showToolTip=false;
               }
             }).catch(error => {
 

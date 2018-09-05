@@ -19,7 +19,18 @@
         </li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
         <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;"><router-link to='/Account'  @click.native="tabActive(5)"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="oneAccount">
+          <router-link to='/Account'  @click.native="tabActive(5)">
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" else>
+          <router-link to='/NoReal'  @click.native="tabActive(5)">
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
       </ol>
       <div id='update'>
       </div>
@@ -164,11 +175,19 @@ export default {
         popup:false,
         Type:{contractType:'0'},
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-        accountLevel:sessionStorage.getItem("accountLevel")
+        accountLevel:sessionStorage.getItem("accountLevel"),
+        oneAccount:true
       }
     },
     created(){
       this.tabIndex = this.$store.state.tabIndex;
+      this.auditStatus=sessionStorage.getItem("auditStatus");
+      console.log(this.auditStatus);
+      if(this.auditStatus=='2'){
+        this.oneAccount=true;
+      }else {
+        this.oneAccount=false;
+      }
     },
     methods: {
       tabActive(value){

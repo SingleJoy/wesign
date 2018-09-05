@@ -15,12 +15,18 @@
         <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;">
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="oneAccount">
            <router-link  @click.native="tabActive(5)" to='/Account'>
              <img src="../../../static/images/setup.png" alt="">
              <a href="javascript:void(0);">我的账户</a>
            </router-link>
          </li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" else>
+          <router-link  @click.native="tabActive(5)" to='/NoReal'>
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
       </ol>
 
       <div id='update'>
@@ -191,7 +197,9 @@ export default {
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         accountLevel:sessionStorage.getItem("accountLevel"),
-        tabIndex:''
+        tabIndex:'',
+        auditStatus:"" ,  //企业实名情况 2表示实名通过大B号  其他数字表示实名未通过 小B号
+        oneAccount:true
       }
     },
     methods: {
@@ -356,8 +364,16 @@ export default {
       },
     },
     created(){
-      // console.log(this.$store.state.tabIndex)
+
       this.tabIndex = this.$store.state.tabIndex;
+      this.auditStatus=sessionStorage.getItem("auditStatus");
+      console.log(this.auditStatus);
+      if(this.auditStatus=='2'){
+        this.oneAccount=true;
+      }else {
+        this.oneAccount=false;
+      }
+
     },
 
 
