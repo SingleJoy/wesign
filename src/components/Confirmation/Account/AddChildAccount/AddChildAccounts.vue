@@ -315,9 +315,9 @@
       submitBtn(formName){
 
         let enterpriseName= sessionStorage.getItem("enterpriseName");
-        if(this.agree) {
+        if(this.agree){
           this.$refs[formName].validate((valid) => {
-
+            if (valid) {
              this.once=true;//提交按钮不可重复点击
             let pass = md5(this.ruleForm.password); //密码MD5加密
             let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
@@ -378,14 +378,14 @@
                 });
 
 
-              }else{
+              }else {
                 //二级账号添加失败
                 const h = this.$createElement;
                 this.$msgbox({
                   title: '提醒',
                   message: h('p', null, [
                     h('span', null, res.data.resultMessage),            //res.data.resultMessage 为二级账号添加失败提醒信息
-                    h('i', { style: 'color: teal' }, '二级账号添加失败')
+                    h('i', {style: 'color: teal'}, '二级账号添加失败')
                   ]),
                   showCancelButton: true,
                   confirmButtonText: '确定',
@@ -414,9 +414,9 @@
                   });
                 });
 
-
               }
             })
+            }
 
           })
 

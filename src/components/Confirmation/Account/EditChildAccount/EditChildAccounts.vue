@@ -275,42 +275,44 @@
         this.server=false;
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
-            this.once=true;
-            let pass = md5(this.ruleForm.password);
-            let batchTemplate=JSON.stringify(this.batchTemplate);
-            let singleTemplate=JSON.stringify(this.singleTemplate);
+            if (valid) {
+              this.once = true;
+              let pass = md5(this.ruleForm.password);
+              let batchTemplate = JSON.stringify(this.batchTemplate);
+              let singleTemplate = JSON.stringify(this.singleTemplate);
 
-            let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
-            let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
-            let templates=(batchTemplate1+singleTemplate1).substr(1);
-            let accountCode=sessionStorage.getItem("accountCode");
-            let enterpriseName=sessionStorage.getItem("enterpriseName")
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccount',{
-              accountName:this.ruleForm.accountName ,  //管理员姓名
-              userName:this.ruleForm.userName,            //账户名称
-              idCard:this.ruleForm.idCard,                  //省份证号
-              mobile:this.ruleForm.mobile ,              //手机号码
-              password:pass,                 //密码
-              accountCode:accountCode,        //账户编号
-              email:this.ruleForm.Email,                    //邮箱
-              templates:templates,                                //分配模板
-              company_name:enterpriseName
+              let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
+              let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
+              let templates = (batchTemplate1 + singleTemplate1).substr(1);
+              let accountCode = sessionStorage.getItem("accountCode");
+              let enterpriseName = sessionStorage.getItem("enterpriseName")
+              this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
+                accountName: this.ruleForm.accountName,  //管理员姓名
+                userName: this.ruleForm.userName,            //账户名称
+                idCard: this.ruleForm.idCard,                  //省份证号
+                mobile: this.ruleForm.mobile,              //手机号码
+                password: pass,                 //密码
+                accountCode: accountCode,        //账户编号
+                email: this.ruleForm.Email,                    //邮箱
+                templates: templates,                                //分配模板
+                company_name: enterpriseName
 
-            },{emulateJSON: true}).then(res =>{
-              if(res.data.resultCode=='1'){
-                this.$message({
-                  message: '恭喜你，二级账号编辑成功',
-                  type: 'success'
-                });
-              }else{
-                this.$message({
-                  showClose: true,
-                  message: res.data.resultMessage,
-                  type: 'error'
-                })
-              }
-            })
+              }, {emulateJSON: true}).then(res => {
+                if (res.data.resultCode == '1') {
+                  this.$message({
+                    message: '恭喜你，二级账号编辑成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    showClose: true,
+                    message: res.data.resultMessage,
+                    type: 'error'
+                  })
+                }
+              })
 
+            }
           })
 
         }else{

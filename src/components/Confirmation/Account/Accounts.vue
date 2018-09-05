@@ -25,20 +25,20 @@
 
               <div class="card" style="margin: 20px;">
 
-                <div class="line" style="padding-top: 20px;">
+                <div class="card-line" style="padding-top: 20px;">
                   <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:</span>
                   <b>{{mobile}}</b>
 
                 </div>
-                <div class="line">
+                <div class="card-line">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
                   <b>{{companyName}}</b>
                 </div>
-                <div class="line">
+                <div class="card-line">
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
                   <b>{{Email}}</b>
                 </div>
-                <div class="line">
+                <div class="card-line">
                   <span>被授权人姓名:</span>
                   <b>{{authName}}</b>
                 </div>
@@ -61,8 +61,8 @@
               <div class="card right-card" style="margin-top: 20px;margin-left: 20px;">
                 <div class="right-card-content">
                   <div class="right-line" >
-                    <span>序列号:</span>
-                    <b>{{issuedNumber}}</b>
+                    <span style="display: inline-block;width: 60px;vertical-align: top;">序列号:</span>
+                    <b style="display: inline-block;width: 180px;word-wrap:break-word;vertical-align: top;">{{issuedNumber}}</b>
                   </div>
                   <div class="right-line">
                     <span>颁发给:</span>
@@ -96,13 +96,14 @@
             <div class="sign-picture" v-if="tenantSeal" @click="changeDefaultSeal(tenantSealNo)" :class="{'chooseDefaultSeal':defaultCode}">
               <!--合同章-->
               <img :src="[tenantSeal]" alt="合同章">
-              <span>默认合同章</span>
+              <span v-if="defaultCode">默认合同章</span>
 
             </div>
 
             <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" @click="changeDefaultSeal(officeSealNo)" :class="{'chooseDefaultSeal':!defaultCode}">
 
               <img :src="[officeSealUrl]" alt="签章图片">
+              <span v-if="!defaultCode">默认合同章</span>
 
             </div>
 
