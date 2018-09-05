@@ -14,7 +14,7 @@
         <div class='center'>
           <div class='user'>
             <h2 class='userInfo'>用户登录</h2>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
               <el-form-item prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
               </el-form-item>
@@ -121,16 +121,14 @@
                     }
                   })
                     .then(response => {
-                      let stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
-
+                      var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
                       let param={
                         mobile:this.ruleForm.username,
-
+                        // accountCode:accountCode?accountCode:''
                       };
                       if (stateCode == "1") {
                         if(response.data.dataList[0].length>0){
                           var urlParam =  response.data.dataList[0][0].interfaceCode;
-                          var interfaceCode =  response.data.dataList[0][0].interfaceCode;
                           var enterpriseName = response.data.dataList[0][0].enterpriseName;
                           var mobile = response.data.dataList[0][0].mobile;
                           var accountCode = response.data.dataList[0][0].accountCode;
@@ -138,10 +136,7 @@
                           var accountStatus = response.data.dataList[0][0].accountStatus;
                           sessionStorage.setItem("enterpriseName", enterpriseName);
                           sessionStorage.setItem('accountCode',accountCode);
-                          sessionStorage.setItem("interfaceCode", interfaceCode);
                           sessionStorage.setItem('accountLevel',accountLevel);
-                          sessionStorage.setItem('mobile',mobile);
-
                         }else{
                           var urlParam =  response.data.dataList[1][0].interfaceCode;
                           var interfaceCode =  response.data.dataList[1][0].interfaceCode;
@@ -159,7 +154,6 @@
                           sessionStorage.setItem('authorizerCode',authorizerCode);
                           sessionStorage.setItem('mobile',mobile);
                         }
-
                         if(accountStatus==2){
                           this.$router.push('/ActivateChildAccount');
                         }else{
@@ -187,10 +181,8 @@
                               this.$router.push("/Home");
                             }
                           }).catch(error => {
-
                           });
                         }
-
                       } else {
                         sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
                         this.$router.push("/Role");
@@ -324,7 +316,7 @@
   }
   .userInfo {
     color: #16a8f2;
-    font-size: 36px;
+
     text-align: center;
     font-size: 2.25rem;
   }
