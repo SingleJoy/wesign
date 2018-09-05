@@ -335,7 +335,6 @@
               idCard:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
-              accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates,                                //分配模板
               company_name:enterpriseName,             //企业名称
