@@ -238,11 +238,10 @@
       },
 
       submitForm(formName){
-
+        let accountCode = sessionStorage.getItem("accountCode");
+        let authorizerCode = sessionStorage.getItem("authorizerCode");
+        let signatureImg = this.canvasTest;
         this.$refs[formName].validate((valid) => {
-          let accountCode = sessionStorage.getItem("accountCode");
-          let authorizerCode = sessionStorage.getItem("authorizerCode");
-          let signatureImg = this.canvasTest;
 
           this.$http.get(process.env.API_HOST + 'v1.4/sms', {
             params: {
@@ -250,13 +249,13 @@
             }
           }).then(res => {
             if (res.data.resultCode != 1) {
-              if (this.sms == true) {
+
                 this.$message({
                   showClose: true,
                   message: res.data.resultMessage,
                   type: 'error'
                 })
-              }
+
             } else {
               this.$http.post(process.env.API_HOST + 'v1.5//user/SignAuthbook', {
                 'authorizerCode': authorizerCode,

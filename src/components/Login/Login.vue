@@ -130,6 +130,7 @@
                       if (stateCode == "1") {
                         if(response.data.dataList[0].length>0){
                           var urlParam =  response.data.dataList[0][0].interfaceCode;
+                          var interfaceCode =  response.data.dataList[0][0].interfaceCode;
                           var enterpriseName = response.data.dataList[0][0].enterpriseName;
                           var mobile = response.data.dataList[0][0].mobile;
                           var accountCode = response.data.dataList[0][0].accountCode;
@@ -137,9 +138,12 @@
                           var accountStatus = response.data.dataList[0][0].accountStatus;
                           sessionStorage.setItem("enterpriseName", enterpriseName);
                           sessionStorage.setItem('accountCode',accountCode);
+                          sessionStorage.setItem("interfaceCode", interfaceCode);
                           sessionStorage.setItem('accountLevel',accountLevel);
+                          sessionStorage.setItem('mobile',mobile);
 
                         }else{
+                          var urlParam =  response.data.dataList[1][0].interfaceCode;
                           var interfaceCode =  response.data.dataList[1][0].interfaceCode;
                           var enterpriseName = response.data.dataList[1][0].enterpriseName;
                           var mobile = response.data.dataList[1][0].mobile;

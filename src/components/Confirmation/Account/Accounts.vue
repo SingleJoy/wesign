@@ -8,10 +8,10 @@
         <!--账号管理   新增二级账号-->
 
         <!--<div class="tap">-->
-          <!--&lt;!&ndash;<div class="btn-active" @click="EnterAccount">账户中心</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>&ndash;&gt;-->
-          <!--<div class="btn-active" >账户中心</div>-->
-          <!--<div class="btn-default" style="margin-left: -5px;" >费用中心</div>-->
+        <!--&lt;!&ndash;<div class="btn-active" @click="EnterAccount">账户中心</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>&ndash;&gt;-->
+        <!--<div class="btn-active" >账户中心</div>-->
+        <!--<div class="btn-default" style="margin-left: -5px;" >费用中心</div>-->
         <!--</div>-->
 
         <div class="content">
@@ -122,7 +122,7 @@
 
         </div>
 
-        <div class="seal-management">
+        <div class="seal-management" v-if="oneLever">
           <p class="title">账号管理</p>
           <div class="border-bottom"></div>
           <div class="child-account">
@@ -183,7 +183,7 @@
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='4'">
-                 <!--待完善-->
+                  <!--待完善-->
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
                 </div>
 
@@ -193,7 +193,7 @@
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='6'">
-                 <!--已冻结-->
+                  <!--已冻结-->
                   <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
 
                 </div>
@@ -232,7 +232,7 @@
                 </span>
               </el-dialog>
 
-              <div class="left" @click="sealManagement" v-if="accountDefault">
+              <div class="left" @click="sealManagement" v-if="addOperate">
                 <i class="el-icon-plus"></i>
               </div>
             </div>
@@ -429,7 +429,10 @@
         templateNum:'',
         userState:'',
         officeSealList:[],  //公章列表,
-        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode  //interfaceCode
+        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode , //interfaceCode
+        addOperate:false,        //添加二级账号操作
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
+        oneLever:false,             //默认为一级账号
 
       }
     },
@@ -456,7 +459,7 @@
         }
       },
 
-       // 修改密码
+      // 修改密码
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -508,7 +511,7 @@
         var accountStatus=accountStatus=3?6:3;
 
 
-        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'updateAccountStatus',{
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccountStatus',{
           accountCode:accountCode ,  //账户编号
           accountStatus:accountStatus,            //账户状态
 
@@ -694,6 +697,8 @@
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/auditStatus').then(function (res) {
         // this.auditOpinion=res.data.data;
         if(res.data.resultCode=='1'){
+          this.toEnterprise = res.data.data.verifyMoneyNum
+        }else{
 
         }
 
@@ -712,7 +717,7 @@
       });
       //  账户信息
       let accountCode=sessionStorage.getItem("accountCode");
-	  //
+      //
       console.log(accountCode)
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+accountCode+'/getAccountInformation').then(function (res) {
         if(res.data.resultCode=='1'){
@@ -724,42 +729,46 @@
           this.authName=res.data.data.authorizerName;
         }
       })
+    var accountLevel=this.accountLevel;
 
-      // 子账户信息
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/secondAccounts').then(function (res) {
+      if(this.accountLevel=='1'){
+        this.oneLever=true;    //一级账号才去请求查询一级账号关联的所有二级账户信息
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/secondAccounts').then(function (res) {
 
-        if(res.data.resultCode=='1'){
+          if(res.data.resultCode=='1'){
 
-          this.accountList=res.data.dataList;
-          let num=res.data.dataList.length;
-          let maxNum=res.data.dataList.accountNumMax;
-          if(num<maxNum){
-            this.accountDefault=false;
-            console.log(num+"+++++++"+maxNum)
-          }else{
-            this.accountDefault=true
+            this.accountList=res.data.dataList;
+            let num=res.data.dataList.length;
+            let maxNum=res.data.dataList.accountNumMax;
+            if(num<=maxNum){
+              this.addOperate=false;
+
+            }else{
+              this.addOperate=true;
+            }
+
+          }if(res.data.resultCode=='0'){
+            this.accountDefault=true;
           }
 
-        }if(res.data.resultCode=='0'){
-            this.accountDefault=true;
-        }
-
-      });
+        });
+      }else {
+        this.oneLever=false;      //二级账号不查询，并且不显示账号管理模块
+      }
+      // 子账户信息
 
       //获取合同章
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
 
-
-          this.tenantSeal=res.data.dataList[0].signaturePath;
-          console.log(this.tenantSeal)
-          if(res.data.dataList[1].signaturePath){
-            this.officeSeal=true
-            this.officeSealUrl=res.data.dataList[1].signaturePath;
-          }else {
-            this.officeSeal=false
-          }
-
-
+        this.tenantSeal=res.data.dataList[0].signaturePath;
+        console.log(this.tenantSeal)
+        if(res.data.dataList[1].signaturePath){
+          this.officeSeal=true
+          this.officeSealUrl=res.data.dataList[1].signaturePath;
+        }else {
+          this.officeSeal=false
+        }
+        
 
       });
 
