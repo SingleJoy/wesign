@@ -126,30 +126,33 @@ export default {
 								mobile:this.ruleForm.username,
 								// accountCode:accountCode?accountCode:''
 							};
-							if (stateCode == "1") {
-                                if(response.data.dataList[0].length>0){     //当只有一个企业时判断是一级账号还是二级账号 一级取[0] 二级取[1]
-							        var urlParam =  response.data.dataList[0][0].interfaceCode;
+                            if (stateCode == "1") {
+                                if(response.data.dataList[0].length>0){
+                                    var urlParam =  response.data.dataList[0][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[0][0].enterpriseName;
                                     var mobile = response.data.dataList[0][0].mobile;
                                     var accountCode = response.data.dataList[0][0].accountCode;
                                     var accountLevel = response.data.dataList[0][0].accountLevel;
                                     var accountStatus = response.data.dataList[0][0].accountStatus;
                                     sessionStorage.setItem("enterpriseName", enterpriseName);
-                                    sessionStorage.setItem('accountCode',accountCode);  
-                                    sessionStorage.setItem('accountLevel',accountLevel);  
-
+                                    sessionStorage.setItem('accountCode',accountCode);
+                                    sessionStorage.setItem('accountLevel',accountLevel);
                                 }else{
-                                    var urlParam =  response.data.dataList[1][0].interfaceCode;
+                                    var interfaceCode =  response.data.dataList[1][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[1][0].enterpriseName;
                                     var mobile = response.data.dataList[1][0].mobile;
                                     var accountCode = response.data.dataList[1][0].accountCode;
                                     var accountLevel = response.data.dataList[1][0].accountLevel;
                                     var accountStatus = response.data.dataList[1][0].accountStatus;
+                                    var authorizerCode = response.data.dataList[1][0].authorizerCode;
+                                    var mobile = response.data.dataList[1][0].mobile;
                                     sessionStorage.setItem("enterpriseName", enterpriseName);
-                                    sessionStorage.setItem('accountCode',accountCode);  
-                                    sessionStorage.setItem('accountLevel',accountLevel);  
+                                    sessionStorage.setItem("interfaceCode", interfaceCode);
+                                    sessionStorage.setItem('accountCode',accountCode);
+                                    sessionStorage.setItem('accountLevel',accountLevel);
+                                    sessionStorage.setItem('authorizerCode',authorizerCode);
+                                    sessionStorage.setItem('mobile',mobile);
                                 }
-                                
                                 if(accountStatus==2){
                                     this.$router.push('/ActivateChildAccount');
                                 }else{
@@ -177,108 +180,106 @@ export default {
                                             this.$router.push("/Home");
                                         }
                                     }).catch(error => {
-
                                     });
                                 }
+                            } else {
+                                sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+                                this.$router.push("/Role");
+                            }
+                        });
+                } else {
+                  this.$message({
+                    showClose: true,
+                    message: "账户或密码错误",
+                    type: "error"
+                  });
+                }
+              });
+          }
+        });
+      },
 
-							} else {
-								sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
-								this.$router.push("/Role");
-							}
-						});
-					} else {
-						this.$message({
-							showClose: true,
-							message: "账户或密码错误",
-							type: "error"
-						});
-					}
-				});
-			}
-      	});
-	},
-
-    forgetPassWord() {
-      this.$router.push("/FoundUser");
-    },
-    variety(el) {
-      this.selectedEnterprise = el;
-    },
-    cancelLogin() {
-      document.getElementById("fade").style.display = "none";
-      document.getElementById("succ-pop").style.display = "none";
-    },
-    changeClick() {
-      if (this.selectedEnterprise == "" || this.selectedEnterprise == null) {
-        this.selectedEnterprise = this.tenantNum[0];
-      }
-      this.$http
-        .get(
-          process.env.API_HOST +
+      forgetPassWord() {
+        this.$router.push("/FoundUser");
+      },
+      variety(el) {
+        this.selectedEnterprise = el;
+      },
+      cancelLogin() {
+        document.getElementById("fade").style.display = "none";
+        document.getElementById("succ-pop").style.display = "none";
+      },
+      changeClick() {
+        if (this.selectedEnterprise == "" || this.selectedEnterprise == null) {
+          this.selectedEnterprise = this.tenantNum[0];
+        }
+        this.$http
+          .get(
+            process.env.API_HOST +
             "v1.4/tenant/" +
             this.selectedEnterprise.interfaceCode +
             "/homePage",
-          {
-            params: {
-              mobile: this.selectedEnterprise.mobile,
-              interfaceCode: this.selectedEnterprise.interfaceCode
+            {
+              params: {
+                mobile: this.selectedEnterprise.mobile,
+                interfaceCode: this.selectedEnterprise.interfaceCode
+              }
             }
-          }
-        )
-        .then(res => {
-          if (res.data.dataList[1].isBusiness == "0") {
-            this.$message({
-              showClose: true,
-              duration: 1000,
-              message: "登录成功",
-              type: "success"
-            });
-            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-            this.$router.push("/Merchant");
-          } else {
-            this.$message({
-              showClose: true,
-              duration: 1000,
-              message: "登录成功",
-              type: "success"
-            });
-            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-            this.$router.push("/Home");
-          }
-        });
-    }
-  },
-  mounted() {
-    sessionStorage.removeItem("type");
-    sessionStorage.removeItem("contractNo");
-    sessionStorage.removeItem("enterpriseName");
-    sessionStorage.removeItem("idcard");
-    sessionStorage.removeItem("interfaceCode");
-    sessionStorage.removeItem("mobile");
-    sessionStorage.removeItem("name");
-    sessionStorage.removeItem("userCode");
-    sessionStorage.removeItem("accountCode");
-    sessionStorage.removeItem("accountLevel");
-    sessionStorage.removeItem("authorizerCode");
-    sessionStorage.removeItem("companyList");
-    cookie.remove('tenant')
+          )
+          .then(res => {
+            if (res.data.dataList[1].isBusiness == "0") {
+              this.$message({
+                showClose: true,
+                duration: 1000,
+                message: "登录成功",
+                type: "success"
+              });
+              cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+              this.$router.push("/Merchant");
+            } else {
+              this.$message({
+                showClose: true,
+                duration: 1000,
+                message: "登录成功",
+                type: "success"
+              });
+              cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+              this.$router.push("/Home");
+            }
+          });
+      }
+    },
+    mounted() {
+      sessionStorage.removeItem("type");
+      sessionStorage.removeItem("contractNo");
+      sessionStorage.removeItem("enterpriseName");
+      sessionStorage.removeItem("idcard");
+      sessionStorage.removeItem("interfaceCode");
+      sessionStorage.removeItem("mobile");
+      sessionStorage.removeItem("name");
+      sessionStorage.removeItem("userCode");
+      sessionStorage.removeItem("accountCode");
+      sessionStorage.removeItem("accountLevel");
+      sessionStorage.removeItem("authorizerCode");
+      sessionStorage.removeItem("companyList");
+      cookie.remove('tenant')
 
-    document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
-    window.onresize = function temp() {
-      document.documentElement.style.fontSize =
-        document.documentElement.clientWidth / 120 + "px";
-    };
-  }
-};
+      document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
+      window.onresize = function temp() {
+        document.documentElement.style.fontSize =
+          document.documentElement.clientWidth / 120 + "px";
+      };
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "../../../static/icon/iconfont.css";
-.Login {
-  width: 100%;
-  height: 350px;
+  @import "../../../static/icon/iconfont.css";
+  .Login {
+    width: 100%;
+    height: 350px;
   .select-btn {
     background-color: #fff;
     color: #666;
@@ -287,13 +288,13 @@ export default {
     border: 2px solid #44caf7;
     color: #22a7ea;
   }
-}
-.login-wrap {
-  width: 100%;
+  }
+  .login-wrap {
+    width: 100%;
 
-  background: #f4f2f2;
-}
-.center {
+    background: #f4f2f2;
+  }
+  .center {
   // width: 77.5rem;
   // height: 34rem;
   // background:url('../../../static/images/Login/try.png') no-repeat;
@@ -302,112 +303,112 @@ export default {
   // top: 315px;
   // left: 266px;
 
-  width: 77.5rem;
-  height: 34rem;
-  background: url("/static/images/Login/try.png") no-repeat;
-  position: absolute;
-  background-size: 100%;
-  top: 50%;
-  left: 50%;
-  margin-left: -39rem;
-  margin-top: -10rem;
-}
-.userInfo {
-  color: #16a8f2;
-  font-size: 36px;
-  text-align: center;
-  font-size: 2.25rem;
-}
+    width: 77.5rem;
+    height: 34rem;
+    background: url("/static/images/Login/try.png") no-repeat;
+    position: absolute;
+    background-size: 100%;
+    top: 50%;
+    left: 50%;
+    margin-left: -39rem;
+    margin-top: -10rem;
+  }
+  .userInfo {
+    color: #16a8f2;
+    font-size: 36px;
+    text-align: center;
+    font-size: 2.25rem;
+  }
 
-.user {
+  .user {
   // width: 328px;
   // height: 310px;
   // position: absolute;
   // right: 10%;
   // top: 130px;
 
-  width: 21rem;
-  height: 28rem;
-  position: absolute;
-  right: 10%;
-  top: 8rem;
-}
-.login-logo {
-  width: 100px;
-  height: 50px;
-  margin-top: -10px;
-  margin-left: 85px;
-}
-.sy_close {
-  width: 42px;
-  height: 42px;
-  position: absolute;
-  cursor: pointer;
-  z-index: 3;
-  background-repeat: no-repeat;
-  background-position: -1px -1px;
-}
-.sy_close:hover {
-  background-position: -1px -46px;
-}
-.icon-user {
-  position: absolute;
-  right: 20px;
-  top: 32px;
-}
-.icon-suo {
-  position: absolute;
-  right: 20px;
-}
-/* .ms-login{
-      position: absolute;
-      left:50%;
-      top:50%;
-      width:300px;
-      height:240px;
-      margin:-150px 0 0 -190px;
-      padding:40px;
-      border-radius: 5px;
+    width: 21rem;
+    height: 28rem;
+    position: absolute;
+    right: 10%;
+    top: 8rem;
+  }
+  .login-logo {
+    width: 100px;
+    height: 50px;
+    margin-top: -10px;
+    margin-left: 85px;
+  }
+  .sy_close {
+    width: 42px;
+    height: 42px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 3;
+    background-repeat: no-repeat;
+    background-position: -1px -1px;
+  }
+  .sy_close:hover {
+    background-position: -1px -46px;
+  }
+  .icon-user {
+    position: absolute;
+    right: 20px;
+    top: 32px;
+  }
+  .icon-suo {
+    position: absolute;
+    right: 20px;
+  }
+  /* .ms-login{
+		position: absolute;
+		left:50%;
+		top:50%;
+		width:300px;
+		height:240px;
+		margin:-150px 0 0 -190px;
+		padding:40px;
+		border-radius: 5px;
 
-  } */
-.login-input {
-  margin-top: 30px;
-}
-.login-btn {
-  text-align: center;
-}
-.login-btn button {
-  width: 100%;
-  height: 36px;
-}
-#submit {
-  color: #22a7ea;
-  float: right;
-}
+	} */
+  .login-input {
+    margin-top: 30px;
+  }
+  .login-btn {
+    text-align: center;
+  }
+  .login-btn button {
+    width: 100%;
+    height: 36px;
+  }
+  #submit {
+    color: #22a7ea;
+    float: right;
+  }
 
-.fade {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 99;
-  display: none;
-}
-/*弹出层*/
-.succ-pop {
-  width: 500px;
-  height: 400px;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  margin-left: -200px;
-  margin-top: -150px;
-  z-index: 999;
-  border-radius: 5px;
-  background: url("../../../static/images/Login/context.png") no-repeat;
-  display: none;
+  .fade {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    display: none;
+  }
+  /*弹出层*/
+  .succ-pop {
+    width: 500px;
+    height: 400px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -150px;
+    z-index: 999;
+    border-radius: 5px;
+    background: url("../../../static/images/Login/context.png") no-repeat;
+    display: none;
   .login-cancel {
     font-size: 24px;
     position: absolute;
@@ -421,44 +422,44 @@ export default {
     text-align: center;
     cursor: pointer;
   }
-}
-.su-pop {
-  width: 420px;
-  height: 240px;
-  background: #fff;
-  position: fixed;
-  margin-top: 50px;
-  margin-left: 40px;
+  }
+  .su-pop {
+    width: 420px;
+    height: 240px;
+    background: #fff;
+    position: fixed;
+    margin-top: 50px;
+    margin-left: 40px;
 
-  overflow-y: auto;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   .title {
     border: none;
   }
-}
-.succ-pop h5.title {
-  text-align: left;
-  font-size: 16px;
-  color: #66ccff;
-  margin-top: 20px;
-  font-family: 幼圆;
-  margin-left: 30px;
-}
-.central_section {
-  text-align: left;
-  margin-top: 20px;
-  margin-left: 30px;
-}
-.el-button.is-round {
-  border-radius: 5px !important;
-  padding: 12px 23px !important;
-  width: 280px !important;
-  height: 57px !important;
-  position: fixed !important;
-  margin-left: 110px !important;
-  margin-top: 320px !important;
-  font-size: 16px !important;
-}
+  }
+  .succ-pop h5.title {
+    text-align: left;
+    font-size: 16px;
+    color: #66ccff;
+    margin-top: 20px;
+    font-family: 幼圆;
+    margin-left: 30px;
+  }
+  .central_section {
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 30px;
+  }
+  .el-button.is-round {
+    border-radius: 5px !important;
+    padding: 12px 23px !important;
+    width: 280px !important;
+    height: 57px !important;
+    position: fixed !important;
+    margin-left: 110px !important;
+    margin-top: 320px !important;
+    font-size: 16px !important;
+  }
 </style>
