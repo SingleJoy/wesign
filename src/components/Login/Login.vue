@@ -203,7 +203,7 @@ export default {
                             }
                           }).catch(error => {
                           });
-                        
+
                     } else {
                         sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
                         this.$router.push("/Role");
@@ -217,7 +217,7 @@ export default {
                     });
             }
         });
-          
+
       },
 
       forgetPassWord() {
@@ -235,13 +235,8 @@ export default {
           this.selectedEnterprise = this.tenantNum[0];
         }
         this.$http
-          .get(
-            process.env.API_HOST +
-            "v1.4/tenant/" +
-            this.selectedEnterprise.interfaceCode +
-            "/homePage",
-            {
-              params: {
+          .get(process.env.API_HOST + "v1.4/tenant/" + this.selectedEnterprise.interfaceCode + "/homePage",
+            {params: {
                 mobile: this.selectedEnterprise.mobile,
                 interfaceCode: this.selectedEnterprise.interfaceCode
               }

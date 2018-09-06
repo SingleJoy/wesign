@@ -28,6 +28,7 @@
     created() {
       var Status = cookie.getJSON('tenant')[1].isBusiness
       if(Status == '0'){
+        // 0 小B   1代表大B
         this.Jurisdiction = false
       }
     }
