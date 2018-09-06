@@ -329,7 +329,7 @@ export default {
         }
         jsonVal = jsonVal.substring(0,jsonVal.length-1)
         this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateBatchSign',
-        {"contractName":this.$store.state.templateName,"templateNum":this.$store.state.templateNo,"jsonVal":jsonVal,"contractTempNo":this.$store.state.contractNo1,"templateSpecificType":this.$store.state.templateGenre,"operateType":''},{emulateJSON:true}).then(function (res) {
+        {"contractName":this.$store.state.templateName,"templateNum":this.$store.state.templateNo,"jsonVal":jsonVal,"contractTempNo":this.$store.state.contractNo1,"templateSpecificType":this.$store.state.templateGenre,"operateType":'','accountCode':sessionStorage.getItem('accountCode')},{emulateJSON:true}).then(function (res) {
           if(res.data.sessionStatus == '0'){
             this.$router.push('/Server')
           } else {

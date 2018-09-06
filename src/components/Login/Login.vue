@@ -106,12 +106,14 @@ export default {
 		this.$refs[formName].validate(valid => {
 			if (valid) {
 			var pass = md5(this.ruleForm.password);
-			this.$http.get(process.env.API_HOST + "v1/tenant/login", {
+			this.$http
+				.get(process.env.API_HOST + "v1/tenant/login", {
 				params: {
 					username: this.ruleForm.username,
 					password: pass
 				}
-				}).then(response => {
+				})
+				.then(response => {
 					if (response.data.resultCode === "1") {
 						this.$http.get(process.env.API_HOST + "v1.4/user/bindEnterprises", {
 							params: {
@@ -189,20 +191,30 @@ export default {
                                     });
                                 }
                             } else {
-                              sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
-                                this.$router.push("/Role");
+                              this.$message({
+                                showClose: true,
+                                duration: 1000,
+                                message: "登录成功",
+                                type: "success"
+                              });
+                              cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
+                              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                              this.$router.push("/Home");
                             }
                           }).catch(error => {
                           });
                         
                     } else {
-                         this.$message({
-                            showClose: true,
-                            message: "账户或密码错误",
-                            type: "error"
-                        });
+                        sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+                        this.$router.push("/Role");
                     }
                 });
+            } else {
+                    this.$message({
+                        showClose: true,
+                        message: "账户或密码错误",
+                        type: "error"
+                    });
             }
         });
           
