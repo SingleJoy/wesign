@@ -653,7 +653,7 @@
           this.tenantSealNo=res.data.dataList[0].signatureCode;
 
           // console.log(this.tenantSeal)
-          if(res.data.dataList[1].signaturePath){
+          if(res.data.dataList[1]&&res.data.dataList[1].signaturePath){
             this.officeSeal=true
             this.officeSealUrl=res.data.dataList[1].signaturePath;
             this.officeSealNo=res.data.dataList[1].signatureCode;
