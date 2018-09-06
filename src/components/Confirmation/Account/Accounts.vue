@@ -45,7 +45,7 @@
 
               </div>
               <a href="javascript:void(0);" @click="centerDialogVisible = true" class="changePassword">修改密码</a>
-              <div class="real-name-state" v-if="realNameState">
+              <div class="real-name-state" v-if="realNameState" v-show="accountLevel=='1'">
                 <img src="../../../../static/images/Confirmation/Account/realName.png">
               </div>
             </div>
@@ -107,7 +107,7 @@
 
             </div>
 
-            <div class="create-seal" v-if="!officeSeal" >
+            <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
               <!--生成公章-->
               <span>录入公章防伪码在线生成</span>
               <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
@@ -658,21 +658,35 @@
 
           }
         }
-        
+
       },
 
       // 查询签章
       searchSeal(){
         this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
-
           this.tenantSeal=res.data.dataList[0].signaturePath;
           let defultCode=res.data.dataList[0].defultCode;
+          console.log(defultCode);
+          if(this.accountLevel=='2'){
+
+            if(defultCode=='0'){
+               var tenantSeal=document.getElementById("tenantSeal");
+               var officeSeal=document.getElementById("officeSeal");
+
+
+            }else{
+
+            }
+
+
+          }else {
+
+          }
 
           this.tenantSealNo=res.data.dataList[0].signatureCode;
-
           // console.log(this.tenantSeal)
           if(res.data.dataList[1]){
-            this.officeSeal=true
+            this.officeSeal=true;
             this.officeSealUrl=res.data.dataList[1].signaturePath;
             this.officeSealNo=res.data.dataList[1].signatureCode;
 
@@ -706,7 +720,6 @@
             }
 
           });
-
         }
       },
       companyRealName() {  //未通过状态
