@@ -6,7 +6,7 @@
           <img src="../../../../../static/images/logo2.png" alt="">
         </p>
         <div class='buttons'>
-          <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+          <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?</el-button>
 
         </div>
       </nav>

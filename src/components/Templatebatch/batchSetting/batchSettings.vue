@@ -499,7 +499,8 @@ export default {
               "idCards":id_nums,
               "mobiles":mobiles,
               "emails":emails,
-              "templateSpecificType":this.$store.state.templateGenre
+              "templateSpecificType":this.$store.state.templateGenre,
+              "accountCode":sessionStorage.getItem('accountCode')
             }
           }
           this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractTemp',zqUserContractTempVo,{emulateJSON:true}).then(function (res) {

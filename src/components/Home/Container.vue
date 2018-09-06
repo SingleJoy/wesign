@@ -324,6 +324,7 @@
             up.click();
         },
         choice() {
+            // if()
             this.popupContainer = !this.popupContainer;
         },
         shut() {

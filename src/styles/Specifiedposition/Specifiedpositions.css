@@ -163,7 +163,7 @@
   line-height: 30px;
 }
 
-.Specifiedpositions>.signing>#textInfo{
+.Specifiedpositions>.signing>#textInfoTip{
   clear:both;
   color:red;
   font-size:12px;
