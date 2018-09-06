@@ -191,22 +191,14 @@ export default {
                                     });
                                 }
                             } else {
-                              this.$message({
-                                showClose: true,
-                                duration: 1000,
-                                message: "登录成功",
-                                type: "success"
-                              });
-                              cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
-                              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                              this.$router.push("/Home");
+                               sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+                                this.$router.push("/Role");
                             }
                           }).catch(error => {
-                          });
 
+                          });
                     } else {
-                        sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
-                        this.$router.push("/Role");
+                        
                     }
                 });
             } else {
