@@ -201,7 +201,7 @@ export default {
       that.pollingPanel(this.timer)
     }, 3000)
 
-
+    
     this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+ contractNo +'/user/'+ cookie.getJSON('tenant')[0].userCode + '/signerpositions').then(function (res) {
       if(res.data.sessionStatus == '0'){
         this.$router.push('/Server')
@@ -407,7 +407,7 @@ export default {
      var signW =  parseInt(document.getElementById('signImg').style.width)
      var signatureW =  parseInt(document.getElementById('signCanvasImg').style.width)//手写
      var signatureH =  parseInt(document.getElementById('signCanvasImg').style.height)
-     let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].userCode + '/contractmoresign/'+ contractNo
+     let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[0].userCode + '/contractmoresign/'+ contractNo
       this.$http.post(url,{
        'tenantSignCode':cookie.getJSON('tenant')[1].interfaceCode,
        'userSignCode': cookie.getJSON('tenant')[0].userCode,
