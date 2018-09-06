@@ -203,22 +203,21 @@ export default {
                             }
                           }).catch(error => {
                           });
-                        }
-                      } else {
+                        
+                    } else {
                         sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
                         this.$router.push("/Role");
-                      }
+                    }
+                });
+            } else {
+                    this.$message({
+                        showClose: true,
+                        message: "账户或密码错误",
+                        type: "error"
                     });
-                } else {
-                  this.$message({
-                    showClose: true,
-                    message: "账户或密码错误",
-                    type: "error"
-                  });
-                }
-              });
-          }
+            }
         });
+          
       },
 
       forgetPassWord() {
