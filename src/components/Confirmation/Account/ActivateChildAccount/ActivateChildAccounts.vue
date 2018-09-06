@@ -13,7 +13,7 @@
 
             <div class="border-bottom"  ></div>
 
-            <div class="active-account">
+            <div class="active-account" style="margin-left: 0;">
               <div class="active-account-tips">
                 请您仔细阅读一下授权书内容，如确定无任何异议后，请您在确定身份认证后，签署提交
               </div>

@@ -673,7 +673,7 @@
                var tenantSeal=document.getElementById("tenantSeal");
                var officeSeal=document.getElementById("officeSeal");
 
-
+                 console.log("1111")
             }else{
 
             }
