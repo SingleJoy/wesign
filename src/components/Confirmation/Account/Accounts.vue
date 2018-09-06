@@ -8,10 +8,10 @@
         <!--账号管理   新增二级账号-->
 
         <!--<div class="tap">-->
-          <!--&lt;!&ndash;<div class="btn-active" @click="EnterAccount">账户中心</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>&ndash;&gt;-->
-          <!--<div class="btn-active" >账户中心</div>-->
-          <!--<div class="btn-default" style="margin-left: -5px;" >费用中心</div>-->
+        <!--&lt;!&ndash;<div class="btn-active" @click="EnterAccount">账户中心</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>&ndash;&gt;-->
+        <!--<div class="btn-active" >账户中心</div>-->
+        <!--<div class="btn-default" style="margin-left: -5px;" >费用中心</div>-->
         <!--</div>-->
 
         <div class="content">
@@ -25,20 +25,20 @@
 
               <div class="card" style="margin: 20px;">
 
-                <div class="line" style="padding-top: 20px;">
+                <div class="card-line" style="padding-top: 20px;">
                   <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:</span>
                   <b>{{mobile}}</b>
 
                 </div>
-                <div class="line">
+                <div class="card-line">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
                   <b>{{companyName}}</b>
                 </div>
-                <div class="line">
+                <div class="card-line">
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
                   <b>{{Email}}</b>
                 </div>
-                <div class="line">
+                <div class="card-line">
                   <span>被授权人姓名:</span>
                   <b>{{authName}}</b>
                 </div>
@@ -61,8 +61,8 @@
               <div class="card right-card" style="margin-top: 20px;margin-left: 20px;">
                 <div class="right-card-content">
                   <div class="right-line" >
-                    <span>序列号:</span>
-                    <b>{{issuedNumber}}</b>
+                    <span style="display: inline-block;width: 60px;vertical-align: top;">序列号:</span>
+                    <b style="display: inline-block;width: 180px;word-wrap:break-word;vertical-align: top;">{{issuedNumber}}</b>
                   </div>
                   <div class="right-line">
                     <span>颁发给:</span>
@@ -88,25 +88,23 @@
           </div>
         </div>
 
-        <div class="sign-management">
+        <div class="sign-management" v-if="oneLever">
           <p class="title">签章管理</p>
           <div class="border-bottom"></div>
           <div class="sign-content">
 
-            <div class="sign-picture" v-if="tenantSeal">
+            <div class="sign-picture" v-if="tenantSeal" @click="changeDefaultSeal(tenantSealNo)" :class="{'chooseDefaultSeal':defaultCode}">
               <!--合同章-->
               <img :src="[tenantSeal]" alt="合同章">
-              <span>默认合同章</span>
+              <span v-if="defaultCode">默认合同章</span>
 
             </div>
 
-            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" >
-              <!--默认图片-->
-              <!--<img src="../../../../static/images/Default/default-contrat-seal.png" >-->
-              <!--<img :src="[officeSealUrl]" alt="签章图片">-->
-              <!--<img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">-->
-              <!--<img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+officeSealUrl" alt="签章图片">-->
+            <div class="sign-picture" v-if="officeSeal" style="margin-left: 20px;" @click="changeDefaultSeal(officeSealNo)" :class="{'chooseDefaultSeal':!defaultCode}">
+
               <img :src="[officeSealUrl]" alt="签章图片">
+              <span v-if="!defaultCode">默认合同章</span>
+
             </div>
 
             <div class="create-seal" v-if="!officeSeal">
@@ -122,8 +120,33 @@
 
         </div>
 
-        <div class="seal-management">
-          <p class="title">账号管理</p>
+        <div class="seal-management" v-if="oneLever">
+          <p class="title" style="position: relative;">账号管理
+
+            <!--<el-tooltip class="item" effect="dark" style="width: 400px;" content="-->
+            <!--一、什么是子账号？-->
+            <!--子账号由企业管理员开通授权，使用手机号登录，可发起合同、管理合同-->
+            <!--二、子账号拥有哪些权限？-->
+            <!--子账号仅可管理本账号内的合同，不可接收合同文件-->
+            <!--1.发起合同-->
+            <!--可上传文件发起合同，也可以通过一级账号分配的模板发起合同-->
+            <!--2.文件签署-->
+            <!--签署“待我签署”状态的合同-->
+            <!--3.下载文件-->
+            <!--合同签署完成后，子账号管理员可将合同下载到本地-->
+            <!--4.延期-->
+            <!--合同已到达签署截止日且仍未签署完成时，子账号管理员可修改签署截止日-->
+            <!--三、开通子账号需要哪几步？-->
+            <!--1.录入子账号基本信息，对子账号管理员主体进行实名认证（若账号已经在微签注册、实名过，则不需要设置密码）-->
+            <!--2.为子账号分配模板-->
+            <!--3.提交开通子账号申请-->
+            <!--4.短信通知子账号管理员-->
+            <!--5.子账号管理员登录账号，签署授权书激活子账号" placement="right">-->
+            <!--<span><i class="el-icon-warning" style="color: red;font-size: 20px;margin-left: 80px;position:absolute;top: 15px;"></i></span>-->
+
+            <!--</el-tooltip>-->
+          </p>
+
           <div class="border-bottom"></div>
           <div class="child-account">
 
@@ -183,7 +206,7 @@
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='4'">
-                 <!--待完善-->
+                  <!--待完善-->
                   <a class="edit" href="javascript:void(0)" @click="edit(item.accountCode,item.accountStatus)">编辑</a>
                 </div>
 
@@ -193,10 +216,14 @@
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='6'">
-                 <!--已冻结-->
+                  <!--已冻结-->
                   <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
 
                 </div>
+              </div>
+
+              <div class="left" @click="sealManagement" v-if="addOperate">
+                <i class="el-icon-plus"></i>
               </div>
 
               <el-dialog
@@ -232,9 +259,7 @@
                 </span>
               </el-dialog>
 
-              <div class="left" @click="sealManagement" v-if="accountDefault">
-                <i class="el-icon-plus"></i>
-              </div>
+
             </div>
 
           </div>
@@ -429,7 +454,14 @@
         templateNum:'',
         userState:'',
         officeSealList:[],  //公章列表,
-        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode  //interfaceCode
+        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode , //interfaceCode
+        addOperate:false,        //添加二级账号操作
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
+        oneLever:false,             //默认为一级账号
+        accountStatusNumber:'',
+        tenantSealNo:'', //公章编号
+        officeSealNo:'', //签章编号
+        defaultCode:true,          //默认合同章显示选中效果
 
       }
     },
@@ -456,7 +488,7 @@
         }
       },
 
-       // 修改密码
+      // 修改密码
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -492,7 +524,7 @@
 
       edit(accountCode,accountStatus){
 
-        console.log(accountStatus);
+        // console.log(accountStatus);
 
         var accountCode1=accountCode;
         sessionStorage.setItem("accountCode",accountCode1);
@@ -503,34 +535,73 @@
           this.$router.push('EditChildNoActive');
         }
       },
-      // 冻结{，解冻二级账户
+
+      // 查询二级账号
+      searchSecondAccounts(){
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/secondAccounts').then(function (res) {
+
+          if(res.data.resultCode=='1'){
+
+            this.accountList=res.data.dataList;
+            let num=res.data.dataList.length;
+            let maxNum=res.data.dataList.accountNumMax;
+            if(num<=maxNum){
+              this.addOperate=false;
+            }else{
+              this.addOperate=true;
+            }
+
+          }if(res.data.resultCode=='0'){
+            this.accountDefault=true;
+          }
+          // this.$loading.hide(); //loading隐藏
+        });
+
+      },
+      // 冻结，解冻二级账户
       frozen(accountCode,accountStatus){
-        var accountStatus=accountStatus=3?6:3;
+        if(accountStatus=='3'){
+          this.accountStatusNumber='6'
+        }else{
+          this.accountStatusNumber='3'
+        }
+        let accountCode1=accountCode;
+        // 查询二级账号
 
-
-        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'updateAccountStatus',{
-          accountCode:accountCode ,  //账户编号
-          accountStatus:accountStatus,            //账户状态
-
-        }).then(function (res) {
+        this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccountStatus',{
+          accountCode:accountCode1 ,  //账户编号
+          accountStatus:this.accountStatusNumber,            //账户状态
+        },{emulateJSON: true}).then(function (res) {
           if((res.data.resultCode == '0')&&(accountStatus=='6')){
-            this.$alert('二级账户冻结失败', '提醒',{
+            this.$alert(res.data.resultMessage, '提醒',{
               confirmButtonText: '确定'
             });
 
           } else if((res.data.resultCode == '0')&&(accountStatus=='3')){
-            this.$alert('二级账户解冻失败', '提醒',{
+            this.$alert(res.data.resultMessage, '提醒',{
               confirmButtonText: '确定'
             });
 
-          }else if((res.data.resultCode == '1')&&(accountStatus=='6')){
-
-            this.$alert('二级账户冻结成功', '确定',{
+          }else if((res.data.resultCode=='1')&&(accountStatus=='6')){
+            // 冻结成功后二级账号列表重新查询
+            this.$loading.show(); //显示
+            this.accountList=[];
+            this.searchSecondAccounts();
+            this.$loading.hide(); //显示
+            this.$alert(res.data.resultMessage, '确定',{
               confirmButtonText: '确定'
             });
+            // console.log("请求数据")
 
-          }else if((res.data.resultCode == '0')&&(accountStatus=='6')){
-            this.$alert('二级账户解冻', '确定',{
+
+
+          }else if((res.data.resultCode == '1')&&(accountStatus=='3')){
+            //冻结成功重新查询二级账号
+             this.$loading.show(); //显示
+            this.accountList=[];
+            this.searchSecondAccounts();
+            this.$loading.hide(); //loading隐藏
+            this.$alert(res.data.resultMessage, '确定',{
               confirmButtonText: '确定'
             });
           }
@@ -571,6 +642,52 @@
           })
 
         }
+
+      },
+
+      // 查询签章
+      searchSeal(){
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
+
+          this.tenantSeal=res.data.dataList[0].signaturePath;
+          this.tenantSealNo=res.data.dataList[0].signatureCode;
+
+          // console.log(this.tenantSeal)
+          if(res.data.dataList[1].signaturePath){
+            this.officeSeal=true
+            this.officeSealUrl=res.data.dataList[1].signaturePath;
+            this.officeSealNo=res.data.dataList[1].signatureCode;
+
+          }else {
+            this.officeSeal=false
+          }
+          if(res.data.dataList[0].defultCode=='0'){
+            this.defaultCode=true;
+          }else {
+            this.defaultCode=false;
+          }
+
+        });
+      },
+
+      // 修改默认签章
+      changeDefaultSeal(sealNo){
+        let sealNo_=sealNo;
+        // console.log(sealNo_)
+        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/signature/'+sealNo_+'/UpdateAccountSignature').then(function (res) {
+          if(res.data.resultCode=='1'){
+            this.$alert(res.data.resultMessage, '确定',{
+              confirmButtonText: '确定'
+            });
+            this. searchSeal();
+          }else{
+            this.$alert(res.data.resultMessage, '提示',{
+              confirmButtonText: '确定'
+            });
+          }
+
+        });
+
 
       },
       companyRealName() {  //未通过状态
@@ -623,7 +740,6 @@
       //解冻子账号
       thaw(){
         this.thawDialogVisible=true
-
       }
 
     },
@@ -692,9 +808,12 @@
 
       // 意见  待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/auditStatus').then(function (res) {
-        // this.auditOpinion=res.data.data;
+        // console.log(res.data)
         if(res.data.resultCode=='1'){
-
+          // this.toEnterprise = res.data.data.verifyMoneyNum
+          this.realNameState=true;
+        }else{
+          this.realNameState=false;
         }
 
         // this.toEnterprise = res.data.data.verifyMoneyNum
@@ -712,8 +831,8 @@
       });
       //  账户信息
       let accountCode=sessionStorage.getItem("accountCode");
-	  //
-      console.log(accountCode)
+      //
+      // console.log(accountCode)
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+accountCode+'/getAccountInformation').then(function (res) {
         if(res.data.resultCode=='1'){
 
@@ -725,43 +844,18 @@
         }
       })
 
+      console.log("accountLevel"+this.accountLevel)
+      if(this.accountLevel=='1'){
+        this.oneLever=true;    //一级账号才去请求查询一级账号关联的所有二级账户信息
+        console.log("测试啊啊啊啊啊啊")
+        this.searchSecondAccounts();
+      }else {
+        this.oneLever=false;      //二级账号不查询，并且不显示账号管理模块
+      }
       // 子账户信息
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/secondAccounts').then(function (res) {
-
-        if(res.data.resultCode=='1'){
-
-          this.accountList=res.data.dataList;
-          let num=res.data.dataList.length;
-          let maxNum=res.data.dataList.accountNumMax;
-          if(num<maxNum){
-            this.accountDefault=false;
-            console.log(num+"+++++++"+maxNum)
-          }else{
-            this.accountDefault=true
-          }
-
-        }if(res.data.resultCode=='0'){
-            this.accountDefault=true;
-        }
-
-      });
 
       //获取合同章
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
-
-
-          this.tenantSeal=res.data.dataList[0].signaturePath;
-          console.log(this.tenantSeal)
-          if(res.data.dataList[1].signaturePath){
-            this.officeSeal=true
-            this.officeSealUrl=res.data.dataList[1].signaturePath;
-          }else {
-            this.officeSeal=false
-          }
-
-
-
-      });
+      this.searchSeal();
 
 
     },
@@ -784,6 +878,9 @@
   }
   .border-bottom{
     width:100%;height: 1px;border-bottom: 1px solid #ddd;margin-top: 20px
+  }
+  .chooseDefaultSeal{
+    border: 2px dotted #22a7ea;
   }
 
 </style>

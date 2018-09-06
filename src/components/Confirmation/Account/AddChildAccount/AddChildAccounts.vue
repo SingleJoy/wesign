@@ -29,6 +29,11 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
+
+                    <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="top-start" v-show="showToolTip">
+
+                    </el-tooltip>
+
                     <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 :disabled="dis"></el-input>
                   </el-form-item>
 
@@ -59,7 +64,7 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
                   </template>
@@ -216,11 +221,13 @@
           if(this.server){
             server.verficate(params).then(res => {
               if (res.data === 0) {
+
                 this.ruleForm.password="test111111";
                 this.dis=true;
+                this.showToolTip=true;
 
               } else {
-
+                this.showToolTip=false;
               }
             }).catch(error => {
 
@@ -284,6 +291,7 @@
         },
         once:false , //提交按钮不可重复点击
         date:'' ,//当前日期
+        showToolTip:false
       }
     },
     methods: {
@@ -307,9 +315,9 @@
       submitBtn(formName){
 
         let enterpriseName= sessionStorage.getItem("enterpriseName");
-        if(this.agree) {
+        if(this.agree){
           this.$refs[formName].validate((valid) => {
-
+            if (valid) {
              this.once=true;//提交按钮不可重复点击
             let pass = md5(this.ruleForm.password); //密码MD5加密
             let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
@@ -327,7 +335,6 @@
               idCard:this.ruleForm.idCode,                  //省份证号
               mobile:this.ruleForm.mobile ,              //手机号码
               password:pass,                 //密码
-              accountCode:accountCode,        //账户编号
               email:this.ruleForm.Email,                    //邮箱
               templates:templates,                                //分配模板
               company_name:enterpriseName,             //企业名称
@@ -341,8 +348,8 @@
                 this.$msgbox({
                   title: '提醒',
                   message: h('p', null, [
-                    h('span', null, '恭喜你，添加二级账号成功'),
-                    h('i', { style: 'color: teal' }, '恭喜你，添加二级账号成功')
+                    h('span', null, '恭喜你，'),
+                    h('i', { style: 'color: green' }, '添加二级账号成功')
                   ]),
                   showCancelButton: true,
                   confirmButtonText: '确定',
@@ -370,19 +377,14 @@
                 });
 
 
-                // this.$message({
-                //   message: '恭喜你，添加二级账号成功',
-                //   type: 'success'
-                // });
-                // this.$router.push("/Account");
-              }else{
+              }else {
                 //二级账号添加失败
                 const h = this.$createElement;
                 this.$msgbox({
                   title: '提醒',
                   message: h('p', null, [
                     h('span', null, res.data.resultMessage),            //res.data.resultMessage 为二级账号添加失败提醒信息
-                    h('i', { style: 'color: teal' }, '二级账号添加失败')
+                    h('i', {style: 'color: teal'}, '二级账号添加失败')
                   ]),
                   showCancelButton: true,
                   confirmButtonText: '确定',
@@ -411,9 +413,9 @@
                   });
                 });
 
-
               }
             })
+            }
 
           })
 

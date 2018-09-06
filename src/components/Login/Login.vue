@@ -131,12 +131,16 @@ export default {
                                     var urlParam =  response.data.dataList[0][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[0][0].enterpriseName;
                                     var mobile = response.data.dataList[0][0].mobile;
+                                    var auditStatus = response.data.dataList[0][0].auditStatus;
                                     var accountCode = response.data.dataList[0][0].accountCode;
                                     var accountLevel = response.data.dataList[0][0].accountLevel;
                                     var accountStatus = response.data.dataList[0][0].accountStatus;
                                     sessionStorage.setItem("enterpriseName", enterpriseName);
                                     sessionStorage.setItem('accountCode',accountCode);
                                     sessionStorage.setItem('accountLevel',accountLevel);
+                                    sessionStorage.setItem("interfaceCode", urlParam);
+                                    sessionStorage.setItem('auditStatus',auditStatus);
+                                    sessionStorage.setItem('mobile',mobile);
                                 }else{
                                     var urlParam =  response.data.dataList[1][0].interfaceCode;
                                     var interfaceCode =  response.data.dataList[1][0].interfaceCode;
@@ -146,6 +150,7 @@ export default {
                                     var accountLevel = response.data.dataList[1][0].accountLevel;
                                     var accountStatus = response.data.dataList[1][0].accountStatus;
                                     var authorizerCode = response.data.dataList[1][0].authorizerCode;
+                                    var auditStatus = response.data.dataList[1][0].auditStatus;
                                     var mobile = response.data.dataList[1][0].mobile;
                                     sessionStorage.setItem("enterpriseName", enterpriseName);
                                     sessionStorage.setItem("interfaceCode", interfaceCode);
@@ -153,6 +158,7 @@ export default {
                                     sessionStorage.setItem('accountLevel',accountLevel);
                                     sessionStorage.setItem('authorizerCode',authorizerCode);
                                     sessionStorage.setItem('mobile',mobile);
+                                    sessionStorage.setItem('auditStatus',auditStatus);
                                 }
                                 if(accountStatus==2){
                                     this.$router.push('/ActivateChildAccount');
@@ -185,10 +191,24 @@ export default {
                                     });
                                 }
                             } else {
-                                sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
-                                this.$router.push("/Role");
+                              this.$message({
+                                showClose: true,
+                                duration: 1000,
+                                message: "登录成功",
+                                type: "success"
+                              });
+                              cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
+                              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                              this.$router.push("/Home");
                             }
-                        });
+                          }).catch(error => {
+                          });
+                        }
+                      } else {
+                        sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+                        this.$router.push("/Role");
+                      }
+                    });
                 } else {
                   this.$message({
                     showClose: true,
@@ -318,7 +338,7 @@ export default {
   }
   .userInfo {
     color: #16a8f2;
-    font-size: 36px;
+
     text-align: center;
     font-size: 2.25rem;
   }

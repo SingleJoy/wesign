@@ -23,7 +23,7 @@
 }
 .nav ul li{
     float: left;
-    padding: 0 22px 0 22px; 
+    padding: 0 20px 0 20px;
 }
 #ul li:hover{
    border-bottom: 3px solid red;
@@ -37,7 +37,7 @@
 }
 .nav .btns li{
     float: left;
-    width: 90px;
+    width: 95px;
     height: 60px;
 }
 .nav .btns li:nth-child(1){
