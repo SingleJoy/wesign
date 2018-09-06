@@ -222,7 +222,7 @@
                 </div>
               </div>
 
-              <div class="left" @click="sealManagement" v-if="addOperate" >
+              <div class="left-plus" @click="sealManagement" v-if="addOperate" >
                 <i class="el-icon-plus"></i>
               </div>
 
@@ -259,7 +259,7 @@
                 </span>
               </el-dialog>
 
-              <div class="right" v-if="accountDefault">
+              <div class="right-content" v-if="accountDefault">
                 <!--Q1-->
                 <div class="question">
                   <a href="javascript:void(0)" class="serial-number" style="background-color: #79b6ef;">
@@ -906,7 +906,7 @@
   .create-seal{
     background: url(" ../../../../static/images/Confirmation/Account/defalut-seal.png")no-repeat;
   }
-  .seal-management .left,.child-account>.account-list>.list-content{
+  .seal-management .left-plus,.child-account>.account-list>.list-content{
     background: url("../../../../static/images/Confirmation/Account/addSeal.png")no-repeat;
   }
   .border-bottom{
