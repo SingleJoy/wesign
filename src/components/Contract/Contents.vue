@@ -356,6 +356,12 @@ export default {
           sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
           sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
           this.$router.push('/Complete')
+       }else{
+           this.$message({
+            showClose: true,
+            message: res.data.responseMsg,
+            type: 'warning'
+          })
        }
       }
      })

@@ -240,22 +240,23 @@ export default {
             perpetualValid: perpetualValid,
             pageNo: val,
             pageSize: "10",
-            contractStatus: "2"
+            contractStatus: "2",
+            accountCode:this.accountCode
           };
           this.getData(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" };
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" ,accountCode:this.accountCode};
           this.getData(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" };
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" ,accountCode:this.accountCode};
         this.getData(requestVo);
       }
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
-     selectParam(value){
+    selectParam(value){
       this.queryAccountCode=value
     },
     contractInquiryWaitOthers() {
@@ -281,14 +282,14 @@ export default {
           .slice(0, 10);
       }
       var requestVo = {
-        accountCode:this.queryAccountCode,
+        accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
         contractName: this.inputVal2,
         queryTimeStart: start,
         queryTimeEnd: end,
         perpetualValid: perpetualValid,
         pageNo: "1",
         pageSize: "10",
-        contractStatus: "2"
+        contractStatus: "2",
       };
       this.getData(requestVo);
       this.$message({
@@ -346,7 +347,7 @@ export default {
     // },
   },
   created() {
-    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2" };
+    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2",'accountCode':this.accountCode };
     this.getData(requestVo);
     let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
     server.queryContractLists(interfaceCode).then(res=>{

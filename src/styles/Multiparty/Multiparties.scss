@@ -57,7 +57,7 @@
   text-align: center;
 }
 
-#textInfo{
+#textInfoModel{
   display: inline-block;
   width: 237px;
   height:38px;
@@ -68,7 +68,7 @@
   border-radius: 3px;
   margin-right: 20px;
 }
-#textInfo:focus{
+#textInfoModel:focus{
   border: 1px solid #409EFF;
 }
 .contractTitle{
@@ -132,6 +132,7 @@
               border:1px solid#fff;
               .content-left{
                   cursor: pointer;
+                  border: 1px solid #ddd;
                   float: left;
                   height:270px;
                   width:180px;
@@ -157,7 +158,8 @@
               }
               .content-left:hover p{
                   visibility: visible;
-                  transform: visibility 3s ease-in;
+                  transition: visibility 3s ease-in;
+                //   transition: border 1s linear,background 1s linear;
               }
                .content-right{
                    float: left;

@@ -22,7 +22,7 @@
 
                 <p>
                     <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                    <span  v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+                    <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
                 </p>
            
           </div>
@@ -213,7 +213,9 @@ export default {
         businessScenario:'',
         ContractCode:'',
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-        accountName:''
+        accountName:'',
+        accountCode :sessionStorage.getItem('accountCode'),
+        operator:''
     };
   },
   methods: {
@@ -305,6 +307,7 @@ export default {
         var signUserVo = res.data.dataList
         var contractStatus = res.data.data.status
         var isCreater='';
+        this.operator = res.data.data.operator
         if(currentFaceCode == res.data.data.interfaceCode){
             isCreater = true
         }else{
@@ -397,9 +400,9 @@ export default {
         var accountLevel = sessionStorage.getItem('accountLevel');
         var accountCode = sessionStorage.getItem('accountCode');
         if (contractNo) {
-        contractNo = JSON.parse(contractNo)
-        this.ContractCode = contractNo;
-        this.contractNo = contractNo;
+            contractNo = JSON.parse(contractNo)
+            this.ContractCode = contractNo;
+            this.contractNo = contractNo;
         }
         this.seeContractDetails ()
 

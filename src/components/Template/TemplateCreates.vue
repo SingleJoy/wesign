@@ -14,7 +14,7 @@
                         <span class="title-tip" v-if="activeTab==1">单次发起合同：一次发起一份合同，合同签署方数量以模板限定签署方数量为准</span>
                         <span class="title-tip" v-if="activeTab==0">批量发起合同：一次批量发起多份合同，发起方与每个签署方签署一份独立合同</span>
                          <span class="search-btn">
-                            <input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
+                            <input type="text" id='textInfoModel' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
                             <el-button type="primary"  style='margin-left:5px;letter-spacing:5px;' @click="queryTempBatch">搜索</el-button>
                         </span>
                    </div>

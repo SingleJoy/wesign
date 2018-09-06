@@ -218,7 +218,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={ "accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+      var requestVo ={ "accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getData (requestVo)
       this.inquiry = true
     },
@@ -268,7 +268,7 @@ export default {
     // }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4'};
+    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4',accountCode:this.accountCode};
     this.getData (requestVo);
     let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
     server.queryContractLists(interfaceCode).then(res=>{

@@ -471,7 +471,7 @@
         pageNo: "1",
         pageSize: "7",
         contractStatus: "0" ,
-        accountCode:accountCode,
+        accountCode:accountLevel==2?accountCode:'',
         accountLevel:accountLevel,
 
       };
@@ -517,7 +517,7 @@
                 }
                 data[i] = obj;
             }
-            console.log(data[1],typeof sessionStorage.getItem('accountCode'))
+            // console.log(data[1],typeof sessionStorage.getItem('accountCode'))
             this.tableData = data;
             this.loading = false;
         }

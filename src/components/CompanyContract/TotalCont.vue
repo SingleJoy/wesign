@@ -234,14 +234,14 @@ export default {
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0'};
+        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
         this.getRecord (requestVo)
         }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
         this.getRecord (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
         this.getRecord (requestVo)
       }
     },
@@ -261,7 +261,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
       this.getRecord (requestVo)
       this.currentPage = 1
       this.$message({
@@ -348,17 +348,17 @@ export default {
     //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
     // }
   },
-   created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
-    this.getRecord (requestVo)
-    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-    server.queryContractLists(interfaceCode).then(res=>{
-      if(res.data.resultCode = 1){
-        this.options=res.data.dataList;
-        this.options.unshift({accountCode:'',accountName:'全部'})
-      }
-    })
-  }
+    created() {
+        var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+        this.getRecord (requestVo)
+        let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+        server.queryContractLists(interfaceCode).then(res=>{
+            if(res.data.resultCode = 1){
+                this.options=res.data.dataList;
+                this.options.unshift({accountCode:'',accountName:'全部'})
+            }
+        })
+    }
 }
 </script>
 

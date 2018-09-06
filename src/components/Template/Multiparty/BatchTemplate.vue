@@ -6,7 +6,7 @@
 					<span class="title-name">模板列表</span>
 					<span class="title-tip" >批量发起合同：一次批量发起多份合同，发起方与每个签署方签署一份独立合同</span>
 					<span class="search-btn">
-						<input type="text" id='textInfo' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
+						<input type="text" id='textInfoModel' placeholder="请输入模板名称" max-length='20' v-model="inputTempBatch">
 						<el-button type="primary"  style='margin-left:5px;letter-spacing:5px;' @click="queryTempBatch">搜索</el-button>
 					</span>
 				</div>
@@ -31,9 +31,9 @@
                                     <p v-if="accountLevel==1" class="item-name">
                                         <span class="initiator item-default">绑定账号：</span>
                                         <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
-                                            <span class="initiator">{{acountItem[accountIndex]}}</span>
+                                            <span class="initiator">{{acountItem}}</span>
                                         </span>
-                                        <span>{{'——'}}</span>
+                                        <span v-else>{{'——'}}</span>
                                      
                                     </p>
                                     <p class="item-name">
@@ -144,18 +144,19 @@ export default {
         handleCurrentChange(val) {
         if ( this.queryTempBatch !== '') {
             if(this.query == true){
-            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
             }else{
-            var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            var templateInfoRequest ={'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
             }
         } else {
-            var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            var templateInfoRequest ={'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
         }
         },
         generateClick(row){
+            console.log(row)
         this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
         this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
         sessionStorage.setItem('templateName', JSON.stringify(row.templateName))
@@ -181,6 +182,7 @@ export default {
                             obj.imgs = res.data.contents[i].template.templateImgs;      //图片
                             obj.usedNum = res.data.contents[i].usedNum;                 //累计发起
                             obj.dialogTableVisible = false;                             //图片预览弹框默认不显示
+                            obj.templateGenre = res.data.contents[i].template.templateSpecificType    //模板特殊类型
                             if (obj.signatory == '' || obj.signatory == null){
                                 obj.signatory = 0;
                             }
@@ -204,14 +206,14 @@ export default {
                 })
                 return false
             }
-            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
             this.query = true
             this.show = true
         }
     },
     created() {
-        var templateInfoRequest ={'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+        var templateInfoRequest ={'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
         this.getTemplateList (templateInfoRequest)
     }
 }

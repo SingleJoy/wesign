@@ -31,9 +31,9 @@
                         <p v-if="accountLevel==1" class="item-name">
                             <span class="initiator item-default">绑定账号：</span>
                             <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
-                                <span class="initiator">{{acountItem[accountIndex]}}</span>
+                                <span class="initiator">{{acountItem}}</span>
                             </span>
-                            <span>{{'——'}}</span>
+                            <span v-else>{{'——'}}</span>
                             
                         </p>
                         <p class="item-name">
@@ -60,7 +60,6 @@
                 </div>
                 <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='contract-info'>
                     <div v-for="(itemImg,indexImg) in item.imgs" :key="indexImg" >
-                        <span>{{itemImg}}</span>
                         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+itemImg" alt="" style='width:100%;'>
                     </div>
                 </el-dialog>
@@ -152,21 +151,21 @@ export default {
         //console.log(`每页 ${val} 条`);
         },
         queryTempBatch(){
-        let templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':1,'userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'}
+        let templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':1,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'}
         this.getTemplateList (templateInfoRequest)
 
         },
         handleCurrentChange(val) {
         if (this.inputTemplate !== ''){
             if(this.query == true){
-            var templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
+            var templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
             }else{
-            var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
+            var templateInfoRequest ={'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
             }
         } else {
-            var templateInfoRequest ={'pageNnm':val,'userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
+            var templateInfoRequest ={'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
         }
         },
@@ -219,7 +218,7 @@ export default {
                 })
                 return false
             }
-            var templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
+            var templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
             this.$message({
                 showClose: true,
@@ -232,7 +231,7 @@ export default {
     },
 
     created() {
-        var templateInfoRequest ={'pageNnm':'1','userStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
+        var templateInfoRequest ={'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};
         this.getTemplateList (templateInfoRequest)
     }
 }

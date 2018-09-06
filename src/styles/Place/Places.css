@@ -160,6 +160,7 @@
   width: 100%;
   text-align: center;
   margin: 20px auto 40px auto;
+  border:none;
 }
 .morePerson{
   padding: 1px 10px;

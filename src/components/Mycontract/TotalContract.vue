@@ -236,15 +236,24 @@ export default {
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0'};
-        this.getData (requestVo)
+            var requestVo ={
+                "contractName":this.inputVal,
+                "queryTimeStart":start,
+                "queryTimeEnd":  end,
+                'perpetualValid':perpetualValid,
+                'pageNo':val,
+                'pageSize':'10',
+                'contractStatus':'0',
+                'accountCode':this.accountCode
+            };
+            this.getData (requestVo)
         }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
-        this.getData (requestVo)
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+            this.getData (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
-        this.getData (requestVo)
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+            this.getData (requestVo)
       }
     },
     handleSizeChange(val) {
@@ -264,7 +273,7 @@ export default {
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
       var requestVo ={
-        "accountCode":this.queryAccountCode,
+        "accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,
         "contractName":this.inputVal,
         "queryTimeStart":start,
         "queryTimeEnd":  end,
@@ -342,7 +351,12 @@ export default {
     // }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
+    var requestVo ={
+        'pageNo':'1',
+        'pageSize':'10',
+        'contractStatus':'0',
+        'accountCode':this.accountCode
+    };
     this.getData (requestVo)
     let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
     server.queryContractLists(interfaceCode).then(res=>{

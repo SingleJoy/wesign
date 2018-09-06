@@ -23,7 +23,7 @@
 
             <p>
                 <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                <span  v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+                <span  v-if='status=="已截止" && operator == accountCode' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
             </p>
            
         </div>
@@ -192,7 +192,9 @@
         History:[],
         businessScenario:'',
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-        accountName:''
+        accountName:'',
+        accountCode :sessionStorage.getItem('accountCode'),
+        operator:''
       };
     },
     methods: {
@@ -292,6 +294,7 @@
                 break;
             }
             this.status = res.data.data.status
+            this.operator = res.data.data.operator
             // switch ( this.status ){
             // case "signing":
             //   this.status = '签署中'

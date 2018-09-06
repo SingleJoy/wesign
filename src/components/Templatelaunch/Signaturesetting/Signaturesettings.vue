@@ -241,7 +241,7 @@ export default {
             return time.getTime() < Date.now();
           }
         },
-        templateName:JSON.parse(sessionStorage.getItem('templateName'))
+        templateName:sessionStorage.getItem('templateName')
       }
     },
     methods: {
@@ -586,19 +586,19 @@ export default {
       var contractNo = sessionStorage.getItem('contractNo')
       var type = sessionStorage.getItem('type')
       if (templateName) {
-        templateName = JSON.parse(templateName)
+        // templateName = JSON.parse(templateName)
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = templateName
         }
       }
       if (templateNo) {
-        templateNo = JSON.parse(templateNo)
+        // templateNo = JSON.parse(templateNo)
         if ( this.$store.state.templateNo == ''){
           this.$store.state.templateNo = templateNo
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }

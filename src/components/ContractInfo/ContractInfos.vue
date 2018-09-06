@@ -203,8 +203,10 @@ export default {
         imgList:[],
         signMobile:'',
         contractType:'',
+        ContractCode:'',
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-        accountName:''
+        accountName:'',
+        operator:''
     };
   },
   methods: {
@@ -311,7 +313,7 @@ export default {
         let contractNo=this.$store.state.rowNumber
           this.contractNo=contractNo;
       }else {   //签署完成页面进入
-      let contractNo=JSON.parse(sessionStorage.getItem('contractNo'))
+      let contractNo=sessionStorage.getItem('contractNo')
       this.contractNo=contractNo;
       }
       let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
@@ -328,6 +330,7 @@ export default {
         this.contractName = contractVo.contractName
         this.validTime = contractVo.validTime
         this.status = contractVo.status
+         this.operator = res.data.data.operator
         switch (type) {
           case '1':
             this.createType = '模板发起'
@@ -398,9 +401,10 @@ export default {
     var accountLevel = sessionStorage.getItem('accountLevel');
     var accountCode = sessionStorage.getItem('accountCode');
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.rowNumber == ''){
-        this.$store.state.rowNumber = contractNo
+            this.ContractCode = contractNo;
+            this.$store.state.rowNumber = contractNo
       }
     }
     this.seeContractDetails()

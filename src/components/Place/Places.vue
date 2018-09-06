@@ -103,6 +103,7 @@ export default {
     data () {
       return {
         //centerDialogVisible:false,
+        baseURL:this.baseURL.BASE_URL,
         current:0,
         showItem:0,
         allpage:0,
@@ -178,19 +179,19 @@ export default {
     },
     initScroll(){
       if (!this.$refs.rightWrapper) { return }
-      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-      //   click: true,
-      //     preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
-      // })
+        // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+        //     click: true,
+        //     preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
+        // })
 
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        probeType: 3,
-        preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
-      })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_right(\s|$)/}
+        })
 
-      this.rightScroll.on('scroll', (pos) => {
-        this.scrollY = Math.abs(Math.round(pos.y))
-      })
+        this.rightScroll.on('scroll', (pos) => {
+            this.scrollY = Math.abs(Math.round(pos.y))
+        })
     },
     calculateHeight(){
       let imgLists = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
@@ -337,18 +338,18 @@ export default {
           this.initScroll()
           this.calculateHeight()
         })
-      for (let i = 0; i < res.data.dataList.length;i++) {
-        let contractUrl = res.data.dataList[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
+        for (let i = 0; i < res.data.dataList.length;i++) {
+            let contractUrl = res.data.dataList[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+            this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            scrollY: true,
+            preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+            })
         }
-        this.imgList = data
-        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-          probeType: 3,
-          scrollY: true,
-          preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
-        })
-      }
       this.isAction = false;
     })
 

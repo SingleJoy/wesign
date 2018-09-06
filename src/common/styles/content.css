@@ -84,8 +84,9 @@
   padding-left: 5px;
   padding-right: 5px;
   outline: none;
-  border: 1px solid #ccc;
+  border: 1px solid #dcdfe6;
   border-radius: 3px;
+  margin-right:20px;
 }
 
 

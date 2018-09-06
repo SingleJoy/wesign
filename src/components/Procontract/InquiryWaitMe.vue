@@ -236,15 +236,16 @@ export default {
             perpetualValid: perpetualValid,
             pageNo: val,
             pageSize: "10",
-            contractStatus: "1"
+            contractStatus: "1",
+            accountCode:this.accountCode
           };
           this.getData(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1" };
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1",'accountCode':this.accountCode};
           this.getData(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1" };
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1" ,'accountCode':this.accountCode};
         this.getData(requestVo);
       }
     },
@@ -277,7 +278,7 @@ export default {
           .slice(0, 10);
       }
       var requestVo = {
-        "accountCode":this.queryAccountCode,
+        accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
         contractName: this.inputVal1,
         queryTimeStart: start,
         queryTimeEnd: end,
@@ -343,7 +344,7 @@ export default {
   },
   created() {
     this.auditStatus = cookie.getJSON("tenant")[1].auditStatus;
-    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "1" };
+    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "1" ,accountCode:this.accountCode};
     this.getData(requestVo);
     let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
     server.queryContractLists(interfaceCode).then(res=>{

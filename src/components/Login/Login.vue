@@ -138,6 +138,7 @@ export default {
                                     sessionStorage.setItem('accountCode',accountCode);
                                     sessionStorage.setItem('accountLevel',accountLevel);
                                 }else{
+                                    var urlParam =  response.data.dataList[1][0].interfaceCode;
                                     var interfaceCode =  response.data.dataList[1][0].interfaceCode;
                                     var enterpriseName = response.data.dataList[1][0].enterpriseName;
                                     var mobile = response.data.dataList[1][0].mobile;
@@ -178,6 +179,7 @@ export default {
                                             cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
                                             this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
                                             this.$router.push("/Home");
+                                            can.user = res.data.dataList;
                                         }
                                     }).catch(error => {
                                     });
@@ -264,7 +266,8 @@ export default {
       sessionStorage.removeItem("accountLevel");
       sessionStorage.removeItem("authorizerCode");
       sessionStorage.removeItem("companyList");
-      cookie.remove('tenant')
+      sessionStorage.removeItem("templateGenre");
+      cookie.remove('tenant');
 
       document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
       window.onresize = function temp() {

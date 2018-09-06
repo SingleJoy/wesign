@@ -1,7 +1,7 @@
 <template>
     <div class='Templates'>
         <Top></Top>
-        <Templatecs></Templatecs>
+        <TemplateSuccess></TemplateSuccess>
         <Bottom></Bottom> 
     </div>
 </template>

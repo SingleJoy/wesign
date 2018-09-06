@@ -210,7 +210,9 @@
             },
             checked3:false,
             interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-            accountName:''
+            accountName:'',
+            accountCode :sessionStorage.getItem('accountCode'),
+            operator:''
         };
     },
     methods: {
@@ -252,6 +254,7 @@
             var contractNoZq = res.data.data.contractNoZq
             this.contractName = res.data.data.contractName
             var type = res.data.data.contractType
+            this.operator = res.data.data.operator
             switch (type) {
               case '1':
                 this.createType = '模板发起'
