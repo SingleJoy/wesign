@@ -291,11 +291,11 @@
             });
         },
         urlloadUrl() {
-            return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+            return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
         },
         uploadUrl() {
             // return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-            return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+            return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
         },
         seeClick(row) {
             //延期
