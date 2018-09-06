@@ -30,11 +30,16 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 ></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16  :disabled="dis"></el-input>
+                    <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
+
+                      <el-button style="position: absolute;top:-12px;right:-15px;border:none;padding: 20px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
+                    </el-tooltip>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
-                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
+                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11 ></el-input>
+
                   </el-form-item>
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
@@ -105,18 +110,24 @@
                   <div class="dialog-body">
                     <div class="content">
 
+                      <p style="text-align: center;font-size: 16px;font-weight: bold;">电子合同子账号管理认证授权书</p>
+
+                      <br/>
                       <p>致：北京众签科技有限公司</p>
 
-                      兹授权我公司员工：<span ></span>，身份证号：<span ></span> ，性别：男  ，去贵单位办理关于的一切相关事宜。
-                      在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合!谢谢
+                      <p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.accountName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>
 
-                      授权期限：（授权人填充）
+                      <p> 1)可以签署本子账号发起的合同，不能签署主账号和其他子账号的待签署的合同；</p>
 
-                      被授权人签名：（手写签名）
+                      <p> 2)管理本子账号发起的合同（查看、下载、延期）；</p>
 
-                      公司名称：*******（自动填充）
-
-                      日    期：{{date}}（当前日期）
+                      <p>在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合，谢谢！</p>
+                      <br/>
+                      <p>被授权人签名：</p>
+                      <br/>
+                      <p> 公司名称：{{enterpriseName}}</p>
+                      <br/>
+                      <p> 日    期:{{date}}</p>
 
                     </div>
                   </div>
@@ -213,9 +224,12 @@
             if (res.data === 0) {
               this.ruleForm.password="test111111";
               this.dis=true;
+              this.showToolTip=true;
 
             } else {
-
+              this.showToolTip=false;
+              this.dis=false;
+              this.ruleForm.password='';
             }
           }).catch(error => {
 
@@ -253,7 +267,7 @@
         isIndeterminate: true,
         agree:false,  //同意协议
         dialogAgreement:false, //点击同意协议协议弹窗,
-        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode, //cookie里存储interfaceCode
+        interfaceCode:sessionStorage.getItem("interfaceCode"), //cookie里存储interfaceCode
         rules:{
           accountName: [
             { required: true, validator: validateAccountName, trigger: 'blur' }
@@ -276,6 +290,9 @@
         },
         once:false ,   //按钮单次点击
         date:"" ,
+        enterpriseName:sessionStorage.getItem("enterpriseName"),  //企业名称
+        dis:false,
+        showToolTip:false
       }
     },
     methods: {
@@ -295,7 +312,7 @@
 
       //提交事件
       submitBtn(formName){
-        this.server=false;
+
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
 
@@ -310,7 +327,7 @@
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
               let accountCode = sessionStorage.getItem("accountCode");
-              let enterpriseName = sessionStorage.getItem("enterpriseName")
+              this.$loading.show();
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
@@ -320,23 +337,35 @@
                 accountCode: accountCode,        //账户编号
                 email: this.ruleForm.Email,                    //邮箱
                 templates: templates,                                //分配模板
-                company_name: enterpriseName
+                company_name: this.enterpriseName
 
               }, {emulateJSON: true}).then(res => {
+                this.$loading.hide();
                 if (res.data.resultCode == '1') {
                   this.$message({
                     message: '恭喜你，二级账号编辑成功',
                     type: 'success'
                   });
+
+                  this.$router.push("/Account");
                 } else {
+
                   this.$message({
                     showClose: true,
                     message: res.data.resultMessage,
                     type: 'error'
                   })
+                  this.once=false;
                 }
               })
 
+            }else {
+              this.$message({
+                showClose: true,
+                message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+                type: 'error'
+              })
+              this.once=false;
             }
           })
 
@@ -344,7 +373,8 @@
           this.$alert('您还确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
             confirmButtonText: '确定'
           });
-          return false
+          this.once=false;
+          return false;
         }
 
       },
@@ -354,21 +384,13 @@
       let accountCode = sessionStorage.getItem("accountCode");
 
       this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
-        params: {
-          accountCode: accountCode,        //账户编号
-        }
+        params: {accountCode: accountCode}
       }).then(res => {
-
-        //
         if (res.data.resultCode == '1'){
-
           this.ruleForm.accountName = res.data.data.accountName;            //账户名称
-
           this.ruleForm.Email= res.data.data.email;                    //邮箱
-
           let singleArray=[];
           let batchArray=[];
-
           for(let i=0;i<res.data.dataList.length;i++){
 
             if(res.data.dataList[i].templateSpecies=='single'){

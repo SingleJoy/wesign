@@ -148,7 +148,7 @@
           </p>
 
           <div class="border-bottom"></div>
-          <div class="child-account">
+          <div class="child-account" v-if="showSecondList">
 
             <div class="account-list">
               <!--<div class="list-content" v-for="item in accountList">-->
@@ -159,11 +159,11 @@
                     <b >{{item.userName}}</b>
                   </li>
                   <li>
-                    <span>账<span style="padding: 0 24px;"></span>号:</span>
+                    <span>账<span style="padding: 0 22px;"></span>号:</span>
                     <b >{{item.mobile}}</b>
                   </li>
                   <li>
-                    <span>状<span style="padding: 0 24px;"></span>态:</span>
+                    <span>状<span style="padding: 0 22px;"></span>态:</span>
                     <b class="state" v-if="item.accountStatus=='0'">关闭</b>
                     <b class="state" v-if="item.accountStatus=='1'">开通</b>
                     <b class="state" v-if="item.accountStatus=='2'">未激活</b>
@@ -212,7 +212,7 @@
 
                 <div class="operate" v-if="item.accountStatus=='5'">
                   <!--永久冻结-->
-                  <div><span>该账号验证次数过多，无法继续使用</span></div>
+                  <div style="color: red;font-size: 14px;position: absolute;left: -190px;top: 80px;">该账号验证次数过多，无法继续使用</div>
                 </div>
 
                 <div class="operate" v-if="item.accountStatus=='6'">
@@ -462,6 +462,7 @@
         tenantSealNo:'', //公章编号
         officeSealNo:'', //签章编号
         defaultCode:true,          //默认合同章显示选中效果
+        showSecondList:true,  //二级账号列表页面是否显示
 
       }
     },
@@ -528,9 +529,9 @@
 
         var accountCode1=accountCode;
         sessionStorage.setItem("accountCode",accountCode1);
-        if(accountStatus=='3'){
+        if(accountStatus=='3'||accountStatus=='2'){
           this.$router.push('EditChildAccount');
-        }else if(accountStatus=='2') {
+        }else if(accountStatus=='4') {
 
           this.$router.push('EditChildNoActive');
         }
@@ -545,6 +546,9 @@
             this.accountList=res.data.dataList;
             let num=res.data.dataList.length;
             let maxNum=res.data.dataList.accountNumMax;
+            if(res.data.dataList.length=='0'||res.data.dataList.length=='null'){
+              this.showSecondList=false;
+            }
             if(num<=maxNum){
               this.addOperate=false;
             }else{
@@ -841,13 +845,14 @@
           this.Email=res.data.data.email;
           this.account=res.data.data.enterpriseName;
           this.authName=res.data.data.authorizerName;
+          sessionStorage.setItem("authName",this.authName);
         }
       })
 
-      console.log("accountLevel"+this.accountLevel)
+
       if(this.accountLevel=='1'){
         this.oneLever=true;    //一级账号才去请求查询一级账号关联的所有二级账户信息
-        console.log("测试啊啊啊啊啊啊")
+
         this.searchSecondAccounts();
       }else {
         this.oneLever=false;      //二级账号不查询，并且不显示账号管理模块

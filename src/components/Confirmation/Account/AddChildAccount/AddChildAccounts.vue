@@ -30,11 +30,14 @@
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
 
-                    <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="top-start" v-show="showToolTip">
 
-                    </el-tooltip>
 
                     <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 :disabled="dis"></el-input>
+
+                    <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
+
+                      <el-button style="position: absolute;top:-12px;right:-15px;border:none;padding: 20px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
+                    </el-tooltip>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
@@ -228,6 +231,9 @@
 
               } else {
                 this.showToolTip=false;
+                this.dis=false;
+                this.ruleForm.password='';
+
               }
             }).catch(error => {
 
@@ -298,9 +304,9 @@
 
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-              console.log(res.bodyText)
+          console.log(res.bodyText)
 
-           this.date=res.bodyText;
+          this.date=res.bodyText;
 
         });
       },
@@ -318,103 +324,58 @@
         if(this.agree){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-             this.once=true;//提交按钮不可重复点击
-            let pass = md5(this.ruleForm.password); //密码MD5加密
-            let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
-            let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
+              this.once=true;//提交按钮不可重复点击
+              let pass = md5(this.ruleForm.password); //密码MD5加密
+              let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
+              let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
 
-            // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
-            let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
-            let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
-            let templates=(batchTemplate1+singleTemplate1).substr(1);
-            let accountCode=sessionStorage.getItem("accountCode")
+              // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
+              let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
+              let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
+              let templates=(batchTemplate1+singleTemplate1).substr(1);
+              let accountCode=sessionStorage.getItem("accountCode")
+              let manageName=sessionStorage.getItem("authName")
 
-            this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
-              accountName:this.ruleForm.accountName ,  //  账户姓名
-              userName:this.ruleForm.userName,            //管理员名称
-              idCard:this.ruleForm.idCode,                  //省份证号
-              mobile:this.ruleForm.mobile ,              //手机号码
-              password:pass,                 //密码
-              email:this.ruleForm.Email,                    //邮箱
-              templates:templates,                                //分配模板
-              company_name:enterpriseName,             //企业名称
+              this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
+                accountName:this.ruleForm.accountName ,  //  账户姓名
+                userName:this.ruleForm.userName,            //管理员名称
+                idCard:this.ruleForm.idCode,                  //省份证号
+                mobile:this.ruleForm.mobile ,              //手机号码
+                password:pass,                 //密码
+                email:this.ruleForm.Email,                    //邮箱
+                templates:templates,                                //分配模板
+                company_name:enterpriseName,             //企业名称
+                manageName:manageName,
+              },{emulateJSON: true}).then(res =>{
+                let accountCode=res.data.accountCode;  //存储accountCode
+                sessionStorage.setItem('accountCode','accountCode')
+                //二级账号添加成功
+                if(res.data.resultCode=='1'){
 
-            },{emulateJSON: true}).then(res =>{
-             let accountCode=res.data.accountCode;  //存储accountCode
-              sessionStorage.setItem('accountCode','accountCode')
-              //二级账号添加成功
-              if(res.data.resultCode=='1'){
-                const h = this.$createElement;
-                this.$msgbox({
-                  title: '提醒',
-                  message: h('p', null, [
-                    h('span', null, '恭喜你，'),
-                    h('i', { style: 'color: green' }, '添加二级账号成功')
-                  ]),
-                  showCancelButton: true,
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  beforeClose: (action, instance, done) => {
-                    if (action === 'confirm') {
-                      instance.confirmButtonLoading = true;
-                      instance.confirmButtonText = '执行中...';
-                      setTimeout(() => {
-                        done();
-                        setTimeout(() => {
-                          instance.confirmButtonLoading = false;
-                        }, 300);
-                      }, 3000);
-                      this.$router.push("/Account");
-                    } else {
-                      done();
-                    }
-                  }
-                }).then(action => {
                   this.$message({
-                    type: 'info',
-                    message: 'action: ' + action
-                  });
-                });
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'success'
+                  })
 
-
-              }else {
-                //二级账号添加失败
-                const h = this.$createElement;
-                this.$msgbox({
-                  title: '提醒',
-                  message: h('p', null, [
-                    h('span', null, res.data.resultMessage),            //res.data.resultMessage 为二级账号添加失败提醒信息
-                    h('i', {style: 'color: teal'}, '二级账号添加失败')
-                  ]),
-                  showCancelButton: true,
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  beforeClose: (action, instance, done) => {
-                    if (action === 'confirm') {
-                      instance.confirmButtonLoading = true;
-                      instance.confirmButtonText = '执行中...';
-
-                      this.$router.push("/EditChildNoActive");
-
-                      setTimeout(() => {
-                        done();
-                        setTimeout(() => {
-                          instance.confirmButtonLoading = false;
-                        }, 300);
-                      }, 3000);
-                    } else {
-                      done();
-                    }
-                  }
-                }).then(action => {
+                  this.$router.push("/Account");
+                }else {
+                  //二级账号添加失败
                   this.$message({
-                    type: 'info',
-                    message: 'action: ' + action
-                  });
-                });
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                  })
+                  this.$router.push("/EditChildNoActive");
 
-              }
-            })
+                }
+              })
+            }else{
+              this.$message({
+                showClose: true,
+                message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+                type: 'error'
+              })
             }
 
           })
@@ -431,21 +392,21 @@
     },
     created() {
       this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList").then(function(res) {
-          let data=res.data;
-          let singleArray=[];
-          let batchArray=[];
-          for(let i=0;i<data.length;i++){
+        let data=res.data;
+        let singleArray=[];
+        let batchArray=[];
+        for(let i=0;i<data.length;i++){
 
-            if(data[i].templateSpecies=='single'){
-              singleArray.push(data[i]);
-            }else {
-              batchArray.push(data[i]);
-            }
+          if(data[i].templateSpecies=='single'){
+            singleArray.push(data[i]);
+          }else {
+            batchArray.push(data[i]);
           }
-          this.single=singleArray;
-          this.batch=batchArray;
+        }
+        this.single=singleArray;
+        this.batch=batchArray;
 
-        });
+      });
     }
   }
 </script>

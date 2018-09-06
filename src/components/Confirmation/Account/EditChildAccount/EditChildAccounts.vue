@@ -88,46 +88,52 @@
             </div>
 
             <div class="agreement-content" >
-              <template>
-                <!-- `checked` 为 true 或 false -->
-                <el-checkbox v-model="agree" name="type" @change="changEvent">确认签署</el-checkbox>
-                <b  class="agreement-sign">
-                  <a  @click="dialogAgreement = true" href="javascript:void(0)">
-                    《电子合同子账号管理认证授权书》
-                  </a>
-                </b>
-              </template>
-              <el-dialog
-                :visible.sync="dialogAgreement"
-                width="30%"
-                center>
-                <div class="dialog-container">
-                  <div class="dialog-header">单位授权书范本</div>
-                  <div class="dialog-body">
-                    <div class="content">
+              <!--<template>-->
+                <!--&lt;!&ndash; `checked` 为 true 或 false &ndash;&gt;-->
+                <!--<el-checkbox v-model="agree" name="type" @change="changEvent">确认签署</el-checkbox>-->
+                <!--<b  class="agreement-sign">-->
+                  <!--<a  @click="dialogAgreement = true" href="javascript:void(0)">-->
+                    <!--《电子合同子账号管理认证授权书》-->
+                  <!--</a>-->
+                <!--</b>-->
+              <!--</template>-->
+              <!--<el-dialog-->
+                <!--:visible.sync="dialogAgreement"-->
+                <!--width="30%"-->
+                <!--center>-->
+                <!--<div class="dialog-container">-->
+                  <!--<div class="dialog-header">单位授权书范本</div>-->
+                  <!--<div class="dialog-body">-->
+                    <!--<div class="content">-->
 
-                      <p>致：北京众签科技有限公司</p>
+                      <!--<p style="text-align: center;font-size: 16px;font-weight: bold;">电子合同子账号管理认证授权书</p>-->
 
-                      兹授权我公司员工：<span ></span>，身份证号：<span ></span> ，性别：男  ，去贵单位办理关于的一切相关事宜。
-                      在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合!谢谢
+                      <!--<br/>-->
+                      <!--<p>致：北京众签科技有限公司</p>-->
 
-                      授权期限：（授权人填充）
+                      <!--<p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.accountName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>-->
 
-                      被授权人签名：（手写签名）
+                      <!--<p> 1)可以签署本子账号发起的合同，不能签署主账号和其他子账号的待签署的合同；</p>-->
 
-                      公司名称：*******（自动填充）
+                      <!--<p> 2)管理本子账号发起的合同（查看、下载、延期）；</p>-->
 
-                      日    期：2018-07-13（当前日期）
+                      <!--<p>在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合，谢谢！</p>-->
+                      <!--<br/>-->
+                      <!--<p>被授权人签名：</p>-->
+                      <!--<br/>-->
+                      <!--<p> 公司名称：{{enterpriseName}}</p>-->
+                      <!--<br/>-->
+                      <!--<p> 日    期:{{date}}</p>-->
 
-                    </div>
-                  </div>
+                    <!--</div>-->
+                  <!--</div>-->
 
-                </div>
-                <div slot="footer" class="dialog-footer">
-                  <el-button @click="dialogAgreement = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogAgreement = false">确 定</el-button>
-                </div>
-              </el-dialog>
+                <!--</div>-->
+                <!--<div slot="footer" class="dialog-footer">-->
+                  <!--<el-button @click="dialogAgreement = false">取 消</el-button>-->
+                  <!--<el-button type="primary" @click="dialogAgreement = false">确 定</el-button>-->
+                <!--</div>-->
+              <!--</el-dialog>-->
 
               <div class="buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
@@ -258,11 +264,18 @@
           ],
         },
         once:false,   //按钮单次点击
+        date:'',
+        enterpriseName:sessionStorage.getItem("enterpriseName"),  //企业名称
       }
     },
     methods: {
       changEvent(){
+        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
+          console.log(res.bodyText);
 
+          this.date=res.bodyText;
+
+        });
       },
       // 取消
       quit(formName){
@@ -273,7 +286,7 @@
       //提交事件
       submitBtn(formName){
         this.server=false;
-        if(this.agree) {
+
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.once = true;
@@ -285,7 +298,7 @@
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
               let accountCode = sessionStorage.getItem("accountCode");
-              let enterpriseName = sessionStorage.getItem("enterpriseName")
+
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
@@ -295,7 +308,7 @@
                 accountCode: accountCode,        //账户编号
                 email: this.ruleForm.Email,                    //邮箱
                 templates: templates,                                //分配模板
-                company_name: enterpriseName
+                company_name: this.enterpriseName
 
               }, {emulateJSON: true}).then(res => {
                 if (res.data.resultCode == '1') {
@@ -312,15 +325,18 @@
                 }
               })
 
+            }else{
+
+
+
+              this.$message({
+                showClose: true,
+                message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+                type: 'error'
+              })
             }
           })
 
-        }else{
-          this.$alert('您还确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
-            confirmButtonText: '确定'
-          });
-          return false
-        }
 
       },
 
@@ -349,7 +365,6 @@
           let batchArray=[];
           if(res.data.dataList.length){
             for(let i=0;i<res.data.dataList.length;i++){
-
               if(res.data.dataList[i].templateSpecies=='single'){
                 singleArray.push(res.data.dataList[i]);
               }else {

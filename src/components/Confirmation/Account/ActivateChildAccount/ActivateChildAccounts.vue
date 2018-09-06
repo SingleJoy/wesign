@@ -267,6 +267,14 @@
                 'accountCode': accountCode,
               }, {emulateJSON: true}).then(function (res) {
                 console.log(res.data)
+                if(res.data.resultCode == '1'){
+                  server.login(param,urlParam).then(res => {
+                    cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
+                    this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                    this.$router.push("/Home");
+
+                  })
+                }
 
               })
             }
