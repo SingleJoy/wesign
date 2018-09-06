@@ -449,13 +449,16 @@ export const router = new Router({
       path: '/Mobile',
       name: 'Mobile',
       component: Mobile,
+      meta: {
+        auth: false
+      }
     },
     {
       path: '/MobileSuccess',
       name: 'MobileSuccess',
       component: MobileSuccess,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
