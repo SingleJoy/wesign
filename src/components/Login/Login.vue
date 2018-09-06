@@ -198,15 +198,15 @@ export default {
 
                           });
                     } else {
-                        
+                        this.$message({
+                            showClose: true,
+                            message: "账户或密码错误",
+                            type: "error"
+                        });
                     }
                 });
-            } else {
-                    this.$message({
-                        showClose: true,
-                        message: "账户或密码错误",
-                        type: "error"
-                    });
+            }else{
+                
             }
         });
 
