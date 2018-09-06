@@ -2,7 +2,7 @@
   <div>
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
-        <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
+        <el-select v-model="value" v-if="accountLevel !=2" @change="selectParam(value)" placeholder="请选择账号类型">
 			<el-option
 				v-for="item in options"
 				:key="item.accountCode"
@@ -120,6 +120,7 @@ export default {
   data() {
     return {
         accountCode:sessionStorage.getItem('accountCode'),
+        accountLevel:sessionStorage.getItem('accountLevel'),
         currentPage: 1,
         value8: '',
         value9: '',

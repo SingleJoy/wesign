@@ -15,7 +15,7 @@
 
             <p>
                 <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                <span  v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+                <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
             </p>
            
           </div>
@@ -80,8 +80,8 @@
                 width="200"
                 >
                 <template slot-scope="scope">
-                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button>
-                    <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode'>签&nbsp;&nbsp;署</el-button>
+                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -169,10 +169,11 @@
   overflow-x: hidden;
 }
 .contract_Name{
-  width:350px;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    // display: inline-block;
 }
 .backHome{
   float: right;
@@ -206,7 +207,8 @@ export default {
         ContractCode:'',
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         accountName:'',
-        operator:''
+        operator:'',
+        accountCode:sessionStorage.getItem('accountCode')
     };
   },
   methods: {
@@ -305,85 +307,84 @@ export default {
       download.click()
     },
     seeContractDetails () {
-      var data =[];
-      var isCreater='';
-      let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-       // 从合同列表页面进入
-      if(this.$store.state.rowNumber){
-        let contractNo=this.$store.state.rowNumber
-          this.contractNo=contractNo;
-      }else {   //签署完成页面进入
-      let contractNo=sessionStorage.getItem('contractNo')
-      this.contractNo=contractNo;
-      }
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
-      this.$http.get(url).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        var contractNoZq = res.data.contractVo.contractNoZq
-        var contractVo = res.data.contractVo
-        var signUserVo = res.data.signUserVo
-        var type = contractVo.createType
-        this.contractNo = contractVo.contractNo
-        this.contractType = contractVo.contractType
-        this.contractName = contractVo.contractName
-        this.validTime = contractVo.validTime
-        this.status = contractVo.status
-         this.operator = res.data.data.operator
-        switch (type) {
-          case '1':
-            this.createType = '模板发起'
-            break;
-          default:
-            this.createType = '上传发起'
-            break;
+        var data =[];
+        var isCreater='';
+        let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+        // 从合同列表页面进入
+        if(this.$store.state.rowNumber){
+            let contractNo=this.$store.state.rowNumber
+            this.contractNo=contractNo;
+        }else {   //签署完成页面进入
+            let contractNo=sessionStorage.getItem('contractNo')
+            this.contractNo=contractNo;
         }
-        switch ( this.status ){
-        case "1":
-          this.status = '签署中'
-          break;
-        case "2":
-          this.status = '已生效'
-          break;
-        default:
-          this.status = '已截止'
-          break;
-        }
-        if(currentFaceCode == res.data.contractVo.interfaceCode){
-              isCreater = true
-          }else{
-              isCreater = false
-          }
-        for (let i = 0; i < signUserVo.length;i++) {
-
-          var obj = {}
-          obj.signUserName = signUserVo[i].signUserName
-          obj.mobile = signUserVo[i].mobile
-          obj.idCard = signUserVo[i].idCard
-          obj.signStatus = signUserVo[i].signStatus
-          obj.userCode = signUserVo[i].userCode
-          obj.isCreater = isCreater
-          switch ( obj.signStatus ){
-          case "0":
-            obj.signStatus = 0
-            break;
-          default:
-            obj.signStatus = 1
-            break;
-          }
-          if (obj.idCard === null || obj.idCard === 'undefined') {
-            obj.idCard = ''
-          }
-          data[i] = obj
-        }
-        this.tableData2 = data
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.ContractCode+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-          this.History = res.data.dataList
+        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
+        this.$http.get(url).then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            var contractNoZq = res.data.contractVo.contractNoZq
+            var contractVo = res.data.contractVo
+            var signUserVo = res.data.signUserVo
+            var type = contractVo.createType
+            this.contractNo = contractVo.contractNo
+            this.contractType = contractVo.contractType
+            this.contractName = contractVo.contractName
+            this.validTime = contractVo.validTime
+            this.status = contractVo.status
+            this.operator = res.data.contractVo.operator
+            switch (type) {
+                case '1':
+                    this.createType = '模板发起'
+                    break;
+                default:
+                    this.createType = '上传发起'
+                    break;
+                }
+            switch ( this.status ){
+                case "1":
+                this.status = '签署中'
+                break;
+                case "2":
+                this.status = '已生效'
+                break;
+                default:
+                this.status = '已截止'
+                break;
+            }
+            if(currentFaceCode == res.data.contractVo.interfaceCode){
+                isCreater = true
+            }else{
+                isCreater = false
+            }
+            for (let i = 0; i < signUserVo.length;i++) {
+                var obj = {}
+                obj.signUserName = signUserVo[i].signUserName
+                obj.mobile = signUserVo[i].mobile
+                obj.idCard = signUserVo[i].idCard
+                obj.signStatus = signUserVo[i].signStatus
+                obj.userCode = signUserVo[i].userCode
+                obj.isCreater = isCreater
+                switch ( obj.signStatus ){
+                case "0":
+                    obj.signStatus = 0
+                    break;
+                default:
+                    obj.signStatus = 1
+                    break;
+                }
+                if (obj.idCard === null || obj.idCard === 'undefined') {
+                    obj.idCard = ''
+                }
+                data[i] = obj
+            }
+            this.tableData2 = data
+            this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.contractNo+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
+                this.History = res.data.dataList
+            })
+            }
+            
         })
-        }
-        
-      })
     },
     backHome(){
       // console.log("state"+cookie.getJSON('state'))
@@ -397,15 +398,15 @@ export default {
   },
   created() {
     this.signMobile = cookie.getJSON('tenant')[0].mobile
-    var contractNo = sessionStorage.getItem('contractNo')
+    var contractNo = sessionStorage.getItem('contractNo');
     var accountLevel = sessionStorage.getItem('accountLevel');
     var accountCode = sessionStorage.getItem('accountCode');
     if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.rowNumber == ''){
-            this.ContractCode = contractNo;
+        contractNo = JSON.parse(contractNo)
+        if ( this.$store.state.rowNumber == ''){
+            this.contractNo = contractNo;
             this.$store.state.rowNumber = contractNo
-      }
+        }
     }
     this.seeContractDetails()
     //判断是不是二级账户如果是不请求顶部显示部门姓名

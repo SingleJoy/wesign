@@ -22,7 +22,7 @@
 
             <p>
                 <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                <span  v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+                <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
             </p>
            
         </div>

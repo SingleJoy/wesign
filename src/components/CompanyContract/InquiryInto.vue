@@ -2,7 +2,7 @@
     <div class="InquiryIntoForce">
         <div class="contractTitle" style="text-align: left;">
         <input type="text" id="textInfo" placeholder="如合同名称/签署人"  v-model="inputVal3" :maxlength = 50>
-            <el-select v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
+            <el-select v-if="accountLevel !=2" v-model="value" @change="selectParam(value)" placeholder="请选择账号类型">
                 <el-option
                     v-for="item in options"
                     :key="item.accountCode"
@@ -123,6 +123,7 @@ export default {
   data() {
     return {
         accountCode:sessionStorage.getItem('accountCode'),
+        accountLevel:sessionStorage.getItem('accountLevel'),
         options: [],
         queryAccountCode: "",
         value: "",
