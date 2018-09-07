@@ -32,28 +32,29 @@
       <!-- 合同所有信息开始 -->
       <div class='contractInfo'>
         <div class='twoInfo'>
-          <p><h3 class='infoss'>合同信息</h3></p>
-          <ul id='twoInfos' style="text-align: left;">
-            <li><p ><span>合同名称：</span>
-              <el-tooltip placement="top">
-                <div slot="content">{{this.$store.state.contractName1}}</div>
-                <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
-              </el-tooltip>
-              <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
-            </p></li>
-            <li><span>截止时间：</span><span>{{validTime}}</span></li>
-            <li style='float:left'>签署人员：</li>
-            <ol id='details'>
-              <li v-for="(item,index) in signUser" :key="index">
+            <!-- <p class='infoss'>合同信息</p> -->
+            <dd><h3 class='infoss'>合同信息</h3></dd>
+            <ul id='twoInfos' style="text-align: left;">
+                <li><p><span>合同名称：</span>
                 <el-tooltip placement="top">
-                  <div slot="content">{{item.signUserName}}</div>
-                  <span class='name' >{{item.signUserName}}</span>
+                    <div slot="content">{{this.$store.state.contractName1}}</div>
+                    <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
                 </el-tooltip>
-                <a style='color:#22a7ea; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
-                <a style='color:red; cursor: default;' href="javascript:void(0);" v-else>未签署</a>
-              </li>
-            </ol>
-          </ul>
+                <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+                </p></li>
+                <li><span>截止时间：</span><span>{{validTime}}</span></li>
+                <li style='float:left'>签署人员：</li>
+                <ol id='details'>
+                <li v-for="(item,index) in signUser" :key="index">
+                    <el-tooltip placement="top">
+                    <div slot="content">{{item.signUserName}}</div>
+                    <span class='name' >{{item.signUserName}}</span>
+                    </el-tooltip>
+                    <a style='color:#22a7ea; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
+                    <a style='color:red; cursor: default;' href="javascript:void(0);" v-else>未签署</a>
+                </li>
+                </ol>
+            </ul>
         </div>
         <dl class='second'>
           <dd><h3>合同分享</h3></dd>

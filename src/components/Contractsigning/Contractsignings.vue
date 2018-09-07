@@ -274,16 +274,22 @@
             confirmButtonText: '确定'
           })
           this.$refs.upload.clearFiles()
+          this.isNext = false;
+          return false
         } else if( name.size > max_size*1024*1024){
           this.$alert('文件大小超过限制!','上传文件', {
             confirmButtonText: '确定'
           })
           this.$refs.upload.clearFiles()
+          this.isNext = false;
+          return false
         } else if(fileNameCont.length > 50){
           this.$alert('上传文件名称不得超过50字符！','上传文件', {
             confirmButtonText: '确定'
           })
           this.$refs.upload.clearFiles()
+           this.isNext = false;
+          return false
         } else {
           this.$loading.show(); //显示
         }

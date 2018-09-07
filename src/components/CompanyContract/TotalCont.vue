@@ -353,11 +353,13 @@ export default {
         var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
         this.getRecord (requestVo)
         let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+        let accountCode = sessionStorage.getItem('accountCode');
+        let accountName = sessionStorage.getItem('enterpriseName');
         server.queryContractLists(interfaceCode).then(res=>{
-            if(res.data.resultCode = 1){
-                this.options=res.data.dataList;
-                this.options.unshift({accountCode:'',accountName:'全部'})
-            }
+        if(res.data.resultCode = 1){
+            this.options=res.data.dataList;
+            this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
+        }
         })
     }
 }

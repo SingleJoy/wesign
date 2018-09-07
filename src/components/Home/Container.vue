@@ -525,10 +525,10 @@
       })
 
       //合同概括请求
-      //在读取属性[]和.注意！  server.requestType[i]报错
+      //在读取属性[]和.注意！  server.requestType[i]报错  //一级账号不传accountCode
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
       let param={
-        accountCode:accountCode?accountCode:''
+        accountCode:accountCode&&accountLevel==2?accountCode:''
       }
       for(var i=0;i< requestType.length;i++){
           let type =  requestType[i];

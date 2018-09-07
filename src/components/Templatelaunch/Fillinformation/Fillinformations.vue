@@ -187,7 +187,7 @@ export default {
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
 
         this.rightScroll.on('scroll', (pos) => {

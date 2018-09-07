@@ -331,10 +331,12 @@ export default {
     var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'2','accountCode':this.accountCode};
     this.getData (requestVo);
     let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+    let accountCode = sessionStorage.getItem('accountCode');
+    let enterpriseName = sessionStorage.getItem('enterpriseName');
     server.queryContractLists(interfaceCode).then(res=>{
       if(res.data.resultCode = 1){
         this.options=res.data.dataList;
-        this.options.unshift({accountCode:'',accountName:'全部'})
+        this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
       }
     })
   }

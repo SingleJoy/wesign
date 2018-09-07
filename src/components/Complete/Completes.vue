@@ -35,12 +35,12 @@
     <!-- 合同所有信息开始 -->
     <div class="contractInfo">
         <div class="oneInfo">
-            <p><h3 class='infoss'>合同信息</h3></p>
+        <h3 class='infoss'>合同信息</h3>
           <ul id="oneInfos">
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
               <div slot="content">{{getContractName}}</div>
-              <span id='textInfo'>{{getContractName}}</span>
+              <span id='nameInfo'>{{getContractName}}</span>
             </el-tooltip>
             <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
             </p></li>
@@ -192,7 +192,7 @@ export default {
 <style scoped>
   @import "../../styles/Complete/Completes.css";
   @import "../../common/styles/SigningSteps.css";
-  #textInfo{
+  #nameInfo{
     display: inline-block;
     width: 150px;
     overflow: hidden !important;

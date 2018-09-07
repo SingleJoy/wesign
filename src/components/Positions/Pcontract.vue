@@ -127,6 +127,16 @@ export default {
       return pag
     }
   },
+   mounted() { 
+    // this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+    this.$nextTick(() => { 
+      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+        probeType: 3,
+        scrollY: true,
+        preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+      }) 
+    }) 
+  },
   methods:{
       goto (currentIndex){
         this.clickNave(currentIndex)
@@ -143,10 +153,10 @@ export default {
       this.rightScroll.scrollToElement(el, 300)
     },
     initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true,
-          preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
-      })
+    //   this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+    //     click: true,
+    //       preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}       //正在整改中。。。
+    //   })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
