@@ -354,7 +354,7 @@ export default {
         this.getRecord (requestVo)
         let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
         let accountCode = sessionStorage.getItem('accountCode');
-        let accountName = sessionStorage.getItem('enterpriseName');
+        let enterpriseName = sessionStorage.getItem('enterpriseName');
         server.queryContractLists(interfaceCode).then(res=>{
         if(res.data.resultCode = 1){
             this.options=res.data.dataList;

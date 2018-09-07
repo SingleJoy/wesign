@@ -31,7 +31,8 @@
                         <p v-if="accountLevel==1" class="item-name">
                             <span class="initiator item-default">绑定账号：</span>
                             <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
-                                <span class="initiator">{{acountItem}}</span>
+                                <span class="initiator" v-if="accountIndex<item.bindAccounts.length-1">{{acountItem+"、"}}</span>
+                                <span class="initiator" v-else>{{acountItem}}</span>
                             </span>
                             <span v-else>{{'——'}}</span>
                             
