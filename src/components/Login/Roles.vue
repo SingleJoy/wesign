@@ -39,7 +39,7 @@
 										</div>
 									</div>
 								</div>
-								<p class="item-right"><span  @click="loginEnter(item)">进入</span></p>
+								<p class="item-right" @click="loginEnter(item)"><span>进入</span></p>
 
 							</li>
 						</ul>
@@ -104,7 +104,7 @@
 
 									</div>
 								</div>
-								<p class="item-right"><span v-if="item.accountStatus!=5&&item.accountStatus!=6" @click="loginEnter(item)">进入</span></p>
+								<p class="item-right" v-if="item.accountStatus!=5&&item.accountStatus!=6" @click="loginEnter(item)"><span>进入</span></p>
 							</li>
 						</ul>
 						<ul v-else>
@@ -345,9 +345,8 @@ import cookie from '@/common/js/getTenant'
 							border: 1px solid #89c3eb;
 							border-top-left-radius: 0;
 							color:#333;
-							span{
-								cursor: pointer;
-							}
+							cursor: pointer;
+							
 						}
 						.item-right:hover{
 							color: #22a7ea;
@@ -461,9 +460,8 @@ import cookie from '@/common/js/getTenant'
 							border: 1px solid #89c3eb;
 							border-top-left-radius: 0;
 							color:#333;
-							span{
-								cursor: pointer;
-							}
+							cursor: pointer;
+							
 						}
 						.item-right:hover{
 							color:#22a7ea;

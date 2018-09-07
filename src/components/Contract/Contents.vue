@@ -90,45 +90,45 @@ export default {
   },
   computed:{
     currentIndex() {
-      for (let i = 0; i < this.imgHeight.length; i++) {
-        /*当前本身的高度*/
-        let height1 = this.imgHeight[i]
-        /*下一个的高度*/
-        let height2 = this.imgHeight[i + 1]
-        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-          return i
+        for (let i = 0; i < this.imgHeight.length; i++) {
+            /*当前本身的高度*/
+            let height1 = this.imgHeight[i]
+            /*下一个的高度*/
+            let height2 = this.imgHeight[i + 1]
+            if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            return i
+            }
         }
-      }
-      return 0
+        return 0
     },
     pages:function(){
-    this.showItem = 10;
-    var pag = [];
-      if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
-            //总页数和要显示的条数那个大就显示多少条
-            var i = Math.min(this.showItem,this.allpage);
-            while(i){
-                pag.unshift(i--);
+        this.showItem = 10;
+        var pag = [];
+        // console.log(this.currentIndex)
+        if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
+                //总页数和要显示的条数那个大就显示多少条
+                var i = Math.min(this.showItem,this.allpage);
+                while(i){
+                    pag.unshift(i--);
+                }
+            }else{ //当前页数大于显示页数了
+                //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
+                var middle = this.currentIndex + 1
+                i = this.showItem;
+                if( middle >  (this.allpage - this.showItem)  ){
+                    middle = (this.allpage - this.showItem) + 1
+                }
+                while(i--){
+                    pag.push( middle++ );
+                }
             }
-        }else{ //当前页数大于显示页数了
-            //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-            var middle = this.currentIndex + 1
-              i = this.showItem;
-            if( middle >  (this.allpage - this.showItem)  ){
-                middle = (this.allpage - this.showItem) + 1
-            }
-            while(i--){
-                pag.push( middle++ );
-            }
-        }
-      return pag
+        return pag
     }
   },
   created() {
 
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
-    console.log(contractNo)
     if (contractName) {
          contractName = JSON.parse(contractName)
     //   if ( this.$store.state.contractName1 == ''){
@@ -175,29 +175,31 @@ export default {
   },
   methods:{
     goto (currentIndex){
-      this.clickNav(currentIndex)
+        this.clickNav(currentIndex)
     },
     goto2 (currentIndex){
       currentIndex++
       this.clickNav(currentIndex)
     },
     clickNav(index) {
-      let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-      let el = imgList[index - 1]
-      this.rightScroll.scrollToElement(el, 300)
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+        let el = imgList[index - 1]
+        this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true
-      })
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+            click: true
+        })
 
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        probeType: 3,
-      })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            scrollY:true,
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
 
-      this.rightScroll.on('scroll', (pos) => {
-        this.scrollY = Math.abs(Math.round(pos.y))
-      })
+        this.rightScroll.on('scroll', (pos) => {
+            this.scrollY = Math.abs(Math.round(pos.y))
+        })
     },
     _calculateHeight(){
       let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
