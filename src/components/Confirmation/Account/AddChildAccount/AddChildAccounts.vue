@@ -140,7 +140,7 @@
                       <br/>
                       <p>被授权人签名：</p>
                       <br/>
-                      <p> 公司名称：{{ruleForm.userName}}</p>
+                      <p> 公司名称：{{enterpriseName}}</p>
                       <br/>
                       <p> 日    期:{{date}}</p>
 
@@ -314,7 +314,8 @@
         date:'' ,//当前日期
         showToolTip:false,
         singleTemplateLength:false, //单次模板书否显示
-        batchTemplateLength:false     //批量模板是否显示
+        batchTemplateLength:false,     //批量模板是否显示
+
       }
     },
     methods: {
@@ -341,6 +342,7 @@
         if(this.agree){
           this.$refs[formName].validate((valid) => {
             if (valid) {
+              this.$loading.show()
               this.once=true;//提交按钮不可重复点击
               let pass = md5(this.ruleForm.password); //密码MD5加密
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
@@ -350,9 +352,7 @@
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let templates=(batchTemplate1+singleTemplate1).substr(1);
-
               let manageName=sessionStorage.getItem("authName")
-
               this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
                 accountName:this.ruleForm.accountName ,  //  账户姓名
                 userName:this.ruleForm.userName,            //管理员名称
@@ -365,20 +365,20 @@
                 manageName:manageName,
               },{emulateJSON: true}).then(res =>{
                 let accountCode=res.data.accountCode;  //存储accountCode
-                sessionStorage.setItem('subAccountCode',res.data.accountCode)
-                console.log(res.data.accountCode);
+
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
-
+                  sessionStorage.setItem('subAccountCode',res.data.accountCode)
                   this.$message({
                     showClose: true,
                     message:res.data.resultMessage,
                     type: 'success'
                   })
-
+                  this.$loading.hide()
                   this.$router.push("/Account");
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
+                  this.$loading.hide()
                   this.$message({
                     showClose: true,
                     message:res.data.resultMessage,
@@ -388,6 +388,7 @@
 
                 }else if(res.data.resultCode=='2'){
                   //二级账号已存在
+                  this.$loading.hide()
                   this.$message({
                     showClose: true,
                     message:res.data.resultMessage,

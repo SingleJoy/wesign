@@ -156,7 +156,7 @@
         return '';
       },
       toMyAccount(){
-        this.$router.push('/Account')
+        this.$router.push('/NoReal')
       },
       cancelTip(){
 
