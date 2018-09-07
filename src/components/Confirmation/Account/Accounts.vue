@@ -92,7 +92,14 @@
           <p class="title">签章管理</p>
           <div class="border-bottom"></div>
           <div class="sign-content">
-
+            <!--签章管理显示逻辑：-->
+             <!--一级账号：始终会有一个默认签章，可以再添加一个签章并且签章可以进行切换选择一个默认合同签章；-->
+             <!--二级账号：二级账号激活后，进入我的账户页面，签章只显示一级账号选择的默认签章，无法进行签章切换操作-->
+              <!--渲染签章列表逻辑-->
+             <!--只有一级账号才会全部渲染，二级账号只显示默认签章-->
+            <!--accountLevel  1为一级账号  2为二级账号  item.defultCode 0为默认签章 1为非默认签章->
+            <!--item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
+            <!--chooseDefaultSeal  -->
             <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="item in SealList" @click="changeDefaultSeal(item.signatureCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
               <!--合同章-->
               <img :src="[item.signaturePath]" >
