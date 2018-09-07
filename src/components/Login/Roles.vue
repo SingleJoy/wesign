@@ -307,7 +307,10 @@ import cookie from '@/common/js/getTenant'
 								color: #333;
 							}
 							.company-name{
-								font-size: 18px
+                                font-size: 18px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap
 							}
 							.sign_info{
 								margin-top: 50px;
