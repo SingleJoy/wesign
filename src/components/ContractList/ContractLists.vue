@@ -10,7 +10,6 @@
 			<div class='contract-type'>
 				<el-tabs v-model="activeName" tab-position="40px">
 					<el-tab-pane label="全部文件" name="first">
-						<total-contract></total-contract>
 					</el-tab-pane>
 					<el-tab-pane label="待我签署" name="second">
 						<inquiry-wait-me></inquiry-wait-me>

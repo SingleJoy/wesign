@@ -12,7 +12,7 @@
         <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
       </ul>
       <ol class='btns'>
-        <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
+        <li :class="{'left-num':accountLevel==2}"><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
          <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="Jurisdiction">
@@ -101,6 +101,9 @@
 }
 .el-tabs__nav-wrap::after{
   height:0
+}
+.left-num{
+    margin-left: 80px;
 }
 .dialogbg{
   background:#000;

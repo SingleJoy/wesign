@@ -363,7 +363,7 @@ export default {
     let accountCode = sessionStorage.getItem('accountCode');
     let enterpriseName = sessionStorage.getItem('enterpriseName');
     server.queryContractLists(interfaceCode).then(res=>{
-        if(res.data.resultCode = 1){
+        if(res.data.resultCode == 1){
             this.options=res.data.dataList;
             this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
         }
