@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      sessionStorage.getItem("mobile",this.ruleForm.mobile)
 		this.$refs[formName].validate(valid => {
 			if (valid) {
 			var pass = md5(this.ruleForm.password);
