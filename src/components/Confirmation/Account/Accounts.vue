@@ -916,7 +916,7 @@
     border: 2px dotted #22a7ea;
   }
   .MinHeight{
-    height: 600px;
+    min-height: 600px;
   }
 
 </style>

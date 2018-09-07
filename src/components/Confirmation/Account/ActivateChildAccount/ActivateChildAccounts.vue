@@ -18,7 +18,7 @@
                 请您仔细阅读一下授权书内容，如确定无任何异议后，请您在确定身份认证后，签署提交
               </div>
 
-              <div class="active-account-contract-img">
+              <div class="active-account-contract-img" style="margin-left: 225px">
 
                 <img :src="[authorizationImg]" id="activateImg">
 
@@ -87,6 +87,9 @@
   export default {
     component:{
       Accounts
+    },
+    beforeRouteLeave:(to,from,next)=>{
+      clearInterval(this.timer);
     },
     data() {
       // 校验验证码

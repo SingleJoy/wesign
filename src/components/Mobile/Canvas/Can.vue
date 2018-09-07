@@ -251,7 +251,7 @@ export default {
        that.url = base64data
 
         })
-        that.$http.post(process.env.API_HOST+'restapi/wesign/v1.4/signToken/'+ signToken +'/saveSignatureImg',{signatureImg:png },{emulateJSON:true}).then(function(res){
+        that.$http.post(process.env.API_HOST+'/v1.4/signToken/'+ signToken +'/saveSignatureImg',{signatureImg:png },{emulateJSON:true}).then(function(res){
         that.$router.push('/MobileSuccess')
       })
     },

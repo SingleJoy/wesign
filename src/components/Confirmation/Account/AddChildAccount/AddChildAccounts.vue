@@ -360,14 +360,22 @@
                   })
 
                   this.$router.push("/Account");
-                }else {
-                  //二级账号添加失败
+                }else if(res.data.resultCode=='0'){
+                  //二级账号添加失败   三要素验证失败
                   this.$message({
                     showClose: true,
                     message:res.data.resultMessage,
                     type: 'error'
                   })
                   this.$router.push("/EditChildNoActive");
+
+                }else if(res.data.resultCode=='2'){
+                  //二级账号已存在
+                  this.$message({
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                  })
 
                 }
               })
