@@ -260,26 +260,14 @@ export default {
       }
     },
     mounted() {
-      sessionStorage.removeItem("type");
-      sessionStorage.removeItem("contractNo");
-      sessionStorage.removeItem("enterpriseName");
-      sessionStorage.removeItem("idcard");
-      sessionStorage.removeItem("interfaceCode");
-      sessionStorage.removeItem("mobile");
-      sessionStorage.removeItem("name");
-      sessionStorage.removeItem("userCode");
-      sessionStorage.removeItem("accountCode");
-      sessionStorage.removeItem("accountLevel");
-      sessionStorage.removeItem("authorizerCode");
-      sessionStorage.removeItem("companyList");
-      sessionStorage.removeItem("templateGenre");
-      cookie.remove('tenant');
+        sessionStorage.clear();
+        cookie.remove('tenant');
 
-      document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
-      window.onresize = function temp() {
-        document.documentElement.style.fontSize =
-          document.documentElement.clientWidth / 120 + "px";
-      };
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
+        window.onresize = function temp() {
+            document.documentElement.style.fontSize =
+            document.documentElement.clientWidth / 120 + "px";
+        };
     }
   };
 </script>
