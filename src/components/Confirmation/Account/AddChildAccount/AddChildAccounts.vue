@@ -315,7 +315,7 @@
         showToolTip:false,
         singleTemplateLength:false, //单次模板书否显示
         batchTemplateLength:false,     //批量模板是否显示
-        enterpriseName:sessionStorage.getItem("enterpriseName")
+
       }
     },
     methods: {

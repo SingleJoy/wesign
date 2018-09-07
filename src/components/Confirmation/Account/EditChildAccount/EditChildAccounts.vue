@@ -377,8 +377,8 @@
 
           let singleArray=[];
           let batchArray=[];
-          let data=res.data.dataList;
-          console.log(data.length);
+          let data=res.data;
+          console.log(data);
           for(let i=0;i<data.length;i++){
 
             if(data[i].templateSpecies=='single'){

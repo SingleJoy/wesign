@@ -314,9 +314,7 @@
           setTimeout(() => {
             if(this.canvasTest!=''){
 
-
               clearInterval(this.timer)
-
 
             }
           },1000)
