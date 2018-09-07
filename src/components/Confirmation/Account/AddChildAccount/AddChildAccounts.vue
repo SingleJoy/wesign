@@ -14,7 +14,7 @@
 
               <div class="show-info-list">
 
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="account-ruleForm" size="medium">
 
                   <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="userName">
                     <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
@@ -474,20 +474,20 @@
     padding-left: 20px;
     border-left: 1px solid #22a7ea;
   }
-  .demo-ruleForm>.el-form-item{
+  .account-ruleForm>.el-form-item{
     width: 50%;
     float: left;
   }
 
 
-  .demo-ruleForm>.el-form-item{
+  .account-ruleForm>.el-form-item{
     /*width: 50%;*/
   }
-  .demo-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
+  .account-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
     margin-left: 20px;
 
   }
-  .demo-ruleForm>.el-form-item>.el-form-item__content>.el-input>.el-input__inner{
+  .account-ruleForm>.el-form-item>.el-form-item__content>.el-input>.el-input__inner{
     width:330px;
     margin-left: 20px;
   }
