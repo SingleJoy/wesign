@@ -312,7 +312,7 @@
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
               let accountCode = sessionStorage.getItem("accountCode");
 
-              this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
+              this.$http.post(process.env.API_HOST + 'v1.5/tenant/'+this.interfaceCode+ '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCard,                  //省份证号
@@ -339,8 +339,6 @@
               })
 
             }else{
-
-
 
               this.$message({
                 showClose: true,

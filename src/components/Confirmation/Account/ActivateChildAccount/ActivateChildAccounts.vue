@@ -260,7 +260,7 @@
                 })
 
             } else {
-              this.$http.post(process.env.API_HOST + 'v1.5//user/SignAuthbook', {
+              this.$http.post(process.env.API_HOST + 'v1.5/user/SignAuthbook', {
                 'authorizerCode': authorizerCode,
                 'mobile': this.mobile,
                 'smsNo': this.smsNoVer,

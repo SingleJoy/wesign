@@ -244,7 +244,7 @@
               } else {
                 this.showToolTip=false;
                 this.dis=false;
-                this.ruleForm.password='';
+                // this.ruleForm.password='';
 
               }
             }).catch(error => {
@@ -404,7 +404,7 @@
           })
 
         }else{
-          this.$alert('您还确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
+          this.$alert('您还未完成确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
             confirmButtonText: '确定'
           });
           return false
