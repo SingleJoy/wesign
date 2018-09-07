@@ -170,7 +170,7 @@ export const router = new Router({
       name: 'Error',
       component: Error,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -178,7 +178,7 @@ export const router = new Router({
       name: 'Server',
       component: Server,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -355,7 +355,7 @@ export const router = new Router({
       name: 'WaitReply',
       component: WaitReply,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -409,6 +409,9 @@ export const router = new Router({
       path: '/ActivateChildAccount',
       name: 'ActivateChildAccount',
       component: ActivateChildAccount,
+      beforeRouteLeave:(to,from,next)=>{
+        clearInterval(this.timer);
+      },
       meta: {
         auth: false
       }
@@ -418,7 +421,7 @@ export const router = new Router({
       name: 'PersonWait',
       component: PersonWait,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {

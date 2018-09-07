@@ -135,7 +135,7 @@
                 <!--</div>-->
               <!--</el-dialog>-->
 
-              <div class="buttons">
+              <div class="operate-buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
                 <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
               </div>

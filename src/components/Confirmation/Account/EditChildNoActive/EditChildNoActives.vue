@@ -139,7 +139,7 @@
                 </div>
               </el-dialog>
 
-              <div class="buttons">
+              <div class="operate-buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
                 <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
               </div>
@@ -326,7 +326,7 @@
               let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
-              let accountCode = sessionStorage.getItem("accountCode");
+              let accountCode = sessionStorage.getItem("subAccountCode");
               this.$loading.show();
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
@@ -381,7 +381,8 @@
 
     },
     created() {
-      let accountCode = sessionStorage.getItem("accountCode");
+      let accountCode = sessionStorage.getItem("subAccountCode");
+      console.log(accountCode);
 
       this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
         params: {accountCode: accountCode}

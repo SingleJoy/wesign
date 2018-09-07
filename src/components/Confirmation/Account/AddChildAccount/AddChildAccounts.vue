@@ -139,7 +139,7 @@
                 </div>
               </el-dialog>
 
-              <div class="buttons">
+              <div class="operate-buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
                 <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
               </div>
@@ -333,7 +333,7 @@
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let templates=(batchTemplate1+singleTemplate1).substr(1);
-              let accountCode=sessionStorage.getItem("accountCode")
+
               let manageName=sessionStorage.getItem("authName")
 
               this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
@@ -348,7 +348,8 @@
                 manageName:manageName,
               },{emulateJSON: true}).then(res =>{
                 let accountCode=res.data.accountCode;  //存储accountCode
-                sessionStorage.setItem('accountCode','accountCode')
+                sessionStorage.setItem('subAccountCode',res.data.accountCode)
+                console.log(res.data.accountCode);
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
 
