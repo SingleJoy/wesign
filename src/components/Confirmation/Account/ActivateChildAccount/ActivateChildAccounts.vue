@@ -49,7 +49,7 @@
                 width="400px"
                 center>
                 <div  class="send-code">已向您账户绑定的手机号发送验证码 请注意查收</div>
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="account-ruleForm">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
                   <el-form-item prop="code">
                     <el-input type="text" placeholder="请输入短信验证码" class="forget-messageInput" v-model="ruleForm.smsCode" style="width: 200px;"></el-input>
@@ -84,6 +84,7 @@
   import cookie from '@/common/js/getTenant'
   import Accounts from '../Accounts'
   import {validateSmsCode} from '@/common/js/validate'
+  import server from "@/api/url";
   export default {
     component:{
       Accounts
@@ -271,6 +272,13 @@
               }, {emulateJSON: true}).then(function (res) {
                 console.log(res.data)
                 if(res.data.resultCode == '1'){
+                  let param={
+                    mobile:sessionStorage.getItem("mobile"),
+                    // accountCode:accountCode?accountCode:''
+                  };
+
+                  let urlParam=sessionStorage.getItem("interfaceCode");
+
                   server.login(param,urlParam).then(res => {
                     cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
                     this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮

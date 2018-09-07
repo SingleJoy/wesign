@@ -399,7 +399,7 @@
             }else{
               this.$message({
                 showClose: true,
-                message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+                message: '您未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
                 type: 'error'
               })
             }
