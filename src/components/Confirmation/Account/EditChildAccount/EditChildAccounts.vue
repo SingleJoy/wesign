@@ -73,7 +73,6 @@
                 </div>
 
 
-
                 <div class="batch-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
                   <h3>批量发起模板</h3>
                   <template>
@@ -84,7 +83,7 @@
 
                   </template>
 
-                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)" ><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
@@ -377,7 +376,7 @@
 
           let singleArray=[];
           let batchArray=[];
-          let data=res.data;
+          let data=res.data.dataList;
           // console.log(data);
           for(let i=0;i<data.length;i++){
 
