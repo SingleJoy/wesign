@@ -175,7 +175,7 @@
   }
   .dlstyle{
     width:400px  !important;
-    height: 380px !important;
+    height: 360px !important;
     overflow: hidden !important;
   }
   .active-tab{

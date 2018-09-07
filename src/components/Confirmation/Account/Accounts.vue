@@ -278,9 +278,9 @@
                   </a>
                   <p class="question-title" style="color: #d69856;">子账号拥有哪些权限？</p>
                   <span class="question-answer">
-                    子账号仅可管理本账号内的合同，不可接收合同文件<br/><br/>
+                    子账号仅可管理本账号内的合同，不可接收合同文件。<br/><br/>
                      <span style="color: #d69856;line-height: 25px">发起合同<br/>
-                       <span style="color: #333;">可上传文件发起合同，也可以通过一级账号分配的模板发起合同</span>
+                       <span style="color: #333;">可上传文件发起合同，也可以通过一级账号分配的模板发起合同。</span>
                      </span>
                     <br/><br/>
                     <span style="color: #d69856;line-height: 25px">文件签署<br/>
@@ -288,7 +288,7 @@
                      </span>
                      <br/><br/>
                     <span style="color: #d69856;line-height: 25px">延期<br/>
-                       <span style="color: #333;">合同已到达截止签署日且仍未签署完成时，子账号管理员可修改签署截止日</span>
+                       <span style="color: #333;">合同已到达截止签署日且仍未签署完成时，子账号管理员可修改签署截止日。</span>
                      </span>
                   </span>
                 </div>
@@ -300,11 +300,11 @@
                   <p class="question-title" style="color:#59c6a1;">开通子账号需要哪些步骤？</p>
                   <span class="question-answer" style="line-height: 25px;color: #333;">
                     1:录入子账号基本信息，对子账号管理员主体进行进行实名认证<br/>
-                    （若账号已经在微签注册、实名过，则不需要设置密码）<br/>
-                    2:为子账号分配模板<br/>
-                    3:提交开通子账号申请<br/>
-                    4:短信通知子账号管理员<br/>
-                    5:子账号管理员登录账号，签署授权书激活子账号<br/>
+                    （若账号已经在微签注册、实名过，则不需要设置密码）。<br/>
+                    2:为子账号分配模板。<br/>
+                    3:提交开通子账号申请。<br/>
+                    4:短信通知子账号管理员。<br/>
+                    5:子账号管理员登录账号，签署授权书激活子账号。<br/>
                   </span>
                 </div>
               </div>
