@@ -61,18 +61,25 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length==0)&&(batchTemplate.length>0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
                   </template>
                 </div>
+
+                <div v-if="(singleTemplate.length==0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                 <div class="batch-list" >
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length>0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                   </template>
                 </div>
 
