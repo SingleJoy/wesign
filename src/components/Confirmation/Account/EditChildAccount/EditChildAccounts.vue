@@ -30,7 +30,7 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled" :minlength= 8 :maxlength= 16></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
@@ -271,7 +271,7 @@
     methods: {
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-          console.log(res.bodyText);
+          // console.log(res.bodyText);
 
           this.date=res.bodyText;
 

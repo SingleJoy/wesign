@@ -32,7 +32,7 @@
 
 
 
-                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 :disabled="dis"></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis"></el-input>
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
 
