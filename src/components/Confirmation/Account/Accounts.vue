@@ -88,24 +88,18 @@
           </div>
         </div>
 
-        <div class="sign-management" style="height: 400px;">
+        <div class="sign-management" style="height: 370px;">
           <p class="title">签章管理</p>
           <div class="border-bottom"></div>
           <div class="sign-content">
 
-            <div class="sign-picture"  id="tenantSeal"  v-if="tenantSeal" @click="changeDefaultSeal(tenantSealNo)" :class="{'chooseDefaultSeal':defaultCode}">
+            <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="item in SealList" @click="changeDefaultSeal(item.signatureCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
               <!--合同章-->
-              <img :src="[tenantSeal]" alt="合同章">
-              <span v-if="defaultCode">默认合同章</span>
+              <img :src="[item.signaturePath]" >
+              <span v-if="item.defultCode=='0'">默认合同章</span>
 
             </div>
 
-            <div class="sign-picture"  id="officeSeal" v-if="officeSeal"  style="margin-left: 20px;" @click="changeDefaultSeal(officeSealNo)" :class="{'chooseDefaultSeal':!defaultCode}">
-
-              <img :src="[officeSealUrl]" alt="签章图片">
-              <span v-if="!defaultCode">默认合同章</span>
-
-            </div>
 
             <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
               <!--生成公章-->
@@ -464,6 +458,7 @@
         defaultCode:true,          //默认合同章显示选中效果
         showSecondList:true,  //二级账号列表页面是否显示
         showSeal:true,
+        SealList:[],  //合同章图片
 
 
       }
@@ -519,7 +514,7 @@
               }
             })
           } else {
-            // console.log('error submit!!');
+
             return false;
           }
         });
@@ -527,7 +522,6 @@
 
       edit(accountCode,accountStatus){
 
-        // console.log(accountStatus);
 
         var accountCode1=accountCode;
         sessionStorage.setItem("subAccountCode",accountCode1);
@@ -542,33 +536,27 @@
       // 查询二级账号(数量)
       searchSecondAccounts(){
         this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/secondAccounts').then(function (res) {
-
+          //查询成功
           if(res.data.resultCode=='1'){
 
             this.accountList = res.data.dataList;
             let num=res.data.dataList.length;
             let maxNum=res.data.data.accountNumMax;
-            // if(res.data.dataList.length=='0'||res.data.dataList.length=='null'){
-            //   this.showSecondList=false;
-            //   console.log(this.showSecondList)
-            //   console.log(res.data.dataList.length)
-            // }
+
 
             if(num<maxNum){
               this.addOperate=true;
-
             }else{
               this.addOperate=false;
-
             }
 
           }if(res.data.resultCode=='0'){
             this.accountDefault=true;
             this.showSecondList=false;
             this.addOperate=true;
-            console.log(this.addOperate)
+
           }
-          // this.$loading.hide(); //loading隐藏
+
         });
 
       },
@@ -605,7 +593,7 @@
             this.$alert(res.data.resultMessage, '确定',{
               confirmButtonText: '确定'
             });
-            // console.log("请求数据")
+
 
 
 
@@ -637,22 +625,7 @@
           }else if(validateSeal(this.createSeal)){
             this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {params:{'interfaceCode':this.interfaceCode,'securityCode':this.createSeal}}).then(function (res) {
               if(res.data.resultCode == '1'){
-                this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
-
-                  if(res.data.resultCode == '1'){
-                    if(res.data.dataList[1].signaturePath){
-                      this.officeSeal=true
-                      this.officeSealUrl=res.data.dataList[1].signaturePath;
-                    }else {
-                      this.officeSeal=false
-                    }
-                  } else{
-                    this.$alert('生成公章失败！','提示', {
-                      confirmButtonText: '确定'
-                    })
-                  }
-
-                });
+                this.searchSeal();
               }
             })
 
@@ -664,40 +637,24 @@
       // 查询签章
       searchSeal(){
         this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
-          this.tenantSeal=res.data.dataList[0].signaturePath;
-          let defultCode=res.data.dataList[0].defultCode;
-          console.log(defultCode);
-          if(this.accountLevel=='2'){
 
-            if(defultCode=='0'){
-               var tenantSeal=document.getElementById("tenantSeal");
-               var officeSeal=document.getElementById("officeSeal");
+          let data=res.data;
+          let sealArray=[];
+         if(data.resultCode=='1'){
+          console.log(data.dataList);
+          for(let i=0;i<data.dataList.length;i++){
+            sealArray.push(data.dataList[i])
 
-                 console.log("1111")
-            }else{
-
-            }
-
-
-          }else {
-
-          }
-
-          this.tenantSealNo=res.data.dataList[0].signatureCode;
-          // console.log(this.tenantSeal)
-          if(res.data.dataList[1]){
+          };
+          if(data.dataList.length>1){
             this.officeSeal=true;
-            this.officeSealUrl=res.data.dataList[1].signaturePath;
-            this.officeSealNo=res.data.dataList[1].signatureCode;
+          }else {
+            this.officeSeal=false;
+          }
+           this.SealList=sealArray;
+         }else{
 
-          }else {
-            this.officeSeal=false
-          }
-          if(res.data.dataList[0].defultCode=='0'){
-            this.defaultCode=true;
-          }else {
-            this.defaultCode=false;
-          }
+         }
 
         });
       },
@@ -706,8 +663,7 @@
       changeDefaultSeal(sealNo){
         if(this.accountLevel=='1') {
           let sealNo_ = sealNo;
-          // console.log(sealNo_)
-          this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/signature/' + sealNo_ + '/UpdateAccountSignature').then(function (res) {
+          this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/signature/' +sealNo_+ '/UpdateAccountSignature').then(function (res) {
             if (res.data.resultCode == '1') {
               this.$alert(res.data.resultMessage, '确定', {
                 confirmButtonText: '确定'
@@ -778,7 +734,7 @@
     mounted() {
       this.mobile = cookie.getJSON('tenant')[0].mobile
       this.companyName = cookie.getJSON('tenant')[1].companyName
-      // console.log(cookie.getJSON('tenant')[0])
+
       var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
       var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
@@ -840,7 +796,7 @@
 
       // 意见  待定
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/auditStatus').then(function (res) {
-        // console.log(res.data)
+
         if(res.data.resultCode=='1'){
           // this.toEnterprise = res.data.data.verifyMoneyNum
           this.realNameState=true;
@@ -863,8 +819,8 @@
       });
       //  账户信息
       let accountCode=sessionStorage.getItem("accountCode");
-      //
-      // console.log(accountCode)
+
+
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+accountCode+'/getAccountInformation').then(function (res) {
         if(res.data.resultCode=='1'){
 

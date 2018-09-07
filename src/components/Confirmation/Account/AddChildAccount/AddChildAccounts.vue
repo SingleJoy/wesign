@@ -71,11 +71,13 @@
 
                     </el-checkbox-group>
 
-                    <div v-if="(singleTemplate.length==0)&&(batchTemplate.length>0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
                   </template>
+                  <div class="no-singleTemplate-list" v-if="(!singleTemplateLength)&&(batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                 </div>
 
-                <div v-if="(singleTemplate.length==0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+                <div class="" v-if="(!singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
 
                 <div class="batch-list" >
                   <h3>批量发起模板</h3>
@@ -84,9 +86,11 @@
                       <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
 
-                    <div v-if="(singleTemplate.length>0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                   </template>
+
+                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                 </div>
 
                 <div class="fill-background"></div>
@@ -96,6 +100,7 @@
                 <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
                 <!--</div>-->
               </div>
+
 
             </div>
 
@@ -304,7 +309,9 @@
         },
         once:false , //提交按钮不可重复点击
         date:'' ,//当前日期
-        showToolTip:false
+        showToolTip:false,
+        singleTemplateLength:false, //单次模板书否显示
+        batchTemplateLength:false     //批量模板是否显示
       }
     },
     methods: {
@@ -409,8 +416,10 @@
     created() {
       this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList").then(function(res) {
         let data=res.data;
-        let singleArray=[];
         let batchArray=[];
+        let singleArray=[];
+
+
         for(let i=0;i<data.length;i++){
 
           if(data[i].templateSpecies=='single'){
@@ -421,7 +430,16 @@
         }
         this.single=singleArray;
         this.batch=batchArray;
-
+        if(this.single.length==0){
+          this.singleTemplateLength=false
+        }else{
+          this.singleTemplateLength=true
+        }
+        if(this.batch.length==0){
+          this.batchTemplateLength=false
+        }else{
+          this.batchTemplateLength=true
+        }
       });
     }
   }
@@ -460,9 +478,7 @@
     width: 50%;
     float: left;
   }
-  .demo-ruleForm>.el-form-item>.el-form-item__label{
-    /*clear: both !important;*/
-  }
+
 
   .demo-ruleForm>.el-form-item{
     /*width: 50%;*/
@@ -478,13 +494,7 @@
   .content-body>p.title{
     background: url("../../../../../static/images/Common/title.png") no-repeat;
   }
-  .align-left{
-    text-align: left;
-    margin-left: 60px;
-  }
-  .align-right{
-    text-align:right;
-  }
+
   b.agreement-sign{
     color: #424242;
     font-size: 14px;
