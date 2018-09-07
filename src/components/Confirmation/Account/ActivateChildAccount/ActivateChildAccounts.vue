@@ -49,7 +49,7 @@
                 width="400px"
                 center>
                 <div  class="send-code">已向您账户绑定的手机号发送验证码 请注意查收</div>
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="account-ruleForm">
 
                   <el-form-item prop="code">
                     <el-input type="text" placeholder="请输入短信验证码" class="forget-messageInput" v-model="ruleForm.smsCode" style="width: 200px;"></el-input>
@@ -260,7 +260,7 @@
                 })
 
             } else {
-              this.$http.post(process.env.API_HOST + 'v1.5//user/SignAuthbook', {
+              this.$http.post(process.env.API_HOST + 'v1.5/user/SignAuthbook', {
                 'authorizerCode': authorizerCode,
                 'mobile': this.mobile,
                 'smsNo': this.smsNoVer,

@@ -14,7 +14,7 @@
 
               <div class="show-info-list">
 
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="account-ruleForm" size="medium">
 
                   <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="userName">
                     <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10></el-input>
@@ -36,7 +36,7 @@
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
 
-                      <el-button style="position: absolute;top:-12px;right:-15px;border:none;padding: 20px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
+                      <el-button style="position: absolute;top:-3px;right:-25px;border:none;padding: 10px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
                     </el-tooltip>
                   </el-form-item>
 
@@ -71,11 +71,13 @@
 
                     </el-checkbox-group>
 
-                    <div v-if="(singleTemplate.length==0)&&(batchTemplate.length>0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
                   </template>
+                  <div class="no-singleTemplate-list" v-if="(!singleTemplateLength)&&(batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                 </div>
 
-                <div v-if="(singleTemplate.length==0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+                <div class="" v-if="(!singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
 
                 <div class="batch-list" >
                   <h3>批量发起模板</h3>
@@ -84,9 +86,11 @@
                       <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
 
-                    <div v-if="(singleTemplate.length>0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                   </template>
+
+                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                 </div>
 
                 <div class="fill-background"></div>
@@ -96,6 +100,7 @@
                 <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
                 <!--</div>-->
               </div>
+
 
             </div>
 
@@ -132,7 +137,7 @@
                       <br/>
                       <p>被授权人签名：</p>
                       <br/>
-                      <p> 公司名称：{{enterpriseName}}</p>
+                      <p> 公司名称：{{ruleForm.userName}}</p>
                       <br/>
                       <p> 日    期:{{date}}</p>
 
@@ -239,7 +244,7 @@
               } else {
                 this.showToolTip=false;
                 this.dis=false;
-                this.ruleForm.password='';
+                // this.ruleForm.password='';
 
               }
             }).catch(error => {
@@ -304,7 +309,9 @@
         },
         once:false , //提交按钮不可重复点击
         date:'' ,//当前日期
-        showToolTip:false
+        showToolTip:false,
+        singleTemplateLength:false, //单次模板书否显示
+        batchTemplateLength:false     //批量模板是否显示
       }
     },
     methods: {
@@ -397,7 +404,7 @@
           })
 
         }else{
-          this.$alert('您还确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
+          this.$alert('您还未完成确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
             confirmButtonText: '确定'
           });
           return false
@@ -409,8 +416,10 @@
     created() {
       this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList").then(function(res) {
         let data=res.data;
-        let singleArray=[];
         let batchArray=[];
+        let singleArray=[];
+
+
         for(let i=0;i<data.length;i++){
 
           if(data[i].templateSpecies=='single'){
@@ -421,7 +430,16 @@
         }
         this.single=singleArray;
         this.batch=batchArray;
-
+        if(this.single.length==0){
+          this.singleTemplateLength=false
+        }else{
+          this.singleTemplateLength=true
+        }
+        if(this.batch.length==0){
+          this.batchTemplateLength=false
+        }else{
+          this.batchTemplateLength=true
+        }
       });
     }
   }
@@ -456,35 +474,27 @@
     padding-left: 20px;
     border-left: 1px solid #22a7ea;
   }
-  .demo-ruleForm>.el-form-item{
+  .account-ruleForm>.el-form-item{
     width: 50%;
     float: left;
   }
-  .demo-ruleForm>.el-form-item>.el-form-item__label{
-    /*clear: both !important;*/
-  }
 
-  .demo-ruleForm>.el-form-item{
+
+  .account-ruleForm>.el-form-item{
     /*width: 50%;*/
   }
-  .demo-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
+  .account-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
     margin-left: 20px;
 
   }
-  .demo-ruleForm>.el-form-item>.el-form-item__content>.el-input>.el-input__inner{
+  .account-ruleForm>.el-form-item>.el-form-item__content>.el-input>.el-input__inner{
     width:330px;
     margin-left: 20px;
   }
   .content-body>p.title{
     background: url("../../../../../static/images/Common/title.png") no-repeat;
   }
-  .align-left{
-    text-align: left;
-    margin-left: 60px;
-  }
-  .align-right{
-    text-align:right;
-  }
+
   b.agreement-sign{
     color: #424242;
     font-size: 14px;
