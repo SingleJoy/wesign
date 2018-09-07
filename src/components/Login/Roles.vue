@@ -158,7 +158,7 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('mobile',item.mobile);      				  //手机号
 			sessionStorage.setItem('interfaceCode',item.interfaceCode);
 			sessionStorage.setItem('auditStatus',item.auditStatus);
-
+			sessionStorage.setItem('enterpriseName',item.enterpriseName);
 			sessionStorage.setItem('userCode',item.userCode);
 
 			let params = {

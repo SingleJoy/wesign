@@ -33,14 +33,20 @@ export default {
     @import "../../../common/styles/SigningSteps.css";
     @import "../../../common/styles/content.css";
 
-  .one{
+.one{
     margin: 30px auto;
     width: 490px;
-  }
-    .two{
+}
+.one:hover{
+    border:none
+}
+.two{
     margin: 30px auto;
     width: 490px;
-  }
+}
+.two:hover{
+    border:none
+}
 .Mores .el-tabs__content{
     background: #fff;
 }

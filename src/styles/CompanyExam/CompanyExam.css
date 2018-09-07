@@ -94,4 +94,7 @@
     margin-top: 15px;
     cursor: pointer;
   }
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden!important;
+  }
 
