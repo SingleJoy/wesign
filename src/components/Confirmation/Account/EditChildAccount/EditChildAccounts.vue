@@ -4,7 +4,9 @@
     <div class="main" >
 
       <div class="container">
+
         <div class="content">
+
           <div class="content-body">
 
             <p class="title">我的账户</p>
@@ -61,7 +63,7 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
 
@@ -76,13 +78,13 @@
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
 
 
                   </template>
 
-                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)" ><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
@@ -159,7 +161,6 @@
 
       </div>
     </div>
-
 
   </div>
 </template>
@@ -378,7 +379,7 @@
           let singleArray=[];
           let batchArray=[];
           let data=res.data;
-          console.log(data);
+          // console.log(data);
           for(let i=0;i<data.length;i++){
 
             if(data[i].templateSpecies=='single'){
