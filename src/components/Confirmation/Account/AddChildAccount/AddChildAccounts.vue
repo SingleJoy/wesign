@@ -32,7 +32,7 @@
 
 
 
-                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16 :disabled="dis"></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis"></el-input>
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
 
@@ -70,8 +70,12 @@
                       <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length==0)&&(batchTemplate.length>0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
                   </template>
                 </div>
+
+                <div v-if="(singleTemplate.length==0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                 <div class="batch-list" >
                   <h3>批量发起模板</h3>
@@ -79,6 +83,9 @@
                     <el-checkbox-group v-model="batchTemplate" >
                       <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length>0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                   </template>
                 </div>
 

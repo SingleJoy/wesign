@@ -30,7 +30,7 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled"></el-input>
+                    <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled" :minlength= 8 :maxlength= 16></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
@@ -61,18 +61,25 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length==0)&&(batchTemplate.length>0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
                   </template>
                 </div>
+
+                <div v-if="(singleTemplate.length==0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                 <div class="batch-list" >
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length>0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                   </template>
                 </div>
 
@@ -271,7 +278,7 @@
     methods: {
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-          console.log(res.bodyText);
+          // console.log(res.bodyText);
 
           this.date=res.bodyText;
 

@@ -30,7 +30,7 @@
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :maxlength= 8 :minlength= 16  :disabled="dis"></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis"></el-input>
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
 
                       <el-button style="position: absolute;top:-12px;right:-15px;border:none;padding: 20px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
@@ -65,18 +65,25 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo"  :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo">{{item.name}}</el-checkbox>
 
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length==0)&&(batchTemplate.length>0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
                   </template>
                 </div>
+
+                <div v-if="(singleTemplate.length==0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
                 <div class="batch-list" >
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
+
+                    <div v-if="(singleTemplate.length>0)&&(batchTemplate.length==0)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+
                   </template>
                 </div>
 
@@ -87,7 +94,6 @@
                 <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
                 <!--</div>-->
               </div>
-
 
             </div>
 

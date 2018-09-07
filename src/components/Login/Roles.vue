@@ -159,6 +159,7 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('interfaceCode',item.interfaceCode);
 			sessionStorage.setItem('auditStatus',item.auditStatus);
 			sessionStorage.setItem('enterpriseName',item.enterpriseName);
+			console.log(item.enterpriseName)
 			sessionStorage.setItem('userCode',item.userCode);
 
 			let params = {

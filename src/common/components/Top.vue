@@ -15,7 +15,7 @@
         <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="showAccount">
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="Jurisdiction">
            <router-link  @click.native="tabActive(5)" to='/Account'>
              <img src="../../../static/images/setup.png" alt="">
              <a href="javascript:void(0);">我的账户</a>
@@ -377,16 +377,14 @@ export default {
       //   this.oneAccount=false;
       // }
       var Status = cookie.getJSON('tenant')[1].isBusiness
+      console.log("Status"+Status)
       if(Status == '0'){
         this.Jurisdiction = false
-      }else {
 
-      }
-      if((this.oneAccount=='2')&&(this.Jurisdiction==true)){
-        this.showAccount=true;
       }else {
-        this.showAccount=false
+        this.Jurisdiction = true
       }
+
 
     },
 
