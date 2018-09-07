@@ -302,7 +302,6 @@
 
       //提交事件
       submitBtn(formName){
-        this.server=false;
 
           this.$refs[formName].validate((valid) => {
             if (valid) {

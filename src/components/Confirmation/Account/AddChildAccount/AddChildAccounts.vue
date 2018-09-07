@@ -236,7 +236,7 @@
           let params = {
             username: this.ruleForm.mobile
           };
-          if(this.server){
+
             server.verficate(params).then(res => {
               if (res.data === 0) {
 
@@ -253,7 +253,7 @@
             }).catch(error => {
 
             })
-          }
+
           callback()
         }
       }
