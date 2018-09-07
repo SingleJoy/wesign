@@ -36,7 +36,7 @@
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
 
-                      <el-button style="position: absolute;top:-12px;right:-15px;border:none;padding: 20px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
+                      <el-button style="position: absolute;top:-3px;right:-25px;border:none;padding: 10px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
                     </el-tooltip>
                   </el-form-item>
 
@@ -137,7 +137,7 @@
                       <br/>
                       <p>被授权人签名：</p>
                       <br/>
-                      <p> 公司名称：{{enterpriseName}}</p>
+                      <p> 公司名称：{{ruleForm.userName}}</p>
                       <br/>
                       <p> 日    期:{{date}}</p>
 

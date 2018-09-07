@@ -149,9 +149,9 @@
           </p>
 
           <div class="border-bottom"></div>
-          <div class="child-account" >
+          <div class="child-account" style="overflow: hidden" >
 
-            <div class="account-list" :class="{'MinHeight':addOperate}">
+            <div class="account-list" >
               <!--<div class="list-content" v-for="item in accountList">-->
               <div class="list-content" v-for="(item,index) in accountList" :key="index" v-if="showSecondList">
                 <ul>
@@ -329,7 +329,7 @@
       @close="closeDialog('ruleForm')"
     >
       <div id='logner'>
-        <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="account-ruleForm" label-width="85px">
+        <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" label-width="85px">
           <el-form-item label="原密码：" prop="oldPassWord">
             <el-input v-model="ruleForm.oldPassWord" type="password" auto-complete="off"></el-input>
           </el-form-item>
@@ -877,9 +877,6 @@
   }
   .chooseDefaultSeal{
     border: 2px dotted #22a7ea;
-  }
-  .MinHeight{
-    min-height: 600px;
   }
 
 </style>
