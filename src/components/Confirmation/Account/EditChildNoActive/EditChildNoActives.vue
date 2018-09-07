@@ -58,9 +58,9 @@
             <div class="border-bottom" style="margin-top: 0;"></div>
 
             <div class="child-template" >
-              <div class="child-template-list">
+              <div class="child-template-list" >
 
-                <div class="single-list" >
+                <div class="single-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
 
                   <h3>单次发起模板</h3>
                   <template>
@@ -74,10 +74,9 @@
 
                 </div>
 
-                <div class="" v-if="(!singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
 
-                <div class="batch-list" >
+                <div class="batch-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
@@ -89,6 +88,10 @@
 
                   <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
+                </div>
+                <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
+                  <img src="../../../../../static/images/Confirmation/Account/no-template.png">
+                  <p style="color: #999;">暂无模板</p>
                 </div>
 
                 <div class="fill-background"></div>
@@ -126,7 +129,7 @@
                       <br/>
                       <p>致：北京众签科技有限公司</p>
 
-                      <p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.accountName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>
+                      <p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.userName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>
 
                       <p> 1)可以签署本子账号发起的合同，不能签署主账号和其他子账号的待签署的合同；</p>
 

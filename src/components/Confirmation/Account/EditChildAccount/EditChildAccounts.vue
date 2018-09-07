@@ -54,9 +54,9 @@
             <div class="border-bottom" style="margin-top: 0;"></div>
 
             <div class="child-template" >
-              <div class="child-template-list">
+              <div class="child-template-list" >
 
-                <div class="single-list" >
+                <div class="single-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
 
                   <h3>单次发起模板</h3>
                   <template>
@@ -70,10 +70,9 @@
 
                 </div>
 
-                <div class="" v-if="(!singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
 
-                <div class="batch-list" >
+                <div class="batch-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
@@ -85,6 +84,10 @@
 
                   <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
 
+                </div>
+                <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
+                  <img src="../../../../../static/images/Confirmation/Account/no-template.png">
+                  <p style="color: #999;">暂无模板</p>
                 </div>
 
                 <div class="fill-background"></div>
