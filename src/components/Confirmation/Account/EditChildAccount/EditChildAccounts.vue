@@ -17,12 +17,12 @@
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" size="medium">
 
-                  <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10 disabled="disabled"></el-input>
+                  <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="userName">
+                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="请输入管理员姓名" :maxlength= 10 disabled="disabled"></el-input>
                   </el-form-item>
 
-                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="userName">
-                    <el-input v-model="ruleForm.userName" auto-complete="off" placeholder="账户名称" :maxlength= 18 disabled="disabled"></el-input>
+                  <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18 disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCard">
@@ -135,7 +135,7 @@
                 <!--</div>-->
               <!--</el-dialog>-->
 
-              <div class="buttons">
+              <div class="operate-buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
                 <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
               </div>
@@ -342,7 +342,7 @@
 
     },
     created() {
-      let accountCode = sessionStorage.getItem("accountCode");
+      let accountCode = sessionStorage.getItem("subAccountCode");
 
       this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
         params: {

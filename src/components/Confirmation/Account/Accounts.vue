@@ -530,7 +530,7 @@
         // console.log(accountStatus);
 
         var accountCode1=accountCode;
-        sessionStorage.setItem("accountCode",accountCode1);
+        sessionStorage.setItem("subAccountCode",accountCode1);
         if(accountStatus=='3'||accountStatus=='2'){
           this.$router.push('EditChildAccount');
         }else if(accountStatus=='4') {
@@ -916,7 +916,7 @@
     border: 2px dotted #22a7ea;
   }
   .MinHeight{
-    height: 600px;
+    min-height: 600px;
   }
 
 </style>
