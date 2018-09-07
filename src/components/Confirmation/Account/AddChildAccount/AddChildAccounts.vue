@@ -140,7 +140,7 @@
                       <br/>
                       <p>被授权人签名：</p>
                       <br/>
-                      <p> 公司名称：{{ruleForm.userName}}</p>
+                      <p> 公司名称：{{enterpriseName}}</p>
                       <br/>
                       <p> 日    期:{{date}}</p>
 
@@ -314,7 +314,8 @@
         date:'' ,//当前日期
         showToolTip:false,
         singleTemplateLength:false, //单次模板书否显示
-        batchTemplateLength:false     //批量模板是否显示
+        batchTemplateLength:false,     //批量模板是否显示
+        enterpriseName:sessionStorage.getItem("enterpriseName")
       }
     },
     methods: {
