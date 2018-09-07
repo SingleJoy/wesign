@@ -15,7 +15,7 @@
                     <span style="color:#22a7ea" v-else> >合同详情</span>
                 </p>
             
-                <p id="sign-icon" v-if="accountName">
+                <p id="sign-icon" v-if="accountCode!= operator && accountName">
                     <span class="department">{{accountName}}</span>
                     <!-- <span>张丽华</span> -->
                 </p>
