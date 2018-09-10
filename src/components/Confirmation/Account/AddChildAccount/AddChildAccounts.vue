@@ -378,13 +378,19 @@
                   this.$router.push("/Account");
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
+                //    setTimeout(() => {  // 改为异步。loading就能去掉了。
+                //         resolve(ret)
+                //     }, 1000)
+                    // this.$nextTick(function () {
+                    //     this.$loading.hide();
+                    // })
                     this.$loading.hide()
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
                         type: 'error'
                     })
-                    this.$router.push('/EditChildNoActive')
+                    // this.$router.push('/EditChildNoActive')
 
                 }else if(res.data.resultCode=='2'){
                   //二级账号已存在
