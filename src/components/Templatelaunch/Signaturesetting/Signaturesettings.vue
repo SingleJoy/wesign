@@ -299,7 +299,7 @@ export default {
       changeContName (){
         var inputText = document.getElementById('inputText').value
         this.$store.dispatch('template',{templateName:inputText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', JSON.stringify(inputText))
+        sessionStorage.setItem('templateName', inputText)
         sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
       },
       seeTemplate () {
@@ -586,7 +586,7 @@ export default {
       var contractNo = sessionStorage.getItem('contractNo')
       var type = sessionStorage.getItem('type')
       if (templateName) {
-        // templateName = JSON.parse(templateName)
+
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = templateName
         }

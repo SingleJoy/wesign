@@ -211,7 +211,7 @@
                 });
 
                 this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
-                sessionStorage.setItem("templateName", JSON.stringify(item.name));
+                sessionStorage.setItem("templateName",item.name);
                 sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
                 sessionStorage.setItem( "templateGenre", JSON.stringify(item.templateSpecificType));
                 this.$router.push("/batchSetting");
@@ -220,7 +220,7 @@
                 templateName: item.name,
                 templateNo: item.templateNo
             });
-            sessionStorage.setItem("templateName", JSON.stringify(item.name));
+            sessionStorage.setItem("templateName", item.name);
             sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
             this.$router.push("/Fillinformation");
             }
@@ -497,7 +497,7 @@
                 obj.validTime = res.data.content[i].validTime;
                 obj.contractType = res.data.content[i].contractType;
                 obj.flag = res.data.content[i].flag;
-                obj.operator = res.data.content[i].operator        
+                obj.operator = res.data.content[i].operator
                 obj.operation = "";
                 switch (obj.contractStatus) {
                     case "1":

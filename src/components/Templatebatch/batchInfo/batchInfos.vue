@@ -158,7 +158,7 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo');
     var templateGenre = sessionStorage.getItem('templateGenre');
     if (templateName) {
-      templateName = JSON.parse(templateName)
+
       if ( this.$store.state.templateName == ''){
         this.$store.state.templateName = templateName
       }
@@ -308,7 +308,7 @@ export default {
       this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
       this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('templateName', JSON.stringify(this.$store.state.templateName))
+      sessionStorage.setItem('templateName', this.$store.state.templateName)
       sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
       sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
       sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
@@ -342,7 +342,7 @@ export default {
               this.$loading.hide(); //隐藏
               this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
               this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-              sessionStorage.setItem('templateName', JSON.stringify(this.$store.state.templateName))
+              sessionStorage.setItem('templateName',this.$store.state.templateName)
               sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
               sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
               this.$router.push('/batchsign')
