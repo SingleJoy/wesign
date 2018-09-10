@@ -481,8 +481,8 @@
     border-left: 1px solid #22a7ea;
   }
   .account-ruleForm>.el-form-item{
-    width: 50%;
-    float: left;
+    width: 525px;
+     display: inline-block;
   }
 
 
