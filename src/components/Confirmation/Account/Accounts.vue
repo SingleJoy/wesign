@@ -30,17 +30,25 @@
                   <b>{{mobile}}</b>
 
                 </div>
-                <div class="card-line">
+                <div class="card-line" v-if="accountLevel=='1'">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
-                  <b>{{companyName}}</b>
+                  <b>{{enterpriseName}}</b>
+                </div>
+                <div class="card-line" v-if="accountLevel=='2'">
+                  <span>账号名称:</span>
+                  <b>{{authName}}</b>
                 </div>
                 <div class="card-line">
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
                   <b>{{Email}}</b>
                 </div>
-                <div class="card-line">
+                <div class="card-line" v-if="accountLevel=='1'">
                   <span>被授权人姓名:</span>
                   <b>{{authName}}</b>
+                </div>
+                <div class="card-line" v-if="accountLevel=='2'">
+                  <span>企业名称:</span>
+                  <b>{{enterpriseName}}</b>
                 </div>
 
               </div>
@@ -88,7 +96,7 @@
           </div>
         </div>
 
-        <div class="sign-management" style="height: 370px;">
+        <div class="sign-management" style="height: 330px;">
           <p class="title">签章管理</p>
           <div class="border-bottom"></div>
           <div class="sign-content">
@@ -403,7 +411,7 @@
         mobile:'',
         Email:'',
         authName:'',
-        enterpriseName:'',
+        enterpriseName:sessionStorage.getItem("enterpriseName"),
         companyName:'',
         chapter:'合同章',
         serialNumber:'',  //序列号
@@ -468,6 +476,7 @@
         showSecondList:true,  //二级账号列表页面是否显示
         showSeal:true,
         SealList:[],  //合同章图片
+        accountName:''   //账户名称
 
 
       }
