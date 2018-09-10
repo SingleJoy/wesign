@@ -584,12 +584,12 @@
           accountStatus:this.accountStatusNumber,            //账户状态
         },{emulateJSON: true}).then(function (res) {
           if((res.data.resultCode == '0')&&(accountStatus=='6')){
-            this.$alert(res.data.resultMessage, '提醒',{
+            this.$alert(res.data.resultMessage, '提示',{
               confirmButtonText: '确定'
             });
 
           } else if((res.data.resultCode == '0')&&(accountStatus=='3')){
-            this.$alert(res.data.resultMessage, '提醒',{
+            this.$alert(res.data.resultMessage, '提示',{
               confirmButtonText: '确定'
             });
 
@@ -599,7 +599,7 @@
             this.accountList=[];
             this.searchSecondAccounts();
             this.$loading.hide(); //显示
-            this.$alert(res.data.resultMessage, '确定',{
+            this.$alert(res.data.resultMessage, '提示',{
               confirmButtonText: '确定'
             });
 

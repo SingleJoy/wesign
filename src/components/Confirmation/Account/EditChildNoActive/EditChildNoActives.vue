@@ -410,26 +410,32 @@
           let singleArray=[];
           let batchArray=[];
           let data=res.data.dataList;
-          for(let i=0;i<data.length;i++){
+          //模板存在
+          if(data){
+            for(let i=0;i<data.length;i++){
 
-            if(data[i].templateSpecies=='single'){
-              singleArray.push(data[i]);
-            }else {
-              batchArray.push(data[i]);
+              if(data[i].templateSpecies=='single'){
+                singleArray.push(data[i]);
+              }else {
+                batchArray.push(data[i]);
+              }
+            }
+            this.single=singleArray;
+            this.batch=batchArray;
+            if(this.single.length==0){
+              this.singleTemplateLength=false
+            }else{
+              this.singleTemplateLength=true
+            }
+            if(this.batch.length==0){
+              this.batchTemplateLength=false
+            }else{
+              this.batchTemplateLength=true
             }
           }
-          this.single=singleArray;
-          this.batch=batchArray;
-          if(this.single.length==0){
-            this.singleTemplateLength=false
-          }else{
-            this.singleTemplateLength=true
-          }
-          if(this.batch.length==0){
-            this.batchTemplateLength=false
-          }else{
-            this.batchTemplateLength=true
-          }
+
+
+
         }
       })
 
