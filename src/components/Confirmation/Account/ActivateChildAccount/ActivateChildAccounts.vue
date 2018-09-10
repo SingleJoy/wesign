@@ -28,7 +28,7 @@
 
                 <el-tooltip class="item" effect="dark" content="微信扫一扫" placement="top">
                   <img :src="[qrSignImg]" alt="微信扫一扫"  class="wechat-img" id="wechat-img" >
-                  <!--<img src="../../../../../static/images/Default/default-scan-code.png" alt="微信扫一扫"  class="wechat-img" else>-->
+
 
                 </el-tooltip>
                 <div class="wechat-scan-tips">
@@ -48,7 +48,7 @@
                 :visible.sync="dialogAgreement"
                 width="400px"
                 center>
-                <div  class="send-code">已向您账户绑定的手机号发送验证码 请注意查收</div>
+                <div  class="send-code">请您先获取验证码的，输入验证码后点击提交即可！</div>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
                   <el-form-item prop="code">
@@ -89,9 +89,7 @@
     component:{
       Accounts
     },
-    beforeRouteLeave:(to,from,next)=>{
-      clearInterval(this.timer);
-    },
+
     data() {
       // 校验验证码
       var validateCode = (rule, value, callback) => {
@@ -130,6 +128,12 @@
         smsNoVer:'',   //
         appId:''  //验证码返回appId
       }
+    },
+   // 组件销毁前清除定时器
+    beforeDestroy() {
+
+      clearInterval(this.timer);
+      this.timer = null;
     },
     methods:{
       sureActive(){

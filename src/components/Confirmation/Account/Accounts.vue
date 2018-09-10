@@ -420,7 +420,7 @@
         personal:'',
         finalRejection:false,
         toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
-        officeSeal:false,
+        officeSeal:true,
         officeSealUrl:'',
 
         auditCode:'',
@@ -672,7 +672,7 @@
           let sealNo_ = sealNo;
           this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/signature/' +sealNo_+ '/UpdateAccountSignature').then(function (res) {
             if (res.data.resultCode == '1') {
-              this.$alert(res.data.resultMessage, '确定', {
+              this.$alert(res.data.resultMessage, '提示', {
                 confirmButtonText: '确定'
               });
               this.searchSeal();
@@ -685,6 +685,7 @@
           });
         }
       },
+
       companyRealName() {  //未通过状态
         this.finalRejection = true
       },
@@ -731,7 +732,6 @@
       finish(){
 
       },
-
       //解冻子账号
       thaw(){
         this.thawDialogVisible=true
