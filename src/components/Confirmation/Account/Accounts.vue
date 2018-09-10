@@ -103,7 +103,7 @@
             <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="item in SealList" @click="changeDefaultSeal(item.signatureCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
               <!--合同章-->
               <img :src="[item.signaturePath]" >
-              <span v-if="item.defultCode=='0'">默认合同章</span>
+              <span v-if="item.defultCode=='0'"  :class="{'visibility':(accountLevel=='1')&&(item.defultCode=='0')}">默认合同章</span>
 
             </div>
 
@@ -362,6 +362,7 @@
       Home
     },
     data() {
+
       var validateOldPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入原密码'));
@@ -376,6 +377,7 @@
           })
         }
       };
+
       var validateNewPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入新密码'));
@@ -420,7 +422,7 @@
         personal:'',
         finalRejection:false,
         toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
-        officeSeal:false,
+        officeSeal:true,
         officeSealUrl:'',
 
         auditCode:'',
@@ -669,22 +671,45 @@
       // 修改默认签章
       changeDefaultSeal(sealNo){
         if(this.accountLevel=='1') {
-          let sealNo_ = sealNo;
-          this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/signature/' +sealNo_+ '/UpdateAccountSignature').then(function (res) {
-            if (res.data.resultCode == '1') {
-              this.$alert(res.data.resultMessage, '确定', {
-                confirmButtonText: '确定'
-              });
-              this.searchSeal();
-            } else {
-              this.$alert(res.data.resultMessage, '提示', {
-                confirmButtonText: '确定'
-              });
-            }
+
+          this.$confirm('您确定修改默认签章吗？, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+
+            let sealNo_ = sealNo;
+            this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/signature/' +sealNo_+ '/UpdateAccountSignature').then(function (res) {
+              if (res.data.resultCode == '1') {
+                this.$alert(res.data.resultMessage, '提示', {
+                  confirmButtonText: '确定'
+                });
+                this.searchSeal();
+              } else {
+                this.$alert(res.data.resultMessage, '提示', {
+                  confirmButtonText: '确定'
+                });
+              }
+
+            });
+
+          }).catch(() => {
+
+            this.$message({
+              type: 'info',
+              message: '已取消修改默认签章'
+            });
+
+
 
           });
+
+
+
+
         }
       },
+
       companyRealName() {  //未通过状态
         this.finalRejection = true
       },
@@ -731,7 +756,6 @@
       finish(){
 
       },
-
       //解冻子账号
       thaw(){
         this.thawDialogVisible=true
@@ -877,6 +901,9 @@
   }
   .chooseDefaultSeal{
     border: 2px dotted #22a7ea;
+  }
+ .visibility{
+   visibility:hidden;
   }
 
 </style>
