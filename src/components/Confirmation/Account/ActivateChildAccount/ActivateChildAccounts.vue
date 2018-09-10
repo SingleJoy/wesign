@@ -49,6 +49,7 @@
                 width="400px"
                 center>
                 <div  class="send-code">请您先获取验证码的，输入验证码后点击提交即可！</div>
+                <div style="color: red;text-align: left;padding-bottom: 10px">+{{mobile}}</div>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
                   <el-form-item prop="code">
@@ -57,7 +58,7 @@
                   </el-form-item>
 
                   <div class="forget-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 200px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
                   </div>
                 </el-form>
               </el-dialog>
@@ -126,7 +127,8 @@
         mobile:sessionStorage.getItem("mobile"),
         smsCode:'',   //短信码
         smsNoVer:'',   //
-        appId:''  //验证码返回appId
+        appId:'',  //验证码返回appId
+
       }
     },
    // 组件销毁前清除定时器
@@ -155,7 +157,7 @@
           var curCount = count;
           var timer = null;
 
-          let mobile=sessionStorage.getItem("mobile")
+          let mobile=this.mobile;
           this.sms = true;
           this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
             // this.smsCode=res.data.smsCode
