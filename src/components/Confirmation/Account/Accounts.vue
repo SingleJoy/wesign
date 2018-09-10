@@ -648,7 +648,7 @@
           let data=res.data;
           let sealArray=[];
          if(data.resultCode=='1'){
-          console.log(data.dataList);
+        //   console.log(data.dataList);
           for(let i=0;i<data.dataList.length;i++){
             sealArray.push(data.dataList[i])
 
