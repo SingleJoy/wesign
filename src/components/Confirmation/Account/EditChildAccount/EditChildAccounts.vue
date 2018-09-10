@@ -362,7 +362,6 @@
           accountCode: accountCode,        //账户编号
         }
       }).then(res => {
-
         //
         if (res.data.resultCode == '1'){
 

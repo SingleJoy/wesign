@@ -399,7 +399,7 @@
     },
     created() {
       let accountCode = sessionStorage.getItem("subAccountCode");
-    //   console.log(accountCode);
+
 
       this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
         params: {accountCode: accountCode}

@@ -103,7 +103,7 @@
             <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="item in SealList" @click="changeDefaultSeal(item.signatureCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
               <!--合同章-->
               <img :src="[item.signaturePath]" >
-              <span v-if="item.defultCode=='0'"  :class="{'visibility':(accountLevel=='1')&&(item.defultCode=='0')}">默认合同章</span>
+              <!--<span v-if="item.defultCode=='0'"  :class="{'visibility':(accountLevel=='1')&&(item.defultCode=='0')}">默认合同章</span>-->
 
             </div>
 
@@ -604,8 +604,6 @@
             });
 
 
-
-
           }else if((res.data.resultCode == '1')&&(accountStatus=='3')){
             //冻结成功重新查询二级账号
              this.$loading.show(); //显示
@@ -701,10 +699,7 @@
             });
 
 
-
           });
-
-
 
 
         }
@@ -900,7 +895,7 @@
     width:100%;height: 1px;border-bottom: 1px solid #ddd;margin-top: 20px
   }
   .chooseDefaultSeal{
-    border: 2px dotted #22a7ea;
+    background: url("../../../../static/images/Confirmation/Account/default-seal.png")no-repeat;
   }
  .visibility{
    visibility:hidden;
