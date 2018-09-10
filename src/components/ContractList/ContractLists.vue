@@ -1,5 +1,6 @@
 <template>
-	<div class="ContractList">
+<div>
+    <div class="ContractList">
 		<div class="main">
 			<div class="common-top">
 				<div class="common-top-tab">
@@ -27,9 +28,76 @@
 			</div>
 		</div>
    </div>
+    <div class='contractTitle' style="text-align: left;">
+        <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
+        <el-select v-model="value" v-if="accountLevel !=2" @change="selectParam(value)" placeholder="请选择账号类型">
+            <el-option
+                v-for="item in options"
+                :key="item.accountCode"
+                :label="item.accountName"
+                :value="item.accountCode">
+            </el-option>
+        </el-select>
+        <span id='text'>发起时间：</span>
+        <el-date-picker
+            style='width:140px;margin-right:20px'
+            height='height:40px'
+            v-model="filters.column.create_start_date"
+            type="date"
+            placeholder="开始时间"
+            format="yyyy-MM-dd"
+            :picker-options="pickerBeginDateBefore"
+            >
+        </el-date-picker>
+        <el-date-picker
+            style='width:140px;margin-right:20px'
+            height='height:40px'
+            v-model="filters.column.create_end_date"
+            type="date"
+
+            placeholder="结束时间"
+            format="yyyy-MM-dd"
+            :picker-options="pickerBeginDateAfter"
+            >
+        </el-date-picker>
+        <el-checkbox
+            style='padding-right:20px'
+            v-model="checked"
+            >
+        </el-checkbox>
+        <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
+       <el-button type="primary" @click='contractInquiry' style="margin-left:20px;letter-spacing:5px;">搜索</el-button>
+        <div class="list-body">
+            <div class="totalImg" v-if="num === 0">
+                <img src="../../../static/images/notavailable.png" alt="">
+            </div>
+            <el-table :header-cell-style="getRowClass" :data="tableInformation"  style="width: 100%;text-align:center"  v-loading="loading" element-loading-text="拼命加载中" >
+                <el-table-column prop="contractName" label="合同名称" style="text-align:center"  width="250" :show-overflow-tooltip= true ></el-table-column>
+                <el-table-column prop="signers" label="签署人"  width="250" :show-overflow-tooltip= true> </el-table-column>
+                <el-table-column prop="createTime"  clearable=true label="发起时间"  width="190"> </el-table-column>
+                <el-table-column prop="validTime" label="截止时间"  width="150"></el-table-column>
+                <el-table-column prop="contractStatus" label="当前状态" width="140"> </el-table-column>
+                <el-table-column prop="operation" label="操作" width="190">
+                    <template slot-scope="scope">
+                        <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
+                        <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
+                        <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+                        </el-tooltip>
+                            <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+                            <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator'>延&nbsp;&nbsp;期</el-button>
+                            <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+    </div>
+
+
+</div>
+	
+   
 </template>
 <style lang="scss" scoped>
-
 @import "../../common/styles/content.css";
  
 </style>

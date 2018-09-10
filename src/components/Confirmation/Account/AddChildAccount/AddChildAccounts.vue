@@ -13,7 +13,7 @@
             <div class="account-fill" >
 
               <div class="show-info-list">
-
+                <p style="font-size: 12px;color: red;padding-left: 30px;margin-bottom: 20px;">系统将会对子账号管理员进行实名认证，请确保管理员姓名、身份证号、手机账号主体一致。</p>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="account-ruleForm" size="medium">
 
                   <el-form-item label="管理员姓名" :label-width="formLabelWidth" prop="userName">
@@ -379,7 +379,7 @@
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
                   this.$loading.hide()
-                  this.$message({
+                  this.$alert({
                     showClose: true,
                     message:res.data.resultMessage,
                     type: 'error'
