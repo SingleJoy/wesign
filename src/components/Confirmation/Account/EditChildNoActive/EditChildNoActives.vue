@@ -330,7 +330,7 @@
           this.$refs[formName].validate((valid) => {
 
             if (valid) {
-              this.$loading.show();
+            //   this.$loading.show();
               this.once = true;
               let pass = md5(this.ruleForm.password);
               let batchTemplate = JSON.stringify(this.batchTemplate);
@@ -354,7 +354,9 @@
                 company_name: this.enterpriseName
 
               }, {emulateJSON: true}).then(res => {
-                this.$loading.hide();
+                 this.$nextTick(function () {
+                    this.$loading.hide();
+                })
                 if (res.data.resultCode == '1') {
                   this.$message({
                     message: '恭喜你，二级账号编辑成功',
