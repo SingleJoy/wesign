@@ -522,7 +522,7 @@
             return false
           }
         }
-
+        
         if(this.checked == false && this.value8 == ''){
           this.$alert('您还没有选择签署时间!','签署时间', {
             confirmButtonText: '确定'
@@ -632,6 +632,7 @@
             this.isNext = true;
             var contractNo = sessionStorage.getItem('contractNo');
             contractNo = JSON.parse(contractNo)
+            console.log(323)
             this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo,contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
@@ -654,7 +655,7 @@
                     this.$router.push('/Whether')
                   }
                 } else {
-                  this.$alert('您还没有选择签署时间!','签署时间', {
+                  this.$alert('请求错误!','签署时间', {
                     confirmButtonText: '确定'
                   })
                   this.falg = true;

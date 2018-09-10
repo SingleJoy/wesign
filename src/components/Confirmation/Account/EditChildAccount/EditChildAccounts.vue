@@ -248,6 +248,7 @@
           Email:'',  //邮箱
         },
         formLabelWidth:'120px',
+        editAccountCode:'',
         checkAll: false,
         singleTemplate: [],
         batchTemplate: [],
@@ -312,15 +313,14 @@
               let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
-              let accountCode = sessionStorage.getItem("accountCode");
-
+              let editAccountCode = this.editAccountCode;  //编辑账户的accountCode
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/'+this.interfaceCode+ '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCard,                  //省份证号
                 mobile: this.ruleForm.mobile,              //手机号码
-                password: pass,                 //密码
-                accountCode: accountCode,        //账户编号
+                password: pass,                          //密码
+                accountCode: editAccountCode,                  //账户编号
                 email: this.ruleForm.Email,                    //邮箱
                 templates: templates,                                //分配模板
                 company_name: this.enterpriseName
@@ -366,18 +366,17 @@
         //
         if (res.data.resultCode == '1'){
 
-          this.ruleForm.accountName = res.data.data.accountName;            //账户名称
-
-          this.ruleForm.Email= res.data.data.email;                    //邮箱
-          this.ruleForm.mobile= res.data.data.mobile;                    //手机号
-          this.ruleForm.userName= res.data.data.userName;                    //管理员姓名
-          this.ruleForm.idCard= res.data.data.idCard;                    //身份证号
-          this.ruleForm.password="********";                    //管理员姓名
-
-          let singleArray=[];
-          let batchArray=[];
-          let data=res.data.dataList;
-          // console.log(data);
+            this.ruleForm.accountName = res.data.data.accountName;            //账户名称
+            this.ruleForm.Email= res.data.data.email;                    //邮箱
+            this.ruleForm.mobile= res.data.data.mobile;                    //手机号
+            this.ruleForm.userName= res.data.data.userName;                    //管理员姓名
+            this.ruleForm.idCard= res.data.data.idCard;                    //身份证号
+            this.ruleForm.password="********";                    //管理员姓名
+            this.editAccountCode = res.data.data.accountCode
+            let singleArray=[];
+            let batchArray=[];
+            let data=res.data.dataList;
+            // console.log(data);
           for(let i=0;i<data.length;i++){
 
             if(data[i].templateSpecies=='single'){

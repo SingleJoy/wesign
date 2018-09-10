@@ -173,7 +173,7 @@ export default {
       }
     })
 
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo).then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo).then(function (res) {
       if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

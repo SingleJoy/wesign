@@ -31,55 +31,13 @@
 <style lang="scss" scoped>
 
 @import "../../common/styles/content.css";
-  .el-tabs__nav-scroll{
-    font-size: 16px;
-    color: #333;
-  }
-  #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
-    font-size: 16px;
-  }
-	.el-table th>.cell{
-		text-align: center;
-	}
-	#app{
-		overflow: hidden;
-	}
-	.el-table__row .cell{
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-	}
-	.contract-type{
-		.el-tabs__header{
-			background: #fff;
-			margin: 0 auto;
-		}
-		.el-tabs__nav-scroll{
-			line-height: 58px; 
-			padding:0 25px;
-		}
-		.el-tabs__item{
-			height:58px;
-			line-height: 58px;
-		}
-		.el-tabs__item.is-active {
-			color: #409EFF;
-			border-bottom: 2px solid #409EFF;
-		}
-
-	}
-
+ 
 </style>
 
 <script>
-import TotalContract from './TotalContract'
-import InquiryWaitMe from './InquiryWaitMe'
-import InquiryWaitOthers from './InquiryWaitOthers'
-import InquiryIntoForce from './InquiryIntoForce'
-import InquiryExpired from './InquiryExpired'
+
 export default {
   name: 'ContractList',
-  components: { TotalContract,InquiryWaitMe,InquiryWaitOthers,InquiryIntoForce,InquiryExpired },
   data() {
     return {
       activeTab:1,
@@ -101,13 +59,5 @@ export default {
 
 }
 </script>
-<style lange='scss' scoped>
-@import '../../styles/Multiparty/Multiparties.scss';
-.el-button--primary:focus{
-  background: #eee;
-  border-color: #95989d;
-  color: #333;
-}
-</style>
 
 

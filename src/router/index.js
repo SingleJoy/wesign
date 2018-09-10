@@ -7,7 +7,8 @@ import Forget from '../components/Login/Forget.vue' //忘记密码
 import FoundUser from '../components/Login/FoundUser.vue'
 
 import Role from '../components/Login/Role.vue' //登录角色选择
-import TemplateCreate from '../components/Template/TemplateCreate.vue' //模板发起合同列表
+import TemplateCreate from '../components/Template/TemplateCreate.vue' //模板发起合同列表(测试合并)
+import ContractList from '../components/ContractList/ContractList.vue' //合同列表（合并组件）
 
 
 import Home from '../components/Home/Home.vue' //主页
@@ -83,6 +84,14 @@ export const router = new Router({
       meta: {
         auth: false
       }
+    },
+    {
+        path:'/',
+        name:'ContractList',
+        component:ContractList,
+        meta:{
+            auth:true
+        }
     },
     {
       path: '/Forget',
