@@ -52,7 +52,7 @@
             </div>
           </div>
 
-          <div class="content-body">
+          <div class="content-body" style="margin-bottom:20px;background: #fff;padding-bottom:50px;margin-bottom: 35px;">
             <p class="title">分配模板</p>
             <span class="new-child-account" >(请为子账号分配可用模板)</span>
             <div class="border-bottom" style="margin-top: 0;"></div>
@@ -365,14 +365,23 @@
                   });
 
                   this.$router.push("/Account");
-                } else {
-
-                  this.$message({
-                    showClose: true,
-                    message: res.data.resultMessage,
-                    type: 'error'
-                  })
+                } else if(res.data.resultCode == 0){
+                    let num = 3;
+                        num = num-res,data.data.authNum;
+                    this.$alert(<div style="textAlign:center">
+                                <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                                <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                                <p class="vertifiId-warn">您还剩余{num}次机会</p>
+                            </div>, '警告',{
+                        confirmButtonText: '确定',
+                    });
                   this.once=false;
+                }else if(res.data.resultCode == 2){
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
                 }
               })
 

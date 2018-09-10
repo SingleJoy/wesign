@@ -50,7 +50,7 @@
             </div>
           </div>
 
-          <div class="content-body">
+          <div class="content-body" style="margin-bottom:20px;background: #fff;padding-bottom:50px;margin-bottom: 35px;">
             <p class="title">分配模板</p>
             <span class="new-child-account" >(请为子账号分配可用模板)</span>
             <div class="border-bottom" style="margin-top: 0;"></div>
