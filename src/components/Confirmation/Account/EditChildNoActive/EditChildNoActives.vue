@@ -147,10 +147,7 @@
                   </div>
 
                 </div>
-                <div slot="footer" class="dialog-footer">
-                  <el-button @click="dialogAgreement = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogAgreement = false">确 定</el-button>
-                </div>
+
               </el-dialog>
 
               <div class="operate-buttons">
@@ -396,7 +393,7 @@
           })
 
         }else{
-          this.$alert('您还未完成确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
+          this.$alert('您还未确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
             confirmButtonText: '确定'
           });
           this.once=false;
@@ -473,8 +470,9 @@
     border-left: 1px solid #22a7ea;
   }
   .account-ruleForm>.el-form-item{
-    width: 50%;
-    float: left;
+    width: 525px;
+    display: inline-block;
+    height: 36px;
   }
 
   .account-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{

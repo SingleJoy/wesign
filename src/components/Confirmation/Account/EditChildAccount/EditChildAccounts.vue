@@ -431,10 +431,11 @@
     border-left: 1px solid #22a7ea;
   }
   .account-ruleForm>.el-form-item{
-    width: 50%;
-    float: left;
+    width: 525px;
+    display: inline-block;
     height: 36px;
   }
+
 
   .account-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
     margin-left: 20px;
