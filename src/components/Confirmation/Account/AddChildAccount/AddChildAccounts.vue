@@ -312,7 +312,7 @@
         showToolTip:false,
         singleTemplateLength:false, //单次模板书否显示
         batchTemplateLength:false,     //批量模板是否显示
-
+        fullscreenLoading: false
       }
     },
     methods: {
@@ -334,7 +334,7 @@
 
       //提交事件
       submitBtn(formName){
-                  
+
         let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree){
           this.$refs[formName].validate((valid) => {
@@ -362,7 +362,10 @@
                 manageName:manageName,
               },{emulateJSON: true}).then(res =>{
                 let accountCode=res.data.accountCode;  //存储accountCode
-
+                this.fullscreenLoading = true;
+                setTimeout(() => {
+                  this.fullscreenLoading = false;
+                }, 2000);
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
                   sessionStorage.setItem('subAccountCode',res.data.accountCode)
@@ -397,7 +400,7 @@
                         message:res.data.resultMessage,
                         type: 'error'
                     })
-
+                    this.$router.push('/EditChildNoActive')
                 }
               })
             }else{
