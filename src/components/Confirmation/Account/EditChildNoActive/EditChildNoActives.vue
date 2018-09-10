@@ -311,7 +311,7 @@
     methods: {
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-        //   console.log(res.bodyText)
+          //   console.log(res.bodyText)
 
           this.date=res.bodyText;
 
@@ -363,90 +363,90 @@
 
                   this.$router.push("/Account");
                 } else if(res.data.resultCode == 0){
-                    let num = 3;
-                        num = num-res,data.data.authNum;
-                    this.$alert(<div style="textAlign:center">
-                                <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
-                                <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
-                                <p class="vertifiId-warn">您还剩余{num}次机会</p>
-                            </div>, '警告',{
-                        confirmButtonText: '确定',
-                    });
-                  this.once=false;
-                }else if(res.data.resultCode == 2){
-                    this.$message({
-                        showClose: true,
-                        message:res.data.resultMessage,
-                        type: 'error'
-                    })
-                }
-              })
-
-            }else {
+                  let num = 3;
+                  num = num-res,data.data.authNum;
+                  this.$alert(<div style="textAlign:center">
+                    <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                  <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                    <p class="vertifiId-warn">您还剩余{num}次机会</p>
+                  </div>, '警告',{
+                  confirmButtonText: '确定',
+                });
+              this.once=false;
+            }else if(res.data.resultCode == 2){
               this.$message({
                 showClose: true,
-                message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+                message:res.data.resultMessage,
                 type: 'error'
               })
-              this.once=false;
             }
           })
 
-        }else{
-          this.$alert('您还未确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
-            confirmButtonText: '确定'
-          });
+        }else {
+          this.$message({
+            showClose: true,
+            message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+            type: 'error'
+          })
           this.once=false;
-          return false;
-        }
-
-      },
-
-    },
-    created() {
-      let accountCode = sessionStorage.getItem("subAccountCode");
-
-
-      this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
-        params: {accountCode: accountCode}
-      }).then(res => {
-        if (res.data.resultCode == '1'){
-          this.ruleForm.accountName = res.data.data.accountName;            //账户名称
-          this.ruleForm.Email= res.data.data.email;                    //邮箱
-          let singleArray=[];
-          let batchArray=[];
-          let data=res.data.dataList;
-          //模板存在
-          if(data){
-            for(let i=0;i<data.length;i++){
-
-              if(data[i].templateSpecies=='single'){
-                singleArray.push(data[i]);
-              }else {
-                batchArray.push(data[i]);
-              }
-            }
-            this.single=singleArray;
-            this.batch=batchArray;
-            if(this.single.length==0){
-              this.singleTemplateLength=false
-            }else{
-              this.singleTemplateLength=true
-            }
-            if(this.batch.length==0){
-              this.batchTemplateLength=false
-            }else{
-              this.batchTemplateLength=true
-            }
-          }
-
-
-
         }
       })
 
+  }else{
+    this.$alert('您还未确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
+      confirmButtonText: '确定'
+    });
+    this.once=false;
+    return false;
+  }
 
-    }
+  },
+
+  },
+  created() {
+    let accountCode = sessionStorage.getItem("subAccountCode");
+
+
+    this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
+      params: {accountCode: accountCode}
+    }).then(res => {
+      if (res.data.resultCode == '1'){
+        this.ruleForm.accountName = res.data.data.accountName;            //账户名称
+        this.ruleForm.Email= res.data.data.email;                    //邮箱
+        let singleArray=[];
+        let batchArray=[];
+        let data=res.data.dataList;
+        //模板存在
+        if(data){
+          for(let i=0;i<data.length;i++){
+
+            if(data[i].templateSpecies=='single'){
+              singleArray.push(data[i]);
+            }else {
+              batchArray.push(data[i]);
+            }
+          }
+          this.single=singleArray;
+          this.batch=batchArray;
+          if(this.single.length==0){
+            this.singleTemplateLength=false
+          }else{
+            this.singleTemplateLength=true
+          }
+          if(this.batch.length==0){
+            this.batchTemplateLength=false
+          }else{
+            this.batchTemplateLength=true
+          }
+        }
+
+
+
+      }
+    })
+
+
+  }
 
 
   }
