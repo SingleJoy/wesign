@@ -274,7 +274,7 @@
                 'signatureImg': signatureImg,
                 'accountCode': accountCode,
               }, {emulateJSON: true}).then(function (res) {
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.resultCode == '1'){
                   let param={
                     mobile:sessionStorage.getItem("mobile"),
@@ -308,7 +308,7 @@
 
         this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg').then(function (res) {
           this.canvasTest =  res.bodyText
-          console.log(res.bodyText)
+        //   console.log(res.bodyText)
           if(res.bodyText != '') {
             let smCode = document.getElementById('smCode')
                   smCode.style.display ='none';

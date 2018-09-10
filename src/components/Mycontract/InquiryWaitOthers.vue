@@ -2,7 +2,7 @@
   <div class="InquiryWaitOthers">
     <div class='contractTitle' style="text-align: left;">
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
-      <el-select v-model="value" v-if="accountLevel !=2" @change="selectParam(value)" placeholder="请选择账号类型">
+      <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
           :key="item.accountCode"
@@ -137,6 +137,7 @@ export default {
         inquiry:false,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
+        isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         filters: {
             column: {
                 create_start_date: null,

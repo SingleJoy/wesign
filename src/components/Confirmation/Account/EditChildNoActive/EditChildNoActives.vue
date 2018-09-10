@@ -314,7 +314,7 @@
     methods: {
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-          console.log(res.bodyText)
+        //   console.log(res.bodyText)
 
           this.date=res.bodyText;
 
@@ -399,7 +399,7 @@
     },
     created() {
       let accountCode = sessionStorage.getItem("subAccountCode");
-      console.log(accountCode);
+    //   console.log(accountCode);
 
       this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
         params: {accountCode: accountCode}
