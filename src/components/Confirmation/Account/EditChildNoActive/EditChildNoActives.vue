@@ -22,7 +22,7 @@
                   </el-form-item>
 
                   <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 15></el-input>
                   </el-form-item>
 
 
@@ -333,7 +333,7 @@
           this.$refs[formName].validate((valid) => {
 
             if (valid) {
-            //   this.$loading.show();
+              //   this.$loading.show();
               this.once = true;
               let pass = md5(this.ruleForm.password);
               let batchTemplate = JSON.stringify(this.batchTemplate);
@@ -357,8 +357,8 @@
                 company_name: this.enterpriseName
 
               }, {emulateJSON: true}).then(res => {
-                 this.$nextTick(function () {
-                    this.$loading.hide();
+                this.$nextTick(function () {
+                  this.$loading.hide();
                 })
                 if (res.data.resultCode == '1') {
                   this.$message({
@@ -369,7 +369,7 @@
                   this.$router.push("/Account");
                 } else if(res.data.resultCode == 0){
                   let num = 3;
-                  if(res.data.data.authNum){
+                  if(res.data.data){
                     num = num-res.data.data.authNum;
                   }else {
                     num=0;
@@ -382,6 +382,9 @@
                   </div>, '警告',{
                   confirmButtonText: '确定',
                 });
+              if(num==0){
+                this.$router.push("/Account");
+              }
               this.once=false;
             }else if(res.data.resultCode == 2){
               this.$message({

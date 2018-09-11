@@ -21,7 +21,7 @@
                   </el-form-item>
 
                   <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 15></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
@@ -180,7 +180,7 @@
       EditChildNoActive
     },
     data() {
-      // 校验二级账号姓名
+      // 校验二级账户名称姓名
       var validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
@@ -383,18 +383,34 @@
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
                   sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
+
                     this.$nextTick(function () {
                         this.$loading.hide();
                     });
-                    this.$message({
-                        showClose: true,
-                        message:res.data.resultMessage,
-                        type: 'error'
-                    });
-                    this.$router.push('/EditChildNoActive')
+                    // this.$message({
+                    //     showClose: true,
+                    //     message:res.data.resultMessage,
+                    //     type: 'error'
+                    // });
+                  let num = 3;
+                  if(res.data.data){
+                    num = num-res.data.data.authNum;
+                  }else {
+                    num=0;
+                  }
+
+                  this.$alert(<div style="textAlign:center">
+                    <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                  <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                    <p class="vertifiId-warn">您还剩余{num}次机会</p>
+                  </div>, '警告',{
+                  confirmButtonText: '确定',
+                });
+
+              this.$router.push('/EditChildNoActive')
 
                 }else if(res.data.resultCode=='2'){
-                  sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
+
                   //二级账号已存在
                     this.$nextTick(function () {
                         this.$loading.hide();
@@ -404,7 +420,7 @@
                         message:res.data.resultMessage,
                         type: 'error'
                     })
-                    this.$router.push('/EditChildNoActive')
+
                 }
               })
             }else{

@@ -133,7 +133,7 @@
     width:360px;
     height: 430px;
 
-    background:url('../../../static/images/Top/version-info.gif');
+    background:url('../../../static/images/Top/version-info1.5.gif');
     position: absolute;
     left:0;
     top:0;
