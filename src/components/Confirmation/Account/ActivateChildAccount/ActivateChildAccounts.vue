@@ -66,7 +66,7 @@
               <div id="hidden" style="display:none">
                 <img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px">
               </div>
-              <div id="signCanvas" style="display:none;position: absolute;top:560px;left: 380px">
+              <div id="signCanvas" style="display:none;position: absolute;top:550px;left: 380px">
                 <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
               </div>
             </div>
