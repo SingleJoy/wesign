@@ -9,19 +9,19 @@
         <router-link to='/Mycontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
         <router-link to='/Multiparty' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
         <router-link v-if="accountLevel!=2" to='/Room' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
+        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-sixe:16px;'>版本</li>
       </ul>
       <ol class='btns'>
         <li :class="{'left-num':accountLevel==2}"><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-if="Jurisdiction">
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
            <router-link  @click.native="tabActive(5)" to='/Account'>
              <img src="../../../static/images/setup.png" alt="">
              <a href="javascript:void(0);">我的账户</a>
            </router-link>
          </li>
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;" v-else>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
           <router-link  @click.native="tabActive(5)" to='/NoReal'>
             <img src="../../../static/images/setup.png" alt="">
             <a href="javascript:void(0);">我的账户</a>
@@ -86,7 +86,9 @@
 </template>
 <style lang="css" scoped>
 @import "../styles/Top.css";
-
+.Top .nav a{
+    font-size: 16px;
+}
 .el-tabs__item.is-active{
   color:#fff
 }

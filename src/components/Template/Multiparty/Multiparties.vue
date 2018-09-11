@@ -9,9 +9,7 @@
 		
 				<el-tabs class="multi-tab" v-model="activeName">
 					<el-tab-pane label="单次发起合同" name="first">
-						<keep-alive>
 							<singleTemplate></singleTemplate>
-						</keep-alive>
 					</el-tab-pane>
 					<el-tab-pane label="批量发起合同" name="second">
 						<batchTemplate></batchTemplate>

@@ -31,7 +31,7 @@
          :picker-options="pickerBeginDateAfter"
         >
       </el-date-picker>
-      <el-button type="primary"  @click='contractInquiryExpired' style='letter-spacing: 5px;float: right; margin-right: 51px;'>搜索</el-button>
+      <el-button type="primary"  @click='contractInquiryExpired' style='letter-spacing: 5px;margin-right: 51px;'>搜索</el-button>
     </div>
     <div class="list-body">
       <div class='table'>

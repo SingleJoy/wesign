@@ -70,7 +70,7 @@
                 <ul v-else style="text-align: center;margin-top: 100px;">
                     <li class="no-data">
                         <img src="../../../../static/images/blank.png" alt="">
-                        <p>暂无模板</p>
+                        <p>{{textTip}}</p>
                     </li>
                 </ul>
 				<div class='pagetion'>
@@ -113,6 +113,7 @@ export default {
             tableData: [],
             currentPage: 1,
             num:'',
+            textTip:'暂无模板',
             inputTempBatch:'',
             query:false,
             baseURL:this.baseURL.BASE_URL,
@@ -208,7 +209,40 @@ export default {
                 return false
             }
             var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
-            this.getTemplateList (templateInfoRequest)
+            // this.getTemplateList (templateInfoRequest)
+              var data =[];
+            let accountCode=sessionStorage.getItem('accountCode')
+            server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
+                if(res.data.sessionStatus == '0'){
+                    this.$router.push('/Server')
+                } else {
+                    if(res.data.contents&&res.data.contents.length>0){
+                        for (let i = 0; i < res.data.contents.length;i++) {
+                            var obj = {}
+                            obj.templateNo = res.data.contents[i].templateCode;         //模板号
+                            obj.templateName = res.data.contents[i].templateName;       //模板名
+                            obj.tempalateDate = res.data.contents[i].strCreateTime;     //上传日期
+                            obj.signatory = res.data.contents[i].template.partyNumber;  //合同方
+                            obj.bindAccounts = res.data.contents[i].bindAccounts;       //绑定账号
+                            obj.imgs = res.data.contents[i].template.templateImgs;      //图片
+                            obj.usedNum = res.data.contents[i].usedNum;                 //累计发起
+                            obj.dialogTableVisible = false;                             //图片预览弹框默认不显示
+                            obj.templateGenre = res.data.contents[i].template.templateSpecificType    //模板特殊类型
+                            if (obj.signatory == '' || obj.signatory == null){
+                                obj.signatory = 0;
+                            }
+                            data[i] = obj
+                        }
+                        this.tableData = data
+                        this.num = res.data.totalItemNumber
+                        this.loading = false
+                    }else{
+                        this.textTip = "无匹配模板"
+                    } 
+                }
+            }).catch({
+
+            })
             this.query = true
             this.show = true
         }

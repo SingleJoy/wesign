@@ -88,7 +88,7 @@
             </div>
             <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
             <div style="margin-top: 30px;margin-left: 70px;">
-              <img style="position: relative;top: 80px;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+              <img style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
               <el-steps direction="vertical" :active=0>
                 <el-step :title=item.signUserName+item.logInfo  
                     :description=item.signTime 
@@ -318,7 +318,7 @@ export default {
             let contractNo=sessionStorage.getItem('contractNo')
             this.contractNo=contractNo;
         }
-        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.contractNo;
+        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
         this.$http.get(url).then(function (res) {
             if(res.data.sessionStatus == '0'){
             this.$router.push('/Server')

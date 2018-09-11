@@ -37,7 +37,7 @@
 }
 .nav .btns li{
     float: left;
-    width: 94px;
+    width: 102px;
     height: 60px;
 }
 .nav .btns li:nth-child(1){
@@ -80,7 +80,8 @@
 }
 .nav .btns li:nth-child(3) a{
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
+    margin-left:4px;
 }
 
 .nav .btns li:nth-child(4){
@@ -94,7 +95,7 @@
 }
 .nav .btns li:nth-child(4) a{
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 #dloa{

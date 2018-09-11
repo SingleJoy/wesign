@@ -58,7 +58,7 @@
 							<span style="font-size: 14px;margin-left: 200px;color: red;letter-spacing: 1px; margin-top: 10px;">(子账号为企业管理员分配)</span>
 						</p>
 						<ul v-if="subCompanyList.length>0"  class="role-ul">
-							<li v-for="(item,index) in subCompanyList" :key="index" class="role-item">
+							<li v-for="(item,index) in subCompanyList" :key="index" class='role-item'>
 								<div class="item-left">
 									<span class="sign" v-if="item.accountStatus==0">
 										<img src="../../../static/images/Login/has_sign.png" alt="">
@@ -105,6 +105,7 @@
 									</div>
 								</div>
 								<p class="item-right" v-if="item.accountStatus!=5&&item.accountStatus!=6" @click="loginEnter(item)"><span>进入</span></p>
+								<p class="item-right-none" v-else><span></span></p>
 							</li>
 						</ul>
 						<ul v-else>
@@ -159,7 +160,7 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('interfaceCode',item.interfaceCode);
 			sessionStorage.setItem('auditStatus',item.auditStatus);
 			sessionStorage.setItem('enterpriseName',item.enterpriseName);
-			console.log(item.enterpriseName)
+			// console.log(item.enterpriseName)
 			sessionStorage.setItem('userCode',item.userCode);
 
 			let params = {
@@ -275,6 +276,7 @@ import cookie from '@/common/js/getTenant'
 					.role-item{
 						margin-top: 20px;
 						height:175px;
+                        // float: right;
 						.sign img{
 							float: right;
 						}
@@ -354,6 +356,15 @@ import cookie from '@/common/js/getTenant'
 						.item-right:hover{
 							color: #22a7ea;
 						}
+                        .item-right-none{
+                            float: right;
+                            line-height: 172px;
+                            width: 138px;
+                            height: 172px;
+                            background: #ffffff;
+                            border-radius: 5px;
+                            border-top-left-radius: 0;
+                        }
 					}
 				}
 			}
