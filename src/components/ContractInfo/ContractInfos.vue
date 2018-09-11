@@ -1,42 +1,42 @@
 <template>
   <div class='ContractInfos' style="margin-top: 20px;">
-      <div class='main'>
-          <div class='first' style="display: inherit;">
-            <p style="line-height: 60px;float: left;">
-                <span>我的合同</span>
-                <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-                <span style="color:#22a7ea" v-else> >合同详情</span>
-            </p>
-          
-            <p id="sign-icon" v-if="accountCode!= operator && accountName">
-              <span class="department">{{accountName}}</span>
-              <!-- <span>张丽华</span> -->
-            </p>
+    <div class='main'>
+      <div class='first' style="display: inherit;">
+        <p style="line-height: 60px;float: left;">
+          <span>我的合同</span>
+          <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+          <span style="color:#22a7ea" v-else> >合同详情</span>
+        </p>
 
-            <p>
-                <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
-            </p>
-           
-          </div>
-          <p class='second'>
-             <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
-             <span class='text'>
+        <p id="sign-icon" v-if="accountCode!= operator && accountName">
+          <span class="department">{{accountName}}</span>
+          <!-- <span>张丽华</span> -->
+        </p>
+
+        <p>
+          <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+          <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+        </p>
+
+      </div>
+      <p class='second'>
+        <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
+        <span class='text'>
                <strong>当前状态：</strong>
                <span>{{status}}</span>
              </span>
-          </p>
-          <div class='three' style="text-align: left;">
-            <p class='details'>
-              <strong>合同文件：</strong><span class="contract_Name">{{contractName}}</span>
-              <a href="javascript:void(0);" @click="seeContractImg">查看</a>
-              <a href="javascript:void(0);" @click="downloadClick">下载</a>
-              <strong>发起方式：</strong><span>{{createType}}</span>
-               <strong>签署截止日期：</strong><span>{{validTime}}</span>
-            </p>
-             <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics'>
-          </div>
-          <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
+      </p>
+      <div class='three' style="text-align: left;">
+        <p class='details'>
+          <strong>合同文件：</strong><span class="contract_Name">{{contractName}}</span>
+          <a href="javascript:void(0);" @click="seeContractImg">查看</a>
+          <a href="javascript:void(0);" @click="downloadClick">下载</a>
+          <strong>发起方式：</strong><span>{{createType}}</span>
+          <strong>签署截止日期：</strong><span>{{validTime}}</span>
+        </p>
+        <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics'>
+      </div>
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
 
             <div v-for="(item,index) in imgList" :key="index" >
                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
@@ -99,8 +99,8 @@
                 </el-step>
               </el-steps>
 
-            </div>
       </div>
+    </div>
   </div>
 </template>
 <style lang="scss">
@@ -152,49 +152,47 @@
     font-size: 16px;
     color: #333;
   }
-    .currentStep .el-step__icon{
-        color:#22a7ea;
-    }
+  .currentStep .el-step__icon{
+    color:#22a7ea;
+  }
   .el-step__title.is-process,.el-step__description.is-process{
     color:#22a7ea
   }
   #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
     font-size: 16px;
   }
-.el-table th>.cell{
-  text-align: center;
-}
-#app{
-  overflow: hidden
-}
-.contract-info{
-  height: 700px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-.contract_Name{
+  .el-table th>.cell{
+    text-align: center;
+  }
+
+  .contract-info{
+    height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .contract_Name{
     width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    // display: inline-block;
-}
-.backHome{
-  float: right;
-  margin-right: 20px;
-  margin-top: 10px;
-  font-size: 16px;
-}
+  // display: inline-block;
+  }
+  .backHome{
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
 </style>
 <script>
-import { mapActions, mapState } from 'vuex';
-import server from '@/api/url';
-import { Switch } from 'element-ui';
-import cookie from '@/common/js/getTenant';
-export default {
-  name: 'ContractInfos',
-  data() {
-    return {
+  import { mapActions, mapState } from 'vuex';
+  import server from '@/api/url';
+  import { Switch } from 'element-ui';
+  import cookie from '@/common/js/getTenant';
+  export default {
+    name: 'ContractInfos',
+    data() {
+      return {
         baseURL:this.baseURL.BASE_URL,
         tableData2: [],
         accountLevel:'',
@@ -213,34 +211,34 @@ export default {
         accountName:'',
         operator:'',
         accountCode:sessionStorage.getItem('accountCode')
-    };
-  },
-  methods: {
-    remindSignClick (row) {
-      //  var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
+      };
+    },
+    methods: {
+      remindSignClick (row) {
+        //  var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
         var remindParam = {
           userCode:row.userCode,
           contractType:1
         }
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ this.$store.state.rowNumber +'/remind',{params:remindParam} ,{emulateJSON:true}).then(function (res) {
           var resultCode = res.data.resultCode
-            if ( resultCode === '0') {
-              this.$message({
+          if ( resultCode === '0') {
+            this.$message({
               message: '短信通知成功',
               type: 'success'
             });
-            } else if(resultCode === '1'){
-              this.$message({
+          } else if(resultCode === '1'){
+            this.$message({
               message: '该合同本日发送短信次数已用尽！',
               type: 'error'
             });
           }
-      })
-    },
-    getTenant () {
+        })
+      },
+      getTenant () {
 
-    },
-    extensionClick(){
+      },
+      extensionClick(){
         if (this.contractType == "0") {
           sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
           cookie.set("state", "E");
@@ -251,8 +249,8 @@ export default {
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
-    },
-    signClick(row){
+      },
+      signClick(row){
         //签署
         if (this.contractType == "0") {
           this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
@@ -263,9 +261,9 @@ export default {
           sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
           this.$router.push("/Contract");
         }
-    },
-    
-    seeClick(row) {
+      },
+
+      seeClick(row) {
         //延期
         if (row.contractType == "0") {
           sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
@@ -277,56 +275,56 @@ export default {
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
-    },
-    getRowClass({ row, column, rowIndex, columnIndex }) {
+      },
+      getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
-            return 'background:#efefef;font-weight:bold;'
+          return 'background:#efefef;font-weight:bold;'
         } else {
-            return ''
+          return ''
         }
-    },
-    seeContractImg (){
-       this.imgList =[];
-       this.$loading.show(); //显示
+      },
+      seeContractImg (){
+        this.imgList =[];
+        this.$loading.show(); //显示
         var data =[];
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.length;i++) {
-        let contractUrl = res.data[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
-        }
-      })
-      this.dialogTableVisible = true
-    },
-    downloadClick () {
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.$store.state.rowNumber;
-      var download = document.createElement('a');
-      document.body.appendChild(download)
-      download.setAttribute('href',url);
-      download.click()
-    },
-    seeContractDetails () {
+          if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+          } else {
+            for (let i = 0; i < res.data.length;i++) {
+              let contractUrl = res.data[i].contractUrl
+              data[i] = contractUrl
+              this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+          }
+        })
+        this.dialogTableVisible = true
+      },
+      downloadClick () {
+        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.$store.state.rowNumber;
+        var download = document.createElement('a');
+        document.body.appendChild(download)
+        download.setAttribute('href',url);
+        download.click()
+      },
+      seeContractDetails () {
         var data =[];
         var isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
         // 从合同列表页面进入
         if(this.$store.state.rowNumber){
-            let contractNo=this.$store.state.rowNumber
-            this.contractNo=contractNo;
+          let contractNo=this.$store.state.rowNumber
+          this.contractNo=contractNo;
         }else {   //签署完成页面进入
-            let contractNo=sessionStorage.getItem('contractNo')
-            this.contractNo=contractNo;
+          let contractNo=sessionStorage.getItem('contractNo')
+          this.contractNo=contractNo;
         }
         let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
         this.$http.get(url).then(function (res) {
-            if(res.data.sessionStatus == '0'){
+          if(res.data.sessionStatus == '0'){
             this.$router.push('/Server')
-            } else {
+          } else {
             var contractNoZq = res.data.contractVo.contractNoZq
             var contractVo = res.data.contractVo
             var signUserVo = res.data.signUserVo
@@ -338,68 +336,69 @@ export default {
             this.status = contractVo.status
             this.operator = res.data.contractVo.operator
             switch (type) {
-                case '1':
-                    this.createType = '模板发起'
-                    break;
-                default:
-                    this.createType = '上传发起'
-                    break;
-                }
+              case '1':
+                this.createType = '模板发起'
+                break;
+              default:
+                this.createType = '上传发起'
+                break;
+            }
             switch ( this.status ){
-                case "1":
+              case "1":
                 this.status = '签署中'
                 break;
-                case "2":
+              case "2":
                 this.status = '已生效'
                 break;
-                default:
+              default:
                 this.status = '已截止'
                 break;
             }
             if(currentFaceCode == res.data.contractVo.interfaceCode){
-                isCreater = true
+              isCreater = true
             }else{
-                isCreater = false
+              isCreater = false
             }
             for (let i = 0; i < signUserVo.length;i++) {
-                var obj = {}
-                obj.signUserName = signUserVo[i].signUserName
-                obj.mobile = signUserVo[i].mobile
-                obj.idCard = signUserVo[i].idCard
-                obj.signStatus = signUserVo[i].signStatus
-                obj.userCode = signUserVo[i].userCode
-                obj.isCreater = isCreater
-                switch ( obj.signStatus ){
+              var obj = {}
+              obj.signUserName = signUserVo[i].signUserName
+              obj.mobile = signUserVo[i].mobile
+              obj.idCard = signUserVo[i].idCard
+              obj.signStatus = signUserVo[i].signStatus
+              obj.userCode = signUserVo[i].userCode
+              obj.isCreater = isCreater
+              switch ( obj.signStatus ){
                 case "0":
-                    obj.signStatus = 0
-                    break;
+                  obj.signStatus = 0
+                  break;
                 default:
-                    obj.signStatus = 1
-                    break;
-                }
-                if (obj.idCard === null || obj.idCard === 'undefined') {
-                    obj.idCard = ''
-                }
-                data[i] = obj
+                  obj.signStatus = 1
+                  break;
+              }
+              if (obj.idCard === null || obj.idCard === 'undefined') {
+                obj.idCard = ''
+              }
+              data[i] = obj
             }
             this.tableData2 = data
             this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.contractNo+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-                this.History = res.data.dataList
+              this.History = res.data.dataList
             })
-            }
-            
+          }
+
         })
-    },
-    backHome(){
-      // console.log("state"+cookie.getJSON('state'))
-      this.$store.dispatch('tabIndex',{tabIndex:1});
-      if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-        this.$router.push("/Home")
-      }else{
-        this.$router.push("/Mycontract")
+      },
+      backHome(){
+        // console.log("state"+cookie.getJSON('state'))
+        this.$store.dispatch('tabIndex',{tabIndex:1});
+        if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
+          this.$router.push("/Home")
+        }else{
+          this.$router.push("/Mycontract")
+        }
       }
-    }
-  },
+    },
+  
   created() {
     this.signMobile = cookie.getJSON('tenant')[0].mobile
     var contractNo = sessionStorage.getItem('contractNo');
@@ -409,13 +408,13 @@ export default {
     if (contractNo) {
         contractNo = JSON.parse(contractNo)
         if ( this.$store.state.rowNumber == ''){
-            this.contractNo = contractNo;
-            this.$store.state.rowNumber = contractNo
+          this.contractNo = contractNo;
+          this.$store.state.rowNumber = contractNo
         }
-    }
-    this.seeContractDetails()
-    //判断是不是二级账户如果是不请求顶部显示部门姓名
-    if(accountLevel != 2){
+      }
+      this.seeContractDetails()
+      //判断是不是二级账户如果是不请求顶部显示部门姓名
+      if(accountLevel != 2){
         let param={
             accountCode:detailAccountCode
         }
@@ -426,9 +425,9 @@ export default {
         }).catch({
 
         })
+      }
     }
   }
-}
 </script>
 <style>
   @import "../../styles/ContractInfo/ContractInfos.css";

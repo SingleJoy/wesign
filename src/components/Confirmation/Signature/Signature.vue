@@ -78,7 +78,7 @@
 
           </div>
         </div>
-        <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
+        <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="contract-info" >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
               <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
@@ -657,9 +657,14 @@
     }
   }
 </script>
-<style scoped>
+<style >
   @import "../../../styles/Confirmation/Signature/Signature.css";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
+  .contract-info{
+    height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 </style>
 

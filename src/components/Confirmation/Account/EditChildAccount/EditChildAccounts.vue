@@ -10,7 +10,7 @@
           <div class="content-body">
 
             <p class="title">我的账户</p>
-            <span class="new-child-account">(新增子账号)</span>
+            <span class="new-child-account">(编辑子账号)</span>
             <div class="border-bottom"  style="margin-top: 0"></div>
 
             <div class="account-fill" >
