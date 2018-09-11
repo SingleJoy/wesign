@@ -538,7 +538,7 @@ o
       },
 
       edit(accountCode,accountStatus){
-        
+
         var accountCode1=accountCode;
         sessionStorage.setItem("subAccountCode",accountCode1);
         if(accountStatus=='3'||accountStatus=='2'){
@@ -609,7 +609,6 @@ o
             this.$alert(res.data.resultMessage, '提示',{
               confirmButtonText: '确定'
             });
-
 
           }else if((res.data.resultCode == '1')&&(accountStatus=='3')){
             //冻结成功重新查询二级账号

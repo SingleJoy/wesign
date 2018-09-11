@@ -49,7 +49,7 @@
                 width="400px"
                 center>
                 <div  class="send-code">请您先获取验证码的，输入验证码后点击提交即可！</div>
-                <div style="color: red;text-align: left;padding-bottom: 10px">+{{mobile}}</div>
+                <div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">+{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
                   <el-form-item prop="code">
@@ -128,6 +128,9 @@
         smsCode:'',   //短信码
         smsNoVer:'',   //
         appId:'',  //验证码返回appId
+        show:'',
+        mobileShowFirst:'',
+        mobileShowLast:'',
 
       }
     },
@@ -329,9 +332,11 @@
     },
     created(){
 
+       this.mobileShowFirst=this.mobile.substring(0,3);
+       this.mobileShowLast=this.mobile.substring(7,11);
+
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
-
 
 	  //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
