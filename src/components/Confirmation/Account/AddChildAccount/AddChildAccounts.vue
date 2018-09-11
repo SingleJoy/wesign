@@ -21,7 +21,7 @@
                   </el-form-item>
 
                   <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 15></el-input>
                   </el-form-item>
 
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
@@ -180,7 +180,7 @@
       EditChildNoActive
     },
     data() {
-      // 校验二级账号姓名
+      // 校验二级账户名称姓名
       var validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))

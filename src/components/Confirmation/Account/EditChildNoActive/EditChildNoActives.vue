@@ -22,7 +22,7 @@
                   </el-form-item>
 
                   <el-form-item label="账户名称" :label-width="formLabelWidth" prop="accountName">
-                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
+                    <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 15></el-input>
                   </el-form-item>
 
 
