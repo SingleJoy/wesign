@@ -11,7 +11,7 @@
 					</span>
 				</div>
             </div>
-            <div class="line"></div> 
+            <div class="line"></div>
 			<div class="template-list">
 				<ul v-if="tableData.length>0">
 					<li v-for="(item,index) in tableData" :key="index" >
@@ -23,7 +23,7 @@
 								</div>
 								<div class="content-right">
 									<h3>{{item.templateName}}</h3>
-								
+
 								    <p class="item-name">
                                         <span class="initiator item-default">合同方：</span>
                                         <span class="initiator">{{item.signatory}}&nbsp;&nbsp;方</span>
@@ -35,7 +35,7 @@
                                             <span class="initiator" v-else>{{acountItem}}</span>
                                         </span>
                                         <span v-else>{{'——'}}</span>
-                                     
+
                                     </p>
                                     <p class="item-name">
                                         <span class="initiator item-default">累计发起：</span>
@@ -50,7 +50,7 @@
 											<img src="../../../../static/images/Multiparty/see.png" alt="">
                                             <span>在线预览</span>
 										</span>
-										
+
 										<span @click="generateClick(item)" class="item-option">
 											<img src="../../../../static/images/Multiparty/creater.png" alt="">
 											<span >立即发起</span>
@@ -161,7 +161,7 @@ export default {
             console.log(row)
         this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
         this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
-        sessionStorage.setItem('templateName', JSON.stringify(row.templateName))
+        sessionStorage.setItem('templateName', row.templateName)
         sessionStorage.setItem('templateNo', JSON.stringify(row.templateNo))
         sessionStorage.setItem('templateGenre',JSON.stringify(row.templateGenre))
         this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
@@ -193,7 +193,7 @@ export default {
                         this.tableData = data
                         this.num = res.data.totalItemNumber
                         this.loading = false
-                    } 
+                    }
                 }
             }).catch({
 

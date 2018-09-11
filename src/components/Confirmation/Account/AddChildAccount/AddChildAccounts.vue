@@ -312,11 +312,12 @@
         showToolTip:false,
         singleTemplateLength:false, //单次模板书否显示
         batchTemplateLength:false,     //批量模板是否显示
-        fullscreenLoading: false
+        fullscreenLoading: false,
+
       }
     },
     methods: {
-
+        //获取服务器时间
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
         //   console.log(res.bodyText)
@@ -376,25 +377,25 @@
                   })
                     this.$nextTick(function () {
                         this.$loading.hide();
-                    })
+                    });
                     this.$router.push("/Account");
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
                     this.$nextTick(function () {
                         this.$loading.hide();
-                    })
+                    });
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
                         type: 'error'
-                    })
+                    });
                     this.$router.push('/EditChildNoActive')
 
                 }else if(res.data.resultCode=='2'){
                   //二级账号已存在
                     this.$nextTick(function () {
                         this.$loading.hide();
-                    })
+                    });
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,

@@ -201,7 +201,7 @@
       lastStepFit (){ //上一步
         this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
         this.$store.dispatch('type',{type:'back'})
-        sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.templateName))
+        sessionStorage.setItem('contractName', this.$store.state.templateName)
         sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
         sessionStorage.setItem('type',JSON.stringify('back'))
         this.$router.push('/Signaturesetting')
@@ -243,7 +243,7 @@
               // })
 
               this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-              sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.templateName))
+              sessionStorage.setItem('contractName',this.$store.state.templateName)
               sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
               this.$router.push('/Contractsign')
 
@@ -268,7 +268,7 @@
       var contractNo = sessionStorage.getItem('contractNo')
 
       if (templateName) {
-        templateName = JSON.parse(templateName)
+
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = templateName
         }
@@ -286,7 +286,7 @@
         }
       }
       this.$loading.show(); //显示
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+ '/getContractDetails').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.templateNo+ '/getContractDetails').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -295,7 +295,7 @@
         }
       })
       var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.templateNo+'/contractimgs').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

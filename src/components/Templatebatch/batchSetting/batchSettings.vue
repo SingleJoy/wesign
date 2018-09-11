@@ -230,7 +230,7 @@ export default {
             return  time.getTime() < Date.now();
           }
         },
-       templateName:JSON.parse(sessionStorage.getItem('templateName'))
+       templateName:sessionStorage.getItem('templateName')
       }
     },
     methods: {
@@ -291,7 +291,7 @@ export default {
           return false
         }
         this.$store.dispatch('template',{templateName:batchText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', JSON.stringify(batchText))
+        sessionStorage.setItem('templateName', batchText)
         sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
       },
       showBatchTemplate () {
@@ -517,7 +517,7 @@ export default {
               this.$store.dispatch('template',{templateName:this.templateName,templateNo:this.$store.state.templateNo})
               this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
               this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-              sessionStorage.setItem('templateName', JSON.stringify(this.templateName))
+              sessionStorage.setItem('templateName',this.templateName)
               sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
               sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
               sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
@@ -553,7 +553,7 @@ export default {
     var templateGenre = sessionStorage.getItem('templateGenre')
     var type = sessionStorage.getItem('type')
     if (templateName) {
-      templateName = JSON.parse(templateName)
+
       if ( this.$store.state.templateName == ''){
         this.$store.state.templateName = templateName
       }

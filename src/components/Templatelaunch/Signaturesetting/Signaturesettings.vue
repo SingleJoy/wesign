@@ -242,6 +242,7 @@ export default {
           }
         },
         templateName:sessionStorage.getItem('templateName')
+        // templateName:JSON.parse(sessionStorage.getItem('templateName')),
       }
     },
     methods: {
@@ -299,7 +300,7 @@ export default {
       changeContName (){
         var inputText = document.getElementById('inputText').value
         this.$store.dispatch('template',{templateName:inputText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', JSON.stringify(inputText))
+        sessionStorage.setItem('templateName', inputText)
         sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
       },
       seeTemplate () {
@@ -430,7 +431,7 @@ export default {
         })
       },
       nextStepBtn () { //下一步
-        var inputText = document.getElementById('inputText').value;
+        var inputText = this.templateName;
         if(TrimAll(inputText) == ''){
            this.$alert('合同名称不能为空!','签署', {
             confirmButtonText: '确定'
@@ -557,8 +558,8 @@ export default {
                 this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
                 this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
                 this.$store.dispatch('needSign',{needSign:needSign})
-                sessionStorage.setItem('templateName', JSON.stringify(TrimAll(this.templateName)))
-                sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
+                sessionStorage.setItem('templateName',TrimAll(this.templateName))
+                sessionStorage.setItem('templateNo', this.$store.state.templateNo)
                 sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
                 sessionStorage.setItem('needSign',JSON.stringify(needSign))
                 if(needSign == 1){
@@ -586,7 +587,7 @@ export default {
       var contractNo = sessionStorage.getItem('contractNo')
       var type = sessionStorage.getItem('type')
       if (templateName) {
-        // templateName = JSON.parse(templateName)
+
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = templateName
         }

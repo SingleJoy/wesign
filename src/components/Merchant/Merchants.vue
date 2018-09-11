@@ -166,13 +166,13 @@
         if( item.templateSpecies == 'batch'){
           this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
           this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})
-          sessionStorage.setItem('templateName', JSON.stringify(item.name))
+          sessionStorage.setItem('templateName', item.name)
           sessionStorage.setItem('templateNo', JSON.stringify(item.templateNo))
           sessionStorage.setItem('templateGenre',JSON.stringify(item.templateSpecies))
           this.$router.push('/batchSetting')
         } else {
           this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          sessionStorage.setItem('templateName', JSON.stringify(item.name))
+          sessionStorage.setItem('templateName',item.name)
           sessionStorage.setItem('templateNo', JSON.stringify(item.templateNo))
           this.$router.push('/Fillinformation')
         }

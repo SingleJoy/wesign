@@ -93,62 +93,14 @@
 
                 <div class="fill-background"></div>
 
-                <!--<div class="empty-template" >-->
-                <!--<img src="../../../../../static/images/Confirmation/Account/default-template.png">-->
-                <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
-                <!--</div>-->
+
               </div>
 
 
             </div>
 
             <div class="agreement-content" >
-              <!--<template>-->
-                <!--&lt;!&ndash; `checked` 为 true 或 false &ndash;&gt;-->
-                <!--<el-checkbox v-model="agree" name="type" @change="changEvent">确认签署</el-checkbox>-->
-                <!--<b  class="agreement-sign">-->
-                  <!--<a  @click="dialogAgreement = true" href="javascript:void(0)">-->
-                    <!--《电子合同子账号管理认证授权书》-->
-                  <!--</a>-->
-                <!--</b>-->
-              <!--</template>-->
-              <!--<el-dialog-->
-                <!--:visible.sync="dialogAgreement"-->
-                <!--width="30%"-->
-                <!--center>-->
-                <!--<div class="dialog-container">-->
-                  <!--<div class="dialog-header">单位授权书范本</div>-->
-                  <!--<div class="dialog-body">-->
-                    <!--<div class="content">-->
 
-                      <!--<p style="text-align: center;font-size: 16px;font-weight: bold;">电子合同子账号管理认证授权书</p>-->
-
-                      <!--<br/>-->
-                      <!--<p>致：北京众签科技有限公司</p>-->
-
-                      <!--<p><span style="padding:0 10px;"></span>兹授权我公司员工：{{ruleForm.accountName}}            ，身份证号：{{ruleForm.idCode}}                   ，去贵单位办理与电子合同服务有关的全部事宜，具体权限包括：</p>-->
-
-                      <!--<p> 1)可以签署本子账号发起的合同，不能签署主账号和其他子账号的待签署的合同；</p>-->
-
-                      <!--<p> 2)管理本子账号发起的合同（查看、下载、延期）；</p>-->
-
-                      <!--<p>在授权期间，被授权人与贵公司所签署的一切文件，我公司都给予认可，并承担可能由此产生的各种法律责任。我公司员工在办理期间，请予以配合，谢谢！</p>-->
-                      <!--<br/>-->
-                      <!--<p>被授权人签名：</p>-->
-                      <!--<br/>-->
-                      <!--<p> 公司名称：{{enterpriseName}}</p>-->
-                      <!--<br/>-->
-                      <!--<p> 日    期:{{date}}</p>-->
-
-                    <!--</div>-->
-                  <!--</div>-->
-
-                <!--</div>-->
-                <!--<div slot="footer" class="dialog-footer">-->
-                  <!--<el-button @click="dialogAgreement = false">取 消</el-button>-->
-                  <!--<el-button type="primary" @click="dialogAgreement = false">确 定</el-button>-->
-                <!--</div>-->
-              <!--</el-dialog>-->
 
               <div class="operate-buttons">
                 <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
@@ -282,7 +234,8 @@
         date:'',
         enterpriseName:sessionStorage.getItem("enterpriseName"),  //企业名称
         singleTemplateLength:false, //单次模板书否显示
-        batchTemplateLength:false     //批量模板是否显示
+        batchTemplateLength:false,     //批量模板是否显示
+        fullscreenLoading: false,
       }
     },
     methods: {
@@ -305,6 +258,7 @@
 
           this.$refs[formName].validate((valid) => {
             if (valid) {
+              this.$loading.show()
               this.once = true;
               let pass = md5(this.ruleForm.password);
               let batchTemplate = JSON.stringify(this.batchTemplate);
@@ -326,12 +280,24 @@
                 company_name: this.enterpriseName
 
               }, {emulateJSON: true}).then(res => {
+                this.fullscreenLoading = true;
+                setTimeout(() => {
+                  this.fullscreenLoading = false;
+                }, 2000);
+
                 if (res.data.resultCode == '1') {
                   this.$message({
                     message: '恭喜你，二级账号编辑成功',
                     type: 'success'
                   });
+                  this.$nextTick(function () {
+                    this.$loading.hide();
+                  })
+                  this.$router.push("/Account");
                 } else {
+                  this.$nextTick(function () {
+                    this.$loading.hide();
+                  })
                   this.$message({
                     showClose: true,
                     message: res.data.resultMessage,
