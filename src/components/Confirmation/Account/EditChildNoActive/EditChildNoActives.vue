@@ -39,7 +39,7 @@
                       <el-button style="position: absolute;top:-12px;right:-15px;border:none;padding: 20px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
                     </el-tooltip>
                   </el-form-item>
-                  
+
                   <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
                     <el-input v-model="ruleForm.idCode" auto-complete="off" placeholder="请输入身份证号码" ></el-input>
                   </el-form-item>
