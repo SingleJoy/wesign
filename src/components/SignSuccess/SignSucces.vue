@@ -100,10 +100,10 @@ export default {
   created() {
     var contractNo = sessionStorage.getItem('contractNo')
     var contractName = sessionStorage.getItem('contractName');
-    contractName = JSON.parse(contractName)
+    // contractName = JSON.parse(contractName)
     this.contractName = contractName
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
@@ -122,7 +122,7 @@ export default {
   methods:{
     examine() {
       var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo)
+        //   contractNo = JSON.parse(contractNo)
       this.$loading.show(); //显示
       var data =[];
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo +'/contractimgs').then(function (res) {

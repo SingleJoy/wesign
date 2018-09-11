@@ -139,7 +139,7 @@ export default {
       }
     }
     if (templateNo) {
-      templateNo = JSON.parse(templateNo)
+    //   templateNo = JSON.parse(templateNo)
       if ( this.$store.state.templateNo == ''){
         this.$store.state.templateNo = templateNo
       }
@@ -147,7 +147,7 @@ export default {
     this.$loading.show(); //显示
     var data =[];
     this.templateName = this.$store.state.templateName
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'?accountCode='+accountCode;
+    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateJsonAndImgs?accountCode='+accountCode;
     this.$http.get(url).then(function (res) {
         if(res.sessionStatus == '0'){
             this.$router.push('/Server')

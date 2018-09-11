@@ -295,7 +295,7 @@
     methods:{
       urlloadUrl(){
         var contractNo = sessionStorage.getItem('contractNo');
-		        contractNo = JSON.parse(contractNo)
+		        // contractNo = JSON.parse(contractNo)
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?=accountCode=${this.accountCode}`
       },
       handleChange (name,file) {
@@ -339,8 +339,8 @@
         var suffix=contractName.slice(0,index1);
         this.input = suffix
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
       // }
       },
       fileErron(){
@@ -457,7 +457,7 @@
         })
       },
       nextFit() {
-        sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.input)))
+        sessionStorage.setItem('contractName', TrimAll(this.input))
         if(TrimAll(this.input) == ''){
           this.$alert('您还没有填写合同名称!','签署', {
               confirmButtonText: '确定'
@@ -578,7 +578,7 @@
         this.$loading.show(); //显示
         var data =[];
         var contractNo = sessionStorage.getItem('contractNo');
-		        contractNo = JSON.parse(contractNo)
+		        // contractNo = JSON.parse(contractNo)
 
         this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
             if(res.data.sessionStatus == '0'){
@@ -601,17 +601,17 @@
       var contractNo = sessionStorage.getItem('contractNo');
       var type = sessionStorage.getItem('type');
 
-      type = JSON.parse(type)
+    //   type = JSON.parse(type)
       this.operateType = type
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
           this.$store.state.contractName1 = contractName
         }
         this.input = contractName
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         this.ContractNumber = contractNo
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo

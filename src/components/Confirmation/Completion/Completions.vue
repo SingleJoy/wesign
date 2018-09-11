@@ -76,7 +76,7 @@
     created() {
       //显示个人证书信息、企业签章信息
       var interfaceCode = sessionStorage.getItem('interfaceCode')
-      interfaceCode = JSON.parse(interfaceCode)
+    //   interfaceCode = JSON.parse(interfaceCode)
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/authSuccess').then(response =>{
 
       if (response.data.resultCode == '1') {

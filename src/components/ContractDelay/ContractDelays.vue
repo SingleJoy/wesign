@@ -325,7 +325,7 @@ export default {
     // console.log(cookie.getJSON('tenant'),this.signMobile)
     var contractNo = sessionStorage.getItem('contractNo')
     if(contractNo){
-        contractNo = JSON.parse(contractNo);
+        // contractNo = JSON.parse(contractNo);
         this.contractNo = contractNo
         if ( this.$store.state.rowNumber == ''){
             this.$store.state.rowNumber = contractNo;

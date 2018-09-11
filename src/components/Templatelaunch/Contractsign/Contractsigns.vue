@@ -147,13 +147,13 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
     var data =[]
     if (contractName) {
-      contractName = JSON.parse(contractName)
+    //   contractName = JSON.parse(contractName)
       if ( this.$store.state.contractName1 == ''){
         this.$store.state.contractName1 = contractName
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
@@ -260,7 +260,7 @@ export default {
     gainPosition () { //点击签署
       if (this.flag == true){
        this.flag = false
-       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.templateNo+'/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signerpositions').then(function (res) {
+       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+sessionStorage.getItem('contractNo')+'/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signerpositions').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -340,7 +340,7 @@ export default {
      this.$loading.show(); //显示
 
      var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
      if(this.resubmit == true){
       this.resubmit = false
       var imgWight = document.getElementById('imgSign').clientWidth //获取合同页面的宽度
@@ -371,8 +371,8 @@ export default {
             })
             this.$loading.hide(); //隐藏
             this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-            sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+            sessionStorage.setItem('contractName', this.$store.state.contractName1)
+            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
             this.$router.push('/Templates')
           }
         }

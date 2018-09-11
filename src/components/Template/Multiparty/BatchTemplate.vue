@@ -28,7 +28,7 @@
                                         <span class="initiator item-default">合同方：</span>
                                         <span class="initiator">{{item.signatory}}&nbsp;&nbsp;方</span>
                                     </p>
-                                    <p v-if="accountLevel==1" class="item-name">
+                                    <p v-if="accountLevel==1" class="item-name" style="text-overflow: ellipsis; overflow: hidden;word-break: break-all;white-space: nowrap;width: 800px;">
                                         <span class="initiator item-default">绑定账号：</span>
                                         <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
                                             <span class="initiator" v-if="accountIndex<item.bindAccounts.length-1">{{acountItem+"、"}}</span>
@@ -162,8 +162,8 @@ export default {
         this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
         this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
         sessionStorage.setItem('templateName', row.templateName)
-        sessionStorage.setItem('templateNo', JSON.stringify(row.templateNo))
-        sessionStorage.setItem('templateGenre',JSON.stringify(row.templateGenre))
+        sessionStorage.setItem('templateNo',row.templateNo)
+        sessionStorage.setItem('templateGenre',row.templateGenre)
         this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
         },
         getTemplateList (templateInfoRequest) {

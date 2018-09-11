@@ -296,14 +296,14 @@ export default {
     },
     rowLockClick (row) {//详情
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         cookie.set('state','F')
         this.$router.push('/ContractInfo')
     },
     signClick (row) { //签署
       this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+      sessionStorage.setItem('contractNo', row.contractNum)
       this.$router.push('/Contract')
     },
     remindClick (row) { //提醒
@@ -340,7 +340,7 @@ export default {
     },
     seeClick (row) { //延期
     this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-    sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+    sessionStorage.setItem('contractNo', row.contractNum)
     cookie.set('state','D1')
     this.$router.push('/ContractDelay')
     },

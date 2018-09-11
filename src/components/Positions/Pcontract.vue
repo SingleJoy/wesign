@@ -210,9 +210,9 @@ export default {
     lastStepFit(){  //上一步
       this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-      sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-      sessionStorage.setItem('type',JSON.stringify('back'))
+      sessionStorage.setItem('contractName', this.$store.state.contractName1)
+      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+      sessionStorage.setItem('type','back')
       this.$router.push('/Contractsigning')
     },
     nextStepFit(){  //下一步
@@ -254,8 +254,8 @@ export default {
             //   type: 'success'
             // })
             this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-            sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+            sessionStorage.setItem('contractName', this.$store.state.contractName1)
+            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
             this.$router.push('/Contract')
 
           }else{
@@ -279,13 +279,13 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
 
     if (contractName) {
-      contractName = JSON.parse(contractName)
+    //   contractName = JSON.parse(contractName)
       if ( this.$store.state.contractName1 == ''){
         this.$store.state.contractName1 = contractName
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }

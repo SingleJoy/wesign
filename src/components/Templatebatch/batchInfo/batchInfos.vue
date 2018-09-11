@@ -164,19 +164,19 @@ export default {
       }
     }
     if (templateNo) {
-      templateNo = JSON.parse(templateNo)
+    //   templateNo = JSON.parse(templateNo)
       if ( this.$store.state.templateNo == ''){
         this.$store.state.templateNo = templateNo
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     if (templateGenre) {
-      templateGenre = JSON.parse(templateGenre)
+    //   templateGenre = JSON.parse(templateGenre)
       if ( this.$store.state.templateGenre == ''){
         this.$store.state.templateGenre = templateGenre
       }
@@ -184,8 +184,7 @@ export default {
     this.$loading.show(); //显示
     var data =[];
     this.templateName = this.$store.state.templateName
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateImage/'+this.$store.state.templateNo;
-    // let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateList/'+this.$store.state.templateNo;
+    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags';
     let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/templateJsonList';
     let urlFill = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/batchSign/'+this.$store.state.contractNo1+'/userInfo';
 
@@ -310,10 +309,10 @@ export default {
       this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
       this.$store.dispatch('type',{type:'back'})
       sessionStorage.setItem('templateName', this.$store.state.templateName)
-      sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-      sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-      sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
-      sessionStorage.setItem('type',JSON.stringify('back'))
+      sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+      sessionStorage.setItem('contractNo',this.$store.state.contractNo1)
+      sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
+      sessionStorage.setItem('type','back')
       this.$router.push('/batchSetting')
     },
     nextStepFit () {
@@ -344,8 +343,8 @@ export default {
               this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
               this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
               sessionStorage.setItem('templateName',this.$store.state.templateName)
-              sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-              sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+              sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+              sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
               this.$router.push('/batchsign')
           } else {
             this.$message({

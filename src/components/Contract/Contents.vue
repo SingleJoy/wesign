@@ -130,13 +130,13 @@ export default {
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
     if (contractName) {
-         contractName = JSON.parse(contractName)
+        //  contractName = JSON.parse(contractName)
     //   if ( this.$store.state.contractName1 == ''){
     //     this.$store.state.contractName1 = contractName
     //   }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
     //   if ( this.$store.state.contractNo1 == ''){
     //     this.$store.state.contractNo1 = contractNo
     //   }
@@ -242,7 +242,7 @@ export default {
     gainPosition () { //点击签署
       var contractNo = sessionStorage.getItem('contractNo');
       if (contractNo) {
-          contractNo = JSON.parse(contractNo)
+        //   contractNo = JSON.parse(contractNo)
       }
       this.contSignImg = true
       if (this.flag == true){
@@ -326,7 +326,7 @@ export default {
     submitContract () { //确认签署
      this.$loading.show(); //显示
      var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
      var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
      var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
      var base64Img = this.contractSignImg.split(",")[1]
@@ -355,8 +355,8 @@ export default {
           })
           this.$loading.hide(); //隐藏
           this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-          sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractName',this.$store.state.contractName1)
+          sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Complete')
        }else{
            this.$message({

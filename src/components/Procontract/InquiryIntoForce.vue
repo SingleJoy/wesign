@@ -303,12 +303,12 @@ export default {
     rowLockClick(row) {
       if (row.contractType == "0") {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-        sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+        sessionStorage.setItem("contractNo", row.contractNum);
         cookie.set("state", "C2");
         this.$router.push("/CompanyExb");
       } else {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-        sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+        sessionStorage.setItem("contractNo", row.contractNum);
         this.$router.push("/ContractInfo");
       }
     },
@@ -316,11 +316,11 @@ export default {
       //签署
       if (row.contractType == "0") {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-        sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+        sessionStorage.setItem("contractNo", row.contractNum);
         this.$router.push("/Dimension");
       } else {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-        sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+        sessionStorage.setItem("contractNo", row.contractNum);
         this.$router.push("/Contract");
       }
     },

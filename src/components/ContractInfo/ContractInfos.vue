@@ -103,7 +103,7 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
+<style lang="scss">
     .el-table--scrollable-x .el-table__body-wrapper{
         overflow: hidden;
     }
@@ -116,14 +116,15 @@
     }
     .main .first #sign-icon{
         background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
-        height: 70px;
-        width:61px;
+        height: 60px;
+        width: 140px;
         position: absolute;
         text-align: center;
         display: inline-block;
-        margin-top: -10px;
-        margin-left:20px;
+        margin-left: 20px;
         background-size: cover;
+        line-height: 44px;
+        padding-left: 20px;
         span{
             color:#fff;
             font-size: 12px;
@@ -240,12 +241,12 @@
       },
       extensionClick(){
         if (this.contractType == "0") {
-          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          sessionStorage.setItem("contractNo", this.contractNo);
           cookie.set("state", "E");
           this.$router.push("/CompanyExc");
         } else {
           this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          sessionStorage.setItem("contractNo", this.contractNo);
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
@@ -254,11 +255,11 @@
         //签署
         if (this.contractType == "0") {
           this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          sessionStorage.setItem("contractNo", this.contractNo);
           this.$router.push("/Dimension");
         } else {
           this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-          sessionStorage.setItem("contractNo", JSON.stringify(this.contractNo));
+          sessionStorage.setItem("contractNo", this.contractNo);
           this.$router.push("/Contract");
         }
       },
@@ -266,12 +267,12 @@
       seeClick(row) {
         //延期
         if (row.contractType == "0") {
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+          sessionStorage.setItem("contractNo", row.contractNum);
           cookie.set("state", "E");
           this.$router.push("/CompanyExc");
         } else {
           this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+          sessionStorage.setItem("contractNo", row.contractNum);
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
@@ -406,7 +407,7 @@
     var accountCode = sessionStorage.getItem('accountCode');
     var detailAccountCode = sessionStorage.getItem('detailAccountCode');
     if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.rowNumber == ''){
           this.contractNo = contractNo;
           this.$store.state.rowNumber = contractNo

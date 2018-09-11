@@ -301,7 +301,7 @@ export default {
         var inputText = document.getElementById('inputText').value
         this.$store.dispatch('template',{templateName:inputText,templateNo:this.$store.state.templateNo})
         sessionStorage.setItem('templateName', inputText)
-        sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
+        sessionStorage.setItem('templateNo', this.$store.state.templateNo)
       },
       seeTemplate () {
         var data =[];
@@ -545,18 +545,18 @@ export default {
                 "emails":emails
               }
             }
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+sessionStorage.getItem('templateNo')+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+sessionStorage.getItem('contractNo')+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
               } else {
-              if ( res.data.resultCode === 0) {
+              if (res.data.resultCode == 0) {
                     this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
                     this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
                     this.$store.dispatch('needSign',{needSign:needSign})
                     sessionStorage.setItem('templateName',TrimAll(this.templateName))
                     sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-                    sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-                    sessionStorage.setItem('needSign',JSON.stringify(needSign))
+                    sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                    sessionStorage.setItem('needSign',needSign)
                     if(needSign == 1){
                     this.$router.push('/Specifiedposition')
                     } else {
@@ -600,7 +600,7 @@ export default {
         }
       }
       if (type) {
-        type = JSON.parse(type)
+        // type = JSON.parse(type)
         if ( this.$store.state.type == ''){
           this.$store.state.type = type
         }

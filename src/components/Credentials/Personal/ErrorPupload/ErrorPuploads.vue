@@ -202,10 +202,10 @@
           })
         } else {
           var userCode =sessionStorage.getItem('userCode')
-          userCode = JSON.parse(userCode)
+        //   userCode = JSON.parse(userCode)
           // var mobile =sessionStorage.getItem('userCode')
           var interfaceCode = sessionStorage.getItem('interfaceCode')
-           interfaceCode = JSON.parse(interfaceCode)
+        //    interfaceCode = JSON.parse(interfaceCode)
           this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/handheld',{'handHeldPhoto':this.IDcardFile,'userCode':userCode,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{
             if(res.data.resultCode == '1'){
               this.$message({

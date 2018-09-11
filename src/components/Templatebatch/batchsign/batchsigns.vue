@@ -123,7 +123,7 @@
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
@@ -262,7 +262,7 @@
                 this.$loading.hide(); //隐藏
                 this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
                 sessionStorage.setItem('contractName', this.$store.state.templateName)
-                sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+                sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
                 this.$router.push('/Templatecomplete')
               }
             }

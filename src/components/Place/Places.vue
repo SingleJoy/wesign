@@ -238,9 +238,9 @@ export default {
     lastStepFit(){  //上一步
       this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-      sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-      sessionStorage.setItem('type',JSON.stringify('back'))
+      sessionStorage.setItem('contractName', this.$store.state.contractName1)
+      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+      sessionStorage.setItem('type','back')
       this.$router.push('/Signature')
     },
     nextStepFit(){  //下一步
@@ -288,7 +288,7 @@ export default {
               type: 'success'
             })
             this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
            this.$router.push('/Dimension')
 
           }else{
@@ -310,7 +310,7 @@ export default {
   created () {
     var contractNo = sessionStorage.getItem('contractNo')
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }

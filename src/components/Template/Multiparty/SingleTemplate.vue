@@ -28,13 +28,16 @@
                             <span class="initiator item-default">合同方：</span>
                             <span class="initiator">{{item.signatory}}&nbsp;&nbsp;方</span>
                         </p>
-                        <p v-if="accountLevel==1" class="item-name">
+                        <p v-if="accountLevel==1" class="item-name" style="text-overflow: ellipsis; overflow: hidden;word-break: break-all;white-space: nowrap;width: 800px;">
                             <span class="initiator item-default">绑定账号：</span>
-                            <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
-                                <span class="initiator" v-if="accountIndex<item.bindAccounts.length-1">{{acountItem+"、"}}</span>
-                                <span class="initiator" v-else>{{acountItem}}</span>
-                            </span>
-                            <span v-else>{{'——'}}</span>
+                            <!-- <el-tooltip class="item" effect="dark" content="Top Center 提示文字" placement="top"> -->
+                                    <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
+                                    <span class="initiator" v-if="accountIndex<item.bindAccounts.length-1">{{acountItem+"、"}}</span>
+                                    <span class="initiator" v-else>{{acountItem}}</span>
+                                    </span>
+                                    <span v-else>{{'——'}}</span>
+                            <!-- </el-tooltip> -->
+                          
 
                         </p>
                         <p class="item-name">
@@ -208,8 +211,8 @@ export default {
             var templateName = ''
             var templateNo = ''
             this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
-            sessionStorage.setItem('templateName', JSON.stringify(row.templateName))
-            sessionStorage.setItem('templateNo', JSON.stringify(row.templateNo))
+            sessionStorage.setItem('templateName', row.templateName)
+            sessionStorage.setItem('templateNo', row.templateNo)
             this.$router.push('/Fillinformation')
         },
         getTemplateList (templateInfoRequest) {

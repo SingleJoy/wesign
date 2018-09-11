@@ -149,7 +149,7 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
     if (contractNo) {
       // console.log(this.$store.state.contractNo1)
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         // console.log('session是不是空')
         this.$store.state.contractNo1 = contractNo
@@ -228,7 +228,7 @@ export default {
       this.recapture = false
       var userCode = cookie.getJSON('tenant')[0].userCode
       var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
       var that = this
       this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg',{params:{'temp':'0'}}).then(function (res) {
         if( res.data == '1'){
@@ -400,7 +400,7 @@ export default {
     submitContract () { //确认签署
      this.$loading.show(); //显示
      var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
      var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
      var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
      var signH = parseInt(document.getElementById('signImg').style.height)//签章高度
@@ -434,8 +434,7 @@ export default {
           })
           this.$loading.hide(); //隐藏
           this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-          // sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractNo',contractNo)
           this.$router.push('/SignSuccess')
        }
       }
@@ -444,7 +443,7 @@ export default {
     pollingPanel(timer) { //轮询手写面板
       var userCode = cookie.getJSON('tenant')[0].userCode
       var contractNo = sessionStorage.getItem('contractNo')
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg').then(function (res) {
       this.canvasTest =  res.bodyText
       if(res.bodyText != '') {

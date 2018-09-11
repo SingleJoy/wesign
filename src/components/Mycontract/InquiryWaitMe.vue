@@ -272,14 +272,14 @@ export default {
     },
     rowLockClick (row) {
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         cookie.set('state','F')
         this.$router.push('/ContractInfo')
     },
     signClick (row) { //待我签署
       this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+      sessionStorage.setItem('contractNo', row.contractNum)
       this.$router.push('/Contract')
     },
     remindClick (row) { //提醒

@@ -212,8 +212,8 @@
 
                 this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
                 sessionStorage.setItem("templateName",item.name);
-                sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
-                sessionStorage.setItem( "templateGenre", JSON.stringify(item.templateSpecificType));
+                sessionStorage.setItem("templateNo", item.templateNo);
+                sessionStorage.setItem( "templateGenre", item.templateSpecificType);
                 this.$router.push("/batchSetting");
             } else {
             this.$store.dispatch("template", {
@@ -221,7 +221,7 @@
                 templateNo: item.templateNo
             });
             sessionStorage.setItem("templateName", item.name);
-            sessionStorage.setItem("templateNo", JSON.stringify(item.templateNo));
+            sessionStorage.setItem("templateNo", item.templateNo);
             this.$router.push("/Fillinformation");
             }
         },
@@ -253,11 +253,11 @@
             //签署
             if (row.contractType == "0") {
             this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            sessionStorage.setItem("contractNo", row.contractNum);
             this.$router.push("/Dimension");
             } else {
             this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            sessionStorage.setItem("contractNo", row.contractNum);
             this.$router.push("/Contract");
             }
         },
@@ -300,12 +300,12 @@
         seeClick(row) {
             //延期
             if (row.contractType == "0") {
-            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            sessionStorage.setItem("contractNo", row.contractNum);
             cookie.set("state", "E");
             this.$router.push("/CompanyExc");
             } else {
             this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+            sessionStorage.setItem("contractNo", row.contractNum);
             cookie.set("state", "D");
             this.$router.push("/ContractDelay");
             }
@@ -342,13 +342,13 @@
             //查看
             if (row.contractType == "0") {
                 this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-                sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+                sessionStorage.setItem("contractNo", row.contractNum);
                 sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
                 cookie.set("state", "A");
                 this.$router.push("/CompanyExa");//企业对企业
             } else {
                 this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-                sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+                sessionStorage.setItem("contractNo", row.contractNum);
                       sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
                 cookie.set("state", "B");
                 this.$router.push("/ContractInfo");//企业对个人
@@ -412,8 +412,8 @@
                 contractName: suffix,
                 contractNo: contractNo
             });
-            sessionStorage.setItem("contractName", JSON.stringify(suffix));
-            sessionStorage.setItem("contractNo", JSON.stringify(contractNo));
+            sessionStorage.setItem("contractName", suffix);
+            sessionStorage.setItem("contractNo", contractNo);
             this.$router.push("/Contractsigning");
             }
         },
@@ -435,8 +435,8 @@
                 contractName: suffix,
                 contractNo: contractNo
             });
-            sessionStorage.setItem("contractName", JSON.stringify(suffix));
-            sessionStorage.setItem("contractNo", JSON.stringify(contractNo));
+            sessionStorage.setItem("contractName", suffix);
+            sessionStorage.setItem("contractNo", contractNo);
             this.$router.push("/Signature"); //更改路由地址
             }
         }

@@ -230,7 +230,7 @@
         },
         hasClick:false,
         formLabelWidth: '70px',
-        contractName:JSON.parse(sessionStorage.getItem('contractName')),
+        contractName:sessionStorage.getItem('contractName'),
         rules: {
           signUserName: [
             { required: true, validator: validateName, trigger: 'blur' }
@@ -304,8 +304,8 @@
         var suffix=contractName.slice(0,index1);
         this.contractName = suffix
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
       },
       fileErron(){
         this.nextBtn = false;
@@ -328,7 +328,7 @@
         this.imgList=[];
         var data =[];
         var contractNo = sessionStorage.getItem('contractNo');
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
 
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
           if(res.data.sessionStatus == '0'){
@@ -386,8 +386,8 @@
           return false
         }
         this.$store.dispatch('fileSuccess1',{contractName:firstText,contractNo:this.$store.state.contractNo1})
-        sessionStorage.setItem('contractName', JSON.stringify(firstText))
-        sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+        sessionStorage.setItem('contractName', firstText)
+        sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
       },
       checkedBox () {
         if(this.checked == true){
@@ -499,7 +499,7 @@
       urlloadUrl(){
         //更换合同时传旧合同编号从session里取
         var contractNo = sessionStorage.getItem('contractNo');
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?accountCode=${this.accountCode}`
       },
       nextStepFit () { //下一步
@@ -631,7 +631,7 @@
             }
             this.isNext = true;
             var contractNo = sessionStorage.getItem('contractNo');
-            contractNo = JSON.parse(contractNo)
+            // contractNo = JSON.parse(contractNo)
             console.log(323)
             this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
@@ -646,9 +646,9 @@
                   this.isNext = false;
                   this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
                   this.$store.dispatch('needSign',{needSign:needSign})
-                  sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
-                  sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-                  sessionStorage.setItem('needSign',JSON.stringify(needSign))
+                  sessionStorage.setItem('contractName', TrimAll(this.contractName))
+                  sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                  sessionStorage.setItem('needSign',needSign)
                   if(needSign == '1'){
                     this.$router.push('/Positions')
                   } else {
@@ -681,20 +681,20 @@
       var contractNo = sessionStorage.getItem('contractNo');
       var type = sessionStorage.getItem('type');
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
           this.$store.state.contractName1 = contractName
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         this.contractNumn = contractNo
         if (this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
       }
       if (type) {
-        type = JSON.parse(type)
+        // type = JSON.parse(type)
         if ( this.$store.state.type == ''){
           this.$store.state.type = type
         }

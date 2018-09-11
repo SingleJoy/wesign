@@ -292,12 +292,12 @@ export default {
         }
         this.$store.dispatch('template',{templateName:batchText,templateNo:this.$store.state.templateNo})
         sessionStorage.setItem('templateName', batchText)
-        sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
+        sessionStorage.setItem('templateNo', this.$store.state.templateNo)
       },
       showBatchTemplate () {
         this.$loading.show(); //显示
         var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateImage/'+this.$store.state.templateNo,{params: {"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) {
+        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags',{params: {"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) {
           if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -518,9 +518,9 @@ export default {
               this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
               this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
               sessionStorage.setItem('templateName',this.templateName)
-              sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-              sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
-              sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
+              sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+              sessionStorage.setItem('contractNo', contractNo)
+              sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
               this.$router.push('/batchInfo')
             } else {
               this.$alert('您还没有选择签署时间!','签署时间', {
@@ -559,25 +559,25 @@ export default {
       }
     }
     if (templateNo) {
-      templateNo = JSON.parse(templateNo)
+    //   templateNo = JSON.parse(templateNo)
       if ( this.$store.state.templateNo == ''){
         this.$store.state.templateNo = templateNo
       }
     }
     if (templateGenre) {
-      templateGenre = JSON.parse(templateGenre)
+    //   templateGenre = JSON.parse(templateGenre)
       if ( this.$store.state.templateGenre == ''){
         this.$store.state.templateGenre = templateGenre
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     if (type) {
-      type = JSON.parse(type)
+    //   type = JSON.parse(type)
       if ( this.$store.state.type == ''){
         this.$store.state.type = type
       }

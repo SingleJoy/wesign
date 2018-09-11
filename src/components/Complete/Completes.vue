@@ -110,13 +110,13 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-      var contractNo = JSON.parse(sessionStorage.getItem('contractNo'))
+      var contractNo = sessionStorage.getItem('contractNo')
 
       this.$store.dispatch('contractsInfo',{contractNo:contractNo})
       this.$router.push('/ContractInfo')
     },
     seeContractImg (){
-      var contractNo = JSON.parse(sessionStorage.getItem('contractNo'))
+      var contractNo = sessionStorage.getItem('contractNo')
       this.$loading.show(); //显示
       var data =[];
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
@@ -150,13 +150,13 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
 
     if (contractName) {
-      contractName = JSON.parse(contractName)
+    //   contractName = contractName
       if (this.$store.state.contractName1 == ''){
         this.$store.state.contractName1 = contractName
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
@@ -172,8 +172,8 @@ export default {
       this.getContractName = contractVo.contractName
       }
     })
-
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo).then(function (res) {
+    //获取签署链接
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/getSignLink').then(function (res) {
       if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

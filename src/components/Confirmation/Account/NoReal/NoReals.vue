@@ -186,9 +186,8 @@
       },
       realName() {
         if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
-          sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
-          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode));
-          console.log()
+          sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode);
+          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode);
           this.$router.push('/Pupload')
         }else if (this.personalRealName == '4'){
 
@@ -235,13 +234,13 @@
       IdentificationState() { //未实名完成
         if(this.enterpriseRealName == '1'){
           sessionStorage.setItem('enterpriseName',cookie.getJSON('tenant')[1].companyName)
-          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
           this.$router.push('/Enterprise')
         }else if(this.enterpriseRealName == '2' || this.enterpriseRealName == '4'){
-          sessionStorage.setItem('interfaceCode', JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+          sessionStorage.setItem('interfaceCode', cookie.getJSON('tenant')[1].interfaceCode)
           this.$router.push('/Payment')
         }else if(this.enterpriseRealName == '3'){
-          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
           sessionStorage.setItem('accountSteps','accountSteps')
           this.$router.push('/WaitReply')
 
@@ -253,15 +252,15 @@
       },
       audit(){
         sessionStorage.setItem('enterpriseName', cookie.getJSON('tenant')[1].companyName)
-        sessionStorage.setItem('interfaceCode', JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+        sessionStorage.setItem('interfaceCode', cookie.getJSON('tenant')[1].interfaceCode)
         if(this.toEnterprise != '3'){
           this.$router.push('/Enterprise')
         }
       },
       ToAccount(){
         if(this.personalRealName == '1' || this.personalRealName == '2'){
-          sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode))
-          sessionStorage.setItem('interfaceCode',JSON.stringify(cookie.getJSON('tenant')[1].interfaceCode))
+          sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode)
+          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
           this.$router.push('/ErrorPupload')
         }
       },

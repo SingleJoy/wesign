@@ -172,13 +172,13 @@ export default {
           this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
           this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})
           sessionStorage.setItem('templateName', item.name)
-          sessionStorage.setItem('templateNo', JSON.stringify(item.templateNo))
-          sessionStorage.setItem('templateGenre',JSON.stringify(item.templateSpecies))
+          sessionStorage.setItem('templateNo', item.templateNo)
+          sessionStorage.setItem('templateGenre',item.templateSpecies)
           this.$router.push('/batchSetting')
         } else {
           this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
           sessionStorage.setItem('templateName', item.name)
-          sessionStorage.setItem('templateNo', JSON.stringify(item.templateNo))
+          sessionStorage.setItem('templateNo', item.templateNo)
           this.$router.push('/Fillinformation')
         }
 
@@ -202,7 +202,7 @@ export default {
       },
       signClick (row) { //签署
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
         this.$router.push('/Contract')
       },
       remindClick (row) { //提醒
@@ -242,7 +242,7 @@ export default {
       },
       seeClick(row){  //延期
       this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+      sessionStorage.setItem('contractNo', row.contractNum)
       this.$router.push('/ContractDelay')
       },
       downloadClick (row) { //下载
@@ -263,7 +263,7 @@ export default {
       },
       rowLockClick (row) { //查看
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
         this.$router.push('/ContractInfo')
       },
       handleChange (name) {
@@ -315,8 +315,8 @@ export default {
         var index1=contractName.lastIndexOf(".");
         var suffix=contractName.slice(0,index1);
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
         this.$router.push('/Contractsigning')
         }
       },
@@ -333,8 +333,8 @@ export default {
           var index1=contractName.lastIndexOf(".");
           var suffix=contractName.slice(0,index1);
           this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-          sessionStorage.setItem('contractName', JSON.stringify(suffix))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractName',suffix)
+          sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Signature')   //更改路由地址
         }
       }
