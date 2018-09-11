@@ -280,7 +280,7 @@
         }
       }
       if (templateNo) {
-        templateNo = JSON.parse(templateNo)
+        // templateNo = templateNo
         if ( this.$store.state.templateNo == ''){
           this.$store.state.templateNo = templateNo
         }

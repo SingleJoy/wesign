@@ -117,7 +117,7 @@
       var contractName = sessionStorage.getItem('templateName')
       var contractNo = sessionStorage.getItem('contractNo')
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = contractName
         }

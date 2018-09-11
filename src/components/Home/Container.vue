@@ -341,15 +341,17 @@
         rowLockClick(row) {
             //查看
             if (row.contractType == "0") {
-            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-            cookie.set("state", "A");
-            this.$router.push("/CompanyExa");//企业对企业
+                this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+                sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+                sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+                cookie.set("state", "A");
+                this.$router.push("/CompanyExa");//企业对企业
             } else {
-            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
-            cookie.set("state", "B");
-            this.$router.push("/ContractInfo");//企业对个人
+                this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
+                sessionStorage.setItem("contractNo", JSON.stringify(row.contractNum));
+                      sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+                cookie.set("state", "B");
+                this.$router.push("/ContractInfo");//企业对个人
             }
         },
         handleChange(name) {

@@ -273,11 +273,13 @@ export default {
        if(row.contractType == '0'){
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
         sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         cookie.set('state','B2')
         this.$router.push('/CompanyExa')
       }else{
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
         sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         this.$router.push('/ContractInfo')
       }
     },

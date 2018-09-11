@@ -113,12 +113,20 @@
           </el-table-column>
         </el-table>
       </div>
-      <!--<img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >-->
-      <!--<div style="height: 560px;margin-top: 30px;margin-left: 70px;" >-->
-        <!--<el-steps direction="vertical" :active=History.length>-->
-          <!--<el-step :title=item.signUserName+item.logInfo  :description=item.signTime v-for="(item,index) in History" :key="index" icon="el-icon-location" style="font-size: 40px;"></el-step>-->
-        <!--</el-steps>-->
-      <!--</div>-->
+        <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
+        <div style="margin-top: 30px;margin-left: 70px;">
+            <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+            <el-steps direction="vertical" :active=0>
+            <el-step :title=item.signUserName+item.logInfo  
+                :description=item.signTime 
+                v-for="(item,index) in History" 
+                :key="index" icon="el-icon-location" 
+                :class="{'currentStep':index == 0}"
+                style="font-size: 40px;height:100px;">
+            </el-step>
+            </el-steps>
+
+        </div>
     </div>
   </div>
 </template>
@@ -130,12 +138,13 @@
   .main .first #sign-icon{
         background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
         height: 70px;
-        width:58px;
+        width:61px;
         position: absolute;
         text-align: center;
         display: inline-block;
         margin-top: -10px;
         margin-left:20px;
+        background-size: cover;
         span{
             color:#fff;
             font-size: 12px;
@@ -386,7 +395,7 @@
             }
             server.getAccountName(param,this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
-                    this.accountName = res.data.accountName
+                    this.accountName = res.data.data
                 }
             }).catch({
 

@@ -545,28 +545,23 @@ export default {
                 "emails":emails
               }
             }
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+sessionStorage.getItem('templateNo')+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
               } else {
               if ( res.data.resultCode === 0) {
-                //   this.$message({
-                //     showClose: true,
-                //     message: res.data.resultMessage,
-                //     type: 'success'
-                // })
-                this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
-                this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-                this.$store.dispatch('needSign',{needSign:needSign})
-                sessionStorage.setItem('templateName',TrimAll(this.templateName))
-                sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-                sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-                sessionStorage.setItem('needSign',JSON.stringify(needSign))
-                if(needSign == 1){
-                  this.$router.push('/Specifiedposition')
-                } else {
-                  this.$router.push('/TemplatePos')
-                }
+                    this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
+                    this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
+                    this.$store.dispatch('needSign',{needSign:needSign})
+                    sessionStorage.setItem('templateName',TrimAll(this.templateName))
+                    sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+                    sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+                    sessionStorage.setItem('needSign',JSON.stringify(needSign))
+                    if(needSign == 1){
+                    this.$router.push('/Specifiedposition')
+                    } else {
+                    this.$router.push('/TemplatePos')
+                    }
 
               } else {
                 this.$alert('您还没有选择签署时间!','签署时间', {

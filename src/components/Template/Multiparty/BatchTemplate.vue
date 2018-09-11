@@ -158,7 +158,7 @@ export default {
         }
         },
         generateClick(row){
-            console.log(row)
+            // console.log(row)
         this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
         this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
         sessionStorage.setItem('templateName', row.templateName)
@@ -237,6 +237,8 @@ export default {
                         this.num = res.data.totalItemNumber
                         this.loading = false
                     }else{
+                        this.tableData=[];
+                        this.num='';
                         this.textTip = "无匹配模板"
                     } 
                 }

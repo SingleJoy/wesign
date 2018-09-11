@@ -153,7 +153,7 @@ export default {
         },
         queryTempBatch(){
         let templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':1,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'}
-        // this.getTemplateList (templateInfoRequest)
+        this.getTemplateList (templateInfoRequest)
             var data =[];
             let accountCode=sessionStorage.getItem('accountCode')
             server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
@@ -180,6 +180,8 @@ export default {
                         this.num = res.data.totalItemNumber
                         this.loading = false
                     }else{
+                        this.tableData=[];
+                        this.num='';
                         this.textTip="无匹配模板"
                     } 
                 }

@@ -88,7 +88,7 @@
             </div>
             <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
             <div style="margin-top: 30px;margin-left: 70px;">
-              <img style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+              <img v-if="History.length>1"  style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
               <el-steps direction="vertical" :active=0>
                 <el-step :title=item.signUserName+item.logInfo  
                     :description=item.signTime 
@@ -107,6 +107,9 @@
     .el-table--scrollable-x .el-table__body-wrapper{
         overflow: hidden;
     }
+    .el-step__main{
+        height: 100px;
+    }
     .back-home{
         background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
         width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
@@ -114,12 +117,13 @@
     .main .first #sign-icon{
         background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
         height: 70px;
-        width:58px;
+        width:61px;
         position: absolute;
         text-align: center;
         display: inline-block;
         margin-top: -10px;
         margin-left:20px;
+        background-size: cover;
         span{
             color:#fff;
             font-size: 12px;
@@ -401,6 +405,7 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo');
     var accountLevel = sessionStorage.getItem('accountLevel');
     var accountCode = sessionStorage.getItem('accountCode');
+    var detailAccountCode = sessionStorage.getItem('detailAccountCode');
     if (contractNo) {
         contractNo = JSON.parse(contractNo)
         if ( this.$store.state.rowNumber == ''){
@@ -412,11 +417,11 @@ export default {
     //判断是不是二级账户如果是不请求顶部显示部门姓名
     if(accountLevel != 2){
         let param={
-            accountCode:accountCode
+            accountCode:detailAccountCode
         }
         server.getAccountName(param,this.interfaceCode).then(res=>{
             if(res.data.resultCode == 1){
-                this.accountName = res.data.accountName
+                this.accountName = res.data.data
             }
         }).catch({
 
