@@ -478,7 +478,6 @@ o
         SealList:[],  //合同章图片
         accountName:''   //账户名称
 
-
       }
     },
     methods: {
@@ -539,8 +538,7 @@ o
       },
 
       edit(accountCode,accountStatus){
-
-
+        
         var accountCode1=accountCode;
         sessionStorage.setItem("subAccountCode",accountCode1);
         if(accountStatus=='3'||accountStatus=='2'){

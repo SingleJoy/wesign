@@ -260,7 +260,7 @@ export default {
     gainPosition () { //点击签署
       if (this.flag == true){
        this.flag = false
-       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signerpositions').then(function (res) {
+       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.templateNo+'/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signerpositions').then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

@@ -11,8 +11,8 @@
             </span>
           </div>
         </div>
-        
-        <div class="line"></div> 
+
+        <div class="line"></div>
         <div class="template-list">
           <ul v-if="tableData.length>0">
             <li v-for="(item,index) in tableData" :key="index">
@@ -35,7 +35,7 @@
                                 <span class="initiator" v-else>{{acountItem}}</span>
                             </span>
                             <span v-else>{{'——'}}</span>
-                            
+
                         </p>
                         <p class="item-name">
                             <span class="initiator item-default">累计发起：</span>
@@ -50,7 +50,7 @@
                                 <img src="../../../../static/images/Multiparty/see.png" alt="">
                             <span>在线预览</span>
                         </span>
-                        
+
                         <span  @click="generateClick(item)" class="item-option">
                             <img src="../../../../static/images/Multiparty/creater.png" alt="">
                             <span>立即发起</span>
@@ -70,7 +70,7 @@
             <ul v-else style="text-align: center;margin-top: 100px;">
                     <li class="no-data">
                         <img src="../../../../static/images/blank.png" alt="">
-                        <p>暂无模板</p>
+                        <p>暂无匹配模板</p>
                     </li>
             </ul>
           <div class='pagetion'>
@@ -84,7 +84,7 @@
             </el-pagination>
           </div>
         </div>
-       
+
       </div>
   	</div>
 </template>
@@ -105,7 +105,7 @@
     width: 100%;
     height:100%;
   }
-  
+
 </style>
 
 <script>
@@ -140,7 +140,7 @@ export default {
             this.tableData = list;
             console.log(list)
         },
-        
+
         getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
             return "background:#f5f5f5;text-align:center;font-weight:bold;";
@@ -204,7 +204,7 @@ export default {
                         this.tableData = data
                         this.num = res.data.totalItemNumber
                         this.loading = false
-                    } 
+                    }
                 }
             }).catch({
 

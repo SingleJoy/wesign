@@ -559,7 +559,7 @@ export default {
                 this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
                 this.$store.dispatch('needSign',{needSign:needSign})
                 sessionStorage.setItem('templateName',TrimAll(this.templateName))
-                sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
+                sessionStorage.setItem('templateNo', this.$store.state.templateNo)
                 sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
                 sessionStorage.setItem('needSign',JSON.stringify(needSign))
                 if(needSign == 1){

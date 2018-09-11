@@ -70,7 +70,7 @@
                 <ul v-else style="text-align: center;margin-top: 100px;">
                     <li class="no-data">
                         <img src="../../../../static/images/blank.png" alt="">
-                        <p>暂无模板</p>
+                        <p>暂无匹配模板</p>
                     </li>
                 </ul>
 				<div class='pagetion'>
