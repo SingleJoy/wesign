@@ -369,7 +369,7 @@
                 }, 2000);
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
-                  sessionStorage.setItem('subAccountCode',res.data.accountCode)
+
                   this.$message({
                     showClose: true,
                     message:res.data.resultMessage,
@@ -381,6 +381,7 @@
                     this.$router.push("/Account");
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
+                  sessionStorage.setItem('subAccountCode',res.data.accountCode)
                     this.$nextTick(function () {
                         this.$loading.hide();
                     });
@@ -392,6 +393,7 @@
                     this.$router.push('/EditChildNoActive')
 
                 }else if(res.data.resultCode=='2'){
+                  sessionStorage.setItem('subAccountCode',res.data.accountCode)
                   //二级账号已存在
                     this.$nextTick(function () {
                         this.$loading.hide();
