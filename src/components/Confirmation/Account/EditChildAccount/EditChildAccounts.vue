@@ -27,17 +27,20 @@
                     <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18 disabled="disabled"></el-input>
                   </el-form-item>
 
-                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCard">
-                    <el-input v-model="ruleForm.idCard" auto-complete="off" placeholder="请输入身份证号码" disabled="disabled"></el-input>
+                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
+                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码"  disabled="disabled"></el-input>
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
                     <el-input v-model="ruleForm.password"  auto-complete="off" placeholder="请输入密码" disabled="disabled" :minlength= 8 :maxlength= 16></el-input>
                   </el-form-item>
 
-                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
-                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码"  disabled="disabled"></el-input>
+
+                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCard">
+                    <el-input v-model="ruleForm.idCard" auto-complete="off" placeholder="请输入身份证号码" disabled="disabled"></el-input>
                   </el-form-item>
+
+
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
                     <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" disabled="disabled"></el-input>

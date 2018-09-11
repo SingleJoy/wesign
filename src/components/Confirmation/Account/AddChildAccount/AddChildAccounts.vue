@@ -24,25 +24,26 @@
                     <el-input v-model="ruleForm.accountName" auto-complete="off" placeholder="账户名称" :maxlength= 18></el-input>
                   </el-form-item>
 
-                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
-                    <el-input v-model="ruleForm.idCode" auto-complete="off" placeholder="请输入身份证号码" ></el-input>
+                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
+                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
                   </el-form-item>
 
+
+
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-
-
-
                     <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis"></el-input>
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
-
                       <el-button style="position: absolute;top:-3px;right:-25px;border:none;padding: 10px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
                     </el-tooltip>
                   </el-form-item>
 
-                  <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
-                    <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
+
+                  <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
+                    <el-input v-model="ruleForm.idCode" auto-complete="off" placeholder="请输入身份证号码" ></el-input>
                   </el-form-item>
+
+
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
                     <el-input v-model="ruleForm.Email" auto-complete="off" placeholder="请输入联系邮箱" ></el-input>
@@ -381,7 +382,7 @@
                     this.$router.push("/Account");
                 }else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
-                  sessionStorage.setItem('subAccountCode',res.data.accountCode)
+                  sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
                     this.$nextTick(function () {
                         this.$loading.hide();
                     });
@@ -393,7 +394,7 @@
                     this.$router.push('/EditChildNoActive')
 
                 }else if(res.data.resultCode=='2'){
-                  sessionStorage.setItem('subAccountCode',res.data.accountCode)
+                  sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
                   //二级账号已存在
                     this.$nextTick(function () {
                         this.$loading.hide();
