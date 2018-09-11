@@ -338,7 +338,7 @@
               let pass = md5(this.ruleForm.password);
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
-              
+
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");

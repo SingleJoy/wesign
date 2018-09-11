@@ -337,13 +337,12 @@
       //提交事件
       submitBtn(formName){
 
+
         let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              this.$loading.show({
-                text: '正在提交'
-              })
+              this.$loading.show();
               this.once=true;//提交按钮不可重复点击
               let pass = md5(this.ruleForm.password); //密码MD5加密
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
