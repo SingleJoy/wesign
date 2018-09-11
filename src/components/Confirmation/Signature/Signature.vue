@@ -657,14 +657,10 @@
     }
   }
 </script>
-<style >
+<style scoped>
   @import "../../../styles/Confirmation/Signature/Signature.css";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
-  .contract-info{
-    height: 700px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+
 </style>
 

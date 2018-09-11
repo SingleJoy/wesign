@@ -22,7 +22,7 @@
 
                 <p>
                     <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                    <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+                    <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
                 </p>
            
           </div>
@@ -100,7 +100,7 @@
                 width="170"
                 >
                 <template slot-scope="scope">
-                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button  type="primary" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
                     <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button>
                 </template>
               </el-table-column>

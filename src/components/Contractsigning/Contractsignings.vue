@@ -732,15 +732,11 @@
     }
   }
 </script>
-<style lang="scss" >
+<style lang="scss" scoped>
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";
-  .contract-info{
-    height: 700px!important;
-    overflow-y: scroll!important;
-    overflow-x: hidden!important;
-  }
+ 
   .upload-demo .el-upload .el-upload--text{
     display: block !important;
     margin-left: 250px !important;

@@ -15,7 +15,7 @@
 
         <p>
           <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-          <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+          <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
         </p>
 
       </div>
@@ -80,7 +80,7 @@
                 width="200"
                 >
                 <template slot-scope="scope">
-                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button  type="primary" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
                     <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button>
                 </template>
               </el-table-column>
@@ -103,7 +103,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
     .el-table--scrollable-x .el-table__body-wrapper{
         overflow: hidden;
     }

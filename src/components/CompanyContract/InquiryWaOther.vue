@@ -2,7 +2,7 @@
     <div class="InquiryWaitOthers">
         <div class='contractTitle' style="text-align: left;">
         <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
-        <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @change="selectParam(value)" placeholder="请选择账号类型">
+        <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择账号类型">
             <el-option
                 v-for="item in options"
                 :key="item.accountCode"
@@ -127,6 +127,7 @@ export default {
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         options: [],
         queryAccountCode: "",
+        hasQuery:false,
         value: "",
         currentPage2: 1,
         value8: "",
@@ -409,7 +410,7 @@ export default {
       document.body.appendChild(up);
       up.setAttribute("href", url);
       up.click();
-    }
+    },
     // getStartTime(){ //日期
     //   var d = this.value8;
     //   this.formStartTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'00:00:00';
@@ -419,19 +420,25 @@ export default {
     //   var d = this.value9;
     //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
     // },
+    getAccount(){
+        if(!this.hasQuery){
+            let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+            let accountCode = sessionStorage.getItem('accountCode');
+            let enterpriseName = sessionStorage.getItem('enterpriseName');
+            server.queryContractLists(interfaceCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    this.options=res.data.dataList;
+                    this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
+                    this.hasQuery=true;
+                }
+            })
+        }
+    }
   },
   created() {
     var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2" ,accountCode:this.accountCode};
     this.getRecord(requestVo);
-    let interfaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-    let accountCode = sessionStorage.getItem('accountCode');
-    let enterpriseName = sessionStorage.getItem('enterpriseName');
-    server.queryContractLists(interfaceCode).then(res=>{
-      if(res.data.resultCode == 1){
-        this.options=res.data.dataList;
-        this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
-      }
-    })
+
   }
 };
 </script>
