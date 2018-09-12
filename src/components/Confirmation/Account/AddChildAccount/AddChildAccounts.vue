@@ -337,7 +337,7 @@
       //提交事件
       submitBtn(formName){
 
-
+        console.log(this.batchTemplate+this.singleTemplate)
 
         let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree){

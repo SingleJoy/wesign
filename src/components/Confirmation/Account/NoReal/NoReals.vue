@@ -43,7 +43,7 @@
       @close="closeDialog('ruleForm')"
     >
       <div id='logner'>
-        <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="account-ruleForm" label-width="85px">
+        <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" label-width="85px">
           <el-form-item label="原密码：" prop="oldPassWord">
             <el-input v-model="ruleForm.oldPassWord" type="password" auto-complete="off"></el-input>
           </el-form-item>

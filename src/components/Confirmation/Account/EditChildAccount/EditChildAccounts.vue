@@ -258,7 +258,7 @@
 
       //提交事件
       submitBtn(formName){
-
+        console.log(this.batchTemplate+this.singleTemplate)
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.$loading.show()
