@@ -35,7 +35,7 @@
                   <b>{{enterpriseName}}</b>
                 </div>
                 <div class="card-line" v-if="accountLevel=='2'">
-                  <span>账号名称:</span>
+                  <span>账&nbsp;&nbsp;号&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
                   <b>{{accountName}}</b>
                 </div>
                 <div class="card-line">
@@ -47,7 +47,7 @@
                   <b>{{authName}}</b>
                 </div>
                 <div class="card-line" v-if="accountLevel=='2'">
-                  <span>企业名称:</span>
+                  <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
                   <b>{{enterpriseName}}</b>
                 </div>
 
@@ -846,7 +846,7 @@
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
           // this.authName=res.data.data.userName;
-          // this.cardNumber=res.data.data.mobile;
+          this.cardNumber=res.data.data.mobile;
           this.effectiveStartTime=res.data.data.certificateStartTime;
           this.effectiveEndTime=res.data.data.certificateDueTime;
         }
