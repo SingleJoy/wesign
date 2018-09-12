@@ -34,8 +34,8 @@
           </h2>
           <h3 class='proper'>
             <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='inputText' :maxlength= 50 >
-            <a class='select' @click="seeTemplate">查看</a>
-            <a class='replace' @click="changeTemlplate" style="cursor: pointer;">更换</a>
+            <a class='select' @click="seeTemplate" style="padding-left:0">查看</a>
+            <!--<a class='replace' @click="changeTemlplate" style="cursor: pointer;">更换</a>-->
             <!-- <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p> -->
             <p class='second'><span>签署截止日期：</span>
               <el-date-picker

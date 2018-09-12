@@ -78,7 +78,7 @@
                 <div id="hidden" style="display:none">
                   <img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px">
                 </div>
-                <div id="signCanvas" style="display:none;position: absolute;top:550px;left: 380px">
+                <div id="signCanvas" style="display:none;position: absolute;top:550px;left: 390px">
                   <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
                 </div>
               </div>
@@ -346,6 +346,7 @@
                 }else {
                   this.$nextTick(function () {
                     this.$loading.show("激活失败，请刷新页面重新激活...");
+                    this.$router.push("/ActivateChildAccount");
                   });
                   this.fullscreenLoading = true;
                   setTimeout(() => {

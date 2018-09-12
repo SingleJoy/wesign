@@ -363,7 +363,7 @@
                 })
                 if (res.data.resultCode == '1') {
                   this.$message({
-                    message: '恭喜你，二级账号编辑成功',
+                    message: res.data.resultMessage,
                     type: 'success'
                   });
 
