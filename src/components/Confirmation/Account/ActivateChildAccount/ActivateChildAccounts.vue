@@ -339,6 +339,7 @@
                     this.$nextTick(function () {
                       this.$loading.hide();
                     });
+                    sessionStorage.setItem('accountStatus','1')
                     this.$router.push("/Home");
 
                   })
