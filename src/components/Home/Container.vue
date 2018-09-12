@@ -542,7 +542,7 @@
       }
 
       // 首页模板列表
-        this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList").then(function(res) {
+        this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList",{params:param}).then(function(res) {
             if (res.data.sessionStatus == "0") {
                 this.$router.push("/Server");
             } else {

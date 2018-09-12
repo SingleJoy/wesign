@@ -142,14 +142,14 @@
   .main .first #sign-icon{
         background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
         height: 60px;
-        width: 140px;
         position: absolute;
         text-align: center;
         display: inline-block;
         margin-left: 20px;
         background-size: cover;
         line-height: 44px;
-        padding-left: 20px;
+        padding-left: 35px;
+        padding-right: 15px;
         span{
             color:#fff;
             font-size: 12px;
@@ -370,6 +370,7 @@
         var contractNo = sessionStorage.getItem('contractNo');
         var accountLevel = sessionStorage.getItem('accountLevel');
         var accountCode = sessionStorage.getItem('accountCode');
+        var detailAccountCode = sessionStorage.getItem('detailAccountCode');
         if (contractNo) {
             // contractNo = JSON.parse(contractNo);
             this.contractNo = contractNo;
@@ -381,7 +382,7 @@
       //判断是不是二级账户如果是不请求顶部显示部门姓名
         if(accountLevel != 2){
             let param={
-                accountCode:accountCode
+                accountCode:detailAccountCode
             }
             server.getAccountName(param,this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){

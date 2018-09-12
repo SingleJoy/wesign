@@ -117,14 +117,14 @@
     .main .first #sign-icon{
         background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
         height: 60px;
-        width: 140px;
         position: absolute;
         text-align: center;
         display: inline-block;
         margin-left: 20px;
         background-size: cover;
         line-height: 44px;
-        padding-left: 20px;
+        padding-left: 35px;
+        padding-right: 15px;
         span{
             color:#fff;
             font-size: 12px;

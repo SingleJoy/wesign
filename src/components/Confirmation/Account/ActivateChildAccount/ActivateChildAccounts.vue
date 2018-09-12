@@ -1,5 +1,19 @@
 <template>
-  <div class="ActivateChildAccounts" style="margin-top: 100px;">
+<div>
+     <div class="Tops">
+      <nav class='nav'>
+        <p class='logo'>
+          <img src="../../../../../static/images/logo2.png" alt="">
+        </p>
+        <div class='buttons'>
+          <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+           <div v-if="showActive" class="active-button">
+                <a class="sure-active"  @click="sureActive" href="javascript:void(0)">确认激活</a>
+              </div>
+        </div>
+      </nav>
+    </div>
+     <div class="ActivateChildAccounts">
 
     <div class="main" >
 
@@ -39,10 +53,7 @@
 
               </div>
 
-              <div class="active-button">
-                <!--<a class="sure-active"  @click="dialogAgreement = true" href="javascript:void(0)">确认激活</a>-->
-                <a class="sure-active"  @click="sureActive" href="javascript:void(0)">确认激活</a>
-              </div>
+             
 
               <el-dialog
                 :visible.sync="dialogAgreement"
@@ -79,6 +90,8 @@
       </div>
     </div>
   </div>
+</div>
+ 
 </template>
 
 <script>
@@ -103,6 +116,7 @@
 
       return {
         baseURL:this.baseURL.BASE_URL,
+        showActive:false,
         dialogAgreement:false,  //验证码弹窗
         ruleForm: {
           smsCode: '',         //验证码
@@ -141,6 +155,9 @@
       this.timer = null;
     },
     methods:{
+        activeCancel(){
+       this.$router.push("/")
+     },
       sureActive(){
         if(this.canvasTest == null ||this.canvasTest == ''){
           this.$alert('你还未在移动端签署面板完成扫码签名','提示', {
@@ -319,6 +336,7 @@
                   smCode.style.display ='none';
             let  signCanvas= document.getElementById('signCanvas')
                   signCanvas.style.display ='block';
+            this.showActive = true;
           }
           setTimeout(() => {
             if(this.canvasTest!=''){
@@ -372,4 +390,123 @@
     font-size: 14px;
     color: #666;
   }
+  .Tops{
+    width: 100%;
+    height: 80px;
+    background:#22a7ea;
+    overflow:hidden;
+}
+.nav{
+    width: 1200px;
+    margin: 0 auto;
+    height: 80px;
+    overflow:hidden;
+    position: relative;
+
+}
+.nav .logo{
+    float: left;
+    margin-right: 70px;
+}
+.nav .logo img{
+    margin-top: 18px;
+}
+.nav ul{
+    margin-left: 80px;
+    line-height: 80px;
+}
+.nav ul li{
+    float: left;
+    padding: 0 22px 0 22px;
+}
+
+.nav ul li a{
+    color: #fff;
+}
+.nav .btns{
+    margin-left: 5px;
+    /* line-height: 80px; */
+}
+.nav .btns li{
+    float: left;
+    width: 90px;
+    height: 44px;
+}
+.nav .btns li:nth-child(1){
+    float: left;
+    width: 90px;
+    height: 44px;
+    background: #fff;
+    line-height: 44px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 17px;
+    margin-right: 24px;
+}
+.nav .btns li:nth-child(2){
+    float: left;
+    width: 90px;
+    height: 44px;
+    background: #fff;
+    line-height: 44px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 17px;
+}
+.nav .btns li:nth-child(1) a{
+    color: #22a7ea;
+}
+.nav .btns li:nth-child(2) a{
+    color: #22a7ea;
+}
+.nav .btns li:nth-child(3){
+    width: 116px;
+    float: left;
+    line-height: 80px;
+    margin-left: 30px;
+    text-align: center;
+}
+.nav .btns li:nth-child(3) img{
+    vertical-align:middle;
+}
+.nav .btns li:nth-child(3) a{
+    color: #fff;
+    font-size: 14px;
+}
+
+.nav .btns li:nth-child(4){
+    float: left;
+    line-height: 80px;
+    margin-left: -6px;
+    text-align: center;
+}
+.nav .btns li:nth-child(4) img{
+    vertical-align:middle;
+}
+.nav .btns li:nth-child(4) a{
+    color: #fff;
+    font-size: 14px;
+}
+
+/* buttonsć ˇĺź */
+.buttons{
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+.active-button{
+    float:right
+}
+.sure-active{
+    display: block;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #ffffff;
+    font-size: 16px;
+    color: #22a7ea;
+    border-radius: 5px;
+    margin-left: 10px;
+}
 </style>
