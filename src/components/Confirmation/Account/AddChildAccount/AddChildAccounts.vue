@@ -416,7 +416,7 @@
               this.$router.push('/EditChildNoActive')
 
                 }else if(res.data.resultCode=='2'){
-
+                   this.once=false;
                   //二级账号已存在
                     this.$nextTick(function () {
                         this.$loading.hide();

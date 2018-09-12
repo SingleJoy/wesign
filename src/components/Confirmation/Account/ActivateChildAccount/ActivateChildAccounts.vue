@@ -1,28 +1,18 @@
 <template>
   <div>
-
-    <div id="Loading">
-      <div class="loader-inner ball-beat">
-        <div id="test1">正在提交数据，请等待...</div>
-        <div id="test2">数据提交成功，正在校验...</div>
-        <div id="test3">激活失败，请刷新页面重新激活二级账户...</div>
-        <div id="test4">激活成功,正在初始化您的账户...</div>
-
-      </div>
-    </div>
-
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
           <img src="../../../../../static/images/logo2.png" alt="">
         </p>
-
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
           <div v-if="showActive" class="active-button">
             <a class="sure-active"  @click="sureActive" href="javascript:void(0)">确认激活</a>
           </div>
         </div>
+
+
       </nav>
     </div>
     <div class="ActivateChildAccounts">
@@ -64,7 +54,6 @@
 
 
                 </div>
-
 
 
                 <el-dialog
@@ -111,7 +100,6 @@
   import Accounts from '../Accounts'
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
-
   export default {
     component:{
       Accounts
@@ -168,63 +156,11 @@
       this.timer = null;
     },
     methods:{
-      step1(){
-        let Loading=document.getElementById("Loading");
-        let test1=document.getElementById("test1");
-        Loading.style.display="block";
-        setInterval(function () {
-          test1.style.display="block";
-        },1500)
 
-
-
-      },
-
-      step2(){
-        let test1=document.getElementById("test1");
-        let test2=document.getElementById("test2");
-        setInterval(function () {
-          test1.style.display="hide";
-          test2.style.display="show";
-        },1500)
-
-      },
-
-      step3(){
-        let test2=document.getElementById("test2");
-        let test3=document.getElementById("test3");
-        setInterval(function () {
-          test2.style.display="hide";
-          test3.style.display="show";
-        },1500)
-
-      },
-      step4(){
-        let test3=document.getElementById("test3");
-        let test4=document.getElementById("test4");
-        setInterval(function () {
-          test3.style.display="hide";
-          test4.style.display="show";
-        },1500)
-        
-      },
-      step5(){
-        let Loading=document.getElementById("Loading");
-        let test3=document.getElementById("test3");
-        let test4=document.getElementById("test4");
-        Loading.style.display="hide";
-        setInterval(function () {
-          test3.style.display="hide";
-          test4.style.display="hide";
-        },1500)
-
-
-      },
       activeCancel(){
         this.$router.push("/")
       },
       sureActive(){
-
         if(this.canvasTest == null ||this.canvasTest == ''){
           this.$alert('你还未在移动端签署面板完成扫码签名','提示', {
             confirmButtonText: '确定'
@@ -334,19 +270,27 @@
       },
 
       submitForm(formName){
+
         let accountCode = sessionStorage.getItem("accountCode");
         let authorizerCode = sessionStorage.getItem("authorizerCode");
         let signatureImg = this.canvasTest;
-
+        this.$nextTick(function () {
+          this.$loading.show("正在提交数据，请等待...");
+        });
         this.$refs[formName].validate((valid) => {
-          this.step1();
 
           this.$http.get(process.env.API_HOST + 'v1.4/sms', {
             params: {
               'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
             }
           }).then(res => {
-            this.step2();
+            this.fullscreenLoading = true;
+            setTimeout(() => {
+              this.fullscreenLoading = false;
+            }, 2000);
+            this.$nextTick(function () {
+              this.$loading.hide();
+            });
             if (res.data.resultCode != 1) {
 
               this.$message({
@@ -356,6 +300,9 @@
               })
 
             } else {
+              this.$nextTick(function () {
+                this.$loading.show("数据提交成功，正在校验...");
+              });
               this.$http.post(process.env.API_HOST + 'v1.5/user/SignAuthbook', {
                 'authorizerCode': authorizerCode,
                 'mobile': this.mobile,
@@ -365,24 +312,45 @@
                 'signatureImg': signatureImg,
                 'accountCode': accountCode,
               }, {emulateJSON: true}).then(function (res) {
-                // console.log(res.data)
+                 this.fullscreenLoading = true;
+                 setTimeout(() => {
+                  this.fullscreenLoading = false;
+                }, 3000);
+                this.$nextTick(function () {
+                  this.$loading.hide();
+                });
                 if(res.data.resultCode == '1'){
-                  this.step4()
                   let param={
                     mobile:sessionStorage.getItem("mobile"),
                     // accountCode:accountCode?accountCode:''
                   };
 
                   let urlParam=sessionStorage.getItem("interfaceCode");
-
+                  this.$nextTick(function () {
+                    this.$loading.show("激活成功，正在初始化数据，请等待...");
+                  });
+                  this.fullscreenLoading = true;
+                  setTimeout(() => {
+                    this.fullscreenLoading = false;
+                  }, 3000);
                   server.login(param,urlParam).then(res => {
                     cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
                     this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                    this.$nextTick(function () {
+                      this.$loading.hide();
+                    });
                     this.$router.push("/Home");
 
                   })
                 }else {
-                  this.step5();
+                  this.$nextTick(function () {
+                    this.$loading.show("激活失败，请刷新页面重新激活...");
+                  });
+                  this.fullscreenLoading = true;
+                  setTimeout(() => {
+                    this.fullscreenLoading = false;
+                  }, 3000);
+
                 }
 
               })
@@ -395,6 +363,7 @@
       },
 
       pollingPanel(timer){ //轮询手写面板
+
 
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
@@ -574,73 +543,15 @@
     height: 40px;
     text-align: center;
     line-height: 40px;
-    background-color: #ffffff;
+    background-color: #fff;
     font-size: 16px;
     color: #22a7ea;
     border-radius: 5px;
     margin-left: 10px;
   }
 </style>
-
-<style>
-  #Loading {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    /*-webkit-transform: translateY(-50%)  translateX(-50%);*/
-    /*transform: translateY(-50%)  translateX(-50%);*/
-    z-index:100;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-
+<style scope>
+  .wc-loading-wrapper{
+    width: 180px!important;
   }
-  .loader-inner{
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: 100px;
-    height: 100px;
-  }
-  @-webkit-keyframes ball-beat {
-    50% {
-      opacity: 0.2;
-      /*-webkit-transform: scale(0.75);*/
-      transform: scale(0.75); }
-
-    100% {
-      opacity: 1;
-      /*-webkit-transform: scale(1);*/
-      transform: scale(1); } }
-
-  @keyframes ball-beat {
-    50% {
-      opacity: 0.2;
-      /*-webkit-transform: scale(0.75);*/
-      transform: scale(0.75); }
-
-    100% {
-      opacity: 1;
-      /*-webkit-transform: scale(1);*/
-      transform: scale(1); } }
-
-  .ball-beat > div {
-    /*background-color: #279fcf;*/
-    width: 25px;
-    height: 25px;
-    color: #fff;
-    display: none;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-
-    /*-webkit-animation: ball-beat 0.7s 0s infinite linear;*/
-    /*animation: ball-beat 0.7s 0s infinite linear; */
-  }
-
 </style>
