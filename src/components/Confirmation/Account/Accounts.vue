@@ -616,7 +616,7 @@
             this.accountList=[];
             this.searchSecondAccounts();
             this.$loading.hide(); //loading隐藏
-            this.$alert(res.data.resultMessage, '确定',{
+            this.$alert(res.data.resultMessage, '提示',{
               confirmButtonText: '确定'
             });
           }
@@ -677,7 +677,6 @@
         let defaultCode1=defaultCode;
         if( defaultCode1=='1'){
           if(this.accountLevel=='1') {
-
             this.$confirm('您确定修改默认签章吗？, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
@@ -704,9 +703,7 @@
                 type: 'info',
                 message: '已取消修改默认签章'
               });
-
             });
-
 
           }
         }

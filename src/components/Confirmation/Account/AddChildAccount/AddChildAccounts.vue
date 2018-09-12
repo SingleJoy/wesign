@@ -440,7 +440,7 @@
           })
 
         }else{
-          this.$alert('您还未确定签署《电子合同子账号管理认证授权书》!', '确定签署',{
+          this.$alert('您还未确认签署《电子合同子账号管理认证授权书》!', '确定签署',{
             confirmButtonText: '确定'
           });
           return false
