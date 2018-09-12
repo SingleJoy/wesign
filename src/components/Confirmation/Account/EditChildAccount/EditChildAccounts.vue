@@ -270,6 +270,7 @@
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
               let editAccountCode = this.editAccountCode;  //编辑账户的accountCode
+              let manageName=sessionStorage.getItem("authName");
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/'+this.interfaceCode+ '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
@@ -279,7 +280,8 @@
                 accountCode: editAccountCode,                  //账户编号
                 email: this.ruleForm.Email,                    //邮箱
                 templates: templates,                                //分配模板
-                company_name: this.enterpriseName
+                company_name: this.enterpriseName,
+                manageName:manageName,
 
               }, {emulateJSON: true}).then(res => {
                 this.fullscreenLoading = true;

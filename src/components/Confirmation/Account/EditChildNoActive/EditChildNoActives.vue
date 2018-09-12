@@ -345,6 +345,7 @@
               let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
               let accountCode = sessionStorage.getItem("subAccountCode");
+              let manageName=sessionStorage.getItem("authName");
               this.$loading.show();
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
@@ -355,8 +356,8 @@
                 accountCode: accountCode,        //账户编号
                 email: this.ruleForm.Email,                    //邮箱
                 templates: templates,                                //分配模板
-                company_name: this.enterpriseName
-
+                company_name: this.enterpriseName,
+                manageName:manageName,    //一级账号名称
               }, {emulateJSON: true}).then(res => {
                 this.$nextTick(function () {
                   this.$loading.hide();
