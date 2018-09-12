@@ -152,6 +152,15 @@ export default {
       return pag
     }
   },
+   mounted() { 
+    this.$nextTick(() => { 
+      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+        probeType: 3,
+        scrollY: true,
+        preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+      }) 
+    }) 
+  },
   created() {
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
@@ -257,6 +266,7 @@ export default {
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
+        preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
       })
 
       this.rightScroll.on('scroll', (pos) => {

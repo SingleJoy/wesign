@@ -90,7 +90,8 @@
   height: 820px;
   border: 1px solid #ccc;
   float: left;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  overflow: hidden;
   margin-top: 40px;
   margin-left: 25px;
 }
