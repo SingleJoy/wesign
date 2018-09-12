@@ -632,17 +632,12 @@
             this.isNext = true;
             var contractNo = sessionStorage.getItem('contractNo');
             // contractNo = JSON.parse(contractNo)
-            console.log(323)
+            // console.log(323)
             this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
               } else {
                 if ( res.data.resultCode == '0') {
-                  // this.$message({
-                  //   showClose: true,
-                  //   message: res.data.resultMessage,
-                  //   type: 'success'
-                  // })
                   this.isNext = false;
                   this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
                   this.$store.dispatch('needSign',{needSign:needSign})
@@ -655,7 +650,7 @@
                     this.$router.push('/Whether')
                   }
                 } else {
-                  this.$alert('请求错误!','签署时间', {
+                  this.$alert('更换合同失败!','提示', {
                     confirmButtonText: '确定'
                   })
                   this.falg = true;

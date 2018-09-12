@@ -239,15 +239,15 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "1",
-            accountCode:this.accountCode
+         
           };
           this.getData(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1",'accountCode':this.accountCode};
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1"};
           this.getData(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1" ,'accountCode':this.accountCode};
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "1"};
         this.getData(requestVo);
       }
     },
@@ -280,7 +280,6 @@ export default {
           .slice(0, 10);
       }
       var requestVo = {
-        accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
         contractName: this.inputVal1,
         queryTimeStart: start,
         queryTimeEnd: end,
@@ -346,17 +345,8 @@ export default {
   },
   created() {
     this.auditStatus = cookie.getJSON("tenant")[1].auditStatus;
-    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "1" ,accountCode:this.accountCode};
+    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "1"};
     this.getData(requestVo);
-    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-    let accountCode = sessionStorage.getItem('accountCode');
-    let enterpriseName = sessionStorage.getItem('enterpriseName');
-    server.queryContractLists(interfaceCode).then(res=>{
-      if(res.data.resultCode == 1){
-        this.options=res.data.dataList;
-        this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
-      }
-    })
   }
 };
 </script>

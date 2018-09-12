@@ -264,15 +264,15 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "2",
-            accountCode:this.accountCode
+            accountCode:this.accountLevel==2?this.accountCode:''
           };
           this.getRecord(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" ,accountCode:this.accountCode};
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" ,accountCode:this.accountLevel==2?this.accountCode:''};
           this.getRecord(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.accountCode};
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.accountLevel==2?this.accountCode:''};
         this.getRecord(requestVo);
       }
     },
@@ -305,7 +305,7 @@ export default {
           .slice(0, 10);
       }
       var requestVo = {
-        accountCode: this.queryAccountCode?this.queryAccountCode:this.accountCode,
+        accountCode: this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),
         contractName: this.inputVal2,
         queryTimeStart: start,
         queryTimeEnd: end,
@@ -436,7 +436,7 @@ export default {
     }
   },
   created() {
-    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2" ,accountCode:this.accountCode};
+    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2" ,accountCode:this.accountLevel==2?this.accountCode:''};
     this.getRecord(requestVo);
 
   }

@@ -224,14 +224,14 @@ export default {
           var end =   this.filters.column.create_end_date
           if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
           if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-          var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountCode};
+          var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
           this.getRecord (requestVo)
         }else{
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountCode};
+          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
           this.getRecord (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountCode};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
         this.getRecord (requestVo)
       }
     },
@@ -346,7 +346,7 @@ export default {
     }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountCode};
+    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
     this.getRecord (requestVo);
   }
 }

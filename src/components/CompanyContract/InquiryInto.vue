@@ -263,15 +263,15 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "3",
-            accountCode:this.accountCode
+            accountCode:this.accountLevel==2?this.accountCode:''
           };
           this.getRecord(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3",accountCode:this.accountCode};
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3",accountCode:this.accountLevel==2?this.accountCode:''};
           this.getRecord(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.accountCode};
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.accountLevel==2?this.accountCode:''};
         this.getRecord(requestVo);
       }
     },
@@ -424,7 +424,7 @@ export default {
     }
   },
   created() {
-    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3",accountCode:this.accountCode};
+    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3",accountCode:this.accountLevel==2?this.accountCode:''};
     this.getRecord(requestVo);
   }
 };

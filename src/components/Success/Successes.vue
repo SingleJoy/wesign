@@ -34,7 +34,7 @@
           <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
               <div slot="content">{{this.$store.state.contractName1}}</div>
-              <span id='textInfo'>{{this.$store.state.contractName1}}</span>
+              <span class='contractTextInfo'>{{this.$store.state.contractName1}}</span>
             </el-tooltip>
             <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
           </p></li>
@@ -186,7 +186,7 @@
 <style scoped>
   @import "../../styles/Success/Successes.css";
   @import "../../common/styles/SigningSteps.css";
-  #textInfo{
+  .contractTextInfo{
     display: inline-block;
     width: 150px;
     overflow: hidden !important;

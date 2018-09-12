@@ -225,14 +225,14 @@ export default {
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0'};
         this.getData (requestVo)
         }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
         this.getData (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
         this.getData (requestVo)
       }
     },
@@ -252,7 +252,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
       this.getData (requestVo)
       this.currentPage = 1
       this.$message({
@@ -304,19 +304,8 @@ export default {
   },
    created() {
     this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
     this.getData (requestVo);
-    let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-    let accountCode = sessionStorage.getItem('accountCode');
-    let enterpriseName = sessionStorage.getItem('enterpriseName');
-    server.queryContractLists(interfaceCode).then(res=>{
-      if(res.data.resultCode == 1){
-        this.options=res.data.dataList;
-        if(this.options instanceof Array){
-            this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
-        }
-      }
-    })
   }
 }
 </script>
