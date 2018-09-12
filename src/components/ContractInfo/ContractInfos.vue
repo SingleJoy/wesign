@@ -391,9 +391,13 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-        this.$store.dispatch('tabIndex',{tabIndex:1});
         if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-          this.$router.push("/Home")
+            if(cookie.getJSON('state') == 'A'){
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }else{
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }
+            this.$router.push("/Home")
         }else{
           this.$router.push("/Mycontract")
         }
