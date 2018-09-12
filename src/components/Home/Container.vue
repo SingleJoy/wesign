@@ -465,7 +465,6 @@
       var data = [];
       var flag = "";
       var isCreater = "";
-
       let accountCode = this.accountCode;
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
