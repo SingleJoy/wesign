@@ -32,8 +32,8 @@
       <!-- 合同所有信息开始 -->
       <div class='contractInfo'>
         <div class='twoInfo'>
-            <!-- <p class='infoss'>合同信息</p> -->
-            <dd><h3 class='infoss'>合同信息</h3></dd>
+            <p class='infoss'>合同信息</p>
+            <!-- <dd><h3 class='infoss'>合同信息</h3></dd> -->
             <ul id='twoInfos' style="text-align: left;">
                 <li><p><span>合同名称：</span>
                 <el-tooltip placement="top">
@@ -57,7 +57,8 @@
             </ul>
         </div>
         <dl class='second'>
-          <dd><h3>合同分享</h3></dd>
+          <!-- <dd><h3>合同分享</h3></dd> -->
+          <p class='infoss'>合同分享</p>
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{dataURL}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../../static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
@@ -66,7 +67,8 @@
           </dd>
         </dl>
         <dl class='third'>
-          <dd><h3>签约室分享</h3></dd>
+          <!-- <dd><h3>签约室分享</h3></dd> -->
+          <p class='infoss'>签约室分享</p>
           <dd><p><span>签约室链接：</span><span id='contractAddress1'>{{roomlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../../static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>

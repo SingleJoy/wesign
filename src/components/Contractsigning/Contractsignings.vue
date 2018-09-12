@@ -523,7 +523,7 @@
           }
         }
 
-        if(this.checked == false && this.value8 == ''){
+        if(this.checked == false && (this.value8 == ''|| !this.value8)){
           this.$alert('您还没有选择签署时间!','签署时间', {
             confirmButtonText: '确定'
           });

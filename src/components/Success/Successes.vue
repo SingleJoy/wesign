@@ -5,10 +5,10 @@
         <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
         <p></p>
         <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-        <!-- <p></p>
-        <li><i class='el-icon-edit'></i><b>指定位置</b></li> -->
         <p></p>
-        <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li>
+        <li class="active"><i class='el-icon-edit'></i><b>指定位置</b></li>
+        <!-- <p></p>
+        <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li> -->
         <p></p>
         <li class="active"><i class='el-icon-check'></i><b>完成</b></li>
       </ul>
@@ -168,7 +168,7 @@
         }
       })
 
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
         if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

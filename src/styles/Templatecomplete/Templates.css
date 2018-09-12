@@ -98,6 +98,7 @@
     height: 265px;
     float: left;
     margin-right: 20px;
+    border-bottom:none;
 }
 .second dd:nth-child(1) h3{
     color:#22a7ea;
@@ -107,6 +108,7 @@
 }
 .second dd:nth-child(2) p{
     padding-top: 10px;
+    line-height: 20px;
 }
 .second dd:nth-child(2) p span:nth-child(2){
     color: #666;
@@ -195,11 +197,12 @@
     margin-right: 20px;
     margin-left: 5px;
 }
-.twoInfo .infoss{
+ .infoss{
     color: #22a7ea;
     font-size: 16px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
+    line-height: 16px;
 }
 #twoInfos li:nth-child(1) {
     padding-top: 10px;
