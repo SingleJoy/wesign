@@ -334,7 +334,7 @@
           this.$refs[formName].validate((valid) => {
 
             if (valid) {
-              //   this.$loading.show();
+
               this.once = true;
               let pass = md5(this.ruleForm.password);
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
@@ -346,6 +346,12 @@
               let templates = (batchTemplate1 + singleTemplate1).substr(1);
               let accountCode = sessionStorage.getItem("subAccountCode");
               let manageName=sessionStorage.getItem("authName");
+              if((this.batchTemplate.length+this.singleTemplate.length)=='1'){
+                templates=templates.replace(",", "");
+              }
+              if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
+                templates='';
+              }
               this.$loading.show();
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
