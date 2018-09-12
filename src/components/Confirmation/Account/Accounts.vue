@@ -35,8 +35,8 @@
                   <b>{{enterpriseName}}</b>
                 </div>
                 <div class="card-line" v-if="accountLevel=='2'">
-                  <span>账号名称:</span>
-                  <b>{{authName}}</b>
+                  <span>账&nbsp;&nbsp;号&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
+                  <b>{{accountName}}</b>
                 </div>
                 <div class="card-line">
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
@@ -47,7 +47,7 @@
                   <b>{{authName}}</b>
                 </div>
                 <div class="card-line" v-if="accountLevel=='2'">
-                  <span>企业名称:</span>
+                  <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
                   <b>{{enterpriseName}}</b>
                 </div>
 
@@ -68,7 +68,7 @@
 
               <div class="card right-card" style="margin-top: 20px;margin-left: 20px;">
                 <div class="right-card-content">
-                  <div class="right-line" >
+                  <div class="right-line" style="height: 50px;">
                     <span style="display: inline-block;width: 60px;vertical-align: top;">序列号:</span>
                     <b style="display: inline-block;width: 180px;word-wrap:break-word;vertical-align: top;">{{issuedNumber}}</b>
                   </div>
@@ -858,8 +858,8 @@
       this.$http.get(process.env.API_HOST+'v1.5/tenant/'+accountCode+'/getAccountInformation').then(function (res) {
         if(res.data.resultCode=='1'){
 
-          this.account=res.data.data.mobile;
-          this.account=res.data.data.accountName;
+          this.mobile=res.data.data.mobile;
+          this.accountName=res.data.data.accountName;
           this.Email=res.data.data.email;
           this.account=res.data.data.enterpriseName;
           this.authName=res.data.data.authorizerName;

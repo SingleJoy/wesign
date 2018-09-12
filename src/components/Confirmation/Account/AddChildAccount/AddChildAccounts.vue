@@ -31,7 +31,7 @@
 
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis"></el-input>
+                    <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis" id="password"></el-input>
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
                       <el-button style="position: absolute;top:-3px;right:-25px;border:none;padding: 10px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
@@ -42,7 +42,6 @@
                   <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idCode">
                     <el-input v-model="ruleForm.idCode" auto-complete="off" placeholder="请输入身份证号码" ></el-input>
                   </el-form-item>
-
 
 
                   <el-form-item label="联系邮箱" :label-width="formLabelWidth" prop="Email">
@@ -238,6 +237,7 @@
             server.verficate(params).then(res => {
               if (res.data === 0) {
 
+                document.getElementById('password').focus()
                 this.ruleForm.password="test111111";
                 this.dis=true;
                 this.showToolTip=true;
@@ -337,15 +337,21 @@
       //提交事件
       submitBtn(formName){
 
+
         let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              this.$loading.show()
+
+              this.$nextTick(function () {
+                this.$loading.show();
+              });
+
               this.once=true;//提交按钮不可重复点击
               let pass = md5(this.ruleForm.password); //密码MD5加密
-              let batchTemplate=this.batchTemplate;  //批量模板
-              let singleTemplate=this.singleTemplate;  //单次发起模板
+              let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
+              let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
+
 
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
