@@ -9,6 +9,8 @@ import VueResource from 'vue-resource'
 import vuex from 'vuex'
 import store from './store'
 import Es6Promise from 'es6-promise'
+import Loading from 'wc-loading'
+import 'wc-loading/style.css'
 import moment  from 'moment'
 import BASE_URL from '../config/global'
 import { Message } from 'element-ui';
@@ -17,10 +19,12 @@ Es6Promise.polyfill()
 Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.use(vuex)
+Vue.use(Loading)
 
 Vue.config.productionTip = false;
 Vue.prototype.baseURL = BASE_URL;
 Vue.prototype.$message = Message;
+
 
 
 new Vue({
