@@ -1,97 +1,109 @@
 <template>
-<div>
-     <div class="Tops">
+  <div>
+
+    <div id="Loading">
+      <div class="loader-inner ball-beat">
+        <div id="test1">正在提交数据，请等待...</div>
+        <div id="test2">数据提交成功，正在校验...</div>
+        <div id="test3">激活失败，请刷新页面重新激活二级账户...</div>
+        <div id="test4">激活成功,正在初始化您的账户...</div>
+
+      </div>
+    </div>
+
+    <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
           <img src="../../../../../static/images/logo2.png" alt="">
         </p>
+
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-           <div v-if="showActive" class="active-button">
-                <a class="sure-active"  @click="sureActive" href="javascript:void(0)">确认激活</a>
-              </div>
+          <div v-if="showActive" class="active-button">
+            <a class="sure-active"  @click="sureActive" href="javascript:void(0)">确认激活</a>
+          </div>
         </div>
       </nav>
     </div>
-     <div class="ActivateChildAccounts">
+    <div class="ActivateChildAccounts">
 
-    <div class="main" >
+      <div class="main" >
 
-      <div class="container">
+        <div class="container">
 
-        <div class="content">
+          <div class="content">
 
-          <div class="content-body">
+            <div class="content-body">
 
-            <p class="title">激活子账号</p>
+              <p class="title">激活子账号</p>
 
-            <div class="border-bottom"  ></div>
+              <div class="border-bottom"  ></div>
 
-            <div class="active-account" style="margin-left: 0;">
-              <div class="active-account-tips">
-                请您仔细阅读一下授权书内容，如确定无任何异议后，请您在确定身份认证后，签署提交
-              </div>
+              <div class="active-account" style="margin-left: 0;">
+                <div class="active-account-tips">
+                  请您仔细阅读一下授权书内容，如确定无任何异议后，请您在确定身份认证后，签署提交
+                </div>
 
-              <div class="active-account-contract-img" style="margin-left: 225px">
+                <div class="active-account-contract-img" style="margin-left: 225px">
 
-                <img :src="[authorizationImg]" id="activateImg">
+                  <img :src="[authorizationImg]" id="activateImg">
 
-              </div>
+                </div>
 
-              <div class="scan-code" id="smCode">
+                <div class="scan-code" id="smCode">
 
-                <el-tooltip class="item" effect="dark" content="微信扫一扫" placement="top">
-                  <img :src="[qrSignImg]" alt="微信扫一扫"  class="wechat-img" id="wechat-img" >
+                  <el-tooltip class="item" effect="dark" content="微信扫一扫" placement="top">
+                    <img :src="[qrSignImg]" alt="微信扫一扫"  class="wechat-img" id="wechat-img" >
 
 
-                </el-tooltip>
-                <div class="wechat-scan-tips">
-                  请用微信扫一扫上<br/>
-                  方二维码完成签署
+                  </el-tooltip>
+                  <div class="wechat-scan-tips">
+                    请用微信扫一扫上<br/>
+                    方二维码完成签署
+                  </div>
+
+
                 </div>
 
 
+
+                <el-dialog
+                  :visible.sync="dialogAgreement"
+                  width="400px"
+                  center>
+                  <div  class="send-code">请您先获取验证码的，输入验证码后点击提交即可！</div>
+                  <div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">+{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>
+                  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+
+                    <el-form-item prop="code">
+                      <el-input type="text" placeholder="请输入短信验证码" class="forget-messageInput" v-model="ruleForm.smsCode" style="width: 200px;"></el-input>
+                      <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 20px;">获取</el-button>
+                    </el-form-item>
+
+                    <div class="forget-btn">
+                      <el-button type="primary" @click="submitForm('ruleForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+                    </div>
+                  </el-form>
+                </el-dialog>
+                <!--签署图片-->
+                <div id="hidden" style="display:none">
+                  <img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px">
+                </div>
+                <div id="signCanvas" style="display:none;position: absolute;top:550px;left: 380px">
+                  <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
+                </div>
               </div>
 
-             
-
-              <el-dialog
-                :visible.sync="dialogAgreement"
-                width="400px"
-                center>
-                <div  class="send-code">请您先获取验证码的，输入验证码后点击提交即可！</div>
-                <div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">+{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
-
-                  <el-form-item prop="code">
-                    <el-input type="text" placeholder="请输入短信验证码" class="forget-messageInput" v-model="ruleForm.smsCode" style="width: 200px;"></el-input>
-                    <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 20px;">获取</el-button>
-                  </el-form-item>
-
-                  <div class="forget-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
-                  </div>
-                </el-form>
-              </el-dialog>
-              <!--签署图片-->
-              <div id="hidden" style="display:none">
-                <img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px">
-              </div>
-              <div id="signCanvas" style="display:none;position: absolute;top:550px;left: 380px">
-                <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
-              </div>
             </div>
+
 
           </div>
 
-
         </div>
-
       </div>
     </div>
   </div>
-</div>
- 
+
 </template>
 
 <script>
@@ -99,6 +111,7 @@
   import Accounts from '../Accounts'
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
+
   export default {
     component:{
       Accounts
@@ -148,17 +161,70 @@
 
       }
     },
-   // 组件销毁前清除定时器
+    // 组件销毁前清除定时器
     beforeDestroy() {
 
       clearInterval(this.timer);
       this.timer = null;
     },
     methods:{
-        activeCancel(){
-       this.$router.push("/")
-     },
+      step1(){
+        let Loading=document.getElementById("Loading");
+        let test1=document.getElementById("test1");
+        Loading.style.display="block";
+        setInterval(function () {
+          test1.style.display="block";
+        },1500)
+
+
+
+      },
+
+      step2(){
+        let test1=document.getElementById("test1");
+        let test2=document.getElementById("test2");
+        setInterval(function () {
+          test1.style.display="hide";
+          test2.style.display="show";
+        },1500)
+
+      },
+
+      step3(){
+        let test2=document.getElementById("test2");
+        let test3=document.getElementById("test3");
+        setInterval(function () {
+          test2.style.display="hide";
+          test3.style.display="show";
+        },1500)
+
+      },
+      step4(){
+        let test3=document.getElementById("test3");
+        let test4=document.getElementById("test4");
+        setInterval(function () {
+          test3.style.display="hide";
+          test4.style.display="show";
+        },1500)
+        
+      },
+      step5(){
+        let Loading=document.getElementById("Loading");
+        let test3=document.getElementById("test3");
+        let test4=document.getElementById("test4");
+        Loading.style.display="hide";
+        setInterval(function () {
+          test3.style.display="hide";
+          test4.style.display="hide";
+        },1500)
+
+
+      },
+      activeCancel(){
+        this.$router.push("/")
+      },
       sureActive(){
+
         if(this.canvasTest == null ||this.canvasTest == ''){
           this.$alert('你还未在移动端签署面板完成扫码签名','提示', {
             confirmButtonText: '确定'
@@ -271,20 +337,23 @@
         let accountCode = sessionStorage.getItem("accountCode");
         let authorizerCode = sessionStorage.getItem("authorizerCode");
         let signatureImg = this.canvasTest;
+
         this.$refs[formName].validate((valid) => {
+          this.step1();
 
           this.$http.get(process.env.API_HOST + 'v1.4/sms', {
             params: {
               'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
             }
           }).then(res => {
+            this.step2();
             if (res.data.resultCode != 1) {
 
-                this.$message({
-                  showClose: true,
-                  message: res.data.resultMessage,
-                  type: 'error'
-                })
+              this.$message({
+                showClose: true,
+                message: res.data.resultMessage,
+                type: 'error'
+              })
 
             } else {
               this.$http.post(process.env.API_HOST + 'v1.5/user/SignAuthbook', {
@@ -298,6 +367,7 @@
               }, {emulateJSON: true}).then(function (res) {
                 // console.log(res.data)
                 if(res.data.resultCode == '1'){
+                  this.step4()
                   let param={
                     mobile:sessionStorage.getItem("mobile"),
                     // accountCode:accountCode?accountCode:''
@@ -311,6 +381,8 @@
                     this.$router.push("/Home");
 
                   })
+                }else {
+                  this.step5();
                 }
 
               })
@@ -324,18 +396,17 @@
 
       pollingPanel(timer){ //轮询手写面板
 
-
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
 
         this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg').then(function (res) {
           this.canvasTest =  res.bodyText
-        //   console.log(res.bodyText)
+          //   console.log(res.bodyText)
           if(res.bodyText != '') {
             let smCode = document.getElementById('smCode')
-                  smCode.style.display ='none';
+            smCode.style.display ='none';
             let  signCanvas= document.getElementById('signCanvas')
-                  signCanvas.style.display ='block';
+            signCanvas.style.display ='block';
             this.showActive = true;
           }
           setTimeout(() => {
@@ -350,13 +421,13 @@
     },
     created(){
 
-       this.mobileShowFirst=this.mobile.substring(0,3);
-       this.mobileShowLast=this.mobile.substring(7,11);
+      this.mobileShowFirst=this.mobile.substring(0,3);
+      this.mobileShowLast=this.mobile.substring(7,11);
 
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
 
-	  //
+      //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
 
@@ -395,44 +466,44 @@
     height: 80px;
     background:#22a7ea;
     overflow:hidden;
-}
-.nav{
+  }
+  .nav{
     width: 1200px;
     margin: 0 auto;
     height: 80px;
     overflow:hidden;
     position: relative;
 
-}
-.nav .logo{
+  }
+  .nav .logo{
     float: left;
     margin-right: 70px;
-}
-.nav .logo img{
+  }
+  .nav .logo img{
     margin-top: 18px;
-}
-.nav ul{
+  }
+  .nav ul{
     margin-left: 80px;
     line-height: 80px;
-}
-.nav ul li{
+  }
+  .nav ul li{
     float: left;
     padding: 0 22px 0 22px;
-}
+  }
 
-.nav ul li a{
+  .nav ul li a{
     color: #fff;
-}
-.nav .btns{
+  }
+  .nav .btns{
     margin-left: 5px;
     /* line-height: 80px; */
-}
-.nav .btns li{
+  }
+  .nav .btns li{
     float: left;
     width: 90px;
     height: 44px;
-}
-.nav .btns li:nth-child(1){
+  }
+  .nav .btns li:nth-child(1){
     float: left;
     width: 90px;
     height: 44px;
@@ -442,8 +513,8 @@
     text-align: center;
     margin-top: 17px;
     margin-right: 24px;
-}
-.nav .btns li:nth-child(2){
+  }
+  .nav .btns li:nth-child(2){
     float: left;
     width: 90px;
     height: 44px;
@@ -452,52 +523,52 @@
     border-radius: 5px;
     text-align: center;
     margin-top: 17px;
-}
-.nav .btns li:nth-child(1) a{
+  }
+  .nav .btns li:nth-child(1) a{
     color: #22a7ea;
-}
-.nav .btns li:nth-child(2) a{
+  }
+  .nav .btns li:nth-child(2) a{
     color: #22a7ea;
-}
-.nav .btns li:nth-child(3){
+  }
+  .nav .btns li:nth-child(3){
     width: 116px;
     float: left;
     line-height: 80px;
     margin-left: 30px;
     text-align: center;
-}
-.nav .btns li:nth-child(3) img{
+  }
+  .nav .btns li:nth-child(3) img{
     vertical-align:middle;
-}
-.nav .btns li:nth-child(3) a{
+  }
+  .nav .btns li:nth-child(3) a{
     color: #fff;
     font-size: 14px;
-}
+  }
 
-.nav .btns li:nth-child(4){
+  .nav .btns li:nth-child(4){
     float: left;
     line-height: 80px;
     margin-left: -6px;
     text-align: center;
-}
-.nav .btns li:nth-child(4) img{
+  }
+  .nav .btns li:nth-child(4) img{
     vertical-align:middle;
-}
-.nav .btns li:nth-child(4) a{
+  }
+  .nav .btns li:nth-child(4) a{
     color: #fff;
     font-size: 14px;
-}
+  }
 
-/* buttonsć ˇĺź */
-.buttons{
+  /* buttonsć ˇĺź */
+  .buttons{
     position: absolute;
     right: 10px;
     top: 15px;
-}
-.active-button{
+  }
+  .active-button{
     float:right
-}
-.sure-active{
+  }
+  .sure-active{
     display: block;
     width: 100px;
     height: 40px;
@@ -508,5 +579,68 @@
     color: #22a7ea;
     border-radius: 5px;
     margin-left: 10px;
-}
+  }
+</style>
+
+<style>
+  #Loading {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    /*-webkit-transform: translateY(-50%)  translateX(-50%);*/
+    /*transform: translateY(-50%)  translateX(-50%);*/
+    z-index:100;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+
+  }
+  .loader-inner{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+  }
+  @-webkit-keyframes ball-beat {
+    50% {
+      opacity: 0.2;
+      /*-webkit-transform: scale(0.75);*/
+      transform: scale(0.75); }
+
+    100% {
+      opacity: 1;
+      /*-webkit-transform: scale(1);*/
+      transform: scale(1); } }
+
+  @keyframes ball-beat {
+    50% {
+      opacity: 0.2;
+      /*-webkit-transform: scale(0.75);*/
+      transform: scale(0.75); }
+
+    100% {
+      opacity: 1;
+      /*-webkit-transform: scale(1);*/
+      transform: scale(1); } }
+
+  .ball-beat > div {
+    /*background-color: #279fcf;*/
+    width: 25px;
+    height: 25px;
+    color: #fff;
+    display: none;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+
+    /*-webkit-animation: ball-beat 0.7s 0s infinite linear;*/
+    /*animation: ball-beat 0.7s 0s infinite linear; */
+  }
+
 </style>
