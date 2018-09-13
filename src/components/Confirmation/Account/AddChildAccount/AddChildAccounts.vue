@@ -227,8 +227,11 @@
         if(value === ''){
           callback(new Error('请输入手机号'))
         } else if (!validateMoblie(value)){
-
           callback(new Error('手机号格式错误'))
+        }else if(value==this.mobile){
+          this.showToolTip=false;
+          this.ruleForm.password='';
+          callback(new Error('二级账号不能与一级账号手机号相同'))
         } else {
           let params = {
             username: this.ruleForm.mobile
@@ -261,7 +264,7 @@
           callback(new Error('请输入邮箱'));
         }else if (value !== '' && !validateEmail(value)){
           callback(new Error('邮箱账号格式错误'))
-        } else {
+        } else{
           callback()
         }
       }
@@ -314,6 +317,7 @@
         singleTemplateLength:false, //单次模板书否显示
         batchTemplateLength:false,     //批量模板是否显示
         fullscreenLoading: false,
+        mobile:sessionStorage.getItem("mobile"),
 
       }
     },
