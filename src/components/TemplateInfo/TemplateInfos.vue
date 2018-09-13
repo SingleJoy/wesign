@@ -81,7 +81,7 @@
         <el-button type="primary" style='width:200px' @click="lookDetails">查看详情</el-button>
         <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link>
     </div>
-    <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible">
+    <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs'>
       <div v-for="(item,index) in imgList" :key="index" >
          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width: 100%;'>
       </div>
@@ -111,7 +111,7 @@ export default {
       this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
       this.$router.push('/ContractInfo')
       this.$store.dispatch('tabIndex',{tabIndex:1});
-      
+
     },
     seeContractImg (){
       var data =[];
@@ -220,4 +220,11 @@ export default {
   vertical-align:sub;
   color:#22a7ea;
 }
+</style>
+<style>
+  .showDialogs{
+    height: 700px;
+  // overflow-y: scroll;
+    overflow: hidden;
+  }
 </style>

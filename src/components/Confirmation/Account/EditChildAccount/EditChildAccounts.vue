@@ -263,22 +263,32 @@
             if (valid) {
               this.$loading.show()
               this.once = true;
-              let pass = md5(this.ruleForm.password);
-              let batchTemplate=this.batchTemplate;  //批量模板
-              let singleTemplate=this.singleTemplate;  //单次发起模板
-              // let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
-              // let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
-              let templates = batchTemplate + singleTemplate;
-              let editAccountCode = this.editAccountCode;  //编辑账户的accountCode
-              let manageName=sessionStorage.getItem("authName");
+              this.once=true;//提交按钮不可重复点击
+              let pass = md5(this.ruleForm.password); //密码MD5加密
+              let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
+              let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
+
+
+              // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
+              let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
+              let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
+              let templates=(batchTemplate1+singleTemplate1).substr(1);
+              let manageName=sessionStorage.getItem("authName")
+              if((this.batchTemplate.length+this.singleTemplate.length)=='1'){
+                templates=templates.replace(",", "");
+              }
+              if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
+                templates='';
+
+              }
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/'+this.interfaceCode+ '/updateAccount', {
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCard,                  //省份证号
                 mobile: this.ruleForm.mobile,              //手机号码
                 password: pass,                          //密码
-                accountCode: editAccountCode,                  //账户编号
-                email: this.ruleForm.Email,                    //邮箱
+                accountCode:this.editAccountCode,                  //账户编号
+                email:this.ruleForm.Email,                    //邮箱
                 templates: templates,                                //分配模板
                 company_name: this.enterpriseName,
                 manageName:manageName,
