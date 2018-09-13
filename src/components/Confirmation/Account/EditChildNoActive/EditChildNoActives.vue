@@ -384,7 +384,7 @@
                   let num = 3;
                   if(res.data.data){
                     num = num-res.data.data.authNum;
-                    console.log("num11111111"+num)
+
                    if(num>='1'){
 
                      this.$alert(<div style="textAlign:center">

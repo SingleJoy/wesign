@@ -62,7 +62,7 @@
                   center>
                   <div  class="send-code">为确保是您本人愿意签署，请点击获取验证码。<br/>
                   认证通过后，认证授权书及时生效</div>
-                  <div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">+{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>
+                  <div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>
                   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
                     <el-form-item prop="code">
