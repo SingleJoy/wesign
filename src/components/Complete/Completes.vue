@@ -110,10 +110,10 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-      var contractNo = sessionStorage.getItem('contractNo')
-
-      this.$store.dispatch('contractsInfo',{contractNo:contractNo})
-      this.$router.push('/ContractInfo')
+        var contractNo = sessionStorage.getItem('contractNo')
+        this.$store.dispatch('contractsInfo',{contractNo:contractNo})
+        this.$store.dispatch('tabIndex',{tabIndex:1});
+        this.$router.push('/ContractInfo')
     },
     seeContractImg (){
       var contractNo = sessionStorage.getItem('contractNo')
