@@ -256,3 +256,10 @@ export default {
   padding-left:10px;
 }
 </style>
+<style>
+  .showDialogs{
+    height: 700px;
+  // overflow-y: scroll;
+    overflow: hidden;
+  }
+</style>

@@ -117,8 +117,8 @@
 
 
 
-            <!--<div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">-->
-            <div class="create-seal" >
+            <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
+            <!--<div class="create-seal" >-->
               <!--生成公章-->
               <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
               <span>录入公章防伪码在线生成</span>

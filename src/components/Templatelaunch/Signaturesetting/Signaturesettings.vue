@@ -151,7 +151,7 @@
             </el-table-column>
           </el-table>
         </div>
-        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog" >
+        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs" >
             <div v-for="(item,index) in imgList" :key="index" >
               <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt=""  style='width: 100%;height:844px;'>
             </div>
