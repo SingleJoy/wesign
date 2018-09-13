@@ -414,14 +414,14 @@
         }
       },
       vertifySuccess(){
-        this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':this.passWord,'appId':this.appId}, {emulateJSON: true}).then(function (res) {
+        this.$http.post(process.env.API_HOST+'v1.4/tenant/register', {'interfaceCode': this.interfaceCode,'tenantName':this.EnterpriseName,'userName':this.userName,'mobile':this.phone,'password':md5(this.passWord),'appId':this.appId}, {emulateJSON: true}).then(function (res) {
           if (res.data.resultCode == '1') {
             this.$message({
               showClose: true,
               message: res.data.resultMessage,
               type: 'success'
             })
-            sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode))
+            sessionStorage.setItem('interfaceCode', this.interfaceCode)
             this.$router.push('/Pupload')
           } else if(res.data.resultCode == '2'){
 
@@ -447,25 +447,25 @@
                 this.$router.push('/')
               } else if(authStatus != '1' && auditSteps == '1'){
                 if(authStatus == '0'){
-                  sessionStorage.setItem('userCode',JSON.stringify(res.data.dataList[0].userCode))
-                  sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                  sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
+                  sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
                   this.$router.push('/Pupload')
                 }else{
-                  sessionStorage.setItem('userCode',JSON.stringify(res.data.dataList[0].userCode))
-                  sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                  sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
+                  sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
                   this.$router.push('/ErrorPupload')
                 }
               } else if(authStatus != '1' && auditSteps == '2'){
                 this.$router.push('/PersonWait')
               }else if( auditStatus != '2' && companySteps == '1'){
                 // sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
-                sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
                 this.$router.push('/Enterprise')
               }else if( auditStatus != '2' && companySteps == '2'){
-                sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
                 this.$router.push('/Payment')
               }else if( auditStatus != '2' && companySteps == '3'){
-                sessionStorage.setItem('interfaceCode',JSON.stringify(res.data.dataList[1].interfaceCode))
+                sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
                 this.$router.push('/WaitReply')
               }
             }
@@ -481,7 +481,7 @@
     },
     created() {
       this.interfaceCode = GetQueryString("appId");
-      sessionStorage.setItem('interfaceCode', JSON.stringify(this.interfaceCode));
+      sessionStorage.setItem('interfaceCode', this.interfaceCode);
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+this.interfaceCode+'/userIsExist').then(res =>{
         if (res.data.resultCode == '1') {
           this.$message({
@@ -489,8 +489,8 @@
             message: '您已拥有微签账号，无需重新设置密码',
             type: 'success'
           })
-          sessionStorage.setItem('userCode', JSON.stringify(res.data.data.authorizerCode))
-          sessionStorage.setItem('mobile', JSON.stringify(res.data.data.mobile))
+          sessionStorage.setItem('userCode',res.data.data.authorizerCode)
+          sessionStorage.setItem('mobile', res.data.data.mobile)
           sessionStorage.setItem('enterpriseName', res.data.data.tenantName)
           this.disabled = true
           this.forbid = true
@@ -525,8 +525,8 @@
             message: '您未拥有微签账号，需设置密码',
             type: 'success'
           })
-          sessionStorage.setItem('userCode', JSON.stringify(res.data.data.authorizerCode))
-          sessionStorage.setItem('mobile', JSON.stringify(res.data.data.mobile))
+          sessionStorage.setItem('userCode',res.data.data.authorizerCode)
+          sessionStorage.setItem('mobile', res.data.data.mobile)
           sessionStorage.setItem('enterpriseName',res.data.data.tenantName)
           this.disabled = true
           this.EnterpriseName = res.data.data.tenantName

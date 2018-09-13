@@ -194,6 +194,7 @@ export default {
 
         },
         handleCurrentChange(val) {
+            document.documentElement.scrollTop = 0
         if (this.inputTemplate !== ''){
             if(this.query == true){
             var templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'};

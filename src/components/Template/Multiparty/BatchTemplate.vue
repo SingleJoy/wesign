@@ -144,6 +144,7 @@ export default {
         //console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
+            document.documentElement.scrollTop = 0
         if ( this.queryTempBatch !== '') {
             if(this.query == true){
             var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
