@@ -408,7 +408,8 @@
                 showClose: true,
                 message:res.data.resultMessage,
                 type: 'error'
-              })
+              });
+              this.once = false;
             }
           })
 
