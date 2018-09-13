@@ -28,7 +28,7 @@
       </p>
       <div class='three' style="text-align: left;">
         <p class='details'>
-          <strong>合同文件：</strong><span class="contract_Name">{{contractName}}</span>
+          <strong style="line-height: 20px;">合同文件：</strong><span class="contract_Name" :title="contractName">{{contractName}}</span>
           <a href="javascript:void(0);" @click="seeContractImg">查看</a>
           <a href="javascript:void(0);" @click="downloadClick">下载</a>
           <strong>发起方式：</strong><span>{{createType}}</span>
@@ -183,7 +183,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  // display: inline-block;
+    display: inline-block;
+    vertical-align: bottom;
   }
   .backHome{
     float: right;
