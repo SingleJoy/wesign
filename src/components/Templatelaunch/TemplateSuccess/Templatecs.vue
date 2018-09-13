@@ -191,11 +191,11 @@
 </script>
 <style>
   .showDialogs{
-    position: relative !important;
+    /* position: relative !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
     height: 800px !important;
-    overflow-y: scroll !important;
+    overflow-y: scroll !important; */
   }
   .contractAddress{
     display: inline-block;

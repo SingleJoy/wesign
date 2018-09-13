@@ -633,11 +633,11 @@ export default {
     width:400px !important;
     overflow-y: hidden !important;
   }
-  .showBatchDialog{
-  position: relative !important;
-  -webkit-box-sizing: border-box !important;
-  box-sizing: border-box !important;
-  height: 800px !important;
-  overflow-y: scroll !important;
-}
+/* .showBatchDialog{
+    position: relative !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    height: 800px !important;
+    overflow-y: scroll !important;
+} */
 </style>

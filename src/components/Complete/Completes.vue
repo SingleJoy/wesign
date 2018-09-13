@@ -214,13 +214,13 @@ export default {
 </style>
 
 <style>
-.showDialogs{
+/* .showDialogs{
   position: relative !important;
   -webkit-box-sizing: border-box !important;
   box-sizing: border-box !important;
   min-height: 700px !important;
   overflow-y: scroll !important;
-}
+} */
 #contractAddress{
   display: inline-block;
   overflow: hidden;
