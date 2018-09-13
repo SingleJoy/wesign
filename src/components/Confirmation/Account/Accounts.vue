@@ -117,8 +117,8 @@
 
 
 
-            <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
-            <!--<div class="create-seal" >-->
+            <!--<div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">-->
+            <div class="create-seal" >
               <!--生成公章-->
               <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
               <span>录入公章防伪码在线生成</span>
@@ -129,7 +129,7 @@
             </div>
             <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showSealDemo" >    <!-- :lock-scroll= false有问题！！！！ -->
 
-              <img src="../../../../static/images/Confirmation/Account/seal-tips.png"  style='width:100%;'>
+              <img src="../../../../static/images/Confirmation/Account/create-seal-demo.jpg"  style='width:100%;'>
 
             </el-dialog>
           </div>
@@ -922,14 +922,12 @@
     position: absolute;
     width: 20px;
     height: 20px;
-    right: 2px;
-    top:2px;
+    right: 5px;
+    top:5px;
     cursor: pointer;
     background: url("../../../../static/images/Confirmation/Account/seal-tips.png")no-repeat;
   }
   .showSealDemo{
-    width: 200px!important;
-    height: 200px!important;
     overflow-y: scroll;
     overflow-x: hidden;
   }
