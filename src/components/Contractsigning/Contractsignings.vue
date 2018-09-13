@@ -782,6 +782,10 @@
   .el-table th>.cell{
     text-align: center;
   }
+ 
+
+</style>
+<style>
   .outInfo{
     height:320px !important;
     width:400px !important;
@@ -790,9 +794,8 @@
   .showDialogs{
     box-sizing: border-box !important;
     height: 700px !important;
-    // overflow-y: scroll !important;
+     /* overflow-y: scroll !important; */
   }
 </style>
 
 
-</style>

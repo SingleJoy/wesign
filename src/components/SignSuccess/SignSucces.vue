@@ -66,7 +66,7 @@
           </div>
         </div>
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="prompt" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
+      <el-dialog title="合同详情图片" :visible.sync="prompt" custom-class="showDialogs" >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
               <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
@@ -159,3 +159,12 @@ export default {
   }
 }
 </script>
+<style>
+  .showDialogs .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
+</style>

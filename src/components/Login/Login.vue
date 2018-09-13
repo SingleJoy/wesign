@@ -197,26 +197,27 @@ export default {
                                             can.user = res.data.dataList;
                                         }
                                     }).catch(error => {
+                                        
                                     });
                                 }
-                            } else {
-                               sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+                            }else {
+                                sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
                                 this.$router.push("/Role");
                             }
-                          }).catch(error => {
+                    }).catch(error => {
 
-                          });
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: "账户或密码错误",
-                            type: "error"
-                        });
-                    }
-                });
-            }else{
+                  });
+                } else {
+                  this.$message({
+                    showClose: true,
+                    message: "账户或密码错误",
+                    type: "error"
+                  });
+                }
+              });
+          }else{
 
-            }
+          }
         });
 
       },
@@ -269,14 +270,14 @@ export default {
       }
     },
     mounted() {
-        sessionStorage.clear();
-        cookie.remove('tenant');
+      sessionStorage.clear();
+      cookie.remove('tenant');
 
-        document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
-        window.onresize = function temp() {
-            document.documentElement.style.fontSize =
-            document.documentElement.clientWidth / 120 + "px";
-        };
+      document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
+      window.onresize = function temp() {
+        document.documentElement.style.fontSize =
+          document.documentElement.clientWidth / 120 + "px";
+      };
     }
   };
 </script>

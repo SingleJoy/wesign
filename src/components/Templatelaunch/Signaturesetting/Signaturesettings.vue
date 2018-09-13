@@ -672,17 +672,19 @@ export default {
     font-size:12px;
     margin-right:20px;
   }
+
+
+</style>
+<style>
   .tempOut{
     height:320px !important;
     width:400px !important;
     overflow-y: hidden !important;
   }
-
-</style>
-<style>
-  .showTempDialog{
+    .showTempDialog{
     box-sizing: border-box !important;
     height:700px !important;
     overflow-y: scroll !important;
   }
 </style>
+

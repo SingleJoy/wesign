@@ -335,10 +335,11 @@
 
             if (valid) {
 
-              this.once=true;//提交按钮不可重复点击
-              let pass = md5(this.ruleForm.password); //密码MD5加密
+              this.once = true;
+              let pass = md5(this.ruleForm.password);
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
+
               let accountCode = sessionStorage.getItem("subAccountCode");
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
@@ -350,7 +351,6 @@
               }
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
-
               }
               this.$loading.show();
               this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
@@ -379,28 +379,20 @@
                   let num = 3;
                   if(res.data.data){
                     num = num-res.data.data.authNum;
-                    this.$alert("<div style='text-align:center'>"+
-                      +"<p>"+"子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体"+"</p>"
-                      +"<p class='vertifiId-warn warn-first'>"+"实名认证三次未通过该账号将被冻结"+"</p>"
-                      +"<p class='vertifiId-warn'>"+"您还剩余"+num+"次机会"+"</p>"
-                      +"</div>", '警告',{
-                      confirmButtonText: '确定',
-                    });
-                  }else {
-                    num=0;
-                    this.$alert("<div style='text-align:center'>"+
-                      +"<p>"+"子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体"+"</p>"
-                      +"<p class='vertifiId-warn warn-first'>"+"实名认证三次未通过该账号将被冻结"+"</p>"
-                      +"</div>", '警告',{
-                      confirmButtonText: '确定',
-                    });
+                   if(num>0){
+                     this.$alert(<div style="textAlign:center">
+                        <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                        <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                        <p class="vertifiId-warn">您还剩余{num}次机会</p> </div>, '警告',{confirmButtonText: '确定',});
+                       this.once=false;
+                   }else{
+                     this.$alert(<div style="textAlign:center">
+                      <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                      <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                      </div>, '警告',{confirmButtonText: '确定',});}
+                     this.$router.push("/Account");
                   }
 
-
-              if(num==0){
-                this.$router.push("/Account");
-              }
-              this.once=false;
             }else if(res.data.resultCode == 2){
               this.$message({
                 showClose: true,
