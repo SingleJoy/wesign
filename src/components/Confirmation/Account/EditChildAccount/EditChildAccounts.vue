@@ -71,7 +71,7 @@
                     </el-checkbox-group>
 
                   </template>
-                  <div class="no-singleTemplate-list" v-if="(!singleTemplateLength)&&(batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+                  <!--<div class="no-singleTemplate-list" v-if="(!singleTemplateLength)&&(batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>-->
 
                 </div>
 
@@ -86,7 +86,7 @@
 
                   </template>
 
-                  <div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>
+                  <!--<div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>-->
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
