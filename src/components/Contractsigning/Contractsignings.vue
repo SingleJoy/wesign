@@ -775,10 +775,13 @@
   .el-table th>.cell{
     text-align: center;
   }
+
+
+</style>
+<style>
   .outInfo{
     height:320px !important;
     width:400px !important;
     overflow-y: hidden !important;
   }
-
 </style>
