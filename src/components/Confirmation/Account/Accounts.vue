@@ -116,15 +116,22 @@
             </div>
 
 
-            <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
+
+            <!--<div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">-->
+            <div class="create-seal" >
               <!--生成公章-->
+              <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
               <span>录入公章防伪码在线生成</span>
               <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
 
               <el-input type="text" v-model="createSeal"  ></el-input>
               <a href="javascript:void(0);" @click="newSeal">生成公章</a>
             </div>
+            <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showSealDemo" >    <!-- :lock-scroll= false有问题！！！！ -->
 
+              <img src="../../../../static/images/Confirmation/Account/seal-tips.png"  style='width:100%;'>
+
+            </el-dialog>
           </div>
 
         </div>
@@ -476,7 +483,8 @@
         showSecondList:true,  //二级账号列表页面是否显示
         showSeal:true,
         SealList:[],  //合同章图片
-        accountName:''   //账户名称
+        accountName:'',   //账户名称
+        dialogVisible:false,  //默认不显示签章提示图片
 
       }
     },
@@ -489,7 +497,12 @@
         this.$refs[formName].resetFields();
         this.centerDialogVisible = false
       },
+      // 显示生成公章案例
+      showTipsImg(){
 
+        this.dialogVisible=true;
+
+      },
       realName() {
         if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
           sessionStorage.setItem('userCode',JSON.stringify(cookie.getJSON('tenant')[0].userCode));
@@ -904,6 +917,21 @@
   }
  .visibility{
    visibility:hidden;
+  }
+  .create-seal>.tips-img{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 2px;
+    top:2px;
+    cursor: pointer;
+    background: url("../../../../static/images/Confirmation/Account/seal-tips.png")no-repeat;
+  }
+  .showSealDemo{
+    width: 200px!important;
+    height: 200px!important;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
 </style>
