@@ -15,7 +15,7 @@
                 <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
                 <span style="color:#22a7ea" v-else> >合同详情</span>
             </p>
-        
+
             <p id="sign-icon" v-if="accountCode!= operator && accountName">
                 <span class="department">{{accountName}}</span>
                 <!-- <span>张丽华</span> -->
@@ -25,7 +25,7 @@
                 <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
                 <!-- <span  v-if='status=="已截止" && operator == accountCode' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
             </p>
-           
+
         </div>
       <p class='second'  >
         <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
@@ -45,7 +45,7 @@
         </p>
         <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pic-a' style="display:block;margin-left:8px;margin-top:20px;" >
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='contract-info'>
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs'>
         <div v-for="(item,index) in imgList" :key="index" >
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
@@ -103,10 +103,10 @@
         <div style="margin-top: 30px;margin-left: 70px;">
             <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
             <el-steps direction="vertical" :active=0>
-                <el-step :title=item.signUserName+item.logInfo  
-                    :description=item.signTime 
-                    v-for="(item,index) in History" 
-                    :key="index" icon="el-icon-location" 
+                <el-step :title=item.signUserName+item.logInfo
+                    :description=item.signTime
+                    v-for="(item,index) in History"
+                    :key="index" icon="el-icon-location"
                     :class="{'currentStep':index == 0}"
                     style="font-size: 40px;height:100px;">
                 </el-step>
@@ -161,12 +161,10 @@
             font-weight: 500;
             margin-top: 10px;
         }
-        
+
     }
-  #app{
-    overflow: hidden
-  }
-  .contract-info{
+
+  .showDialogs{
     height: 700px;
     overflow-y: scroll;
     overflow-x: hidden;

@@ -36,7 +36,7 @@
         </p>
         <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics'>
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='showDialogs'>
 
             <div v-for="(item,index) in imgList" :key="index" >
                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
@@ -90,10 +90,10 @@
             <div style="margin-top: 30px;margin-left: 70px;">
               <img v-if="History.length>1"  style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
               <el-steps direction="vertical" :active=0>
-                <el-step :title=item.signUserName+item.logInfo  
-                    :description=item.signTime 
-                    v-for="(item,index) in History" 
-                    :key="index" icon="el-icon-location" 
+                <el-step :title=item.signUserName+item.logInfo
+                    :description=item.signTime
+                    v-for="(item,index) in History"
+                    :key="index" icon="el-icon-location"
                     :class="{'currentStep':index == 0}"
                     style="font-size: 40px;height:100px;">
                 </el-step>
@@ -136,7 +136,7 @@
             font-weight: 500;
             margin-top: 10px;
         }
-        
+
     }
     .extension-btn{
         float: right;
@@ -166,7 +166,7 @@
     text-align: center;
   }
 
-  .contract-info{
+  .showDialogs{
     height: 700px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -399,7 +399,7 @@
         }
       }
     },
-  
+
   created() {
     this.signMobile = cookie.getJSON('tenant')[0].mobile
     var contractNo = sessionStorage.getItem('contractNo');

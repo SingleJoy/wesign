@@ -37,7 +37,7 @@
                                     </span>
                                     <span v-else>{{'——'}}</span>
                             <!-- </el-tooltip> -->
-                          
+
 
                         </p>
                         <p class="item-name">
@@ -62,7 +62,7 @@
                     </div>
                     </div>
                 </div>
-                <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='contract-info'>
+                <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='showDialogs'>
                     <div v-for="(itemImg,indexImg) in item.imgs" :key="indexImg" >
                         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+itemImg" alt="" style='width:100%;'>
                     </div>
@@ -186,7 +186,7 @@ export default {
                         this.tableData=[];
                         this.num='';
                         this.textTip="无匹配模板"
-                    } 
+                    }
                 }
             }).catch({
 

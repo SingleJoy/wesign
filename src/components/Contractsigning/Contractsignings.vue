@@ -82,7 +82,7 @@
           </p>
         </h3>
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='contract-info' >   <!-- :lock-scroll= false有问题！！！！ -->
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs' >   <!-- :lock-scroll= false有问题！！！！ -->
         <div v-for="(item,index) in imgList" :key="index">
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
@@ -736,7 +736,7 @@
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";
- 
+
   .upload-demo .el-upload .el-upload--text{
     display: block !important;
     margin-left: 250px !important;
@@ -787,4 +787,10 @@
   }
 
 </style>
-
+<style>
+  .showDialogs{
+    box-sizing: border-box !important;
+    height: 700px !important;
+    overflow-y: scroll !important;
+  }
+</style>

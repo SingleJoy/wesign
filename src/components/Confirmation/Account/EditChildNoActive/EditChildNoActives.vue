@@ -329,7 +329,7 @@
 
       //提交事件
       submitBtn(formName){
-
+        console.log(this.batchTemplate+this.singleTemplate)
         if(this.agree) {
           this.$refs[formName].validate((valid) => {
 
@@ -337,13 +337,13 @@
 
               this.once = true;
               let pass = md5(this.ruleForm.password);
-              let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
-              let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
+              let batchTemplate=this.batchTemplate;  //批量模板
+              let singleTemplate=this.singleTemplate;  //单次发起模板
 
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
-              let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
-              let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
-              let templates = (batchTemplate1 + singleTemplate1).substr(1);
+              // let batchTemplate1 = batchTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
+              // let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
+              let templates = batchTemplate + singleTemplate;
               let accountCode = sessionStorage.getItem("subAccountCode");
               let manageName=sessionStorage.getItem("authName");
               if((this.batchTemplate.length+this.singleTemplate.length)=='1'){

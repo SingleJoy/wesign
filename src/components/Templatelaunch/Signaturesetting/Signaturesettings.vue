@@ -670,9 +670,12 @@ export default {
     width:400px !important;
     overflow-y: hidden !important;
   }
+
+</style>
+<style>
   .showTempDialog{
-    height:320px !important;
-    width:400px !important;
-    overflow-y: hidden !important;
+    box-sizing: border-box !important;
+    height:700px !important;
+    overflow-y: scroll !important;
   }
 </style>

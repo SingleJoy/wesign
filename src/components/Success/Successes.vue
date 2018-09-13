@@ -83,7 +83,7 @@
       <el-button type="primary" style='width:200px' @click="lookDetails">查看详情</el-button>
       <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link>
     </div>
-    <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog">
+    <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index" >
         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
@@ -224,11 +224,14 @@
     vertical-align:sub;
     color:#22a7ea;
   }
-  .showDialog{
+
+</style>
+<style>
+  .showDialogs{
     position: relative !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
-    height: 800px !important;
+    height: 700px !important;
     overflow-y: scroll !important;
   }
 </style>
