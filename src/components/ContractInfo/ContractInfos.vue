@@ -80,8 +80,8 @@
                 width="200"
                 >
                 <template slot-scope="scope">
-                    <el-button  type="primary" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
-                    <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button>
+                    <el-button  type="text" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
                 </template>
               </el-table-column>
             </el-table>
@@ -168,8 +168,15 @@
 
   .showDialogs{
     height: 700px;
+    // overflow-y: scroll;
+    overflow: hidden;
+  }
+  .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
     overflow-y: scroll;
-    overflow-x: hidden;
+    height: 700px;
   }
   .contract_Name{
     width: 300px;
@@ -391,11 +398,16 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-        this.$store.dispatch('tabIndex',{tabIndex:1});
         if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-          this.$router.push("/Home")
+            if(cookie.getJSON('state') == 'A'){
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }else{
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }
+            this.$router.push("/Home")
         }else{
           this.$router.push("/Mycontract")
+        //   this.$store.dispatch('tabIndex',{tabIndex:1});
         }
       }
     },

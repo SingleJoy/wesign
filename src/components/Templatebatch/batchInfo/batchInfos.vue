@@ -131,9 +131,9 @@ export default {
       return 0
     },
     pages:function(){
-    var pag = [];
-     this.showItem = 10;
-      if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
+        var pag = [];
+        this.showItem = 10;
+        if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条
             var i = Math.min(this.showItem,this.allpage);
             while(i){
@@ -149,17 +149,15 @@ export default {
                 pag.push( middle++ );
             }
         }
-      return pag
+        return pag
     }
   },
-   mounted() { 
-    this.$nextTick(() => { 
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        probeType: 3,
-        preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
-      }) 
-    }) 
-  },
+    // mounted() { 
+    //     this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+    //         probeType: 3,
+    //         preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+    //     })
+    // },
   created() {
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
@@ -254,23 +252,23 @@ export default {
       this.clickNav(currentIndex)
     },
     clickNav(index) {
-      let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-      let el = imgList[index - 1]
-      this.rightScroll.scrollToElement(el, 300)
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+        let el = imgList[index - 1]
+        this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        click: true
-      })
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+            probeType: 3,
+        })
 
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        probeType: 3,
-        preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-      })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
 
-      this.rightScroll.on('scroll', (pos) => {
-        this.scrollY = Math.abs(Math.round(pos.y))
-      })
+        this.rightScroll.on('scroll', (pos) => {
+            this.scrollY = Math.abs(Math.round(pos.y))
+        })
     },
     _calculateHeight(){
       let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
@@ -367,9 +365,6 @@ export default {
       }
     }
   },
-  mounted() {
-    prohibit()
-  }
 }
 </script>
 <style scoped>

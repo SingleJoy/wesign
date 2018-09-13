@@ -247,7 +247,7 @@ export default {
                 'pageNo':val,
                 'pageSize':'10',
                 'contractStatus':'0',
-                'accountCode':this.accountCode
+                'accountCode':this.accountLevel==2?this.accountCode:''
             };
             this.getData (requestVo)
         }else{
@@ -276,7 +276,7 @@ export default {
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
       var requestVo ={
-        "accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,
+        "accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),
         "contractName":this.inputVal,
         "queryTimeStart":start,
         "queryTimeEnd":  end,
@@ -374,7 +374,7 @@ export default {
         'pageNo':'1',
         'pageSize':'10',
         'contractStatus':'0',
-        'accountCode':this.accountCode
+        'accountCode':this.accountLevel==2?this.accountCode:''
     };
     this.getData (requestVo)
   

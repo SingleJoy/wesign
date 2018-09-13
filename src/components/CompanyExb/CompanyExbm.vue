@@ -94,7 +94,7 @@
           >
             <template slot-scope="scope">
               <!-- <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && status!="已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button> -->
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button>
+                <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -139,6 +139,13 @@
   .el-table th>.cell{
     text-align: center;
   }
+  .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
   .main .first #sign-icon{
         background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
         height: 60px;
@@ -166,8 +173,8 @@
 
   .showDialogs{
     height: 700px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    // overflow-y: scroll;
+    overflow: hidden;
   }
   .backHome{
     float: right;

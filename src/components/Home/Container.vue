@@ -529,7 +529,7 @@
       //在读取属性[]和.注意！  server.requestType[i]报错  //一级账号不传accountCode
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
       let param={
-        accountCode:accountCode&&accountLevel==2?accountCode:''
+        accountCode:accountCode
       }
       for(var i=0;i< requestType.length;i++){
           let type =  requestType[i];

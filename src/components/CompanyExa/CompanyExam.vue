@@ -100,8 +100,8 @@
                 width="170"
                 >
                 <template slot-scope="scope">
-                    <el-button  type="primary" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
-                    <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button>
+                    <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
                 </template>
               </el-table-column>
             </el-table>
@@ -177,9 +177,16 @@
 
 .showDialogs{
   height: 700px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+//   overflow-y: scroll;
+  overflow: hidden;
 }
+.el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
 .backHome{
   float: right;
   margin-right: 20px;
@@ -386,13 +393,13 @@ export default {
         // console.log(cookie.getJSON('tenant')[1].isBusiness)
         if(cookie.getJSON('tenant')[1].isBusiness != '0'){
             if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'G'){
-            this.$router.push("/Home")
+                this.$router.push("/Home")
             }else if(cookie.getJSON('state') == 'B'){
-            this.$router.push("/Mycontract")
+                this.$router.push("/Mycontract")
             }else if(cookie.getJSON('state') == 'H'){
-            this.$router.push("/Merchant")
+                 this.$router.push("/Merchant")
             }else{
-            this.$router.push("/CompanyContract")
+                this.$router.push("/CompanyContract")
             }
         }
         }

@@ -234,14 +234,14 @@ export default {
           var end =   this.filters.column.create_end_date
           if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
           if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-          var requestVo ={"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.accountCode};
+          var requestVo ={"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
           this.getRecord (requestVo)
         }else{
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.accountCode};
+          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
           this.getRecord (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.accountCode};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
         this.getRecord (requestVo)
       }
     },
@@ -261,7 +261,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
+      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
       this.getRecord (requestVo)
       this.$message({
         showClose: true,
@@ -353,7 +353,7 @@ export default {
     }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'1','accountCode':this.accountCode};
+    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
     this.getRecord (requestVo);
   }
 }

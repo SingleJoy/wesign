@@ -133,8 +133,7 @@ export default {
     this.$nextTick(() => { 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
-        scrollY: true,
-        preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+        preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
       }) 
     }) 
   },

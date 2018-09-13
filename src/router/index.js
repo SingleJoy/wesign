@@ -491,7 +491,7 @@ export const router = new Router({
       name: 'Register',
       component: Register,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -499,7 +499,7 @@ export const router = new Router({
       name: 'Pupload',
       component: Pupload,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -507,7 +507,7 @@ export const router = new Router({
       name: 'ErrorPupload',
       component: ErrorPupload,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -515,7 +515,7 @@ export const router = new Router({
       name: 'Information',
       component: Information,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -523,7 +523,7 @@ export const router = new Router({
       name: 'Authentication',
       component: Authentication,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -531,7 +531,7 @@ export const router = new Router({
       name: 'BuyProduct',
       component: BuyProduct,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {

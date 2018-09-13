@@ -162,6 +162,13 @@
   .el-table--scrollable-x .el-table__body-wrapper{
     overflow: hidden;
   }
+  .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
   .el-step__title.is-process,.el-step__description.is-process{
     color:#22a7ea
   }
@@ -178,8 +185,8 @@
 
   .showDialogs{
     height: 700px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    // overflow-y: scroll;
+    overflow: hidden;
   }
   .backHome{
     float: right;

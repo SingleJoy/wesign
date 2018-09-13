@@ -195,7 +195,7 @@
                     <el-button type="primary" style='width:254px;height:44px;margin-left: 15px;' icon="el-icon-plus" @click="show" v-if="add == false">
                       添加经办人
                     </el-button>
-                    <el-button type="danger" style='width:254px;height:44px;margin-left: 15px;' icon="el-icon-delete" v-else>
+                    <el-button type="danger" style='width:254px;height:44px;margin-left: 15px;' icon="el-icon-delete" @click="show" v-else>
                       取消经办人
                     </el-button>
                   </div>

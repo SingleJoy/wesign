@@ -116,7 +116,8 @@
     methods: {
       lookDetails () { //查看详情
         this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
-        this.$router.push('/ContractInfo')
+        this.$router.push('/ContractInfo');
+        this.$store.dispatch('tabIndex',{tabIndex:1});
       },
       seeContractImg (){
         this.$loading.show(); //显示
