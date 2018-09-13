@@ -164,6 +164,13 @@ export default {
                                 }
                                 if(accountStatus==2){
                                     this.$router.push('/ActivateChildAccount');
+                                }else if(accountStatus==6){
+                                    this.$message({
+                                        showClose: true,
+                                        duration: 1000,
+                                        message: "此账号已被冻结",
+                                        type: "warning"
+                                    });
                                 }else{
                                     server.login(param,urlParam).then(res => {
                                         if (res.data.dataList[1].isBusiness == "0") {

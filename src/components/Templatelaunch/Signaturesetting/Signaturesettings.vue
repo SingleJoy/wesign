@@ -198,12 +198,15 @@ export default {
           callback(new Error('此手机号已添加'))
         } else if (value == cookie.getJSON('tenant')[0].mobile ){
           callback(new Error('手机号不能与发起方手机号相同'))
-        } else {
+        } else if(value == this.primaryMobile){
+            callback(new Error('手机号不能与一级账号手机号相同'))
+        }else {
           callback()
         }
       }
       return {
         baseURL:this.baseURL.BASE_URL,
+        primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',  //一级账号手机号
         value8: '',
         checked: true,
         isNext:false,
@@ -376,7 +379,11 @@ export default {
             this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
               confirmButtonText: '确定'
             })
-        } else {
+        } else if(row.mobile == this.primaryMobile){
+            this.$alert('手机号不能与一级账号手机号相同!','修改签署人', {
+              confirmButtonText: '确定'
+            })
+        }else {
           row.edit = false
           this.operate = true
           this.editSigner = true

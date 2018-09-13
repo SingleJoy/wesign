@@ -212,9 +212,15 @@ export default {
       }
     },
     methods: {
-      choice(){
-        this.popup =!this.popup
-      },
+        choice(){
+            if(cookie.getJSON('tenant')[1].createContractRole== 1){
+                this.$alert('您暂无发起权限','提示', {
+                    confirmButtonText: '确定'
+                })  
+            }else{
+                this.popup =!this.popup               
+            }
+        },
       urlloadUrl(){
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },

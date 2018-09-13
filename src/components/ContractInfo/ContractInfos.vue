@@ -80,7 +80,7 @@
                 width="200"
                 >
                 <template slot-scope="scope">
-                    <el-button  type="text" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+                    <el-button  type="text" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile &&scope.row.userCode!=interfaceCode &&scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
                     <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
                 </template>
               </el-table-column>

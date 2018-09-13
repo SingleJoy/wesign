@@ -324,8 +324,13 @@
             up.click();
         },
         choice() {
-            // if()
-            this.popupContainer = !this.popupContainer;
+            if(cookie.getJSON('tenant')[1].createContractRole== 1){
+                 this.$alert('您暂无上传发起权限','提示', {
+                    confirmButtonText: '确定'
+                })  
+            }else{
+                this.popupContainer = !this.popupContainer;               
+            }
         },
         shut() {
             this.popupContainer = !this.popupContainer;

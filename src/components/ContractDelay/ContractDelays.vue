@@ -42,7 +42,7 @@
               </el-date-picker>
               </span>
               <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
-              <el-button type="primary" plain size='medium' @click="dateModified">保存</el-button>
+              <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified">保存</el-button>
             </p>
             <div style="text-align:left;">
               <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics1'>
@@ -140,6 +140,7 @@ export default {
       contractName:'',
       validTimes:new Date(),
       status:'',
+      hasClick:false,
       createType:'',
       dialogTableVisible: false,
       imgList:[],
@@ -290,19 +291,20 @@ export default {
         })
         return
       } else {
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/updateContractTime',{'validTime':this.validTimes,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        if( res.data.resultCode == 0){
-          this.$message({
-            showClose: true,
-            message: res.data.resultMessage,
-            type: 'success'
-          });
-          this.seeContractSign()
-        }
-        }
+            this.hasClick = true;
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/updateContractTime',{'validTime':this.validTimes,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            if( res.data.resultCode == 0){
+            this.$message({
+                showClose: true,
+                message: res.data.resultMessage,
+                type: 'success'
+            });
+            this.seeContractSign()
+            }
+            }
         })
       }
     },

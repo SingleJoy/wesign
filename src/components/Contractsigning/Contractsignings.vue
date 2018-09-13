@@ -206,6 +206,8 @@
           callback(new Error('此手机号已添加'))
         } else if (value == cookie.getJSON('tenant')[0].mobile){
           callback(new Error('手机号不能与发起方手机号相同'))
+        }else if(this.primaryMobile == value){
+            callback(new Error('手机号不能与一级账号手机号相同'))
         } else {
           callback()
         }
@@ -223,6 +225,7 @@
         isNext:false,//下一步按钮
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
+        primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',
         ruleForm: {
           signUserName: '',
           idCard: '',
@@ -436,6 +439,10 @@
           })
         } else if (row.mobile == cookie.getJSON('tenant')[0].mobile){
           this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
+            confirmButtonText: '确定'
+          })
+        }else if(row.mobile == this.primaryMobile){
+             this.$alert('手机号不能与一级账号手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
         }else {

@@ -57,7 +57,7 @@
           </el-date-picker>
 
           <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
-          <el-button type="primary" plain size='medium' @click="dateModified" style="margin-left: 10px;">确认</el-button>
+          <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified" style="margin-left: 10px;">确认</el-button>
           <strong style="font-weight: normal;margin-left: 15px;">业务场景：</strong><span>{{businessScenario}}</span>
 
         </p>
@@ -218,6 +218,7 @@
             History:[],
             businessScenario:'',
             rowNumber:'',
+            hasClick:false,
             pickerOptions0: {
             disabledDate(time) {
                 return time.getTime() < Date.now() - 8.64e7;
@@ -358,6 +359,7 @@
             })
             return  false
           } else {
+              this.hasClick = true;
             this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.rowNumber+'/updateContractTime',{'validTime':this.validTime,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')

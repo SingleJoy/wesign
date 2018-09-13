@@ -477,7 +477,16 @@ import cookie from '@/common/js/getTenant'
 							color:#333;
 							cursor: pointer;
 							
-						}
+                        }
+                         .item-right-none{
+                            float: right;
+                            line-height: 172px;
+                            width: 138px;
+                            height: 172px;
+                            background: #ffffff;
+                            border-radius: 5px;
+                            border-top-left-radius: 0;
+                        }
 						.item-right:hover{
 							color:#22a7ea;
 						}
