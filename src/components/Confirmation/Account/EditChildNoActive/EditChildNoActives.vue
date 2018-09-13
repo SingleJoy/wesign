@@ -345,7 +345,7 @@
               // let singleTemplate1 = singleTemplate.replace("[", ",").replace("]", "").replace(/\"/g, "");
               let templates = batchTemplate + singleTemplate;
               let accountCode = sessionStorage.getItem("subAccountCode");
-              let manageName=sessionStorage.getItem("authName");
+              let manageName=sessionStorage.getItem("authName")
               if((this.batchTemplate.length+this.singleTemplate.length)=='1'){
                 templates=templates.replace(",", "");
               }
