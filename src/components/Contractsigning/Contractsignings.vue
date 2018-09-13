@@ -207,7 +207,7 @@
         } else if (value == cookie.getJSON('tenant')[0].mobile){
           callback(new Error('手机号不能与发起方手机号相同'))
         }else if(this.primaryMobile == value){
-            callback(new Error('手机号不能与一级账号手机号相同'))
+            callback(new Error('手机号不能与一级账号的手机号相同'))
         } else {
           callback()
         }
