@@ -664,9 +664,9 @@
 
 </style>
 <style>
-  /* .contract-info{
+  .contract-info{
     box-sizing: border-box !important;
     height:700px !important;
     overflow-y: scroll !important;
-  } */
+  }
 </style>

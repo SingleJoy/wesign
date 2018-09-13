@@ -609,7 +609,7 @@ export default {
   @import "../../../common/styles/SigningSteps.css";
 </style>
 
-<style>
+<style lang="scss">
   .first #batchText{
     -webkit-appearance: none;
     background-color: #fff;
@@ -633,11 +633,18 @@ export default {
     width:400px !important;
     overflow-y: hidden !important;
   }
-/* .showBatchDialog{
+.showBatchDialog{
     position: relative !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
-    height: 800px !important;
-    overflow-y: scroll !important;
-} */
+    // height: 800px !important;
+    // overflow-y: scroll !important;
+}
+.showBatchDialog .el-dialog__body{
+        padding: 30px 20px;
+        color: #606266;
+        font-size: 14px;
+        overflow-y: scroll;
+        height: 700px;
+    }
 </style>

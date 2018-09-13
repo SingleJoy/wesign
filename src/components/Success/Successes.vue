@@ -228,11 +228,11 @@
 
 </style>
 <style>
-  /* .showDialogs{
+  .showDialogs{
     position: relative !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
     height: 700px !important;
-    overflow-y: scroll !important;
-  } */
+    /* overflow-y: scroll !important; */
+  }
 </style>

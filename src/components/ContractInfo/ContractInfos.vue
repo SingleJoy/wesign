@@ -157,7 +157,7 @@
     color:#22a7ea;
   }
   .el-step__title.is-process,.el-step__description.is-process{
-    color:#22a7ea
+    color:#22a7ea!important
   }
   #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
     font-size: 16px;
@@ -171,7 +171,7 @@
     // overflow-y: scroll;
     overflow: hidden;
   }
-  .el-dialog__body{
+  .showDialogs .el-dialog__body{
     padding: 30px 20px;
     color: #606266;
     font-size: 14px;

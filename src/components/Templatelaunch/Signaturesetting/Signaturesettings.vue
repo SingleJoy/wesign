@@ -673,9 +673,9 @@ export default {
 
 </style>
 <style>
-  /* .showTempDialog{
+  .showTempDialog{
     box-sizing: border-box !important;
     height:700px !important;
     overflow-y: scroll !important;
-  } */
+  }
 </style>

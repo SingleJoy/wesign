@@ -462,67 +462,67 @@
         };
     },
     created() {
-      var data = [];
-      var flag = "";
-      var isCreater = "";
-      let accountCode = this.accountCode;
-      let accountLevel = sessionStorage.getItem('accountLevel');
-      let authorizerCode = sessionStorage.getItem('authorizerCode');
-      let interfaceCode = this.interfaceCode;
-      var requestVo = {
-        pageNo: "1",
-        pageSize: "7",
-        contractStatus: "0" ,
-        accountCode:accountLevel==2?accountCode:'',
-        accountLevel:accountLevel,
+        var data = [];
+        var flag = "";
+        var isCreater = "";
+        let accountCode = this.accountCode;
+        let accountLevel = sessionStorage.getItem('accountLevel');
+        let authorizerCode = sessionStorage.getItem('authorizerCode');
+        let interfaceCode = this.interfaceCode;
+        var requestVo = {
+            pageNo: "1",
+            pageSize: "7",
+            contractStatus: "0" ,
+            accountCode:accountLevel==2?accountCode:'',
+            accountLevel:accountLevel,
 
-      };
-
-      server.contractLists(requestVo,interfaceCode).then(res=>{
-         if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
-            for (let i = 0; i < res.data.content.length; i++) {
-                if (res.data.content[i].creater == interfaceCode) {
-                    flag = true;
-                } else {
-                    flag = false;
+        };
+        this.$store.dispatch('tabIndex',{tabIndex:0});
+        server.contractLists(requestVo,interfaceCode).then(res=>{
+            if (res.data.sessionStatus == "0") {
+                this.$router.push("/Server");
+            } else {
+                for (let i = 0; i < res.data.content.length; i++) {
+                    if (res.data.content[i].creater == interfaceCode) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                    res.data.content[i].flag = flag;
+                    var obj = {};
+                    obj.contractName = res.data.content[i].contractName;
+                    obj.contractNum = res.data.content[i].contractNum;
+                    obj.createTime = res.data.content[i].createTime;
+                    obj.signers = res.data.content[i].signers;
+                    obj.contractStatus = res.data.content[i].contractStatus;
+                    obj.validTime = res.data.content[i].validTime;
+                    obj.contractType = res.data.content[i].contractType;
+                    obj.flag = res.data.content[i].flag;
+                    obj.operator = res.data.content[i].operator
+                    obj.operation = "";
+                    switch (obj.contractStatus) {
+                        case "1":
+                            obj.contractStatus = "待我签署";
+                            obj.operation = 1;
+                            break;
+                        case "2":
+                            obj.contractStatus = "待他人签署";
+                            obj.operation = 2;
+                            break;
+                        case "3":
+                            obj.contractStatus = "已生效";
+                            obj.operation = 3;
+                            break;
+                        default:
+                            obj.contractStatus = "已截止";
+                            obj.operation = 4;
+                    }
+                    data[i] = obj;
                 }
-                res.data.content[i].flag = flag;
-                var obj = {};
-                obj.contractName = res.data.content[i].contractName;
-                obj.contractNum = res.data.content[i].contractNum;
-                obj.createTime = res.data.content[i].createTime;
-                obj.signers = res.data.content[i].signers;
-                obj.contractStatus = res.data.content[i].contractStatus;
-                obj.validTime = res.data.content[i].validTime;
-                obj.contractType = res.data.content[i].contractType;
-                obj.flag = res.data.content[i].flag;
-                obj.operator = res.data.content[i].operator
-                obj.operation = "";
-                switch (obj.contractStatus) {
-                    case "1":
-                        obj.contractStatus = "待我签署";
-                        obj.operation = 1;
-                        break;
-                    case "2":
-                        obj.contractStatus = "待他人签署";
-                        obj.operation = 2;
-                        break;
-                    case "3":
-                        obj.contractStatus = "已生效";
-                        obj.operation = 3;
-                        break;
-                    default:
-                        obj.contractStatus = "已截止";
-                        obj.operation = 4;
-                }
-                data[i] = obj;
+                // console.log(data[1],typeof sessionStorage.getItem('accountCode'))
+                this.tableData = data;
+                this.loading = false;
             }
-            // console.log(data[1],typeof sessionStorage.getItem('accountCode'))
-            this.tableData = data;
-            this.loading = false;
-        }
       })
 
       //合同概括请求

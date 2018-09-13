@@ -180,7 +180,7 @@
 //   overflow-y: scroll;
   overflow: hidden;
 }
-.el-dialog__body{
+ .showDialogs .el-dialog__body{
     padding: 30px 20px;
     color: #606266;
     font-size: 14px;

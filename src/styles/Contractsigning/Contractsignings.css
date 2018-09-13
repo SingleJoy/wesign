@@ -164,8 +164,3 @@
     right: 0;
     top: -25px;
 }
-.showDialogs{
-    height: 700px!important;
-    overflow-y: scroll!important;
-    overflow-x: hidden!important;
-  }

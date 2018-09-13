@@ -32,8 +32,8 @@
                             <span class="initiator item-default">绑定账号：</span>
                             <!-- <el-tooltip class="item" effect="dark" content="Top Center 提示文字" placement="top"> -->
                                     <span v-if="item.bindAccounts.length>0" v-for="(acountItem,accountIndex) in item.bindAccounts" :key="accountIndex">
-                                    <span class="initiator" v-if="accountIndex<item.bindAccounts.length-1">{{acountItem+"、"}}</span>
-                                    <span class="initiator" v-else>{{acountItem}}</span>
+                                        <span class="initiator" v-if="accountIndex<item.bindAccounts.length-1">{{acountItem+"、"}}</span>
+                                        <span class="initiator" v-else>{{acountItem}}</span>
                                     </span>
                                     <span v-else>{{'——'}}</span>
                             <!-- </el-tooltip> -->

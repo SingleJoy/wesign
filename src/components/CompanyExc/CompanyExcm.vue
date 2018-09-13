@@ -130,7 +130,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
   .back-home{
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
@@ -162,7 +162,7 @@
   .el-table--scrollable-x .el-table__body-wrapper{
     overflow: hidden;
   }
-  .el-dialog__body{
+  .showDialogs .el-dialog__body{
     padding: 30px 20px;
     color: #606266;
     font-size: 14px;

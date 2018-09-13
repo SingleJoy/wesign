@@ -139,7 +139,7 @@
   .el-table th>.cell{
     text-align: center;
   }
-  .el-dialog__body{
+  .showDialogs .el-dialog__body{
     padding: 30px 20px;
     color: #606266;
     font-size: 14px;
