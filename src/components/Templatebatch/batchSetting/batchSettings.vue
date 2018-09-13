@@ -188,7 +188,7 @@ export default {
         }else if(value == cookie.getJSON('tenant')[0].mobile){
           callback(new Error('手机号不能与发起方手机号相同'))
         }else if(value == this.primaryMobile){
-          callback(new Error('手机号不能与一级账号手机号相同'))
+          callback(new Error('手机号不能与一级账号的手机号相同'))
         }else {
           callback()
         }
@@ -364,7 +364,7 @@ export default {
             confirmButtonText: '确定'
           })
         } else if(this.primaryMobile = row.mobile){
-            this.$alert('手机号不能与一级账号手机号相同!','修改签署人', {
+            this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
                 confirmButtonText: '确定'
             })
         }else if( this.$store.state.templateGenre == 'fillidcardreference' && row.idCard == ''){
@@ -641,14 +641,14 @@ export default {
     width:400px !important;
     overflow-y: hidden !important;
   }
-.showBatchDialog{
+.showDialogs{
     position: relative !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
     // height: 800px !important;
     // overflow-y: scroll !important;
 }
-.showBatchDialog .el-dialog__body{
+.showDialogs .el-dialog__body{
         padding: 30px 20px;
         color: #606266;
         font-size: 14px;

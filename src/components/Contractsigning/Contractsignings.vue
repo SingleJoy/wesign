@@ -442,7 +442,7 @@
             confirmButtonText: '确定'
           })
         }else if(row.mobile == this.primaryMobile){
-             this.$alert('手机号不能与一级账号手机号相同!','修改签署人', {
+             this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
         }else {

@@ -157,6 +157,7 @@ export default {
             probeType: 3,
             preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
+        
     },
   created() {
     var templateName = sessionStorage.getItem('templateName');
@@ -257,14 +258,22 @@ export default {
         this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-        // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-        //     probeType: 3,
-        // })
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+        })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
-            // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
+        
+        // console.log(this.rightScroll)
+        // this.rightScroll.hasVerticalScroll =true;
+        // console.log(this.allpage)
+        // if(this.allpage<10){
+        //     this.rightScroll.wrapperHeight = 824;
+        // }
 
         this.rightScroll.on('scroll', (pos) => {
             this.scrollY = Math.abs(Math.round(pos.y))

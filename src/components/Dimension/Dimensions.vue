@@ -266,7 +266,7 @@ export default {
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
       })
-
+        console.log(this.rightScroll)
       this.rightScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
       })
