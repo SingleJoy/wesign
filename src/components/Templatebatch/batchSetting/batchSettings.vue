@@ -407,7 +407,8 @@ export default {
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
-                this.$router.push('/Home')
+                 this.$router.push('/Home')
+                 this.$store.dispatch('tabIndex',{tabIndex:0});
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;
                 }, 50);
@@ -423,26 +424,26 @@ export default {
         var batchText = document.getElementById('batchText').value
         if(batchText == ''){
           if(batchText == ''){
-            this.$alert('您还没有填写合同名称!','签署', {
+            this.$alert('您还没有填写合同名称!','提示', {
               confirmButtonText: '确定'
             });
             return false
           }
         }
         if(this.checked == false && this.value8 == ''){
-            this.$alert('您还没有选择签署时间!','签署时间', {
+            this.$alert('您还没有选择签署时间!','提示', {
               confirmButtonText: '确定'
             });
             return false
           }
         if(this.operate == false){
-            this.$alert('您还没有完成添加签署人操作!','添加签署人', {
+            this.$alert('您还没有完成添加签署人操作!','提示', {
               confirmButtonText: '确定'
             });
             return false
           }
         if( this.tableDate3 == ''){
-          this.$alert('您还没有添加人员!','添加签署人', {
+          this.$alert('您还没有添加人员!','提示', {
             confirmButtonText: '确定'
           });
         } else {
@@ -523,7 +524,7 @@ export default {
               sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
               this.$router.push('/batchInfo')
             } else {
-              this.$alert('您还没有选择签署时间!','签署时间', {
+              this.$alert('您还没有选择签署时间!','提示', {
               confirmButtonText: '确定'
               })
               this.load = false
@@ -536,7 +537,7 @@ export default {
       addSigner(){
 
         if(this.editSigner == false){
-          this.$alert('您还没有完成添加签署人操作','添加签署人',{
+          this.$alert('您还没有完成添加签署人操作','提示',{
             confirmButtonText: '确定'
           })
           return false

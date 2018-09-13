@@ -465,7 +465,6 @@
         var data = [];
         var flag = "";
         var isCreater = "";
-        let accountCode = this.accountCode;
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
@@ -473,7 +472,7 @@
             pageNo: "1",
             pageSize: "7",
             contractStatus: "0" ,
-            accountCode:accountLevel==2?accountCode:'',
+            accountCode:accountLevel==2?this.accountCode:'',
             accountLevel:accountLevel,
 
         };
@@ -526,10 +525,10 @@
       })
 
       //合同概括请求
-      //在读取属性[]和.注意！  server.requestType[i]报错  //一级账号不传accountCode
+      //在读取属性[]和.注意！  server.requestType[i]报错  
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
       let param={
-        accountCode:accountCode
+            accountCode:this.accountCode
       }
       for(var i=0;i< requestType.length;i++){
           let type =  requestType[i];

@@ -30,10 +30,10 @@
       <!-- 合同所有信息开始 -->
       <div class='contractInfo'>
 
-      </div>
-      <div class='btns'>
-          <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link>
-      </div>
+        </div>
+        <div class='btns'>
+            <el-button @click="goHome" type="primary" style='width:200px'>返回首页</el-button>
+        </div>
     </div>
   </div>
 </template>
@@ -46,9 +46,17 @@
 <script>
 import {prohibit} from '@/common/js/prohibitBrowser'
 export default {
-  mounted() {
-    prohibit()
-    sessionStorage.removeItem("type");
-  }
+    mounted() {
+        prohibit()
+        sessionStorage.removeItem("type");
+    },
+    methods:{
+        goHome(){
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+                this.$router.push('/Home')
+
+        }
+    }
+
 }
 </script>

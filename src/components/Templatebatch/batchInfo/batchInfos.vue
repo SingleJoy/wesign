@@ -152,12 +152,12 @@ export default {
         return pag
     }
   },
-    // mounted() { 
-    //     this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-    //         probeType: 3,
-    //         preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-    //     })
-    // },
+    mounted() { 
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
+    },
   created() {
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
@@ -195,21 +195,21 @@ export default {
     let urlFill = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/batchSign/'+this.$store.state.contractNo1+'/userInfo';
 
     this.$http.get(url,{params:{"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) { //获取批量模板图片信息
-    if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
+        if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
         } else {
-      this.allpage = res.data.list.length
-      this.$nextTick(() => {
-        this._initScroll()
-        this._calculateHeight()
-      })
-      for (let i = 0; i < res.data.list.length;i++) {
-      let templateUrl = res.data.list[i]
-      data[i] = templateUrl
-      this.$loading.hide(); //隐藏
-      }
-      this.imgList = data
+            this.allpage = res.data.list.length
+            for (let i = 0; i < res.data.list.length;i++) {
+                let templateUrl = res.data.list[i]
+                data[i] = templateUrl
+                this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
         }
+        this.$nextTick(() => {
+            this._initScroll()
+            this._calculateHeight()
+        })
     })
 
     this.$http.get(urls,{params:{"contractTempNo":this.$store.state.contractNo1}}).then(function (res) { //获取批量模板jsonVal list信息
@@ -257,13 +257,13 @@ export default {
         this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-            probeType: 3,
-        })
+        // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+        //     probeType: 3,
+        // })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
         })
 
         this.rightScroll.on('scroll', (pos) => {
