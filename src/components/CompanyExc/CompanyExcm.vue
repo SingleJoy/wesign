@@ -218,7 +218,7 @@
             History:[],
             businessScenario:'',
             rowNumber:'',
-            hasClick:false,
+            hasClick:true,
             pickerOptions0: {
             disabledDate(time) {
                 return time.getTime() < Date.now() - 8.64e7;
@@ -337,7 +337,8 @@
         }
       },
       dateInput () {
-        this.checked3 = false
+        this.hasClick = false;
+        this.checked3 = false;
       },
       checkedBox () {
         if(this.checked3 == true){

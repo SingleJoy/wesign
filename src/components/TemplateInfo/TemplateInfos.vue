@@ -8,7 +8,9 @@
         <p></p>
         <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
         <p></p>
-        <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li>
+        <li class="active"><i class='el-icon-edit'></i><b>指定位置</b></li>
+        <!-- <p></p>
+        <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li> -->
         <p></p>
         <li class="active"><i class='el-icon-check'></i><b>完成</b></li>
       </ul>
@@ -34,7 +36,7 @@
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
               <div slot="content">{{this.$store.state.contractName1}}</div>
-              <span id='textInfo'>{{this.$store.state.contractName1}}</span>
+              <span id='templateTextInfo'>{{this.$store.state.contractName1}}</span>
             </el-tooltip>
             <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
             </p></li>
@@ -168,7 +170,7 @@ export default {
         }
     })
 
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1).then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
       this.contractlink = res.bodyText
     })
   },
@@ -182,7 +184,7 @@ export default {
 <style scoped>
   @import "../../styles/TemplateInfo/TemplateInfos.css";
   @import "../../common/styles/SigningSteps.css";
-  #textInfo{
+  #templateTextInfo{
     display: inline-block;
     width: 150px;
     overflow: hidden !important;

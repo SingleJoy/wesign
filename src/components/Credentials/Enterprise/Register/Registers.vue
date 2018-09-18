@@ -147,6 +147,7 @@
   import {validateMoblie,validatePassWord} from '../../../../common/js/validate.js'
   import {GetQueryString} from '@/common/js/InterceptUrl'
   import {prohibit} from '@/common/js/prohibitBrowser'
+  import md5 from 'js-md5'
   export default {
     name: 'Register',
     data() {

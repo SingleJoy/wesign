@@ -47,7 +47,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
           <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
-            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" style='width:100%;'>
+            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id="imgSign"  style='width:100%;width: 639px;'>
           </li>
          </ul>
         </div>
@@ -75,7 +75,7 @@
               </div>
             </div>
             <div v-else>
-              <div class="input_title" >({{index+1}}){{item}}</div>
+              <div class="input_title">({{index+1}}){{item}}</div>
               <div class="input_box">
                 <el-input placeholder="" clearable></el-input>
               </div>
@@ -192,7 +192,7 @@ export default {
     var data =[];
     this.templateName = this.$store.state.templateName
     let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags';
-    let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/templateJsonList';
+    let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/templateVal';
     let urlFill = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/batchSign/'+this.$store.state.contractNo1+'/userInfo';
 
     this.$http.get(url,{params:{"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) { //获取批量模板图片信息
@@ -259,16 +259,15 @@ export default {
     },
     _initScroll(){
         this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-            probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
+          click: true
         })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
         
-        // console.log(this.rightScroll)
+        console.log(this.rightScroll)
         // this.rightScroll.hasVerticalScroll =true;
         // console.log(this.allpage)
         // if(this.allpage<10){
@@ -307,6 +306,7 @@ export default {
             instance.confirmButtonText = '执行中...';
             setTimeout(() => {
               done();
+              this.$store.dispatch('tabIndex',{tabIndex:0});
               this.$router.push('/Home')
               setTimeout(() => {
                 instance.confirmButtonLoading = false;

@@ -140,7 +140,7 @@ export default {
       contractName:'',
       validTimes:new Date(),
       status:'',
-      hasClick:false,
+      hasClick:true,
       createType:'',
       dialogTableVisible: false,
       imgList:[],
@@ -197,6 +197,7 @@ export default {
       download.click()
     },
     dateInput () {
+        this.hasClick = false;
       this.checked3 = false
     },
     checkedBox () {
