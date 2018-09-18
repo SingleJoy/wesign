@@ -115,7 +115,7 @@
 #app{
   overflow: hidden
 }
-.showDialogs{
+.showDialogs .el-dialog__body{
   height: 700px;
   overflow-y: scroll;
   overflow-x: hidden;
