@@ -73,6 +73,8 @@ import Procontract from '../components/Procontract/Procontract.vue'             
 import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
+
+import CompanyCertification from '../components/CompanyCertification/Register.vue'
 Vue.use(Router)
 
 export const router = new Router({
@@ -84,6 +86,14 @@ export const router = new Router({
       meta: {
         auth: false
       }
+    },
+    {
+        path:'/',
+        name:'CompanyCertification',
+        component:CompanyCertification,
+        meta:{
+            auth:false
+        }
     },
     {
         path:'/',
