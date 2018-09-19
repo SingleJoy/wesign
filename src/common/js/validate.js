@@ -89,7 +89,7 @@ export function validateVerbal(str){
  *  @param {*} str
  */
 export function validateDecimal(str){
-    const reg = /^0[1-9]$|^[1-9][0-9]?$|^00?\.(?:0[1-9]|[1-9][0-9]?)$|^(?:0[1-9]|[1-9][0-9]?)\.[0-9]$/
+    const reg = /^(?!0\.(?!0{2})\d{2}).+$/
     return reg.test(str)
 }
 
@@ -105,6 +105,13 @@ export function validateSmsCode(str){
   const reg = /^1\d{7}$/;
   return reg.test(str)
 }
+
+//校验银行账户最多为30位数字
+export function validateBankAccountNumber(str){
+  const reg = /^d{1,30}$/;
+  return reg.test(str)
+}
+
 
 
 export  function Trim(str){
