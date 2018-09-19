@@ -74,7 +74,7 @@ import CompanyContract from '../components/CompanyContract/CompanyContract.vue' 
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 
-import CompanyCertification from '../components/CompanyCertification/Register.vue'
+import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
 Vue.use(Router)
 
 export const router = new Router({
@@ -89,8 +89,8 @@ export const router = new Router({
     },
     {
         path:'/',
-        name:'CompanyCertification',
-        component:CompanyCertification,
+        name:'EnterpriseCertificate',
+        component:EnterpriseCertificate,
         meta:{
             auth:false
         }
