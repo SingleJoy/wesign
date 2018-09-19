@@ -226,7 +226,7 @@ export default {
 <style>
   .showDialogs{
     height: 700px;
-  // overflow-y: scroll;
+  /* // overflow-y: scroll; */
     overflow: hidden;
   }
 </style>
