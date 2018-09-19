@@ -44,6 +44,8 @@ import TemplateInfo from '../components/TemplateInfo/TemplateInfo.vue' //平台�
 import Company from '../components/Company/Company.vue'                                           //b2b 首页
 import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
 import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
+import EnterprisePayment from '../components/EnterpriseCertificate/EnterprisePayment/EnterprisePayment.vue'                              //企业打款
+import EnterpriseRegisterSucc from '../components/EnterpriseCertificate/EnterpriseRegisterSucc/EnterpriseRegisterSucc.vue'                              //企业打款
 import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
 import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
 
@@ -73,7 +75,12 @@ import Procontract from '../components/Procontract/Procontract.vue'             
 import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
+
 import UserRegister from '../components/UserRegister/IndividualRegister.vue'
+
+
+import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
+
 Vue.use(Router)
 
 export const router = new Router({
@@ -93,6 +100,14 @@ export const router = new Router({
       meta: {
         auth: false
       }
+    },
+    {
+        path:'/',
+        name:'EnterpriseCertificate',
+        component:EnterpriseCertificate,
+        meta:{
+            auth:false
+        }
     },
     {
         path:'/',
@@ -368,6 +383,18 @@ export const router = new Router({
         auth: true
       }
     },
+    {
+      path: '/EnterprisePayment',
+      name: 'EnterprisePayment',
+      component: EnterprisePayment,
+    },
+
+    {
+      path: '/EnterpriseRegisterSucc',
+      name: 'EnterpriseRegisterSucc',
+      component: EnterpriseRegisterSucc,
+    },
+
     {
       path: '/WaitReply',
       name: 'WaitReply',
