@@ -46,11 +46,12 @@
       <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
           <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
-             <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:100%;'> -->
-             <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis" alt="" id='imgSign' style='width:100%;height:844px;'>
           </li>
           <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
-          <div id='signCanvas' style='display:none;'><img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px"></div>
+          <div id='signCanvas' style='display:none;'>
+            <img :src="[canvasTest]"  id="signCanvasImg" style="height:63px;width:125px">
+          </div>
         </ul>
       </div>
       <!-- 合同内容结束 -->
@@ -82,6 +83,7 @@ export default {
   name: 'Dimensions',
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       current: 0,
       showItem:0,
       allpage: 0,
@@ -147,7 +149,7 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
     if (contractNo) {
       // console.log(this.$store.state.contractNo1)
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         // console.log('session是不是空')
         this.$store.state.contractNo1 = contractNo
@@ -204,7 +206,7 @@ export default {
       that.pollingPanel(this.timer)
     }, 3000)
 
-
+    
     this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+ contractNo +'/user/'+ cookie.getJSON('tenant')[0].userCode + '/signerpositions').then(function (res) {
       if(res.data.sessionStatus == '0'){
         this.$router.push('/Server')
@@ -231,7 +233,7 @@ export default {
       this.recapture = false
       var userCode = cookie.getJSON('tenant')[0].userCode
       var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
       var that = this
       this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg',{params:{'temp':'0'}}).then(function (res) {
         if( res.data == '1'){
@@ -276,7 +278,7 @@ export default {
         probeType: 3,
         preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
       })
-
+        console.log(this.rightScroll)
       this.rightScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
       })
@@ -410,7 +412,7 @@ export default {
     submitContract () { //确认签署
      this.$loading.show(); //显示
      var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
      var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
      var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
      var signH = parseInt(document.getElementById('signImg').style.height)//签章高度
@@ -444,8 +446,7 @@ export default {
           })
           this.$loading.hide(); //隐藏
           this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-          // sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractNo',contractNo)
           this.$router.push('/SignSuccess')
        }
       }
@@ -454,7 +455,7 @@ export default {
     pollingPanel(timer) { //轮询手写面板
       var userCode = cookie.getJSON('tenant')[0].userCode
       var contractNo = sessionStorage.getItem('contractNo')
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg').then(function (res) {
       this.canvasTest =  res.bodyText
       if(res.bodyText != '') {

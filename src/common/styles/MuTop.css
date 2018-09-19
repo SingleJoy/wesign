@@ -23,7 +23,7 @@
 }
 .nav ul li{
     float: left;
-    padding: 0 22px 0 22px; 
+    padding: 0 20px 0 20px;
 }
 #ul li:hover{
    border-bottom: 3px solid red;
@@ -37,7 +37,7 @@
 }
 .nav .btns li{
     float: left;
-    width: 90px;
+    width: 110px;
     height: 60px;
 }
 .nav .btns li:nth-child(1){
@@ -94,7 +94,8 @@
 }
 .nav .btns li:nth-child(4) a{
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
+    margin-left:4px;
 }
 
 #dloa{

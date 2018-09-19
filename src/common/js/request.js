@@ -10,22 +10,22 @@ axios.defaults.timeout = 1000;  //请求等待时间限制    初始化
 axios.defaults.baseURL ='';      //请求地址           初始化
 
 //http request 拦截器
-// axios.interceptors.request.use(
-//   config => {
-//     const token = cookie.getJSON('tenant'); //注意使用的时候需要引入cookie方法，推荐js-cookie
-//     config.data = JSON.stringify(config.data);
-//     config.headers = {
-//       'Content-Type':'application/x-www-form-urlencoded'
-//     }
-//     if(token){
-//       config.params = {'token':token}
-//     }
-//     return config;
-//   },
-//   error => {
-//     return Promise.reject(err);
-//   }
-// )
+axios.interceptors.request.use(
+  config => {
+    const token = cookie.getJSON('tenant');                     //注意使用的时候需要引入cookie方法，推荐js-cookie
+    config.data = JSON.stringify(config.data);
+    config.headers = {
+      'Content-Type':'application/x-www-form-urlencoded'
+    }
+    if(token){
+      config.params = {'token':token}
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(err);
+  }
+)
 
 //http response 拦截器
 axios.interceptors.response.use(
@@ -33,7 +33,7 @@ axios.interceptors.response.use(
     if(response.data.sessionStatus =='0'){
       router.push({
         path:"/Server",
-        querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
+        querry:{redirect:router.currentRoute.fullPath}                  //从哪个页面跳转
       })
     }
     return response;
@@ -42,12 +42,12 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-// axios.interceptors.request.use(config=> {
-//   config.data = JSON.stringify(config.data);
-// }, err=> {
-//   Message.error({message: '请求超时!'});
-//   return Promise.resolve(err);
-// })
+axios.interceptors.request.use(config=> {
+  config.data = JSON.stringify(config.data);
+}, err=> {
+  Message.error({message: '请求超时!'});
+  return Promise.resolve(err);
+})
 /**
  * 封装get方法
  * @param url

@@ -140,13 +140,23 @@
 }
 /* 渲染合同样式 */
 .sign_center{
-  width: 656px;
-  height: 820px;
+  /* width: 656px;
+  height: 822px;
   border: 1px solid #ccc;
   float: left;
-  overflow-y: scroll;
+  overflow: hidden;
   margin-top: 40px;
-  margin-left: 25px;
+  margin-left: 25px; */
+
+  width: 595px;
+  height: 824px;
+  border: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  overflow: hidden;
+  margin-top: 40px;
+  margin-left: 40px;
 }
 /*得到合同图片，并渲染到页面*/
 

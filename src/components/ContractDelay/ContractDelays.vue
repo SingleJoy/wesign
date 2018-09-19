@@ -42,16 +42,15 @@
               </el-date-picker>
               </span>
               <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
-              <el-button type="primary" plain size='medium' @click="dateModified">保存</el-button>
+              <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified">保存</el-button>
             </p>
             <div style="text-align:left;">
               <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics1'>
             </div>
           </div>
-          <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='contract-info'>
+          <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs'>
             <div v-for="(item,index) in imgList" :key="index" >
-               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
           </el-dialog>
           <div class='table'>
@@ -116,7 +115,7 @@
 #app{
   overflow: hidden
 }
-.contract-info{
+.showDialogs .el-dialog__body{
   height: 700px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -135,11 +134,13 @@ export default {
   name: 'ContractInfos',
   data() {
     return {
+      baseURL:this.baseURL.BASE_URL,
       tableData2: [],
       contractNo:'',
       contractName:'',
       validTimes:new Date(),
       status:'',
+      hasClick:true,
       createType:'',
       dialogTableVisible: false,
       imgList:[],
@@ -189,13 +190,14 @@ export default {
       this.dialogTableVisible = true
     },
     downloadClick () {
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.$store.state.rowNumber;
+      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+this.contractNo;
       var download = document.createElement('a');
       document.body.appendChild(download)
       download.setAttribute('href',url);
       download.click()
     },
     dateInput () {
+        this.hasClick = false;
       this.checked3 = false
     },
     checkedBox () {
@@ -205,7 +207,7 @@ export default {
     },
     seeContractSign(){
       var data =[];
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.rowNumber;
+      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.contractNo+'/getContractDetails'
       this.$http.get(url).then(function (res) {
         if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
@@ -290,19 +292,20 @@ export default {
         })
         return
       } else {
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/updateContractTime',{'validTime':this.validTimes,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        if( res.data.resultCode == 0){
-          this.$message({
-            showClose: true,
-            message: res.data.resultMessage,
-            type: 'success'
-          });
-          this.seeContractSign()
-        }
-        }
+            this.hasClick = true;
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/updateContractTime',{'validTime':this.validTimes,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            if( res.data.resultCode == 0){
+            this.$message({
+                showClose: true,
+                message: res.data.resultMessage,
+                type: 'success'
+            });
+            this.seeContractSign()
+            }
+            }
         })
       }
     },
@@ -324,11 +327,13 @@ export default {
     this.signMobile = cookie.getJSON('tenant')[0].mobile;
     // console.log(cookie.getJSON('tenant'),this.signMobile)
     var contractNo = sessionStorage.getItem('contractNo')
-    if (contractNo) {
-      contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.rowNumber == ''){
-        this.$store.state.rowNumber = contractNo
-      }
+    if(contractNo){
+        // contractNo = JSON.parse(contractNo);
+        this.contractNo = contractNo
+        if ( this.$store.state.rowNumber == ''){
+            this.$store.state.rowNumber = contractNo;
+            this.contractNo = contractNo
+        }
     }
     this.seeContractSign()
   }

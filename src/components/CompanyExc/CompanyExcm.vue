@@ -1,12 +1,31 @@
 <template>
   <div class='CompanyExbm'>
     <div class='main'>
-      <p class='first' style="display: inherit;">
+      <!-- <p class='first' style="display: inherit;">
         <span>我的合同</span>
         <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
         <span v-else style="padding-right: 75%;">>合同详情</span>
-          <a class="backHome back-home" href="javascript:void(0);"  @click="backHome" >返回</a>
-      </p>
+            <a class="backHome back-home" href="javascript:void(0);"  @click="backHome" >返回</a>
+            <span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+      </p> -->
+      <div class='first' style="display: inherit;">
+            <p style="line-height: 60px;float: left;">
+                <span>我的合同</span>
+                <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+                <span style="color:#22a7ea" v-else> >合同详情</span>
+            </p>
+
+            <p id="sign-icon" v-if="accountCode!= operator && accountName">
+                <span class="department">{{accountName}}</span>
+                <!-- <span>张丽华</span> -->
+            </p>
+
+            <p>
+                <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+                <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
+            </p>
+
+        </div>
       <p class='second'>
         <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
         <span class='text'>
@@ -38,19 +57,18 @@
           </el-date-picker>
 
           <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
-          <el-button type="primary" plain size='medium' @click="dateModified" style="margin-left: 10px;">确认</el-button>
+          <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified" style="margin-left: 10px;">确认</el-button>
           <strong style="font-weight: normal;margin-left: 15px;">业务场景：</strong><span>{{businessScenario}}</span>
 
         </p>
         <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pic-a' style="display:block;margin-left:8px;margin-top:20px;" >
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='contract-info'>
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='showDialogs'>
         <div v-for="(item,index) in imgList" :key="index" >
-          <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
-      <div class='table' style="width: 1200px;">
+      <div class='table' style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
           style="width: 100%;text-align:center"
@@ -95,21 +113,65 @@
           </el-table-column>
         </el-table>
       </div>
-      <!--<img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >-->
-      <!--<div style="height: 560px;margin-top: 30px;margin-left: 70px;" >-->
-        <!--<el-steps direction="vertical" :active=History.length>-->
-          <!--<el-step :title=item.signUserName+item.logInfo  :description=item.signTime v-for="(item,index) in History" :key="index" icon="el-icon-location" style="font-size: 40px;"></el-step>-->
-        <!--</el-steps>-->
-      <!--</div>-->
+        <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
+        <div style="margin-top: 30px;margin-left: 70px;">
+            <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+            <el-steps direction="vertical" :active=0>
+            <el-step :title=item.signUserName+item.logInfo
+                :description=item.signTime
+                v-for="(item,index) in History"
+                :key="index" icon="el-icon-location"
+                :class="{'currentStep':index == 0}"
+                style="font-size: 40px;height:100px;">
+            </el-step>
+            </el-steps>
+
+        </div>
     </div>
   </div>
 </template>
-<style>
+<style lang="scss" scoped>
   .back-home{
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
+  .main .first #sign-icon{
+        background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+        height: 60px;
+        position: absolute;
+        text-align: center;
+        display: inline-block;
+        margin-left: 20px;
+        background-size: cover;
+        line-height: 44px;
+        padding-left: 35px;
+        padding-right: 15px;
+        span{
+            color:#fff;
+            font-size: 12px;
+            padding-left: 0;
+        }
+        .department{
+            font-size: 14px;
+            display: block;
+            font-weight: 500;
+            margin-top: 10px;
+        }
 
+    }
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden;
+  }
+  .showDialogs .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
+  .el-step__title.is-process,.el-step__description.is-process{
+    color:#22a7ea
+  }
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -120,13 +182,11 @@
   .el-table th>.cell{
     text-align: center;
   }
-  #app{
-    overflow: hidden
-  }
-  .contract-info{
+
+  .showDialogs{
     height: 700px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    // overflow-y: scroll;
+    overflow: hidden;
   }
   .backHome{
     float: right;
@@ -138,30 +198,38 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import { Switch } from 'element-ui';
-  import cookie from '@/common/js/getTenant'
+  import cookie from '@/common/js/getTenant';
+  import server from '@/api/url';
   export default {
     name: 'CompanyExcm',
     data() {
-      return {
-        tableData2: [],
-        contractNo:'',
-        contractName:'',
-        validTime:'',
-        status:'',
-        createType:'',
-        dialogTableVisible: false,
-        imgList:[],
-        signMobile:'',
-        History:[],
-        businessScenario:'',
-        rowNumber:'',
-        pickerOptions0: {
-          disabledDate(time) {
-            return time.getTime() < Date.now() - 8.64e7;
-          }
-        },
-        checked3:false,
-      };
+        return {
+            baseURL:this.baseURL.BASE_URL,
+            tableData2: [],
+            contractNo:'',
+            contractName:'',
+            validTime:'',
+            status:'',
+            accountLevel:'',
+            createType:'',
+            dialogTableVisible: false,
+            imgList:[],
+            signMobile:'',
+            History:[],
+            businessScenario:'',
+            rowNumber:'',
+            hasClick:true,
+            pickerOptions0: {
+            disabledDate(time) {
+                return time.getTime() < Date.now() - 8.64e7;
+            }
+            },
+            checked3:false,
+            interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+            accountName:'',
+            accountCode :sessionStorage.getItem('accountCode'),
+            operator:''
+        };
     },
     methods: {
       seeContractImg (){
@@ -202,6 +270,7 @@
             var contractNoZq = res.data.data.contractNoZq
             this.contractName = res.data.data.contractName
             var type = res.data.data.contractType
+            this.operator = res.data.data.operator
             switch (type) {
               case '1':
                 this.createType = '模板发起'
@@ -255,8 +324,21 @@
           return ''
         }
       },
+      extensionClick(){
+        if (this.contractType == "0") {
+          sessionStorage.setItem("contractNo", this.contractNo);
+          cookie.set("state", "E");
+          this.$router.push("/CompanyExc");
+        } else {
+          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+          sessionStorage.setItem("contractNo", this.contractNo);
+          cookie.set("state", "D");
+          this.$router.push("/ContractDelay");
+        }
+      },
       dateInput () {
-        this.checked3 = false
+        this.hasClick = false;
+        this.checked3 = false;
       },
       checkedBox () {
         if(this.checked3 == true){
@@ -278,6 +360,7 @@
             })
             return  false
           } else {
+              this.hasClick = true;
             this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.rowNumber+'/updateContractTime',{'validTime':this.validTime,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
@@ -305,13 +388,29 @@
       }
     },
     created() {
-      this.signMobile = cookie.getJSON('tenant')[0].mobile
-      var contractNo = sessionStorage.getItem('contractNo')
-      if (contractNo) {
-        contractNo = JSON.parse(contractNo)
-        this.rowNumber = contractNo
-      }
-      this.seeContractDetails ()
+        this.signMobile = cookie.getJSON('tenant')[0].mobile
+        var contractNo = sessionStorage.getItem('contractNo');
+        var accountLevel = sessionStorage.getItem('accountLevel');
+        var accountCode = sessionStorage.getItem('accountCode');
+        var detailAccountCode = sessionStorage.getItem('detailAccountCode');
+        if (contractNo) {
+            // contractNo = JSON.parse(contractNo)
+            this.rowNumber = contractNo
+        }
+        this.seeContractDetails ()
+        //判断是不是二级账户如果是不请求顶部显示部门姓名
+        if(accountLevel != 2){
+            let param={
+                accountCode:detailAccountCode
+            }
+            server.getAccountName(param,this.interfaceCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    this.accountName = res.data.data
+                }
+            }).catch({
+
+            })
+        }
     }
   }
 </script>

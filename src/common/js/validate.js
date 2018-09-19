@@ -93,6 +93,20 @@ export function validateDecimal(str){
     return reg.test(str)
 }
 
+// 校验公章防伪码必须是13位数字
+export function validateSeal(str){
+  const reg = /\b\d{13}\b/;
+  return reg.test(str)
+}
+
+
+// 校验手机验证码必须是6位数字
+export function validateSmsCode(str){
+  const reg = /^1\d{7}$/;
+  return reg.test(str)
+}
+
+
 export  function Trim(str){
   return str.replace(/(^\s*)|(\s*$)/g, "");
 }

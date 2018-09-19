@@ -46,8 +46,7 @@
       <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
           <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
-             <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:100%;'> -->
-             <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis]" alt="" id='imgSign' style='width:100%;height:844px;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis" alt="" id='imgSign' style='width:100%;height:844px;'>
           </li>
           <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
         </ul>
@@ -71,6 +70,7 @@ export default {
   name: 'Contents',
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       current: 0,
       showItem:0,
       allpage: 0,
@@ -90,68 +90,67 @@ export default {
   },
   computed:{
     currentIndex() {
-      for (let i = 0; i < this.imgHeight.length; i++) {
-        /*当前本身的高度*/
-        let height1 = this.imgHeight[i]
-        /*下一个的高度*/
-        let height2 = this.imgHeight[i + 1]
-        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-          return i
+        for (let i = 0; i < this.imgHeight.length; i++) {
+            /*当前本身的高度*/
+            let height1 = this.imgHeight[i]
+            /*下一个的高度*/
+            let height2 = this.imgHeight[i + 1]
+            if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            return i
+            }
         }
-      }
-      return 0
+        return 0
     },
     pages:function(){
-    this.showItem = 10;
-    var pag = [];
-      if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
-            //总页数和要显示的条数那个大就显示多少条
-            var i = Math.min(this.showItem,this.allpage);
-            while(i){
-                pag.unshift(i--);
+        this.showItem = 10;
+        var pag = [];
+        // console.log(this.currentIndex)
+        if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
+                //总页数和要显示的条数那个大就显示多少条
+                var i = Math.min(this.showItem,this.allpage);
+                while(i){
+                    pag.unshift(i--);
+                }
+            }else{ //当前页数大于显示页数了
+                //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
+                var middle = this.currentIndex + 1
+                i = this.showItem;
+                if( middle >  (this.allpage - this.showItem)  ){
+                    middle = (this.allpage - this.showItem) + 1
+                }
+                while(i--){
+                    pag.push( middle++ );
+                }
             }
-        }else{ //当前页数大于显示页数了
-            //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-            var middle = this.currentIndex + 1
-              i = this.showItem;
-            if( middle >  (this.allpage - this.showItem)  ){
-                middle = (this.allpage - this.showItem) + 1
-            }
-            while(i--){
-                pag.push( middle++ );
-            }
-        }
-      return pag
+        return pag
     }
   },
   created() {
+
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
-
     if (contractName) {
-      contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
+        //  contractName = JSON.parse(contractName)
+    //   if ( this.$store.state.contractName1 == ''){
+    //     this.$store.state.contractName1 = contractName
+    //   }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
+    //   contractNo = JSON.parse(contractNo)
+    //   if ( this.$store.state.contractNo1 == ''){
+    //     this.$store.state.contractNo1 = contractNo
+    //   }
     }
-    // console.log(contractNo,"图片")
     this.$loading.show(); //显示
     var data =[]
-    //  console.log(this.$store.state.contractNo1)
     let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+contractNo+'/contractimgs'
     let urlPic = process.env.API_HOST+'v1/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signature'
     this.$http.get(url).then(function (res) {
       if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
-      /*获取后台数据，并使用imgArray*/
 
+      /*获取后台数据，并使用imgArray*/
       for(var i=0;i<res.data.length;i++){
         var contractUrl = res.data[i].contractUrl
         data[i] = contractUrl
@@ -181,35 +180,31 @@ export default {
   },
   methods:{
     goto (currentIndex){
-      this.clickNav(currentIndex)
+        this.clickNav(currentIndex)
     },
     goto2 (currentIndex){
       currentIndex++
       this.clickNav(currentIndex)
     },
     clickNav(index) {
-      let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-      let el = imgList[index - 1]
-      this.rightScroll.scrollToElement(el, 300)
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+        let el = imgList[index - 1]
+        this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-      //   click: true
-      // })
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+            click: true
+        })
 
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        mouseWheel: {
-					speed: 1200,
-					invert: false,
-					easeTime: 300
-				},
-				preventDefault:false,
-        probeType: 3,
-      })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            scrollY:true,
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
 
-      this.rightScroll.on('scroll', (pos) => {
-        this.scrollY = Math.abs(Math.round(pos.y))
-      })
+        this.rightScroll.on('scroll', (pos) => {
+            this.scrollY = Math.abs(Math.round(pos.y))
+        })
     },
     _calculateHeight(){
       let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
@@ -252,11 +247,7 @@ export default {
     gainPosition () { //点击签署
       var contractNo = sessionStorage.getItem('contractNo');
       if (contractNo) {
-          contractNo = JSON.parse(contractNo)
-          // if ( this.$store.state.contractNo1 == ''){
-          //   this.$store.state.contractNo1 = contractNo
-          // }
-          console.log(contractNo, "坐标")
+        //   contractNo = JSON.parse(contractNo)
       }
       this.contSignImg = true
       if (this.flag == true){
@@ -340,7 +331,7 @@ export default {
     submitContract () { //确认签署
      this.$loading.show(); //显示
      var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo);
+        //   contractNo = JSON.parse(contractNo);
      var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
      var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
      var base64Img = this.contractSignImg.split(",")[1]
@@ -369,9 +360,15 @@ export default {
           })
           this.$loading.hide(); //隐藏
           this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-          sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractName',this.$store.state.contractName1)
+          sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Complete')
+       }else{
+           this.$message({
+            showClose: true,
+            message: res.data.responseMsg,
+            type: 'warning'
+          })
        }
       }
      })

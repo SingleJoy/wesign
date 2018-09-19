@@ -8,8 +8,8 @@
         <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
         <router-link to='/Procontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
         <router-link to='/BuyProduct' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
+        <router-link v-if="accountLevel!=2" to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
+        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-size:16px;'>版本</li>
       </ul>
       <ol class='btns'>
         <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>
@@ -19,7 +19,20 @@
         </li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
         <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;"><router-link to='/Account'  @click.native="tabActive(5)"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">我的账户</a></router-link></li>
+
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
+
+          <router-link to='/Account'  @click.native="tabActive(5)">
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
+          <router-link to='/NoReal'  @click.native="tabActive(5)">
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
       </ol>
       <div id='update'>
       </div>
@@ -42,6 +55,9 @@
 @import "../styles/MuTop.css";
 </style>
 <style>
+.MuTop .nav a{
+    font-size:16px;
+}
   #dilog{
     width:100%;
     height: 100%;
@@ -56,7 +72,7 @@
   .box{
     width:360px;
     height: 430px;
-    background:url('../../../static/images/Top/version-info.gif');
+    background:url('../../../static/images/Top/version-info1.5.gif');
 
     position: absolute;
     left:0;
@@ -102,7 +118,7 @@
   }
   .dlstyle{
     width:400px  !important;
-    height: 380px !important;
+    height: 360px !important;
     overflow: hidden !important;
   }
   .dilog{
@@ -141,7 +157,8 @@
       background:#fff;
       margin-left:30px;
       margin-top:50px;
-      background:url('../../../static/images/Login/b2c.png');
+
+     background:url('../../../static/images/Top/version-info1.5.gif');
       background-size:100% 100%;
    }
   .active-tab{
@@ -158,15 +175,32 @@ export default {
   name: 'MuTop',
       data() {
       return {
+         baseURL:this.baseURL.BASE_URL,
         tabIndex:'',
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        accountLevel:sessionStorage.getItem("accountLevel"),
+
+        oneAccount:sessionStorage.getItem("auditStatus"),
+        Jurisdiction:true,
+
+
       }
     },
     created(){
       this.tabIndex = this.$store.state.tabIndex;
+      this.auditStatus=sessionStorage.getItem("auditStatus");
+
+      var Status = cookie.getJSON('tenant')[1].isBusiness
+      if(Status == '0'){
+        this.Jurisdiction = false
+      }else {
+        this.Jurisdiction = true
+      }
+
+
     },
     methods: {
       tabActive(value){
@@ -178,12 +212,10 @@ export default {
         this.$router.push('/BuyProduct')
       },
       urlloadUrl(){
-        // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl(){
-        // return `${this.baseURL.BASE_URL}/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name, file, fileList) {
         var max_size = 5;// 5M
@@ -246,8 +278,8 @@ export default {
         var index1=contractName.lastIndexOf(".");
         var suffix=contractName.slice(0,index1);
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
         this.$router.push('/Contractsigning')
         }
       },
@@ -264,8 +296,8 @@ export default {
           var index1=contractName.lastIndexOf(".");
           var suffix=contractName.slice(0,index1);
           this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-          sessionStorage.setItem('contractName', JSON.stringify(suffix))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractName', suffix)
+          sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Signature')
         }
       },

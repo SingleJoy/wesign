@@ -41,9 +41,20 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
+      //在导入.scss文件时  这里在scss文件引入背景图片的路径时需注意
       {
         test: /\.s[a|c]ss$/,
         loader: 'style!css!sass'
+      },
+      {
+        test: /\.styl$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+        },{
+          loader: "stylus-loader"
+        }]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

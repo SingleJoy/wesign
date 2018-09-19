@@ -8,19 +8,25 @@
         <router-link to='/Home' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
         <router-link to='/Mycontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
         <router-link to='/Multiparty' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link to='/Room' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer'>版本</li>
+        <router-link v-if="accountLevel!=2" to='/Room' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
+        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-size:16px;'>版本</li>
       </ul>
       <ol class='btns'>
-        <li><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
+        <li :class="{'left-num':accountLevel==2}"><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:30px;">
+         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
            <router-link  @click.native="tabActive(5)" to='/Account'>
              <img src="../../../static/images/setup.png" alt="">
              <a href="javascript:void(0);">我的账户</a>
            </router-link>
          </li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
+          <router-link  @click.native="tabActive(5)" to='/NoReal'>
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
       </ol>
 
       <div id='update'>
@@ -78,9 +84,11 @@
       </div>
   </div>
 </template>
-<style lang="scss" scoped>
+<style lang="css" scoped>
 @import "../styles/Top.css";
-
+.Top .nav a{
+    font-size: 16px;
+}
 .el-tabs__item.is-active{
   color:#fff
 }
@@ -95,6 +103,9 @@
 }
 .el-tabs__nav-wrap::after{
   height:0
+}
+.left-num{
+    margin-left: 80px;
 }
 .dialogbg{
   background:#000;
@@ -124,7 +135,8 @@
   .box{
     width:360px;
     height: 430px;
-    background:url('../../../static/images/Top/version-info.gif');
+
+    background:url('../../../static/images/Top/version-info1.5.gif');
     position: absolute;
     left:0;
     top:0;
@@ -169,18 +181,13 @@
   }
   .dlstyle{
     width:400px  !important;
-    height: 380px !important;
+    height: 360px !important;
     overflow: hidden !important;
   }
   .active-tab{
     border-bottom: 3px solid red;
     font-weight: 700;
   }
-  //默认会给当前路由加上此类名
-  // .router-link-exact-active li{
-  //   border-bottom: 3px solid red;
-  //   font-weight: 700;
-  // }
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
@@ -188,25 +195,37 @@ export default {
   name: 'Top',
       data() {
       return {
+        baseURL:this.baseURL.BASE_URL,
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-        tabIndex:''
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
+        accountLevel:sessionStorage.getItem("accountLevel"),
+        tabIndex:'',
+        auditStatus:"" ,  //企业实名情况 2表示实名通过大B号  其他数字表示实名未通过 小B号
+        oneAccount:sessionStorage.getItem("auditStatus"),
+        Jurisdiction:true,
+        showAccount:true,
+
       }
     },
     methods: {
-      choice(){
-        this.popup =!this.popup
-      },
+        choice(){
+            if(cookie.getJSON('tenant')[1].createContractRole== 1){
+                this.$alert('您暂无发起权限','提示', {
+                    confirmButtonText: '确定'
+                })  
+            }else{
+                this.popup =!this.popup               
+            }
+        },
       urlloadUrl(){
-        // return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
       uploadUrl(){
-        // return `${this.baseURL.BASE_URL}/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
       handleChange (name) {
         this.$loading.show();
@@ -268,8 +287,8 @@ export default {
         var index1=contractName.lastIndexOf(".");
         var suffix=contractName.slice(0,index1);
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
         this.$router.push('/Contractsigning')
         }
       },
@@ -287,8 +306,8 @@ export default {
           var index1=contractName.lastIndexOf(".");
           var suffix=contractName.slice(0,index1);
           this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-          sessionStorage.setItem('contractName', JSON.stringify(suffix))
-          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          sessionStorage.setItem('contractName', suffix)
+          sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Signature')
         }
       },
@@ -360,8 +379,25 @@ export default {
       },
     },
     created(){
-      // console.log(this.$store.state.tabIndex)
+
       this.tabIndex = this.$store.state.tabIndex;
+      // this.auditStatus=sessionStorage.getItem("auditStatus");
+      // console.log(this.auditStatus);
+      // if(this.auditStatus=='2'){
+      //   this.oneAccount=true;
+      // }else {
+      //   this.oneAccount=false;
+      // }
+      var Status = cookie.getJSON('tenant')[1].isBusiness;
+      // console.log("Status"+Status)
+      if(Status == '0'){
+        this.Jurisdiction = false
+
+      }else {
+        this.Jurisdiction = true
+      }
+
+
     },
 
 

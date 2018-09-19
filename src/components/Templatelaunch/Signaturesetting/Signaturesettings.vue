@@ -34,8 +34,8 @@
           </h2>
           <h3 class='proper'>
             <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='inputText' :maxlength= 50 >
-            <a class='select' @click="seeTemplate">查看</a>
-            <a class='replace' @click="changeTemlplate" style="cursor: pointer;">更换</a>
+            <a class='select' @click="seeTemplate" style="padding-left:0">查看</a>
+            <!--<a class='replace' @click="changeTemlplate" style="cursor: pointer;">更换</a>-->
             <!-- <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p> -->
             <p class='second'><span>签署截止日期：</span>
               <el-date-picker
@@ -151,10 +151,9 @@
             </el-table-column>
           </el-table>
         </div>
-        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showTempDialog" >
+        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs" >
             <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
-               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt=""  style='width: 100%;height:844px;'>
             </div>
         </el-dialog>
     </div>
@@ -199,11 +198,15 @@ export default {
           callback(new Error('此手机号已添加'))
         } else if (value == cookie.getJSON('tenant')[0].mobile ){
           callback(new Error('手机号不能与发起方手机号相同'))
-        } else {
+        } else if(value == this.primaryMobile){
+            callback(new Error('手机号不能与一级账号的手机号相同'))
+        }else {
           callback()
         }
       }
       return {
+        baseURL:this.baseURL.BASE_URL,
+        primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',  //一级账号手机号
         value8: '',
         checked: true,
         isNext:false,
@@ -241,7 +244,8 @@ export default {
             return time.getTime() < Date.now();
           }
         },
-        templateName:JSON.parse(sessionStorage.getItem('templateName'))
+        templateName:sessionStorage.getItem('templateName')
+        // templateName:JSON.parse(sessionStorage.getItem('templateName')),
       }
     },
     methods: {
@@ -299,8 +303,8 @@ export default {
       changeContName (){
         var inputText = document.getElementById('inputText').value
         this.$store.dispatch('template',{templateName:inputText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', JSON.stringify(inputText))
-        sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
+        sessionStorage.setItem('templateName', inputText)
+        sessionStorage.setItem('templateNo', this.$store.state.templateNo)
       },
       seeTemplate () {
         var data =[];
@@ -375,7 +379,11 @@ export default {
             this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
               confirmButtonText: '确定'
             })
-        } else {
+        } else if(row.mobile == this.primaryMobile){
+            this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
+              confirmButtonText: '确定'
+            })
+        }else {
           row.edit = false
           this.operate = true
           this.editSigner = true
@@ -430,7 +438,7 @@ export default {
         })
       },
       nextStepBtn () { //下一步
-        var inputText = document.getElementById('inputText').value;
+        var inputText = this.templateName;
         if(TrimAll(inputText) == ''){
            this.$alert('合同名称不能为空!','签署', {
             confirmButtonText: '确定'
@@ -544,28 +552,23 @@ export default {
                 "emails":emails
               }
             }
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1,contractVo,{emulateJSON:true}).then(function (res) {
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+sessionStorage.getItem('contractNo')+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
               } else {
-              if ( res.data.resultCode === 0) {
-                //   this.$message({
-                //     showClose: true,
-                //     message: res.data.resultMessage,
-                //     type: 'success'
-                // })
-                this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
-                this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-                this.$store.dispatch('needSign',{needSign:needSign})
-                sessionStorage.setItem('templateName', JSON.stringify(TrimAll(this.templateName)))
-                sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-                sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-                sessionStorage.setItem('needSign',JSON.stringify(needSign))
-                if(needSign == 1){
-                  this.$router.push('/Specifiedposition')
-                } else {
-                  this.$router.push('/TemplatePos')
-                }
+              if (res.data.resultCode == 0) {
+                    this.$store.dispatch('template',{templateName:TrimAll(this.templateName),templateNo:this.$store.state.templateNo})
+                    this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
+                    this.$store.dispatch('needSign',{needSign:needSign})
+                    sessionStorage.setItem('templateName',TrimAll(this.templateName))
+                    sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+                    sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                    sessionStorage.setItem('needSign',needSign)
+                    if(needSign == 1){
+                    this.$router.push('/Specifiedposition')
+                    } else {
+                    this.$router.push('/TemplatePos')
+                    }
 
               } else {
                 this.$alert('您还没有选择签署时间!','签署时间', {
@@ -586,25 +589,25 @@ export default {
       var contractNo = sessionStorage.getItem('contractNo')
       var type = sessionStorage.getItem('type')
       if (templateName) {
-        templateName = JSON.parse(templateName)
+
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = templateName
         }
       }
       if (templateNo) {
-        templateNo = JSON.parse(templateNo)
+        // templateNo = JSON.parse(templateNo)
         if ( this.$store.state.templateNo == ''){
           this.$store.state.templateNo = templateNo
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
       }
       if (type) {
-        type = JSON.parse(type)
+        // type = JSON.parse(type)
         if ( this.$store.state.type == ''){
           this.$store.state.type = type
         }
@@ -669,14 +672,19 @@ export default {
     font-size:12px;
     margin-right:20px;
   }
+
+
+</style>
+<style>
   .tempOut{
     height:320px !important;
     width:400px !important;
     overflow-y: hidden !important;
   }
-  .showTempDialog{
-    height:320px !important;
-    width:400px !important;
-    overflow-y: hidden !important;
+    .showTempDialog{
+    box-sizing: border-box !important;
+    height:700px !important;
+    overflow-y: scroll !important;
   }
 </style>
+

@@ -214,7 +214,7 @@
   line-height: 30px;
 }
 
-.TemplatePoses>.signing> #textInfo{
+.TemplatePoses>.signing> #textInfoTip{
   clear:both;
   color:red;
   padding-top: 30px;

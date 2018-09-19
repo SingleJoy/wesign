@@ -46,8 +46,7 @@
           </div>
           <div class='twoProuct'>
             <p style="margin-top:37px;">
-              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+this.signBadgePath]" alt="" style="width:170px;"> -->
-               <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+this.signBadgePath]" alt="" style='width:170px'>
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+this.signBadgePath" alt="" style='width:170%;'>
             </p>
           </div>
           <div style='clear:both;text-align:center;'>
@@ -63,6 +62,7 @@
     name: 'Completion',
     data(){
       return{
+        baseURL:this.baseURL.BASE_URL,
         certificateNo:'',
         userName:'',
         certificateDueTime:'',
@@ -76,7 +76,7 @@
     created() {
       //显示个人证书信息、企业签章信息
       var interfaceCode = sessionStorage.getItem('interfaceCode')
-      interfaceCode = JSON.parse(interfaceCode)
+    //   interfaceCode = JSON.parse(interfaceCode)
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/authSuccess').then(response =>{
 
       if (response.data.resultCode == '1') {

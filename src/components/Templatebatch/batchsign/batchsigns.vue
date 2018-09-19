@@ -37,8 +37,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id="contractImg">
             <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
-
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" id='imgSign' style='width: 639px;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id='imgSign' style='width: 593px;'>
             </li>
           </ul>
         </div>
@@ -60,6 +59,7 @@
     name: 'Contractsigns',
     data () {
       return {
+        baseURL:this.baseURL.BASE_URL,
         //初始化左侧页码，并使第一个高亮
         current:0,
         // 左侧页码显示的个数
@@ -117,13 +117,13 @@
       var contractName = sessionStorage.getItem('templateName')
       var contractNo = sessionStorage.getItem('contractNo')
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.templateName == ''){
           this.$store.state.templateName = contractName
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
@@ -267,8 +267,8 @@
                 })
                 this.$loading.hide(); //隐藏
                 this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-                sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.templateName))
-                sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+                sessionStorage.setItem('contractName', this.$store.state.templateName)
+                sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
                 this.$router.push('/Templatecomplete')
               }
             }

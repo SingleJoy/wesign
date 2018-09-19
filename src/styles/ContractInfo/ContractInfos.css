@@ -1,11 +1,11 @@
 .ContractInfos .main{
     width: 1200px;
-    height: 800px;
+    /* height: 800px; */
     margin: 5px auto;
     background: #fff;
 }
 .main .first{
-    line-height: 60px;
+    height: 60px;
     padding-left: 28px;
     border-bottom: 1px solid #ccc;
 }
@@ -14,10 +14,10 @@
     font-weight: bold;
     color: #666;
 }
-.main .first span:nth-child(2){
+/* .main .first span:nth-child(2){
     color: #22a7ea;
     padding-left: 5px;
-}
+} */
 .main .second{
     line-height: 58px;
     border-bottom: 1px solid #ccc;
@@ -74,3 +74,7 @@
     padding-top: 20px;
     padding-left: 15px;
 }
+.el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden!important;
+}
+

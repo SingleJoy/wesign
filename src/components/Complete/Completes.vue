@@ -35,12 +35,12 @@
     <!-- 合同所有信息开始 -->
     <div class="contractInfo">
         <div class="oneInfo">
-            <p><h3 class='infoss'>合同信息</h3></p>
+        <h3 class='infoss'>合同信息</h3>
           <ul id="oneInfos">
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
               <div slot="content">{{getContractName}}</div>
-              <span id='textInfo'>{{getContractName}}</span>
+              <span id='nameInfo'>{{getContractName}}</span>
             </el-tooltip>
             <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
             </p></li>
@@ -83,8 +83,7 @@
     </div>
     <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index" >
-        <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'> -->
-        <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'>
+        <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -99,6 +98,7 @@ import clipboard from '@/common/directive/clipboard/index.js' // use clipboard b
 export default {
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       signUser:[],
       validTime:'',
       dialogTableVisible:false,
@@ -110,13 +110,13 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-      var contractNo = JSON.parse(sessionStorage.getItem('contractNo'))
-
-      this.$store.dispatch('contractsInfo',{contractNo:contractNo})
-      this.$router.push('/ContractInfo')
+        var contractNo = sessionStorage.getItem('contractNo')
+        this.$store.dispatch('contractsInfo',{contractNo:contractNo})
+        this.$store.dispatch('tabIndex',{tabIndex:1});
+        this.$router.push('/ContractInfo')
     },
     seeContractImg (){
-      var contractNo = JSON.parse(sessionStorage.getItem('contractNo'))
+      var contractNo = sessionStorage.getItem('contractNo')
       this.$loading.show(); //显示
       var data =[];
       this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
@@ -146,25 +146,23 @@ export default {
   },
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
-    // console.log(cookie.getJSON('tenant'))
-    // this.roomlink = 'http://192.168.1.15:8080/zqsign-web-wesign/wesign_h5/m_register.html?token=ZQ61251bbc4542618bdd1cc7bf7c2409';
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
 
     if (contractName) {
-      contractName = JSON.parse(contractName)
+    //   contractName = contractName
       if (this.$store.state.contractName1 == ''){
         this.$store.state.contractName1 = contractName
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+ contractNo;
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+ contractNo).then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+contractNo+'/getContractDetails').then(function (res) {
      if(res.sessionStatus == '0'){
         this.$router.push('/Server')
       } else {
@@ -174,8 +172,8 @@ export default {
       this.getContractName = contractVo.contractName
       }
     })
-
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo).then(function (res) {
+    //获取签署链接
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/getSignLink').then(function (res) {
       if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -194,7 +192,7 @@ export default {
 <style scoped>
   @import "../../styles/Complete/Completes.css";
   @import "../../common/styles/SigningSteps.css";
-  #textInfo{
+  #nameInfo{
     display: inline-block;
     width: 150px;
     overflow: hidden !important;
@@ -221,7 +219,7 @@ export default {
   -webkit-box-sizing: border-box !important;
   box-sizing: border-box !important;
   min-height: 700px !important;
-  overflow-y: scroll !important;
+  /* overflow-y: scroll !important; */
 }
 #contractAddress{
   display: inline-block;
@@ -257,4 +255,11 @@ export default {
 .adressInfo a{
   padding-left:10px;
 }
+</style>
+<style>
+  .showDialogs{
+    height: 700px;
+  // overflow-y: scroll;
+    overflow: hidden;
+  }
 </style>

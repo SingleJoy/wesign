@@ -141,10 +141,9 @@
           </el-table>
         </div>
     </div>
-    <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showBatchDialog">
+    <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index" >
-          <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -188,11 +187,15 @@ export default {
           callback(new Error('此手机号已添加'))
         }else if(value == cookie.getJSON('tenant')[0].mobile){
           callback(new Error('手机号不能与发起方手机号相同'))
+        }else if(value == this.primaryMobile){
+          callback(new Error('手机号不能与一级账号的手机号相同'))
         }else {
           callback()
         }
       }
       return {
+        baseURL:this.baseURL.BASE_URL,
+        primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',
         value8: '',
         checked: true,
         falg:true,       //重复提交标示
@@ -230,7 +233,7 @@ export default {
             return  time.getTime() < Date.now();
           }
         },
-       templateName:JSON.parse(sessionStorage.getItem('templateName'))
+       templateName:sessionStorage.getItem('templateName')
       }
     },
     methods: {
@@ -291,13 +294,13 @@ export default {
           return false
         }
         this.$store.dispatch('template',{templateName:batchText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', JSON.stringify(batchText))
-        sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
+        sessionStorage.setItem('templateName', batchText)
+        sessionStorage.setItem('templateNo', this.$store.state.templateNo)
       },
       showBatchTemplate () {
         this.$loading.show(); //显示
         var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateImage/'+this.$store.state.templateNo,{params: {"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) {
+        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags',{params: {"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) {
           if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -360,7 +363,11 @@ export default {
           this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
-        } else if( this.$store.state.templateGenre == 'fillidcardreference' && row.idCard == ''){
+        } else if(this.primaryMobile = row.mobile){
+            this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
+                confirmButtonText: '确定'
+            })
+        }else if( this.$store.state.templateGenre == 'fillidcardreference' && row.idCard == ''){
           this.$alert('身份证信息为必填项!','修改签署人', {
             confirmButtonText: '确定'
           })
@@ -407,7 +414,8 @@ export default {
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
-                this.$router.push('/Home')
+                 this.$router.push('/Home')
+                 this.$store.dispatch('tabIndex',{tabIndex:0});
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;
                 }, 50);
@@ -423,26 +431,26 @@ export default {
         var batchText = document.getElementById('batchText').value
         if(batchText == ''){
           if(batchText == ''){
-            this.$alert('您还没有填写合同名称!','签署', {
+            this.$alert('您还没有填写合同名称!','提示', {
               confirmButtonText: '确定'
             });
             return false
           }
         }
         if(this.checked == false && this.value8 == ''){
-            this.$alert('您还没有选择签署时间!','签署时间', {
+            this.$alert('您还没有选择签署时间!','提示', {
               confirmButtonText: '确定'
             });
             return false
           }
         if(this.operate == false){
-            this.$alert('您还没有完成添加签署人操作!','添加签署人', {
+            this.$alert('您还没有完成添加签署人操作!','提示', {
               confirmButtonText: '确定'
             });
             return false
           }
         if( this.tableDate3 == ''){
-          this.$alert('您还没有添加人员!','添加签署人', {
+          this.$alert('您还没有添加人员!','提示', {
             confirmButtonText: '确定'
           });
         } else {
@@ -499,7 +507,8 @@ export default {
               "idCards":id_nums,
               "mobiles":mobiles,
               "emails":emails,
-              "templateSpecificType":this.$store.state.templateGenre
+              "templateSpecificType":this.$store.state.templateGenre,
+              "accountCode":sessionStorage.getItem('accountCode')
             }
           }
           this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractTemp',zqUserContractTempVo,{emulateJSON:true}).then(function (res) {
@@ -516,13 +525,13 @@ export default {
               this.$store.dispatch('template',{templateName:this.templateName,templateNo:this.$store.state.templateNo})
               this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
               this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-              sessionStorage.setItem('templateName', JSON.stringify(this.templateName))
-              sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-              sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
-              sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
+              sessionStorage.setItem('templateName',this.templateName)
+              sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+              sessionStorage.setItem('contractNo', contractNo)
+              sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
               this.$router.push('/batchInfo')
             } else {
-              this.$alert('您还没有选择签署时间!','签署时间', {
+              this.$alert('您还没有选择签署时间!','提示', {
               confirmButtonText: '确定'
               })
               this.load = false
@@ -535,7 +544,7 @@ export default {
       addSigner(){
 
         if(this.editSigner == false){
-          this.$alert('您还没有完成添加签署人操作','添加签署人',{
+          this.$alert('您还没有完成添加签署人操作','提示',{
             confirmButtonText: '确定'
           })
           return false
@@ -552,38 +561,38 @@ export default {
     var templateGenre = sessionStorage.getItem('templateGenre')
     var type = sessionStorage.getItem('type')
     if (templateName) {
-      templateName = JSON.parse(templateName)
+
       if ( this.$store.state.templateName == ''){
         this.$store.state.templateName = templateName
       }
     }
     if (templateNo) {
-      templateNo = JSON.parse(templateNo)
+    //   templateNo = JSON.parse(templateNo)
       if ( this.$store.state.templateNo == ''){
         this.$store.state.templateNo = templateNo
       }
     }
     if (templateGenre) {
-      templateGenre = JSON.parse(templateGenre)
+    //   templateGenre = JSON.parse(templateGenre)
       if ( this.$store.state.templateGenre == ''){
         this.$store.state.templateGenre = templateGenre
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     if (type) {
-      type = JSON.parse(type)
+    //   type = JSON.parse(type)
       if ( this.$store.state.type == ''){
         this.$store.state.type = type
       }
     }
     if ( type == 'back'){
       this.operate = true
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type}}).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type,"accountCode":sessionStorage.getItem('accountCode')}}).then(function (res) {
         var perpetualValid = res.data.perpetualValid;
         var validTime = res.data.validTime;
         var list = res.data.list!=null?res.data.list:[];
@@ -608,7 +617,7 @@ export default {
   @import "../../../common/styles/SigningSteps.css";
 </style>
 
-<style>
+<style lang="scss">
   .first #batchText{
     -webkit-appearance: none;
     background-color: #fff;
@@ -632,11 +641,18 @@ export default {
     width:400px !important;
     overflow-y: hidden !important;
   }
-  .showBatchDialog{
-  position: relative !important;
-  -webkit-box-sizing: border-box !important;
-  box-sizing: border-box !important;
-  height: 800px !important;
-  overflow-y: scroll !important;
+.showDialogs{
+    position: relative !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    // height: 800px !important;
+    // overflow-y: scroll !important;
 }
+.showDialogs .el-dialog__body{
+        padding: 30px 20px;
+        color: #606266;
+        font-size: 14px;
+        overflow-y: scroll;
+        height: 700px;
+    }
 </style>

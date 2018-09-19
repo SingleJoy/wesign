@@ -5,10 +5,10 @@
         <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
         <p></p>
         <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-        <!-- <p></p>
-        <li><i class='el-icon-edit'></i><b>指定位置</b></li> -->
         <p></p>
-        <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li>
+        <li class="active"><i class='el-icon-edit'></i><b>指定位置</b></li>
+        <!-- <p></p>
+        <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li> -->
         <p></p>
         <li class="active"><i class='el-icon-check'></i><b>完成</b></li>
       </ul>
@@ -34,7 +34,7 @@
           <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
               <div slot="content">{{this.$store.state.contractName1}}</div>
-              <span id='textInfo'>{{this.$store.state.contractName1}}</span>
+              <span class='contractTextInfo'>{{this.$store.state.contractName1}}</span>
             </el-tooltip>
             <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
           </p></li>
@@ -83,10 +83,9 @@
       <el-button type="primary" style='width:200px' @click="lookDetails">查看详情</el-button>
       <router-link to='/Home'><el-button type="primary" style='width:200px'>返回首页</el-button></router-link>
     </div>
-    <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialog">
+    <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index" >
-        <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'> -->
-        <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'>
+        <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -100,6 +99,7 @@
   export default {
     data () {
       return {
+        baseURL:this.baseURL.BASE_URL,
         signUser:[],
         validTime:'',
         dialogTableVisible:false,
@@ -112,6 +112,7 @@
       lookDetails () { //查看详情
         this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
         this.$router.push('/ContractInfo')
+        this.$store.dispatch('tabIndex',{tabIndex:1});
       },
       seeContractImg (){
         this.$loading.show(); //显示
@@ -146,19 +147,19 @@
       var contractNo = sessionStorage.getItem('contractNo')
       this.roomLink = cookie.getJSON('tenant')[1].signRoomLink
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
           this.$store.state.contractName1 = contractName
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
       }
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1;
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1).then(function (res) {
+    //   let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1;
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
         if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -168,7 +169,7 @@
         }
       })
 
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
         if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -186,7 +187,7 @@
 <style scoped>
   @import "../../styles/Success/Successes.css";
   @import "../../common/styles/SigningSteps.css";
-  #textInfo{
+  .contractTextInfo{
     display: inline-block;
     width: 150px;
     overflow: hidden !important;
@@ -224,11 +225,14 @@
     vertical-align:sub;
     color:#22a7ea;
   }
-  .showDialog{
+
+</style>
+<style>
+  .showDialogs{
     position: relative !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
-    height: 800px !important;
-    overflow-y: scroll !important;
+    height: 700px !important;
+    /* overflow-y: scroll !important; */
   }
 </style>

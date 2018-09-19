@@ -1,8 +1,15 @@
 <template>
   <div class="InquiryExpired">
      <div class='contractTitle' style="text-align: left;">
-      <span>输入关键字：</span>
       <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
+      <el-select v-model="value" v-if="isBusiness==1 && accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
+                <el-option
+                    v-for="item in options"
+                    :key="item.accountCode"
+                    :label="item.accountName"
+                    :value="item.accountCode">
+                </el-option>
+            </el-select>
       <span id='text'>发起时间：</span>
        <el-date-picker
         style='width:140px;margin-right:20px'
@@ -24,75 +31,77 @@
          :picker-options="pickerBeginDateAfter"
         >
       </el-date-picker>
-      <el-button type="primary" icon="el-icon-search" @click='contractInquiryExpired' style='margin-left:50px;'></el-button>
+      <el-button type="primary" @click='contractInquiryExpired' style='margin-right: 41px;letter-spacing:5px;'>搜索</el-button>
     </div>
-    <div class='table' style="margin-left: 15px;">
-      <div class="expiredImg" v-if="num === 0">
-        <img src="../../../static/images/notavailable.png" alt="">
-      </div>
-      <el-table
-        :header-cell-style="getRowClass"
-        :data="tableInformation"
-        style="width: 100%;text-align:center"
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        v-cloak
-        v-else
-        >
-        <el-table-column
-        prop="contractName"
-        label="合同名称"
-        style="text-align:center"
-        width="250">
-        </el-table-column>
-        <el-table-column
-        prop="signers"
-        label="签署人"
-        width="250">
-        </el-table-column>
-        <el-table-column
-        prop="createTime"
-        label="发起时间"
-        width="190">
-        </el-table-column>
-        <el-table-column
-        prop="validTime"
-        label="截止时间"
-        width="140">
-        </el-table-column>
-        <el-table-column
-        prop="contractStatus"
-        label="当前状态"
-        width="150">
-        </el-table-column>
+    <div class="list-body">
+      <div class='table'>
+        <div class="expiredImg" v-if="num === 0">
+          <img src="../../../static/images/notavailable.png" alt="">
+        </div>
+        <el-table
+          :header-cell-style="getRowClass"
+          :data="tableInformation"
+          style="width: 100%;text-align:center"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          v-cloak
+          v-else
+          >
           <el-table-column
-        prop="operation"
-        label="操作"
-        width="190"
-        >
-        <template slot-scope="scope">
-          <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
+          prop="contractName"
+          label="合同名称"
+          style="text-align:center"
+          width="250">
+          </el-table-column>
+          <el-table-column
+          prop="signers"
+          label="签署人"
+          width="250">
+          </el-table-column>
+          <el-table-column
+          prop="createTime"
+          label="发起时间"
+          width="190">
+          </el-table-column>
+          <el-table-column
+          prop="validTime"
+          label="截止时间"
+          width="140">
+          </el-table-column>
+          <el-table-column
+          prop="contractStatus"
+          label="当前状态"
+          width="150">
+          </el-table-column>
+            <el-table-column
+          prop="operation"
+          label="操作"
+          width="190"
+          >
+          <template slot-scope="scope">
+            <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
 
-          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
-          <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
-          </el-tooltip>
+            <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
+            <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+            </el-tooltip>
 
-          <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-          <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater' >延&nbsp;&nbsp;期</el-button>
-          <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    </div>
-    <div class='pagetion'>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange5"
-        :current-page="currentPage4"
-        :page-size="10"
-        layout="total,prev, pager, next, jumper"
-        :total= Number(num)>
-      </el-pagination>
+            <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+            <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
+            <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      </div>
+      <div class='pagetion'>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange5"
+          :current-page="currentPage4"
+          :page-size="10"
+          layout="total,prev, pager, next, jumper"
+          :total= Number(num)>
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -100,43 +109,51 @@
 <script>
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url";
 export default {
-  name:'InquiryExpired',
-  data() {
-    return {
-      currentPage4: 1,
-      value8: '',
-      value9: '',
-      tableInformation: [],
-      num: '',
-      inquiry:false,
-      loading: true,
-      inputVal4:'',
-      filters: {
-          column: {
-            create_start_date: null,
-            create_end_date: null
-          },
-        },
-        pickerBeginDateBefore:{
-            disabledDate: (time) => {
-              let beginDateVal = this.filters.column.create_end_date;
-              if (beginDateVal) {
-                  return time.getTime() > beginDateVal;
-              }
-          }
-        },
-        pickerBeginDateAfter:{
-          disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_start_date;
-            if (beginDateVal) {
-                return time.getTime() < beginDateVal;
+    name:'InquiryExpired',
+    data() {
+        return {
+            accountCode:sessionStorage.getItem('accountCode'),
+            accountLevel:sessionStorage.getItem('accountLevel'),
+            isBusiness:cookie.getJSON('tenant')[1].isBusiness,
+            options: [],
+            queryAccountCode:'',
+            hasQuery:false,
+            value:'',
+            currentPage4: 1,
+            value8: '',
+            value9: '',
+            tableInformation: [],
+            num: '',
+            inquiry:false,
+            loading: true,
+            inputVal4:'',
+            filters: {
+                column: {
+                    create_start_date: null,
+                    create_end_date: null
+                },
+                },
+                pickerBeginDateBefore:{
+                    disabledDate: (time) => {
+                    let beginDateVal = this.filters.column.create_end_date;
+                    if (beginDateVal) {
+                        return time.getTime() > beginDateVal;
+                    }
+                }
+                },
+                pickerBeginDateAfter:{
+                disabledDate: (time) => {
+                    let beginDateVal = this.filters.column.create_start_date;
+                    if (beginDateVal) {
+                        return time.getTime() < beginDateVal;
+                    }
+                }
             }
-          }
         }
-    }
-  },
-  methods: {
+    },
+    methods: {
      getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return 'background:#f5f5f5;font-weight:bold;'
@@ -168,6 +185,7 @@ export default {
           obj.contractStatus =  res.data.content[i].contractStatus;
           obj.validTime =  res.data.content[i].validTime;
           obj.contractType = res.data.content[i].contractType;
+          obj.operator = res.data.content[i].operator;
           obj.isCreater = isCreater;
           obj.operation = ''
           switch (obj.contractStatus){
@@ -206,26 +224,29 @@ export default {
           var end =   this.filters.column.create_end_date
           if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
           if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-          var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4'};
+          var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
           this.getRecord (requestVo)
         }else{
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4'};
+          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
           this.getRecord (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4'};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
         this.getRecord (requestVo)
       }
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
+    selectParam(value) {
+      this.queryAccountCode = value;
+    },
     contractInquiryExpired () {
       var start = this.filters.column.create_start_date
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:this.accountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getRecord (requestVo)
       this.inquiry = true
     },
@@ -233,23 +254,25 @@ export default {
       // console.log(row)
       if(row.contractType == '0'){
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
+        sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         cookie.set('state','B2')
         this.$router.push('/CompanyExa')
       }else{
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
+        sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         this.$router.push('/ContractInfo')
       }
     },
     affixClick (row) { //签署
      if(row.contractType == '0'){
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Dimension')
         }else{
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Contract')
         }
     },
@@ -289,12 +312,12 @@ export default {
     },
     lookClick(row){  //延期
       if(row.contractType == '0'){
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
         cookie.set('state','E1')
         this.$router.push('/CompanyExc')
       }else{
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+        sessionStorage.setItem('contractNo', row.contractNum)
         this.$router.push('/ContractDelay')
       }
     },
@@ -307,17 +330,30 @@ export default {
     //   var d = this.value9;
     //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
     // }
+    getAccount(){
+        if(!this.hasQuery){
+            let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+            let accountCode = sessionStorage.getItem('accountCode');
+            let enterpriseName = sessionStorage.getItem('enterpriseName');
+            server.queryContractLists(interfaceCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    this.options=res.data.dataList;
+                    this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
+                    this.hasQuery=true;
+                }
+            })
+        }
+    }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4'};
-    this.getRecord (requestVo)
-
+    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
+    this.getRecord (requestVo);
   }
 }
 </script>
 
 <style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+@import '../../styles/Multiparty/Multiparties.scss'
 </style>
 
 <style>

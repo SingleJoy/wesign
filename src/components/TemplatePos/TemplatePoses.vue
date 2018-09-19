@@ -36,7 +36,7 @@
       </div>
 
     <div class='signing' >   <!--签署合同开始-->
-      <p id='textInfo'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
+      <p id='textInfoTip'>温馨提示:请用鼠标点击右侧签署人列表中的“拖入位置”后，在合同中选择需要放置签名的位置，为了您的签署体验，建议您每个签署人拖拽的签署位置不超过10处。</p>
 
       <div class='sign_left' ref="leftWrapper">
             <ul class="pagination" >
@@ -50,8 +50,7 @@
           <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
               <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
               <li v-for="(item, index) in imgList" :key="index" class="contractImg-hook" style="height:844px;">
-                <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width: 100%;height:100%;' id='signImg'> -->
-                <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width: 100%;height:844px;' id='signImg'>
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" style='width: 100%;height:844px;' id='signImg'>
               </li>
             </ul>
           </div>
@@ -80,6 +79,7 @@ export default {
   name: 'Specifiedpositions',
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       current:0,
       showItem:0,
       allpage:0,
@@ -201,9 +201,9 @@ export default {
     lastStepFit (){ //上一步
       this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.templateName))
-      sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-      sessionStorage.setItem('type',JSON.stringify('back'))
+      sessionStorage.setItem('contractName', this.$store.state.templateName)
+      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+      sessionStorage.setItem('type','back')
       this.$router.push('/Signaturesetting')
 
     },
@@ -246,8 +246,8 @@ export default {
             // })
 
           this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-          sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.templateName))
-          sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+          sessionStorage.setItem('contractName', this.$store.state.templateName)
+          sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
           if (this.$store.state.needSign != 1){
             this.$router.push('/TemplateInfo')
           }
@@ -275,31 +275,31 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
     var needSign = sessionStorage.getItem('needSign')
     if (templateName) {
-      templateName = JSON.parse(templateName)
+
       if ( this.$store.state.templateName == ''){
         this.$store.state.templateName = templateName
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     if (templateNo) {
-      templateNo = JSON.parse(templateNo)
+    //   templateNo = JSON.parse(templateNo)
       if ( this.$store.state.templateNo == ''){
         this.$store.state.templateNo = templateNo
       }
     }
     if (needSign) {
-      needSign = JSON.parse(needSign)
+    //   needSign = JSON.parse(needSign)
       if ( this.$store.state.needSign == ''){
         this.$store.state.needSign = needSign
       }
     }
     this.$loading.show(); //显示
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1).then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
       if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {

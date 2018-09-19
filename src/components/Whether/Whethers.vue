@@ -53,8 +53,7 @@
           <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
-              <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:100%;" id='signImg'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele]" alt="" style="width:100%;height:844px;" id='signImg'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+ele" alt="" style='width: 100%;height:844px;' id='signImg'>
             </li>
           </ul>
           </div>
@@ -83,6 +82,7 @@ export default {
   name: 'Pcontract',
     data () {
       return {
+        baseURL:this.baseURL.BASE_URL,
         //centerDialogVisible:false,
         current:0,
         showItem:0,
@@ -204,9 +204,9 @@ export default {
     lastStepFit(){  //上一步
       this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-      sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-      sessionStorage.setItem('type',JSON.stringify('back'))
+      sessionStorage.setItem('contractName', this.$store.state.contractName1)
+      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+      sessionStorage.setItem('type','back')
       this.$router.push('/Contractsigning')
     },
     nextStepFit(){  //下一步
@@ -248,8 +248,8 @@ export default {
             //   type: 'success'
             // })
             this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', JSON.stringify(this.$store.state.contractName1))
-            sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+            sessionStorage.setItem('contractName', this.$store.state.contractName1)
+            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
             if(this.$store.state.needSign != 1){
               this.$router.push('/Success')
             }
@@ -276,25 +276,25 @@ export default {
     var contractNo = sessionStorage.getItem('contractNo')
     var needSign = sessionStorage.getItem('needSign')
     if (contractName) {
-      contractName = JSON.parse(contractName)
+    //   contractName = JSON.parse(contractName)
       if ( this.$store.state.contractName1 == ''){
         this.$store.state.contractName1 = contractName
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     if (needSign) {
-      needSign = JSON.parse(needSign)
+    //   needSign = JSON.parse(needSign)
       if ( this.$store.state.needSign == ''){
         this.$store.state.needSign = needSign
       }
     }
     this.$loading.show(); //显示
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1).then(function (res) {
+    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
        if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -307,17 +307,18 @@ export default {
        if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
-      this.allpage = res.data.length
-      this.$nextTick(() => {
-        this.initScroll()
-        this.calculateHeight()
-      })
-      for (let i = 0; i < res.data.length;i++) {
-        let contractUrl = res.data[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
+            this.allpage = res.data.length
+            this.$nextTick(() => {
+                this.initScroll()
+                this.calculateHeight()
+            })
+            for (let i = 0; i < res.data.length;i++) {
+                let contractUrl = res.data[i].contractUrl
+                data[i] = contractUrl
+                this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+            
         }
     })
 

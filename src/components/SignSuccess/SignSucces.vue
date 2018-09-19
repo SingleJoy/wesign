@@ -66,10 +66,9 @@
           </div>
         </div>
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="prompt" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
+      <el-dialog title="合同详情图片" :visible.sync="prompt" custom-class="showDialogs" >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
-               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
         </el-dialog>
       <div class='btns'>
@@ -90,6 +89,7 @@ import cookie from '@/common/js/getTenant'
 export default {
   data(){
     return{
+      baseURL:this.baseURL.BASE_URL,
       signContractUser:[],
       validTimes:'',
       prompt:false,
@@ -100,10 +100,10 @@ export default {
   created() {
     var contractNo = sessionStorage.getItem('contractNo')
     var contractName = sessionStorage.getItem('contractName');
-    contractName = JSON.parse(contractName)
+    // contractName = JSON.parse(contractName)
     this.contractName = contractName
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
@@ -122,7 +122,7 @@ export default {
   methods:{
     examine() {
       var contractNo = sessionStorage.getItem('contractNo')
-          contractNo = JSON.parse(contractNo)
+        //   contractNo = JSON.parse(contractNo)
       this.$loading.show(); //显示
       var data =[];
       this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo +'/contractimgs').then(function (res) {
@@ -159,3 +159,12 @@ export default {
   }
 }
 </script>
+<style>
+  .showDialogs .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
+</style>

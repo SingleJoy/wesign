@@ -156,7 +156,7 @@
         return '';
       },
       toMyAccount(){
-        this.$router.push('/Account')
+        this.$router.push('/NoReal')
       },
       cancelTip(){
 
@@ -166,14 +166,14 @@
         if( item.templateSpecies == 'batch'){
           this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
           this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})
-          sessionStorage.setItem('templateName', JSON.stringify(item.name))
-          sessionStorage.setItem('templateNo', JSON.stringify(item.templateNo))
-          sessionStorage.setItem('templateGenre',JSON.stringify(item.templateSpecies))
+          sessionStorage.setItem('templateName', item.name)
+          sessionStorage.setItem('templateNo', item.templateNo)
+          sessionStorage.setItem('templateGenre',item.templateSpecies)
           this.$router.push('/batchSetting')
         } else {
           this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          sessionStorage.setItem('templateName', JSON.stringify(item.name))
-          sessionStorage.setItem('templateNo', JSON.stringify(item.templateNo))
+          sessionStorage.setItem('templateName',item.name)
+          sessionStorage.setItem('templateNo', item.templateNo)
           this.$router.push('/Fillinformation')
         }
       },
@@ -200,11 +200,11 @@
       signClick (row) { //签署
         if(row.contractType == '0'){
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Dimension')
         }else{
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Contract')
         }
       },
@@ -229,12 +229,12 @@
       rowLockClick (row) { //查看
         if(row.contractType == '0'){
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+          sessionStorage.setItem('contractNo', row.contractNum)
           cookie.set('state','C')
           this.$router.push('/CompanyExb')
         }else{
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/ContractInfo')
         }
       }

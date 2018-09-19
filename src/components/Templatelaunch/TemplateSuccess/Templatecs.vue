@@ -32,31 +32,33 @@
       <!-- 合同所有信息开始 -->
       <div class='contractInfo'>
         <div class='twoInfo'>
-          <p><h3 class='infoss'>合同信息</h3></p>
-          <ul id='twoInfos' style="text-align: left;">
-            <li><p ><span>合同名称：</span>
-              <el-tooltip placement="top">
-                <div slot="content">{{this.$store.state.contractName1}}</div>
-                <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
-              </el-tooltip>
-              <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
-            </p></li>
-            <li><span>截止时间：</span><span>{{validTime}}</span></li>
-            <li style='float:left'>签署人员：</li>
-            <ol id='details'>
-              <li v-for="(item,index) in signUser" :key="index">
+            <p class='infoss'>合同信息</p>
+            <!-- <dd><h3 class='infoss'>合同信息</h3></dd> -->
+            <ul id='twoInfos' style="text-align: left;">
+                <li><p><span>合同名称：</span>
                 <el-tooltip placement="top">
-                  <div slot="content">{{item.signUserName}}</div>
-                  <span class='name' >{{item.signUserName}}</span>
+                    <div slot="content">{{this.$store.state.contractName1}}</div>
+                    <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
                 </el-tooltip>
-                <a style='color:#22a7ea; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
-                <a style='color:red; cursor: default;' href="javascript:void(0);" v-else>未签署</a>
-              </li>
-            </ol>
-          </ul>
+                <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+                </p></li>
+                <li><span>截止时间：</span><span>{{validTime}}</span></li>
+                <li style='float:left'>签署人员：</li>
+                <ol id='details'>
+                <li v-for="(item,index) in signUser" :key="index">
+                    <el-tooltip placement="top">
+                    <div slot="content">{{item.signUserName}}</div>
+                    <span class='name' >{{item.signUserName}}</span>
+                    </el-tooltip>
+                    <a style='color:#22a7ea; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
+                    <a style='color:red; cursor: default;' href="javascript:void(0);" v-else>未签署</a>
+                </li>
+                </ol>
+            </ul>
         </div>
         <dl class='second'>
-          <dd><h3>合同分享</h3></dd>
+          <!-- <dd><h3>合同分享</h3></dd> -->
+          <p class='infoss'>合同分享</p>
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{dataURL}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../../static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
@@ -65,7 +67,8 @@
           </dd>
         </dl>
         <dl class='third'>
-          <dd><h3>签约室分享</h3></dd>
+          <!-- <dd><h3>签约室分享</h3></dd> -->
+          <p class='infoss'>签约室分享</p>
           <dd><p><span>签约室链接：</span><span id='contractAddress1'>{{roomlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dt id='roomInfo'><img src="../../../../static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>
@@ -80,8 +83,7 @@
       </div>
       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class="showDialogs">
         <div v-for="(item,index) in imgList" :key="index" >
-          <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'> -->
-          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%'>
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt=""  style='width: 100%'>
         </div>
       </el-dialog>
     </div>
@@ -102,6 +104,7 @@
   export default {
     data () {
       return {
+        baseURL:this.baseURL.BASE_URL,
         signUser:[],
         validTime:'',
         dialogTableVisible:false,
@@ -113,7 +116,8 @@
     methods: {
       lookDetails () { //查看详情
         this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
-        this.$router.push('/ContractInfo')
+        this.$router.push('/ContractInfo');
+        this.$store.dispatch('tabIndex',{tabIndex:1});
       },
       seeContractImg (){
         this.$loading.show(); //显示
@@ -149,19 +153,19 @@
       var contractNo = sessionStorage.getItem('contractNo')
 
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
           this.$store.state.contractName1 = contractName
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
       }
       let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getContractDetails/'+this.$store.state.contractNo1;
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getContractDetails/'+this.$store.state.contractNo1).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
         if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -171,7 +175,7 @@
         }
       })
 
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
         if(res.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
@@ -191,7 +195,7 @@
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
     height: 800px !important;
-    overflow-y: scroll !important;
+    /* overflow-y: scroll !important; */
   }
   .contractAddress{
     display: inline-block;

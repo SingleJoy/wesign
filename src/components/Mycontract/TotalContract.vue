@@ -1,37 +1,43 @@
 <template>
   <div>
     <div class='contractTitle' style="text-align: left;">
-      <span>输入关键字：</span>
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
-      <span id='text'>发起时间：</span>
-       <el-date-picker
-        style='width:140px;margin-right:20px'
-        height='height:40px'
-        v-model="filters.column.create_start_date"
-        type="date"
-        placeholder="开始时间"
-        format="yyyy-MM-dd"
-         :picker-options="pickerBeginDateBefore"
-        >
-      </el-date-picker>
-      <el-date-picker
-        style='width:140px;margin-right:20px'
-        height='height:40px'
-        v-model="filters.column.create_end_date"
-        type="date"
-        placeholder="结束时间"
-        format="yyyy-MM-dd"
-         :picker-options="pickerBeginDateAfter"
-        >
-      </el-date-picker>
-      <el-checkbox
-      style='padding-right:20px'
-      v-model="checked"
-      ></el-checkbox>
-      <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
-       <el-button type="primary" icon="el-icon-search" @click='contractInquiry' style='margin-left:50px'></el-button>
+		<input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
+		<el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
+      
+			<el-option
+				v-for="item in options"
+				:key="item.accountCode"
+				:label="item.accountName"
+				:value="item.accountCode">
+			</el-option>
+		</el-select>
+		<span id='text'>发起时间：</span>
+		<el-date-picker
+			style='width:140px;margin-right:20px'
+			height='height:40px'
+			v-model="filters.column.create_start_date"
+			type="date"
+			placeholder="开始时间"
+			format="yyyy-MM-dd"
+			:picker-options="pickerBeginDateBefore"
+			>
+		</el-date-picker>
+		<el-date-picker
+			style='width:140px;margin-right:20px'
+			height='height:40px'
+			v-model="filters.column.create_end_date"
+			type="date"
+			placeholder="结束时间"
+			format="yyyy-MM-dd"
+			:picker-options="pickerBeginDateAfter"
+			>
+		</el-date-picker>
+		<el-checkbox style='padding-right:20px' v-model="checked"></el-checkbox>
+      	<b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
+       	<el-button type="primary"  @click='contractInquiry' style='margin-left:20px;letter-spacing:5px;'>搜索</el-button>
     </div>
-    <div class='table' style="margin-left: 15px;">
+    <div class="list-body">
+      <div class='table'>
       <div class="totalImg" v-if="num === 0">
         <img src="../../../static/images/notavailable.png" alt="">
       </div>
@@ -41,6 +47,7 @@
         style="width: 100%;text-align:center"
         v-loading="loading"
         element-loading-text="拼命加载中"
+        :row-class-name="tableRowClassName"
         v-cloak
         v-else
         >
@@ -81,12 +88,12 @@
         width="190"
         >
           <template slot-scope="scope">
-          <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater' >
+          <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
+          <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
           <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
           <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-          <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater' >延&nbsp;&nbsp;期</el-button>
+          <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
           <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
           </template>
       </el-table-column>
@@ -102,6 +109,8 @@
         :total=Number(num)>
       </el-pagination>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -109,48 +118,62 @@
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
+import server from "@/api/url";
 export default {
-  data() {
-    return {
-      currentPage: 1,
-      value8: '',
-      value9: '',
-      tableData2: [],
-      num: '',
-      loading: true,
-      inputVal:'',
-      checked:false,
-      inquiry:false, // 查询标示
-      filters: {
-        column: {
-            create_start_date: null,
-            create_end_date: null
-        },
-      },
-      pickerBeginDateBefore:{
-        disabledDate: (time) => {
-            let beginDateVal = this.filters.column.create_end_date;
-            if (beginDateVal) {
-                return time.getTime() > beginDateVal;
-            }
-          }
-        },
-      pickerBeginDateAfter:{
-        disabledDate: (time) => {
-          let beginDateVal = this.filters.column.create_start_date;
-          if (beginDateVal) {
-              return time.getTime() < beginDateVal;
-          }
+    name:'totalContranct',
+    data() {
+        return {
+            isBusiness:cookie.getJSON('tenant')[1].isBusiness,
+            options: [],
+            queryAccountCode:'',
+            value:'',
+            hasQuery:false,
+            currentPage: 1,
+            value8: '',
+            value9: '',
+            tableData2: [],
+            num: '',
+            loading: true,
+            inputVal:'',
+            checked:false,
+            inquiry:false, // 查询标示
+            filters: {
+                column: {
+                    create_start_date: null,
+                    create_end_date: null
+                },
+            },
+            pickerBeginDateBefore:{
+                disabledDate: (time) => {
+                    let beginDateVal = this.filters.column.create_end_date;
+                    if (beginDateVal) {
+                        return time.getTime() > beginDateVal;
+                    }
+                }
+            },
+            pickerBeginDateAfter:{
+                disabledDate: (time) => {
+                let beginDateVal = this.filters.column.create_start_date;
+                if (beginDateVal) {
+                    return time.getTime() < beginDateVal;
+                }
+                }
+            },
+            accountCode:sessionStorage.getItem('accountCode'),
+            accountLevel:sessionStorage.getItem('accountLevel'),
         }
-      }
-    }
-  },
+    },
   methods: {
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return 'background:#f5f5f5;font-weight:bold;'
       } else {
         return ''
+      }
+    },
+    tableRowClassName(row,rowIndex){
+      if(rowIndex%2==0){
+        return 'height-color'
       }
     },
     getData (requestVo) {
@@ -175,6 +198,7 @@ export default {
           obj.signers =  res.data.content[i].signers;
           obj.validTime =  res.data.content[i].validTime;
           obj.contractStatus =  res.data.content[i].contractStatus;
+          obj.operator = res.data.content[i].operator
           obj.isCreater = isCreater;
           obj.operation = ''
           switch (obj.contractStatus){
@@ -215,19 +239,31 @@ export default {
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0'};
-        this.getData (requestVo)
+            var requestVo ={
+                "contractName":this.inputVal,
+                "queryTimeStart":start,
+                "queryTimeEnd":  end,
+                'perpetualValid':perpetualValid,
+                'pageNo':val,
+                'pageSize':'10',
+                'contractStatus':'0',
+                'accountCode':this.accountLevel==2?this.accountCode:''
+            };
+            this.getData (requestVo)
         }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
-        this.getData (requestVo)
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+            this.getData (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
-        this.getData (requestVo)
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+            this.getData (requestVo)
       }
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
+    },
+    selectParam(value){
+      this.queryAccountCode=value
     },
     contractInquiry () {
       if (this.checked == true) {
@@ -239,7 +275,16 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      var requestVo ={
+        "accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),
+        "contractName":this.inputVal,
+        "queryTimeStart":start,
+        "queryTimeEnd":  end,
+        'perpetualValid':perpetualValid,
+        'pageNo':'1',
+        'pageSize':'10',
+        'contractStatus':'0'
+      };
       this.getData (requestVo)
       this.currentPage = 1
       this.$message({
@@ -250,14 +295,15 @@ export default {
       this.inquiry = true
     },
     rowLockClick (row) {//详情
-      this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
-      cookie.set('state','F')
-      this.$router.push('/ContractInfo')
+        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+        sessionStorage.setItem('contractNo', row.contractNum)
+        sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+        cookie.set('state','F')
+        this.$router.push('/ContractInfo')
     },
     signClick (row) { //签署
       this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+      sessionStorage.setItem('contractNo', row.contractNum)
       this.$router.push('/Contract')
     },
     remindClick (row) { //提醒
@@ -294,7 +340,7 @@ export default {
     },
     seeClick (row) { //延期
     this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-    sessionStorage.setItem('contractNo', JSON.stringify(row.contractNum))
+    sessionStorage.setItem('contractNo', row.contractNum)
     cookie.set('state','D1')
     this.$router.push('/ContractDelay')
     },
@@ -307,18 +353,38 @@ export default {
     //   var d = this.value9;
     //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
     // }
+
+    getAccount(){
+        if(!this.hasQuery){
+            let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+            let accountCode = sessionStorage.getItem('accountCode');
+            let enterpriseName = sessionStorage.getItem('enterpriseName');
+            server.queryContractLists(interfaceCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    this.options=res.data.dataList;
+                    this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
+                    this.hasQuery=true;
+                }
+            })
+        }
+    }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
+    var requestVo ={
+        'pageNo':'1',
+        'pageSize':'10',
+        'contractStatus':'0',
+        'accountCode':this.accountLevel==2?this.accountCode:''
+    };
     this.getData (requestVo)
+  
   }
 }
 </script>
 
-<style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
-</style>
-<style>
+<style lange='scss' scoped>
+ 	@import '../../styles/Multiparty/Multiparties.scss';
+
 .totalImg{
   width: 153px;
   margin: 300px auto;
@@ -333,5 +399,8 @@ export default {
   background: #eee;
   border-color: #95989d;
   color: #333;
+}
+.height-color{
+  background: #f5f5f5
 }
 </style>

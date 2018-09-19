@@ -13,9 +13,8 @@
       </div>
       <div class='content'>
       <div class='cleft'>
-        <!-- <b><img :src="`${this.baseURL.BASE_URL}`+'/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b> -->
+        <b v-if="showImage==true"><img :src="baseURL+'/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
 
-        <b v-if="showImage==true"><img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
         <b v-if="showImage==false"><img src="../../../static/images/Room/room-logo.png"  ></b>
 
         <p class='inputInfo' style='text-align: center;width: 220px;font-weight:bolder'>{{message}}</p>
@@ -49,7 +48,7 @@
           </dd>
         <dt>
           <div style="margin-top:27px">
-             <img :src="'http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id" v-if="showImage==true">
+             <img :src="baseURL+'/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id" v-if="showImage==true">
              <img src="../../../static/images/Room/room-logo.png" style="height:150px;width:150px" v-else-if="showImage==false">
           </div>
         </dt>
@@ -69,6 +68,7 @@ export default {
   name: 'Rooming',
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       inputData: '',
       signRoomLogo:'',
       dropzone: '',
@@ -85,8 +85,7 @@ export default {
   },
   methods: {
     urlloadUrl(){
-      return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
-    //  return `${this.baseURL.BASE_URL}/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
+      return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/signRoom/saveSignRoomInfo`
     },
     handleCopy(text, event) {
       clip(text, event)

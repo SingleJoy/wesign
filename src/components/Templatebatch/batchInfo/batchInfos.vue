@@ -47,8 +47,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
         <ul class='content contractImg' id="contractImg">
           <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
-              <!-- <img :src="[this.baseURL.BASE_URL+'/v1/tenant/contract/img?contractName='+templateName+'&contractUrl='+item]" alt="" style='width:100%;'> -->
-            <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item]" alt="" style='width:100%;'>
+            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id="imgSign"  style='width:100%;width: 639px;'>
           </li>
          </ul>
         </div>
@@ -76,7 +75,7 @@
               </div>
             </div>
             <div v-else>
-              <div class="input_title" >({{index+1}}){{item}}</div>
+              <div class="input_title">({{index+1}}){{item}}</div>
               <div class="input_box">
                 <el-input placeholder="" clearable></el-input>
               </div>
@@ -95,6 +94,7 @@ export default {
   name: 'batchInfos',
   data () {
     return {
+      baseURL:this.baseURL.BASE_URL,
       //初始化左侧页码，并使第一个高亮
       current:1,
       // 左侧页码显示的个数
@@ -131,9 +131,9 @@ export default {
       return 0
     },
     pages:function(){
-    var pag = [];
-     this.showItem = 10;
-      if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
+        var pag = [];
+        this.showItem = 10;
+        if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条
             var i = Math.min(this.showItem,this.allpage);
             while(i){
@@ -149,34 +149,41 @@ export default {
                 pag.push( middle++ );
             }
         }
-      return pag
+        return pag
     }
   },
+    mounted() { 
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
+        
+    },
   created() {
     var templateName = sessionStorage.getItem('templateName');
     var templateNo = sessionStorage.getItem('templateNo');
     var contractNo = sessionStorage.getItem('contractNo');
     var templateGenre = sessionStorage.getItem('templateGenre');
     if (templateName) {
-      templateName = JSON.parse(templateName)
+
       if ( this.$store.state.templateName == ''){
         this.$store.state.templateName = templateName
       }
     }
     if (templateNo) {
-      templateNo = JSON.parse(templateNo)
+    //   templateNo = JSON.parse(templateNo)
       if ( this.$store.state.templateNo == ''){
         this.$store.state.templateNo = templateNo
       }
     }
     if (contractNo) {
-      contractNo = JSON.parse(contractNo)
+    //   contractNo = JSON.parse(contractNo)
       if ( this.$store.state.contractNo1 == ''){
         this.$store.state.contractNo1 = contractNo
       }
     }
     if (templateGenre) {
-      templateGenre = JSON.parse(templateGenre)
+    //   templateGenre = JSON.parse(templateGenre)
       if ( this.$store.state.templateGenre == ''){
         this.$store.state.templateGenre = templateGenre
       }
@@ -184,31 +191,26 @@ export default {
     this.$loading.show(); //显示
     var data =[];
     this.templateName = this.$store.state.templateName
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateImage/'+this.$store.state.templateNo;
-    let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateList/'+this.$store.state.templateNo;
+    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags';
+    let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/templateVal';
     let urlFill = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/batchSign/'+this.$store.state.contractNo1+'/userInfo';
 
     this.$http.get(url,{params:{"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) { //获取批量模板图片信息
-    if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
+        if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
         } else {
-      this.allpage = res.data.list.length
-      this.$nextTick(() => {
-        this._initScroll()
-        this._calculateHeight()
-      })
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-				probeType: 3,
-				scrollY: true,
-				preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
-			});
-      for (let i = 0; i < res.data.list.length;i++) {
-      let templateUrl = res.data.list[i]
-      data[i] = templateUrl
-      this.$loading.hide(); //隐藏
-      }
-      this.imgList = data
+            this.allpage = res.data.list.length
+            for (let i = 0; i < res.data.list.length;i++) {
+                let templateUrl = res.data.list[i]
+                data[i] = templateUrl
+                this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
         }
+        this.$nextTick(() => {
+            this._initScroll()
+            this._calculateHeight()
+        })
     })
 
     this.$http.get(urls,{params:{"contractTempNo":this.$store.state.contractNo1}}).then(function (res) { //获取批量模板jsonVal list信息
@@ -251,29 +253,30 @@ export default {
       this.clickNav(currentIndex)
     },
     clickNav(index) {
-      let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-      let el = imgList[index - 1]
-      this.rightScroll.scrollToElement(el, 300)
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+        let el = imgList[index - 1]
+        this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-      //   click: true
-      // })
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+          click: true
+        })
 
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        	mouseWheel: {
-					speed: 1200,
-					invert: false,
-					easeTime: 300
-				},
-				preventDefault:false,
-        probeType: 3,
-        // preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
-      })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            probeType: 3,
+            // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
+        
+        console.log(this.rightScroll)
+        // this.rightScroll.hasVerticalScroll =true;
+        // console.log(this.allpage)
+        // if(this.allpage<10){
+        //     this.rightScroll.wrapperHeight = 824;
+        // }
 
-      this.rightScroll.on('scroll', (pos) => {
-        this.scrollY = Math.abs(Math.round(pos.y))
-      })
+        this.rightScroll.on('scroll', (pos) => {
+            this.scrollY = Math.abs(Math.round(pos.y))
+        })
     },
     _calculateHeight(){
       let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
@@ -303,6 +306,7 @@ export default {
             instance.confirmButtonText = '执行中...';
             setTimeout(() => {
               done();
+              this.$store.dispatch('tabIndex',{tabIndex:0});
               this.$router.push('/Home')
               setTimeout(() => {
                 instance.confirmButtonLoading = false;
@@ -320,11 +324,11 @@ export default {
       this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
       this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('templateName', JSON.stringify(this.$store.state.templateName))
-      sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-      sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-      sessionStorage.setItem('templateGenre',JSON.stringify(this.$store.state.templateGenre))
-      sessionStorage.setItem('type',JSON.stringify('back'))
+      sessionStorage.setItem('templateName', this.$store.state.templateName)
+      sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+      sessionStorage.setItem('contractNo',this.$store.state.contractNo1)
+      sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
+      sessionStorage.setItem('type','back')
       this.$router.push('/batchSetting')
     },
     nextStepFit () {
@@ -341,7 +345,7 @@ export default {
         }
         jsonVal = jsonVal.substring(0,jsonVal.length-1)
         this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateBatchSign',
-        {"contractName":this.$store.state.templateName,"templateNum":this.$store.state.templateNo,"jsonVal":jsonVal,"contractTempNo":this.$store.state.contractNo1,"templateSpecificType":this.$store.state.templateGenre,"operateType":''},{emulateJSON:true}).then(function (res) {
+        {"contractName":this.$store.state.templateName,"templateNum":this.$store.state.templateNo,"jsonVal":jsonVal,"contractTempNo":this.$store.state.contractNo1,"templateSpecificType":this.$store.state.templateGenre,"operateType":'','accountCode':sessionStorage.getItem('accountCode')},{emulateJSON:true}).then(function (res) {
           if(res.data.sessionStatus == '0'){
             this.$router.push('/Server')
           } else {
@@ -354,9 +358,9 @@ export default {
               this.$loading.hide(); //隐藏
               this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
               this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-              sessionStorage.setItem('templateName', JSON.stringify(this.$store.state.templateName))
-              sessionStorage.setItem('templateNo', JSON.stringify(this.$store.state.templateNo))
-              sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+              sessionStorage.setItem('templateName',this.$store.state.templateName)
+              sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+              sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
               this.$router.push('/batchsign')
           } else {
             this.$message({
@@ -370,9 +374,6 @@ export default {
       }
     }
   },
-  mounted() {
-    prohibit()
-  }
 }
 </script>
 <style scoped>

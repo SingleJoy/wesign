@@ -551,7 +551,7 @@
         }
 
         var interfaceCode = sessionStorage.getItem('interfaceCode')
-           interfaceCode = JSON.parse(interfaceCode)
+        //    interfaceCode = JSON.parse(interfaceCode)
         that.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/authentication',{
           'tenantName':this.tenantName,//企业名称
           'enterpriseType':this.enterpriseType,//企业类型

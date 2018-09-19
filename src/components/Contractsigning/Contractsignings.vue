@@ -82,10 +82,9 @@
           </p>
         </h3>
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs"  >    <!-- :lock-scroll= false有问题！！！！ -->
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs' >   <!-- :lock-scroll= false有问题！！！！ -->
         <div v-for="(item,index) in imgList" :key="index">
-          <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-          <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
       <!-- 文件信息结束 -->
@@ -207,11 +206,14 @@
           callback(new Error('此手机号已添加'))
         } else if (value == cookie.getJSON('tenant')[0].mobile){
           callback(new Error('手机号不能与发起方手机号相同'))
+        }else if(this.primaryMobile == value){
+            callback(new Error('手机号不能与一级账号的手机号相同'))
         } else {
           callback()
         }
       }
       return {
+        baseURL:this.baseURL.BASE_URL,
         value8: '',
         dialogFormVisible: false,
         dialogTableVisible: false,
@@ -222,6 +224,8 @@
         imgList:[],
         isNext:false,//下一步按钮
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
+        primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',
         ruleForm: {
           signUserName: '',
           idCard: '',
@@ -229,7 +233,7 @@
         },
         hasClick:false,
         formLabelWidth: '70px',
-        contractName:JSON.parse(sessionStorage.getItem('contractName')),
+        contractName:sessionStorage.getItem('contractName'),
         rules: {
           signUserName: [
             { required: true, validator: validateName, trigger: 'blur' }
@@ -264,35 +268,34 @@
         }
       },
       handleChange (name,file) {
-          this.isNext = true;
-          var max_size = 5;// 5M
-          var fileNameCont = name.name.replace(/\s+/g, "")
-          var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
-          if(!reg.test(fileNameCont)){
-            this.$alert('只能传pdf,doc,txt,docx格式的文件!','上传文件', {
-              confirmButtonText: '确定'
-            })
-             this.isNext = false;
-             return false
-            this.$refs.upload.clearFiles()
-          } else if( name.size > max_size*1024*1024){
-            this.$alert('文件大小超过限制!','上传文件', {
-              confirmButtonText: '确定'
-            })
-            this.isNext = false;
-             return false
-            this.$refs.upload.clearFiles()
-          } else if(fileNameCont.length > 50){
-            this.$alert('上传文件名称不得超过50字符！','上传文件', {
-              confirmButtonText: '确定'
-            })
-            this.isNext = false;
-               return false
-            this.$refs.upload.clearFiles()
-         
-          } else {
-            this.$loading.show(); //显示
-          }        
+        this.isNext = true;
+        var max_size = 5;// 5M
+        var fileNameCont = name.name.replace(/\s+/g, "")
+        var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
+        if(!reg.test(fileNameCont)){
+          this.$alert('只能传pdf,doc,txt,docx格式的文件!','上传文件', {
+            confirmButtonText: '确定'
+          })
+          this.$refs.upload.clearFiles()
+          this.isNext = false;
+          return false
+        } else if( name.size > max_size*1024*1024){
+          this.$alert('文件大小超过限制!','上传文件', {
+            confirmButtonText: '确定'
+          })
+          this.$refs.upload.clearFiles()
+          this.isNext = false;
+          return false
+        } else if(fileNameCont.length > 50){
+          this.$alert('上传文件名称不得超过50字符！','上传文件', {
+            confirmButtonText: '确定'
+          })
+          this.$refs.upload.clearFiles()
+           this.isNext = false;
+          return false
+        } else {
+          this.$loading.show(); //显示
+        }
       },
       fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
         this.isNext = false;
@@ -304,8 +307,8 @@
         var suffix=contractName.slice(0,index1);
         this.contractName = suffix
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
       },
       fileErron(){
         this.nextBtn = false;
@@ -328,7 +331,7 @@
         this.imgList=[];
         var data =[];
         var contractNo = sessionStorage.getItem('contractNo');
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
 
         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
           if(res.data.sessionStatus == '0'){
@@ -386,8 +389,8 @@
           return false
         }
         this.$store.dispatch('fileSuccess1',{contractName:firstText,contractNo:this.$store.state.contractNo1})
-        sessionStorage.setItem('contractName', JSON.stringify(firstText))
-        sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
+        sessionStorage.setItem('contractName', firstText)
+        sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
       },
       checkedBox () {
         if(this.checked == true){
@@ -436,6 +439,10 @@
           })
         } else if (row.mobile == cookie.getJSON('tenant')[0].mobile){
           this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
+            confirmButtonText: '确定'
+          })
+        }else if(row.mobile == this.primaryMobile){
+             this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
         }else {
@@ -499,9 +506,8 @@
       urlloadUrl(){
         //更换合同时传旧合同编号从session里取
         var contractNo = sessionStorage.getItem('contractNo');
-        contractNo = JSON.parse(contractNo)
-
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
+        // contractNo = JSON.parse(contractNo)
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?accountCode=${this.accountCode}`
       },
       nextStepFit () { //下一步
         var firstText = document.getElementById('firstText').value
@@ -524,7 +530,7 @@
           }
         }
 
-        if(this.checked == false && this.value8 == ''){
+        if(this.checked == false && (this.value8 == ''|| !this.value8)){
           this.$alert('您还没有选择签署时间!','签署时间', {
             confirmButtonText: '确定'
           });
@@ -632,30 +638,26 @@
             }
             this.isNext = true;
             var contractNo = sessionStorage.getItem('contractNo');
-            contractNo = JSON.parse(contractNo)
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo,contractVo,{emulateJSON:true}).then(function (res) {
+            // contractNo = JSON.parse(contractNo)
+            // console.log(323)
+            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
               if(res.data.sessionStatus == '0'){
                 this.$router.push('/Server')
               } else {
                 if ( res.data.resultCode == '0') {
-                  // this.$message({
-                  //   showClose: true,
-                  //   message: res.data.resultMessage,
-                  //   type: 'success'
-                  // })
                   this.isNext = false;
                   this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
                   this.$store.dispatch('needSign',{needSign:needSign})
-                  sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.contractName)))
-                  sessionStorage.setItem('contractNo', JSON.stringify(this.$store.state.contractNo1))
-                  sessionStorage.setItem('needSign',JSON.stringify(needSign))
+                  sessionStorage.setItem('contractName', TrimAll(this.contractName))
+                  sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                  sessionStorage.setItem('needSign',needSign)
                   if(needSign == '1'){
                     this.$router.push('/Positions')
                   } else {
                     this.$router.push('/Whether')
                   }
                 } else {
-                  this.$alert('您还没有选择签署时间!','签署时间', {
+                  this.$alert('更换合同失败!','提示', {
                     confirmButtonText: '确定'
                   })
                   this.falg = true;
@@ -681,20 +683,20 @@
       var contractNo = sessionStorage.getItem('contractNo');
       var type = sessionStorage.getItem('type');
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
           this.$store.state.contractName1 = contractName
         }
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         this.contractNumn = contractNo
         if (this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
         }
       }
       if (type) {
-        type = JSON.parse(type)
+        // type = JSON.parse(type)
         if ( this.$store.state.type == ''){
           this.$store.state.type = type
         }
@@ -732,18 +734,11 @@
     }
   }
 </script>
-<style lang="scss" scoped >
+<style lang="scss" scoped>
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";
-  .showDialogs{
-    position: relative !important;
-    -webkit-box-sizing: border-box !important;
-    box-sizing: border-box !important;
 
-    overflow-y: scroll !important;
-    min-height: 700px !important;
-  }
   .upload-demo .el-upload .el-upload--text{
     display: block !important;
     margin-left: 250px !important;
@@ -787,11 +782,20 @@
   .el-table th>.cell{
     text-align: center;
   }
+ 
+
+</style>
+<style>
   .outInfo{
     height:320px !important;
     width:400px !important;
     overflow-y: hidden !important;
   }
-
+  .showDialogs{
+    box-sizing: border-box !important;
+    height: 700px !important;
+     /* overflow-y: scroll !important; */
+  }
 </style>
+
 

@@ -90,7 +90,8 @@
   height: 820px;
   border: 1px solid #ccc;
   float: left;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  overflow: hidden;
   margin-top: 40px;
   margin-left: 25px;
 }
@@ -107,6 +108,9 @@
 }
 /*定义滚动条轨道 内阴影+圆角*/
 .sign_right ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background: #fff ;
+}.sign_right ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   background: #fff ;
 }

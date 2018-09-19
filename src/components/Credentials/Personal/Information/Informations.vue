@@ -83,11 +83,11 @@
     methods:{
       submitInfo () {
           var userCode =sessionStorage.getItem('userCode')
-          userCode = JSON.parse(userCode)
+        //   userCode = JSON.parse(userCode)
           var mobile = sessionStorage.getItem('mobile')
-          mobile = JSON.parse(mobile)
+        //   mobile = JSON.parse(mobile)
           var interfaceCode = sessionStorage.getItem('interfaceCode')
-          interfaceCode = JSON.parse(interfaceCode)
+        //   interfaceCode = JSON.parse(interfaceCode)
           if(this.falg == false){
           this.falg = true
           this.$http.post(process.env.API_HOST+'v1.4/user/'+userCode+'/authentication',{'userName':this.name,'mobile':mobile,'idCard':this.idcard,'interfaceCode':interfaceCode},{emulateJSON: true}).then(res =>{

@@ -160,3 +160,8 @@ color: #00a7e7;
 
   color: #666!important;
 }
+.showDialogs{
+    height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }

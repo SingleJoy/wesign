@@ -78,10 +78,9 @@
 
           </div>
         </div>
-        <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showDialog" >    <!-- :lock-scroll= false有问题！！！！ -->
+        <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showDialogs" >    <!-- :lock-scroll= false有问题！！！！ -->
             <div v-for="(item,index) in imgList" :key="index">
-               <!-- <img :src="[`${this.baseURL.BASE_URL}`+'/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'> -->
-              <img :src="['http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/contract/img?contractUrl='+item]" alt="" style='width:100%;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
         </el-dialog>
          <!--签署人设置-->
@@ -196,7 +195,7 @@
                     <el-button type="primary" style='width:254px;height:44px;margin-left: 15px;' icon="el-icon-plus" @click="show" v-if="add == false">
                       添加经办人
                     </el-button>
-                    <el-button type="danger" style='width:254px;height:44px;margin-left: 15px;' icon="el-icon-delete" v-else>
+                    <el-button type="danger" style='width:254px;height:44px;margin-left: 15px;' icon="el-icon-delete" @click="show" v-else>
                       取消经办人
                     </el-button>
                   </div>
@@ -255,6 +254,7 @@
     },
     data () {
       return {
+        baseURL:this.baseURL.BASE_URL,
         date:'',
         checked:true,
         nextBtn:false,
@@ -280,6 +280,7 @@
         hasClick:false,
         ContractNumber:'',
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         operateType:'',
         pickerOptions0: {
           disabledDate(time) {
@@ -294,9 +295,8 @@
     methods:{
       urlloadUrl(){
         var contractNo = sessionStorage.getItem('contractNo');
-		        contractNo = JSON.parse(contractNo)
-        return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract`
-        // return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+		        // contractNo = JSON.parse(contractNo)
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?=accountCode=${this.accountCode}`
       },
       handleChange (name,file) {
         this.nextBtn = true;
@@ -310,6 +310,8 @@
           this.nextBtn = false;
           return false
           this.$refs.upload.clearFiles()
+           this.nextBtn = false;
+            return false
         } else if( name.size > max_size*1024*1024){
           this.$alert('文件大小超过限制!','上传文件', {
             confirmButtonText: '确定'
@@ -317,6 +319,8 @@
             this.nextBtn = false;
             return false
           this.$refs.upload.clearFiles()
+          this.nextBtn = false;
+          return false
         } else if(fileNameCont.length > 50){
           this.$alert('上传文件名称不得超过50字符！','上传文件', {
             confirmButtonText: '确定'
@@ -324,6 +328,8 @@
           this.nextBtn = false;
           return false
           this.$refs.upload.clearFiles()
+           this.nextBtn = false;
+          return false
         } else {
           this.$loading.show(); //显示
         }
@@ -339,8 +345,8 @@
         var suffix=contractName.slice(0,index1);
         this.input = suffix
         this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+        sessionStorage.setItem('contractName', suffix)
+        sessionStorage.setItem('contractNo', contractNo)
       // }
       },
       fileErron(){
@@ -374,6 +380,7 @@
           this.prohibitt = false
           return false
         }
+        // console.log(this.enterpriseName)
         this.$http.get(process.env.API_HOST+'v1.4/tenant/async/getTenantByName',{params: {
           'tenantName':this.enterpriseName
         }}).then(res =>{
@@ -456,7 +463,7 @@
         })
       },
       nextFit() {
-        sessionStorage.setItem('contractName', JSON.stringify(TrimAll(this.input)))
+        sessionStorage.setItem('contractName', TrimAll(this.input))
         if(TrimAll(this.input) == ''){
           this.$alert('您还没有填写合同名称!','签署', {
               confirmButtonText: '确定'
@@ -540,29 +547,36 @@
         }
 
         this.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/contract/'+contractNo+'/setting',{
-          operateType:this.operateType, //操作类型(回显)
-          signInterfaceCode:this.signInterfaceCode, //签署企业编号
-          signTenantName:this.enterpriseName, //对手方企业名称
-          tenantName:this.companyName, //签署企业名称
-          userCode:this.userCode, //签署企业授权人编号
-          userName:TrimAll(this.analogueName), //签署企业授权人名称
-          mobile:this.analogueMobile, //授权人手机号
-          email:TrimAll(this.analogueEmail), //授权人邮箱
-          handleUserName:this.handleUserName,//经办人姓名
-          handleMobile:this.handleMobile,//经办人手机号
-          handleEmail:TrimAll(this.handleEmail),//经办人邮箱
-          contractName:TrimAll(this.input), //合同名称
-          perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
-          validTime:this.date //签署截止时间
+            accountCode:sessionStorage.getItem('accountCode'),
+            operateType:this.operateType, //操作类型(回显)
+            signInterfaceCode:this.signInterfaceCode, //签署企业编号
+            signTenantName:this.enterpriseName, //对手方企业名称
+            tenantName:this.companyName, //签署企业名称
+            userCode:this.userCode, //签署企业授权人编号
+            userName:TrimAll(this.analogueName), //签署企业授权人名称
+            mobile:this.analogueMobile, //授权人手机号（对手方）
+            tenantMobile:this.mobile,   //发起方手机号
+            email:TrimAll(this.analogueEmail), //授权人邮箱
+            handleUserName:this.handleUserName,//经办人姓名
+            handleMobile:this.handleMobile,//经办人手机号
+            handleEmail:TrimAll(this.handleEmail),//经办人邮箱
+            contractName:TrimAll(this.input), //合同名称
+            perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
+            validTime:this.date //签署截止时间
         },{emulateJSON: true}).then(res =>{
-
-          if(res.data.resultCode == '1'){
-            this.$router.push('/Place')
-          }else if(res.data.resultCode == '-1'){
-             this.$alert(res.data.resultMessage,'提示', {
-            confirmButtonText: '确定'
-          })
-          }
+            if(res.data.resultCode == '1'){
+                this.$router.push('/Place')
+            }else if(res.data.resultCode == '-1'){
+                this.$alert(res.data.resultMessage,'提示', {
+                    confirmButtonText: '确定'
+                })
+            }else{
+                this.$message({
+                    showClose: true,
+                    message: res.data.resultMessage,
+                    type: 'warning'
+                })
+            }
         })
       },
       lookContractImg (){
@@ -570,40 +584,40 @@
         this.$loading.show(); //显示
         var data =[];
         var contractNo = sessionStorage.getItem('contractNo');
-		        contractNo = JSON.parse(contractNo)
+		        // contractNo = JSON.parse(contractNo)
 
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.dataList.length;i++) {
-        let contractUrl = res.data.dataList[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            for (let i = 0; i < res.data.dataList.length;i++) {
+            let contractUrl = res.data.dataList[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
 
-        }
-      })
-      this.dialogVisible = true
-      },
+            }
+        })
+        this.dialogVisible = true
+        },
     },
     created() {
       var contractName = sessionStorage.getItem('contractName');
       var contractNo = sessionStorage.getItem('contractNo');
       var type = sessionStorage.getItem('type');
 
-      type = JSON.parse(type)
+    //   type = JSON.parse(type)
       this.operateType = type
       if (contractName) {
-        contractName = JSON.parse(contractName)
+        // contractName = JSON.parse(contractName)
         if ( this.$store.state.contractName1 == ''){
           this.$store.state.contractName1 = contractName
         }
         this.input = contractName
       }
       if (contractNo) {
-        contractNo = JSON.parse(contractNo)
+        // contractNo = JSON.parse(contractNo)
         this.ContractNumber = contractNo
         if ( this.$store.state.contractNo1 == ''){
           this.$store.state.contractNo1 = contractNo
@@ -653,5 +667,12 @@
   @import "../../../styles/Confirmation/Signature/Signature.css";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
-</style>
 
+</style>
+<style>
+  .contract-info{
+    box-sizing: border-box !important;
+    height:700px !important;
+    overflow-y: scroll !important;
+  }
+</style>

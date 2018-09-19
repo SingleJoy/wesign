@@ -1,7 +1,7 @@
 <template>
-  <div class="Procontracts" style="margin-top: 20px;">
+  <div class="Procontracts">
     <div class='main'>
-        <el-tabs v-model="activeName" tab-position="40px">
+        <el-tabs v-model="activeName" tab-position="40px" style="margin-top:20px;">
           <el-tab-pane label="全部文件" name="first">
             <total-contract></total-contract>
           </el-tab-pane>
@@ -22,7 +22,9 @@
 
   </div>
 </template>
-<style>
+<style lang="scss" scoped>
+@import "../../common/styles/content.css";
+
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -30,17 +32,37 @@
   #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
     font-size: 16px;
   }
-.el-table th>.cell{
-  text-align: center;
-}
-#app{
-  overflow: hidden;
-}
-.el-table__row .cell{
-  overflow: hidden;
+  .el-table th>.cell{
+    text-align: center;
+  }
+  #app{
+    overflow: hidden;
+  }
+  .el-table__row .cell{
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .contract-type{
+	.el-tabs__header{
+		background: #fff;
+		margin: 0 auto;
+	}
+	.el-tabs__nav-scroll{
+		line-height: 58px; 
+		padding:0 25px;
+	}
+	.el-tabs__item{
+		height:58px;
+		line-height: 58px;
+	}
+	.el-tabs__item.is-active {
+		color: #409EFF;
+		border-bottom: 2px solid #409EFF;
+	}
+
 }
+
 </style>
 
 <script>
@@ -60,8 +82,9 @@ export default {
   }
 }
 </script>
-<style lange='css' scoped>
-@import '../../styles/Multiparty/Multiparties.css'
+<style lange='scss' scoped>
+@import '../../styles/Multiparty/Multiparties.scss';
+
 </style>
 
 

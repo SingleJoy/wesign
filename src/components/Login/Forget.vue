@@ -1,7 +1,7 @@
 <template>
   <div class="forget-wrap">
     <div class="ms-forget">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="">
         <h2 class="forget-logo">忘记密码</h2>
         <el-form-item prop="username">
           <el-input v-model="ruleForm.username" placeholder="请输入手机号码" class="forget-input" :maxlength=11></el-input>
