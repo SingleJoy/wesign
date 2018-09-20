@@ -100,7 +100,15 @@ const service = {
             method:'get',
             params:param
         })
-    }
+    },
+    //个人注册
+    individualRegister(param) {
+        return request({
+            url:'/api/v1.6/tenant/register',
+            method:'post',
+            params:param
+        })
+    },
 }
 export default service;
 

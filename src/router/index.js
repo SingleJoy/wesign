@@ -76,7 +76,8 @@ import CompanyContract from '../components/CompanyContract/CompanyContract.vue' 
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 
-import UserRegister from '../components/UserRegister/IndividualRegister.vue'
+import UserRegister from '../components/UserRegister/IndividualRegister.vue'                       //个人注册
+import CompanyRegister from '../components/UserRegister/BusinessRegister.vue'                       //企业注册
 
 
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
@@ -97,6 +98,14 @@ export const router = new Router({
       path: '/UserRegister',
       name: 'UserRegister',
       component: UserRegister,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/CompanyRegister',
+      name: 'CompanyRegister',
+      component: CompanyRegister,
       meta: {
         auth: false
       }
