@@ -33,7 +33,7 @@ export function validateCard(str){
  *  @param {*password} str
  */
 export function validatePassWord(str){
-    const reg = /^.*[A-Za-z0-9\\w_-]+.*$/
+    const reg = /[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/
     return reg.test(str)
 }
 
