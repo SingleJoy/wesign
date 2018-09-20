@@ -109,6 +109,60 @@ const service = {
             params:param
         })
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //查询企业银行信息接口
+  getBank(param,interfaceCode){
+      return request({
+        url:'/api/v1.4/tenant/'+interfaceCode+'/getBank',
+        method:'get',
+        params:''
+      })
+  },
+  //打款金额接口
+  moneyStatus(param,interfaceCode){
+     return request({
+       url:'/api/wesign/v1.6/tenant/'+interfaceCode+'/moneyStatus',
+       method:'get',
+       params:''
+     })
+  },
+  // 查询打款进度
+  verifyRemittance(param,interfaceCode){
+    return request({
+      url:'/api/wesign/v1.6/tenant/'+interfaceCode+'/verifyRemittance',
+      method:'get',
+      params:parmas
+    })
+  },
+
+  authSuccess(param,interfaceCode){
+    return request({
+      url:'/api/v1.4/tenant/'+interfaceCode+'/authSuccess',
+      method:'get',
+      params:parmas
+    })
+  },
+
+
+
+>>>>>>> 9a9d863cab1d5e09372f6cb590e6fb295d18b207
 }
 export default service;
 
