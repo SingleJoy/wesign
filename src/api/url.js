@@ -109,24 +109,6 @@ const service = {
             params:param
         })
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   //查询企业银行信息接口
   getBank(param,interfaceCode){
       return request({
@@ -159,10 +141,6 @@ const service = {
       params:parmas
     })
   },
-
-
-
->>>>>>> 9a9d863cab1d5e09372f6cb590e6fb295d18b207
 }
 export default service;
 
