@@ -125,19 +125,19 @@ const service = {
             //params: param
         })
     },
-    
+
   //查询企业银行信息接口
-  getBank(param,interfaceCode){
+  getBank(interfaceCode){
       return request({
         url:'/api/v1.4/tenant/'+interfaceCode+'/getBank',
         method:'get',
-        params:''
+
       })
   },
   //打款金额接口
   moneyStatus(param,interfaceCode){
      return request({
-       url:'/api/wesign/v1.6/tenant/'+interfaceCode+'/moneyStatus',
+       url:'/api/v1.6/tenant/'+interfaceCode+'/moneyStatus',
        method:'get',
        params:''
      })
@@ -145,19 +145,26 @@ const service = {
   // 查询打款进度
   verifyRemittance(param,interfaceCode){
     return request({
-      url:'/api/wesign/v1.6/tenant/'+interfaceCode+'/verifyRemittance',
-      method:'get',
-      params:parmas
+      url:'/api/v1.6/tenant/'+interfaceCode+'/verifyRemittance',
+      method:'post',
+      params:param
     })
   },
   // 查询认证完成商户信息
-  authSuccess(param,interfaceCode){
+  authSuccess(interfaceCode){
     return request({
       url:'/api/v1.4/tenant/'+interfaceCode+'/authSuccess',
       method:'get',
-      params:parmas
     })
   },
+
+  unfreezeRemittance(){
+    return request({
+      url:'/api/v1.6/tenant/unfreezeRemittance',
+      method:'post',
+    })
+  },
+
 }
 export default service;
 

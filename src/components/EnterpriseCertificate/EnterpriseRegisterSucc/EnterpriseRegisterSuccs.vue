@@ -71,8 +71,8 @@
           <div class="right-side certification-bg">
 
             <div class="right-content ">
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+signBadgePath" alt="" >
 
-              <img :src="[signBadgePath]" >
             </div>
           </div>
         </div>
@@ -99,12 +99,13 @@
 
     data(){
       return{
+        baseURL:this.baseURL.BASE_URL,
         certificateNo:'',
         companyName:'',
         effectiveStartTime:'',
         effectiveEndTime:'',
         enterpriseName:'' ,
-        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        interfaceCode:'ZQ39488187c444c88e2d69761ff28b5f',
         signBadgePath:''
       }
     },

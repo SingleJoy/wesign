@@ -36,30 +36,70 @@
             </el-form-item>
 
             <el-form-item label="企业银行账号" :label-width="formLabelWidth" prop="bankAccount">
-              <el-input v-model="ruleForm.bankAccount" auto-complete="off" placeholder="请输入企业银行账号" style="width: 330px;height:40px;"></el-input>
+              <el-input v-model="ruleForm.bankAccount" auto-complete="off" placeholder="请输入企业银行账号" style="width: 330px;height:40px;" disabled="disabled"></el-input>
             </el-form-item>
 
             <el-form-item label="银行名称" :label-width="formLabelWidth" prop="bankName">
-              <el-input v-model="ruleForm.bankName" auto-complete="off" placeholder="请输入银行名称" :maxlength= "30" style="width: 330px;height:40px;" ></el-input>
+              <el-input v-model="ruleForm.bankName" auto-complete="off" placeholder="请输入银行名称" :maxlength= "30" style="width: 330px;height:40px;" disabled="disabled"></el-input>
             </el-form-item>
 
 
             <el-form-item label="开户行支行所在省市" :label-width="formLabelWidth" prop="bankArea">
 
-              <el-input placeholder="请输入开户行支行所在省市"  v-model="ruleForm.bankArea" style="width: 330px;height:40px;"></el-input>
+              <el-input placeholder="请输入开户行支行所在省市"  v-model="ruleForm.bankArea" style="width: 330px;height:40px;" disabled="disabled"></el-input>
             </el-form-item>
 
             <el-form-item label="支行银行名称" :label-width="formLabelWidth" prop="bankBranchName">
-              <el-input v-model="ruleForm.bankBranchName" auto-complete="off" placeholder="请输入支行银行名称" :maxlength= "30" style="width: 330px;height:40px;" ></el-input>
+              <el-input v-model="ruleForm.bankBranchName" auto-complete="off" placeholder="请输入支行银行名称" :maxlength= "30" style="width: 330px;height:40px;" disabled="disabled"></el-input>
             </el-form-item>
 
           </el-form>
 
           <div class="edit-btn" >
-            <el-button type="info" style="background:#ccc;width: 200px;height: 40px" >返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
+            <el-button type="info" style="width:200px;height: 40px;">返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
 
-            <el-button type="primary" style="width: 200px;height: 40px;" @click="submit('ruleForm')" :disbled="once">提交</el-button>
+            <el-button type="primary" style="width: 200px;height: 40px;" @click="submit" :disbled="once">提交</el-button>
           </div>
+
+          <el-dialog
+            :visible.sync="dialogAgreement"
+            width="400px"
+            center>
+
+            <div  class="send-code" style="color: red;">对不起，您印证打款金额错误次数已超过五次，<br/>
+              需要您验证一下信息。</div>
+            <!--<div  class="send-code">为确保是您本人操作，请填写以下信息。</div>-->
+            <!--<div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>-->
+            <el-form :model="legalForm" :rules="ruleFormRules" ref="legalForm" class="code-ruleForm">
+
+
+              <el-form-item label="法人姓名" prop="legalPerson">
+                <el-input type="text" placeholder="请输入法人姓名"  v-model="legalForm.legalPerson" style="width: 200px;" disabled="disabled"></el-input>
+              </el-form-item>
+
+
+              <!--<el-form-item prop="legalPerson">-->
+                <!--<el-input type="text" placeholder="请输入法人姓名"  v-model="legalPerson" style="width: 200px;"></el-input>-->
+              <!--</el-form-item>-->
+              <el-form-item prop="IDcard" label="身份证号" >
+                <el-input type="text" placeholder="请输入身份证号"  v-model="legalForm.IDcard" style="width: 200px;"></el-input>
+              </el-form-item>
+
+              <el-form-item prop="code" label="手机号码">
+                <el-input type="text" placeholder="请输入手机号码" class="forget-messageInput" v-model="legalForm.legalMobile" style="width: 200px;"></el-input>
+
+              </el-form-item>
+
+              <el-form-item prop="code" label="验证码">
+                <el-input type="text" placeholder="请输入验证码" class="forget-messageInput" v-model="legalForm.phoneCode" style="width: 200px;"></el-input>
+                <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 20px;">获取</el-button>
+              </el-form-item>
+
+              <div class="forget-btn">
+                <el-button type="primary" @click="submitForm('ruleForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+              </div>
+            </el-form>
+          </el-dialog>
 
         </div>
 
@@ -71,7 +111,7 @@
 </template>
 <script>
   import server from '@/api/url.js'
-  import {validateOpenName,TrimAll,validateDecimal,validateBankAccountNumber} from '@/common/js/validate'
+  import {validateOpenName,TrimAll,validateDecimal,validateBankAccountNumber,validateCard} from '@/common/js/validate'
   export default {
     name: 'EnterprisePayments',
 
@@ -92,32 +132,129 @@
           enterpriseName:'',//企业名称
           bankAccount:'', //企业银行账号
           bankName:'' ,//银行名称
-          bankArea:[], //开户行支行所在省市
+          bankArea:'', //开户行支行所在省市
           bankBranchName:'',  //支行银行名称
         },
-        once:false, //提交按钮单次点击
+        message:'',
+        mobile:sessionStorage.getItem("mobile"),
+        mobileShowFirst:'',
+        mobileShowLast:'',
+        dialogAgreement:false,
+        once:false, //提交按钮单次点击,
+
         rules:{
           paymentNum: [
             {validator: validatePaymentNum, trigger: 'blur' }
           ],
 
         },
-        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        legalForm:{
+          legalPerson:'',
+          IDcard:'',
+          legalMobile:'',
+          phoneCode:'',
+        },
+        // interfaceCode:sessionStorage.getItem("interfaceCode"),
+        interfaceCode:'ZQ39488187c444c88e2d69761ff28b5f',
         formLabelWidth:'200px',
 
       }
     },
     beforeDestroy() {
-      clearInterval(this.timer);
-      this.timer = null;
+      clearInterval(this.queryTime());
+      // this.queryTime = null;
     },
     methods:{
       change (val) {
         this.province=val[0]
         this.city=val[1]
       },
+      sendCode(){
+
+        if(this.repeat == false){
+          this.repeat = true;
+          var codeType = '0';
+          var count = 60;
+          var curCount = count;
+          var timer = null;
+
+          let mobile=this.mobile;
+          this.sms = true;
+          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
+            // this.smsCode=res.data.smsCode
+            this.smsNoVer=res.data.smsNo   //短信编号
+            this.appId=res.data.appId     //appId
+
+
+            var resultCode = res.data.resultCode;
+            var smsNo = res.data.smsNo;
+            var smsCode = res.data.smsCode;
+            var message = res.data.resultMessage;
+            if (resultCode === '1') {
+              this.smsNo = true;
+              this.smsCodeNum +=1;
+              if(this.smsCodeNum == 3){
+                this.isDisabled = true
+              } else{
+                this.isDisabled = false
+              }
+              let codeInfo = document.getElementById('code')
+              codeInfo.innerText =  curCount + '秒'
+              this.smsNum = smsNo
+
+              codeInfo.setAttribute('disabled', 'true')
+              let that = this
+              timer = setInterval(function () {
+                codeInfo.innerText =  (curCount - 1) + '秒'
+                if (curCount === 0) {
+                  codeInfo.innerText = '获取'
+                  clearInterval(timer)
+                  codeInfo.removeAttribute('disabled')
+                  that.repeat = false
+                } else {
+                  curCount--
+                }
+              }, 1000)
+            }else{
+              let that =this;
+
+              that.smsNo = false
+              that.repeat = false
+
+              this.$alert(res.data.resultMessage,'提示', {
+                confirmButtonText: '确定'
+              })
+
+            }
+          })
+        }
+      },
+      // 解冻打款失败
+      refroze(){
+        server.unfreezeRemittance.then(function (res) {
+          if(res.data.resultCode=='1') {
+            this.$message({
+              showClose: true,
+              message:res.data.resultMessage,
+              type: 'success'
+            })
+
+          } else {
+
+            this.$message({
+              showClose: true,
+              message:res.data.resultMessage,
+              type: 'error'
+            })
+
+          }
+
+
+        })
+      },
       //提交
-      submit(formName){
+      submit(){
+        // this.dialogAgreement=true;
         if(this.ruleForm.paymentNum==''){
           this.$alert('打款金额不可为空', '提示',{
             confirmButtonText: '确定'
@@ -130,7 +267,7 @@
           return false
         }else{
           this.once=true;
-          let param ={'trans_money':this.paymentNum};
+          let param ={'trans_money':this.ruleForm.paymentNum};
 
           server.verifyRemittance(param,this.interfaceCode).then(res => {
             if (res.data.resultCode == 0) {
@@ -139,13 +276,18 @@
                 message:res.data.resultMessage,
                 type: 'error'
               })
-
+              this.once=false;
             } else if (res.data.resultCode == 1) {
               this.$alert(res.data.resultMessage, '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
                 this.$router.push('/EnterpriseRegisterSucc')
               })
+            } else if(res.data.resultCode == '-4'){
+              this.message=res.data.resultMessage;
+              this.legalForm.legalPerson=res.data.data;
+              this.dialogAgreement=true;
+
             }
 
           })
@@ -154,52 +296,58 @@
 
       //轮询
       pollingPanel(timer){ //轮询手写面板
-
         server.moneyStatus(this.interfaceCode).then(function (res) {
-
           if(res.data.resultCode=='1') {
-            setTimeout(() => {
-              if(this.canvasTest!=''){
-                clearInterval(this.timer)
-              }
-            },1000)
-          }else{
+            clearInterval(this.queryTime());
+          } else {
 
-            this.$message({
-              showClose: true,
-              message:res.data.resultMessage,
-              type: 'error'
-            })
           }
 
         })
-      }
+      },
+      queryTime() {
+        let that = this;
+        let time_out = 2000;
+        setInterval(function () {
+          if(time_out<33000){
+            time_out=time_out*2;
+            that.queryTime();
+          }else {
+            time_out=32000
+          }
+
+        }, time_out)
+
+      },
 
     },
     created() {
-      let companyName=sessionStorage.getItem("companyName");
-      this.enterpriseName=companyName;
+      this.mobileShowFirst=this.mobile.substring(0,3);
+      this.mobileShowLast=this.mobile.substring(7,11);
+      this.enterpriseName=sessionStorage.getItem("companyName");
+      console.log(this.interfaceCode);
       //查询企业银行信息
       server.getBank(this.interfaceCode).then(response =>{
         if (response.data.resultCode == '1') {
           this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
           this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
+          this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
           this.ruleForm.bankArea = response.data.data.to_pro_name+response.data.data.to_city_name; //收款人开户行省市名
           this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
 
-        } else {
-          this.$alert(response.data.resultMessage,'打款认证', {
-            confirmButtonText: '确定'
+        } else if(response.data.resultCode == '0'){
+          this.$message({
+            showClose: true,
+            message:res.data.resultMessage,
+            type: 'error'
           })
         }
       })
 
       //轮询查找打款进度信息
-      let that = this
-      let timer = null
-      this.timer = setInterval(function () {
-        that.pollingPanel(this.timer)
-      }, 3000)
+
+      this.queryTime();
+
     }
   }
 </script>
@@ -208,5 +356,13 @@
   @import "../../../common/styles/Topes.css";
   @import "../../../common/styles/SigningSteps.css";
   @import "../../../styles/EnterpriseCertificate/EnterprisePayment.styl";
-
+  .send-code{
+    margin: 15px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  .code-ruleForm{
+    width: 500px;
+    height: 300px;
+  }
 </style>
