@@ -32,7 +32,7 @@
 </template>
 <style lang="scss" scope>
 
-@import "../../common/styles/content.css";
+@import "../../common/styles/content.scss";
   .btn-default{
     width: 300px;
     height: 46px;

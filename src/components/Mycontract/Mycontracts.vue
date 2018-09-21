@@ -31,7 +31,7 @@
 </template>
 <style lang="scss">
 
-@import "../../common/styles/content.css";
+@import "../../common/styles/content.scss";
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;

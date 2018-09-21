@@ -88,7 +88,7 @@ export const router = new Router({
       }
     },
     {
-        path:'/',
+        path:'/EnterpriseCertificate',
         name:'EnterpriseCertificate',
         component:EnterpriseCertificate,
         meta:{

@@ -98,7 +98,7 @@
    
 </template>
 <style lang="scss" scoped>
-@import "../../common/styles/content.css";
+@import "../../common/styles/content.scss";
  
 </style>
 

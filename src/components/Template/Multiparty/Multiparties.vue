@@ -22,7 +22,7 @@
 </template>
 <style lang="scss">
   @import "../../../styles/Multiparty/Multiparties.scss";
-  @import "../../../common/styles/content.css";
+  @import "../../../common/styles/content.scss";
 
 .multi-tab{
 	.el-tabs__header{
