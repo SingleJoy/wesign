@@ -102,7 +102,7 @@ export function validateSeal(str){
 
 // 校验手机验证码必须是6位数字
 export function validateSmsCode(str){
-  const reg = /^1\d{7}$/;
+  const reg = /\b\d{6}\b/;
   return reg.test(str)
 }
 

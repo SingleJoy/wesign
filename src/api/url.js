@@ -109,6 +109,23 @@ const service = {
             params:param
         })
     },
+    //企业注册
+    companyRegister(param) {
+        return request({
+            url:'/api/v1.4/tenant/register',
+            method:'post',
+            params:param
+        })
+    },
+    //查询企业注册
+    getCompanyRegister(interfaceCode) {
+        return request({
+            url:'/api/v1.4/tenant/'+ interfaceCode +'/userIsExist',
+            method:'get',
+            //params: param
+        })
+    },
+    
   //查询企业银行信息接口
   getBank(param,interfaceCode){
       return request({

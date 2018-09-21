@@ -64,8 +64,9 @@ export default {
 				callback(new Error("请输入手机号"));
 				} else if (!validateMoblie(value)) {
 					callback(new Error("手机号输入错误"));
-				} else {
-			}
+				} else if(value > "11"){
+					callback(new Error("手机号不能超出11位"));
+				}
 		};
 		var checkCode = (rule, value, callback) => {
 				if (value === "") {
@@ -153,8 +154,18 @@ export default {
 	methods: {
 		sendCode() {
 			if(!this.ruleForm.username) {
+				this.$message({
+					showClose: true,
+					message: "请输入手机号",
+					type: 'error'
+				});
 				return false;
 			} else if (!validateMoblie(this.ruleForm.username)){
+				this.$message({
+					showClose: true,
+					message: "手机号输入错误",
+					type: 'error'
+				});
 				return false;
 			} else {
 				this.num = Math.random()
@@ -178,6 +189,7 @@ export default {
 								});
 							}
 						});
+						
 					}
 				}).catch(error => {
 
@@ -241,13 +253,16 @@ export default {
 				return false;
 			}
 			//验证码是否正确
+
 			if(this.iscode) {
+				//验证码是否
 				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
 					params: {
 						'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
 					}
 				}).then(res => {
 					if(res.body.resultCode == 1) {
+						//个人注册提交
 						server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
 							if(res.data.resultCode === '1') {
 									console.log('注册成功');
@@ -282,7 +297,7 @@ export default {
 					type: 'error'
 				});
 			}
-				
+
 		}
 	}
 }
