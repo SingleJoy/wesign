@@ -98,7 +98,7 @@
         once:false, //提交按钮单次点击
         rules:{
           paymentNum: [
-            { required: true, validator: validatePaymentNum, trigger: 'blur' }
+            {validator: validatePaymentNum, trigger: 'blur' }
           ],
 
         },
