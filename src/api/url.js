@@ -133,7 +133,7 @@ const service = {
       params:parmas
     })
   },
-
+  // 查询认证完成商户信息
   authSuccess(param,interfaceCode){
     return request({
       url:'/api/v1.4/tenant/'+interfaceCode+'/authSuccess',
