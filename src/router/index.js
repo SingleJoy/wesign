@@ -82,6 +82,14 @@ import CompanyRegister from '../components/UserRegister/BusinessRegister.vue'   
 
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
 
+// demo 演示
+import DemoHome from '../demo/DemoHome.vue'   //demo首页
+import DemoTemplateList from '../demo/DemoTemplateList.vue'   //demo 模板列表
+import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
+
+
+
+
 Vue.use(Router)
 
 export const router = new Router({
@@ -618,7 +626,32 @@ export const router = new Router({
       meta: {
         auth: true
       }
+    },
+    {
+      path: '/DemoHome',
+      name: 'DemoHome',
+      component: DemoHome,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoTemplateList',
+      name: 'DemoTemplateList',
+      component: DemoTemplateList,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoAddPerson',
+      name: 'DemoAddPerson',
+      component: DemoAddPerson,
+      meta: {
+        auth: false
+      }
     }
+
   ]
 })
 
