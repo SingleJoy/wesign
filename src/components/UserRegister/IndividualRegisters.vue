@@ -6,45 +6,65 @@
 */
 <template>
 	<div class="Login">
-	<div class="login-wrap">
-		<div class="ms-login">
-		<!-- <div class="water-qrurl-code" >
-			<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
-		</div> -->
-		<div class='center'>
-			<div class='user'>
-			<h2 class='userInfo'>用户注册</h2>
-			<el-form label-width="0px" :model="ruleForm" :rules="rules">
-				<el-form-item prop="username">
-				<el-input v-model="ruleForm.username" placeholder="请输入手机号" value="15734742257" class="login-input" ></el-input><i class="icon-user"></i>
-				</el-form-item>
-				 <el-form-item prop="code">
-					 <el-input v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
-						<el-button slot="append" @click="sendCode()">获取验证码</el-button>
-					</el-input>
-				</el-form-item>
-				<el-form-item prop="password">
-				<el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input><i class="icon-suo"></i>
-				</el-form-item>
-				<el-form-item prop="newPassword">
-				<el-input type="password" v-model="ruleForm.newPassword" placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
-				</el-form-item>
-				<el-form-item>
-				 <el-checkbox v-model="checked" class="iagree">我同意</el-checkbox>
-				 <a href="#" class="agreement">《微签注册使用协议》</a>
-				</el-form-item>
-				<div class="login-btn">
-				<el-button type="primary" @click="userregister()">注册</el-button>
+		<div class="layer" v-show="isShow">
+			<div class="reminder" v-show="isShowSkip">
+				<div class="reminder_img">
+					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
-				<p style="font-size:12px;color:#999;padding-top: 15px;">
-					<a href="javascript:void(0)" id='submit'>,立即登录</a>
-					<a href="javascript:void(0)" class="account">已有账号</a>
-				</p>
-			</el-form>
+				<div class="reminder_text">
+					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
+					<span class="count_down">{{count}}</span>
+				</div>
+			</div>
+			<div class="layer_content" v-show="isShowClose">
+				<div class="layer_close" @click="close()">
+					<span class="layer_close_left"></span>
+					<span class="layer_close_rigth">X</span>
+				</div>
+				<div class="layer_character">
+					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+				</div>
 			</div>
 		</div>
+		<div class="login-wrap">
+			<div class="ms-login">
+			<!-- <div class="water-qrurl-code" >
+				<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
+			</div> -->
+				<div class='center'>
+					<div class='user'>
+					<h2 class='userInfo'>用户注册</h2>
+					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
+						<el-form-item prop="username">
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" value="15734742257" class="login-input" ></el-input><i class="icon-user"></i>
+						</el-form-item>
+						<el-form-item prop="code">
+							<el-input v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
+								<el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
+							</el-input>
+						</el-form-item>
+						<el-form-item prop="password">
+						<el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input><i class="icon-suo"></i>
+						</el-form-item>
+						<el-form-item prop="newPassword">
+						<el-input type="password" v-model="ruleForm.newPassword" placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
+						</el-form-item>
+						<el-form-item>
+						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
+						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
+						</el-form-item>
+						<div class="login-btn">
+						<el-button type="primary" @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
+						</div>
+						<p style="font-size:12px;color:#999;padding-top: 15px;">
+							<a href="javascript:void(0);" id='submit'>,立即登录</a>
+							<a href="javascript:void(0);" class="account">已有账号</a>
+						</p>
+					</el-form>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
 
 	</div>
 </template>
@@ -62,17 +82,17 @@ export default {
 		var checkName = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入手机号"));
-				} else if (!validateMoblie(value)) {
-					callback(new Error("手机号输入错误"));
-				} else if(value > "11"){
-					callback(new Error("手机号不能超出11位"));
-				}
+			} else if (!validateMoblie(value)) {
+				callback(new Error("手机号输入错误"));
+			} else {
+				callback()
+			}
 		};
 		var checkCode = (rule, value, callback) => {
-				if (value === "") {
-					callback(new Error("请输入验证码"));
-				} else {
-			callback();
+			if (value === "") {
+				callback(new Error("请输入验证码"));
+			} else {
+				callback();
 			}
 		};
 		var checkPassWord = (rule, value, callback) => {
@@ -88,10 +108,10 @@ export default {
 			}
 		let checkNewPassWord = (rule, value, callback) => {
 			if (value === "") {
-					callback(new Error("请输入密码"));
-				} else if(!validatePassWord(value)) {
-					callback(new Error("密码格式不对"));
-				} else if(!value !== this.ruleForm.pass){
+				callback(new Error("请输入密码"));
+			} else if(!validatePassWord(value)) {
+				callback(new Error("密码格式不对"));
+			} else if(value !== this.ruleForm.password){
 				callback(new Error("两次输入密码不一致")); 
 			} else {
 				callback();
@@ -102,30 +122,8 @@ export default {
 				callback(new Error('请输入手机号'))
 			} else if (!validateMoblie(value)){
 				callback(new Error('手机号格式错误'))
-			}else if(value==this.mobile){
-		
-			} else {
-				let params = {
-				username: this.ruleForm.mobile
-			};
-			server.verficate(params).then(res => {
-			if (res.data === 0) {
-
-				document.getElementById('password').focus()
-				this.ruleForm.password="test111111";
-				this.dis=true;
-				this.showToolTip=true;
-
-			} else {
-				this.showToolTip=false;
-				this.dis=false;
-				this.ruleForm.password='';
-
-			}
-			}).catch(error => {
-
-			})
-			callback()
+			}else {
+				callback()
 			}
 		}
 		return {
@@ -134,10 +132,17 @@ export default {
 			smsNo: '',
 			smsCode: '',
 			iscode: false,
+			isDisabled: false,
+			isClick: true,
+			isShow: false,
+			isShowSkip: false,
+			isShowClose: false,
+			count: 3,
 			ruleForm: {
 				username: "",
 				code: "",
-				password: ""
+				password: "",
+				newPassword: ""
 			},
 			rules: {
 				username: [{ validator: checkName, trigger: "blur" }],
@@ -152,6 +157,18 @@ export default {
 		};
 	},
 	methods: {
+		iAgreen() {
+			this.isClick = !this.isClick;
+			return false;
+		},
+		protocol() {
+			this.isShow = true;
+			this.isShowClose = true;
+		},
+		close() {
+			this.isShow = false;
+			this.isShowClose = false;
+		},
 		sendCode() {
 			if(!this.ruleForm.username) {
 				this.$message({
@@ -175,6 +192,21 @@ export default {
 					if (res.data === 0) {
 						//console.log('已存在');
 					} else {
+						//倒计时
+						let _this = this;
+						this.isDisabled = true;
+						let btnValue = document.getElementById("elButton");
+						btnValue.innerText = 60 + '秒后获取';
+						let i = 60;
+						let timer = setInterval(function() {
+							i--;
+							btnValue.innerText = i + '秒后获取';
+							if(i <= 0) {
+								btnValue.innerText = "重新获取验证码";
+								_this.isDisabled= false;
+								clearInterval(timer);
+							}
+						}, 1000);
 						//获取验证码
 						this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.ruleForm.username,'interfaceCode': this.num}, {emulateJSON: true}).then(function (res) {
 							console.log(res);
@@ -196,66 +228,13 @@ export default {
 				})
 			}
 		},
-		userregister() {
-			//验证手机号是否正确
-			if (this.ruleForm.username === "") {
-				this.$message({
-					showClose: true,
-					message: '请输入手机号',
-					type: 'error'
-				});
-				return false;
-			} else if (!validateMoblie(this.ruleForm.username)) {
-				this.$message({
-					showClose: true,
-					message: '手机号输入错误',
-					type: 'error'
-				});
-				return false;
-			}
-			//验证再次输入密码是否正确
-			if (this.ruleForm.newPassword === "") {
-				this.$message({
-					showClose: true,
-					message: '请输入密码',
-					type: 'error'
-				});
-				return false;
-			} else if(!this.ruleForm.newPassword !== this.ruleForm.pass){
-				this.$message({
-					showClose: true,
-					message: '两次输入密码不一致',
-					type: 'error'
-				});
-				return false;
-			} 
-			//验证密码是否正确
-			if (this.ruleForm.password === "") {
-				this.$message({
-					showClose: true,
-					message: '请输入密码',
-					type: 'error'
-				});
-				return false;
-			} else if (this.ruleForm.password.length < 8 || this.ruleForm.password.length > 16) {
-				this.$message({
-					showClose: true,
-					message: '密码长度必须为8-16位',
-					type: 'error'
-				});
-				return false;
-			} else if (!validatePassWord(this.ruleForm.password)){
-				this.$message({
-					showClose: true,
-					message: '密码格式为数字+字母',
-					type: 'error'
-				});
-				return false;
-			}
+		iAgreen() {
+			this.isClick = !this.isClick;
+			return false;
+		},
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
 			//验证码是否正确
-
-			if(this.iscode) {
-				//验证码是否
 				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
 					params: {
 						'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
@@ -290,15 +269,8 @@ export default {
 						type: 'error'
 					});
 				})
-			} else {
-				this.$message({
-					showClose: true,
-					message: '短信验证码不能为空',
-					type: 'error'
-				});
-			}
-
-		}
+			});
+		} 
 	}
 }
 </script>
@@ -315,11 +287,80 @@ export default {
 	
 	.Login {
 	width: 100%;
-	height: 350px;
 	}
+	.layer {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7);
+		position: fixed;
+		z-index: 100;
+		top: 0;
+	}
+	.reminder {
+		background-color: #ffffff;
+		position: absolute;
+		top: 30%;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		width: 200px;
+		height: 200px;
+		margin: 0 auto;
+		border-radius: 5px;
+		padding: 30px;
+	}
+	.reminder_img {
+		width: 120px;
+		height: 120px;
+		margin: 0 auto;
+	}
+	.reminder_img img {
+		width: 120px;
+	}
+	.reminder_text {
+		text-align: center;
+		padding-top: 20px;
+		font-size: 12px;
+		color: rgb(34, 167, 234);
+		line-height: 20px;
+	}
+	.count_down {
+		color: red;
+	}
+	.layer_content {
+		width: 40%;
+		background-color: #ffffff;
+		position: relative;
+		top: 5%;
+		left: 30%;
+		height: 90%;
+	}
+			
+	.layer_close {
+		height: 30px;
+		color: #bbbbbb;
+		line-height: 30px;
+		cursor: pointer;
+	}
+	.layer_close_left {
+		display: inline-block;
+		width: 97%;
+	}	
+	.layer_close_right {
+		display: inline-block;
+		width: 3%;
+	}	
+	.layer_character {
+		overflow-y: auto;
+		height: 100%;
+	}
+	.layer_character img {
+		height: auto;
+	}
+			
 	.select-btn {
-	background-color: #fff;
-	color: #666;
+		background-color: #fff;
+		color: #666;
 	}
 	.select-btn:hover {
 	border: 2px solid #44caf7;

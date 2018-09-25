@@ -1,18 +1,23 @@
 <template>
 	<div class="BusinessRegisters">
 		<div class="layer" v-show="isShow">
-			<div class="reminder" v-show="isShow">
+			<div class="reminder" v-show="isShowSkip">
 				<div class="reminder_img">
 					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
-					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面</span>
-					<span>{{count}}</span>
+					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
+					<span class="count_down">{{count}}</span>
 				</div>
 			</div>
-			<div class="layer_content" v-show="!isShow">
-				<div class="layer_close" @click="close()">X</div>
-				<!-- <img data-v-425869db="" src="./static/img/agreement.bfeb086.jpg" alt="" style="width: 100%; height: 100%;"> -->
+			<div class="layer_content" v-show="isShowClose">
+				<div class="layer_close" @click="close()">
+					<span class="layer_close_left"></span>
+					<span class="layer_close_rigth">X</span>
+				</div>
+				<div class="layer_character">
+					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+				</div>
 			</div>
 		</div>
 		<div class="Topes">
@@ -29,26 +34,26 @@
 			</div>
 			<div class="shadow">
 				<div class="content">
-					<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="300px" class="demo-ruleForm">
+					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="300px" class="demo-ruleForm">
 						<el-form-item label="企业名称" prop="companyname">
-							<el-input value="企业名称" :disabled='forbid' v-model="ruleForm.companyname" style="width: 330px;"></el-input>
+							<el-input :disabled="forbid" value="企业名称" v-model="ruleForm.companyname" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="被授权人手机号" prop="mobile">
-							<el-input maxlength="11" :disabled='forbid' value="15734742257" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
+							<el-input :disabled="forbid" maxlength="11" value="15734742257" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="姓名" prop="username">
-							<el-input value="姓名" :disabled='forbid' v-model="ruleForm.username" style="width: 330px;"></el-input>
+							<el-input :disabled="forbid" value="姓名" v-model="ruleForm.username" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code">
 							<el-input style="width: 330px;" value="157347" maxlength="6" v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
-								<el-button id="elButton" slot="append" :disabled="isDisabled" type="primary" style="width: 140px;" @click="sendCode()" ref="code">获取验证码</el-button>
+								<el-button id="elButton" slot="append"  type="primary" style="width: 140px;" @click="sendCode()" ref="code">获取验证码</el-button>
 							</el-input>
 						</el-form-item>
 						<el-form-item label="请输入密码" prop="password">
-							<el-input value="asdasd123" v-model="ruleForm.password" type="password" style="width: 330px;"></el-input>
+							<el-input :disabled="isPassword" value="asdasd123"  v-model="ruleForm.password" type="password" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="再次确认密码" prop="newpassword">
-							<el-input value="asdasd123" v-model="ruleForm.newpassword" type="password" style="width: 330px;"></el-input>
+							<el-input value="asdasd123" :disabled="isPassword" v-model="ruleForm.newpassword" type="password" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item>
 							<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
@@ -58,7 +63,7 @@
 				</div>
 			</div>
 			<div class="submit">
-				<el-button :disabled="isClick" type="primary" class="reg_button" style="width: 200px;" @click="comRegister()">注册</el-button>
+				<el-button :disabled="isClick" type="primary" class="reg_button" style="width: 200px;"  @click="submitForm('ruleForm')">注册</el-button>
 			</div>
 		</section>
 	</div>
@@ -76,6 +81,8 @@
 			var checkCompany = (rule, value, callback) => {
 				if (!value) {
 					return callback(new Error('公司名称不能为空'));
+				} else {
+					callback();
 				}
 			};
 			var checkMobile= (rule, value, callback) => {
@@ -90,6 +97,8 @@
 			var checkUsername = (rule, value, callback) => {
 				if (!value) {
 					return callback(new Error('姓名不能为空'));
+				} else {
+					callback();
 				}
 			};
 			var checkCode = (rule, value, callback) => {
@@ -139,15 +148,19 @@
 				forbid: false,
 				isDisabled: false,
 				isClick: true,
-				isShow: true,
+				isShow: false,
+				isPassword: false,
+				isShowSkip: false,
+				isShowClose: false,
 				EnterpriseName: '',
 				userName: '',
 				accountStatus: '',
+				interfaceCode: '',
 				count: 3,
 				ruleForm: {
 					companyname: '众签',
 					mobile: '15734742257',
-					username: '杨波',
+					username: '',
 					code: '236521',
 					password: 'asdasd123',
 					newpassword: 'asdasd123',	
@@ -177,151 +190,56 @@
 		methods: {
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
-				if (valid) {
-					alert('submit!');
-				} else {
-					console.log('error submit!!');
-					return false;
-				}
+					if (valid) {
+						return;
+						//验证码是否有效
+						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+							params: {
+								'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+							}
+						}).then(res => {
+							if(res.body.resultCode == 1) {
+								this.compangSave();
+							} else {
+								this.$message({
+									showClose: true,
+									message: res.data.resultMessage,
+									type: 'error'
+								});
+							}
+						}).catch(error => {
+							this.$message({
+								showClose: true,
+								message: 'res.data.resultMessage',
+								type: 'error'
+							});
+						})
+					} else {
+						alert(65656);
+						console.log('error submit!!');
+						return false;
+					}
 				});
 			},
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
 			},
-			comRegister() {
-				//验证企业名称是否正确
-				if (this.ruleForm.companyname === "") {
-					this.$message({
-						showClose: true,
-						message: '请输入企业名称',
-						type: 'error'
-					});
-					return false;
-				};
-				//验证姓名是否正确
-				if (this.ruleForm.username === "") {
-					this.$message({
-						showClose: true,
-						message: '请输入企业名称',
-						type: 'error'
-					});
-					return false;
-				};
-				//验证被授权人手机号是否正确
-				if (this.ruleForm.mobile === "") {
-					this.$message({
-						showClose: true,
-						message: '请输入手机号',
-						type: 'error'
-					});
-					return false;
-				} else if (!validateMoblie(this.ruleForm.mobile)) {
-					this.$message({
-						showClose: true,
-						message: '手机号输入错误',
-						type: 'error'
-					});
-					return false;
-				}
-				//验证密码是否正确
-				if (this.ruleForm.password === "") {
-					this.$message({
-						showClose: true,
-						message: '请输入密码',
-						type: 'error'
-					});
-					return false;
-				} else if (this.ruleForm.password.length < 8 || this.ruleForm.password.length > 16) {
-					this.$message({
-						showClose: true,
-						message: '密码长度必须为8-16位',
-						type: 'error'
-					});
-					return false;
-				} else if (!validatePassWord(this.ruleForm.password)){
-					this.$message({
-						showClose: true,
-						message: '密码格式为数字+字母',
-						type: 'error'
-					});
-					return false;
-				}
-
-				//验证码是否正确
-				if (this.ruleForm.code === "") {
-					this.$message({
-						showClose: true,
-						message: '请输入验证码',
-						type: 'error'
-					});
-					return false;
-				} else if(!validateSmsCode(this.ruleForm.code)){
-					this.$message({
-						showClose: true,
-						message: '验证码格式不正确',
-						type: 'error'
-					});
-					return false;
-				} 
-				//验证再次输入密码是否正确
-				if (this.ruleForm.newPassword === "") {
-					this.$message({
-						showClose: true,
-						message: '请输入密码',
-						type: 'error'
-					});
-					return false;
-				} else if(!this.ruleForm.newPassword !== this.ruleForm.pass){
-					this.$message({
-						showClose: true,
-						message: '两次输入密码不一致',
-						type: 'error'
-					});
-					return false;
-				};
-				//验证码是否有效
-				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-					params: {
-						'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-					}
-				}).then(res => {
-					if(res.body.resultCode == 1) {
-						thiscompangSave();
-					} else {
-						this.$message({
-							showClose: true,
-							message: res.data.resultMessage,
-							type: 'error'
-						});
-					}
-				}).catch(error => {
-					this.$message({
-						showClose: true,
-						message: '111',
-						type: 'error'
-					});
-				})
-				
-				
-			},
-			
 			//发送验证码
 			sendCode() {
-				return;
 				if(!this.ruleForm.mobile) {
 					this.$message({
 						showClose: true,
 						message: "请输入手机号",
 						type: 'error'
 					});
-					//return false;
+					return false;
 				} else if (!validateMoblie(this.ruleForm.mobile)){
 					this.$message({
 						showClose: true,
 						message: "手机号输入错误",
 						type: 'error'
 					});
-					//return false;
+					return false;
 				} else {
 					let _this = this;
 					this.isDisabled = true;
@@ -337,11 +255,9 @@
 							clearInterval(timer);
 						}
 					}, 1000);
-					return;
 					this.num = Math.random()
 					//校验手机号是否存在
 					server.verficate({'username': this.ruleForm.mobile}).then(res => {
-						this.iscode = true;
 						if (res.data === 0) {
 							//console.log('已存在');
 						} else {
@@ -369,7 +285,7 @@
 			compangSave() {
 				//商户提交信息
 				var params = {
-					'interfaceCode': this.interfaceCode,
+					'interfaceCode': 'ZQ3512d188874f05b3174d317090d2a2',
 					'tenantName': this.ruleForm.companyname,
 					'userName':this.ruleForm.username,
 					'mobile':this.ruleForm.mobile,
@@ -379,13 +295,11 @@
 				//企业商户注册提交
 				server.companyRegister(params,{emulateJSON: true})
 				.then(res => {
-					console.log(res)
 					if (res.data.resultCode == '1') {
 						this.$message({
-						showClose: true,
-
-						message: res.data.resultMessage,
-						type: 'success'
+							showClose: true,
+							message: res.data.resultMessage,
+							type: 'success'
 						})
 						sessionStorage.setItem('interfaceCode', this.interfaceCode);
 						//this.$router.push('/Pupload');
@@ -405,34 +319,34 @@
 							sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
 							if(authStatus == '1' && auditStatus == '2'){
 								this.$message({
-								showClose: true,
-								message: '您已通过个人和企业注册！',
-								type: 'success'
+									showClose: true,
+									message: '您已通过个人和企业注册！',
+									type: 'success'
 								})
 								this.$router.push('/')
 							} else if(authStatus != '1' && auditSteps == '1'){
 								if(authStatus == '0'){
-								sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
+									sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
+									sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
+									this.$router.push('/Pupload')
+								}else{
+									sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
+									sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
+									this.$router.push('/ErrorPupload')
+								}
+							} else if(authStatus != '1' && auditSteps == '2'){
+								this.$router.push('/PersonWait')
+							}else if( auditStatus != '2' && companySteps == '1'){
+							// sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
 								sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-								this.$router.push('/Pupload')
-							}else{
-								sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
+								this.$router.push('/Enterprise')
+							}else if( auditStatus != '2' && companySteps == '2'){
 								sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-								this.$router.push('/ErrorPupload')
+								this.$router.push('/Payment')
+							}else if( auditStatus != '2' && companySteps == '3'){
+								sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
+								this.$router.push('/WaitReply')
 							}
-						} else if(authStatus != '1' && auditSteps == '2'){
-							this.$router.push('/PersonWait')
-						}else if( auditStatus != '2' && companySteps == '1'){
-						// sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
-							sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-							this.$router.push('/Enterprise')
-						}else if( auditStatus != '2' && companySteps == '2'){
-							sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-							this.$router.push('/Payment')
-						}else if( auditStatus != '2' && companySteps == '3'){
-							sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-							this.$router.push('/WaitReply')
-						}
 					}
 					}else {
 						this.$message({
@@ -449,26 +363,17 @@
 			},
 			protocol() {
 				this.isShow = true;
+				this.isShowClose = true;
 			},
 			close() {
 				this.isShow = false;
+				this.isShowClose = false;
 			}
 		},
 		created() {
-			console.log(this.count)
-			// var setTimer = setInterval(function() {
-				
-			// 	// this.count = this.count--;
-			// 	console.log(this.count);
-			// 	if(count <= 0) {
-			// 		this.isShow = false;
-			// 		clearInterval(setTimer)
-			// 	}
-			// }, 1000);
 			this.interfaceCode = GetQueryString("appId");
 			sessionStorage.setItem('interfaceCode', this.interfaceCode);
 			server.getCompanyRegister(this.interfaceCode,{emulateJSON: true}).then(res => {
-				console.log(res);
 				if (res.data.resultCode == '1') {
 					this.$message({
 						showClose: true,
@@ -478,26 +383,26 @@
 					sessionStorage.setItem('userCode',res.data.data.authorizerCode);
 					sessionStorage.setItem('mobile', res.data.data.mobile);
 					sessionStorage.setItem('enterpriseName', res.data.data.tenantName);
-					this.forbid = true;
+					this.forbid = false;
+					this.isPassword = false;
 					this.EnterpriseName = res.data.data.tenantName;
 					this.userName = res.data.data.userName;
 					this.mobile = res.data.data.mobile;
 					this.passWord = '******';
 					this.newpassword ='******';
 					this.accountStatus = res.data.data.accountStatus;
-
 					if(this.accountStatus =='1'){
-						var dialog = document.getElementById('register-dialog');
-						dialog.style.displaystyle.display='block';
-						var that=this;
-						var timer = null;
-						timer = setInterval(function () {
-						that.num--;
-						if(that.num == 0){
-							clearInterval(timer)
-							that.$router.push('/')
-						}
-						}, 1000)
+						this.isShow = true;
+						this.isShowSkip = true;
+						let _this = this;
+						var setTimer = setInterval(function() {
+							_this.count = _this.count - 1;
+							if(_this.count <= 0) {
+								clearInterval(setTimer);
+								_this.$router.push('/')
+							}
+							console.log(_this.count);
+						}, 1000);
 					} else if(this.accountStatus=='0'){
 						
 					}
@@ -507,14 +412,15 @@
 						showClose: true,
 						message: '您未拥有微签账号，需设置密码',
 						type: 'success'
-					})
+					});
 					sessionStorage.setItem('userCode',res.data.data.authorizerCode);
 					sessionStorage.setItem('mobile', res.data.data.mobile);
 					sessionStorage.setItem('enterpriseName',res.data.data.tenantName);
 					this.EnterpriseName = res.data.data.tenantName;
 					this.userName = res.data.data.userName;
 					this.mobile = res.data.data.mobile;
-					this.forbid = true;
+					this.forbid = false;
+					this.isPassword = true;
 				}
 			}).catch(error => {
 				
@@ -536,7 +442,7 @@
 		.reminder 
 			background-color #ffffff;
 			position absolute
-			top 75px
+			top 30%
 			left 0
 			bottom 0
 			right 0
@@ -557,23 +463,31 @@
 				font-size 12px
 				color rgb(34, 167, 234)
 				line-height 20px
+				.count_down
+					color red
 		.layer_content
 			width 40%
 			background-color #ffffff
-			position fixed
+			position relative
 			top 5%
 			left: 30%
 			height: 90%
-			overflow auto
 			.layer_close 
-				float right
-				margin 15px 15px 0 0 
-				color #bbbbbb
-				width 30px
 				height 30px
+				color #bbbbbb
 				line-height 30px
-				text-align center
 				cursor pointer
+				.layer_close_left
+					display inline-block
+					width 97%
+				.layer_close_right
+					display inline-block	
+					width 3%
+			.layer_character
+				overflow auto
+				height 100%
+				img 
+					height auto;
 	.contain
 		width 1160px
 		background-color #fff
@@ -602,7 +516,7 @@
 				.agreement
 					color #16a8f2
 		.submit 
-			width 70px
+			width 200px
 			margin 20px auto
 		
 </style>
