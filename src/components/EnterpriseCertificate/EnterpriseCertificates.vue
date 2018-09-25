@@ -48,7 +48,7 @@
                                             ref='upload1'
                                             class="upload-license"
                                             :action='uploadLicenseUrl()'
-                                            :before-upload="beforeLicenseUpload"
+                                            :before-upload="beforeUpload"
                                             :on-success="handIdSuccess"
                                             :show-file-list=false
                                             >
@@ -63,7 +63,7 @@
                                 </div>
                                 <p class="upload-tip" :v-if="licenseStatus==false">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
                                 <p class="upload-tip" v-if="licenseStatus"> <span class="el-icon-warning" style="margin-right:20px;"></span>以下信息为系统自动识别信息，若与贵公司实际信息不符，请重新拍照后上传</p>
-                                <div class="company-input" v-if="licenseStatus">
+                                <div class="company-input" v-if="licenseInputShow">
                                     <div class="input-item">
                                         <span class="input-title">企业名称</span>
                                         <el-input
@@ -71,7 +71,7 @@
                                             placeholder="请输入内容"
                                             v-model="licenseForm.tenantName"
                                             @blur='enterpriseName'
-                                            :disabled= fullName
+                                            :disabled= licenseStatus
                                         >
                                         </el-input>
                                     </div>
@@ -82,7 +82,7 @@
                                             placeholder="请输入内容"
                                             v-model="licenseForm.creditCode"
                                             @blur='enterpriseName'
-                                            :disabled= fullName
+                                            :disabled= licenseStatus
                                         >
                                         </el-input>
                                     </div>
@@ -93,7 +93,7 @@
                                             placeholder="请输入内容"
                                             v-model="licenseForm.legalPerson"
                                             @blur='enterpriseName'
-                                            :disabled= fullName
+                                            :disabled= licenseStatus
                                         >
                                         </el-input>
                                     </div>
@@ -107,8 +107,8 @@
                         <span class="title-name">管理员信息</span>
                     </div>
                     <div class="admin-type">
-                        <el-radio v-model="adminType" label="1" style='float:left;padding-top: 5px;'>法人本人</el-radio>
-                        <el-radio v-model="adminType" label="2" style='float:left;padding-top: 5px;'>被授权人</el-radio>
+                        <el-radio v-model="authorizerType" :label="false" style='float:left;padding-top: 5px;'>法人本人</el-radio>
+                        <el-radio v-model="authorizerType" :label="true" style='float:left;padding-top: 5px;'>被授权人</el-radio>
                         </div>
                      <div class="content-bg">
                              <div class="content-box">
@@ -125,7 +125,7 @@
                                                 ref='upload2'
                                                 class="upload-cardID"
                                                 :action='uploadIDUrl("front")'
-                                                :before-upload="beforeIdUpload"
+                                                :before-upload="beforeUpload"
                                                 :on-success="handIdFrontSuccess"
                                                 :show-file-list=false
                                                 >
@@ -146,7 +146,7 @@
                                                 ref='upload2'
                                                 class="upload-cardID"
                                                 :action='uploadIDUrl("back")'
-                                                :before-upload="beforeIdUpload"
+                                                :before-upload="beforeUpload"
                                                 :on-success="handIdBackSuccess"
                                                 :show-file-list=false
                                                 >
@@ -166,15 +166,16 @@
                                 </div>
 								<p class="upload-tip">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
 
-                                 <div class="company-input" v-if="licenseStatus">
+                                 <div class="company-input" v-if="!IdBackImg">
+                                  
                                     <div class="input-item">
                                         <span class="input-title">法人姓名</span>
                                         <el-input
                                             style='width:336px'
-                                            placeholder="请输入内容"
-                                            v-model="IdInfo.name"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
+                                            placeholder=""
+                                            v-model="IdInfo.userName"
+                                            @blur='validateIdInfo'
+                                            :disabled= IdDisabled
                                         >
                                         </el-input>
                                     </div>
@@ -182,10 +183,10 @@
                                         <span class="input-title">身份证号</span>
                                         <el-input
                                             style='width:336px'
-                                            placeholder="请输入内容"
+                                            placeholder=""
                                             v-model="IdInfo.idcard"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
+                                            @blur='validateIdInfo'
+                                            :disabled= IdDisabled
                                         >
                                         </el-input>
                                     </div>
@@ -193,23 +194,30 @@
                                         <span class="input-title">手机号</span>
                                         <el-input
                                             style='width:336px;'
-                                            placeholder="请输入内容"
+                                            placeholder=""
                                             v-model="IdInfo.mobile"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
+                                            @blur='validateIdInfo("mobile")'
+                                            :disabled= authorizerType&&IdDisabled
                                         >
                                         </el-input>
+                                        <span v-if="mobileTip" class="validate-tip">{{mobileTipText}}</span>
                                     </div>
-                                     <div class="input-item">
+                                    <div class="input-item">
                                         <span class="input-title">验证码</span>
-                                        <el-input
-                                            style='width:336px;'
-                                            placeholder="请输入内容"
+                                        <el-input 
+                                            style='width:230px;'
+                                            placeholder=""
                                             v-model="IdInfo.smsCode"
-                                            @blur='enterpriseName'
+                                            @blur='validateIdInfo("smsCode")'
                                             :disabled= fullName
                                         >
                                         </el-input>
+                                        <span>
+                                             <el-button type="primary" style='width:100px;padding:12px 10px;' id='code' :disabled="smsSend" @click="getSmsCode">{{smsCodeText}}</el-button>
+                                        </span>
+                                    </div>
+                                    <div class="input-item">
+                                          <el-radio v-model="radio" label="0"><span style="color:#333;cursor: pointer;">确认签署</span><span style="color: #409eff;cursor: pointer;"> <<法人说明函>></span></el-radio>
                                     </div>
                                 </div>
                             </div>
@@ -220,6 +228,20 @@
                         <span class="title-name">对公账户信息</span>
                     </div>
                      <!-- <div class="content-bg"> -->
+                            <!-- <el-form :model="IdInfo" :IdRules="IdRules" ref="IdInfo" label-width="0px">
+                                <el-form-item  label="法人姓名" prop="userName">
+                                    <el-input v-model="IdInfo.userName"></el-input>
+                                </el-form-item>
+                                <el-form-item label="身份证号" prop="idcard">
+                                    <el-input v-model="IdInfo.idcard"></el-input>
+                                </el-form-item>
+                                <el-form-item  label="手机号"  prop="mobile">
+                                    <el-input v-model="IdInfo.mobile"></el-input>
+                                </el-form-item>
+                                <el-form-item  label="验证码"  prop="smsCode">
+                                    <el-input v-model="IdInfo.smsCode"></el-input>
+                                </el-form-item>
+                            </el-form> -->
                             <div class="content-box">
                                 <div class="company-input">
                                     <div class="input-item">
@@ -257,14 +279,12 @@
                                     </div>
 									 <div class="input-item">
                                         <span class="input-title">开户行所在省／市</span>
-                                        <el-input
-                                            style='width:336px;'
-                                            placeholder="请输入内容"
-                                            v-model="companyForm.city"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
-                                        >
-                                        </el-input>
+                                            <el-cascader
+                                                :options="options"
+                                                v-model="selectedOptions"
+                                                @change="handleCityChange">
+                                            </el-cascader>
+                                      
                                     </div> <div class="input-item">
                                         <span class="input-title">开户行支行名称</span>
                                         <el-input
@@ -293,18 +313,21 @@
 
 <script>
 import server from "@/api/certificationUrl";
+import {validateMoblie,validatePassWord} from '../../common/js/validate.js'
 export default {
     name:'',
     data() {
         return {
             baseURL:this.baseURL.BASE_URL,
+            interfaceCode:'',
             license:{
                 src:null
             },
             licenseSize:0,             //营业执照大小
             licenseInfoEdit:false,   //营业执照信息
-            licenseStatus:false,        //营业执照上传状态是否正确
-            licenseForm:{           //企业信息
+            licenseInputShow:false,
+            licenseStatus:true,        //营业执照上传状态是否正确
+            licenseForm:{              //企业信息
                 tenantName:'naem',
                 creditCode:'23432432432',
                 legalPerson:'ewre',
@@ -314,16 +337,24 @@ export default {
             backIdExample:false,
             IdInfo:{
                 idcard:'',
-                name:'',
+                userName:'',
                 mobile:'',
-                smsCode:''
+                smsCode:'',
+                smsNo:'',
+                resultMobile:''
             },
+            IdDisabled:true,
             IdFrontImg:'',           //正面img
             IdBackImg:'',             //反面img
             IdCardFrontSize:0, //身份证正面
             IdCardBackSize:0, //身份证反面
-            adminType:'1',    //管理员了类型
-           
+            authorizerType:false,    //管理员了类型
+            frontPhoto:'',        //正面照地址
+            backPhoto:"",         //反面照地址
+            IdRules:[
+                
+            ],
+            radio:"0",
             companyStatus:true,
             companyForm:{
                 tenantName:'',
@@ -342,7 +373,17 @@ export default {
             },
             IDcardSide:{
                 src:''
-            }
+            },
+
+
+            mobileTip:false,
+            mobileTipText:'',
+            smsCodeText:'获取验证码',
+            smsSend:false,
+            selectedOptions:'',
+            option:[{
+
+            }]
 
         }
     },
@@ -362,6 +403,87 @@ export default {
         //输入验证
         enterpriseName(){
 
+        }, 
+        //身份证信息校验
+        validateIdInfo(type){
+            console.log(2323)
+            if(type == 'mobile'){
+                if(this.IdInfo.mobile == ''){
+                    this.mobileTip = true;
+                    this.mobileTipText="请输入手机号"
+                    return false
+                }else if(!validateMoblie(this.IdInfo.mobile) ){
+                    this.mobileTip = true;
+                    this.mobileTipText="手机号输入不正确"
+                    return false
+                }else{
+                     this.mobileTip = false;
+                     this.valiteMobile()
+                     return true
+                }
+            }
+        },
+        //验证手机号
+        valiteMobile(){
+            let param={
+                userName:this.IdInfo.mobile
+            }
+            server.valiteMobile(param).then(res=>{
+                if(res.data.resultCode==0){
+
+                }else{
+
+                }
+            }).catch(error=>{
+
+            })
+        },
+       
+        //获取验证码
+        getSmsCode(){
+           if(!this.validateIdInfo("mobile")){
+               return 
+           }
+            var codeType = '0'
+            var InterValObj = 60
+            var count = 60
+            var curCount = count
+            var timer = null
+            let params = {
+                userName:this.IdInfo.mobile,
+                sendType:codeType
+            }
+            let that = this;
+            server.smsCode(params).then(res=>{
+                var appId = res.data.appId
+                that.appId = appId
+                var resultCode = res.data.resultCode
+                var smsNo = res.data.smsNo
+                that.IdInfo.resultMobile = res.data.mobile     //发送验证码后返回的手机号
+                if (resultCode == '0') {
+                    that.smsCodeText = curCount + '秒'
+                    that.IdInfo.smsNo = smsNo
+                    that.smsSend = true;
+                    timer = setInterval(function () {
+                        that.smsCodeText =  (curCount - 1) + '秒'
+                        if (curCount === 0) {
+                            that.smsCodeText  = '获取验证码'
+                             that.smsSend = false;
+                            clearInterval(timer)
+                        } else {
+                            curCount--
+                        }
+                    }, 1000)
+                }else{
+                    that.$message({
+                        message: res.data.resultMessage,
+                        type: 'warning'
+                    })
+                }
+            }).catch(error=>{
+
+            })
+       
         },
         //营业执照上传路径
         uploadLicenseUrl(){
@@ -376,7 +498,7 @@ export default {
             }
         },
         //上传前的校验
-        beforeLicenseUpload(file){
+        beforeUpload(file){
             var max_size = 5; // 5M
             var reg= /[.](png|PNG|jpg|JPG|jpeg|JPEG)$/
             var index = file.name.lastIndexOf('.')
@@ -385,7 +507,7 @@ export default {
                     confirmButtonText: '确定'
                 });
                 return false
-            }else if(file.size > 2*1024*1024){
+            }else if(file.size > max_size*1024*1024){
                 this.$alert('图片大小超过限制！','上传', {
                     confirmButtonText: '确定'
                 });
@@ -395,14 +517,14 @@ export default {
             }
 
         },
-
-        //身份证上传校验
-        beforeIdUpload(){
+        //营业执照上传成功
+        handIdSuccess(){
+            this.licenseInputShow = true;
 
         },
-        //正面上传成功
+
+        //身份证正面上传成功
         handIdFrontSuccess(name, file, fileList){
-            console.log(name)
              if(name.data.resultCode == 1){
              this.IdFrontImg = name.data.frontPhoto;
                 this.$message({
@@ -435,132 +557,14 @@ export default {
                     type: 'error'
                 })
              }
-
         },
-        //上传成功
-        handleicenseSuccess(){
-
+        //选择城市
+        handleCityChange(){
+            
         },
-        //身份证上传
-        handIdSuccess(){
-
-        },
+       
         
-        //企业信息上传事件
-        fileClick() {
-            document.getElementById('upload_file').click()
-        },
-        //上传文件
-        fileChange(el) {
-            if (!el.target.files[0].size) return;
-            this.fileList(el.target);
-            el.target.value = ''
-        },
-        fileList(fileList) {
-            let files = fileList.files;
-            console.log(files)
-            for (let i = 0; i < files.length; i++) {
-            //判断是否为文件夹
-            if (files[i].type != '') {
-                this.fileAdd(files[i]);
-            } else {
-                //文件夹处理
-                if(fileList.items){
-                this.folders(fileList.items[i]);
-                }else{
-                this.$alert('图片格式不正确!','上传', {
-                    confirmButtonText: '确定'
-                });
-                }
-            }
-            }
-        },
-        fileAdd(file) {
-            if (this.limit !== undefined) this.limit--;
-            if (this.limit !== undefined && this.limit < 0) return;
-
-            //判断是否为图片文件
-            var reg= /[.](png|PNG|jpg|JPG|jpeg|JPEG)$/
-            var index = file.name.lastIndexOf('.')
-            if(!reg.test(file.name.slice(index))) {
-                this.$alert('图片格式不正确!','上传', {
-                    confirmButtonText: '确定'
-                });
-                return false
-            }else if(file.size > 2*1024*1024){
-                this.$alert('图片大小超过限制！','上传', {
-                    confirmButtonText: '确定'
-                });
-                return false
-            } else {
-            document.getElementById('firstFile').style.display='none';
-            this.size = file.size;
-            let reader = new FileReader();
-            let image = new Image();
-            let that=this;
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                file.src = this.result;
-                image.onload=function(){
-                    let width = image.width;
-                    let height = image.height;
-                    file.width=width;
-                    file.height=height;
-                    that.license=file
-                };
-                image.src= file.src;
-                console.log(file)
-                let param={
-                    "image":image.src
-                }
-                that.licenseStatus = true;
-                // server.license(param).then(res=>{
-                //     if(res.data.resultCode == '1'){
-                //         that.$message({
-                //             showClose: true,
-                //             message: res.data.resultMessage,
-                //             type: 'success'
-                //         })
-                //         that.licenseStatus = true;
-                //     } else {
-                //         that.$message({
-                //             showClose: true,
-                //             message: res.data.resultMessage,
-                //             type: 'error'
-                //         })
-                //         that.licenseStatus = false;
-                //     }
-                // })
-               
-                }
-            }
-        },
-
-         //文件夹处理
-        folders(files) {
-            let _this = this;
-            //判断是否为原生file
-            if (files.kind) {
-            files = files.webkitGetAsEntry();
-            }
-            files.createReader().readEntries(function (file) {
-            for (let i = 0; i < file.length; i++) {
-                if (file[i].isFile) {
-                _this.foldersAdd(file[i]);
-                } else {
-                _this.folders(file[i]);
-                }
-            }
-            })
-        },
-
-        foldersAdd(entry) {
-            let _this = this;
-            entry.file(function (file) {
-            _this.fileAdd(file)
-            })
-        },
-
+      
         bytesToSize(bytes) {
             if (bytes === 0) return '0 B';
             let k = 1024,
@@ -573,14 +577,6 @@ export default {
 
         },
 
-        //点击触发上传
-        idImgClick(type){
-
-        },
-        //身份证照片
-        idCardChange(e,type){
-
-        },
 
         //取消
         cancelIDcard(){
@@ -588,7 +584,24 @@ export default {
         },
         //提交
         submitIDcard(){
+            this.subIdInfo()
+        },
 
+        subIdInfo(){
+            let params={
+                userName:this.IdInfo.userName,
+                idCard:this.IdInfo.idcard,
+                mobile:this.IdInfo.mobile,
+                interfaceCode:this.interfaceCode,
+                authorizerType:this.authorizerType,
+                frontPhoto:this.frontPhoto,
+                backPhoto:this.backPhoto   
+            }
+            server.IdCard(params).then(res=>{
+
+            }).catch(error=>{
+
+            })
         }
 
 

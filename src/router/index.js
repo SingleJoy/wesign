@@ -366,7 +366,7 @@ export const router = new Router({
       name: 'Payment',
       component: Payment,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
