@@ -88,6 +88,7 @@ export function validateVerbal(str){
 /**
  *  @param {*} str
  */
+//校验13位数字公章
 export function validateDecimal(str){
     const reg = /^(?!0\.(?!0{2})\d{2}).+$/
     return reg.test(str)
@@ -113,13 +114,20 @@ export function validateBankAccountNumber(str){
 }
 
 
-
+// 去除字符串空格
 export  function Trim(str){
   return str.replace(/(^\s*)|(\s*$)/g, "");
 }
+//去除输入框所有空格
 export  function TrimAll(str){
     return str.replace(/\s/g, "");
   }
+export  function onlyChinese(str){
+  const reg=/[^\u4E00-\u9FA5]/g;
+  return reg.test(str)
+}
+
+
 /**
  * 加 g 去除全部空格 不加去除前后空格
  * @param {*} str 目标字符串

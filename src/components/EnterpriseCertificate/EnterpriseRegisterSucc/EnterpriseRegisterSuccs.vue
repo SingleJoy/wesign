@@ -82,7 +82,7 @@
       <div class="certification-book">
          <div class="bg-png"></div>
          <div class="download">
-           <p class="tips">企业实名完成《一般企业认证授权书》以及生效，<span>您已正式成为{{enterpriseName}}企业账号管理员</span></p>
+           <p class="tips">企业实名完成《一般企业认证授权书》已经生效，<span>您已正式成为{{enterpriseName}}企业账号管理员</span></p>
            <p class="down-btn"><a href="javascript:void(0);" @click="download">点击下载</a></p>
          </div>
       </div>
