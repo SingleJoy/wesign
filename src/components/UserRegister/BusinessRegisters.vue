@@ -1,5 +1,20 @@
 <template>
 	<div class="BusinessRegisters">
+		<div class="layer" v-show="isShow">
+			<div class="reminder" v-show="isShow">
+				<div class="reminder_img">
+					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+				</div>
+				<div class="reminder_text">
+					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面</span>
+					<span>{{count}}</span>
+				</div>
+			</div>
+			<div class="layer_content" v-show="!isShow">
+				<div class="layer_close" @click="close()">X</div>
+				<!-- <img data-v-425869db="" src="./static/img/agreement.bfeb086.jpg" alt="" style="width: 100%; height: 100%;"> -->
+			</div>
+		</div>
 		<div class="Topes">
 			<nav class='nav'>
 				<p class='logo'>
@@ -16,34 +31,34 @@
 				<div class="content">
 					<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="300px" class="demo-ruleForm">
 						<el-form-item label="企业名称" prop="companyname">
-							<el-input value="企业名称" :disabled=forbid v-model="ruleForm.companyname" style="width: 330px;"></el-input>
+							<el-input value="企业名称" :disabled='forbid' v-model="ruleForm.companyname" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="被授权人手机号" prop="mobile">
-							<el-input maxlength="11" :disabled=forbid value="15734742257" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
+							<el-input maxlength="11" :disabled='forbid' value="15734742257" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="姓名" prop="username">
-							<el-input value="姓名" v-model="ruleForm.username" style="width: 330px;"></el-input>
+							<el-input value="姓名" :disabled='forbid' v-model="ruleForm.username" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code">
 							<el-input style="width: 330px;" value="157347" maxlength="6" v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
-								<el-button id="elButton" slot="append" style="style: background-color: #16a8f2; color: #fffffff; width: 140px;" @click="sendCode()" ref="code">获取验证码</el-button>
+								<el-button id="elButton" slot="append" :disabled="isDisabled" type="primary" style="width: 140px;" @click="sendCode()" ref="code">获取验证码</el-button>
 							</el-input>
 						</el-form-item>
-						<el-form-item label="请输入密码" :disabled=forbid prop="password">
+						<el-form-item label="请输入密码" prop="password">
 							<el-input value="asdasd123" v-model="ruleForm.password" type="password" style="width: 330px;"></el-input>
 						</el-form-item>
-						<el-form-item label="再次确认密码" :disabled=forbid prop="newpassword">
+						<el-form-item label="再次确认密码" prop="newpassword">
 							<el-input value="asdasd123" v-model="ruleForm.newpassword" type="password" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-checkbox v-model="checked" class="iagree">我同意</el-checkbox>
-							<a href="#" class="agreement">《微签注册使用协议》</a>
+							<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
+							<a href="javascript:;" class="agreement" @click="protocol()">《微签注册使用协议》</a>
 						</el-form-item>
 					</el-form>
 				</div>
 			</div>
 			<div class="submit">
-				<el-button type="primary" class="reg_button" style="width: 200px;" @click="comRegister()">注册</el-button>
+				<el-button :disabled="isClick" type="primary" class="reg_button" style="width: 200px;" @click="comRegister()">注册</el-button>
 			</div>
 		</section>
 	</div>
@@ -122,6 +137,13 @@
 				smsCode: '',
 				appId: '',
 				forbid: false,
+				isDisabled: false,
+				isClick: true,
+				isShow: true,
+				EnterpriseName: '',
+				userName: '',
+				accountStatus: '',
+				count: 3,
 				ruleForm: {
 					companyname: '众签',
 					mobile: '15734742257',
@@ -132,22 +154,22 @@
 				},
 				rules: {
 					companyname: [
-						{ validator: checkCompany, trigger: 'blur' }
+						{required: true, validator: checkCompany, trigger: 'blur' }
 					],
 					mobile: [
-						{ validator: checkMobile, trigger: 'blur' }
+						{required: true, validator: checkMobile, trigger: 'blur' }
 					],
 					username: [
-						{ validator: checkUsername, trigger: 'blur' }
+						{required: true, validator: checkUsername, trigger: 'blur' }
 					],
 					code: [
-						{ validator: checkCode, trigger: 'blur' }
+						{required: true, validator: checkCode, trigger: 'blur' }
 					],
 					password: [
-						{ validator: checkPassWord, trigger: 'blur' }
+						{required: true, validator: checkPassWord, trigger: 'blur' }
 					],
 					newpassword: [
-						{ validator: checkNewPass, trigger: 'blur' }
+						{required: true, validator: checkNewPass, trigger: 'blur' }
 					]
 				}
 			};
@@ -282,8 +304,10 @@
 				
 				
 			},
+			
 			//发送验证码
 			sendCode() {
+				return;
 				if(!this.ruleForm.mobile) {
 					this.$message({
 						showClose: true,
@@ -299,17 +323,21 @@
 					});
 					//return false;
 				} else {
+					let _this = this;
+					this.isDisabled = true;
 					let btnValue = document.getElementById("elButton");
-					btnValue.innerText = 60;
+					btnValue.innerText = 60 + '秒后获取';
 					let i = 60;
 					let timer = setInterval(function() {
 						i--;
 						btnValue.innerText = i + '秒后获取';
 						if(i <= 0) {
 							btnValue.innerText = "重新获取验证码";
-							clearInterval(timer)
+							_this.isDisabled= false;
+							clearInterval(timer);
 						}
 					}, 1000);
+					return;
 					this.num = Math.random()
 					//校验手机号是否存在
 					server.verficate({'username': this.ruleForm.mobile}).then(res => {
@@ -414,102 +442,168 @@
 						})
 					}
 				})
+			},
+			iAgreen() {
+				this.isClick = !this.isClick;
+				return false;
+			},
+			protocol() {
+				this.isShow = true;
+			},
+			close() {
+				this.isShow = false;
 			}
 		},
-		// created() {
-		// 	this.interfaceCode = GetQueryString("appId");
-		// 	sessionStorage.setItem('interfaceCode', this.interfaceCode);
-		// 	server.getCompanyRegister(this.interfaceCode,{emulateJSON: true}).then(res => {
-		// 		if (res.data.resultCode == '1') {
-		// 		this.$message({
-		// 			showClose: true,
-		// 			message: '您已拥有微签账号，无需重新设置密码',
-		// 			type: 'success'
-		// 		})
-		// 		sessionStorage.setItem('userCode',res.data.data.authorizerCode)
-		// 		sessionStorage.setItem('mobile', res.data.data.mobile)
-		// 		sessionStorage.setItem('enterpriseName', res.data.data.tenantName)
-		// 		this.disabled = true
-		// 		this.forbid = true
-		// 		this.EnterpriseName = res.data.data.tenantName
-		// 		this.userName = res.data.data.userName
-		// 		this.phone = res.data.data.mobile
-		// 		this.passWord = '******'
-		// 		this.verifyPassWord ='******'
-		// 		this.accountStatus = res.data.data.accountStatus;
-
-		// 		if(this.accountStatus =='1'){
-		// 			var dialog = document.getElementById('register-dialog');
-		// 			dialog.style.display='block';
-		// 			var that=this;
-		// 			var timer = null;
-		// 			timer = setInterval(function () {
-		// 			that.num--;
-		// 			if(that.num == 0){
-		// 				clearInterval(timer)
-		// 				that.$router.push('/')
-		// 			}
-		// 			}, 1000)
-
-		// 		}
-		// 		else if(this.accountStatus=='0'){
-
-		// 		}
-		// 		return false
-		// 		} else{
-		// 		this.$message({
-		// 			showClose: true,
-		// 			message: '您未拥有微签账号，需设置密码',
-		// 			type: 'success'
-		// 		})
-		// 		sessionStorage.setItem('userCode',res.data.data.authorizerCode)
-		// 		sessionStorage.setItem('mobile', res.data.data.mobile)
-		// 		sessionStorage.setItem('enterpriseName',res.data.data.tenantName)
-		// 		this.disabled = true
-		// 		this.EnterpriseName = res.data.data.tenantName
-		// 		this.userName = res.data.data.userName
-		// 		this.phone = res.data.data.mobile
-		// 		}
-		// 	}).catch(error => {
+		created() {
+			console.log(this.count)
+			// var setTimer = setInterval(function() {
 				
-		// 	})
-		// }
+			// 	// this.count = this.count--;
+			// 	console.log(this.count);
+			// 	if(count <= 0) {
+			// 		this.isShow = false;
+			// 		clearInterval(setTimer)
+			// 	}
+			// }, 1000);
+			this.interfaceCode = GetQueryString("appId");
+			sessionStorage.setItem('interfaceCode', this.interfaceCode);
+			server.getCompanyRegister(this.interfaceCode,{emulateJSON: true}).then(res => {
+				console.log(res);
+				if (res.data.resultCode == '1') {
+					this.$message({
+						showClose: true,
+						message: '您已拥有微签账号，无需重新设置密码',
+						type: 'success'
+					})
+					sessionStorage.setItem('userCode',res.data.data.authorizerCode);
+					sessionStorage.setItem('mobile', res.data.data.mobile);
+					sessionStorage.setItem('enterpriseName', res.data.data.tenantName);
+					this.forbid = true;
+					this.EnterpriseName = res.data.data.tenantName;
+					this.userName = res.data.data.userName;
+					this.mobile = res.data.data.mobile;
+					this.passWord = '******';
+					this.newpassword ='******';
+					this.accountStatus = res.data.data.accountStatus;
+
+					if(this.accountStatus =='1'){
+						var dialog = document.getElementById('register-dialog');
+						dialog.style.displaystyle.display='block';
+						var that=this;
+						var timer = null;
+						timer = setInterval(function () {
+						that.num--;
+						if(that.num == 0){
+							clearInterval(timer)
+							that.$router.push('/')
+						}
+						}, 1000)
+					} else if(this.accountStatus=='0'){
+						
+					}
+					return false
+				} else{
+					this.$message({
+						showClose: true,
+						message: '您未拥有微签账号，需设置密码',
+						type: 'success'
+					})
+					sessionStorage.setItem('userCode',res.data.data.authorizerCode);
+					sessionStorage.setItem('mobile', res.data.data.mobile);
+					sessionStorage.setItem('enterpriseName',res.data.data.tenantName);
+					this.EnterpriseName = res.data.data.tenantName;
+					this.userName = res.data.data.userName;
+					this.mobile = res.data.data.mobile;
+					this.forbid = true;
+				}
+			}).catch(error => {
+				
+			})
+		}
 	}
 </script>
 
 
 <style lang="stylus" scoped>
 @import "../../common/styles/Topes.css";
-.contain
-	width 1160px
-	background-color #fff
-	margin 20px auto
-	padding 20px
-	.image_register
-		position relative
-		color #ffffff
-		.register
+.BusinessRegisters
+	.layer
+		width 100%
+		height 100%
+		background-color rgba(0, 0, 0, 0.7)
+		position fixed
+		z-index 100
+		.reminder 
+			background-color #ffffff;
 			position absolute
-			top 10px
-			left 35px
-	.shadow
-		width 844px
-		height 596px
-		margin 0 auto 
-		background-color #fafafa
-		padding-top 20px
-		margin-top 15px
-		.content
-			width 800px
-			height 476px
+			top 75px
+			left 0
+			bottom 0
+			right 0
+			width 200px
+			height 200px
 			margin 0 auto
+			border-radius 5px
+			padding 30px
+			.reminder_img
+				width 120px
+				height 120px
+				margin 0 auto
+				img
+					width 120px
+			.reminder_text
+				text-align center
+				padding-top 20px
+				font-size 12px
+				color rgb(34, 167, 234)
+				line-height 20px
+		.layer_content
+			width 40%
 			background-color #ffffff
-			padding-top 100px
-			.agreement
-				color #16a8f2
-	.submit 
-		width 70px
+			position fixed
+			top 5%
+			left: 30%
+			height: 90%
+			overflow auto
+			.layer_close 
+				float right
+				margin 15px 15px 0 0 
+				color #bbbbbb
+				width 30px
+				height 30px
+				line-height 30px
+				text-align center
+				cursor pointer
+	.contain
+		width 1160px
+		background-color #fff
 		margin 20px auto
+		padding 20px
+		.image_register
+			position relative
+			color #ffffff
+			.register
+				position absolute
+				top 10px
+				left 35px
+		.shadow
+			width 844px
+			height 596px
+			margin 0 auto 
+			background-color #fafafa
+			padding-top 20px
+			margin-top 15px
+			.content
+				width 800px
+				height 476px
+				margin 0 auto
+				background-color #ffffff
+				padding-top 100px
+				.agreement
+					color #16a8f2
+		.submit 
+			width 70px
+			margin 20px auto
 		
 </style>
 <style scoped>
