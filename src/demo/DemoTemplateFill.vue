@@ -9,77 +9,29 @@
     </div>
 
 
-    <div class="demoAddPerson-content" style="margin-top:20px;"  v-show="step1">
-      <div class="step" style="width:720px;">  <!--步骤条 -->
-        <ul>
-          <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
-          <p></p>
-          <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-          <p></p>
-          <li ><i class='el-icon-edit'></i><b>指定位置</b></li>
-          <p></p>
-          <li><i class='el-icon-menu'></i><b>合同签署</b></li>
-          <p></p>
-          <li><i class='el-icon-check'></i><b>完成</b></li>
-        </ul>
-      </div>
+    <div class="demoTemplateFill-content" style="margin-top:20px;" >
+
       <div class="step-modal" >
-        <div class="direction"></div>
-        <div class="expression"></div>
-        <div class="dialog">
-          <p>点击这里添加需要签约的签署人，<br/>
-            不需要添加自己哦~~
-          </p>
-          <div class="demo-btn">
-            <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
-            <a href="javascript:void(0);" @click="nextStep" class="next">下一步</a>
-          </div>
-        </div>
-      </div>
-
-
-
-    </div>
-
-    <div class="demoAddPerson-content" style="margin-top: 20px;"  v-show="step2">
-      <div class="step" style="width:720px;">  <!--步骤条 -->
-        <ul>
-          <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
-          <p></p>
-          <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-          <p></p>
-          <li ><i class='el-icon-edit'></i><b>指定位置</b></li>
-          <p></p>
-          <li><i class='el-icon-menu'></i><b>合同签署</b></li>
-          <p></p>
-          <li><i class='el-icon-check'></i><b>完成</b></li>
-        </ul>
-      </div>
-
-      <div class="step-modal2"  style="z-index: 1001;">
-
 
       </div>
 
+      <div class="template-contract"></div>
 
-      <div class="person-dialog">
-
-      </div>
-
-      <div class="pointer">
-
-      </div>
-
-      <div class="step2-dialog">
-
-        <div class="demo-btn" style="margin-top: 90px;">
+      <div class="direction"></div>
+      <div class="expression"></div>
+      <div class="dialog">
+        <p>点击这里添加需要签约的签署人，<br/>
+          不需要添加自己哦~~
+        </p>
+        <div class="demo-btn">
           <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
           <a href="javascript:void(0);" @click="nextStep" class="next">下一步</a>
         </div>
       </div>
 
-
     </div>
+
+
 
     <Bottom></Bottom>
     <div class="modal"></div>
@@ -97,19 +49,18 @@
     },
     data() {
       return {
-       step1:true,
-       step2:false
+        step1:true,
+        step2:false
 
       }
     },
     methods: {
-     lastStep(){
-       this.$router.push("/")
-     },
+      lastStep(){
+        this.$router.push("/")
+      },
       nextStep(){
 
-        this.step1=false;
-        this.step2=true;
+
       }
 
     },
@@ -124,12 +75,11 @@
   @import "../common/styles/SigningSteps.css";
 
 
-  .demoAddPerson-content{
+  .demoTemplateFill-content{
     width: 1200px;
     margin: 20px auto;
     background-color: #fff;
     position: relative;
-
   }
   .modal{
     width: 100%;
@@ -144,24 +94,7 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-
-  .step-modal{
-    width: 1200px;
-    height: 550px;
-    position: relative;
-    z-index: 1002;
-    background: url("../../static/images/Demo/addPerson.png") no-repeat;
-    margin-top: 20px;
-  }
-  .step-modal2{
-    width: 1200px;
-    height: 550px;
-    position: relative;
-    z-index: 1002;
-    background: url("../../static/images/Demo/addPerson.png") no-repeat;
-  }
-
-  .step-modal>.direction{
+  .direction{
     width: 320px;
     height: 150px;
     z-index: 1002;
@@ -170,6 +103,25 @@
     top: -60px;
     background: url("../../static/images/Demo/nextStep.png") no-repeat;
   }
+  .step-modal{
+    width: 1200px;
+    height: 1100px;
+    position: relative;
+    z-index: 1001;
+    background: url("../../static/images/Demo/template-content.png") no-repeat;
+    margin-top: 20px;
+  }
+  .template-contract{
+    width: 655px;
+    height: 821px;
+    z-index: 1002;
+    position: absolute;
+    left: 198px;
+    top: 230px;
+    background: url("../../static/images/Demo/template-contract.png") no-repeat;
+  }
+
+
   .person-dialog{
     width: 400px;
     height: 320px;
