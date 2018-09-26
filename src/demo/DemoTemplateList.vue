@@ -2,7 +2,8 @@
 	<div class="container">
 		<Top></Top>
 		<div class="layer">
-			<div class="select-experience" v-show="isShow">
+		</div>
+		<div class="select-experience" v-show="isShow">
 				<img src="../../static/images/demo/demo-listOver.png" alt="">
 				<div class="form-board" v-show="isShow">
 					<div class="img-hand"><img src="../../static/images/demo/pointer.png" alt=""></div>
@@ -19,7 +20,7 @@
 								<span class="more-parameter">多个参数</span>
 							</div>
 							<div class="btn-template">
-								<button class="give-up" @click="giveUp()">放弃体验</button>
+								<button class="give-up" @click="giveUp()">上一步</button>
 								<button class="next-skep" @click="nextSkep()">下一步</button>
 							</div>
 						</div>
@@ -28,7 +29,6 @@
 					<div class="img-indicate"><img src="../../static/images/demo/nextStep.png" alt=""></div>	
 				</div>
 			</div>
-		</div>
 		<div class="content">
 			<img src="../../static/images/demo/demo-homeList.png" alt="">
 		</div>
@@ -52,13 +52,13 @@ export default {
 	},
 	methods: {
 		giveUp() {
-			alert(111);
+			this.$router.push('/DemoHome');
 		},
 		immediateExperience() {
 			this.isShow = !this.isShow
 		},
 		nextSkep() {
-			alert(12332)
+			this.$router.push('/DemoTemplateFill');
 		}
 	}
 }
@@ -69,59 +69,61 @@ export default {
 		height 100%
 		width 100%
 		background-color rgba(0, 0, 0, 0.5);
-		position fixed
+		position fixed 
 		top 0
 		left 0
-		.select-experience
-			width 1063px
-			hetght 697px
-			margin 150px auto
-			position relative
-			.home-character
-				text-align center
-				position absolute
-				bottom 40px
-				left 297.5px
-				.welcome
-					font-size 32px
+	.select-experience
+		width 1063px
+		height 0
+		margin 0 auto
+		position relative
+		top 622px
+		left -39px
+		.home-character
+			text-align center
+			position absolute
+			bottom 40px
+			left 297.5px
+			.welcome
+				font-size 32px
+				color #22a7ea
+				margin-top 36px;
+			.upgrade
+				margin-top 32px
+				color #22a7ea
+				font-size 18px
+				color #666666
+				.company
+					color #ff8a00
+			.test
+				font-size 18px
+				color #666666
+				margin-top 10px
+			.btn_operation
+				margin-top 46px
+				line-height 47px
+				.abandon
+					font-size 22px
+					width 209px
+					height 47px
+					display inline-block
+					border 1px solid #22a7ea
+					border-radius 30px
+					text-align center
 					color #22a7ea
-					margin-top 36px;
-				.upgrade
-					margin-top 32px
-					color #22a7ea
-					font-size 18px
-					color #666666
-					.company
-						color #ff8a00
-				.test
-					font-size 18px
-					color #666666
-					margin-top 10px
-				.btn_operation
-					margin-top 46px
-					line-height 47px
-					.abandon
-						font-size 22px
-						width 209px
-						height 47px
-						display inline-block
-						border 1px solid #22a7ea
-						border-radius 30px
-						text-align center
-						color #22a7ea
-						background-color #ffffff
-						cursor pointer
-					.experience
-						font-size 22px
-						color #ffffff;
-						border none 
-						background-color #22a7ea
-						width 209px
-						height 47px
-						display inline-block
-						border-radius 30px
-						cursor pointer
-						margin-left 30px
+					background-color #ffffff
+					cursor pointer
+				.experience
+					font-size 22px
+					color #ffffff;
+					border none 
+					background-color #22a7ea
+					width 209px
+					height 47px
+					display inline-block
+					border-radius 30px
+					cursor pointer
+					margin-left 30px
 		.form-board
 			width 1200px
 			margin 40px auto
