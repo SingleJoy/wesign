@@ -81,9 +81,11 @@ export default {
 		left 0
 	.select-experience
 		width 1063px
-		hetght 697px
+		height 697px
 		margin 150px auto
-		position relative
+		position absolute
+		left 50%
+		transform translate(-50%)
 	.home-character
 		text-align center
 		position absolute
@@ -91,11 +93,11 @@ export default {
 		left 297.5px
 		.welcome
 			font-size 32px
-			color #22a7ea
+			color #4091fb
 			margin-top 36px;
 		.upgrade
 			margin-top 32px
-			color #22a7ea
+			color #4091fb
 			font-size 18px
 			color #666666
 			.company
@@ -112,17 +114,17 @@ export default {
 				width 209px
 				height 47px
 				display inline-block
-				border 1px solid #22a7ea
+				border 1px solid #4091fb
 				border-radius 30px
 				text-align center
-				color #22a7ea
+				color #4091fb
 				background-color #ffffff
 				cursor pointer
 			.experience
 				font-size 22px
 				color #ffffff;
 				border none 
-				background-color #22a7ea
+				background-color #4091fb
 				width 209px
 				height 47px
 				display inline-block
@@ -142,7 +144,7 @@ export default {
 			line-height 42px
 			text-align center
 			background-color #fff
-			color #22a7ea
+			color #4091fb
 			border-radius 5px
 			position absolute
 			top -22px
@@ -190,7 +192,7 @@ export default {
 						margin-left 12px
 						border-radius 5px
 						background-color #ffffff
-						color #39bbfd
+						color #4091fb
 						border none
 						font-size 16px
 						cursor pointer
