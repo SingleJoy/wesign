@@ -107,10 +107,12 @@
                         <span class="title-name">管理员信息</span>
                     </div>
                     <div class="admin-type">
-                        <el-radio v-model="authorizerType" :label="false" style='float:left;padding-top: 5px;'>法人本人</el-radio>
-                        <el-radio v-model="authorizerType" :label="true" style='float:left;padding-top: 5px;'>被授权人</el-radio>
-                        </div>
-                     <div class="content-bg">
+                        <el-radio-group @change="changeAuthorType" v-model="adminType">
+                            <el-radio  label='0' style='float:left;padding-top:5px;'>法人本人</el-radio>
+                            <el-radio  label='1' style='float:left;padding-top:5px;'>被授权人</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <div class="content-bg">
                              <div class="content-box">
                                 <div class="content-title">
                                     <span class="vertical-line"></span>
@@ -156,10 +158,9 @@
                                                      <img id="IdBackImg" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdBackImg" class="avatar">
                                             </div>
 											<div class="upload_warp_text">
-												共&nbsp;{{bytesToSize(this.IdCardFrontSize)}}
+												共&nbsp;{{bytesToSize(this.IdCardBackSize)}}
 											</div>
                                             <p class="view-example" style="text-align:center"  @click="viewExample('backId')">查看示例</p>
-											<!-- <input @change="idCardChange($event,'back')" type="file" id="upload_img" multiple style="display: none"/> -->
 										</div>
 									</div>
 
@@ -197,7 +198,7 @@
                                             placeholder=""
                                             v-model="IdInfo.mobile"
                                             @blur='validateIdInfo("mobile")'
-                                            :disabled= authorizerType&&IdDisabled
+                                            :disabled = idMobile 
                                         >
                                         </el-input>
                                         <span v-if="mobileTip" class="validate-tip">{{mobileTipText}}</span>
@@ -216,90 +217,47 @@
                                              <el-button type="primary" style='width:100px;padding:12px 10px;' id='code' :disabled="smsSend" @click="getSmsCode">{{smsCodeText}}</el-button>
                                         </span>
                                     </div>
-                                    <div class="input-item">
-                                          <el-radio v-model="radio" label="0"><span style="color:#333;cursor: pointer;">确认签署</span><span style="color: #409eff;cursor: pointer;"> <<法人说明函>></span></el-radio>
+                                    <div class="input-item" style="margin-left: 303px; font-size:14px;">
+                                        <el-checkbox v-model="checked" @click="confirmSignFile()"></el-checkbox>
+                                        <span style="color:#333;cursor: pointer;">确认签署</span>
+                                        <span v-if="authorizerType" style="color: #409eff;cursor: pointer;">《一般企业认证授权书》</span>
+                                        <span v-else style="color: #409eff;cursor: pointer;">《法人说明函》</span>
                                     </div>
+                                    <p class="attorney-text">该授权书/说明函仅作为个人与企业关系证明；将会在对公账户打款成功后生效</p>
                                 </div>
                             </div>
                     </div>
                 </div>
                 <div class="public-account-info">
-                     <div class="title-bg">
+                    <div class="title-bg">
                         <span class="title-name">对公账户信息</span>
                     </div>
-                     <!-- <div class="content-bg"> -->
-                            <!-- <el-form :model="IdInfo" :IdRules="IdRules" ref="IdInfo" label-width="0px">
-                                <el-form-item  label="法人姓名" prop="userName">
-                                    <el-input v-model="IdInfo.userName"></el-input>
-                                </el-form-item>
-                                <el-form-item label="身份证号" prop="idcard">
-                                    <el-input v-model="IdInfo.idcard"></el-input>
-                                </el-form-item>
-                                <el-form-item  label="手机号"  prop="mobile">
-                                    <el-input v-model="IdInfo.mobile"></el-input>
-                                </el-form-item>
-                                <el-form-item  label="验证码"  prop="smsCode">
-                                    <el-input v-model="IdInfo.smsCode"></el-input>
-                                </el-form-item>
-                            </el-form> -->
-                            <div class="content-box">
-                                <div class="company-input">
-                                    <div class="input-item">
-                                        <span class="input-title">企业名称</span>
-                                        <el-input
-                                            style='width:336px;'
-                                            placeholder="请输入内容"
-                                            v-model="companyForm.tenantName"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
-                                        >
-                                        </el-input>
-                                    </div>
-                                     <div class="input-item">
-                                        <span class="input-title">企业银行账号</span>
-                                        <el-input
-                                            style='width:336px'
-                                            placeholder="请输入内容"
-                                            v-model="companyForm.bankNum"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
-                                        >
-                                        </el-input>
-                                    </div>
-                                    <div class="input-item">
-                                        <span class="input-title">银行名称</span>
-                                        <el-input
-                                            style='width:336px;'
-                                            placeholder="请输入内容"
-                                            v-model="companyForm.bankName"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
-                                        >
-                                        </el-input>
-                                    </div>
-									 <div class="input-item">
-                                        <span class="input-title">开户行所在省／市</span>
-                                            <el-cascader
-                                                :options="options"
-                                                v-model="selectedOptions"
-                                                @change="handleCityChange">
-                                            </el-cascader>
-                                      
-                                    </div> <div class="input-item">
-                                        <span class="input-title">开户行支行名称</span>
-                                        <el-input
-                                            style='width:336px;'
-                                            placeholder="请输入内容"
-                                            v-model="companyForm.bank"
-                                            @blur='enterpriseName'
-                                            :disabled= fullName
-                                        >
-                                        </el-input>
-                                    </div>
-                                </div>
-                            </div>
-                    <!-- </div> -->
+                    <div class="content-box">
+                        <div class="company-input">
 
+                            <el-form :model="companyForm" :companyRules="companyRules" ref="companyInfo">
+                                <el-form-item  label="企业名称" prop="tenantName" label-width="473px">
+                                    <el-input disabled v-model="companyForm.tenantName"></el-input>
+                                </el-form-item>
+                                <el-form-item label="企业银行账号" prop="bankNum" label-width="473px">
+                                    <el-input v-model="companyForm.bankNum"></el-input>
+                                </el-form-item>
+                                <el-form-item  label="银行名称"  prop="bankName" label-width="473px">
+                                    <el-input v-model="companyForm.bankName"></el-input>
+                                </el-form-item>
+                                <el-form-item label="开户行所在省／市"  prop="bankName" label-width="473px">
+                                    <el-cascader
+                                        :options="options"
+                                        v-model="selectedOptions"
+                                        @change="handleCityChange">
+                                    </el-cascader>
+                                </el-form-item>
+                                <el-form-item  label="开户行支行名称"  prop="bank" label-width="473px">
+                                    <el-input v-model="companyForm.bank"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="submit-btn">
@@ -317,6 +275,31 @@ import {validateMoblie,validatePassWord} from '../../common/js/validate.js'
 export default {
     name:'',
     data() {
+        var checkName= (rule,value,callback)=>{
+            if(value==''){
+                callback(new Error('请输入企业名称'))
+            }
+        }
+        var checkBankNum = (rule,value,callback)=>{
+             if(value==''){
+                callback(new Error('请输入企业银行账号'))
+            }
+        }
+        var checkBankName = (rule,value,callback)=>{
+             if(value==''){
+                callback(new Error('请输入企业银行名称'))
+            }
+        }
+        var checkCity =  (rule,value,callback)=>{
+             if(value==''){
+                callback(new Error('请选择所在省市'))
+            }
+        }
+        var checkBank =  (rule,value,callback)=>{
+             if(value==''){
+                callback(new Error('请输入开户行行名称'))
+            }
+        }
         return {
             baseURL:this.baseURL.BASE_URL,
             interfaceCode:'',
@@ -346,15 +329,14 @@ export default {
             IdDisabled:true,
             IdFrontImg:'',           //正面img
             IdBackImg:'',             //反面img
-            IdCardFrontSize:0, //身份证正面
-            IdCardBackSize:0, //身份证反面
-            authorizerType:false,    //管理员了类型
+            IdCardFrontSize:0,     //身份证正面
+            IdCardBackSize:0,      //身份证反面
+            authorizerType:0,     //管理员了类型
+            adminType:'0',
             frontPhoto:'',        //正面照地址
             backPhoto:"",         //反面照地址
-            IdRules:[
-                
-            ],
-            radio:"0",
+            idMobile:true,
+            checked:false,
             companyStatus:true,
             companyForm:{
                 tenantName:'',
@@ -363,6 +345,23 @@ export default {
                 city:'',
                 bank:''
 
+            },
+            companyRules:{
+                tenantName: [
+                    { validator: checkName, trigger: 'blur' }
+                ],
+                bankNum:[
+                    { validator: checkBankNum, trigger: 'blur' }
+                ],
+                bankName: [
+                    { validator: checkBankName, trigger: 'blur' }
+                ],
+                city:[
+                    { validator:checkCity, trigger: 'blur' }
+                ],
+                bank:[
+                    { validator:checkBank, trigger: 'blur' }
+                ]
             },
 
             fullName:false,
@@ -380,7 +379,27 @@ export default {
             mobileTipText:'',
             smsCodeText:'获取验证码',
             smsSend:false,
-            selectedOptions:'',
+            selectedOptions:[],
+            options:[{
+                value: 'notice',
+                label: 'Notice',
+                children: [{
+                    value: 'alert',
+                    label: 'Alert 警告'
+                }, {
+                    value: 'loading',
+                    label: 'Loading 加载'
+                }, {
+                    value: 'message',
+                    label: 'Message 消息提示'
+                }, {
+                    value: 'message-box',
+                    label: 'MessageBox 弹框'
+                }, {
+                    value: 'notification',
+                    label: 'Notification 通知'
+                }]
+            }],
             option:[{
 
             }]
@@ -485,6 +504,18 @@ export default {
             })
        
         },
+        //确认签署函
+        confirmSignFile(){
+         this.checked = !this.checked;
+        },
+        //授权人类型
+        changeAuthorType(){
+            if(!this.authorizerType){
+                this.authorizerType = 1
+            }else{
+                this.authorizerType = 0
+            }
+        },
         //营业执照上传路径
         uploadLicenseUrl(){
              return `${this.baseURL}/restapi/wesign/v1.6/tenant/creditPhotoOcr`
@@ -499,6 +530,7 @@ export default {
         },
         //上传前的校验
         beforeUpload(file){
+             this.IdCardFrontSize = 1024*1024
             var max_size = 5; // 5M
             var reg= /[.](png|PNG|jpg|JPG|jpeg|JPEG)$/
             var index = file.name.lastIndexOf('.')
@@ -520,7 +552,6 @@ export default {
         //营业执照上传成功
         handIdSuccess(){
             this.licenseInputShow = true;
-
         },
 
         //身份证正面上传成功
