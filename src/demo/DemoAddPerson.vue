@@ -73,8 +73,8 @@
       <div class="step2-dialog">
 
         <div class="demo-btn" style="margin-top: 90px;">
-          <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
-          <a href="javascript:void(0);" @click="nextStep" class="next">下一步</a>
+          <a href="javascript:void(0);" @click="lastStep1" class="last">上一步</a>
+          <a href="javascript:void(0);" @click="nextStep1" class="next">下一步</a>
         </div>
       </div>
 
@@ -104,12 +104,21 @@
     },
     methods: {
      lastStep(){
-       this.$router.push("/")
+       this.$router.push("/DemoTemplateFill")
      },
+      lastStep1(){
+        this.step2=false;
+        this.step1=true;
+
+      },
       nextStep(){
 
         this.step1=false;
         this.step2=true;
+      },
+      nextStep1(){
+
+
       }
 
     },

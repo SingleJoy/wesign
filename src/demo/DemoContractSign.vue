@@ -30,14 +30,7 @@
           </div>
         </div>
       </div>
-
-      <div class="fill-in-blank" style="top:305px;"></div>
-      <div class="fill-in-blank" style="top:390px;"></div>
-      <div class="fill-in-blank" style="top:475px;"></div>
-      <div class="fill-in-blank" style="top:560px;"></div>
-      <div class="fill-in-blank" style="top:645px;"></div>
-      <div class="fill-in-blank" style="top:730px;"></div>
-      <div class="fill-in-blank" style="top:815px;"></div>
+      
 
 
     </div>

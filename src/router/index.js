@@ -88,6 +88,7 @@ import DemoTemplateList from '../demo/DemoTemplateList.vue'   //demo 模板列�
 import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
 import DemoSuccess from '../demo/DemoSuccess.vue'   //demo添加签署人
 import DemoTemplateFill from '../demo/DemoTemplateFill.vue'   //demo添加签署人
+import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署人
 
 
 
@@ -669,6 +670,15 @@ export const router = new Router({
         auth: false
       }
     },
+    {
+      path: '/DemoContractSign',
+      name: 'DemoContractSign',
+      component:DemoContractSign,
+      meta: {
+        auth: false
+      }
+    },
+
 
   ]
 })
