@@ -86,6 +86,7 @@ import EnterpriseCertificate from '../components/EnterpriseCertificate/Enterpris
 import DemoHome from '../demo/DemoHome.vue'   //demo首页
 import DemoTemplateList from '../demo/DemoTemplateList.vue'   //demo 模板列表
 import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
+import DemoSuccess from '../demo/DemoSuccess.vue'   //demo添加签署人
 
 
 
@@ -647,6 +648,14 @@ export const router = new Router({
       path: '/DemoAddPerson',
       name: 'DemoAddPerson',
       component: DemoAddPerson,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoSuccess',
+      name: 'DemoSuccess',
+      component: DemoSuccess,
       meta: {
         auth: false
       }
