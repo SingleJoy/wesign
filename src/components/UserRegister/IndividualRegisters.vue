@@ -1,0 +1,545 @@
+/*
+* @Author: wangjia
+* @Date: 2018-06-06 17:38:37
+* @Last Modified by: wangjia
+* @Last Modified time: 2018-06-27 18:44:05
+*/
+<template>
+	<div class="Login">
+		<div class="layer" v-show="isShow">
+			<div class="reminder" v-show="isShowSkip">
+				<div class="reminder_img">
+					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+				</div>
+				<div class="reminder_text">
+					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
+					<span class="count_down">{{count}}</span>
+				</div>
+			</div>
+			<div class="layer_content" v-show="isShowClose">
+				<div class="layer_close" @click="close()">
+					<span class="layer_close_left"></span>
+					<span class="layer_close_rigth">X</span>
+				</div>
+				<div class="layer_character">
+					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+				</div>
+			</div>
+		</div>
+		<div class="login-wrap">
+			<div class="ms-login">
+			<!-- <div class="water-qrurl-code" >
+				<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
+			</div> -->
+				<div class='center'>
+					<div class='user'>
+					<h2 class='userInfo'>用户注册</h2>
+					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
+						<el-form-item prop="username">
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" value="15734742257" class="login-input" ></el-input><i class="icon-user"></i>
+						</el-form-item>
+						<el-form-item prop="code">
+							<el-input v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
+								<el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
+							</el-input>
+						</el-form-item>
+						<el-form-item prop="password">
+						<el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input><i class="icon-suo"></i>
+						</el-form-item>
+						<el-form-item prop="newPassword">
+						<el-input type="password" v-model="ruleForm.newPassword" placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
+						</el-form-item>
+						<el-form-item>
+						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
+						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
+						</el-form-item>
+						<div class="login-btn">
+						<el-button type="primary" @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
+						</div>
+						<p style="font-size:12px;color:#999;padding-top: 15px;">
+							<a href="javascript:void(0);" id='submit'>,立即登录</a>
+							<a href="javascript:void(0);" class="account">已有账号</a>
+						</p>
+					</el-form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</template>
+
+<script>
+import cookie from "@/common/js/getTenant";
+import Img from "../../../static/images/Login/qrcode.png";
+import { validateMoblie, validatePassWord } from "@/common/js/validate";
+import md5 from "js-md5";
+import { mapActions, mapState } from "vuex";
+import server from "@/api/url";
+export default {
+	name: "",
+	data() {
+		var checkName = (rule, value, callback) => {
+			if (value === "") {
+				callback(new Error("请输入手机号"));
+			} else if (!validateMoblie(value)) {
+				callback(new Error("手机号输入错误"));
+			} else {
+				callback()
+			}
+		};
+		var checkCode = (rule, value, callback) => {
+			if (value === "") {
+				callback(new Error("请输入验证码"));
+			} else {
+				callback();
+			}
+		};
+		var checkPassWord = (rule, value, callback) => {
+			if (value === '') {
+					callback(new Error('请输入密码'));
+				} else if (value.length < 8 || value.length > 16) {
+					callback(new Error('密码长度必须为8-16位'))
+				} else if (!validatePassWord(value)){
+					callback(new Error('密码格式为数字+字母'))
+				}else {
+					callback();
+				}
+			}
+		let checkNewPassWord = (rule, value, callback) => {
+			if (value === "") {
+				callback(new Error("请输入密码"));
+			} else if(!validatePassWord(value)) {
+				callback(new Error("密码格式不对"));
+			} else if(value !== this.ruleForm.password){
+				callback(new Error("两次输入密码不一致")); 
+			} else {
+				callback();
+			}
+		};
+		var validateChildMobile = (rule,value,callback) => {
+			if(value === ''){
+				callback(new Error('请输入手机号'))
+			} else if (!validateMoblie(value)){
+				callback(new Error('手机号格式错误'))
+			}else {
+				callback()
+			}
+		}
+		return {
+			checked: false,
+			num: '',
+			smsNo: '',
+			smsCode: '',
+			iscode: false,
+			isDisabled: false,
+			isClick: true,
+			isShow: false,
+			isShowSkip: false,
+			isShowClose: false,
+			count: 3,
+			ruleForm: {
+				username: "",
+				code: "",
+				password: "",
+				newPassword: ""
+			},
+			rules: {
+				username: [{ validator: checkName, trigger: "blur" }],
+				code: [{ validator: checkCode, trigger: "blur" }],
+				password: [{ validator: checkPassWord, trigger: "blur" }],
+				newPassword: [{ validator: checkNewPassWord, trigger: "blur" }],
+			},
+			img: Img,
+			tenantNum: [],
+			selectedEnterprise: null,
+			radio: 0
+		};
+	},
+	methods: {
+		iAgreen() {
+			this.isClick = !this.isClick;
+			return false;
+		},
+		protocol() {
+			this.isShow = true;
+			this.isShowClose = true;
+		},
+		close() {
+			this.isShow = false;
+			this.isShowClose = false;
+		},
+		sendCode() {
+			if(!this.ruleForm.username) {
+				this.$message({
+					showClose: true,
+					message: "请输入手机号",
+					type: 'error'
+				});
+				return false;
+			} else if (!validateMoblie(this.ruleForm.username)){
+				this.$message({
+					showClose: true,
+					message: "手机号输入错误",
+					type: 'error'
+				});
+				return false;
+			} else {
+				this.num = Math.random()
+				//校验手机号是否存在
+				server.verficate({'username': this.ruleForm.username}).then(res => {
+					this.iscode = true;
+					if (res.data === 0) {
+						//console.log('已存在');
+					} else {
+						//倒计时
+						let _this = this;
+						this.isDisabled = true;
+						let btnValue = document.getElementById("elButton");
+						btnValue.innerText = 60 + '秒后获取';
+						let i = 60;
+						let timer = setInterval(function() {
+							i--;
+							btnValue.innerText = i + '秒后获取';
+							if(i <= 0) {
+								btnValue.innerText = "重新获取验证码";
+								_this.isDisabled= false;
+								clearInterval(timer);
+							}
+						}, 1000);
+						//获取验证码
+						this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.ruleForm.username,'interfaceCode': this.num}, {emulateJSON: true}).then(function (res) {
+							console.log(res);
+							if(res.body.resultCode == 1) {
+								this.smsNo = res.body.smsNo;
+								this.appId= res.body.appId
+							} else {
+								this.$message({
+									showClose: true,
+									message: res.body.resultMessage,
+									type: 'error'
+								});
+							}
+						});
+						
+					}
+				}).catch(error => {
+
+				})
+			}
+		},
+		iAgreen() {
+			this.isClick = !this.isClick;
+			return false;
+		},
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+			//验证码是否正确
+				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+					params: {
+						'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+					}
+				}).then(res => {
+					if(res.body.resultCode == 1) {
+						//个人注册提交
+						server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
+							if(res.data.resultCode === '1') {
+									console.log('注册成功');
+								} else {
+									this.$message({
+										showClose: true,
+										message: res.data.resultMessage,
+										type: 'error'
+									});
+								} 
+							}).catch(error => {
+								console.log(error);
+						});
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.resultMessage,
+							type: 'error'
+						});
+					}
+				}).catch(error => {
+					this.$message({
+						showClose: true,
+						message: res.data.resultMessage,
+						type: 'error'
+					});
+				})
+			});
+		} 
+	}
+}
+</script>
+
+<style lang="scss" scoped>
+	@import "../../../static/icon/iconfont.css";
+	.el-input-group__append button.el-button, .el-input-group__append div.el-select .el-input__inner, .el-input-group__append div.el-select:hover .el-input__inner, .el-input-group__prepend button.el-button, .el-input-group__prepend div.el-select .el-input__inner, .el-input-group__prepend div.el-select:hover .el-input__inner{
+		background-color: #16a8f2;
+		color: #ffffff;
+	}
+	.agreement {
+		color: #16a8f2;
+	}
+	
+	.Login {
+	width: 100%;
+	}
+	.layer {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7);
+		position: fixed;
+		z-index: 100;
+		top: 0;
+	}
+	.reminder {
+		background-color: #ffffff;
+		position: absolute;
+		top: 30%;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		width: 200px;
+		height: 200px;
+		margin: 0 auto;
+		border-radius: 5px;
+		padding: 30px;
+	}
+	.reminder_img {
+		width: 120px;
+		height: 120px;
+		margin: 0 auto;
+	}
+	.reminder_img img {
+		width: 120px;
+	}
+	.reminder_text {
+		text-align: center;
+		padding-top: 20px;
+		font-size: 12px;
+		color: rgb(34, 167, 234);
+		line-height: 20px;
+	}
+	.count_down {
+		color: red;
+	}
+	.layer_content {
+		width: 40%;
+		background-color: #ffffff;
+		position: relative;
+		top: 5%;
+		left: 30%;
+		height: 90%;
+	}
+			
+	.layer_close {
+		height: 30px;
+		color: #bbbbbb;
+		line-height: 30px;
+		cursor: pointer;
+	}
+	.layer_close_left {
+		display: inline-block;
+		width: 97%;
+	}	
+	.layer_close_right {
+		display: inline-block;
+		width: 3%;
+	}	
+	.layer_character {
+		overflow-y: auto;
+		height: 100%;
+	}
+	.layer_character img {
+		height: auto;
+	}
+			
+	.select-btn {
+		background-color: #fff;
+		color: #666;
+	}
+	.select-btn:hover {
+	border: 2px solid #44caf7;
+	color: #22a7ea;
+	}
+	.login-wrap {
+	width: 100%;
+
+	background: #f4f2f2;
+	}
+	.center {
+	// width: 77.5rem;
+	// height: 34rem;
+	// background:url('../../../static/images/Login/try.png') no-repeat;
+	// position: absolute;
+	// background-size: 100%;
+	// top: 315px;
+	// left: 266px;
+
+	width: 77.5rem;
+	height: 34rem;
+	background: url("/static/images/Login/userRegister.png") no-repeat;
+	position: absolute;
+	background-size: 100%;
+	top: 50%;
+	left: 50%;
+	margin-left: -39rem;
+	margin-top: -10rem;
+	}
+	.userInfo {
+	color: #16a8f2;
+
+	text-align: center;
+	font-size: 2.25rem;
+	}
+
+	.user {
+	// width: 328px;
+	// height: 310px;
+	// position: absolute;
+	// right: 10%;
+	// top: 130px;
+
+	width: 21rem;
+	height: 28rem;
+	position: absolute;
+	right: 10%;
+	top: 3rem;
+	}
+	.login-logo {
+	width: 100px;
+	height: 50px;
+	margin-top: -10px;
+	margin-left: 85px;
+	}
+	.sy_close {
+	width: 42px;
+	height: 42px;
+	position: absolute;
+	cursor: pointer;
+	z-index: 3;
+	background-repeat: no-repeat;
+	background-position: -1px -1px;
+	}
+	.sy_close:hover {
+	background-position: -1px -46px;
+	}
+	.icon-user {
+	position: absolute;
+	right: 20px;
+	top: 32px;
+	}
+	.icon-suo {
+	position: absolute;
+	right: 20px;
+	}
+	/* .ms-login{
+		position: absolute;
+		left:50%;
+		top:50%;
+		width:300px;
+		height:240px;
+		margin:-150px 0 0 -190px;
+		padding:40px;
+		border-radius: 5px;
+
+	} */
+	.login-input {
+	margin-top: 30px;
+	}
+	.login-btn {
+	text-align: center;
+	}
+	.login-btn button {
+	width: 100%;
+	height: 36px;
+	}
+	#submit {
+	color: #22a7ea;
+	float: right;
+	}
+.account {
+	float: right;
+	color: #666666;
+}
+	.fade {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 99;
+	display: none;
+	}
+	/*弹出层*/
+	.succ-pop {
+	width: 500px;
+	height: 400px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -200px;
+	margin-top: -150px;
+	z-index: 999;
+	border-radius: 5px;
+	background: url("../../../static/images/Login/context.png") no-repeat;
+	display: none;
+	.login-cancel {
+	font-size: 24px;
+	position: absolute;
+	right: 11px;
+	top: 10px;
+	color: #fff;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	transform: rotate(135deg);
+	width: 28px;
+	text-align: center;
+	cursor: pointer;
+	}
+	}
+	.su-pop {
+	width: 420px;
+	height: 240px;
+	background: #fff;
+	position: fixed;
+	margin-top: 50px;
+	margin-left: 40px;
+
+	overflow-y: auto;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	.title {
+	border: none;
+	}
+	}
+	.succ-pop h5.title {
+	text-align: left;
+	font-size: 16px;
+	color: #66ccff;
+	margin-top: 20px;
+	font-family: 幼圆;
+	margin-left: 30px;
+	}
+	.central_section {
+	text-align: left;
+	margin-top: 20px;
+	margin-left: 30px;
+	}
+	.el-button.is-round {
+	border-radius: 5px !important;
+	padding: 12px 23px !important;
+	width: 280px !important;
+	height: 57px !important;
+	position: fixed !important;
+	margin-left: 110px !important;
+	margin-top: 320px !important;
+	font-size: 16px !important;
+	}
+</style>

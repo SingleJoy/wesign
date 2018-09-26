@@ -33,7 +33,7 @@ export function validateCard(str){
  *  @param {*password} str
  */
 export function validatePassWord(str){
-    const reg = /^.*[A-Za-z0-9\\w_-]+.*$/
+    const reg = /[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/
     return reg.test(str)
 }
 
@@ -88,8 +88,9 @@ export function validateVerbal(str){
 /**
  *  @param {*} str
  */
+//校验13位数字公章
 export function validateDecimal(str){
-    const reg = /^0[1-9]$|^[1-9][0-9]?$|^00?\.(?:0[1-9]|[1-9][0-9]?)$|^(?:0[1-9]|[1-9][0-9]?)\.[0-9]$/
+    const reg = /^(?!0\.(?!0{2})\d{2}).+$/
     return reg.test(str)
 }
 
@@ -102,17 +103,31 @@ export function validateSeal(str){
 
 // 校验手机验证码必须是6位数字
 export function validateSmsCode(str){
-  const reg = /^1\d{7}$/;
+  const reg = /\b\d{6}\b/;
+  return reg.test(str)
+}
+
+//校验银行账户最多为30位数字
+export function validateBankAccountNumber(str){
+  const reg = /^d{1,30}$/;
   return reg.test(str)
 }
 
 
+// 去除字符串空格
 export  function Trim(str){
   return str.replace(/(^\s*)|(\s*$)/g, "");
 }
+//去除输入框所有空格
 export  function TrimAll(str){
     return str.replace(/\s/g, "");
   }
+export  function onlyChinese(str){
+  const reg=/[^\u4E00-\u9FA5]/g;
+  return reg.test(str)
+}
+
+
 /**
  * 加 g 去除全部空格 不加去除前后空格
  * @param {*} str 目标字符串

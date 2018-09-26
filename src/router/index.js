@@ -44,6 +44,8 @@ import TemplateInfo from '../components/TemplateInfo/TemplateInfo.vue' //平台�
 import Company from '../components/Company/Company.vue'                                           //b2b 首页
 import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
 import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
+import EnterprisePayment from '../components/EnterpriseCertificate/EnterprisePayment/EnterprisePayment.vue'                              //企业打款
+import EnterpriseRegisterSucc from '../components/EnterpriseCertificate/EnterpriseRegisterSucc/EnterpriseRegisterSucc.vue'                              //企业打款
 import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
 import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
 
@@ -74,7 +76,20 @@ import CompanyContract from '../components/CompanyContract/CompanyContract.vue' 
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 
+import UserRegister from '../components/UserRegister/IndividualRegister.vue'                       //个人注册
+import CompanyRegister from '../components/UserRegister/BusinessRegister.vue'                       //企业注册
+
+
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
+
+// demo 演示
+import DemoHome from '../demo/DemoHome.vue'   //demo首页
+import DemoTemplateList from '../demo/DemoTemplateList.vue'   //demo 模板列表
+import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
+
+
+
+
 Vue.use(Router)
 
 export const router = new Router({
@@ -83,6 +98,23 @@ export const router = new Router({
       path: '/',
       name: 'User',
       component: User,
+      meta: {
+        auth: false
+      }
+    },
+    {
+       
+      path: '/UserRegister',
+      name: 'UserRegister',
+      component: UserRegister,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/CompanyRegister',
+      name: 'CompanyRegister',
+      component: CompanyRegister,
       meta: {
         auth: false
       }
@@ -370,6 +402,18 @@ export const router = new Router({
       }
     },
     {
+      path: '/EnterprisePayment',
+      name: 'EnterprisePayment',
+      component: EnterprisePayment,
+    },
+
+    {
+      path: '/EnterpriseRegisterSucc',
+      name: 'EnterpriseRegisterSucc',
+      component: EnterpriseRegisterSucc,
+    },
+
+    {
       path: '/WaitReply',
       name: 'WaitReply',
       component: WaitReply,
@@ -583,7 +627,32 @@ export const router = new Router({
       meta: {
         auth: true
       }
+    },
+    {
+      path: '/DemoHome',
+      name: 'DemoHome',
+      component: DemoHome,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoTemplateList',
+      name: 'DemoTemplateList',
+      component: DemoTemplateList,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoAddPerson',
+      name: 'DemoAddPerson',
+      component: DemoAddPerson,
+      meta: {
+        auth: false
+      }
     }
+
   ]
 })
 

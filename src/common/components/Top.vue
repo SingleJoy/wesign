@@ -1,4 +1,4 @@
-<template>
+               <template>
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
@@ -216,9 +216,9 @@ export default {
             if(cookie.getJSON('tenant')[1].createContractRole== 1){
                 this.$alert('您暂无发起权限','提示', {
                     confirmButtonText: '确定'
-                })  
+                })
             }else{
-                this.popup =!this.popup               
+                this.popup =!this.popup
             }
         },
       urlloadUrl(){
