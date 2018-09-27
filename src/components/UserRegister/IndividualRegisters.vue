@@ -254,8 +254,19 @@ export default {
 							//个人注册提交
 							server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
 								if(res.data.resultCode === '1') {
-										this.$router.push('/');
-									} else {
+									this.isShow = true;
+									this.isShowSkip = true;
+									let _this = this;
+									let setTimer = setInterval(function() {
+										_this.count = _this.count - 1;
+										if(_this.count <= 0) {
+											clearInterval(setTimer);
+											_this.$router.push('/')
+										}
+										console.log(_this.count);
+									}, 1000);
+									//this.$router.push('/');
+								} else {
 										this.$message({
 											showClose: true,
 											message: res.data.resultMessage,
