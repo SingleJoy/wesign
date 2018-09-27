@@ -59,12 +59,10 @@
         </div>
       </div>
 
-
        <div class="look-detail">
          <a href="javascript:void(0);">查看详情</a>
        </div>
     </div>
-
 
 
     <Bottom></Bottom>
@@ -220,13 +218,12 @@
   }
   .sign-success-tips>.scan-code {
     margin-left:80px;
-    margin-top: 40px;
+    margin-top: 15px;
   }
 
-
   .sign-success-tips>.scan-code>img{
-    width: 95px;
-    height: 95px;
+    width: 120px;
+    height: 120px;
   }
 
 
