@@ -196,8 +196,12 @@ export default {
 				//校验手机号是否存在
 				server.verficate({'username': this.ruleForm.username}).then(res => {
 					this.iscode = true;
-					if (res.data === 0) {
-						//console.log('已存在');
+					if (res.data != 0) {
+                        this.$message({
+                            showClose: true,
+                            message: "此用户不存在",
+                            type: 'error'
+                        });
 					} else {
 						//倒计时
 						let _this = this;
