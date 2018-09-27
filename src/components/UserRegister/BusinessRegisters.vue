@@ -318,7 +318,7 @@
 								message: res.data.resultMessage,
 								type: 'error'
 							})
-							this.$router.push('/')
+							//this.$router.push('/')
 						}else if(res.data.dataList[1].authAccountStatus == '1'){
 							var authStatus = res.data.dataList[0].authStatus //是否通过状态
 							var auditSteps = res.data.dataList[0].auditSteps //个人认证步数
