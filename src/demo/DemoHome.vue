@@ -59,7 +59,7 @@ export default {
 	},
 	methods: {
 		giveUp() {
-			
+			this.$router.push('/')
 		},
 		immediateExperience() {
 			this.isShow = !this.isShow
