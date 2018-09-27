@@ -31,7 +31,7 @@ export default {
 <style lang="scss">
     /* @import "../../../styles/Multiparty/Mores.css"; */
     @import "../../../common/styles/SigningSteps.css";
-    @import "../../../common/styles/content.css";
+    @import "../../../common/styles/content.scss";
 
 .one{
     margin: 30px auto;

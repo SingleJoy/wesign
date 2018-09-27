@@ -71,7 +71,7 @@ import md5 from "js-md5";
 import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 export default {
-	name: "",
+	name: "IndividualRegisters",
 	data() {
 		//检验手机号是否可用
 		var checkName = (rule, value, callback) => {
@@ -107,7 +107,7 @@ export default {
 			} else if(!validatePassWord(value)) {
 				callback(new Error("密码格式不对"));
 			} else if(value !== this.ruleForm.password){
-				callback(new Error("两次输入密码不一致")); 
+				callback(new Error("两次输入密码不一致"));
 			} else {
 				callback();
 			}
@@ -160,7 +160,7 @@ export default {
 				if(_this.isClick == false) {
 					_this.submitForm('ruleForm');
 				}
-			}	
+			}
 		}
 	},
 	methods: {
@@ -236,7 +236,7 @@ export default {
 								});
 							}
 						});
-						
+
 					}
 				}).catch(error => {
 
@@ -264,7 +264,7 @@ export default {
 										message: res.data.resultMessage,
 										type: 'error'
 									});
-								} 
+								}
 							}).catch(error => {
 								console.log(error);
 						});
@@ -283,7 +283,7 @@ export default {
 					});
 				})
 			});
-		} 
+		}
 	}
 }
 </script>
@@ -297,7 +297,7 @@ export default {
 	.agreement {
 		color: #16a8f2;
 	}
-	
+
 	.Login {
 	width: 100%;
 	}
@@ -348,7 +348,7 @@ export default {
 		left: 30%;
 		height: 90%;
 	}
-			
+
 	.layer_close {
 		height: 30px;
 		color: #bbbbbb;
@@ -358,11 +358,11 @@ export default {
 	.layer_close_left {
 		display: inline-block;
 		width: 97%;
-	}	
+	}
 	.layer_close_right {
 		display: inline-block;
 		width: 3%;
-	}	
+	}
 	.layer_character {
 		overflow-y: auto;
 		height: 100%;
@@ -370,7 +370,7 @@ export default {
 	.layer_character img {
 		height: auto;
 	}
-			
+
 	.select-btn {
 		background-color: #fff;
 		color: #666;

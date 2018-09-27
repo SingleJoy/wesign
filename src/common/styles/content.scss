@@ -136,3 +136,73 @@
   .currentStep .el-icon-location:before{
     color:#22a7ea
   }
+  /*步骤条样式开始  */
+.step{
+    width: 890px;
+    margin: 0 auto;
+    height:120px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+  }
+  /* 步骤条状态样式 */
+  .step ul li{
+    float: left;
+    width: 72px;
+    height: 72px;
+    border: 1px dashed #ccc;
+    border-radius: 50%;
+    padding: 5px;
+    margin:0px 5px 0 5px;
+  }
+  .step ul li>i{
+    text-align: center;
+    line-height: 72px;
+    display: block;
+    font-size: 32px;
+    background: #ccc;
+    border-radius: 50%;
+    color: #fff;
+  }
+  .step ul li> b{
+    margin-top: 14px;
+    text-align: center;
+    display: block;
+    font-weight: normal;
+    color: #ccc;
+  }
+  .step ul li.active{
+    border-color: #00a7e7;
+  }
+  .step ul li.active i{
+    background: #00a7e7;
+  }
+  .step ul li.active b{
+    color: #00a7e7;
+  }
+  .step ul p{
+    float: left;
+    border-bottom:1px dashed #ccc;
+    width: 60px;
+    height: 1px;
+    margin-top: 40px;
+  }
+
+  /* 头部title样式 */
+  .title-bg{
+    background: url('/static/images/Multiparty/title.png') no-repeat;
+    height: 46px;
+    margin-bottom:15px;
+    margin-top:20px;
+    // background-size: cover;
+    // width:184px;
+}
+.title-name{
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 28px;
+    margin-top: 10px;
+    display: inline-block;
+    letter-spacing: 2px;
+    width: 204px;
+}

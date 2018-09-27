@@ -90,7 +90,7 @@
 
 <style lang="scss" scoped>
 	@import "../../../styles/Multiparty/Multiparties.scss";
-	@import "../../../common/styles/content.css";
+	@import "../../../common/styles/content.scss";
 	.beacthImg{
 		width: 153px;
 		margin: 300px auto;

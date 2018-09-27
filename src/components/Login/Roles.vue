@@ -212,7 +212,7 @@ import cookie from '@/common/js/getTenant'
 </script>
 
 <style lang="scss" scope>
-  	@import "../../common/styles/content.css";
+  	@import "../../common/styles/content.scss";
   	.Role{
 		.role-top{
 			background: #fff;
