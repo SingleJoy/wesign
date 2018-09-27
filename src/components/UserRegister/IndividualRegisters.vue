@@ -118,7 +118,7 @@ export default {
 		};
 		return {
 			checked: false,
-			num: '',
+			interfaceCode: Math.random(),
 			smsNo: '',
 			smsCode: '',
 			iscode: false,
@@ -192,7 +192,6 @@ export default {
 				});
 				return false;
 			} else {
-				this.num = Math.random()
 				//校验手机号是否存在
 				server.verficate({'username': this.ruleForm.username}).then(res => {
 					this.iscode = true;
@@ -218,10 +217,13 @@ export default {
 								clearInterval(timer);
 							}
 						}, 1000);
-						//获取验证码
-						this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.ruleForm.username,'interfaceCode': this.num}, {emulateJSON: true}).then(function (res) {
-							console.log(res);
-							if(res.body.resultCode == 1) {
+                        //获取验证码
+                        let param={
+                            mobile: this.ruleForm.username,
+                            interfaceCode:this.interfaceCode
+                        }
+                        server.smsCode(param).then(res=>{
+                            if(res.body.resultCode == 1) {
 								this.smsNo = res.body.smsNo;
 								this.appId= res.body.appId
 							} else {
@@ -231,7 +233,11 @@ export default {
 									type: 'error'
 								});
 							}
-						});
+
+                        }).catch(errot=>{
+
+                        })
+						
 
 					}
 				}).catch(error => {
