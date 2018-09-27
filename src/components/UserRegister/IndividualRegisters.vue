@@ -51,7 +51,9 @@
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
 						<p style="font-size:12px;color:#999;padding-top: 15px;">
-							<a href="javascript:void(0);" id='submit' @click="toLogin">,立即登录</a>
+
+							<a href="javascript:void(0);" id='submit' @click="login()">,立即登录</a>
+
 							<a href="javascript:void(0);" class="account">已有账号</a>
 						</p>
 					</el-form>
@@ -64,16 +66,17 @@
 </template>
 
 <script>
-import cookie from "@/common/js/getTenant";
-import Img from "../../../static/images/Login/qrcode.png";
+//import cookie from "@/common/js/getTenant";
+//import Img from "../../../static/images/Login/qrcode.png";
 import { validateMoblie, validatePassWord } from "@/common/js/validate";
 import md5 from "js-md5";
-import { mapActions, mapState } from "vuex";
+//import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 export default {
 	name: "IndividualRegisters",
 	data() {
-		var checkName = (rule, value, callback) => {
+		//校验手机号
+		let checkName = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入手机号"));
 			} else if (!validateMoblie(value)) {
@@ -82,14 +85,16 @@ export default {
 				callback()
 			}
 		};
-		var checkCode = (rule, value, callback) => {
+		//校验验证码
+		let checkCode = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入验证码"));
 			} else {
 				callback();
 			}
 		};
-		var checkPassWord = (rule, value, callback) => {
+		//校验密码
+		let checkPassWord = (rule, value, callback) => {
 			if (value === '') {
 					callback(new Error('请输入密码'));
 				} else if (value.length < 8 || value.length > 16) {
@@ -111,15 +116,6 @@ export default {
 				callback();
 			}
 		};
-		var validateChildMobile = (rule,value,callback) => {
-			if(value === ''){
-				callback(new Error('请输入手机号'))
-			} else if (!validateMoblie(value)){
-				callback(new Error('手机号格式错误'))
-			}else {
-				callback()
-			}
-		}
 		return {
 			checked: false,
 			num: '',
@@ -138,19 +134,17 @@ export default {
 				password: "",
 				newPassword: ""
 			},
+			//表单验证
 			rules: {
 				username: [{ validator: checkName, trigger: "blur" }],
 				code: [{ validator: checkCode, trigger: "blur" }],
 				password: [{ validator: checkPassWord, trigger: "blur" }],
 				newPassword: [{ validator: checkNewPassWord, trigger: "blur" }],
 			},
-			img: Img,
-			tenantNum: [],
-			selectedEnterprise: null,
-			radio: 0
 		};
 	},
 	created(){
+		//回车键登录
 		var _this = this;
 		document.onkeydown = function(e) {
 			var key = window.event.keyCode;
@@ -162,21 +156,26 @@ export default {
 		}
 	},
 	methods: {
-    toLogin(){
-      this.$router.push('/')
-    },
+		//跳转到登录
+		login() {
+			this.$router.push('/');
+		},
+
 		iAgreen() {
 			this.isClick = !this.isClick;
 			return false;
 		},
+		//微签注册协议查看
 		protocol() {
 			this.isShow = true;
 			this.isShowClose = true;
 		},
+		//关闭注册协议
 		close() {
 			this.isShow = false;
 			this.isShowClose = false;
 		},
+		//点击获取验证码
 		sendCode() {
 			if(!this.ruleForm.username) {
 				this.$message({
@@ -236,47 +235,50 @@ export default {
 				})
 			}
 		},
-		iAgreen() {
-			this.isClick = !this.isClick;
-			return false;
-		},
+		//个人注册操作
 		submitForm(formName) {
+			//校验填写内容是否正确
 			this.$refs[formName].validate((valid) => {
-			//验证码是否正确
-				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-					params: {
-						'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-					}
-				}).then(res => {
-					if(res.body.resultCode == 1) {
-						//个人注册提交
-						server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
-							if(res.data.resultCode === '1') {
-									this.$router.push('/');
-								} else {
-									this.$message({
-										showClose: true,
-										message: res.data.resultMessage,
-										type: 'error'
-									});
-								}
-							}).catch(error => {
-								console.log(error);
-						});
-					} else {
+				if(valid) {
+					//验证码是否正确
+					this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+						params: {
+							'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+						}
+					}).then(res => {
+						if(res.body.resultCode == 1) {
+							//个人注册提交
+							server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
+								if(res.data.resultCode === '1') {
+										this.$router.push('/');
+									} else {
+										this.$message({
+											showClose: true,
+											message: res.data.resultMessage,
+											type: 'error'
+										});
+									}
+								}).catch(error => {
+									console.log(error);
+							});
+						} else {
+							this.$message({
+								showClose: true,
+								message: res.data.resultMessage,
+								type: 'error'
+							});
+						}
+
+					}).catch(error => {
 						this.$message({
 							showClose: true,
 							message: res.data.resultMessage,
 							type: 'error'
 						});
-					}
-				}).catch(error => {
-					this.$message({
-						showClose: true,
-						message: res.data.resultMessage,
-						type: 'error'
-					});
-				})
+					})
+				} else {
+					return false
+				}
 			});
 		}
 	}
