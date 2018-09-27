@@ -15,12 +15,7 @@
 
       </div>
 
-      <div class="demo-sign-operate" @click="handlerShowSeal">
 
-      </div>
-      <div class="demo-seal" v-show="showSeal">
-        <img src="../../static/images/Demo/demo-seal.png">
-      </div>
 
       <div class="template-contract"></div>
 
@@ -63,15 +58,15 @@
     },
     methods: {
       lastStep(){
-        this.$router.push("/DemoAddPerson")
+        this.$router.push("/DemoTemplateList")
       },
       nextStep(){
-        this.$router.push("/DemoContractSign")
+
+        this.$router.push("/DemoAddPerson")
+
 
       },
-      handlerShowSeal(){
-        this.showSeal=true
-      }
+
 
     },
     created() {
