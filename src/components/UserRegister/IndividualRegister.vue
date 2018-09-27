@@ -1,18 +1,18 @@
 <template>
-    <div>
+    <div class="IndividualRegister">
         <LoginTop></LoginTop>
-        <IRegister></IRegister>
+        <IndividualRegisters></IndividualRegisters>
         <Bottom></Bottom>
     </div>
 </template>
 <script>
     import LoginTop from '../../common/components/LoginTop'
-    import IRegister from './IndividualRegisters.vue'
+    import IndividualRegisters from './IndividualRegisters.vue'
     import Bottom from '../../common/components/Bottom'
     export default {
-        name: 'UserRegister',
+        name: 'IndividualRegister',
         components: {
-            IRegister,
+          IndividualRegisters,
             LoginTop,
             Bottom,
         }

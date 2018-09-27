@@ -411,6 +411,7 @@
     height:80px;
   .register,.experience{
     display: inline-block;
+    cursor: pointer;
   }
   .register>p{
 
