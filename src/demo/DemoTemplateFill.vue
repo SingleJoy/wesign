@@ -1,8 +1,8 @@
 <template>
   <div >
     <div class="Tops" style="position: relative">
-      <nav class='nav'>
-        <p class='logo'>
+      <nav class="nav">
+        <p class="logo">
           <img src="../../static/images/logo2.png" alt="">
         </p>
       </nav>
@@ -15,17 +15,16 @@
 
       </div>
 
-      <div class="template-contract"></div>
-
-      <div class="demo-contract-img"></div>
-
-      <div class="template-fill-info">
-
-
+      <div class="demo-sign-operate" @click="handlerShowSeal">
 
       </div>
+      <div class="demo-seal" v-show="showSeal">
+        <img src="../../static/images/Demo/demo-seal.png">
+      </div>
 
-      <div style="position: absolute;left: 900px;top:810px;z-index: 1006;">
+      <div class="template-contract"></div>
+
+      <div class="template-fill-info">
         <div class="pointer"></div>
         <div class="expression"></div>
         <div class="dialog">
@@ -40,7 +39,6 @@
       </div>
 
 
-
     </div>
 
     <Bottom></Bottom>
@@ -53,24 +51,26 @@
 
   import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
-    name: 'DemoAddPerson',
+    name: 'DemoTemplateFill',
     components:{
       Bottom
     },
     data() {
       return {
-        step1:true,
-        step2:false
+        showSeal:false
 
       }
     },
     methods: {
       lastStep(){
-        this.$router.push("/DemoHome")
+        this.$router.push("/DemoAddPerson")
       },
       nextStep(){
-        this.$router.push("/DemoAddPerson")
+        this.$router.push("/DemoContractSign")
 
+      },
+      handlerShowSeal(){
+        this.showSeal=true
       }
 
     },
@@ -104,25 +104,48 @@
     overflow-y: auto;
   }
 
+
+  .demo-seal{
+    width: 214px;
+    height: 196px;
+    z-index: 1004;
+    position: absolute;
+    background: url("../../static/images/Demo/demo-seal.png") no-repeat;
+    left: 500px;
+    top: 530px;
+  }
+  .direction{
+    width: 320px;
+    height: 150px;
+    z-index: 1002;
+    position: absolute;
+    left: 530px;
+    top: -60px;
+    background: url("../../static/images/Demo/nextStep.png") no-repeat;
+  }
   .step-modal{
     width: 1200px;
     height: 1100px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-contract.png") no-repeat;
+    background: url("../../static/images/Demo/template-contract2.png") no-repeat;
     margin-top: 20px;
   }
-
+  .template-contract{
+    width: 908px;
+    height: 821px;
+    z-index: 1002;
+    position: absolute;
+    left: 258px;
+    top: 230px;
+    background: url("../../static/images/Demo/contract01.png") no-repeat;
+  }
 
   .template-fill-info{
     position: absolute;
-    width: 908px;
-    height: 852px;
-    top:230px;
-    left:260px;
+    top:835px;
+    left: 900px;
     z-index: 1003;
-    background: url("../../static/images/Demo/demo-fill-info.png") no-repeat;
-
   }
   .template-fill-info>.expression{
     width: 110px;
@@ -133,20 +156,20 @@
     left: 245px;
     top:115px
   }
-  .dialog{
+  .template-fill-info>.dialog{
     width: 305px;
     height: 200px;
     position: absolute;
     background: url("../../static/images/Demo/dialog.png") no-repeat;
   }
-  .dialog>p{
+  .template-fill-info>.dialog>p{
     padding:20px 15px;
     text-align: center;
     color: #fff;
     font-size: 16px;
     line-height: 25px;
   }
- .dialog>.demo-btn>a{
+  .template-fill-info>.dialog>.demo-btn>a{
     position: relative;
     width: 120px;
     height: 40px;
@@ -157,12 +180,12 @@
     border-radius: 10px;
     z-index: 1005;
   }
-  .dialog>.demo-btn>a.last{
+  .template-fill-info>.dialog>.demo-btn>a.last{
     border: 2px solid #fff;
     color: #fff;
     margin-left:30px;
   }
-  .dialog>.demo-btn>a.next{
+  .template-fill-info>.dialog>.demo-btn>a.next{
     background-color: #fff;
     color: #4091fb;
     margin-left: 10px;
@@ -186,7 +209,6 @@
     background: url("../../static/images/Demo/information-input.png") no-repeat ;
     border-radius: 5px;
   }
-
 
 </style>
 

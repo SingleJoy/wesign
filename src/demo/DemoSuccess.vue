@@ -75,7 +75,7 @@
     },
     methods: {
       experienceAgain(){
-        this.$router.push("/")
+        this.$router.push("/DemoHome")
       },
       initiatingContract(){
 

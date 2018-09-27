@@ -106,11 +106,12 @@
   .demo-sign-operate{
     width: 135px;
     height: 131px;
-    z-index: 1002;
+    z-index: 1005;
     position: absolute;
-    /*background: url("../../static/images/Demo/demo-sign-operate.png") no-repeat;*/
+    background: url("../../static/images/Demo/demo-sign-operate.png") no-repeat;
     left: 940px;
     top: 240px;
+    cursor: pointer;
   }
 
   .demo-seal{
@@ -119,8 +120,8 @@
     z-index: 1004;
     position: absolute;
     background: url("../../static/images/Demo/demo-seal.png") no-repeat;
-    left: 500px;
-    top: 530px;
+    left: 650px;
+    top: 650px;
   }
   .direction{
     width: 320px;
@@ -146,13 +147,13 @@
     position: absolute;
     left: 258px;
     top: 230px;
-    background: url("../../static/images/Demo/contract01.png") no-repeat;
+    background: url("../../static/images/Demo/contract02.png") no-repeat;
   }
 
   .template-fill-info{
     position: absolute;
-    top:835px;
-    left: 900px;
+    top:460px;
+    left: 840px;
     z-index: 1003;
   }
   .template-fill-info>.expression{
@@ -204,9 +205,9 @@
     height: 67px;
     z-index: 1002;
     position: absolute;
-    left: 230px;
+    left: 130px;
     top:-85px;
-    background: url("../../static/images/Demo/pointer.png") no-repeat;
+    background: url("../../static/images/Demo/pointer-up.png") no-repeat;
   }
   .fill-in-blank{
     width: 249px;
