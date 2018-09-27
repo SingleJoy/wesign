@@ -158,12 +158,12 @@
 				interfaceCode: '',
 				count: 3,
 				ruleForm: {
-					companyname: '众签',
-					mobile: '15734742257',
+					companyname: '',
+					mobile: '',
 					username: '',
-					code: '236521',
-					password: 'asdasd123',
-					newpassword: 'asdasd123',	
+					code: '',
+					password: '',
+					newpassword: '',	
 				},
 				rules: {
 					companyname: [
@@ -215,7 +215,6 @@
 							});
 						})
 					} else {
-						alert(65656);
 						console.log('error submit!!');
 						return false;
 					}
@@ -420,11 +419,20 @@
 					this.userName = res.data.data.userName;
 					this.mobile = res.data.data.mobile;
 					this.forbid = false;
-					this.isPassword = true;
+					this.isPassword = false;
 				}
 			}).catch(error => {
 				
-			})
+			});
+			var _this = this;
+			document.onkeydown = function(e) {
+				var key = window.event.keyCode;
+				if (key == 13) {
+					if(_this.isClick == false) {
+						_this.submitForm('ruleForm');
+					}
+				}	
+			}
 		}
 	}
 </script>
