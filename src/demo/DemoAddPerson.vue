@@ -33,7 +33,7 @@
     </div>
 
     <Bottom></Bottom>
-    <div class="modal"></div>
+    <div class="demo-modal"></div>
   </div>
 
 </template>
@@ -76,7 +76,7 @@
     background-color: #fff;
     position: relative;
   }
-  .modal{
+  .demo-modal{
     width: 100%;
     height: 100%;
     position: fixed;

@@ -66,7 +66,7 @@
 
 
     <Bottom></Bottom>
-    <div class="modal"></div>
+    <div class="demo-modal"></div>
   </div>
 
 </template>
@@ -91,7 +91,7 @@
       },
       initiatingContract(){
 
-
+        this.$router.push("/IndividualRegister")
       }
 
     },
@@ -112,7 +112,7 @@
     position: relative;
 
   }
-  .modal{
+  .demo-modal{
     width: 100%;
     height: 100%;
     position: fixed;

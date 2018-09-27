@@ -16,7 +16,6 @@
       </div>
 
 
-
       <div class="template-contract"></div>
 
       <div class="template-fill-info">
@@ -37,7 +36,7 @@
     </div>
 
     <Bottom></Bottom>
-    <div class="modal"></div>
+    <div class="demo-modal"></div>
   </div>
 
 </template>
@@ -85,7 +84,8 @@
     background-color: #fff;
     position: relative;
   }
-  .modal{
+
+  .demo-modal{
     width: 100%;
     height: 100%;
     position: fixed;
@@ -136,13 +136,13 @@
     background: url("../../static/images/Demo/contract01.png") no-repeat;
   }
 
-  .template-fill-info{
+  .demoTemplateFill-content .template-fill-info{
     position: absolute;
     top:835px;
     left: 900px;
     z-index: 1003;
   }
-  .template-fill-info>.expression{
+  .demoTemplateFill-content .template-fill-info>.expression{
     width: 110px;
     height: 120px;
     z-index: 1004;
@@ -151,20 +151,20 @@
     left: 245px;
     top:115px
   }
-  .template-fill-info>.dialog{
+ .demoTemplateFill-content  .template-fill-info>.dialog{
     width: 305px;
     height: 200px;
     position: absolute;
     background: url("../../static/images/Demo/dialog.png") no-repeat;
   }
-  .template-fill-info>.dialog>p{
+  .demoTemplateFill-content .template-fill-info>.dialog>p{
     padding:20px 15px;
     text-align: center;
     color: #fff;
     font-size: 16px;
     line-height: 25px;
   }
-  .template-fill-info>.dialog>.demo-btn>a{
+  .demoTemplateFill-content .template-fill-info>.dialog>.demo-btn>a{
     position: relative;
     width: 120px;
     height: 40px;
@@ -175,12 +175,12 @@
     border-radius: 10px;
     z-index: 1005;
   }
-  .template-fill-info>.dialog>.demo-btn>a.last{
+ .demoTemplateFill-content .template-fill-info>.dialog>.demo-btn>a.last{
     border: 2px solid #fff;
     color: #fff;
     margin-left:30px;
   }
-  .template-fill-info>.dialog>.demo-btn>a.next{
+ .demoTemplateFill-content .template-fill-info>.dialog>.demo-btn>a.next{
     background-color: #fff;
     color: #4091fb;
     margin-left: 10px;
@@ -195,15 +195,7 @@
     top:-85px;
     background: url("../../static/images/Demo/pointer.png") no-repeat;
   }
-  .fill-in-blank{
-    width: 249px;
-    height: 46px;
-    left: 870px;
-    z-index: 1003;
-    position: absolute;
-    background: url("../../static/images/Demo/information-input.png") no-repeat ;
-    border-radius: 5px;
-  }
+
 
 </style>
 
