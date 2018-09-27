@@ -1,9 +1,3 @@
-/*
-* @Author: wangjia
-* @Date: 2018-06-06 17:38:37
-* @Last Modified by: wangjia
-* @Last Modified time: 2018-06-27 18:44:05
-*/
 <template>
 	<div class="Login">
 		<div class="layer" v-show="isShow">
@@ -53,8 +47,8 @@
 						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
 						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
 						</el-form-item>
-						<div class="login-btn">
-						<el-button type="primary" @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
+						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
+							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
 						<p style="font-size:12px;color:#999;padding-top: 15px;">
 							<a href="javascript:void(0);" id='submit'>,立即登录</a>
@@ -156,6 +150,17 @@ export default {
 			radio: 0
 		};
 	},
+	created(){
+		var _this = this;
+		document.onkeydown = function(e) {
+			var key = window.event.keyCode;
+			if (key == 13) {
+				if(_this.isClick == false) {
+					_this.submitForm('ruleForm');
+				}
+			}	
+		}
+	},
 	methods: {
 		iAgreen() {
 			this.isClick = !this.isClick;
@@ -244,7 +249,7 @@ export default {
 						//个人注册提交
 						server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
 							if(res.data.resultCode === '1') {
-									console.log('注册成功');
+									this.$router.push('/');
 								} else {
 									this.$message({
 										showClose: true,
