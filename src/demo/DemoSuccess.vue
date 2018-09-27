@@ -45,6 +45,20 @@
 
       </div>
 
+      <div class="sign-success-tips">
+        <p>合同链接:  https:www.zqsign.com</p>
+        <div class="scan-code">
+          <img src="../../static/images/Demo/demo-scan.png">
+        </div>
+      </div>
+
+      <div class="sign-success-tips" style="left: 827px">
+        <p>合同链接:  https:www.zqsign.com</p>
+        <div class="scan-code">
+          <img src="../../static/images/Demo/demo-scan.png">
+        </div>
+      </div>
+
 
        <div class="look-detail">
          <a href="javascript:void(0);">查看详情</a>
@@ -177,7 +191,7 @@
     position: absolute;
     left: 20px;
     top: 500px;
-    background: url("../../static/images/Demo/demo-sign-success.png") no-repeat;
+    background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
   }
  .look-detail>a{
    position: relative;
@@ -192,7 +206,28 @@
    font-size: 16px;
    border-radius: 5px;
  }
+  .sign-success-tips{
 
+    z-index: 1002;
+    left: 435px;
+    top:570px;
+    position: absolute;
+
+  }
+  .sign-success-tips>p{
+    color: #666;
+    font-size: 14px;
+  }
+  .sign-success-tips>.scan-code {
+    margin-left:80px;
+    margin-top: 40px;
+  }
+
+
+  .sign-success-tips>.scan-code>img{
+    width: 95px;
+    height: 95px;
+  }
 
 
 </style>

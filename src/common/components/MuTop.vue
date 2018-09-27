@@ -72,7 +72,7 @@
   .box{
     width:360px;
     height: 430px;
-    background:url('../../../static/images/Top/version-info1.5.gif');
+    background:url('../../../static/images/Top/version-info1.6.gif');
 
     position: absolute;
     left:0;
@@ -158,7 +158,7 @@
       margin-left:30px;
       margin-top:50px;
 
-     background:url('../../../static/images/Top/version-info1.5.gif');
+     background:url('../../../static/images/Top/version-info1.6.gif');
       background-size:100% 100%;
    }
   .active-tab{
