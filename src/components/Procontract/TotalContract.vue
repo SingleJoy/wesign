@@ -312,7 +312,7 @@ export default {
 
 <style lange='css'>
 @import '../../styles/Multiparty/Multiparties.scss';
-@import "../../common/styles/content.css";
+@import "../../common/styles/content.scss";
 </style>
 <style>
 .totalImg{

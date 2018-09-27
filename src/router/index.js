@@ -120,7 +120,7 @@ export const router = new Router({
       }
     },
     {
-        path:'/',
+        path:'/EnterpriseCertificate',
         name:'EnterpriseCertificate',
         component:EnterpriseCertificate,
         meta:{
@@ -398,7 +398,7 @@ export const router = new Router({
       name: 'Payment',
       component: Payment,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {

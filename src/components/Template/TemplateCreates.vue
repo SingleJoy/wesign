@@ -186,7 +186,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  	@import "../../common/styles/content.css";
+  	@import "../../common/styles/content.scss";
 
     
     .template-body{
