@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<Top></Top>
+		<DemoTop></DemoTop>
 		<div class="layer">
 		</div>
 		<div class="select-experience" v-show="isShow">
@@ -43,7 +43,7 @@
 	</div>
 </template>
 <script>
-import Top from '../common/components/Top'
+import DemoTop from '../common/components/DemoTop'
 import Bottom from '../common/components/Bottom'
 export default {
 	name: 'DemoHome',
@@ -54,7 +54,7 @@ export default {
 		}
 	},
 	components: {
-		Top,
+		DemoTop,
 		Bottom,
 	},
 	methods: {
