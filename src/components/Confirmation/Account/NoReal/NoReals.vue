@@ -185,15 +185,16 @@
         this.centerDialogVisible = false
       },
       realName() {
-        if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
-          sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode);
-          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode);
-          this.$router.push('/Pupload')
-        }else if (this.personalRealName == '4'){
+        this.$router.push('/EnterpriseCertificate');
+        // if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
+        //   sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode);
+        //   sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode);
+        //   this.$router.push('/Pupload')
+        // }else if (this.personalRealName == '4'){
 
-          this.$router.push('/ErrorPupload')
+        //   this.$router.push('/ErrorPupload')
 
-        }
+        // }
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {

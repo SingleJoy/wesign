@@ -124,7 +124,7 @@ export const router = new Router({
         name:'EnterpriseCertificate',
         component:EnterpriseCertificate,
         meta:{
-            auth:false
+            auth:true
         }
     },
     {
