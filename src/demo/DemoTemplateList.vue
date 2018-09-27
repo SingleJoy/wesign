@@ -4,11 +4,11 @@
 		<div class="layer">
 		</div>
 		<div class="select-experience" v-show="isShow">
-				<img src="../../static/images/demo/demo-listOver.png" alt="">
+				<img src="../../static/images/Demo/demo-listOver.png" alt="">
 				<div class="form-board" v-show="isShow">
-					<div class="img-hand"><img src="../../static/images/demo/pointer.png" alt=""></div>
+					<div class="img-hand"><img src="../../static/images/Demo/pointer.png" alt=""></div>
 					<div class="img-handle">
-						<img src="../../static/images/demo/dialog.png" alt="">
+						<img src="../../static/images/Demo/dialog.png" alt="">
 						<div class="template_content">
 							<div class="template-click">从列表选择一个合同模板点击</div>
 							<div class="template-start">
@@ -25,12 +25,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="img-portrait"><img src="../../static/images/demo/expression.png" alt=""></div>	
-					<div class="img-indicate"><img src="../../static/images/demo/nextStep.png" alt=""></div>	
+					<div class="img-portrait"><img src="../../static/images/Demo/expression.png" alt=""></div>	
+					<div class="img-indicate"><img src="../../static/images/Demo/nextStep.png" alt=""></div>	
 				</div>
 			</div>
 		<div class="content">
-			<img src="../../static/images/demo/demo-homeList.png" alt="">
+			<img src="../../static/images/Demo/demo-homeList.jpg" alt="">
 		</div>
 		<Bottom></Bottom>
 	</div>
