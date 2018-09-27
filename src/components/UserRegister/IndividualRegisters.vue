@@ -51,7 +51,7 @@
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
 						<p style="font-size:12px;color:#999;padding-top: 15px;">
-							<a href="javascript:void(0);" id='submit'>,立即登录</a>
+							<a href="javascript:void(0);" id='submit' @click="login()">,立即登录</a>
 							<a href="javascript:void(0);" class="account">已有账号</a>
 						</p>
 					</el-form>
@@ -73,6 +73,7 @@ import server from "@/api/url";
 export default {
 	name: "",
 	data() {
+		//检验手机号是否可用
 		var checkName = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入手机号"));
@@ -151,6 +152,7 @@ export default {
 		};
 	},
 	created(){
+		//回车键登录
 		var _this = this;
 		document.onkeydown = function(e) {
 			var key = window.event.keyCode;
@@ -162,18 +164,26 @@ export default {
 		}
 	},
 	methods: {
+		//跳转到登录
+		login() {
+			this.$router.push('/');
+		},
+		//同意注册协议
 		iAgreen() {
 			this.isClick = !this.isClick;
 			return false;
 		},
+		//微签注册协议
 		protocol() {
 			this.isShow = true;
 			this.isShowClose = true;
 		},
+		//关闭注册协议
 		close() {
 			this.isShow = false;
 			this.isShowClose = false;
 		},
+		//点击获取验证码
 		sendCode() {
 			if(!this.ruleForm.username) {
 				this.$message({
@@ -233,11 +243,9 @@ export default {
 				})
 			}
 		},
-		iAgreen() {
-			this.isClick = !this.isClick;
-			return false;
-		},
+		//个人注册操作
 		submitForm(formName) {
+			//校验填写内容是否正确
 			this.$refs[formName].validate((valid) => {
 			//验证码是否正确
 				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
