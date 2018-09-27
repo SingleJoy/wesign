@@ -64,17 +64,17 @@
 </template>
 
 <script>
-import cookie from "@/common/js/getTenant";
-import Img from "../../../static/images/Login/qrcode.png";
+//import cookie from "@/common/js/getTenant";
+//import Img from "../../../static/images/Login/qrcode.png";
 import { validateMoblie, validatePassWord } from "@/common/js/validate";
 import md5 from "js-md5";
-import { mapActions, mapState } from "vuex";
+//import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 export default {
 	name: "IndividualRegisters",
 	data() {
-		//检验手机号是否可用
-		var checkName = (rule, value, callback) => {
+		//校验手机号
+		let checkName = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入手机号"));
 			} else if (!validateMoblie(value)) {
@@ -83,14 +83,16 @@ export default {
 				callback()
 			}
 		};
-		var checkCode = (rule, value, callback) => {
+		//校验验证码
+		let checkCode = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入验证码"));
 			} else {
 				callback();
 			}
 		};
-		var checkPassWord = (rule, value, callback) => {
+		//校验密码
+		let checkPassWord = (rule, value, callback) => {
 			if (value === '') {
 					callback(new Error('请输入密码'));
 				} else if (value.length < 8 || value.length > 16) {
@@ -112,15 +114,6 @@ export default {
 				callback();
 			}
 		};
-		var validateChildMobile = (rule,value,callback) => {
-			if(value === ''){
-				callback(new Error('请输入手机号'))
-			} else if (!validateMoblie(value)){
-				callback(new Error('手机号格式错误'))
-			}else {
-				callback()
-			}
-		}
 		return {
 			checked: false,
 			num: '',
@@ -139,16 +132,13 @@ export default {
 				password: "",
 				newPassword: ""
 			},
+			//表单验证
 			rules: {
 				username: [{ validator: checkName, trigger: "blur" }],
 				code: [{ validator: checkCode, trigger: "blur" }],
 				password: [{ validator: checkPassWord, trigger: "blur" }],
 				newPassword: [{ validator: checkNewPassWord, trigger: "blur" }],
 			},
-			img: Img,
-			tenantNum: [],
-			selectedEnterprise: null,
-			radio: 0
 		};
 	},
 	created(){
@@ -173,7 +163,7 @@ export default {
 			this.isClick = !this.isClick;
 			return false;
 		},
-		//微签注册协议
+		//微签注册协议查看
 		protocol() {
 			this.isShow = true;
 			this.isShowClose = true;
@@ -247,41 +237,46 @@ export default {
 		submitForm(formName) {
 			//校验填写内容是否正确
 			this.$refs[formName].validate((valid) => {
-			//验证码是否正确
-				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-					params: {
-						'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-					}
-				}).then(res => {
-					if(res.body.resultCode == 1) {
-						//个人注册提交
-						server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
-							if(res.data.resultCode === '1') {
-									this.$router.push('/');
-								} else {
-									this.$message({
-										showClose: true,
-										message: res.data.resultMessage,
-										type: 'error'
-									});
-								}
-							}).catch(error => {
-								console.log(error);
-						});
-					} else {
+				if(valid) {
+					//验证码是否正确
+					this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+						params: {
+							'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+						}
+					}).then(res => {
+						if(res.body.resultCode == 1) {
+							//个人注册提交
+							server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
+								if(res.data.resultCode === '1') {
+										this.$router.push('/');
+									} else {
+										this.$message({
+											showClose: true,
+											message: res.data.resultMessage,
+											type: 'error'
+										});
+									}
+								}).catch(error => {
+									console.log(error);
+							});
+						} else {
+							this.$message({
+								showClose: true,
+								message: res.data.resultMessage,
+								type: 'error'
+							});
+						}
+						
+					}).catch(error => {
 						this.$message({
 							showClose: true,
 							message: res.data.resultMessage,
 							type: 'error'
 						});
-					}
-				}).catch(error => {
-					this.$message({
-						showClose: true,
-						message: res.data.resultMessage,
-						type: 'error'
-					});
-				})
+					})
+				} else {
+					return false
+				}
 			});
 		}
 	}
