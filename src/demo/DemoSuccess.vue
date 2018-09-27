@@ -28,7 +28,7 @@
 
       </div>
       <div class="step-modal" >
-        <div class="direction"></div>
+
         <div class="expression"></div>
         <div class="dialog">
           <p>合同已经发起完成啦！<br/>
@@ -104,6 +104,15 @@
 
   @import "../common/styles/demo/DemoTops.css";
   @import "../common/styles/demo/DemoSigningSteps.css";
+  .demoSuccess-content>.step-modal> .expression{
+    width: 110px;
+    height: 120px;
+    z-index: 1004;
+    position: absolute;
+    background: url("../../static/images/Demo/expression.png") no-repeat;
+    left: 1100px;
+    top:420px
+  }
 
   .demoSuccess-content{
     width: 1200px;
@@ -125,7 +134,7 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .step-modal>.direction{
+  .demoSuccess-content> .step-modal>.direction{
     width: 320px;
     height: 150px;
     z-index: 1002;
@@ -144,17 +153,17 @@
     top: 40px;
     background: url("../../static/images/Demo/demo-success.png") no-repeat;
   }
-  .step-modal>.dialog{
+  .demoSuccess-content>.step-modal>.dialog{
     width: 305px;
     height: 200px;
     z-index: 1002;
     position: absolute;
     left: 810px;
-    top: 80px;
+    top: 250px;
 
     background: url("../../static/images/Demo/dialog.png") no-repeat;
   }
-  .step-modal>.dialog>p{
+  .demoSuccess-content>.step-modal>.dialog>p{
 
     padding:20px 15px;
     text-align: center;
@@ -162,7 +171,7 @@
     font-size: 16px;
     line-height: 25px;
   }
-  .step-modal>.dialog>.demo-btn>a,.step2-dialog>.demo-btn>a{
+  .demoSuccess-content>.step-modal>.dialog>.demo-btn>a,.step2-dialog>.demo-btn>a{
     width: 120px;
     height: 40px;
     display: inline-block;
@@ -171,12 +180,12 @@
     text-align: center;
     border-radius: 10px;
   }
-  .step-modal>.dialog>.demo-btn>a.last,.step2-dialog>.demo-btn>a.last{
+  .demoSuccess-content>.step-modal>.dialog>.demo-btn>a.last,.step2-dialog>.demo-btn>a.last{
     border: 2px solid #fff;
     color: #fff;
     margin-left:30px;
   }
-  .step-modal>.dialog>.demo-btn>a.next,.step2-dialog>.demo-btn>a.next{
+  .demoSuccess-content>.step-modal>.dialog>.demo-btn>a.next,.step2-dialog>.demo-btn>a.next{
     background-color: #fff;
     color: #4091fb;
     margin-left: 10px;

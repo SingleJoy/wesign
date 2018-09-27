@@ -17,28 +17,28 @@
           <div class='user'>
             <h2 class='userInfo'>用户登录</h2>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
-              <el-form-item prop="username">
-                <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
-              </el-form-item>
-              <el-form-item prop="password" style="margin-bottom: 10px;">
-                <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
-              </el-form-item>
-              <p style="font-size:12px;color:#999;margin-bottom: 10px;line-height: 25px;">
-                <a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
-              </p>
-              <div class="login-btn">
-                <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-              </div>
-              <div class="login-operate">
-                <div class="register" @click="toRegister">
-                  <p ></p>
-                  <span>立即注册</span>
+                <el-form-item prop="username">
+                    <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
+                </el-form-item>
+                <el-form-item prop="password" style="margin-bottom: 10px;">
+                    <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
+                </el-form-item>
+                <p style="font-size:12px;color:#999;margin-bottom: 10px;line-height: 25px;">
+                    <a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
+                </p>
+                <div class="login-btn">
+                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <div class="experience" @click="toExperience">
-                  <p></p>
-                  <span>免费体验</span>
+                <div class="login-operate">
+                    <div class="register" @click="toRegister">
+                    <p ></p>
+                    <span>立即注册</span>
+                    </div>
+                    <div class="experience" @click="toExperience">
+                    <p></p>
+                    <span>免费体验</span>
+                    </div>
                 </div>
-              </div>
 
             </el-form>
           </div>
@@ -82,24 +82,13 @@
           let params = {
             username: this.ruleForm.username
           };
-          server.verficate(params)
-            .then(res => {
-              if (res.data === 0) {
-                callback();
-              } else {
-                callback(new Error("此用户不存在"));
-              }
+            server.verficate(params).then(res => {
+                if (res.data === 0) {
+                    callback();
+                } else {
+                    callback(new Error("此用户不存在"));
+                }
             }).catch(error => {});
-          // this.$http.get(process.env.API_HOST+'v1/tenant',{params:{
-          //       'username':this.ruleForm.username
-          //     }}).then(response =>{
-          //     if (response.data === 0) {
-          //       callback()
-          //     } else {
-          //       callback(new Error('此用户不存在'))
-          //     }
-          //   }).catch(error=>{
-          //     })
         }
       };
       var checkPassWord = (rule, value, callback) => {

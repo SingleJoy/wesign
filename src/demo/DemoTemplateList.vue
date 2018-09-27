@@ -25,8 +25,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="img-portrait"><img src="../../static/images/Demo/expression.png" alt=""></div>	
-					<div class="img-indicate"><img src="../../static/images/Demo/nextStep.png" alt=""></div>	
+					<div class="img-portrait"><img src="../../static/images/Demo/expression.png" alt=""></div>
+
 				</div>
 			</div>
 		<div class="content">
@@ -65,11 +65,11 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .container
-	.layer 
+	.layer
 		height 100%
 		width 100%
 		background-color rgba(0, 0, 0, 0.5);
-		position fixed 
+		position fixed
 		top 0
 		left 0
 	.select-experience
@@ -77,7 +77,7 @@ export default {
 		height 0
 		margin 0 auto
 		position relative
-		top 622px
+		top 260px
 		left -39px
 		.home-character
 			text-align center
@@ -116,7 +116,7 @@ export default {
 				.experience
 					font-size 22px
 					color #ffffff;
-					border none 
+					border none
 					background-color #22a7ea
 					width 209px
 					height 47px
@@ -147,9 +147,9 @@ export default {
 				top 34px
 				right 330px
 				transform:rotate(45deg);
-				-ms-transform:rotate(45deg); 	
-				-moz-transform:rotate(45deg); 	
-				-webkit-transform:rotate(45deg); 
+				-ms-transform:rotate(45deg);
+				-moz-transform:rotate(45deg);
+				-webkit-transform:rotate(45deg);
 				-o-transform:rotate(45deg);
 			.img-handle
 				position absolute
@@ -203,10 +203,10 @@ export default {
 				position absolute
 				top 268px
 				right 335px
-	.content 
+	.content
 		width 1200px
 		margin 20px auto
-		img 
+		img
 			width 100%
 </style>
 

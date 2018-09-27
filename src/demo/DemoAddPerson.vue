@@ -12,7 +12,7 @@
 
       <div class="step-modal" >
         <div style="position: absolute;left: 500px;top:60px;">
-          <div class="direction"></div>
+
           <div class="expression"></div>
           <div class="dialog">
             <p>点击这里添加需要签约的签署人，<br/>

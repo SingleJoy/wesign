@@ -104,25 +104,33 @@ const service = {
     //个人注册
     individualRegister(param) {
         return request({
-        url: '/api/v1.6/tenant/register',
-        method: 'post',
-        params: param
+            url: '/api/v1.6/tenant/register',
+            method: 'post',
+            params: param
         })
     },
     //企业注册
     companyRegister(param) {
         return request({
-        url: '/api/v1.4/tenant/register',
-        method: 'post',
-        params: param
+            url: '/api/v1.4/tenant/register',
+            method: 'post',
+            params: param
+        })
+    },
+    //验证码
+    smsCode(param) {
+        return request({
+            url: '/api/v1.4/sms/sendCode',
+            method: 'post',
+            params:param
         })
     },
     //查询企业注册
     getCompanyRegister(interfaceCode) {
         return request({
-        url: '/api/v1.4/tenant/' + interfaceCode + '/userIsExist',
-        method: 'get',
-        //params: param
+            url: '/api/v1.4/tenant/' + interfaceCode + '/userIsExist',
+            method: 'get',
+            //params: param
         })
     },
 

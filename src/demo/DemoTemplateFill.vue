@@ -22,8 +22,8 @@
         <div class="pointer"></div>
         <div class="expression"></div>
         <div class="dialog">
-          <p>点击这里添加需要签约的签署人，<br/>
-            不需要添加自己哦~~
+          <p>模板中的参数可根据您的要求，<br/>
+            模板和参数可以组成一份完整的合同
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
@@ -123,7 +123,7 @@
     height: 1100px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-contract2.png") no-repeat;
+    background: url("../../static/images/Demo/template-contract3.png") no-repeat;
     margin-top: 20px;
   }
   .template-contract{
