@@ -1,0 +1,200 @@
+<template>
+  <div >
+    <div class="Tops" style="position: relative">
+      <nav class='nav'>
+        <p class='logo'>
+          <img src="../../static/images/logo2.png" alt="">
+        </p>
+
+      </nav>
+    </div>
+
+
+    <div class="demoSuccess-content" style="margin-top: 20px;height: 900px;" >
+      <div class="step" style="width:720px;">  <!--步骤条 -->
+        <ul>
+          <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-edit'></i><b>指定位置</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-check'></i><b>完成</b></li>
+        </ul>
+      </div>
+      <div class="demoSuccess-img">
+
+      </div>
+      <div class="step-modal" >
+        <div class="direction"></div>
+        <div class="expression"></div>
+        <div class="dialog">
+          <p>合同已经发起完成啦！<br/>
+            现在自己去发起一份体验合同吧！
+          </p>
+          <div class="demo-btn">
+            <a href="javascript:void(0);" @click="experienceAgain" class="last">再次体验</a>
+            <a href="javascript:void(0);" @click="initiatingContract" class="next">合同发起</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-sign-success">
+
+      </div>
+
+
+       <div class="look-detail">
+         <a href="javascript:void(0);">查看详情</a>
+       </div>
+    </div>
+
+
+
+    <Bottom></Bottom>
+    <div class="modal"></div>
+  </div>
+
+</template>
+<script>
+  import Bottom from '@/common/components/Bottom'
+
+  import {prohibit} from '@/common/js/prohibitBrowser'
+  export default {
+    name: 'DemoSuccess',
+    components:{
+      Bottom
+    },
+    data() {
+      return {
+
+
+      }
+    },
+    methods: {
+      experienceAgain(){
+        this.$router.push("/DemoHome")
+      },
+      initiatingContract(){
+
+
+      }
+
+    },
+    created() {
+
+    }
+  }
+</script>
+<style scoped>
+
+  @import "../common/styles/demo/DemoTops.css";
+  @import "../common/styles/demo/DemoSigningSteps.css";
+
+  .demoSuccess-content{
+    width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    position: relative;
+
+  }
+  .modal{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.5);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .step-modal>.direction{
+    width: 320px;
+    height: 150px;
+    z-index: 1002;
+    position: absolute;
+    left: 530px;
+    top: 235px;
+    background: url("../../static/images/Demo/nextStep.png") no-repeat;
+  }
+
+  .demoSuccess-img{
+    width: 302px;
+    height: 355px;
+    z-index: 1002;
+    position: absolute;
+    left: 220px;
+    top: 40px;
+    background: url("../../static/images/Demo/demo-success.png") no-repeat;
+  }
+  .step-modal>.dialog{
+    width: 305px;
+    height: 200px;
+    z-index: 1002;
+    position: absolute;
+    left: 810px;
+    top: 80px;
+
+    background: url("../../static/images/Demo/dialog.png") no-repeat;
+  }
+  .step-modal>.dialog>p{
+
+    padding:20px 15px;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  .step-modal>.dialog>.demo-btn>a,.step2-dialog>.demo-btn>a{
+    width: 120px;
+    height: 40px;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 10px;
+  }
+  .step-modal>.dialog>.demo-btn>a.last,.step2-dialog>.demo-btn>a.last{
+    border: 2px solid #fff;
+    color: #fff;
+    margin-left:30px;
+  }
+  .step-modal>.dialog>.demo-btn>a.next,.step2-dialog>.demo-btn>a.next{
+    background-color: #fff;
+    color: #4091fb;
+    margin-left: 10px;
+
+  }
+  .demo-sign-success{
+    width: 1160px;
+    height: 250px;
+    z-index: 1002;
+    position: absolute;
+    left: 20px;
+    top: 500px;
+    background: url("../../static/images/Demo/demo-sign-success.png") no-repeat;
+  }
+ .look-detail>a{
+   position: relative;
+   margin: 620px auto 0 auto;
+   display: block;
+   width: 300px;
+   height: 40px;
+   text-align: center;
+   line-height: 40px;
+   background-color: #4091fb;
+   color: #fff;
+   font-size: 16px;
+   border-radius: 5px;
+ }
+
+
+
+</style>
+
+

@@ -76,8 +76,8 @@ import CompanyContract from '../components/CompanyContract/CompanyContract.vue' 
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 
-import UserRegister from '../components/UserRegister/IndividualRegister.vue'                       //个人注册
-import CompanyRegister from '../components/UserRegister/BusinessRegister.vue'                       //企业注册
+import IndividualRegister from '../components/UserRegister/IndividualRegister.vue'                       //个人注册
+import BusinessRegister from '../components/UserRegister/BusinessRegister.vue'                       //企业注册
 
 
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
@@ -86,8 +86,9 @@ import EnterpriseCertificate from '../components/EnterpriseCertificate/Enterpris
 import DemoHome from '../demo/DemoHome.vue'   //demo首页
 import DemoTemplateList from '../demo/DemoTemplateList.vue'   //demo 模板列表
 import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
-
-
+import DemoSuccess from '../demo/DemoSuccess.vue'   //demo添加签署人
+import DemoTemplateFill from '../demo/DemoTemplateFill.vue'   //demo添加签署人
+import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署人
 
 
 Vue.use(Router)
@@ -103,18 +104,17 @@ export const router = new Router({
       }
     },
     {
-       
-      path: '/UserRegister',
-      name: 'UserRegister',
-      component: UserRegister,
+      path: '/IndividualRegister',
+      name: 'IndividualRegister',
+      component: IndividualRegister,
       meta: {
         auth: false
       }
     },
     {
-      path: '/CompanyRegister',
-      name: 'CompanyRegister',
-      component: CompanyRegister,
+      path: '/BusinessRegister',
+      name: 'BusinessRegister',
+      component: BusinessRegister,
       meta: {
         auth: false
       }
@@ -651,7 +651,32 @@ export const router = new Router({
       meta: {
         auth: false
       }
-    }
+    },
+    {
+      path: '/DemoSuccess',
+      name: 'DemoSuccess',
+      component: DemoSuccess,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoTemplateFill',
+      name: 'DemoTemplateFill',
+      component: DemoTemplateFill,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/DemoContractSign',
+      name: 'DemoContractSign',
+      component:DemoContractSign,
+      meta: {
+        auth: false
+      }
+    },
+
 
   ]
 })

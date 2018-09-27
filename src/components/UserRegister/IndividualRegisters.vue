@@ -1,9 +1,3 @@
-/*
-* @Author: wangjia
-* @Date: 2018-06-06 17:38:37
-* @Last Modified by: wangjia
-* @Last Modified time: 2018-06-27 18:44:05
-*/
 <template>
 	<div class="Login">
 		<div class="layer" v-show="isShow">
@@ -53,8 +47,8 @@
 						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
 						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
 						</el-form-item>
-						<div class="login-btn">
-						<el-button type="primary" @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
+						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
+							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
 						<p style="font-size:12px;color:#999;padding-top: 15px;">
 							<a href="javascript:void(0);" id='submit'>,立即登录</a>
@@ -77,7 +71,7 @@ import md5 from "js-md5";
 import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 export default {
-	name: "",
+	name: "IndividualRegisters",
 	data() {
 		var checkName = (rule, value, callback) => {
 			if (value === "") {
@@ -112,7 +106,7 @@ export default {
 			} else if(!validatePassWord(value)) {
 				callback(new Error("密码格式不对"));
 			} else if(value !== this.ruleForm.password){
-				callback(new Error("两次输入密码不一致")); 
+				callback(new Error("两次输入密码不一致"));
 			} else {
 				callback();
 			}
@@ -155,6 +149,17 @@ export default {
 			selectedEnterprise: null,
 			radio: 0
 		};
+	},
+	created(){
+		var _this = this;
+		document.onkeydown = function(e) {
+			var key = window.event.keyCode;
+			if (key == 13) {
+				if(_this.isClick == false) {
+					_this.submitForm('ruleForm');
+				}
+			}
+		}
 	},
 	methods: {
 		iAgreen() {
@@ -221,7 +226,7 @@ export default {
 								});
 							}
 						});
-						
+
 					}
 				}).catch(error => {
 
@@ -244,14 +249,14 @@ export default {
 						//个人注册提交
 						server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
 							if(res.data.resultCode === '1') {
-									console.log('注册成功');
+									this.$router.push('/');
 								} else {
 									this.$message({
 										showClose: true,
 										message: res.data.resultMessage,
 										type: 'error'
 									});
-								} 
+								}
 							}).catch(error => {
 								console.log(error);
 						});
@@ -270,7 +275,7 @@ export default {
 					});
 				})
 			});
-		} 
+		}
 	}
 }
 </script>
@@ -284,7 +289,7 @@ export default {
 	.agreement {
 		color: #16a8f2;
 	}
-	
+
 	.Login {
 	width: 100%;
 	}
@@ -335,7 +340,7 @@ export default {
 		left: 30%;
 		height: 90%;
 	}
-			
+
 	.layer_close {
 		height: 30px;
 		color: #bbbbbb;
@@ -345,11 +350,11 @@ export default {
 	.layer_close_left {
 		display: inline-block;
 		width: 97%;
-	}	
+	}
 	.layer_close_right {
 		display: inline-block;
 		width: 3%;
-	}	
+	}
 	.layer_character {
 		overflow-y: auto;
 		height: 100%;
@@ -357,7 +362,7 @@ export default {
 	.layer_character img {
 		height: auto;
 	}
-			
+
 	.select-btn {
 		background-color: #fff;
 		color: #666;
