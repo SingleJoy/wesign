@@ -8,7 +8,7 @@
 			<div class="home-character">
 				<div class="welcome">欢迎使用微签</div>
 				<div class="upgrade">
-					<span>系统已自动将您升级为</span> 
+					<span>系统已自动将您升级为</span>
 					<span class="company">企业体验账号</span>
 				</div>
 				<div class="test">现在可以给自己发送一份测试合同，体验文件签署的新旅程</div>
@@ -32,13 +32,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="img-portrait"><img src="../../static/images/demo/expression.png" alt=""></div>	
-			<div class="img-indicate"><img src="../../static/images/demo/nextStep.png" alt=""></div>	
+			<div class="img-portrait"><img src="../../static/images/demo/expression.png" alt=""></div>
+			<div class="img-indicate"><img src="../../static/images/demo/nextStep.png" alt=""></div>
 		</div>
 		<div class="content">
 			<img src="../../static/images/demo/demo-homePage.png" alt="">
 		</div>
-		
+
 		<Bottom></Bottom>
 	</div>
 </template>
@@ -59,7 +59,7 @@ export default {
 	},
 	methods: {
 		giveUp() {
-			alert(111);
+
 		},
 		immediateExperience() {
 			this.isShow = !this.isShow
@@ -71,8 +71,9 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+
 .container
-	.layer 
+	.layer
 		height 100%
 		width 100%
 		background-color rgba(0, 0, 0, 0.5);
@@ -123,7 +124,7 @@ export default {
 			.experience
 				font-size 22px
 				color #ffffff;
-				border none 
+				border none
 				background-color #4091fb
 				width 209px
 				height 47px
@@ -154,9 +155,9 @@ export default {
 			top 34px
 			right 330px
 			transform:rotate(45deg);
-			-ms-transform:rotate(45deg); 	
-			-moz-transform:rotate(45deg); 	
-			-webkit-transform:rotate(45deg); 
+			-ms-transform:rotate(45deg);
+			-moz-transform:rotate(45deg);
+			-webkit-transform:rotate(45deg);
 			-o-transform:rotate(45deg);
 		.img-handle
 			position absolute
@@ -204,10 +205,10 @@ export default {
 			position absolute
 			top 268px
 			right 335px
-	.content 
+	.content
 		width 1200px
 		margin 20px auto
-		img 
+		img
 			width 100%
 </style>
 
