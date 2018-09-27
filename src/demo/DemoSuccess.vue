@@ -90,8 +90,8 @@
 </script>
 <style scoped>
 
-  @import "../common/styles/Tops.css";
-  @import "../common/styles/SigningSteps.css";
+  @import "../common/styles/demo/DemoTops.css";
+  @import "../common/styles/demo/DemoSigningSteps.css";
 
   .demoSuccess-content{
     width: 1200px;
@@ -166,7 +166,7 @@
   }
   .step-modal>.dialog>.demo-btn>a.next,.step2-dialog>.demo-btn>a.next{
     background-color: #fff;
-    color: #22a7ea;
+    color: #4091fb;
     margin-left: 10px;
 
   }
@@ -187,7 +187,7 @@
    height: 40px;
    text-align: center;
    line-height: 40px;
-   background-color: #22a7ea;
+   background-color: #4091fb;
    color: #fff;
    font-size: 16px;
    border-radius: 5px;

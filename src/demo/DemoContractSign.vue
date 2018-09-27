@@ -1,8 +1,8 @@
 <template>
   <div >
     <div class="Tops" style="position: relative">
-      <nav class='nav'>
-        <p class='logo'>
+      <nav class="nav">
+        <p class="logo">
           <img src="../../static/images/logo2.png" alt="">
         </p>
       </nav>
@@ -13,6 +13,13 @@
 
       <div class="step-modal" >
 
+      </div>
+
+      <div class="demo-sign-operate" @click="handlerShowSeal">
+
+      </div>
+      <div class="demo-seal" v-show="showSeal">
+        <img src="../../static/images/Demo/demo-seal.png">
       </div>
 
       <div class="template-contract"></div>
@@ -30,7 +37,6 @@
           </div>
         </div>
       </div>
-      
 
 
     </div>
@@ -51,18 +57,20 @@
     },
     data() {
       return {
-        step1:true,
-        step2:false
+        showSeal:false
 
       }
     },
     methods: {
       lastStep(){
-        this.$router.push("/DemoHome")
+        this.$router.push("/DemoAddPerson")
       },
       nextStep(){
-        this.$router.push("/DemoAddPerson")
+        this.$router.push("/DemoSuccess")
 
+      },
+      handlerShowSeal(){
+        this.showSeal=true
       }
 
     },
@@ -73,9 +81,8 @@
 </script>
 <style scoped>
 
-  @import "../common/styles/Tops.css";
-  @import "../common/styles/SigningSteps.css";
-
+  @import "../common/styles/demo/DemoTops.css";
+  @import "../common/styles/demo/DemoSigningSteps.css";
 
   .demoTemplateFill-content{
     width: 1200px;
@@ -96,6 +103,25 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
+  .demo-sign-operate{
+    width: 135px;
+    height: 131px;
+    z-index: 1002;
+    position: absolute;
+    /*background: url("../../static/images/Demo/demo-sign-operate.png") no-repeat;*/
+    left: 940px;
+    top: 240px;
+  }
+
+  .demo-seal{
+    width: 214px;
+    height: 196px;
+    z-index: 1004;
+    position: absolute;
+    background: url("../../static/images/Demo/demo-seal.png") no-repeat;
+    left: 500px;
+    top: 530px;
+  }
   .direction{
     width: 320px;
     height: 150px;
@@ -110,23 +136,23 @@
     height: 1100px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-content.png") no-repeat;
+    background: url("../../static/images/Demo/template-contract2.png") no-repeat;
     margin-top: 20px;
   }
   .template-contract{
-    width: 655px;
+    width: 908px;
     height: 821px;
     z-index: 1002;
     position: absolute;
-    left: 198px;
+    left: 258px;
     top: 230px;
-    background: url("../../static/images/Demo/template-contract.png") no-repeat;
+    background: url("../../static/images/Demo/contract01.png") no-repeat;
   }
 
   .template-fill-info{
     position: absolute;
-    top:890px;
-    left: 890px;
+    top:835px;
+    left: 900px;
     z-index: 1003;
   }
   .template-fill-info>.expression{
@@ -169,7 +195,7 @@
   }
   .template-fill-info>.dialog>.demo-btn>a.next{
     background-color: #fff;
-    color: #22a7ea;
+    color: #4091fb;
     margin-left: 10px;
 
   }

@@ -17,7 +17,15 @@
 
       <div class="template-contract"></div>
 
+      <div class="demo-contract-img"></div>
+
       <div class="template-fill-info">
+
+
+
+      </div>
+
+      <div style="position: absolute;left: 900px;top:810px;z-index: 1006;">
         <div class="pointer"></div>
         <div class="expression"></div>
         <div class="dialog">
@@ -31,13 +39,6 @@
         </div>
       </div>
 
-      <div class="fill-in-blank" style="top:305px;"></div>
-      <div class="fill-in-blank" style="top:390px;"></div>
-      <div class="fill-in-blank" style="top:475px;"></div>
-      <div class="fill-in-blank" style="top:560px;"></div>
-      <div class="fill-in-blank" style="top:645px;"></div>
-      <div class="fill-in-blank" style="top:730px;"></div>
-      <div class="fill-in-blank" style="top:815px;"></div>
 
 
     </div>
@@ -80,9 +81,8 @@
 </script>
 <style scoped>
 
-  @import "../common/styles/Tops.css";
-  @import "../common/styles/SigningSteps.css";
-
+  @import "../common/styles/demo/DemoTops.css";
+  @import "../common/styles/demo/DemoSigningSteps.css";
 
   .demoTemplateFill-content{
     width: 1200px;
@@ -103,38 +103,26 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .direction{
-    width: 320px;
-    height: 150px;
-    z-index: 1002;
-    position: absolute;
-    left: 530px;
-    top: -60px;
-    background: url("../../static/images/Demo/nextStep.png") no-repeat;
-  }
+
   .step-modal{
     width: 1200px;
     height: 1100px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-content.png") no-repeat;
+    background: url("../../static/images/Demo/template-contract.png") no-repeat;
     margin-top: 20px;
   }
-  .template-contract{
-    width: 655px;
-    height: 821px;
-    z-index: 1002;
-    position: absolute;
-    left: 198px;
-    top: 230px;
-    background: url("../../static/images/Demo/template-contract.png") no-repeat;
-  }
+
 
   .template-fill-info{
     position: absolute;
-    top:890px;
-    left: 890px;
+    width: 908px;
+    height: 852px;
+    top:230px;
+    left:260px;
     z-index: 1003;
+    background: url("../../static/images/Demo/demo-fill-info.png") no-repeat;
+
   }
   .template-fill-info>.expression{
     width: 110px;
@@ -145,20 +133,20 @@
     left: 245px;
     top:115px
   }
-  .template-fill-info>.dialog{
+  .dialog{
     width: 305px;
     height: 200px;
     position: absolute;
     background: url("../../static/images/Demo/dialog.png") no-repeat;
   }
-  .template-fill-info>.dialog>p{
+  .dialog>p{
     padding:20px 15px;
     text-align: center;
     color: #fff;
     font-size: 16px;
     line-height: 25px;
   }
-  .template-fill-info>.dialog>.demo-btn>a{
+ .dialog>.demo-btn>a{
     position: relative;
     width: 120px;
     height: 40px;
@@ -169,14 +157,14 @@
     border-radius: 10px;
     z-index: 1005;
   }
-  .template-fill-info>.dialog>.demo-btn>a.last{
+  .dialog>.demo-btn>a.last{
     border: 2px solid #fff;
     color: #fff;
     margin-left:30px;
   }
-  .template-fill-info>.dialog>.demo-btn>a.next{
+  .dialog>.demo-btn>a.next{
     background-color: #fff;
-    color: #22a7ea;
+    color: #4091fb;
     margin-left: 10px;
 
   }
@@ -198,6 +186,7 @@
     background: url("../../static/images/Demo/information-input.png") no-repeat ;
     border-radius: 5px;
   }
+
 
 </style>
 

@@ -1,0 +1,108 @@
+.Tops{
+  width: 100%;
+  height: 80px;
+  background:#4091fb;
+  overflow:hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.nav{
+  width: 1200px;
+  margin: 0 auto;
+  height: 80px;
+  overflow:hidden;
+  position: relative;
+
+}
+.nav .logo{
+  float: left;
+  margin-right: 70px;
+}
+.nav .logo img{
+  margin-top: 18px;
+}
+.nav ul{
+  margin-left: 80px;
+  line-height: 80px;
+}
+.nav ul li{
+  float: left;
+  padding: 0 22px 0 22px;
+}
+
+.nav ul li a{
+  color: #fff;
+}
+.nav .btns{
+  margin-left: 5px;
+  /* line-height: 80px; */
+}
+.nav .btns li{
+  float: left;
+  width: 90px;
+  height: 44px;
+}
+.nav .btns li:nth-child(1){
+  float: left;
+  width: 90px;
+  height: 44px;
+  background: #fff;
+  line-height: 44px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 17px;
+  margin-right: 24px;
+}
+.nav .btns li:nth-child(2){
+  float: left;
+  width: 90px;
+  height: 44px;
+  background: #fff;
+  line-height: 44px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 17px;
+}
+.nav .btns li:nth-child(1) a{
+  color: #4091fb;
+}
+.nav .btns li:nth-child(2) a{
+  color: #4091fb;
+}
+.nav .btns li:nth-child(3){
+  width: 116px;
+  float: left;
+  line-height: 80px;
+  margin-left: 30px;
+  text-align: center;
+}
+.nav .btns li:nth-child(3) img{
+  vertical-align:middle;
+}
+.nav .btns li:nth-child(3) a{
+  color: #fff;
+  font-size: 14px;
+}
+
+.nav .btns li:nth-child(4){
+  float: left;
+  line-height: 80px;
+  margin-left: -6px;
+  text-align: center;
+}
+.nav .btns li:nth-child(4) img{
+  vertical-align:middle;
+}
+.nav .btns li:nth-child(4) a{
+  color: #fff;
+  font-size: 14px;
+}
+
+/* buttons样式 */
+.buttons{
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
