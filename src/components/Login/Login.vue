@@ -82,13 +82,12 @@
           let params = {
             username: this.ruleForm.username
           };
-          server.verficate(params)
-            .then(res => {
-              if (res.data === 0) {
-                callback();
-              } else {
-                callback(new Error("此用户不存在"));
-              }
+            server.verficate(params).then(res => {
+                if (res.data === 0) {
+                    callback();
+                } else {
+                    callback(new Error("此用户不存在"));
+                }
             }).catch(error => {});
         }
       };
