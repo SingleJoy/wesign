@@ -36,13 +36,13 @@
 				<div class="content">
 					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="300px" class="demo-ruleForm">
 						<el-form-item label="企业名称" prop="companyname">
-							<el-input :disabled="forbid" value="企业名称" v-model="ruleForm.companyname" style="width: 330px;"></el-input>
+							<el-input :disabled="forbid" placeholder="请输入企业名称" v-model="ruleForm.companyname" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="被授权人手机号" prop="mobile">
-							<el-input :disabled="forbid" maxlength="11" value="15734742257" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
+							<el-input :disabled="forbid" maxlength="11" placeholder="请输入手机号" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="姓名" prop="username">
-							<el-input :disabled="forbid" value="姓名" v-model="ruleForm.username" style="width: 330px;"></el-input>
+							<el-input :disabled="forbid" placeholder="请输入姓名" v-model="ruleForm.username" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code">
 							<el-input style="width: 330px;" value="157347" maxlength="6" v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
@@ -50,10 +50,10 @@
 							</el-input>
 						</el-form-item>
 						<el-form-item label="请输入密码" prop="password">
-							<el-input :disabled="isPassword" value="asdasd123"  v-model="ruleForm.password" type="password" style="width: 330px;"></el-input>
+							<el-input :disabled="isPassword" placeholder="请输入密码"  v-model="ruleForm.password" type="password" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="再次确认密码" prop="newpassword">
-							<el-input value="asdasd123" :disabled="isPassword" v-model="ruleForm.newpassword" type="password" style="width: 330px;"></el-input>
+							<el-input placeholder="请再次输入密码" :disabled="isPassword" v-model="ruleForm.newpassword" type="password" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item>
 							<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
@@ -72,20 +72,21 @@
 <script>
 	import { validateMoblie, validatePassWord, validateSmsCode } from "@/common/js/validate";
 	import {GetQueryString} from '@/common/js/InterceptUrl';
-	import Qs from 'qs'
 	import md5 from "js-md5";
 	import server from "@/api/url";
 	export default {
 		name: "BusinessRegisters",
 		data() {
-			var checkCompany = (rule, value, callback) => {
+			//校验公司名称
+			let checkCompany = (rule, value, callback) => {
 				if (!value) {
 					return callback(new Error('公司名称不能为空'));
 				} else {
 					callback();
 				}
 			};
-			var checkMobile= (rule, value, callback) => {
+			//校验手机号
+			let checkMobile= (rule, value, callback) => {
 				if (value === "") {
 					callback(new Error("请输入手机号"));
 				} else if (!validateMoblie(value)) {
@@ -94,14 +95,16 @@
 					callback();
 				}
 			}
-			var checkUsername = (rule, value, callback) => {
+			//校验用户名
+			let checkUsername = (rule, value, callback) => {
 				if (!value) {
 					return callback(new Error('姓名不能为空'));
 				} else {
 					callback();
 				}
 			};
-			var checkCode = (rule, value, callback) => {
+			//校验二维码
+			let checkCode = (rule, value, callback) => {
 				if (value === "") {
 					callback(new Error("请输入验证码"));
 				} else if(!validateSmsCode(value)){
@@ -110,7 +113,8 @@
 					callback();
 				}
 			};
-			var checkPassWord = (rule, value, callback) => {
+			//校验密码
+			let checkPassWord = (rule, value, callback) => {
 				if (value === '') {
 					callback(new Error('请输入密码'));
 				} else if (value.length < 8 || value.length > 16) {
@@ -121,7 +125,8 @@
 					callback();
 				}
 			}
-			var validateChildPassWord = (rule, value, callback) => {
+			//校验密码
+			let validateChildPassWord = (rule, value, callback) => {
 				if (value === "") {
 					callback(new Error("请输入密码"));
 				} else if(!validatePassWord(value)) {
@@ -130,7 +135,8 @@
 					callback(); 
 				}
 			};
-			var checkNewPass = (rule, value, callback) => {
+			//校验密码
+			let checkNewPass = (rule, value, callback) => {
 				if (value === '') {
 					callback(new Error('请再次输入密码'));
 				} else if (value !== this.ruleForm.password) {
@@ -165,6 +171,7 @@
 					password: '',
 					newpassword: '',	
 				},
+				//验证规则
 				rules: {
 					companyname: [
 						{required: true, validator: checkCompany, trigger: 'blur' }
@@ -188,10 +195,10 @@
 			};
 		},
 		methods: {
+			//提交注册信息
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
-						return;
 						//验证码是否有效
 						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
 							params: {
@@ -199,6 +206,7 @@
 							}
 						}).then(res => {
 							if(res.body.resultCode == 1) {
+								//验证码有效提交注册信息
 								this.compangSave();
 							} else {
 								this.$message({
@@ -240,6 +248,7 @@
 					});
 					return false;
 				} else {
+					//验证码倒计时
 					let _this = this;
 					this.isDisabled = true;
 					let btnValue = document.getElementById("elButton");
@@ -309,7 +318,7 @@
 								message: res.data.resultMessage,
 								type: 'error'
 							})
-							this.$router.push('/')
+							//this.$router.push('/')
 						}else if(res.data.dataList[1].authAccountStatus == '1'){
 							var authStatus = res.data.dataList[0].authStatus //是否通过状态
 							var auditSteps = res.data.dataList[0].auditSteps //个人认证步数
@@ -356,14 +365,17 @@
 					}
 				})
 			},
+			//同意注册协议
 			iAgreen() {
 				this.isClick = !this.isClick;
 				return false;
 			},
+			//微签注册协议查看
 			protocol() {
 				this.isShow = true;
 				this.isShowClose = true;
 			},
+			//关闭注册协议
 			close() {
 				this.isShow = false;
 				this.isShowClose = false;
@@ -372,6 +384,7 @@
 		created() {
 			this.interfaceCode = GetQueryString("appId");
 			sessionStorage.setItem('interfaceCode', this.interfaceCode);
+			//获取企业信息
 			server.getCompanyRegister(this.interfaceCode,{emulateJSON: true}).then(res => {
 				if (res.data.resultCode == '1') {
 					this.$message({
@@ -424,6 +437,7 @@
 			}).catch(error => {
 				
 			});
+			//键盘注册
 			var _this = this;
 			document.onkeydown = function(e) {
 				var key = window.event.keyCode;

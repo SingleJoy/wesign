@@ -48,13 +48,16 @@
     },
     data() {
       return {
-        step1:true,
-
 
       }
     },
     methods: {
-
+      lastStep(){
+        this.$router.push("/DemoTemplateFill")
+      },
+      nextStep(){
+        this.$router.push("/DemoContractSign")
+      }
 
     },
     created() {
