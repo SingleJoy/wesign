@@ -28,8 +28,8 @@
         <div class="pointer"></div>
         <div class="expression"></div>
         <div class="dialog">
-          <p>点击这里添加需要签约的签署人，<br/>
-            不需要添加自己哦~~
+          <p>点击签署将会在预先指定的位置上<br/>加盖企业公章
+
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
