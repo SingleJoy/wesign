@@ -59,7 +59,7 @@ export default {
 	},
 	methods: {
 		giveUp() {
-			alert(111);
+			
 		},
 		immediateExperience() {
 			this.isShow = !this.isShow
