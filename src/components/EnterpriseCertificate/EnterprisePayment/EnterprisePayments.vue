@@ -413,35 +413,35 @@
 
     },
     created() {
-      // this.mobileShowFirst=this.mobile.substring(0,3);
-      // this.mobileShowLast=this.mobile.substring(7,11);
-      // this.enterpriseName=sessionStorage.getItem("companyName");
-      // console.log(this.interfaceCode);
-      // // 查询企业银行信息
-      // server.getBank(this.interfaceCode).then(response =>{
-      //   if (response.data.resultCode == '1') {
-      //     this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
-      //     this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
-      //     this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
-      //     this.ruleForm.bankArea = response.data.data.to_pro_name+response.data.data.to_city_name; //收款人开户行省市名
-      //     this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
-	  //
-      //   } else if(response.data.resultCode == '0'){
-      //     this.$message({
-      //       showClose: true,
-      //       message:res.data.resultMessage,
-      //       type: 'error'
-      //     })
-      //   }
-      // })
-	  //
-      // // 轮询查找打款进度信息
-	  //
-      // let that = this
-      // let timer = null
-      // this.timer = setInterval(function () {
-      //   that.pollingPanel(this.timer)
-      // }, 3000)
+      this.mobileShowFirst=this.mobile.substring(0,3);
+      this.mobileShowLast=this.mobile.substring(7,11);
+      this.enterpriseName=sessionStorage.getItem("companyName");
+      console.log(this.interfaceCode);
+      // 查询企业银行信息
+      server.getBank(this.interfaceCode).then(response =>{
+        if (response.data.resultCode == '1') {
+          this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
+          this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
+          this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
+          this.ruleForm.bankArea = response.data.data.to_pro_name+response.data.data.to_city_name; //收款人开户行省市名
+          this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
+
+        } else if(response.data.resultCode == '0'){
+          this.$message({
+            showClose: true,
+            message:res.data.resultMessage,
+            type: 'error'
+          })
+        }
+      })
+
+      // 轮询查找打款进度信息
+
+      let that = this
+      let timer = null
+      this.timer = setInterval(function () {
+        that.pollingPanel(this.timer)
+      }, 3000)
 
     }
   }

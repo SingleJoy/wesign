@@ -20,10 +20,10 @@
               <el-form-item prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
               </el-form-item>
-              <el-form-item prop="password">
+              <el-form-item prop="password" style="margin-bottom: 10px;">
                 <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
               </el-form-item>
-              <p style="font-size:12px;color:#999;margin-bottom: 10px;">
+              <p style="font-size:12px;color:#999;margin-bottom: 10px;line-height: 25px;">
                 <a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
               </p>
               <div class="login-btn">

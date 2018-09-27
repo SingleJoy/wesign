@@ -51,7 +51,7 @@
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
 						<p style="font-size:12px;color:#999;padding-top: 15px;">
-							<a href="javascript:void(0);" id='submit'>,立即登录</a>
+							<a href="javascript:void(0);" id='submit' @click="toLogin">,立即登录</a>
 							<a href="javascript:void(0);" class="account">已有账号</a>
 						</p>
 					</el-form>
@@ -162,6 +162,9 @@ export default {
 		}
 	},
 	methods: {
+    toLogin(){
+      this.$router.push('/')
+    },
 		iAgreen() {
 			this.isClick = !this.isClick;
 			return false;

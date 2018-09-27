@@ -21,7 +21,7 @@
         <!-- <h6 id='text' style="position:absolute;left:100px;">欢迎来到众签签约室</h6> -->
       </div>
       <dl class='cright' style="text-align:left;">
-        <dd>输入以下信息进行签署设置</dd>
+        <dd>签约室欢迎语设置：</dd>
          <dd>
 
            <el-input
