@@ -397,7 +397,6 @@
       this.mobileShowLast=this.mobile.substring(7,11);
 
       let accountStatus=sessionStorage.getItem("accountStatus")
-      console.log(accountStatus)
       if(accountStatus==1){
         this.$router('/Home');
       }

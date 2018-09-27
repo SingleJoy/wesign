@@ -7,6 +7,13 @@
     }
     .certification-content{
         padding:0 15px;
+        .result-warning{
+            font-size: 14px;
+            text-align: center;
+            display: block;
+            color:red;
+            margin-bottom: 10px;
+        }
         .content-bg{
             background: #fafafa;
             padding:15px;
@@ -27,6 +34,7 @@
             float: left;
         }
         .content-box{
+            // text-align: center;
             background: #fff;
             padding:10px 15px;
             box-sizing: border-box;
@@ -73,6 +81,15 @@
                             border: 1px dashed #999;
                         }
                     }
+                    .license-wrap{
+                        width:334px;
+                        height:190px;
+                        cursor: pointer;
+                        img{
+                            width: 100%;
+                            height:100%;
+                        }
+                    }
                 }
                 .el-upload:hover{
                     border-color: #409EFF;
@@ -103,32 +120,34 @@
 				.card-right{
 					float:right;
 				}
-				.card-left .upload_warp{
-					background:url('/static/images/Credentials/Personal/Pupload/left-card.png') no-repeat;
-					width:285px;
-                    height:186px;
-					float: left;
-					cursor: pointer;
+				// .card-left .upload_warp{
+				// 	background:url('/static/images/Credentials/Personal/Pupload/left-card.png') no-repeat;
+				// 	width:285px;
+                //     height:186px;
+				// 	float: left;
+				// 	cursor: pointer;
 
-				}
-				.card-right .upload_warp{
-					background:url('/static/images/Credentials/Personal/Pupload/right-card.png') no-repeat;
-					width:285px;
-                    height:186px;
-					float: right;
-					cursor: pointer;
-                }
-                .card-right .img_warp{
+				// }
+				// .card-right .upload_warp{
+				// 	background:url('/static/images/Credentials/Personal/Pupload/right-card.png') no-repeat;
+				// 	width:285px;
+                //     height:186px;
+				// 	float: right;
+				// 	cursor: pointer;
+                // }
+                .card-right .upload_warp{
                     width:285px;
                     height:186px;
-					float: right;
+                    float: right;
+                    cursor: pointer;
                 }
-                .card-left .img_warp{
+                .card-left .upload_warp{
                     width:285px;
                     height:186px;
-					float: left;
+                    float: left;
+                    cursor: pointer;
                 }
-                .img_warp img{
+                .upload_warp .avatar{
                     width:100%;
                     height:100%;
                 }
