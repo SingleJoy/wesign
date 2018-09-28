@@ -50,7 +50,7 @@
 						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
-						<p style="font-size:12px;color:#999;padding-top: 15px;">
+						<p style="font-size:12px;color:#999;padding-top: 0.9rem;">
 
 							<a href="javascript:void(0);" id='submit' @click="login()">,立即登录</a>
 
@@ -313,6 +313,9 @@ export default {
 		background-color: #16a8f2;
 		color: #ffffff;
 	}
+	.user .el-form .el-form-item {
+		margin-bottom: 1.4rem;
+	}
 	.agreement {
 		color: #16a8f2;
 	}
@@ -489,6 +492,7 @@ export default {
 	.login-btn button {
 	width: 100%;
 	height: 36px;
+	margin-top: -0.625em;
 	}
 	#submit {
 	color: #22a7ea;
