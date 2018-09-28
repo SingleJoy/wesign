@@ -404,6 +404,7 @@
           callback();
         }
       }
+
       var validateCheckPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));

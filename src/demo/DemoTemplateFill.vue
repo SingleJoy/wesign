@@ -123,7 +123,7 @@
     height: 1100px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-contract3.png") no-repeat;
+    background: url("../../static/images/Demo/template-contract4.png") no-repeat;
     margin-top: 20px;
   }
   .template-contract{

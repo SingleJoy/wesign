@@ -245,7 +245,6 @@
           sessionStorage.setItem('accountSteps','accountSteps')
           this.$router.push('/WaitReply')
 
-
         }
       },
       shutDown(){
