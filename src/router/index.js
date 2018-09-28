@@ -94,7 +94,7 @@ import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署
 Vue.use(Router)
 
 export const router = new Router({
-  mode: "history",
+//   mode: "history",
   routes: [{
       path: '/',
       name: 'User',
