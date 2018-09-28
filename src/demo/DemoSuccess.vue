@@ -32,7 +32,7 @@
         <div class="expression"></div>
         <div class="dialog">
           <p>合同已经发起完成啦！<br/>
-            现在自己去发起一份体验合同吧！
+            您现在可以去移动端体验签署流程啦！
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="experienceAgain" class="last">再次体验</a>
