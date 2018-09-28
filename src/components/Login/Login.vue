@@ -145,8 +145,14 @@
                         mobile:this.ruleForm.username,
                         // accountCode:accountCode?accountCode:''
                       };
-                      if (stateCode == "1") {
-                        if(response.data.dataList[0].length>0){
+                      if (stateCode == "1" || stateCode == "0") {
+                        if(response.data.dataList[0].length==0&&response.data.dataList[1].length==0){
+                            //已注册未实名
+                              this.$router.push('/EnterpriseCertificate');
+                            //   this.$router.push('/Merchant');
+                              return
+                        }else if(response.data.dataList[0].length>0){
+                            //已注册并实名
                           var urlParam =  response.data.dataList[0][0].interfaceCode;
                           var enterpriseName = response.data.dataList[0][0].enterpriseName;
                           var mobile = response.data.dataList[0][0].mobile;

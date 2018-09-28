@@ -124,7 +124,7 @@ export const router = new Router({
         name:'EnterpriseCertificate',
         component:EnterpriseCertificate,
         meta:{
-            auth:true
+            auth:false
         }
     },
     {
@@ -590,7 +590,7 @@ export const router = new Router({
       name: 'Merchant',
       component: Merchant,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
