@@ -11,7 +11,7 @@
     <div class="demoAddPerson-container" style="margin-top:20px;" >
 
       <div class="step-modal" >
-        <div style="position: absolute;left: 500px;top:60px;">
+        <div style="position: absolute;left: 500px;top:-120px;">
 
           <div class="expression"></div>
           <div class="dialog">
@@ -73,10 +73,12 @@
   .demoAddPerson-container{
     width: 1200px;
     margin: 20px auto;
-    background-color: #fff;
+    height: 600px;
     position: relative;
+    background:url("../../static/images/Demo/addPerson.png") no-repeat;
+
   }
-  .demo-modal{
+ .demo-modal{
     width: 100%;
     height: 100%;
     position: fixed;
@@ -90,13 +92,13 @@
     overflow-y: auto;
   }
 
-  .step-modal{
+  .demoAddPerson-container> .step-modal{
     width: 1200px;
     height: 550px;
     position: relative;
     z-index: 1002;
-    background: url("../../static/images/Demo/addPerson.png") no-repeat;
-    margin-top: 20px;
+    background: url("../../static/images/Demo/addPerson1.png") no-repeat;
+    top: 200px;
   }
 
 

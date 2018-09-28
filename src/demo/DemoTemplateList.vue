@@ -4,7 +4,7 @@
 		<div class="layer">
 		</div>
 		<div class="select-experience" v-show="isShow">
-				<img src="../../static/images/Demo/demo-listOver.png" alt="">
+				<img src="../../static/images/Demo/demo-listOver1.png" alt="">
 				<div class="form-board" v-show="isShow">
 					<div class="img-hand"><img src="../../static/images/Demo/pointer.png" alt=""></div>
 					<div class="img-handle">
