@@ -31,12 +31,14 @@
 
         <div class="expression"></div>
         <div class="dialog">
-          <p>合同已经发起完成啦！<br/>
-            您现在可以去移动端体验签署流程啦！
+          <p>合同发起完成啦！<br/>
+            您可以扫描【链接二维码】完成签署体验。
+            也可以点击【立即注册】成为微签用户，
+            完成实名认证即送10次发起签约次数!
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="experienceAgain" class="last">再次体验</a>
-            <a href="javascript:void(0);" @click="initiatingContract" class="next">合同发起</a>
+            <a href="javascript:void(0);" @click="initiatingContract" class="next">立即注册</a>
           </div>
         </div>
       </div>
@@ -149,7 +151,7 @@
     background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog{
-    width: 305px;
+    width: 310px;
     height: 200px;
     z-index: 1002;
     position: absolute;
@@ -160,18 +162,22 @@
   }
   .demoSuccess-content>.step-modal>.dialog>p{
 
-    padding:20px 15px;
-    text-align: center;
+    padding:10px 15px;
+    text-align: left;
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 25px;
   }
+  .demoSuccess-content>.step-modal>.dialog>.demo-btn{
+   margin-left: 20px;
+
+  }
   .demoSuccess-content>.step-modal>.dialog>.demo-btn>a,.step2-dialog>.demo-btn>a{
-    width: 120px;
-    height: 40px;
+    width: 90px;
+    height: 30px;
     display: inline-block;
-    font-size: 16px;
-    line-height: 40px;
+    font-size: 14px;
+    line-height: 30px;
     text-align: center;
     border-radius: 10px;
   }

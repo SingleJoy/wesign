@@ -22,8 +22,8 @@
         <!--<div class="pointer"></div>-->
         <div class="expression"></div>
         <div class="dialog">
-          <p>模板中的参数可根据您的要求，<br/>
-            模板和参数可以组成一份完整的合同
+          <p>  模板中的参数可根据您的要求定义<br/>
+            模板和参数组成一份完整的合同
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
@@ -126,7 +126,7 @@
   }
   .demo-detail{
     width: 616px;
-    height: 953px;
+    height: 818px;
     z-index: 1003;
     position: absolute;
     left: 258px;
