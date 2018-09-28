@@ -175,12 +175,13 @@
         </div>
       </div>
     </div>
-    <div class='dialogbg' v-show="authorityWarn">
-
-      <div class='upload-dilog'>
-        <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shutAuthority">X</a>
-            您十次机会已用完
-      </div>
+    <div class='dialogbg' v-show="!authorityWarn">
+        <div class="upload-warn">
+            <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shut">X</a>
+            <!-- <img  src="../../../static/images/Login/up-warn.png" alt=""> -->
+            <p>{{10-hasInitiate}}</p>
+        </div>
+       
     </div>
   </div>
 </template>
@@ -355,9 +356,9 @@
         //合同发起权限
         authorityJudje(){
             let param={
-                
+
             }
-            service.authorityUpload(param,this.interfaceCode).then(res=>{
+            server.authorityUpload(param,this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 0){
                     let num = res.data.num;
                     if(num == 10){
@@ -604,7 +605,7 @@
     }
   };
 </script>
-<style lang="css" scoped>
+<style lang="scss" scoped>
   @import "../../styles/Container.css";
   .right1:hover,
   .right2:hover,
@@ -618,6 +619,28 @@
     -ms-transform: scale(1.08);
     -o-transform: scale(1.08);
     -moz-transform: scale(1.08);
+  }
+  .upload-warn{
+    width: 68.1rem;
+    height: 32rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -34.05rem;
+    margin-top: -20rem;
+    background: url('/static/images/Login/up-warn.png') no-repeat ;
+    background-size:100% 100%;
+    img{
+        width:100%;
+        height:100%
+    }
+    .close-warn{
+        position: absolute;
+        right: 35px;
+        top: 20px;
+        font-size: 20px;
+        color: #666;
+    }
   }
   .contract-sign{
     /* position: absolute; */

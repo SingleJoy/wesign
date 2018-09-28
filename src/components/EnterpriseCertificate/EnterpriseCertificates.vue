@@ -243,7 +243,7 @@
                                 </div>
 								<p class="upload-tip">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
 
-                                 <div class="company-input" v-if="!IdInfoShow">
+                                 <div class="company-input" v-if="IdInfoShow">
                                     <div class="input-item">
                                         <span v-if="authorizerType" class="input-title">被授权人姓名</span>
                                         <span v-else class="input-title">法人姓名</span>

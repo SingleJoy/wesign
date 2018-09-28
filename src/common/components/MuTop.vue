@@ -20,7 +20,7 @@
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
         <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
 
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="(Jurisdiction)||(cookie.getJSON('tenant')[0].authStatus!='1')">
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="(Jurisdiction)">
 
           <router-link to='/Account'  @click.native="tabActive(5)">
             <img src="../../../static/images/setup.png" alt="">
