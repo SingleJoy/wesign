@@ -319,7 +319,7 @@
 							type: 'success'
 						})
 						sessionStorage.setItem('interfaceCode', this.interfaceCode);
-						this.$router.push('/EnterpriseCertificates');
+						this.$router.push('/EnterpriseCertificate');
                     }else if(res.data.resultCode == '2'){
                          this.$message({
 							showClose: true,

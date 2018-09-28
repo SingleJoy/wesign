@@ -261,12 +261,14 @@
                                 <el-form-item  label="银行名称"  prop="to_bank_name" label-width="473px">
                                     <el-input v-model="bankInfo.to_bank_name" placeholder="请输入"></el-input>
                                 </el-form-item>
-                                <el-form-item label="开户行所在省／市"  prop="selectedOptions" label-width="473px">
+                                
+                                <el-form-item label="开户行所在省／市"  label-width="473px">
                                     <el-cascader
                                         :options="options"
                                         v-model="selectedOptions"
                                         @change="handleCityChange">
                                     </el-cascader>
+                                    <span style="position: absolute; left: 0;top: 30px;margin-left: 0;" v-if="cityTip" class="validate-tip">请选择省市</span>
                                 </el-form-item>
                                 <el-form-item  label="开户行支行名称"  prop="to_acc_dept" label-width="473px">
                                     <el-input v-model="bankInfo.to_acc_dept" placeholder="请输入"></el-input>
@@ -278,7 +280,7 @@
 
                 <div class="submit-btn">
                      <el-button type="" style='width:280px' @click="cancelIDcard">取&nbsp;&nbsp;消</el-button>
-                     <el-button type="primary" style='width:280px' @click="submitIDcard('bankInfo')">提&nbsp;&nbsp;交</el-button>
+                     <el-button type="primary" style='width:280px' @click="submit('bankInfo')">提&nbsp;&nbsp;交</el-button>
                 </div>
             </div>
         </div>
@@ -293,7 +295,9 @@ export default {
     data() {
         var checkName= (rule,value,callback)=>{
             if(value==''){
-                callback(new Error('请输入企业名称'))
+                callback(new Error('企业名称不为空'))
+            }else{
+                  callback()
             }
         }
         var checkBankNum = (rule,value,callback)=>{
@@ -301,27 +305,27 @@ export default {
                 callback(new Error('请输入企业银行账号'))
             }else if(!validateBank(TrimAll(value))){
                 callback(new Error('银行账号输入不正确'))
+            }else{
+                  callback()
             }
         }
         var checkBankName = (rule,value,callback)=>{
              if(value==''){
                 callback(new Error('请输入企业银行名称'))
-            }
-        }
-        var checkCity =  (rule,value,callback)=>{
-            console.log(value)
-             if(value==undefined){
-                callback(new Error('请选择所在省市'))
+            }else{
+                  callback()
             }
         }
         var checkBank =  (rule,value,callback)=>{
-             if(value==''){
+            if(value==''){
                 callback(new Error('请输入开户行行名称'))
+            }else{
+                callback()
             }
         }
         return {
             baseURL:this.baseURL.BASE_URL,
-            interfaceCode:'1',
+            interfaceCode:'',
             licenseSize:0,             //营业执照大小
             licenseInfoEdit:false,   //营业执照信息
             licenseInputShow:false,
@@ -356,7 +360,7 @@ export default {
             idMobile:true,
             checked:false,
             bankInfo:{
-                to_acc_name:"王宁测试公司",      //企业名称
+                to_acc_name:"3424",      //企业名称
                 to_acc_no:"",         //收款账号
                 to_bank_name:"",       //银行名称
                 to_pro_name:"",        //开户行省名
@@ -372,9 +376,6 @@ export default {
                 ],
                 to_bank_name: [
                     { validator: checkBankName, trigger: 'blur' }
-                ],
-                selectedOptions:[
-                    {validator:checkCity, trigger: 'blur' }
                 ],
                 to_acc_dept:[
                     { validator:checkBank, trigger: 'blur' }
@@ -397,6 +398,7 @@ export default {
             mobileTipText:'',
             smsTip:false,
             smsCodeText:'获取验证码',
+            cityTip:false,
             smsTipText:'',
             smsSend:false,
             synopsis:false,
@@ -2088,6 +2090,7 @@ export default {
                 this.licenseInfo.creditPhoto = name.data.creditPhoto;
                 this.licenseInfo.legalPerson = name.data.legalPerson;
                 this.bankInfo.to_acc_name = name.data.tenantName;
+                
                 this.$message({
                     showClose: true,
                     message: '上传成功',
@@ -2167,6 +2170,8 @@ export default {
                     this.smsTip=true;
                     this.smsTipText = "验证码不为空";
                 }else{
+                    this.smsTip=false;
+                    this.smsTipText = "";
                     this.valiteSms()
                 }
             }
@@ -2273,8 +2278,11 @@ export default {
 
         //选择城市
         handleCityChange(val){
+            console.log(val)
             this.bankInfo.to_pro_name=val[0]
-            this.bankInfo.to_city_name=val[1]
+            this.bankInfo.to_city_name=val[1];
+            this.cityTip = false;
+               console.log(this.bankInfo)
         },
 
         bytesToSize(bytes) {
@@ -2289,7 +2297,7 @@ export default {
 
         },
         //提交
-        submitIDcard(companyInfo){
+        submit(bankInfo){
             if(this.licenseInfo.creditPhoto == ''){
                 this.$message({
                     showClose: true,
@@ -2308,6 +2316,14 @@ export default {
                 his.$message({
                     showClose: true,
                     message: '请上传身份证反面照',
+                    type: 'error'
+                })
+                return
+            }
+              if(this.IdInfo.mobile==""){
+                this.$message({
+                    showClose: true,
+                    message: '手机号不能为空',
                     type: 'error'
                 })
                 return
@@ -2336,16 +2352,23 @@ export default {
                 })
                 return
             }
-            this.$refs[companyInfo].validate((valid) => {
-                if (valid){
+            if(this.bankInfo.to_pro_name==""){
+                this.cityTip = true;
+                return 
+                }else{
+                    this.cityTip = false;
+            }
+            this.$refs[bankInfo].validate((valid) => {
+                if(valid){
+                    
                     this.$loading.show(
                         '信息提交中...',  
                     );
                     this.sublicenseInfo();
-                    this.subIdInfo();
-                    this.subbankInfo();
                 }
             })
+
+           
 				
            
         },
@@ -2360,11 +2383,13 @@ export default {
             server.licenseInfo(param).then(res=>{
                  if(res.data.resultCode==1){
                     this.licenseStatus = true;
-                    this.count+=1;
+                    this.interfaceCode = res.data.interfaceCode;
+                    this.subIdInfo();
+                    // this.count+=1;
                 }else{
                     this.licenseStatus = false;
                     this.$loading.hide();
-                    this.count-=1;
+                    // this.count-=1;
                 }
             }).catch(error=>{
 
@@ -2385,11 +2410,12 @@ export default {
             server.IdCardInfo(params).then(res=>{
                 if(res.data.resultCode==1){
                     this.IdStatus = true;
-                    this.count+=1;
+                    this.subbankInfo();
+                    // this.count+=1;
                 }else{
                     this.IdStatus = false;
                     this.$loading.hide();
-                    this.count-=1;
+                    // this.count-=1;
                 }
 
             }).catch(error=>{
@@ -2410,11 +2436,13 @@ export default {
             server.bankInfo(param,interfaceCode).then(res=>{
                 if(res.data.resultCode==1){
                     this.bankStatus = true;
-                    this.count+=1;
+                    // this.count+=1;
+                    this.$loading.hide();
+                    this.$router.push('/EnterprisePayment')
                 }else{
                     this.bankStatus = false
                     this.$loading.hide();
-                    this.count-=1;
+                    // this.count-=1;
                 }
             }).catch(error=>{
                    
@@ -2423,8 +2451,8 @@ export default {
         //请求成功跳转
         success(val){
             if(val==3){
-                this.$loading.hide();
-                this.$router.push('/EnterprisePayment')
+                // this.$loading.hide();
+                // this.$router.push('/EnterprisePayment')
             }
         }
     },
