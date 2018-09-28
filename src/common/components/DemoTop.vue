@@ -29,59 +29,12 @@
         </li>
       </ol>
 
-      <div id='update'>
-      </div>
+
     </nav>
 
-   <div class='dialogbg' v-show="popup">
 
-     <div class='upload-dilog'>
-           <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
-          <div style="color:#22a7ea;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
-          <div class='leftDilog'>
-              <el-upload
-            ref='upload'
-            class="upload-demo"
-            :action='urlloadUrl()'
-            :before-upload="handleChange"
-            :on-success="fileSuccess"
-            :show-file-list= false
-            :limit=1
-            accept='.docx,.pdf,.doc,.txt'
-            element-loading-text="拼命上传中"
-            element-loading-background="rgba(0, 0, 0, 0.5)"
-            >
-            <img src="../../../static/images/Login/geren.png" alt="">
-            </el-upload>
-          </div>
-            <div class='rightDilog'>
-              <el-upload
-              ref='upload'
-              class="upload-demo"
-              :action='uploadUrl()'
-              :data=Type
-              :before-upload="handleChange"
-              :on-success="fileSuccess1"
-              :show-file-list= false
-              :limit=1
-              accept='.docx,.pdf,.doc,.txt'
-              element-loading-text="拼命上传中"
-              element-loading-background="rgba(0, 0, 0, 0.5)"
-              >
-              <img src="../../../static/images/Login/qiye.png" alt="">
-              </el-upload>
-            <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
-          </div>
-      </div>
-   </div>
 
-    <div id="dilog">
-        <div class='box'>
-          <div class='box-container'>
-            <a href="javascript:void(0);" id='close' @click='closes'>X</a>
-          </div>
-        </div>
-      </div>
+
   </div>
 </template>
 <style lang="css" scoped>

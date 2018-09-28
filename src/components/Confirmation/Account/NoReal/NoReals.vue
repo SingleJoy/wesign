@@ -272,6 +272,7 @@
       this.mobile = cookie.getJSON('tenant')[0].mobile
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
+      // authStatus  -1和0 都是未通过  1是通过
       var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
       var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
