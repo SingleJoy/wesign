@@ -355,7 +355,7 @@
     height: 28rem;
     position: absolute;
     right: 10%;
-    top: 8rem;
+    top: 6rem;
   }
   .login-logo {
     width: 100px;
@@ -407,12 +407,12 @@
     margin-top: 20px;
     width: 51px;
     height: 51px;
-    background: url("../../../static/images/Login/register.png");
+    background: url("../../../static/images/Login/register.png") no-repeat;
   }
   .register>span,.experience>span{
     font-size: 12px;
     display: inline-block;
-    margin-left: 60px;
+    margin-left: 5em;
     top: -30px;
     position: absolute;
   }
@@ -421,7 +421,7 @@
     color: #fb9b29;
   }
   .experience>span{
-    right: -70px;
+    right: -4.375em;
     top:15px;
     color: #f95b5f;
     display: block;
@@ -435,7 +435,8 @@
   .experience p{
     width: 51px;
     height: 51px;
-    background: url("../../../static/images/Login/expercise.png");
+
+    background: url("../../../static/images/Login/expercise.png")  no-repeat;
   }
 
   #submit {
