@@ -32,15 +32,75 @@
             </el-dialog>
              <el-dialog
                 :visible.sync="synopsis"
-                width="500px"
+                width="700px"
               >
-                <img src="../../../static/images/case.png" alt="" style="width:100%;height:100%;">
+              <div class="enterprise-attorney-synopsis">
+                    <h2 class="synopsis-title">企业授权委托书</h2>
+                    <p>
+                        <span>致：</span>
+                        <span>北京众签科技有限公司</span>
+                    </p>
+
+                    <p class="synopsis-text">
+                        <span>我单位</span>
+                        <span class="add-info">{{licenseInfo.tenantName}}</span>
+                        <span>现委托</span>
+                        <span class="add-info">{{IdInfo.userName}}</span>
+                        <span style="line-height:18px;">作为我单位合法代理人，，授权其代表我单位使用贵司微签平台。该委托代理人使用微签平台的授权范围为：代表我单位发出签约请求、签署电子合同在内的各类文件、对已签约的文件进行存证等。在与贵司的微签服务
+                            的有效期内，该代理人的一切行为，均代表本单位，与本单位的行为具有同等法律效力。本
+                            单位将承担该代理人行为的全部法律后果和法律责任。 
+                        </span>
+                    </p>
+                    <p >
+                        <span>代理人无权转委托。特此委托。 </span>
+                    </p>
+                    <div class="item-info">
+                        <p>
+                            <span>代理人：</span>
+                            <span>{{IdInfo.userName}}</span>
+                        </p>
+
+                        <p>
+                            <span>身份证号码：</span>
+                            <span>{{IdInfo.idcard}}</span>
+                        </p>
+                        <p>
+                            <span>企业公章（盖章）：</span>
+                            <span>{{IdInfo.userName}}</span>
+                        </p>
+                        <p>
+                            <span>法定代表人：</span>
+                            <span>{{IdInfo.userName}}</span>
+                        </p>
+                        <p>
+                            <span>日期：</span>
+                        </p>
+                    </div>
+                    
+                   
+              </div>
+              
             </el-dialog>
              <el-dialog
                 :visible.sync="attorney"
-                width="500px"
+                width="700px"
+                height="800px"
               >
-                <img src="../../../static/images/case.png" alt="" style="width:100%;height:100%;">
+              <div class="enterprise-attorney-synopsis">
+                    <h2>企业法人说明函</h2>
+                    <p class="attorney-text">
+                            <span> 姓名：</span> <span class="add-info">{{IdInfo.userName}}</span><span>，身份证号：</span> <span class="add-info">{{IdInfo.idcard}}</span><span>，系</span> 
+                            <span class="add-info">{{licenseInfo.tenantName}}</span><span>的法定代表人。</span>
+                        
+                    </p>
+                    <p style="margin-bottom:160px;margin-top:20px;">特此声明！</p>
+                    <p  style="margin-bottom:50px;text-align:right;padding-right:100px;">
+                            <span> 单位（公章）</span>
+                    </p>
+                    <p  style="margin-bottom:50px;text-align:right;margin-bottom:200px;padding-right:150px;">
+                        <span>时间</span>
+                    </p>
+              </div>
             </el-dialog>
             <div class="certification-content">
                 <div class="company-info">
@@ -183,9 +243,10 @@
                                 </div>
 								<p class="upload-tip">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
 
-                                 <div class="company-input" v-if="IdInfoShow">
+                                 <div class="company-input" v-if="!IdInfoShow">
                                     <div class="input-item">
-                                        <span class="input-title">法人姓名</span>
+                                        <span v-if="authorizerType" class="input-title">被授权人姓名</span>
+                                        <span v-else class="input-title">法人姓名</span>
                                         <el-input
                                             style='width:336px'
                                             placeholder=""
@@ -331,10 +392,10 @@ export default {
             licenseInputShow:false,
             IdInfoShow:false,
             licenseInfo:{              //企业信息
-                tenantName:'naem',
-                creditCode:'23432432432',
+                tenantName:'',
+                creditCode:'',
                 creditPhoto:'',
-                legalPerson:'ewre',
+                legalPerson:'',
             },
             licenseExample:false,
             frontIdExample:false,

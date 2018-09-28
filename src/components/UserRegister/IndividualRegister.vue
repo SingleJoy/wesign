@@ -2,7 +2,7 @@
     <div class="IndividualRegister">
         <LoginTop></LoginTop>
         <IndividualRegisters></IndividualRegisters>
-        <Bottom></Bottom>
+        <Bottom style="margin-top: 28.125rem;"></Bottom>
     </div>
 </template>
 <script>

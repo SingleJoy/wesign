@@ -175,6 +175,13 @@
         </div>
       </div>
     </div>
+    <div class='dialogbg' v-show="authorityWarn">
+
+      <div class='upload-dilog'>
+        <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shutAuthority">X</a>
+            您十次机会已用完
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -183,6 +190,28 @@
   import server from "@/api/url";
   export default {
     name: "Container",
+     data() {
+        return {
+            baseURL:this.baseURL.BASE_URL,
+            popupContainer: false,
+            tableData: [],
+            download: "",
+            loading: true,
+            loading2: false,
+            count: "",
+            waitForMeSign: "",
+            waitForOtherSign: "",
+            takeEffect: "",
+            deadline: "",
+            arr: [],
+            uploadFile: true,
+            interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+            accountCode:sessionStorage.getItem('accountCode'),
+            Type: { contractType: "0" },
+            authorityWarn:false, //权限弹框提醒
+            hasInitiate:0,    //已经发起的次数
+        };
+    },
     methods: {
         getRowClass({ row, column, rowIndex, columnIndex }) {
             if (rowIndex == 0) {
@@ -323,8 +352,36 @@
             up.setAttribute("href", url);
             up.click();
         },
+        //合同发起权限
+        authorityJudje(){
+            let param={
+                
+            }
+            service.authorityUpload(param,this.interfaceCode).then(res=>{
+                if(res.data.resultCode == 0){
+                    let num = res.data.num;
+                    if(num == 10){
+                        this.authorityWarn = true;
+                    }else{
+                        this.hasInitiate = num
+                    }
+                }else{
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
+                }
+            }).catch(error=>{
+
+            })
+        },
         choice() {
-            if(cookie.getJSON('tenant')[1].createContractRole== 1){
+            if(this.hasInitiate==10){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+                this.authorityWarn = true;
+            }else if(this.hasInitiate<10){
+                this.authorityJudje();
+            }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                  this.$alert('您暂无上传发起权限','提示', {
                     confirmButtonText: '确定'
                 })  
@@ -334,6 +391,9 @@
         },
         shut() {
             this.popupContainer = !this.popupContainer;
+        },
+        shutAuthority(){
+            this.authorityWarn = fasle;
         },
         jump() {
             this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
@@ -446,26 +506,7 @@
             }
         }
     },
-    data() {
-        return {
-            baseURL:this.baseURL.BASE_URL,
-            popupContainer: false,
-            tableData: [],
-            download: "",
-            loading: true,
-            loading2: false,
-            count: "",
-            waitForMeSign: "",
-            waitForOtherSign: "",
-            takeEffect: "",
-            deadline: "",
-            arr: [],
-            uploadFile: true,
-            interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
-            accountCode:sessionStorage.getItem('accountCode'),
-            Type: { contractType: "0" }
-        };
-    },
+   
     created() {
         var data = [];
         var flag = "";

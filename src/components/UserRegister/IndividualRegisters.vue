@@ -16,7 +16,7 @@
 					<span class="layer_close_rigth">X</span>
 				</div>
 				<div class="layer_character">
-					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+					<img src="../../../static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
 				</div>
 			</div>
 		</div>
@@ -196,12 +196,13 @@ export default {
 				server.verficate({'username': this.ruleForm.username}).then(res => {
 					this.iscode = true;
 					if (res.data == 0) {
-                        this.$message({
-                            showClose: true,
-                            message: "此用户已存在",
-                            type: 'error'
+                        this.$alert('此用户已存在您可直接去登录', '提示', {
+                            confirmButtonText: '确定',
+                        }).then(() => {
+                            this.$router.push('/')
+                        }).catch(() => {
+                        
                         });
-                        this.$router.push('/');
 					} else {
 						//倒计时
 						let _this = this;
@@ -416,7 +417,7 @@ export default {
 	// left: 266px;
 
 	width: 77.5rem;
-	height: 34rem;
+	height: 38rem;
 	background: url("/static/images/Login/userRegister.png") no-repeat;
 	position: absolute;
 	background-size: 100%;
@@ -424,12 +425,14 @@ export default {
 	left: 50%;
 	margin-left: -39rem;
 	margin-top: -10rem;
+	background-color: #fff;
+	border-radius: 10px;
 	}
 	.userInfo {
 	color: #16a8f2;
 
 	text-align: center;
-	font-size: 2.25rem;
+	font-size: 1.7rem;
 	}
 
 	.user {

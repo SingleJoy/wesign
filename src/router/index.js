@@ -83,6 +83,7 @@ import BusinessRegister from '../components/UserRegister/BusinessRegister.vue'  
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
 
 // demo 演示
+import DemoRegister from "../demo/DemoRegister.vue";   //demo注册/登录
 import DemoHome from '../demo/DemoHome.vue'   //demo首页
 import DemoTemplateList from '../demo/DemoTemplateList.vue'   //demo 模板列表
 import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
@@ -623,6 +624,16 @@ export const router = new Router({
       component: CompanyExc,
       meta: {
         auth: true
+      }
+    },
+    {
+      path: '/DemoRegister',
+      name: 'DemoRegister',
+      component: DemoRegister,
+      meta: {
+        auth: false,
+        keepAlive: true
+
       }
     },
     {
