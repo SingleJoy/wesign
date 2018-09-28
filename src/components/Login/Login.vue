@@ -361,7 +361,7 @@
     height: 28rem;
     position: absolute;
     right: 10%;
-    top: 6rem;
+    top: 5rem;
   }
   .login-logo {
     width: 100px;
@@ -427,7 +427,7 @@
     color: #fb9b29;
   }
   .experience>span{
-    right: -4.375em;
+    right: -6em;
     top:15px;
     color: #f95b5f;
     display: block;
