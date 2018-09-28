@@ -163,7 +163,7 @@ export default {
 					top 0
 					left 0
 					.template-click
-						font-size 18px
+						font-size 16px
 						margin-top 12px
 					.template-start
 						font-size 16px

@@ -416,6 +416,7 @@
       }
       return{
         baseURL:this.baseURL.BASE_URL,
+        Jurisdiction:true,
         mobile:'',
         Email:'',
         authName:'',
@@ -763,6 +764,8 @@
         this.modalTips = false
       },
       sealManagement(){
+       var authStatus=cookie.getJSON('tenant')[0].authStatus;
+       if(authStatus)
 
         this.$router.push('/AddChildAccount')
       },
@@ -890,6 +893,15 @@
 
       //获取合同章
       this.searchSeal();
+
+      var Status = cookie.getJSON('tenant')[1].isBusiness;
+      // console.log("Status"+Status)
+      if(Status == '0'){
+        this.Jurisdiction = false
+
+      }else {
+        this.Jurisdiction = true
+      }
 
 
     },
