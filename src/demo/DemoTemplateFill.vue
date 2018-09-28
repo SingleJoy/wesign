@@ -116,7 +116,7 @@
     top: -60px;
     background: url("../../static/images/Demo/nextStep.png") no-repeat;
   }
-  .step-modal{
+  .demoTemplateFill-content .step-modal{
     width: 1200px;
     height: 1100px;
     position: relative;

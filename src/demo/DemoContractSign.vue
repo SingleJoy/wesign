@@ -140,7 +140,7 @@
     background: url("../../static/images/Demo/template-contract2.png") no-repeat;
     margin-top: 20px;
   }
-  .template-contract{
+  .demoTemplateFill-content >.template-contract{
     width: 908px;
     height: 821px;
     z-index: 1002;
