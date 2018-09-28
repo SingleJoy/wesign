@@ -395,15 +395,15 @@
     width: 100%;
     height: 36px;
   }
-  .login-operate{
+  .login-operate {
     position: relative;
-    height:80px;
+    height: 80px;
+  }
   .register,.experience{
     display: inline-block;
     cursor: pointer;
   }
   .register>p{
-
     margin-top: 20px;
     width: 51px;
     height: 51px;
@@ -415,28 +415,29 @@
     margin-left: 60px;
     top: -30px;
     position: absolute;
-
   }
-
   .register>span{
     top: 35px;
     color: #fb9b29;
   }
   .experience>span{
-    right: 0;
-    top:35px;
+    right: -70px;
+    top:15px;
     color: #f95b5f;
-
+    display: block;
+    width: 60px;
   }
   .experience{
-    margin-left: 175px;
+    position: absolute;
+    margin-left: 10.9375em;
+    margin-top: 20px;
   }
   .experience p{
     width: 51px;
     height: 51px;
     background: url("../../../static/images/Login/expercise.png");
   }
-  }
+
   #submit {
     color: #22a7ea;
     float: right;
