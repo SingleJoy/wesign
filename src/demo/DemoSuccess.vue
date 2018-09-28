@@ -10,7 +10,7 @@
     </div>
 
 
-    <div class="demoSuccess-content" style="margin-top: 20px;height: 900px;" >
+    <div class="demoSuccess-content" style="margin-top: 20px;height: 1250px;" >
       <div class="step" style="width:720px;">  <!--步骤条 -->
         <ul>
           <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
@@ -41,23 +41,18 @@
         </div>
       </div>
 
-      <div class="demo-sign-success">
+      <!--<div class="demo-sign-success">-->
 
-      </div>
+      <!--</div>-->
 
       <div class="sign-success-tips">
-        <p>合同链接:  https:www.zqsign.com</p>
+        <p>  https:www.zqsign.com</p>
         <div class="scan-code">
           <img src="../../static/images/Demo/demo-scan.png">
         </div>
       </div>
 
-      <div class="sign-success-tips" style="left: 827px">
-        <p>合同链接:  https:www.zqsign.com</p>
-        <div class="scan-code">
-          <img src="../../static/images/Demo/demo-scan.png">
-        </div>
-      </div>
+
 
        <div class="look-detail">
          <a href="javascript:void(0);">查看详情</a>
@@ -145,21 +140,21 @@
   }
 
   .demoSuccess-img{
-    width: 302px;
-    height: 355px;
+    width: 902px;
+    height: 1041px;
     z-index: 1002;
     position: absolute;
-    left: 220px;
-    top: 40px;
-    background: url("../../static/images/Demo/demo-success.png") no-repeat;
+    left: 100px;
+    top: 180px;
+    background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog{
     width: 305px;
     height: 200px;
     z-index: 1002;
     position: absolute;
-    left: 810px;
-    top: 250px;
+    left: 790px;
+    top: 320px;
 
     background: url("../../static/images/Demo/dialog.png") no-repeat;
   }
@@ -214,10 +209,9 @@
    border-radius: 5px;
  }
   .sign-success-tips{
-
     z-index: 1002;
-    left: 435px;
-    top:570px;
+    left: 715px;
+    top:665px;
     position: absolute;
 
   }
@@ -226,8 +220,8 @@
     font-size: 14px;
   }
   .sign-success-tips>.scan-code {
-    margin-left:80px;
-    margin-top: 15px;
+
+    margin-top: 10px;
   }
 
   .sign-success-tips>.scan-code>img{

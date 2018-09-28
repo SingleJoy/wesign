@@ -19,7 +19,7 @@
       <div class="template-contract"></div>
 
       <div class="template-fill-info">
-        <div class="pointer"></div>
+        <!--<div class="pointer"></div>-->
         <div class="expression"></div>
         <div class="dialog">
           <p>模板中的参数可根据您的要求，<br/>
@@ -31,7 +31,6 @@
           </div>
         </div>
       </div>
-
 
     </div>
 
@@ -99,7 +98,6 @@
     overflow-y: auto;
   }
 
-
   .demo-seal{
     width: 214px;
     height: 196px;
@@ -138,8 +136,8 @@
 
   .demoTemplateFill-content .template-fill-info{
     position: absolute;
-    top:835px;
-    left: 900px;
+    top:45px;
+    left:850px;
     z-index: 1003;
   }
   .demoTemplateFill-content .template-fill-info>.expression{
@@ -148,8 +146,8 @@
     z-index: 1004;
     position: absolute;
     background: url("../../static/images/Demo/expression.png") no-repeat;
-    left: 245px;
-    top:115px
+    left: 275px;
+    top:90px
   }
  .demoTemplateFill-content  .template-fill-info>.dialog{
     width: 305px;
