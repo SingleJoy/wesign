@@ -161,15 +161,25 @@ const service = {
     // 查询认证完成商户信息
     authSuccess(interfaceCode) {
         return request({
-        url: '/api/v1.4/tenant/' + interfaceCode + '/authSuccess',
-        method: 'get',
+            url: '/api/v1.4/tenant/' + interfaceCode + '/authSuccess',
+            method: 'get',
+            param:''
         })
     },
-
+    //解冻打款验证
     unfreezeRemittance() {
         return request({
-        url: '/api/v1.6/tenant/unfreezeRemittance',
-        method: 'post',
+            url: '/api/v1.6/tenant/unfreezeRemittance',
+            method: 'post',
+            param:''
+        })
+    },
+    //10次发起验证
+    authorityUpload() {
+        return request({
+            url: '/api/v1.6/tenant/unfreezeRemittance',
+            method: 'post',
+            param:''
         })
     },
 
