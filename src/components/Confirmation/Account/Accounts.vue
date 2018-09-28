@@ -108,7 +108,7 @@
             <!--accountLevel  1为一级账号  2为二级账号  item.defultCode 0为默认签章 1为非默认签章->
             <!--item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
             <!--chooseDefaultSeal  -->
-            <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="item in SealList" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
+            <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
               <!--合同章-->
               <img :src="[item.signaturePath]" >
               <!--<span v-if="item.defultCode=='0'"  :class="{'visibility':(accountLevel=='1')&&(item.defultCode=='0')}">默认合同章</span>-->
@@ -404,6 +404,7 @@
           callback();
         }
       }
+
       var validateCheckPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));

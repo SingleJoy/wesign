@@ -82,13 +82,12 @@
           let params = {
             username: this.ruleForm.username
           };
-          server.verficate(params)
-            .then(res => {
-              if (res.data === 0) {
-                callback();
-              } else {
-                callback(new Error("此用户不存在"));
-              }
+            server.verficate(params).then(res => {
+                if (res.data === 0) {
+                    callback();
+                } else {
+                    callback(new Error("此用户不存在"));
+                }
             }).catch(error => {});
         }
       };
@@ -146,8 +145,14 @@
                         mobile:this.ruleForm.username,
                         // accountCode:accountCode?accountCode:''
                       };
-                      if (stateCode == "1") {
-                        if(response.data.dataList[0].length>0){
+                      if (stateCode == "1" || stateCode == "0") {
+                        if(response.data.dataList[0].length==0&&response.data.dataList[1].length==0){
+                            //已注册未实名
+                              this.$router.push('/EnterpriseCertificate');
+                            //   this.$router.push('/Merchant');
+                              return
+                        }else if(response.data.dataList[0].length>0){
+                            //已注册并实名
                           var urlParam =  response.data.dataList[0][0].interfaceCode;
                           var enterpriseName = response.data.dataList[0][0].enterpriseName;
                           var mobile = response.data.dataList[0][0].mobile;
@@ -356,7 +361,7 @@
     height: 28rem;
     position: absolute;
     right: 10%;
-    top: 8rem;
+    top: 5rem;
   }
   .login-logo {
     width: 100px;
@@ -396,48 +401,50 @@
     width: 100%;
     height: 36px;
   }
-  .login-operate{
+  .login-operate {
     position: relative;
-    height:80px;
+    height: 80px;
+  }
   .register,.experience{
     display: inline-block;
     cursor: pointer;
   }
   .register>p{
-
     margin-top: 20px;
     width: 51px;
     height: 51px;
-    background: url("../../../static/images/Login/register.png");
+    background: url("../../../static/images/Login/register.png") no-repeat;
   }
   .register>span,.experience>span{
     font-size: 12px;
     display: inline-block;
-    margin-left: 60px;
+    margin-left: 5em;
     top: -30px;
     position: absolute;
-
   }
-
   .register>span{
     top: 35px;
     color: #fb9b29;
   }
   .experience>span{
-    right: 0;
-    top:35px;
+    right: -6em;
+    top:15px;
     color: #f95b5f;
-
+    display: block;
+    width: 60px;
   }
   .experience{
-    margin-left: 175px;
+    position: absolute;
+    margin-left: 10.9375em;
+    margin-top: 20px;
   }
   .experience p{
     width: 51px;
     height: 51px;
-    background: url("../../../static/images/Login/expercise.png");
+
+    background: url("../../../static/images/Login/expercise.png")  no-repeat;
   }
-  }
+
   #submit {
     color: #22a7ea;
     float: right;

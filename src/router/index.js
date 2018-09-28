@@ -94,7 +94,7 @@ import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署
 Vue.use(Router)
 
 export const router = new Router({
-
+//   mode: "history",
   routes: [{
       path: '/',
       name: 'User',
@@ -124,7 +124,7 @@ export const router = new Router({
         name:'EnterpriseCertificate',
         component:EnterpriseCertificate,
         meta:{
-            auth:true
+            auth:false
         }
     },
     {
@@ -406,13 +406,11 @@ export const router = new Router({
       name: 'EnterprisePayment',
       component: EnterprisePayment,
     },
-
     {
       path: '/EnterpriseRegisterSucc',
       name: 'EnterpriseRegisterSucc',
       component: EnterpriseRegisterSucc,
     },
-
     {
       path: '/WaitReply',
       name: 'WaitReply',
@@ -445,7 +443,6 @@ export const router = new Router({
         auth: true
       }
     },
-
     {
       path: '/NoReal',
       name: 'NoReal',
@@ -593,7 +590,7 @@ export const router = new Router({
       name: 'Merchant',
       component: Merchant,
       meta: {
-        auth: true
+        auth: false
       }
     },
     {
@@ -633,7 +630,9 @@ export const router = new Router({
       name: 'DemoHome',
       component: DemoHome,
       meta: {
-        auth: false
+        auth: false,
+        keepAlive: true
+
       }
     },
     {
@@ -641,7 +640,8 @@ export const router = new Router({
       name: 'DemoTemplateList',
       component: DemoTemplateList,
       meta: {
-        auth: false
+        auth: false,
+        keepAlive: true
       }
     },
     {
@@ -649,7 +649,8 @@ export const router = new Router({
       name: 'DemoAddPerson',
       component: DemoAddPerson,
       meta: {
-        auth: false
+        auth: false,
+        keepAlive: true
       }
     },
     {
@@ -657,7 +658,8 @@ export const router = new Router({
       name: 'DemoSuccess',
       component: DemoSuccess,
       meta: {
-        auth: false
+        auth: false,
+        keepAlive: true
       }
     },
     {
@@ -665,7 +667,8 @@ export const router = new Router({
       name: 'DemoTemplateFill',
       component: DemoTemplateFill,
       meta: {
-        auth: false
+        auth: false,
+        keepAlive: true
       }
     },
     {
@@ -673,12 +676,23 @@ export const router = new Router({
       name: 'DemoContractSign',
       component:DemoContractSign,
       meta: {
-        auth: false
+        auth: false,
+        keepAlive: true
       }
     },
 
-
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    console.log(savedPosition)
+    if(savedPosition) {
+      return savedPosition
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  }
 })
 
 
@@ -708,3 +722,6 @@ router.beforeEach((to, from, next) => {
 		next()
 	}
 })
+
+
+

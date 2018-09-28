@@ -34,7 +34,7 @@
 			</div>
 
 			<div class="img-portrait"><img src="../../static/images/Demo/expression.png" alt=""></div>
-			<div class="img-indicate"><img src="../../static/images/Demo/nextStep.png" alt=""></div>
+
 
 		</div>
 		<div class="content">

@@ -35,14 +35,14 @@
 			<div class="shadow">
 				<div class="content">
 					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="300px" class="demo-ruleForm">
-						<el-form-item label="企业名称" prop="companyname">
-							<el-input :disabled="forbid" placeholder="请输入企业名称" v-model="ruleForm.companyname" style="width: 330px;"></el-input>
+						<el-form-item label="企业名称" prop="tenantName">
+							<el-input :disabled="forbid" placeholder="请输入企业名称" v-model="ruleForm.tenantName" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="被授权人手机号" prop="mobile">
 							<el-input :disabled="forbid" maxlength="11" placeholder="请输入手机号" v-model="ruleForm.mobile" style="width: 330px;"></el-input>
 						</el-form-item>
-						<el-form-item label="姓名" prop="username">
-							<el-input :disabled="forbid" placeholder="请输入姓名" v-model="ruleForm.username" style="width: 330px;"></el-input>
+						<el-form-item label="姓名" prop="userName">
+							<el-input :disabled="forbid" placeholder="请输入姓名" v-model="ruleForm.userName" style="width: 330px;"></el-input>
 						</el-form-item>
 						<el-form-item label="验证码" prop="code">
 							<el-input style="width: 330px;" value="157347" maxlength="6" v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
@@ -146,6 +146,7 @@
 				}
 			};
 			return {
+                hasAccount:false,//是否有微签账号
 				checked: false,
 				num: '',
 				smsNo: '',
@@ -164,16 +165,16 @@
 				interfaceCode: '',
 				count: 3,
 				ruleForm: {
-					companyname: '',
+					tenantName: '',
 					mobile: '',
-					username: '',
+					userName: '',
 					code: '',
 					password: '',
 					newpassword: '',	
 				},
 				//验证规则
 				rules: {
-					companyname: [
+					tenantName: [
 						{required: true, validator: checkCompany, trigger: 'blur' }
 					],
 					mobile: [
@@ -197,37 +198,45 @@
 		methods: {
 			//提交注册信息
 			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
-					if (valid) {
-						//验证码是否有效
-						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-							params: {
-								'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-							}
-						}).then(res => {
-							if(res.body.resultCode == 1) {
-								//验证码有效提交注册信息
-								this.compangSave();
-							} else {
-								this.$message({
-									showClose: true,
-									message: res.data.resultMessage,
-									type: 'error'
-								});
-							}
-						}).catch(error => {
-							this.$message({
-								showClose: true,
-								message: 'res.data.resultMessage',
-								type: 'error'
-							});
-						})
-					} else {
-						console.log('error submit!!');
-						return false;
-					}
-				});
-			},
+                if(this.hasAccount){
+                     this.sendInfo()
+                }else{
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //验证码是否有效
+                            this.sendInfo()
+                        } else {
+                            return false;
+                        }
+                    });
+                }
+				
+            },
+            
+            sendInfo(){
+                this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+                    params: {
+                        'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+                    }
+                }).then(res => {
+                    if(res.body.resultCode == 1) {
+                        //验证码有效提交注册信息
+                        this.compangSave();
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: 'error'
+                        });
+                    }
+                }).catch(error => {
+                    this.$message({
+                        showClose: true,
+                        message: 'res.data.resultMessage',
+                        type: 'error'
+                    });
+                })
+            },
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
 			},
@@ -266,7 +275,7 @@
 					this.num = Math.random()
 					//校验手机号是否存在
 					server.verficate({'username': this.ruleForm.mobile}).then(res => {
-						if (res.data === 0) {
+						if (res.data != 0) {
 							//console.log('已存在');
 						} else {
 							//获取验证码
@@ -293,8 +302,8 @@
 			compangSave() {
 				//商户提交信息
 				var params = {
-					'interfaceCode': 'ZQ3512d188874f05b3174d317090d2a2',
-					'tenantName': this.ruleForm.companyname,
+					'interfaceCode': this.interfaceCode,
+					'tenantName': this.ruleForm.tenantName,
 					'userName':this.ruleForm.username,
 					'mobile':this.ruleForm.mobile,
 					'password':md5(this.ruleForm.newpassword),
@@ -310,59 +319,23 @@
 							type: 'success'
 						})
 						sessionStorage.setItem('interfaceCode', this.interfaceCode);
-						//this.$router.push('/Pupload');
-					} else if(res.data.resultCode == '2'){
-						if(res.data.dataList[1].authAccountStatus == '0'){
-							this.$message({
-								showClose: true,
-								message: res.data.resultMessage,
-								type: 'error'
-							})
-							//this.$router.push('/')
-						}else if(res.data.dataList[1].authAccountStatus == '1'){
-							var authStatus = res.data.dataList[0].authStatus //是否通过状态
-							var auditSteps = res.data.dataList[0].auditSteps //个人认证步数
-							var auditStatus = res.data.dataList[1].auditStatus   //企业通过状态
-							var companySteps = res.data.dataList[1].auditSteps  //企业认证步骤
-							sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
-							if(authStatus == '1' && auditStatus == '2'){
-								this.$message({
-									showClose: true,
-									message: '您已通过个人和企业注册！',
-									type: 'success'
-								})
-								this.$router.push('/')
-							} else if(authStatus != '1' && auditSteps == '1'){
-								if(authStatus == '0'){
-									sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
-									sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-									this.$router.push('/Pupload')
-								}else{
-									sessionStorage.setItem('userCode',res.data.dataList[0].userCode)
-									sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-									this.$router.push('/ErrorPupload')
-								}
-							} else if(authStatus != '1' && auditSteps == '2'){
-								this.$router.push('/PersonWait')
-							}else if( auditStatus != '2' && companySteps == '1'){
-							// sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
-								sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-								this.$router.push('/Enterprise')
-							}else if( auditStatus != '2' && companySteps == '2'){
-								sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-								this.$router.push('/Payment')
-							}else if( auditStatus != '2' && companySteps == '3'){
-								sessionStorage.setItem('interfaceCode',res.data.dataList[1].interfaceCode)
-								this.$router.push('/WaitReply')
-							}
-					}
-					}else {
-						this.$message({
-						showClose: true,
-						message: res.data.resultMessage,
-						type: 'error'
+						this.$router.push('/EnterpriseCertificate');
+                    }else if(res.data.resultCode == '2'){
+                         this.$message({
+							showClose: true,
+							message: '企业已被绑定,请去登录',
+							type: 'success'
+                        })
+                        this.$router.push('/')
+
+                    }else{
+                        this.$message({
+							showClose: true,
+							message: res.data.resultMessage,
+							type: 'error'
 						})
-					}
+                    }
+                   
 				})
 			},
 			//同意注册协议
@@ -391,18 +364,19 @@
 						showClose: true,
 						message: '您已拥有微签账号，无需重新设置密码',
 						type: 'success'
-					})
+                    })
+                    this.hasAccount = true;
 					sessionStorage.setItem('userCode',res.data.data.authorizerCode);
 					sessionStorage.setItem('mobile', res.data.data.mobile);
 					sessionStorage.setItem('enterpriseName', res.data.data.tenantName);
-					this.forbid = false;
-					this.isPassword = false;
-					this.EnterpriseName = res.data.data.tenantName;
-					this.userName = res.data.data.userName;
-					this.mobile = res.data.data.mobile;
-					this.passWord = '******';
-					this.newpassword ='******';
-					this.accountStatus = res.data.data.accountStatus;
+					this.forbid = true;
+					this.isPassword = true;
+					this.ruleForm.tenantName = res.data.data.tenantName;
+					this.ruleForm.userName = res.data.data.userName;
+					this.ruleForm.mobile = res.data.data.mobile;
+					this.ruleForm.password = '********';
+					this.ruleForm.newpassword ='********';
+                    this.accountStatus = res.data.data.accountStatus;
 					if(this.accountStatus =='1'){
 						this.isShow = true;
 						this.isShowSkip = true;
@@ -413,7 +387,6 @@
 								clearInterval(setTimer);
 								_this.$router.push('/')
 							}
-							console.log(_this.count);
 						}, 1000);
 					} else if(this.accountStatus=='0'){
 						
@@ -424,16 +397,20 @@
 						showClose: true,
 						message: '您未拥有微签账号，需设置密码',
 						type: 'success'
-					});
+                    });
+                    this.forbid = true;
+                    this.isPassword = false;
+                    this.hasAccount = false;
 					sessionStorage.setItem('userCode',res.data.data.authorizerCode);
 					sessionStorage.setItem('mobile', res.data.data.mobile);
 					sessionStorage.setItem('enterpriseName',res.data.data.tenantName);
-					this.EnterpriseName = res.data.data.tenantName;
-					this.userName = res.data.data.userName;
-					this.mobile = res.data.data.mobile;
-					this.forbid = false;
-					this.isPassword = false;
-				}
+                    this.ruleForm.tenantName = res.data.data.tenantName;
+					this.ruleForm.userName = res.data.data.userName;
+					this.ruleForm.mobile = res.data.data.mobile;
+                    this.ruleForm.forbid = false;
+                    this.ruleForm.password = "" ;
+					this.ruleForm.newpassword = "";
+                }
 			}).catch(error => {
 				
 			});

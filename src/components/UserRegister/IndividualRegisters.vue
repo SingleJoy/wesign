@@ -195,12 +195,13 @@ export default {
 				//校验手机号是否存在
 				server.verficate({'username': this.ruleForm.username}).then(res => {
 					this.iscode = true;
-					if (res.data != 0) {
+					if (res.data == 0) {
                         this.$message({
                             showClose: true,
-                            message: "此用户不存在",
+                            message: "此用户已存在",
                             type: 'error'
                         });
+                        this.$router.push('/');
 					} else {
 						//倒计时
 						let _this = this;
@@ -223,13 +224,13 @@ export default {
                             interfaceCode:this.interfaceCode
                         }
                         server.smsCode(param).then(res=>{
-                            if(res.body.resultCode == 1) {
-								this.smsNo = res.body.smsNo;
-								this.appId= res.body.appId
+                            if(res.data.resultCode == 1) {
+								this.smsNo = res.data.smsNo;
+								this.appId= res.data.appId
 							} else {
 								this.$message({
 									showClose: true,
-									message: res.body.resultMessage,
+									message: res.data.resultMessage,
 									type: 'error'
 								});
 							}
