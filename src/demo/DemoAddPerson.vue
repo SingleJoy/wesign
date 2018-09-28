@@ -125,8 +125,8 @@
     height: 120px;
     z-index: 1002;
     position: absolute;
-    left: 270px;
-    top:30px;
+    left: 300px;
+    top:100px;
     background: url("../../static/images/Demo/expression.png") no-repeat;
   }
   .step-modal .dialog{
