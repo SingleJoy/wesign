@@ -278,7 +278,7 @@
 
                 <div class="submit-btn">
                      <el-button type="" style='width:280px' @click="cancelIDcard">取&nbsp;&nbsp;消</el-button>
-                     <el-button type="primary" style='width:280px' @click="submitIDcard">提&nbsp;&nbsp;交</el-button>
+                     <el-button type="primary" style='width:280px' @click="submitIDcard('bankInfo')">提&nbsp;&nbsp;交</el-button>
                 </div>
             </div>
         </div>
@@ -309,7 +309,8 @@ export default {
             }
         }
         var checkCity =  (rule,value,callback)=>{
-             if(value==''){
+            console.log(value)
+             if(value==undefined){
                 callback(new Error('请选择所在省市'))
             }
         }
@@ -2288,8 +2289,7 @@ export default {
 
         },
         //提交
-        submitIDcard(){
-             
+        submitIDcard(companyInfo){
             if(this.licenseInfo.creditPhoto == ''){
                 this.$message({
                     showClose: true,
@@ -2336,21 +2336,18 @@ export default {
                 })
                 return
             }
-
-            if(this.bankInfo.to_acc_no =="" || this.bankInfo.to_bank_name ==""|| this.bankInfo.to_pro_name ==""|| this.bankInfo.to_city_name ==""|| this.bankInfo.to_acc_dept ==""){
-                 this.$message({
-                    showClose: true,
-                    message: '请确认账户信息填写是否正确',
-                    type: 'error'
-                })
-                return
-            }
-            this.$loading.show(
-               '信息提交中...',  
-            );
-            this.sublicenseInfo();
-            this.subIdInfo();
-            this.subbankInfo();
+            this.$refs[companyInfo].validate((valid) => {
+                if (valid){
+                    this.$loading.show(
+                        '信息提交中...',  
+                    );
+                    this.sublicenseInfo();
+                    this.subIdInfo();
+                    this.subbankInfo();
+                }
+            })
+				
+           
         },
         //营业执照信息提交
         sublicenseInfo(){

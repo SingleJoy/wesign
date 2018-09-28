@@ -128,7 +128,7 @@ const service = {
     //查询企业注册
     getCompanyRegister(interfaceCode) {
         return request({
-            url: '/api/v1.4/tenant/' + interfaceCode + '/userIsExist',
+            url: '/api/v1.4/tenant/'+ interfaceCode + '/userIsExist',
             method: 'get',
             //params: param
         })

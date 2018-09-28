@@ -248,10 +248,10 @@
         loading: true,
         loading2:false,
         count:"",
-        waitMe:'',
-        waitOther:'',
-        takeEffect:'',
-        deadline:'',
+        waitMe:'0',
+        waitOther:'0',
+        takeEffect:'0',
+        deadline:'0',
         arr: [],
         uploadFile:true,
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
@@ -259,65 +259,68 @@
       }
     },
     created() {
-      this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      var authStatus = cookie.getJSON('tenant')[0].authStatus
-      var auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      if(authStatus != '1' || auditStatus != '2'){
-        this.topTip = false
-      }
-      var data =[];
-      var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-      let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
-      this.$http.get(url, {params: requestVo}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          for (let i = 0; i < res.data.content.length;i++) {
-            var obj = {}
-            obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
-            obj.createTime = res.data.content[i].createTime;
-            obj.signers =  res.data.content[i].signers;
-            obj.contractStatus =  res.data.content[i].contractStatus;
-            obj.validTime =  res.data.content[i].validTime
-            obj.contractType = res.data.content[i].contractType
-            obj.operation = ''
-            switch (obj.contractStatus){
-              case "1":
-                obj.contractStatus="待我签署";
-                obj.operation = 1
-                break;
-              case "2":
-                obj.contractStatus="待他人签署";
-                obj.operation = 2
-                break;
-              case "3":
-                obj.contractStatus="已生效";
-                obj.operation = 3
-                break;
-              default:
-                obj.contractStatus="已截止";
-                obj.operation = 4
-            }
-            data[i] = obj
-          }
-          this.tableData = data
-          this.loading = false
+        // if(!cookie.getJSON('tenant')[1].interfaceCode){
+        //     return
+        // }
+        this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
+        var authStatus = cookie.getJSON('tenant')[0].authStatus
+        var auditStatus = cookie.getJSON('tenant')[1].auditStatus
+        if(authStatus != '1' || auditStatus != '2'){
+            this.topTip = false
         }
-      })
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForMeSign').then(function (res) {
-        this.waitMe = res.data.count
-      })
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForOtherSign').then(function (res) {
-        this.waitOther = res.data.count
-      })
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/takeEffect').then(function (res) {
-        this.takeEffect = res.data.count
-      })
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/deadline').then(function (res) {
-        this.deadline = res.data.count
-      })
-      this.count = 0
+        var data =[];
+        var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
+        let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
+        this.$http.get(url, {params: requestVo}).then(function (res) {
+            if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+            } else {
+            for (let i = 0; i < res.data.content.length;i++) {
+                var obj = {}
+                obj.contractName = res.data.content[i].contractName;
+                obj.contractNum = res.data.content[i].contractNum;
+                obj.createTime = res.data.content[i].createTime;
+                obj.signers =  res.data.content[i].signers;
+                obj.contractStatus =  res.data.content[i].contractStatus;
+                obj.validTime =  res.data.content[i].validTime
+                obj.contractType = res.data.content[i].contractType
+                obj.operation = ''
+                switch (obj.contractStatus){
+                case "1":
+                    obj.contractStatus="待我签署";
+                    obj.operation = 1
+                    break;
+                case "2":
+                    obj.contractStatus="待他人签署";
+                    obj.operation = 2
+                    break;
+                case "3":
+                    obj.contractStatus="已生效";
+                    obj.operation = 3
+                    break;
+                default:
+                    obj.contractStatus="已截止";
+                    obj.operation = 4
+                }
+                data[i] = obj
+            }
+            this.tableData = data
+            this.loading = false
+            }
+        })
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForMeSign').then(function (res) {
+            this.waitMe = res.data.count
+        })
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForOtherSign').then(function (res) {
+            this.waitOther = res.data.count
+        })
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/takeEffect').then(function (res) {
+            this.takeEffect = res.data.count
+        })
+        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/deadline').then(function (res) {
+            this.deadline = res.data.count
+        })
+        this.count = 0
     },
     mounted() {
       sessionStorage.removeItem("type")
