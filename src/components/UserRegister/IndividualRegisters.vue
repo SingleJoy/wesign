@@ -16,7 +16,7 @@
 					<span class="layer_close_rigth">X</span>
 				</div>
 				<div class="layer_character">
-					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+					<img src="../../../static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
 				</div>
 			</div>
 		</div>
@@ -416,7 +416,7 @@ export default {
 	// left: 266px;
 
 	width: 77.5rem;
-	height: 34rem;
+	height: 38rem;
 	background: url("/static/images/Login/userRegister.png") no-repeat;
 	position: absolute;
 	background-size: 100%;
@@ -424,12 +424,14 @@ export default {
 	left: 50%;
 	margin-left: -39rem;
 	margin-top: -10rem;
+	background-color: #fff;
+	border-radius: 10px;
 	}
 	.userInfo {
 	color: #16a8f2;
 
 	text-align: center;
-	font-size: 2.25rem;
+	font-size: 1.7rem;
 	}
 
 	.user {
