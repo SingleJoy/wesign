@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		<div class="content">
-			<img src="../../static/images/Demo/demo-homeList.jpg" alt="">
+			<img src="../../static/images/Demo/demo-homeList01.png" alt="">
 		</div>
 		<Bottom></Bottom>
 	</div>

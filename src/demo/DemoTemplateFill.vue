@@ -16,14 +16,16 @@
       </div>
       <div class=" demo-detail"></div>
 
-      <div class="template-contract"></div>
+      <div class="template-contract">
+        <img class="fill-info-right" src="../../static/images/Demo/fill-info-right.png">
+      </div>
 
       <div class="template-fill-info">
         <!--<div class="pointer"></div>-->
         <div class="expression"></div>
         <div class="dialog">
-          <p>模板中的参数可根据您的要求，<br/>
-            模板和参数可以组成一份完整的合同
+          <p>  模板中的参数可根据您的要求定义<br/>
+            模板和参数组成一份完整的合同
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="lastStep" class="last">上一步</a>
@@ -124,9 +126,14 @@
     background: url("../../static/images/Demo/template-contract4.png") no-repeat;
     margin-top: 20px;
   }
+  .fill-info-right{
+    position: absolute;
+    left: 625px;
+    z-index: 1003;
+  }
   .demo-detail{
     width: 616px;
-    height: 953px;
+    height: 818px;
     z-index: 1003;
     position: absolute;
     left: 258px;
@@ -140,7 +147,7 @@
     position: absolute;
     left: 258px;
     top: 230px;
-    background: url("../../static/images/Demo/contract01.png") no-repeat;
+
 
   }
 
