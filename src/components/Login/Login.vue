@@ -115,10 +115,10 @@
     },
     methods: {
       toRegister(){
-        this.$router.push('/IndividualRegister')
+        this.$router.push('/Register')
       },
       toExperience(){
-        this.$router.push('/DemoHome')
+        this.$router.push('/DemoRegister')
       },
 
       submitForm(formName) {
