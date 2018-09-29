@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="demo-container-home">
 		<DemoTop></DemoTop>
 		<div class="layer"></div>
 		<div class="select-experience" v-show="isShow" v-if="showHomeModel">
@@ -80,7 +80,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 
-.container
+.demo-container-home
 	.layer
 		height 100%
 		width 100%
@@ -216,6 +216,7 @@ export default {
 	.content
 		width 1200px
 		margin 20px auto
+    background-color #fff
 		img
 			width 100%
 </style>

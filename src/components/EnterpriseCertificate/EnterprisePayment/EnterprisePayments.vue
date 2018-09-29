@@ -222,7 +222,7 @@
     },
     beforeDestroy() {
       clearInterval(this.timer);
-      this.queryTime = null;
+      this.timer = null;
     },
     methods:{
       change (val) {

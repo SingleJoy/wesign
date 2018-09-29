@@ -744,11 +744,22 @@
       close(){
         this.modalTips = false
       },
-      sealManagement(){
-       var authStatus=cookie.getJSON('tenant')[0].authStatus;
-       if(authStatus)
+      sealManagement() {
+        var authStatus = cookie.getJSON('tenant')[0].authStatus;
+        if (this.Jurisdiction) {
+          this.$router.push('/AddChildAccount')
+        } else {
+          this.$alert(<div style="textAlign:center">
+            <p>对不起，您还未获得正式授权，暂不支持开通子账号</p>
+            <p class="vertifiId-warn warn-first">客服电话,400-0000-6923</p>
+           </div>, '警告',{confirmButtonText: '确定',});
 
-        this.$router.push('/AddChildAccount')
+          this.$message({
+            showClose: true,
+            message:'对不起，您还未获得正式授权，暂不支持开通子账号',
+            type: 'error'
+          })
+        }
       },
       // 完善子账号
       finish(){
@@ -769,6 +780,7 @@
       var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
+
       // 是否判断
       if(authStatus == '1') {
         this.authStatus = true
@@ -875,6 +887,7 @@
       //获取合同章
       this.searchSeal();
 
+      //是否付费 0未付费 1付费
       var Status = cookie.getJSON('tenant')[1].isBusiness;
       // console.log("Status"+Status)
       if(Status == '0'){
@@ -924,6 +937,12 @@
   .showSealDemo{
     overflow-y: scroll;
     overflow-x: hidden;
+  }
+  .vertifiId-warn{
+    color:red
+  }
+  .warn-first{
+    margin-top:25px!important;
   }
 
 </style>

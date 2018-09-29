@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container-template-list">
 		<DemoTop></DemoTop>
 		<div class="layer">
 		</div>
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		<div class="content">
-			<img src="../../static/images/Demo/demo-homeList01.png" alt="">
+			<img src="../../static/images/Demo/demo-homeList02.png" alt="">
 		</div>
 		<Bottom></Bottom>
 	</div>
@@ -64,7 +64,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.container
+.container-template-list
 	.layer
 		height 100%
 		width 100%
@@ -111,7 +111,7 @@ export default {
 					border-radius 30px
 					text-align center
 					color #22a7ea
-					background-color #ffffff
+					background-color #fff
 					cursor pointer
 				.experience
 					font-size 22px
@@ -157,7 +157,7 @@ export default {
 				right 78px
 				.template_content
 					width 303px
-					color #ffffff
+					color #fff
 					position absolute
 					text-align center
 					top 0
@@ -180,7 +180,7 @@ export default {
 							width 120px
 							height 40px
 							border-radius 5px
-							border 2px solid #ffffff
+							border 2px solid #fff
 							background-color #4a3d38
 							color #ffffff
 							font-size 16px
@@ -190,7 +190,7 @@ export default {
 							height 40px
 							margin-left 12px
 							border-radius 5px
-							background-color #ffffff
+							background-color #fff
 							color #39bbfd
 							border none
 							font-size 16px
@@ -206,6 +206,7 @@ export default {
 	.content
 		width 1200px
 		margin 20px auto
+    background-color #fff
 		img
 			width 100%
 </style>

@@ -75,7 +75,7 @@
     margin: 20px auto;
     height: 600px;
     position: relative;
-    background:url("../../static/images/Demo/addPerson.png") no-repeat;
+    background:url("../../static/images/Demo/addPerson03.png") no-repeat;
 
   }
  .demo-modal{
