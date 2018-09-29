@@ -20,15 +20,15 @@
             </el-dialog>
              <el-dialog
                 :visible.sync="frontIdExample"
-                width="500px"
+                width="300px"
               >
-                <img src="../../../static/images/case.png" alt="" style="width:100%;height:100%;">
+                <img src="../../../static/images/frontPhoto.png" alt="" style="width:100%;height:100%;">
             </el-dialog>
             <el-dialog
                 :visible.sync="backIdExample"
-                width="500px"
+                width="300px"
               >
-                <img src="../../../static/images/case.png" alt="" style="width:100%;height:100%;">
+                <img src="../../../static/images/backPhoto.png" alt="" style="width:100%;height:100%;">
             </el-dialog>
              <el-dialog
                 :visible.sync="synopsis"
@@ -350,7 +350,8 @@
 
 <script>
 import server from "@/api/certificationUrl";
-import {validateMoblie,validatePassWord,validateBank,TrimAll} from '../../common/js/validate.js'
+import {validateMoblie,validatePassWord,validateBank,TrimAll} from '../../common/js/validate.js';
+import cookie from "@/common/js/getTenant";
 export default {
     name:'',
     data() {
@@ -386,7 +387,7 @@ export default {
         }
         return {
             baseURL:this.baseURL.BASE_URL,
-            interfaceCode:'',
+            interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
             licenseSize:0,             //营业执照大小
             licenseInfoEdit:false,   //营业执照信息
             licenseInputShow:false,
@@ -2053,7 +2054,7 @@ export default {
         let licenseInfo = this.licenseInfo;
         let bankInfo = this.bankInfo;
         let IdInfo = this.IdInfo;
-        return
+        console.log(this.interfaceCode)
         server.companyInfoDetail(param,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
                 let data = res.data;
@@ -2061,7 +2062,9 @@ export default {
                 licenseInfo.creditCode = data.creditCode
                 licenseInfo.creditPhoto = data.creditPhoto
                 licenseInfo.legalPerson = data.legalPerson
-                this.licenseInputShow = true;
+                if(licenseInfo.tenantName){
+                    this.licenseInputShow = true;
+                }
 
                 IdInfo.idcard = data.idcard
                 IdInfo.userName = data.userName
@@ -2069,8 +2072,11 @@ export default {
                 IdInfo.frontPhoto = data.frontPhoto
                 IdInfo.backPhoto = data.backPhoto
                 IdInfo.adminType = data.authorizerType
-                this.smsSend = true;
-                this.IdInfoShow = true;
+                
+                if(IdInfo.idcard){
+                    this.IdInfoShow = true;
+                    this.smsSend = true;
+                }
 
                 bankInfo.to_acc_name = data.to_acc_name
                 bankInfo.to_acc_no = data.to_acc_no
@@ -2446,7 +2452,7 @@ export default {
             server.licenseInfo(param).then(res=>{
                  if(res.data.resultCode==1){
                     this.licenseStatus = true;
-                    this.interfaceCode = res.data.interfaceCode;
+                    // this.interfaceCode = res.data.interfaceCode;
                     this.count+=1;
                 }else{
                     this.licenseStatus = false;

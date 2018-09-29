@@ -258,16 +258,19 @@ export default {
         this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-          click: true
-        })
+        if(this.allpage<10){
+            this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+                click: true
+            })
 
+        }
+      
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
-            // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
         
-        console.log(this.rightScroll)
+        // console.log(this.rightScroll)
         // this.rightScroll.hasVerticalScroll =true;
         // console.log(this.allpage)
         // if(this.allpage<10){

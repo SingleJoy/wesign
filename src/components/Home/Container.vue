@@ -175,10 +175,9 @@
         </div>
       </div>
     </div>
-    <div class='dialogbg' v-show="authorityWarn">
+    <div class='dialogbg' v-show="welcomeMessage">
         <div class="upload-warn">
             <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shutAuthority">X</a>
-            <!-- <img  src="../../../static/images/Login/up-warn.png" alt=""> -->
             <p>{{contractNum}}</p>
         </div>
        
@@ -209,7 +208,7 @@
             interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
             accountCode:sessionStorage.getItem('accountCode'),
             Type: { contractType: "0" },
-            authorityWarn:false, //权限弹框提醒
+            welcomeMessage:true, //欢迎信息
             contractNum:10,    //合同剩余次数
         };
     },
@@ -353,16 +352,12 @@
             up.setAttribute("href", url);
             up.click();
         },
-        //合同发起权限
-        authorityJudje(){
+
+        //合同剩余发起次数
+        getContractNum(){
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
-                    let num = res.data.contractNum;
-                    if(num == 10){
-                        this.authorityWarn = true;
-                    }else{
-                        this.contractNum = num
-                    }
+                    this.contractNum = res.data.contractNum;
                 }else{
                     this.$message({
                         showClose: true,
@@ -376,11 +371,23 @@
         },
         choice() {
             if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-                this.authorityWarn = true;
+                this.welcomeMessage = true;
             }else if(this.contractNum>0){
-                this.authorityJudje();
+                this.getContractNum();
+                if(this.contractNum==0){
+                    this.$confirm(
+                        <div class="warn-num">
+                            <p class="title">对不起，您的免费签约次数已用尽!</p>
+                            <p>成为正式用户享受更多使用权限</p>
+                            <p>客服电话：400-00006923</p>
+                            <p></p>
+                        </div>,'提示', {
+                            confirmButtonText: '确定',
+                            showCancelButton:false
+                    })
+                }
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
-                 this.$alert('您暂无上传发起权限','提示', {
+                this.$alert('您暂无上传发起权限','提示', {
                     confirmButtonText: '确定'
                 })  
             }else{
@@ -391,7 +398,8 @@
             this.popupContainer = !this.popupContainer;
         },
         shutAuthority(){
-            this.authorityWarn = !this.authorityWarn;
+            this.welcomeMessage = !this.welcomeMessage;
+            sessionStorage.setItem('welcomePage',true)
         },
         jump() {
             this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
@@ -512,7 +520,9 @@
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
-        console.log(cookie.getJSON("tenant"))
+        if(sessionStorage.getItem('welcomePage')){
+            this.welcomeMessage = false;
+        }
         var requestVo = {
             pageNo: "1",
             pageSize: "7",
@@ -618,19 +628,48 @@
     -o-transform: scale(1.08);
     -moz-transform: scale(1.08);
   }
+  .warn-num{
+      text-align: center;
+      
+      p{
+          line-height: 30px;
+      }
+      .title{
+          font-size: 18px;
+      }
+  }
+  .el-icon-warning{
+      display: none;
+  }
+  
   .upload-warn{
-    width: 68.1rem;
-    height: 32rem;
+    // width: 68.1rem;
+    // height: 32rem;
+    // position: absolute;
+    // left: 50%;
+    // top: 50%;
+    // margin-left: -34.05rem;
+    // margin-top: -20rem;
+    // background: url('/static/images/Login/up-warn.png') no-repeat ;
+    // background-size:100% 100%;
+    width: 47.1rem;
+    height: 23rem;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -34.05rem;
+    margin-left: -25.05rem;
     margin-top: -20rem;
-    background: url('/static/images/Login/up-warn.png') no-repeat ;
-    background-size:100% 100%;
-    img{
-        width:100%;
-        height:100%
+    background: url(/static/images/Login/up-warn.png) no-repeat;
+    background-size: 100% 100%;
+    p{
+        // position: absolute; 
+        // left: 274px; 
+        // top: 169px;
+        // font-size: 18px;
+        position: absolute;
+        left: 190px;
+        top: 120px;
+        font-size: 14px;
     }
     .close-warn{
         position: absolute;

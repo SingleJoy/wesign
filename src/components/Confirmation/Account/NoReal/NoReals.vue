@@ -230,22 +230,24 @@
       },
 
       companyRealName() {  //未通过状态
-        this.finalRejection = true
+        // this.finalRejection = true
+          this.$router.push('/EnterpriseCertificate')
       },
       IdentificationState() { //未实名完成
-        if(this.enterpriseRealName == '1'){
-          sessionStorage.setItem('enterpriseName',cookie.getJSON('tenant')[1].companyName)
-          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
-          this.$router.push('/Enterprise')
-        }else if(this.enterpriseRealName == '2' || this.enterpriseRealName == '4'){
-          sessionStorage.setItem('interfaceCode', cookie.getJSON('tenant')[1].interfaceCode)
-          this.$router.push('/Payment')
-        }else if(this.enterpriseRealName == '3'){
-          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
-          sessionStorage.setItem('accountSteps','accountSteps')
-          this.$router.push('/WaitReply')
+        this.$router.push('/EnterpriseCertificate')
+        // if(this.enterpriseRealName == '1'){
+        //   sessionStorage.setItem('enterpriseName',cookie.getJSON('tenant')[1].companyName)
+        //   sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
+        //   this.$router.push('/Enterprise')
+        // }else if(this.enterpriseRealName == '2' || this.enterpriseRealName == '4'){
+        //   sessionStorage.setItem('interfaceCode', cookie.getJSON('tenant')[1].interfaceCode)
+        //   this.$router.push('/Payment')
+        // }else if(this.enterpriseRealName == '3'){
+        //   sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
+        //   sessionStorage.setItem('accountSteps','accountSteps')
+        //   this.$router.push('/WaitReply')
 
-        }
+        // }
       },
       shutDown(){
         this.finalRejection = false
