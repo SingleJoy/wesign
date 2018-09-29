@@ -3,8 +3,8 @@
     <div  class='content'>
       <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;padding-left: 15px;">
         <img src="../../../../../static/images/Confirmation/Account/my.jpg" alt="">
-        <p v-if="identifier == false"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
-        <p v-else-if="auditStatus == false " @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
+        <p v-if="identifier"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
+        <p v-if="auditStatus" @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
       </h2>
       <div class='contentInfo'>
         <div class='companyName'>
@@ -229,12 +229,14 @@
         });
       },
 
-      companyRealName() {  //未通过状态
+      companyRealName() {   //未实名完成
         // this.finalRejection = true
-          this.$router.push('/EnterpriseCertificate')
+         this.$router.push('/EnterpriseCertificate')
+           
       },
-      IdentificationState() { //未实名完成
-        this.$router.push('/EnterpriseCertificate')
+      IdentificationState() {  //未通过状态 打款
+        this.$router.push('/EnterprisePayment')
+         
         // if(this.enterpriseRealName == '1'){
         //   sessionStorage.setItem('enterpriseName',cookie.getJSON('tenant')[1].companyName)
         //   sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
@@ -277,61 +279,67 @@
       // authStatus  -1和0 都是未通过  1是通过
       var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
       var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
-      var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
+      var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态 2 跳打款 其余跳企业认证
       var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
+
+      if(companySteps == 2){  //2 跳打款 其余跳企业认证
+          this.auditStatus = true        
+      }else{
+            this.identifier = true
+      }
       // 是否判断
-      if(authStatus == '1') {
-        this.authStatus = true
-      }else if(authStatus == '-1' && auditSteps == '1'){
-        this.personalRealName = '1'
-        this.chapter = '暂无签章'
-        this.modalTips = true
-      }else if(authStatus == '-1' && auditSteps == '2'){
-        this.personalRealName = '2'
-        this.chapter = '暂无签章'
-        this.modalTips = true
-      }else if(authStatus == '0' && auditSteps == '1'){
-        this.personalRealName = '3'
-        this.chapter = '暂无签章'
-      }else if(authStatus == '0' && auditSteps == '2'){
-        this.personalRealName = '4'
-        this.chapter = '暂无签章'
-      }
-      if(this.authStatus == false){
-        this.auditStatus = true
-        this.identifier = true
-      }else {
-        if (auditStatus == '2') {
-          this.auditStatus = true
-          this.identifier = true
-        }else if (auditStatus == '-1' && companySteps == '1') {//填写企业信息
-          this.enterpriseRealName = '0'
-          this.chapter = '暂无签章'
-          this.auditStatus = true
-        } else if (auditStatus == '0' && companySteps == '1') { //填写企业信息
-          this.enterpriseRealName = '1'
-          this.chapter = '暂无签章'
-          this.identifier = true
-        }  else if (auditStatus == '1' && companySteps == '1') { //银行信息
-          this.enterpriseRealName = '2'
-          this.chapter = '暂无签章'
-          this.identifier = true
-        } else if (auditStatus == '1' && companySteps == '2') { //小额打款
-          if(status == '0' || status == '1'){
-            this.enterpriseRealName = '3'
-            this.chapter = '暂无签章'
-            this.identifier = true
-          } else if(status == '3'){ //银行信息
-            this.enterpriseRealName = '4'
-            this.chapter = '暂无签章'
-            this.identifier = true
-          }else{
-            this.enterpriseRealName = '3'
-            this.identifier = true;
-          }
-        }
-      }
+    //   if(authStatus == '1') {
+    //     this.authStatus = true
+    //   }else if(authStatus == '-1' && auditSteps == '1'){
+    //     this.personalRealName = '1'
+    //     this.chapter = '暂无签章'
+    //     // this.modalTips = true
+    //   }else if(authStatus == '-1' && auditSteps == '2'){
+    //     this.personalRealName = '2'
+    //     this.chapter = '暂无签章'
+    //     // this.modalTips = true
+    //   }else if(authStatus == '0' && auditSteps == '1'){
+    //     this.personalRealName = '3'
+    //     this.chapter = '暂无签章'
+    //   }else if(authStatus == '0' && auditSteps == '2'){
+    //     this.personalRealName = '4'
+    //     this.chapter = '暂无签章'
+    //   }
+    //   if(this.authStatus == false){
+    //     this.auditStatus = true
+    //     this.identifier = true
+    //   }else {
+    //     if (auditStatus == '2') {
+    //       this.auditStatus = true
+    //       this.identifier = true
+    //     }else if (auditStatus == '-1' && companySteps == '1') {//填写企业信息
+    //       this.enterpriseRealName = '0'
+    //       this.chapter = '暂无签章'
+    //       this.auditStatus = true
+    //     } else if (auditStatus == '0' && companySteps == '1') { //填写企业信息
+    //       this.enterpriseRealName = '1'
+    //       this.chapter = '暂无签章'
+    //       this.identifier = true
+    //     }  else if (auditStatus == '1' && companySteps == '1') { //银行信息
+    //       this.enterpriseRealName = '2'
+    //       this.chapter = '暂无签章'
+    //       this.identifier = true
+    //     } else if (auditStatus == '1' && companySteps == '2') { //小额打款
+    //       if(status == '0' || status == '1'){
+    //         this.enterpriseRealName = '3'
+    //         this.chapter = '暂无签章'
+    //         this.identifier = true
+    //       } else if(status == '3'){ //银行信息
+    //         this.enterpriseRealName = '4'
+    //         this.chapter = '暂无签章'
+    //         this.identifier = true
+    //       }else{
+    //         this.enterpriseRealName = '3'
+    //         this.identifier = true;
+    //       }
+    //     }
+    //   }
       let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getSignature'
       this.$http.get(url).then(function (res) {
         this.contractSign = res.bodyText

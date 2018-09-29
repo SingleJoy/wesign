@@ -56,7 +56,7 @@
           </el-form>
 
           <div class="edit-btn" >
-            <el-button type="info" style="width:200px;height: 40px;">返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
+            <el-button type="info" style="width:200px;height: 40px;" @click="cancel">返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
 
             <el-button type="primary" style="width: 200px;height: 40px;" @click="submit" :disbled="once">提交</el-button>
           </div>
@@ -75,26 +75,26 @@
 
 
               <el-form-item label="法人姓名" prop="legalPerson">
-                <el-input type="text" placeholder="请输入法人姓名"  v-model="legalForm.legalPerson" style="width: 200px;" disabled="disabled"></el-input>
+                <el-input type="text" placeholder="请输入法人姓名"  v-model="legalForm.legalPerson" style="width: 250px;" disabled="disabled"></el-input>
               </el-form-item>
 
 
               <el-form-item prop="IDcard" label="身份证号" >
-                <el-input type="text" placeholder="请输入身份证号"  v-model="legalForm.IDcard" style="width: 200px;"></el-input>
+                <el-input type="text" placeholder="请输入身份证号"  v-model="legalForm.IDcard" style="width: 250px;"></el-input>
               </el-form-item>
 
               <el-form-item prop="legalMobile" label="手机号码">
-                <el-input type="text" placeholder="请输入手机号码"  v-model="legalForm.legalMobile" style="width: 200px;"></el-input>
+                <el-input type="text" placeholder="请输入手机号码"  v-model="legalForm.legalMobile" style="width: 250px;"></el-input>
 
               </el-form-item>
 
               <el-form-item prop="phoneCode" label="验证码  ">
-                <el-input type="text" placeholder="请输入验证码" v-model="legalForm.phoneCode" style="width: 200px;margin-left: 15px"></el-input>
+                <el-input type="text" placeholder="请输入验证码" v-model="legalForm.phoneCode" style="width:165px;margin-left: 15px"></el-input>
                 <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 10px;" :disabled="repeat">获取</el-button>
               </el-form-item>
 
-              <div class="forget-btn" style="margin-top: 20px;">
-                <el-button type="primary" @click="thaw('legalForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+              <div class="forget-btn" style="margin-top: 20px;margin-left: 62px;">
+                <el-button type="primary" @click="thaw('legalForm')" style="width: 235px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
               </div>
 
             </el-form>
@@ -355,6 +355,9 @@
 
 
         })
+      },
+      cancel(){
+          this.$router.push('/EnterpriseCertificate')
       },
       //提交
       submit(){
