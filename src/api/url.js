@@ -175,9 +175,9 @@ const service = {
         })
     },
     //10次发起验证
-    authorityUpload() {
+    authorityUpload(interfaceCode) {
         return request({
-            url: '/api/v1.6/tenant/unfreezeRemittance',
+            url: '/api/v1.6/tenant/'+interfaceCode+'/conNum',
             method: 'post',
             param:''
         })

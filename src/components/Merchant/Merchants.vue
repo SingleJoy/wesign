@@ -259,9 +259,9 @@
       }
     },
     created() {
-        // if(!cookie.getJSON('tenant')[1].interfaceCode){
-        //     return
-        // }
+        if(!cookie.getJSON('tenant')){
+            return
+        }
         this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
         var authStatus = cookie.getJSON('tenant')[0].authStatus
         var auditStatus = cookie.getJSON('tenant')[1].auditStatus

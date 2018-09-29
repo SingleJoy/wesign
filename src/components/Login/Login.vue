@@ -138,98 +138,95 @@
                     params: {
                       mobile: this.ruleForm.username
                     }
-                  })
-                    .then(response => {
-                      var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
-                      let param={
-                        mobile:this.ruleForm.username,
-                        // accountCode:accountCode?accountCode:''
-                      };
-                      if (stateCode == "1" || stateCode == "0") {
-                        if(response.data.dataList[0].length==0&&response.data.dataList[1].length==0){
-                            //已注册未实名
-                              this.$router.push('/EnterpriseCertificate');
-                            //   this.$router.push('/Merchant');
-                              return
-                        }else if(response.data.dataList[0].length>0){
-                            //已注册并实名
-                          var urlParam =  response.data.dataList[0][0].interfaceCode;
-                          var enterpriseName = response.data.dataList[0][0].enterpriseName;
-                          var mobile = response.data.dataList[0][0].mobile;
-                          var auditStatus = response.data.dataList[0][0].auditStatus;
-                          var accountCode = response.data.dataList[0][0].accountCode;
-                          var accountLevel = response.data.dataList[0][0].accountLevel;
-                          var accountStatus = response.data.dataList[0][0].accountStatus;
-                          sessionStorage.setItem("enterpriseName", enterpriseName);
-                          sessionStorage.setItem('accountCode',accountCode);
-                          sessionStorage.setItem('accountLevel',accountLevel);
-                          sessionStorage.setItem("interfaceCode", urlParam);
-                          sessionStorage.setItem('auditStatus',auditStatus);
-                          sessionStorage.setItem('mobile',mobile);
-                        }else{
-                          var urlParam =  response.data.dataList[1][0].interfaceCode;
-                          var interfaceCode =  response.data.dataList[1][0].interfaceCode;
-                          var enterpriseName = response.data.dataList[1][0].enterpriseName;
-                          var mobile = response.data.dataList[1][0].mobile;
-                          var accountCode = response.data.dataList[1][0].accountCode;
-                          var accountLevel = response.data.dataList[1][0].accountLevel;
-                          var accountStatus = response.data.dataList[1][0].accountStatus;
-                          var authorizerCode = response.data.dataList[1][0].authorizerCode;
-                          var auditStatus = response.data.dataList[1][0].auditStatus;
-                          var mobile = response.data.dataList[1][0].mobile;
-                          sessionStorage.setItem("enterpriseName", enterpriseName);
-                          sessionStorage.setItem("interfaceCode", interfaceCode);
-                          sessionStorage.setItem('accountCode',accountCode);
-                          sessionStorage.setItem('accountLevel',accountLevel);
-                          sessionStorage.setItem('authorizerCode',authorizerCode);
-                          sessionStorage.setItem('mobile',mobile);
-                          sessionStorage.setItem('auditStatus',auditStatus);
-                        }
-                        if(accountStatus==2){
-                          this.$router.push('/ActivateChildAccount');
-                        }else if(accountStatus==6){
-                          this.$message({
-                            showClose: true,
-                            duration: 1000,
-                            message: "此账号已被冻结",
-                            type: "warning"
-                          });
-                        }else{
-                          server.login(param,urlParam).then(res => {
-                            if (res.data.dataList[1].isBusiness == "0") {
-                              // 不是众签商户
-                              this.$message({
-                                showClose: true,
-                                duration: 1000,
-                                message: "登录成功",
-                                type: "success"
-                              });
-                              cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                              this.$router.push("/Merchant");
-                            } else {
-                              this.$message({
-                                showClose: true,
-                                duration: 1000,
-                                message: "登录成功",
-                                type: "success"
-                              });
-                              cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
-                              this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                              this.$router.push("/Home");
-                              can.user = res.data.dataList;
+                  }).then(response => {
+                        var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
+                        let param={
+                            mobile:this.ruleForm.username,
+                        };
+                        if (stateCode == "1") { 
+                            if(response.data.dataList[0].length>0){
+                                var urlParam =  response.data.dataList[0][0].interfaceCode;
+                                var enterpriseName = response.data.dataList[0][0].enterpriseName;
+                                var mobile = response.data.dataList[0][0].mobile;
+                                var auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
+                                var accountCode = response.data.dataList[0][0].accountCode;
+                                var accountLevel = response.data.dataList[0][0].accountLevel;
+                                var accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
+                                sessionStorage.setItem("enterpriseName", enterpriseName);
+                                sessionStorage.setItem('accountCode',accountCode);
+                                sessionStorage.setItem('accountLevel',accountLevel);
+                                sessionStorage.setItem("interfaceCode", urlParam);
+                                sessionStorage.setItem('auditStatus',auditStatus);
+                                sessionStorage.setItem('mobile',mobile);
+                            }else{
+                                var urlParam =  response.data.dataList[1][0].interfaceCode;
+                                var interfaceCode =  response.data.dataList[1][0].interfaceCode;
+                                var enterpriseName = response.data.dataList[1][0].enterpriseName;
+                                var mobile = response.data.dataList[1][0].mobile;
+                                var accountCode = response.data.dataList[1][0].accountCode;
+                                var accountLevel = response.data.dataList[1][0].accountLevel;
+                                var accountStatus = response.data.dataList[1][0].accountStatus;
+                                var authorizerCode = response.data.dataList[1][0].authorizerCode;
+                                var auditStatus = response.data.dataList[1][0].auditStatus;
+                                var mobile = response.data.dataList[1][0].mobile;
+                                sessionStorage.setItem("enterpriseName", enterpriseName);
+                                sessionStorage.setItem("interfaceCode", interfaceCode);
+                                sessionStorage.setItem('accountCode',accountCode);
+                                sessionStorage.setItem('accountLevel',accountLevel);
+                                sessionStorage.setItem('authorizerCode',authorizerCode);
+                                sessionStorage.setItem('mobile',mobile);
+                                sessionStorage.setItem('auditStatus',auditStatus);
                             }
-                          }).catch(error => {
+                            if(accountStatus==2){
+                                this.$router.push('/ActivateChildAccount');
+                            }else if(accountStatus==6){
+                                this.$message({
+                                    showClose: true,
+                                    duration: 1000,
+                                    message: "此账号已被冻结",
+                                    type: "warning"
+                                });
+                            }else{
+                                server.login(param,urlParam).then(res => {
+                                    // if(res.data.dataList[1].auditStatus==2){     //已注册并实名
+                                        if (res.data.dataList[1].isBusiness == "0") {
+                                            // 不是众签商户
+                                            this.$message({
+                                                showClose: true,
+                                                duration: 1000,
+                                                message: "登录成功",
+                                                type: "success"
+                                            });
+                                            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                                            this.$router.push("/Merchant");
+                                        } else {
+                                            this.$message({
+                                                showClose: true,
+                                                duration: 1000,
+                                                message: "登录成功",
+                                                type: "success"
+                                            });
+                                            cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                                            this.$router.push("/Home");
+                                            can.user = res.data.dataList;
+                                        }
+                                    // }else{ //已注册未实名
+                                    //     this.$router.push('/Merchant');
+                                    // }
+                                    
+                                }).catch(error => {
 
-                          });
+                                });
+                            }
+                        }else {
+                            sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
+                            this.$router.push("/Role");
                         }
-                      }else {
-                        sessionStorage.setItem("companyList",JSON.stringify(response.data.dataList)); //角色列表
-                        this.$router.push("/Role");
-                      }
                     }).catch(error => {
 
-                  });
+                    });
                 } else {
                   this.$message({
                     showClose: true,

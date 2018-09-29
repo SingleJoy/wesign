@@ -2355,7 +2355,7 @@ export default {
         },
         //取消
         cancelIDcard(){
-
+            this.$router.push('/')
         },
         //提交
         submit(bankInfo){
@@ -2426,6 +2426,8 @@ export default {
                         '信息提交中...',  
                     );
                     this.sublicenseInfo();
+                    this.subIdInfo();
+                    this.subbankInfo();
                 }
             })
 
@@ -2445,12 +2447,11 @@ export default {
                  if(res.data.resultCode==1){
                     this.licenseStatus = true;
                     this.interfaceCode = res.data.interfaceCode;
-                    this.subIdInfo();
-                    // this.count+=1;
+                    this.count+=1;
                 }else{
                     this.licenseStatus = false;
                     this.$loading.hide();
-                    // this.count-=1;
+                    this.count-=1;
                 }
             }).catch(error=>{
 
@@ -2471,12 +2472,11 @@ export default {
             server.IdCardInfo(params).then(res=>{
                 if(res.data.resultCode==1){
                     this.IdStatus = true;
-                    this.subbankInfo();
-                    // this.count+=1;
+                    this.count+=1;
                 }else{
                     this.IdStatus = false;
                     this.$loading.hide();
-                    // this.count-=1;
+                    this.count-=1;
                 }
 
             }).catch(error=>{
@@ -2497,13 +2497,13 @@ export default {
             server.bankInfo(param,interfaceCode).then(res=>{
                 if(res.data.resultCode==1){
                     this.bankStatus = true;
-                    // this.count+=1;
+                    this.count+=1;
                     this.$loading.hide();
                     this.$router.push('/EnterprisePayment')
                 }else{
                     this.bankStatus = false
                     this.$loading.hide();
-                    // this.count-=1;
+                    this.count-=1;
                 }
             }).catch(error=>{
                    
@@ -2512,8 +2512,8 @@ export default {
         //请求成功跳转
         success(val){
             if(val==3){
-                // this.$loading.hide();
-                // this.$router.push('/EnterprisePayment')
+                this.$loading.hide();
+                this.$router.push('/EnterprisePayment')
             }
         }
     },

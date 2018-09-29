@@ -175,9 +175,9 @@
         </div>
       </div>
     </div>
-    <div class='dialogbg' v-show="!authorityWarn">
+    <div class='dialogbg' v-show="authorityWarn">
         <div class="upload-warn">
-            <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shut">X</a>
+            <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shutAuthority">X</a>
             <!-- <img  src="../../../static/images/Login/up-warn.png" alt=""> -->
             <p>{{10-hasInitiate}}</p>
         </div>
@@ -210,7 +210,7 @@
             accountCode:sessionStorage.getItem('accountCode'),
             Type: { contractType: "0" },
             authorityWarn:false, //权限弹框提醒
-            hasInitiate:0,    //已经发起的次数
+            contractNum:10,    //合同剩余次数
         };
     },
     methods: {
@@ -355,16 +355,13 @@
         },
         //合同发起权限
         authorityJudje(){
-            let param={
-
-            }
             server.authorityUpload(param,this.interfaceCode).then(res=>{
-                if(res.data.resultCode == 0){
-                    let num = res.data.num;
+                if(res.data.resultCode == 1){
+                    let num = res.data.contractNum;
                     if(num == 10){
                         this.authorityWarn = true;
                     }else{
-                        this.hasInitiate = num
+                        this.contractNum = num
                     }
                 }else{
                     this.$message({
@@ -378,9 +375,9 @@
             })
         },
         choice() {
-            if(this.hasInitiate==10){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+            if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
                 this.authorityWarn = true;
-            }else if(this.hasInitiate<10){
+            }else if(this.contractNum>0){
                 this.authorityJudje();
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                  this.$alert('您暂无上传发起权限','提示', {
@@ -394,7 +391,7 @@
             this.popupContainer = !this.popupContainer;
         },
         shutAuthority(){
-            this.authorityWarn = fasle;
+            this.authorityWarn = !this.authorityWarn;
         },
         jump() {
             this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
