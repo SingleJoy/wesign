@@ -8,7 +8,7 @@
       <div class="ms-login">
         <div class='center'>
           <div class='user'>
-            <h2 class='userInfo'>用户登录</h2>
+            <h2 class='userInfo'>体验登录</h2>
             <el-form  label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
                 <el-form-item prop="username">
                     <el-input placeholder="请输入姓名" v-model="ruleForm.username"></el-input>
@@ -166,7 +166,7 @@ export default {
                                 message: '短信验证码输入错误',
                                 type: 'error'
                             });
-                        }    
+                        }
 					}).catch(error => {
 						this.$message({
 							showClose: true,

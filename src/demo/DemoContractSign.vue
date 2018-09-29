@@ -82,7 +82,7 @@
 <style scoped>
 
   @import "../common/styles/demo/DemoTops.css";
-  @import "../common/styles/demo/DemoSigningSteps.css";
+
 
   .demoTemplateFill-content{
     width: 1200px;
@@ -148,7 +148,7 @@
     left: 258px;
     top: 230px;
     /*background: url("../../static/images/Demo/contract02.png") no-repeat;*/
-    background: url("../../static/images/Demo/demo-detail03.jpg") no-repeat;
+    background: url("../../static/images/Demo/demo-detail05.jpg") no-repeat;
   }
 
   .template-fill-info{
