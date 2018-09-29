@@ -1,9 +1,8 @@
 <template>
 	<div class="container">
 		<DemoTop></DemoTop>
-		<div class="layer">
-		</div>
-		<div class="select-experience" v-show="isShow">
+		<div class="layer"></div>
+		<div class="select-experience" v-show="isShow" v-if="showHomeModel">
 			<img src="../../static/images/Demo/demo-home.png" alt="">
 			<div class="home-character">
 				<div class="welcome">欢迎使用微签</div>
@@ -35,10 +34,9 @@
 
 			<div class="img-portrait"><img src="../../static/images/Demo/expression.png" alt=""></div>
 
-
 		</div>
 		<div class="content">
-			<img src="../../static/images/Demo/demo-homePage.png" alt="">
+			<img src="../../static/images/Demo/demo-homePage01.png" alt="">
 		</div>
 
 		<Bottom></Bottom>
@@ -52,7 +50,8 @@ export default {
 	data() {
 		return {
 			// msg: '这个是Home模板页'
-			isShow: true
+			isShow: true,
+      showHomeModel:true
 		}
 	},
 	components: {
@@ -70,8 +69,13 @@ export default {
 		},
 		nextSkep() {
 			this.$router.push('/DemoTemplateList');
+			sessionStorage.setItem("DemoHome","show")
 		}
-	}
+	},
+  created () {
+
+
+  }
 }
 </script>
 <style lang="stylus" scoped>

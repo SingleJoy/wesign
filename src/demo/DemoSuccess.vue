@@ -10,7 +10,7 @@
     </div>
 
 
-    <div class="demoSuccess-content" style="margin-top: 20px;height: 1250px;" >
+    <div class="demoSuccess-content" style="margin-top: 20px;height: 1050px;" >
       <div class="step" style="width:720px;">  <!--步骤条 -->
         <ul>
           <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
@@ -43,9 +43,6 @@
         </div>
       </div>
 
-      <!--<div class="demo-sign-success">-->
-
-      <!--</div>-->
 
       <div class="sign-success-tips">
         <p>  https:www.zqsign.com</p>
@@ -148,36 +145,36 @@
     position: absolute;
     left: 100px;
     top: 180px;
-    background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
+    background: url("../../static/images/Demo/demo-sign-success02.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog{
-    width: 310px;
-    height: 200px;
+    width: 335px;
+    height: 234px;
     z-index: 1002;
     position: absolute;
     left: 790px;
     top: 320px;
 
-    background: url("../../static/images/Demo/dialog.png") no-repeat;
+    background: url("../../static/images/Demo/dialog-big.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog>p{
 
-    padding:10px 15px;
+    padding:20px 15px;
     text-align: left;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 25px;
   }
   .demoSuccess-content>.step-modal>.dialog>.demo-btn{
-   margin-left: 20px;
+   margin-left: 10px;
 
   }
   .demoSuccess-content>.step-modal>.dialog>.demo-btn>a,.step2-dialog>.demo-btn>a{
-    width: 90px;
-    height: 30px;
+    width: 120px;
+    height: 40px;
     display: inline-block;
-    font-size: 14px;
-    line-height: 30px;
+    font-size: 16px;
+    line-height: 40px;
     text-align: center;
     border-radius: 10px;
   }
@@ -192,15 +189,7 @@
     margin-left: 10px;
 
   }
-  .demo-sign-success{
-    width: 1160px;
-    height: 250px;
-    z-index: 1002;
-    position: absolute;
-    left: 20px;
-    top: 500px;
-    background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
-  }
+
  .look-detail>a{
    position: relative;
    margin: 620px auto 0 auto;
@@ -227,12 +216,12 @@
   }
   .sign-success-tips>.scan-code {
 
-    margin-top: 10px;
+    margin-top: 5px;
   }
 
   .sign-success-tips>.scan-code>img{
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
 
