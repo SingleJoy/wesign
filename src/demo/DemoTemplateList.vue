@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container-template-list">
 		<DemoTop></DemoTop>
 		<div class="layer">
 		</div>
@@ -64,7 +64,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.container
+.container-template-list
 	.layer
 		height 100%
 		width 100%
