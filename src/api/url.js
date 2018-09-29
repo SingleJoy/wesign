@@ -163,7 +163,7 @@ const service = {
         return request({
             url: '/api/v1.4/tenant/' + interfaceCode + '/authSuccess',
             method: 'get',
-            param:''
+            params:''
         })
     },
     //解冻打款验证
@@ -171,7 +171,7 @@ const service = {
         return request({
             url: '/api/v1.6/tenant/unfreezeRemittance',
             method: 'post',
-            param:''
+            params:''
         })
     },
     //10次发起验证
@@ -179,7 +179,7 @@ const service = {
         return request({
             url: '/api/v1.6/tenant/'+interfaceCode+'/conNum',
             method: 'post',
-            param:''
+            params:''
         })
     },
 

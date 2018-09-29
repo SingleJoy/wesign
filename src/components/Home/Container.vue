@@ -179,7 +179,7 @@
         <div class="upload-warn">
             <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shutAuthority">X</a>
             <!-- <img  src="../../../static/images/Login/up-warn.png" alt=""> -->
-            <p>{{10-hasInitiate}}</p>
+            <p>{{contractNum}}</p>
         </div>
        
     </div>
@@ -512,6 +512,7 @@
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
+        console.log(cookie.getJSON("tenant"))
         var requestVo = {
             pageNo: "1",
             pageSize: "7",
