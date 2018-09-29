@@ -72,7 +72,7 @@
       },
       initiatingContract(){
 
-        this.$router.push("/IndividualRegister")
+        this.$router.push("/Register")
       }
 
     },

@@ -14,7 +14,10 @@
       <div class="step-modal" >
 
       </div>
-      <div class=" demo-detail"></div>
+      <div class=" demo-detail">
+         <img src="../../static/images/Demo/demo-detail04.jpg">
+         <!--<img src="../../static/images/Demo/demo-detail04.jpg">-->
+      </div>
 
       <div class="template-contract">
         <img class="fill-info-right" src="../../static/images/Demo/fill-info-right.png">
@@ -133,12 +136,13 @@
   }
   .demo-detail{
     width: 616px;
-    height: 818px;
+    height: 820px;
     z-index: 1003;
     position: absolute;
     left: 258px;
     top: 230px;
-    background: url("../../static/images/Demo/demo-detail04.jpg") no-repeat;
+    overflow: hidden;
+    /*background: url("../../static/images/Demo/demo-detail04.jpg") no-repeat;*/
   }
   .template-contract{
     width: 908px;
