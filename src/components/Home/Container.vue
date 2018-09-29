@@ -355,7 +355,7 @@
         },
         //合同发起权限
         authorityJudje(){
-            server.authorityUpload(param,this.interfaceCode).then(res=>{
+            server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
                     let num = res.data.contractNum;
                     if(num == 10){

@@ -178,7 +178,7 @@ const service = {
     authorityUpload(interfaceCode) {
         return request({
             url: '/api/v1.6/tenant/'+interfaceCode+'/conNum',
-            method: 'post',
+            method: 'get',
             params:''
         })
     },
