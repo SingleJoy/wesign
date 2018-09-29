@@ -188,18 +188,31 @@
                                 });
                             }else{
                                 server.login(param,urlParam).then(res => {
-                                    // if(res.data.dataList[1].auditStatus==2){     //已注册并实名
-                                        if (res.data.dataList[1].isBusiness == "0") {
+                                        if (res.data.dataList[1].isBusiness == "0") {  //已注册未实名
                                             // 不是众签商户
-                                            this.$message({
+                                            if(res.data.dataList[1].auditStatus!=2){  
+                                                this.$message({
                                                 showClose: true,
-                                                duration: 1000,
-                                                message: "登录成功",
-                                                type: "success"
-                                            });
-                                            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                                            this.$router.push("/Merchant");
+                                                    duration: 1000,
+                                                    message: "登录成功",
+                                                    type: "success"
+                                                });
+                                                cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+                                                this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                                                this.$router.push("/Merchant");
+                                            }else{ 
+                                                 this.$message({
+                                                    showClose: true,
+                                                    duration: 1000,
+                                                    message: "登录成功",
+                                                    type: "success"
+                                                });
+                                                cookie.set("tenant", res.data.dataList); 
+                                                this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                                                this.$router.push("/Home");
+                                                can.user = res.data.dataList;
+                                            }
+                                           
                                         } else {
                                             this.$message({
                                                 showClose: true,
@@ -207,14 +220,12 @@
                                                 message: "登录成功",
                                                 type: "success"
                                             });
-                                            cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
-                                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                                            cookie.set("tenant", res.data.dataList); 
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 });
                                             this.$router.push("/Home");
                                             can.user = res.data.dataList;
                                         }
-                                    // }else{ //已注册未实名
-                                    //     this.$router.push('/Merchant');
-                                    // }
+                                    
                                     
                                 }).catch(error => {
 

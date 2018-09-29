@@ -413,8 +413,6 @@
 
     },
     created() {
-      this.mobileShowFirst=this.mobile.substring(0,3);
-      this.mobileShowLast=this.mobile.substring(7,11);
       this.enterpriseName=sessionStorage.getItem("companyName");
       console.log(this.interfaceCode);
       // 查询企业银行信息
