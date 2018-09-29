@@ -199,12 +199,13 @@ export default {
 				server.verficate({'username': this.ruleForm.username}).then(res => {
 					this.iscode = true;
 					if (res.data == 0) {
-                        this.$message({
-                            showClose: true,
-                            message: "此用户已存在",
-                            type: 'error'
+                        this.$alert('此用户已存在您可直接去登录', '提示', {
+                            confirmButtonText: '确定',
+                        }).then(() => {
+                            this.$router.push('/')
+                        }).catch(() => {
+                        
                         });
-                        this.$router.push('/');
 					} else {
 						//倒计时
 						let _this = this;

@@ -5,6 +5,47 @@
     .step{
         width:404px;
     }
+    .enterprise-attorney-synopsis{
+        .el-dialog__body{
+            padding:30px 40px;
+        }
+        h2{
+            text-align: center;
+            margin-bottom:40px;
+        }
+        .content-info{
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+        .add-info{
+            height: 16px;
+            border-bottom: 1px solid #666;
+            min-width: 100px;
+            display: inline-block;
+            text-align: center;
+            line-height: 16px;
+        }
+        .synopsis-text{
+            line-height: 32px;
+            text-indent: 28px;
+            text-align: justify;
+            margin-bottom:30px;
+        }
+        .attorney-text{
+            line-height: 32px;
+            text-indent: 28px;
+            text-align: justify;
+        }
+        .synopsis-title{
+            margin-bottom: 20px;
+        }
+        .item-info{
+            line-height: 80px;
+            margin-bottom: 60px;
+        }
+        
+    }
+
     .certification-content{
         padding:0 15px;
         .result-warning{

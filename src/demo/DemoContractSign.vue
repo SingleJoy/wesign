@@ -121,7 +121,7 @@
     position: absolute;
     background: url("../../static/images/Demo/demo-seal.png") no-repeat;
     left: 650px;
-    top: 650px;
+    top: 280px;
   }
   .direction{
     width: 320px;
@@ -140,14 +140,15 @@
     background: url("../../static/images/Demo/template-contract2.png") no-repeat;
     margin-top: 20px;
   }
-  .template-contract{
+  .demoTemplateFill-content >.template-contract{
     width: 908px;
     height: 821px;
     z-index: 1002;
     position: absolute;
     left: 258px;
     top: 230px;
-    background: url("../../static/images/Demo/contract02.png") no-repeat;
+    /*background: url("../../static/images/Demo/contract02.png") no-repeat;*/
+    background: url("../../static/images/Demo/demo-detail03.jpg") no-repeat;
   }
 
   .template-fill-info{

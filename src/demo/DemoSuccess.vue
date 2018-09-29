@@ -10,7 +10,7 @@
     </div>
 
 
-    <div class="demoSuccess-content" style="margin-top: 20px;height: 1250px;" >
+    <div class="demoSuccess-content" style="margin-top: 20px;height: 1050px;" >
       <div class="step" style="width:720px;">  <!--步骤条 -->
         <ul>
           <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
@@ -31,19 +31,18 @@
 
         <div class="expression"></div>
         <div class="dialog">
-          <p>合同已经发起完成啦！<br/>
-            现在自己去发起一份体验合同吧！
+          <p>合同发起完成啦！<br/>
+            您可以扫描【链接二维码】完成签署体验。
+            也可以点击【立即注册】成为微签用户，
+            完成实名认证即送10次发起签约次数!
           </p>
           <div class="demo-btn">
             <a href="javascript:void(0);" @click="experienceAgain" class="last">再次体验</a>
-            <a href="javascript:void(0);" @click="initiatingContract" class="next">合同发起</a>
+            <a href="javascript:void(0);" @click="initiatingContract" class="next">立即注册</a>
           </div>
         </div>
       </div>
 
-      <!--<div class="demo-sign-success">-->
-
-      <!--</div>-->
 
       <div class="sign-success-tips">
         <p>  https:www.zqsign.com</p>
@@ -146,25 +145,29 @@
     position: absolute;
     left: 100px;
     top: 180px;
-    background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
+    background: url("../../static/images/Demo/demo-sign-success02.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog{
-    width: 305px;
-    height: 200px;
+    width: 335px;
+    height: 234px;
     z-index: 1002;
     position: absolute;
     left: 790px;
     top: 320px;
 
-    background: url("../../static/images/Demo/dialog.png") no-repeat;
+    background: url("../../static/images/Demo/dialog-big.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog>p{
 
     padding:20px 15px;
-    text-align: center;
+    text-align: left;
     color: #fff;
     font-size: 16px;
     line-height: 25px;
+  }
+  .demoSuccess-content>.step-modal>.dialog>.demo-btn{
+   margin-left: 10px;
+
   }
   .demoSuccess-content>.step-modal>.dialog>.demo-btn>a,.step2-dialog>.demo-btn>a{
     width: 120px;
@@ -186,15 +189,7 @@
     margin-left: 10px;
 
   }
-  .demo-sign-success{
-    width: 1160px;
-    height: 250px;
-    z-index: 1002;
-    position: absolute;
-    left: 20px;
-    top: 500px;
-    background: url("../../static/images/Demo/demo-sign-success1.png") no-repeat;
-  }
+
  .look-detail>a{
    position: relative;
    margin: 620px auto 0 auto;
@@ -221,12 +216,12 @@
   }
   .sign-success-tips>.scan-code {
 
-    margin-top: 10px;
+    margin-top: 5px;
   }
 
   .sign-success-tips>.scan-code>img{
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
 

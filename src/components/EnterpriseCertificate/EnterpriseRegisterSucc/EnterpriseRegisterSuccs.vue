@@ -86,6 +86,7 @@
            <p class="down-btn"><a href="javascript:void(0);" @click="download">点击下载</a></p>
          </div>
       </div>
+      <div @click="returnIndex">返回首页</div>
 
     </div>
   </div>
@@ -117,6 +118,9 @@
         document.body.appendChild(up)
         up.setAttribute('href',url);
         up.click()
+      },
+      returnIndex(){
+          
       },
     },
     created() {

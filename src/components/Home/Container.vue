@@ -175,6 +175,14 @@
         </div>
       </div>
     </div>
+    <div class='dialogbg' v-show="authorityWarn">
+        <div class="upload-warn">
+            <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shutAuthority">X</a>
+            <!-- <img  src="../../../static/images/Login/up-warn.png" alt=""> -->
+            <p>{{contractNum}}</p>
+        </div>
+       
+    </div>
   </div>
 </template>
 <script>
@@ -183,6 +191,28 @@
   import server from "@/api/url";
   export default {
     name: "Container",
+     data() {
+        return {
+            baseURL:this.baseURL.BASE_URL,
+            popupContainer: false,
+            tableData: [],
+            download: "",
+            loading: true,
+            loading2: false,
+            count: "",
+            waitForMeSign: "",
+            waitForOtherSign: "",
+            takeEffect: "",
+            deadline: "",
+            arr: [],
+            uploadFile: true,
+            interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+            accountCode:sessionStorage.getItem('accountCode'),
+            Type: { contractType: "0" },
+            authorityWarn:false, //权限弹框提醒
+            contractNum:10,    //合同剩余次数
+        };
+    },
     methods: {
         getRowClass({ row, column, rowIndex, columnIndex }) {
             if (rowIndex == 0) {
@@ -323,8 +353,33 @@
             up.setAttribute("href", url);
             up.click();
         },
+        //合同发起权限
+        authorityJudje(){
+            server.authorityUpload(this.interfaceCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    let num = res.data.contractNum;
+                    if(num == 10){
+                        this.authorityWarn = true;
+                    }else{
+                        this.contractNum = num
+                    }
+                }else{
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
+                }
+            }).catch(error=>{
+
+            })
+        },
         choice() {
-            if(cookie.getJSON('tenant')[1].createContractRole== 1){
+            if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+                this.authorityWarn = true;
+            }else if(this.contractNum>0){
+                this.authorityJudje();
+            }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                  this.$alert('您暂无上传发起权限','提示', {
                     confirmButtonText: '确定'
                 })  
@@ -334,6 +389,9 @@
         },
         shut() {
             this.popupContainer = !this.popupContainer;
+        },
+        shutAuthority(){
+            this.authorityWarn = !this.authorityWarn;
         },
         jump() {
             this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
@@ -446,26 +504,7 @@
             }
         }
     },
-    data() {
-        return {
-            baseURL:this.baseURL.BASE_URL,
-            popupContainer: false,
-            tableData: [],
-            download: "",
-            loading: true,
-            loading2: false,
-            count: "",
-            waitForMeSign: "",
-            waitForOtherSign: "",
-            takeEffect: "",
-            deadline: "",
-            arr: [],
-            uploadFile: true,
-            interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
-            accountCode:sessionStorage.getItem('accountCode'),
-            Type: { contractType: "0" }
-        };
-    },
+   
     created() {
         var data = [];
         var flag = "";
@@ -473,6 +512,7 @@
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
+        console.log(cookie.getJSON("tenant"))
         var requestVo = {
             pageNo: "1",
             pageSize: "7",
@@ -563,7 +603,7 @@
     }
   };
 </script>
-<style lang="css" scoped>
+<style lang="scss" scoped>
   @import "../../styles/Container.css";
   .right1:hover,
   .right2:hover,
@@ -577,6 +617,28 @@
     -ms-transform: scale(1.08);
     -o-transform: scale(1.08);
     -moz-transform: scale(1.08);
+  }
+  .upload-warn{
+    width: 68.1rem;
+    height: 32rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -34.05rem;
+    margin-top: -20rem;
+    background: url('/static/images/Login/up-warn.png') no-repeat ;
+    background-size:100% 100%;
+    img{
+        width:100%;
+        height:100%
+    }
+    .close-warn{
+        position: absolute;
+        right: 35px;
+        top: 20px;
+        font-size: 20px;
+        color: #666;
+    }
   }
   .contract-sign{
     /* position: absolute; */
