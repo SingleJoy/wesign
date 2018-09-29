@@ -8,14 +8,17 @@
       <div class="ms-login">
         <div class='center'>
           <div class='user'>
-            <h2 class='userInfo'>用户登录</h2>
+            <h2 class='userInfo'>体验登录</h2>
             <el-form  label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
                 <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input"></el-input><i class="icon-user"></i>
+                    <el-input placeholder="请输入姓名" v-model="ruleForm.username"></el-input>
+                </el-form-item>
+                <el-form-item prop="mobile">
+                    <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="请输入手机号"></el-input>
                 </el-form-item>
                 <el-form-item prop="code">
-                    <el-input v-model="ruleForm.code"  placeholder="请输入短信验证码">
-                        <el-button slot="append" id="elButton" @click="sendCode()">获取验证码</el-button>
+                    <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码">
+                        <el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
@@ -35,7 +38,7 @@
 import LoginTop from '../common/components/LoginTop'
 import Bottom from '../common/components/Bottom'
 import server from "@/api/url";
-import { validateMoblie, validatePassWord } from "@/common/js/validate";
+import { validateMoblie, validateSmsCode} from "@/common/js/validate";
 export default {
     name: 'Contract',
         components: {
@@ -44,35 +47,49 @@ export default {
     },
     data () {
         //校验手机号
-        let checkName = (rule, value, callback) => {
+        let checkMobile= (rule, value, callback) => {
             if (value === "") {
                 callback(new Error("请输入手机号"));
             } else if (!validateMoblie(value)) {
                 callback(new Error("手机号输入错误"));
             } else {
-                callback()
+                callback();
             }
-        };
-        //校验验证码
-        let checkCode = (rule, value, callback) => {
-            if (value === "") {
-                callback(new Error("请输入验证码"));
+        }
+        //校验用户名
+        let checkUsername = (rule, value, callback) => {
+            if (value === '') {
+                return callback(new Error('姓名不能为空'));
             } else {
                 callback();
             }
         };
+        //校验验证码
+        let checkCode = (rule, value, callback) => {
+			if (value === "") {
+				callback(new Error("请输入验证码"));
+			}else if(!validateSmsCode(value)) {
+				callback("验证码格式不正确");
+			}
+			else {
+				callback();
+			}
+		};
         return {
             interfaceCode: Math.random(),
             smsNo: '',
             appId: '',
+            isDisabled: false,
             ruleForm: {
                 username: "",
                 code: "",
+                mobile: ""
             },
             //表单验证
             rules: {
-                username: [{ validator: checkName, trigger: "blur" }],
-                code: [{ validator: checkCode, trigger: "blur" }],
+                username: [{required: true, validator: checkUsername, trigger: "blur" }],
+                mobile: [{required: true, validator: checkMobile, trigger: 'blur' }],
+                code: [{required: true, validator: checkCode, trigger: "blur" }],
             },
         }
     },
@@ -81,14 +98,14 @@ export default {
             this.$router.push('/');
         },
         sendCode() {
-			if(!this.ruleForm.username) {
+			if(!this.ruleForm.mobile) {
 				this.$message({
 					showClose: true,
 					message: "请输入手机号",
 					type: 'error'
 				});
 				return false;
-			} else if (!validateMoblie(this.ruleForm.username)){
+			} else if (!validateMoblie(this.ruleForm.mobile)){
 				this.$message({
 					showClose: true,
 					message: "手机号输入错误",
@@ -112,7 +129,7 @@ export default {
                 }, 1000);
                 //获取验证码
                 let param={
-                    mobile: this.ruleForm.username,
+                    mobile: this.ruleForm.mobile,
                     interfaceCode:this.interfaceCode
                 }
                 server.smsCode(param).then(res=>{
@@ -138,10 +155,18 @@ export default {
 					//验证码是否正确
 					this.$http.get(process.env.API_HOST + 'v1.4/sms', {
 						params: {
-							'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+							'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
 						}
 					}).then(res => {
-
+                        if(res.data.resultCode == 1) {
+                            this.$router.push('/DemoHome');
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: '短信验证码输入错误',
+                                type: 'error'
+                            });
+                        }
 					}).catch(error => {
 						this.$message({
 							showClose: true,
@@ -192,6 +217,7 @@ export default {
 
     text-align: center;
     font-size: 2.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .user {

@@ -10,7 +10,7 @@
     import IndividualRegisters from './IndividualRegisters.vue'
     import Bottom from '../../common/components/Bottom'
     export default {
-        name: 'IndividualRegister',
+        name: 'Register',
         components: {
           IndividualRegisters,
             LoginTop,

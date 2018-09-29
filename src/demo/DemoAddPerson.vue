@@ -97,7 +97,7 @@
     height: 550px;
     position: relative;
     z-index: 1002;
-    background: url("../../static/images/Demo/addPerson1.png") no-repeat;
+    background: url("../../static/images/Demo/addPerson02.png") no-repeat;
     top: 200px;
   }
 

@@ -30,10 +30,10 @@
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
 						<el-form-item prop="username">
-						<el-input v-model="ruleForm.username" placeholder="请输入手机号" value="15734742257" class="login-input" ></el-input><i class="icon-user"></i>
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" maxlength="11" class="login-input" ></el-input><i class="icon-user"></i>
 						</el-form-item>
 						<el-form-item prop="code">
-							<el-input v-model="ruleForm.code" placeholder="请输入短信验证码" class="">
+							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
 								<el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
 							</el-input>
 						</el-form-item>
@@ -68,7 +68,7 @@
 <script>
 //import cookie from "@/common/js/getTenant";
 //import Img from "../../../static/images/Login/qrcode.png";
-import { validateMoblie, validatePassWord } from "@/common/js/validate";
+import { validateMoblie, validatePassWord, validateSmsCode } from "@/common/js/validate";
 import md5 from "js-md5";
 //import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
@@ -89,7 +89,10 @@ export default {
 		let checkCode = (rule, value, callback) => {
 			if (value === "") {
 				callback(new Error("请输入验证码"));
-			} else {
+			}else if(!validateSmsCode(value)) {
+				callback("验证码格式不正确");
+			}
+			else {
 				callback();
 			}
 		};
@@ -282,12 +285,16 @@ export default {
 										});
 									}
 								}).catch(error => {
-									console.log(error);
+									this.$message({
+										showClose: true,
+										message: res.data.resultMessage,
+										type: 'error'
+									});
 							});
 						} else {
 							this.$message({
 								showClose: true,
-								message: res.data.resultMessage,
+								message: "请先获取验证码",
 								type: 'error'
 							});
 						}

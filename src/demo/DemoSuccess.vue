@@ -9,21 +9,8 @@
       </nav>
     </div>
 
+    <div class="demoSuccess-content"  >
 
-    <div class="demoSuccess-content" style="margin-top: 20px;height: 1050px;" >
-      <div class="step" style="width:720px;">  <!--步骤条 -->
-        <ul>
-          <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
-          <p></p>
-          <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-          <p></p>
-          <li class="active"><i class='el-icon-edit'></i><b>指定位置</b></li>
-          <p></p>
-          <li class="active"><i class='el-icon-menu'></i><b>合同签署</b></li>
-          <p></p>
-          <li class="active"><i class='el-icon-check'></i><b>完成</b></li>
-        </ul>
-      </div>
       <div class="demoSuccess-img">
 
       </div>
@@ -85,7 +72,7 @@
       },
       initiatingContract(){
 
-        this.$router.push("/IndividualRegister")
+        this.$router.push("/Register")
       }
 
     },
@@ -97,7 +84,16 @@
 <style scoped>
 
   @import "../common/styles/demo/DemoTops.css";
-  @import "../common/styles/demo/DemoSigningSteps.css";
+
+  .demoSuccess-content{
+    width: 1200px;
+    clear: both;
+    margin: 20px auto;
+    position: relative;
+    height: 1100px;
+    /*background-color: #fff;*/
+    background: url("../../static/images/Demo/demo-succ.png") no-repeat;
+  }
   .demoSuccess-content>.step-modal> .expression{
     width: 110px;
     height: 120px;
@@ -108,13 +104,7 @@
     top:420px
   }
 
-  .demoSuccess-content{
-    width: 1200px;
-    margin: 20px auto;
-    background-color: #fff;
-    position: relative;
 
-  }
   .demo-modal{
     width: 100%;
     height: 100%;
@@ -204,12 +194,11 @@
    border-radius: 5px;
  }
   .sign-success-tips{
-    z-index: 1002;
-    left: 715px;
-    top:665px;
-    position: absolute;
-
-  }
+    position: relative;
+    margin-left: 725px;
+    top: 635px;
+    z-index: 1003;
+    }
   .sign-success-tips>p{
     color: #666;
     font-size: 14px;

@@ -64,7 +64,7 @@ import Mobile from '../components/Mobile/Canvas/Sign.vue'                       
 import MobileSuccess from '../components/Mobile/MobileSuccess/Success.vue'                        //签名面板成功
 import SignSuccess from '../components/SignSuccess/SignSuccess.vue'                               //b2b 签署成功
 import CompanyExa from '../components/CompanyExa/CompanyExa.vue'                                  //b2b 合同详情
-import Register from '../components/Credentials/Enterprise/Register/Register.vue'                 //b2b 注册企业
+//import Register from '../components/Credentials/Enterprise/Register/Register.vue'                 //b2b 注册企业
 import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue'                 //b2b 个人认证（OCR）
 import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue'       //b2b 手持证件照
 import Information from '../components/Credentials/Personal/Information/Information.vue'     //b2b 个人认证（三要素）
@@ -75,8 +75,8 @@ import Procontract from '../components/Procontract/Procontract.vue'             
 import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
-
-import IndividualRegister from '../components/UserRegister/IndividualRegister.vue'                       //个人注册
+//IndividualRegister
+import Register from "../components/UserRegister/Register.vue";                       //个人注册
 import BusinessRegister from '../components/UserRegister/BusinessRegister.vue'                       //企业注册
 
 
@@ -105,9 +105,9 @@ export const router = new Router({
       }
     },
     {
-      path: '/IndividualRegister',
-      name: 'IndividualRegister',
-      component: IndividualRegister,
+      path: '/Register',
+      name: 'Register',
+      component: Register,
       meta: {
         auth: false
       }
@@ -538,14 +538,14 @@ export const router = new Router({
         auth: true
       }
     },
-    {
-      path: '/Register',
-      name: 'Register',
-      component: Register,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/Register',
+    //   name: 'Register',
+    //   component: Register,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
       path: '/Pupload',
       name: 'Pupload',

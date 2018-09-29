@@ -15,10 +15,10 @@
 
       </div>
 
-      <div class="demo-sign-operate" @click="handlerShowSeal">
+      <div class="demo-sign-operate" >
 
       </div>
-      <div class="demo-seal" v-show="showSeal">
+      <div class="demo-seal">
         <img src="../../static/images/Demo/demo-seal.png">
       </div>
 
@@ -57,7 +57,7 @@
     },
     data() {
       return {
-        showSeal:false
+
 
       }
     },
@@ -69,9 +69,7 @@
         this.$router.push("/DemoSuccess")
 
       },
-      handlerShowSeal(){
-        this.showSeal=true
-      }
+
 
     },
     created() {
@@ -82,7 +80,7 @@
 <style scoped>
 
   @import "../common/styles/demo/DemoTops.css";
-  @import "../common/styles/demo/DemoSigningSteps.css";
+
 
   .demoTemplateFill-content{
     width: 1200px;
@@ -121,20 +119,20 @@
     position: absolute;
     background: url("../../static/images/Demo/demo-seal.png") no-repeat;
     left: 650px;
-    top: 280px;
+    top: 930px;
   }
-  .direction{
-    width: 320px;
-    height: 150px;
-    z-index: 1002;
-    position: absolute;
-    left: 530px;
-    top: -60px;
-    background: url("../../static/images/Demo/nextStep.png") no-repeat;
-  }
+  /*.direction{*/
+    /*width: 320px;*/
+    /*height: 150px;*/
+    /*z-index: 1002;*/
+    /*position: absolute;*/
+    /*left: 530px;*/
+    /*top: -60px;*/
+    /*background: url("../../static/images/Demo/nextStep.png") no-repeat;*/
+  /*}*/
   .step-modal{
     width: 1200px;
-    height: 1100px;
+    height: 1110px;
     position: relative;
     z-index: 1001;
     background: url("../../static/images/Demo/template-contract2.png") no-repeat;
@@ -142,13 +140,13 @@
   }
   .demoTemplateFill-content >.template-contract{
     width: 908px;
-    height: 821px;
+    height: 880px;
     z-index: 1002;
     position: absolute;
     left: 258px;
     top: 230px;
     /*background: url("../../static/images/Demo/contract02.png") no-repeat;*/
-    background: url("../../static/images/Demo/demo-detail03.jpg") no-repeat;
+    background: url("../../static/images/Demo/demo-detail06.jpg") no-repeat;
   }
 
   .template-fill-info{
