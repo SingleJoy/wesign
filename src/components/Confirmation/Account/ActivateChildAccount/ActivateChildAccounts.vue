@@ -152,7 +152,6 @@
     },
     // 组件销毁前清除定时器
     beforeDestroy() {
-
       clearInterval(this.timer);
       this.timer = null;
     },
@@ -407,14 +406,11 @@
       //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
-
         this.authorizationImg=res.bodyText;
       })
 
-
       let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
       this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
-
         this.qrSignImg=res.bodyText;
       });
 
