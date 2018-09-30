@@ -520,7 +520,7 @@
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
-        if(sessionStorage.getItem('welcomePage')){
+        if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].auditSteps!=2){
             this.welcomeMessage = false;
         }
         var requestVo = {
