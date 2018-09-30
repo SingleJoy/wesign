@@ -1,19 +1,19 @@
 <template>
     <div class='Enterprise'>
-        <Top></Top>
+        <MuTop></MuTop>
         <EnterpriseCertificates></EnterpriseCertificates>
         <Bottom></Bottom>
     </div>
 </template>
 <script>
     import EnterpriseCertificates from './EnterpriseCertificates.vue'
-    import Top from '../../common/components/RoleTop.vue'
+    import MuTop from '../../common/components/MuTop'
     import Bottom from '../../common/components/Bottom.vue'
 
     export default {
         name: 'Enterprise',
             components: {
-            Top,
+            MuTop,
             Bottom,
             EnterpriseCertificates
         }

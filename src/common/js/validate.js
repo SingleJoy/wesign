@@ -62,6 +62,13 @@ export function validateBank(str){
 }
 
 /**
+ *  @param {*validateBankNum} str
+ */
+export function validateBankNum(str){
+    const reg = /^([0-9]\d{5,18})$/
+    return reg.test(str)
+}
+/**
  *  @param {*} str
  */
 export function validateOpenName(str){
@@ -120,7 +127,9 @@ export  function Trim(str){
 }
 //去除输入框所有空格
 export  function TrimAll(str){
-    return str.replace(/\s/g, "");
+    // if(str){
+        return str.replace(/\s/g, "");
+    // }
   }
 export  function onlyChinese(str){
   const reg=/[^\u4E00-\u9FA5]/g;

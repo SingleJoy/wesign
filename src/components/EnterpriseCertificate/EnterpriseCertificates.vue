@@ -46,9 +46,8 @@
                         <span class="add-info">{{licenseInfo.tenantName}}</span>
                         <span>现委托</span>
                         <span class="add-info">{{IdInfo.userName}}</span>
-                        <span style="line-height:18px;">作为我单位合法代理人，，授权其代表我单位使用贵司微签平台。该委托代理人使用微签平台的授权范围为：代表我单位发出签约请求、签署电子合同在内的各类文件、对已签约的文件进行存证等。在与贵司的微签服务
-                            的有效期内，该代理人的一切行为，均代表本单位，与本单位的行为具有同等法律效力。本
-                            单位将承担该代理人行为的全部法律后果和法律责任。 
+                        <span style="line-height:18px;">作为我单位合法代理人，授权其代表我单位使用贵司微签平台。该委托代理人使用微签平台的授权范围为：代表我单位发出签约请求、签署电子合同在内的各类文件、对已签约的文件进行存证等。在与贵司的微签服务
+                            的有效期内，该代理人的一切行为，均代表本单位，与本单位的行为具有同等法律效力。本单位将承担该代理人行为的全部法律后果和法律责任。 
                         </span>
                     </p>
                     <p >
@@ -66,14 +65,15 @@
                         </p>
                         <p>
                             <span>企业公章（盖章）：</span>
-                            <span>{{IdInfo.userName}}</span>
+                            <!-- <span>{{IdInfo.userName}}</span> -->
                         </p>
                         <p>
                             <span>法定代表人：</span>
-                            <span>{{IdInfo.userName}}</span>
+                            <span>{{licenseInfo.legalPerson}}</span>
                         </p>
                         <p>
                             <span>日期：</span>
+                            <span>{{IdInfo.date}}</span>
                         </p>
                     </div>
                     
@@ -97,8 +97,9 @@
                     <p  style="margin-bottom:50px;text-align:right;padding-right:100px;">
                             <span> 单位（公章）</span>
                     </p>
-                    <p  style="margin-bottom:50px;text-align:right;margin-bottom:200px;padding-right:150px;">
-                        <span>时间</span>
+                    <p  style="margin-bottom:50px;text-align:right;margin-bottom:200px;padding-right:65px;">
+                        <span>时间：</span>
+                        <span>{{IdInfo.date}}</span>
                     </p>
               </div>
             </el-dialog>
@@ -145,7 +146,7 @@
                                         <span class="input-title">企业名称</span>
                                         <el-input
                                             style='width:336px'
-                                            placeholder="请输入内容"
+                                            placeholder=""
                                             v-model="licenseInfo.tenantName"
                                             @blur='enterpriseName'
                                             :disabled= true
@@ -156,7 +157,7 @@
                                         <span class="input-title">统一社会信用代码</span>
                                         <el-input
                                             style='width:336px'
-                                            placeholder="请输入内容"
+                                            placeholder=""
                                             v-model="licenseInfo.creditCode"
                                             @blur='enterpriseName'
                                             :disabled= true
@@ -167,7 +168,7 @@
                                         <span class="input-title">法人/企业负责人姓名</span>
                                         <el-input
                                             style='width:336px;'
-                                            placeholder="请输入内容"
+                                            placeholder=""
                                             v-model="licenseInfo.legalPerson"
                                             @blur='enterpriseName'
                                             :disabled= true
@@ -350,7 +351,7 @@
 
 <script>
 import server from "@/api/certificationUrl";
-import {validateMoblie,validatePassWord,validateBank,TrimAll} from '../../common/js/validate.js';
+import {validateMoblie,validatePassWord,validateBankNum,TrimAll} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
 export default {
     name:'',
@@ -365,7 +366,7 @@ export default {
         var checkBankNum = (rule,value,callback)=>{
             if(value==''){
                 callback(new Error('请输入企业银行账号'))
-            }else if(!validateBank(TrimAll(value))){
+            }else if(!validateBankNum(value)){
                 callback(new Error('银行账号输入不正确'))
             }else{
                   callback()
@@ -410,7 +411,8 @@ export default {
                 appId:'',
                 resultMobile:'',
                 frontPhoto:'',  //正面照地址
-                backPhoto:''   //反面照地址
+                backPhoto:'',   //反面照地址
+                date:'',       //授权日期
             },
             IdDisabled:true,
             IdFrontImg:'',           //正面img
@@ -422,7 +424,7 @@ export default {
             idMobile:true,
             checked:false,
             bankInfo:{
-                to_acc_name:"3424",      //企业名称
+                to_acc_name:"",      //企业名称
                 to_acc_no:"",         //收款账号
                 to_bank_name:"",       //银行名称
                 to_pro_name:"",        //开户行省名
@@ -2054,17 +2056,17 @@ export default {
         let licenseInfo = this.licenseInfo;
         let bankInfo = this.bankInfo;
         let IdInfo = this.IdInfo;
-        console.log(this.interfaceCode)
+        // console.log(this.interfaceCode)
         server.companyInfoDetail(param,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
-                let data = res.data;
+                let data = res.data.data;
                 licenseInfo.tenantName = data.tenantName
                 licenseInfo.creditCode = data.creditCode
                 licenseInfo.creditPhoto = data.creditPhoto
                 licenseInfo.legalPerson = data.legalPerson
-                if(licenseInfo.tenantName){
+                // if(licenseInfo.tenantName){
                     this.licenseInputShow = true;
-                }
+                // }
 
                 IdInfo.idcard = data.idcard
                 IdInfo.userName = data.userName
@@ -2073,10 +2075,11 @@ export default {
                 IdInfo.backPhoto = data.backPhoto
                 IdInfo.adminType = data.authorizerType
                 
-                if(IdInfo.idcard){
+                // if(IdInfo.idcard){
                     this.IdInfoShow = true;
-                    this.smsSend = true;
-                }
+                    // this.smsSend = true;
+                    this.getAuthDate();
+                // }
 
                 bankInfo.to_acc_name = data.to_acc_name
                 bankInfo.to_acc_no = data.to_acc_no
@@ -2084,7 +2087,6 @@ export default {
                 bankInfo.to_pro_name = data.to_pro_name
                 bankInfo.to_city_name = data.to_city_name
                 bankInfo.to_acc_dept = data.to_acc_dept
-
             }
         }).catch(error=>{
 
@@ -2102,7 +2104,8 @@ export default {
             }else if(type=='backId'){
                 this.backIdExample = true;
             }else if(type=='synopsis'){
-                 this.synopsis = true;
+                this.getAuthDate();
+                this.synopsis = true;
             }else{
                 this.attorney = true;
             }
@@ -2157,7 +2160,7 @@ export default {
                 this.licenseInfo.creditPhoto = name.data.creditPhoto;
                 this.licenseInfo.legalPerson = name.data.legalPerson;
                 this.bankInfo.to_acc_name = name.data.tenantName;
-                
+                this.licenseStatus = true;
                 this.$message({
                     showClose: true,
                     message: '上传成功',
@@ -2167,7 +2170,7 @@ export default {
                  this.IdInfoShow = false;
                   this.$message({
                     showClose: true,
-                    message: "上传失败",
+                    message: "营业执照认证失败",
                     type: 'error'
                 })
             }
@@ -2177,26 +2180,51 @@ export default {
         //身份证正面上传成功
         handIdFrontSuccess(name, file, fileList){
             if(name.resultCode == 1){
-                this.IdCardFrontSize = file.size;
-                this.IdInfo.frontPhoto = name.data.frontPhoto;
-                this.IdInfo.userName = name.data.name
-                this.IdInfo.idcard = name.data.idcard
-                this.IdInfoShow = true;
-                if(this.authorizerType){
-                    this.IdInfo.mobile = sessionStorage.getItem('mobile')
-                }
-                this.$message({
-                    showClose: true,
-                    message: '上传成功',
-                    type: 'success'
-                })
+                // if((this.licenseInfo.legalPerson!= this.IdInfo.userName)&&this.licenseInfo.legalPerson&&this.authorizerType==0){
+                //     this.$message({
+                //         showClose: true,
+                //         message: '当前身份信息与企业法人信息不一致',
+                //         type: 'error'
+                //     })
+
+                // }else{
+                    this.IdCardFrontSize = file.size;
+                    this.IdInfo.frontPhoto = name.data.frontPhoto;
+                    this.IdInfo.userName = name.data.name
+                    this.IdInfo.idcard = name.data.idcard
+                    this.IdInfoShow = true;
+                    this.IdStatus = true;
+                    if(this.authorizerType){
+                        this.IdInfo.mobile = sessionStorage.getItem('mobile')
+                    }
+                    if(this.licenseInfo.legalPerson&&this.IdInfo.userName&&this.authorizerType==0&&(this.licenseInfo.legalPerson!= this.IdInfo.userName)){
+                          this.$message({
+                            showClose: true,
+                            message: '当前身份信息与企业法人信息不一致',
+                            type: 'error'
+                        })
+                    }
+                    this.getAuthDate()
+                    this.$message({
+                        showClose: true,
+                        message: '上传成功',
+                        type: 'success'
+                    })
+                // }
+               
              }else{
                 this.$message({
                     showClose: true,
-                    message: name.data.resultMessage,
+                    message:"实名认证信息上传有误!",
                     type: 'error'
                 })
              }
+        },
+        //获取授权日期
+        getAuthDate(){
+            this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
+                this.IdInfo.date=res.bodyText;
+            });
         },
 
         //背面上传成功
@@ -2235,7 +2263,7 @@ export default {
             }else if(type == 'smsCode'){
                 if(this.IdInfo.smsCode==""){
                     this.smsTip=true;
-                    this.smsTipText = "验证码不为空";
+                    this.smsTipText = "验证码不能为空";
                 }else{
                     this.smsTip=false;
                     this.smsTipText = "";
@@ -2325,6 +2353,7 @@ export default {
         },
         //授权人类型
         changeAuthorType(){
+            this.IdStatus = true;
             if(!this.authorizerType){
                 this.authorizerType = true
             }else{
@@ -2345,11 +2374,9 @@ export default {
 
         //选择城市
         handleCityChange(val){
-            console.log(val)
             this.bankInfo.to_pro_name=val[0]
             this.bankInfo.to_city_name=val[1];
             this.cityTip = false;
-               console.log(this.bankInfo)
         },
 
         bytesToSize(bytes) {
@@ -2365,29 +2392,37 @@ export default {
         },
         //提交
         submit(bankInfo){
-            if(this.licenseInfo.creditPhoto == ''){
+            if(!this.licenseInfo.creditPhoto){
                 this.$message({
                     showClose: true,
                     message: '请上传营业执照',
                     type: 'error'
                 })
                 return
-            }else if(this.IdInfo.frontPhoto==""){
+            }else if(!this.IdInfo.frontPhoto){
                 this.$message({
                     showClose: true,
                     message: '请上传身份证正面照',
                     type: 'error'
                 })
                 return
-            }else if(this.IdInfo.backPhoto ==""){
-                his.$message({
+            }else if(!this.IdInfo.backPhoto){
+                this.$message({
                     showClose: true,
                     message: '请上传身份证反面照',
                     type: 'error'
                 })
                 return
             }
-              if(this.IdInfo.mobile==""){
+            if(this.licenseInfo.legalPerson&& this.IdInfo.userName&&(this.licenseInfo.legalPerson!= this.IdInfo.userName)&&this.authorizerType==0){
+                this.$message({
+                    showClose: true,
+                    message: '当前身份信息与企业法人信息不一致',
+                    type: 'error'
+                })
+                return 
+            }
+            if(this.IdInfo.mobile==""){
                 this.$message({
                     showClose: true,
                     message: '手机号不能为空',
@@ -2493,11 +2528,11 @@ export default {
         subbankInfo(){
             let param={
                 to_acc_name:this.bankInfo.to_acc_name,               //企业名称
-                to_acc_no:TrimAll(this.bankInfo.to_acc_no),                     //收款账号
-                to_bank_name:TrimAll(this.bankInfo.to_bank_name),                   //银行名称
-                to_pro_name:TrimAll(this.bankInfo.to_pro_name),                    //开户行省名
-                to_city_name:TrimAll(this.bankInfo.to_city_name),                   //开户行市名
-                to_acc_dept:TrimAll(this.bankInfo.to_acc_dept),               //支行名称
+                to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
+                to_bank_name:this.bankInfo.to_bank_name,                   //银行名称
+                to_pro_name:this.bankInfo.to_pro_name,                    //开户行省名
+                to_city_name:this.bankInfo.to_city_name,                   //开户行市名
+                to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
             }
             let interfaceCode = this.interfaceCode;
             server.bankInfo(param,interfaceCode).then(res=>{
@@ -2505,7 +2540,6 @@ export default {
                     this.bankStatus = true;
                     this.count+=1;
                     this.$loading.hide();
-                    this.$router.push('/EnterprisePayment')
                 }else{
                     this.bankStatus = false
                     this.$loading.hide();

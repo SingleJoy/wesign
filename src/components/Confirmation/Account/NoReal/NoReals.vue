@@ -3,8 +3,8 @@
     <div  class='content'>
       <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;padding-left: 15px;">
         <img src="../../../../../static/images/Confirmation/Account/my.jpg" alt="">
-        <p v-if="identifier"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
-        <p v-if="auditStatus" @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p>
+        <!-- <p v-if="identifier"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
+        <p v-if="auditStatus" @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p> -->
       </h2>
       <div class='contentInfo'>
         <div class='companyName'>
@@ -16,7 +16,7 @@
           <p>
             <span>账号：</span><span>{{mobile}}</span>
           </p>
-          <a href="javascript:void(0);" v-show="authStatus == false" @click="realName">去实名</a>
+          <a href="javascript:void(0);" v-show="identifier" @click="realName">去实名</a>
         </div>
         <div class='userInfo'>
           <p>
@@ -185,6 +185,7 @@
         this.centerDialogVisible = false
       },
       realName() {
+       this.$store.dispatch('tabIndex',{tabIndex:5});
         this.$router.push('/EnterpriseCertificate');
         // if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
         //   sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode);
