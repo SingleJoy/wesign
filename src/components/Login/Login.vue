@@ -188,7 +188,7 @@
                                 });
                             }else{
                                 server.login(param,urlParam).then(res => {
-                                        if (res.data.dataList[1].isBusiness == "0") {  //已注册未实名
+                                        if (res.data.dataList[1].isBusiness == "0") {  //未付费
                                             // 不是众签商户
                                             if(res.data.dataList[1].auditStatus!=2){  
                                                 this.$message({
