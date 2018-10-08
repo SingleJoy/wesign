@@ -25,8 +25,8 @@
     color: red;
 }
 .title a{
-    color:#22a7ea;
-    border-bottom: 1px solid #22a7ea;
+    color:#4091fb;
+    border-bottom: 1px solid #4091fb;
 }
 .title span{
     color:#ff0000;
@@ -62,7 +62,7 @@
     height: 50px;
 }
 .companyName p{
-    float: left;    
+    float: left;
 }
 .userInfo>p>span{
   font-family:"微软雅黑";
@@ -71,7 +71,7 @@
     float: left;
     padding-left:52px;
     padding-top: 22px;
-    color: #22a7ea;
+    color: #4091fb;
 }
 .accountPic img{
     padding: 30px 0 10px 30px;

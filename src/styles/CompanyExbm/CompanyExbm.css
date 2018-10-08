@@ -15,7 +15,7 @@
     color: #666;
 }
 /* .main .first span:nth-child(2){
-    color: #22a7ea;
+    color: #4091fb;
     padding-left: 5px;
 } */
 .main .second{
@@ -32,7 +32,7 @@
     float: right;
 }
 .text span{
-    color: #22a7ea;
+    color: #4091fb;
 }
 .text strong{
     color: #666;
@@ -46,7 +46,7 @@
     padding-top: 26px;
 }
 .three .details2 a {
-    color: #22a7ea;
+    color: #4091fb;
 }
 .three .details2 strong:nth-child(1){
     padding-left: 28px;
@@ -86,7 +86,7 @@
 }
 .extension-btn{
     float: right;
-    background: #22a7ea;
+    background: #4091fb;
     padding: 5px 20px;
     height: 20px;
     line-height: 20px;

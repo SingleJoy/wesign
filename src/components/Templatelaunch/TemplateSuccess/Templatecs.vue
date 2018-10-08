@@ -40,7 +40,7 @@
                     <div slot="content">{{this.$store.state.contractName1}}</div>
                     <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
                 </el-tooltip>
-                <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+                <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
                 </p></li>
                 <li><span>截止时间：</span><span>{{validTime}}</span></li>
                 <li style='float:left'>签署人员：</li>
@@ -50,7 +50,7 @@
                     <div slot="content">{{item.signUserName}}</div>
                     <span class='name' >{{item.signUserName}}</span>
                     </el-tooltip>
-                    <a style='color:#22a7ea; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
+                    <a style='color:#4091fb; cursor: default;' href="javascript:void(0);" v-if="item.signStatus == 1">已签署</a>
                     <a style='color:red; cursor: default;' href="javascript:void(0);" v-else>未签署</a>
                 </li>
                 </ol>
@@ -63,7 +63,7 @@
           <dt id='roomInfo'><img src="../../../../static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
             <a href="javascript:void(0);" @click='handleCopy(dataURL,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
-            color: #22a7ea;'>复制链接</a>
+            color: #4091fb;'>复制链接</a>
           </dd>
         </dl>
         <dl class='third'>
@@ -73,7 +73,7 @@
           <dt id='roomInfo'><img src="../../../../static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>
             <a href="javascript:void(0);" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
-            color: #22a7ea;'>复制链接</a>
+            color: #4091fb;'>复制链接</a>
           </dd>
         </dl>
       </div>
@@ -204,7 +204,7 @@
     white-space: nowrap;
     width:230px;
     vertical-align:sub;
-    color:#22a7ea;
+    color:#4091fb;
   }
 
   #contractAddress{
@@ -214,7 +214,7 @@
     white-space: nowrap;
     width:230px;
     vertical-align:sub;
-    color:#22a7ea;
+    color:#4091fb;
   }
   #contractAddress1{
     display: inline-block;
@@ -223,7 +223,7 @@
     white-space: nowrap;
     width:230px;
     vertical-align:sub;
-    color:#22a7ea;
+    color:#4091fb;
   }
   #roomInfo{
     width:167px;

@@ -86,11 +86,11 @@ export default {
 			left 297.5px
 			.welcome
 				font-size 32px
-				color #22a7ea
+				color #4091fb
 				margin-top 36px;
 			.upgrade
 				margin-top 32px
-				color #22a7ea
+				color #4091fb
 				font-size 18px
 				color #666666
 				.company
@@ -107,17 +107,17 @@ export default {
 					width 209px
 					height 47px
 					display inline-block
-					border 1px solid #22a7ea
+					border 1px solid #4091fb
 					border-radius 30px
 					text-align center
-					color #22a7ea
+					color #4091fb
 					background-color #fff
 					cursor pointer
 				.experience
 					font-size 22px
 					color #ffffff;
 					border none
-					background-color #22a7ea
+					background-color #4091fb
 					width 209px
 					height 47px
 					display inline-block
@@ -137,7 +137,7 @@ export default {
 				line-height 42px
 				text-align center
 				background-color #fff
-				color #22a7ea
+				color #4091fb
 				border-radius 5px
 				position absolute
 				top -22px

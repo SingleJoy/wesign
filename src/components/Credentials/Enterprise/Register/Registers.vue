@@ -108,7 +108,7 @@
             </div>
             <div class='second' style="margin-left:68px;">
               <el-checkbox v-model="agree" name="type" @change='changEvent'></el-checkbox>
-              <b style="color:#424242;font-size: 14px;padding-left: 15px;">我同意<b style="padding-left: 10px;color:#22a7ea;cursor: pointer;" @click="dialogAgreement = true">《微签使用协议》</b></b>
+              <b style="color:#424242;font-size: 14px;padding-left: 15px;">我同意<b style="padding-left: 10px;color:#4091fb;cursor: pointer;" @click="dialogAgreement = true">《微签使用协议》</b></b>
             </div>
             <div class='second'>
               <div class="edit-btn" >
@@ -134,7 +134,7 @@
         <div class='box-container'>
 
         </div>
-        <p style="text-align: center;padding-top: 20px;font-size: 12px;color: #22a7ea;line-height: 20px;">
+        <p style="text-align: center;padding-top: 20px;font-size: 12px;color: #4091fb;line-height: 20px;">
           您已完成注册，请使用账号密码进行登录
           即将跳转至登录页面<span style="color:red;padding-left: 10px;">{{num}}</span>
         </p>
@@ -557,7 +557,7 @@
     display:none;
   }
   #register-dialog>.box{
-    /*border: 1px solid #22a7ea;*/
+    /*border: 1px solid #4091fb;*/
     border-radius: 4px;
     width:200px;
     height: 200px;
@@ -571,7 +571,7 @@
     padding: 30px;
   }
   #register-dialog>.box>.box-container{
-    /*border: 1px solid #22a7ea;*/
+    /*border: 1px solid #4091fb;*/
     width:120px;
     height: 120px;
     background:url('../../../../../static/images/Credentials/Enterprise/Register/register-dialog.gif') no-repeat;

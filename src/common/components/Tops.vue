@@ -6,7 +6,7 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="centerDialogVisible=true">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
+        <el-button style='color:#4091fb' @click="nextStepFit">下一步</el-button>
       </div>
       <el-dialog
         title="提示"

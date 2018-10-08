@@ -193,7 +193,7 @@ export default {
   }
   .select-btn:hover {
     border: 2px solid #44caf7;
-    color: #22a7ea;
+    color: #4091fb;
   }
   }
   .login-wrap {

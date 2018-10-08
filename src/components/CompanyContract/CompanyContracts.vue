@@ -37,7 +37,7 @@
     width: 300px;
     height: 46px;
     background: #fff;
-    border: 1px solid #22a7ea;
+    border: 1px solid #4091fb;
     cursor: pointer;
     outline: none;
     box-shadow: none;
@@ -49,7 +49,7 @@
   .btn-active{
     width: 300px;
     height:48px;
-    background:#22a7ea;
+    background:#4091fb;
     color: #fff;
     cursor: pointer;
     outline: none;
@@ -84,7 +84,7 @@
 		margin: 0 auto;
 	}
 	.el-tabs__nav-scroll{
-		line-height: 58px; 
+		line-height: 58px;
 		padding:0 25px;
 	}
 	.el-tabs__item{

@@ -42,7 +42,7 @@
               <div slot="content">{{getContractName}}</div>
               <span id='nameInfo'>{{getContractName}}</span>
             </el-tooltip>
-            <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+            <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
             </p></li>
             <li><p><span>截止时间：</span><span>{{validTime}}</span></p></li>
             <li style='float:left'>签署人员：</li>
@@ -52,7 +52,7 @@
                   <div slot="content">{{item.signUserName}}</div>
                   <span class='name'>{{item.signUserName}}</span>
                 </el-tooltip>
-                <span style='color:#22a7ea;'  v-if="item.signStatus == 1">已签署</span>
+                <span style='color:#4091fb;'  v-if="item.signStatus == 1">已签署</span>
                 <span style='color:red;'  v-else>未签署</span>
               </li>
             </ol>
@@ -64,7 +64,7 @@
           <dt id='roomInfo'><img src="../../../static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
             <a href="javascript:void(0);" @click='handleCopy(contractlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
-            color: #22a7ea;'>复制链接</a>
+            color: #4091fb;'>复制链接</a>
           </dd>
         </dl>
         <dl class='third'>
@@ -73,7 +73,7 @@
           <dt id='roomInfo'><img src="../../../static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>
             <a href="javascript:void(0);" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
-            color: #22a7ea;'>复制链接</a>
+            color: #4091fb;'>复制链接</a>
           </dd>
         </dl>
     </div>
@@ -228,7 +228,7 @@ export default {
   white-space: nowrap;
   width:230px;
   vertical-align:sub;
-  color:#22a7ea;
+  color:#4091fb;
 }
 #contractAddress1{
   display: inline-block;
@@ -237,7 +237,7 @@ export default {
   white-space: nowrap;
   width:230px;
   vertical-align:sub;
-  color:#22a7ea;
+  color:#4091fb;
 }
 #roomInfo{
   width:167px;

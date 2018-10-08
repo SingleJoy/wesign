@@ -45,7 +45,7 @@
             </div>
             <div class="header-title-3">
               <div class='personPupload'>
-                <h6><span></span><b style="color:#22a7ea;">图片示例</b></h6>
+                <h6><span></span><b style="color:#4091fb;">图片示例</b></h6>
                 <div class='left'>
                   <div class="upload_warp">
                     <div class="upload_warp_left" @click="fileClick" style="font-size:0;border:none">

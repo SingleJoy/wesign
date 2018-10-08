@@ -233,11 +233,11 @@
       companyRealName() {   //未实名完成
         // this.finalRejection = true
          this.$router.push('/EnterpriseCertificate')
-           
+
       },
       IdentificationState() {  //未通过状态 打款
         this.$router.push('/EnterprisePayment')
-         
+
         // if(this.enterpriseRealName == '1'){
         //   sessionStorage.setItem('enterpriseName',cookie.getJSON('tenant')[1].companyName)
         //   sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode)
@@ -285,7 +285,7 @@
       var status = cookie.getJSON('tenant')[2].status            // 打款状态
 
       if(companySteps == 2){  //2 跳打款 其余跳企业认证
-          this.auditStatus = true        
+          this.auditStatus = true
       }else{
             this.identifier = true
       }
@@ -408,7 +408,7 @@
   .modal-header-title>div{
     font-size: 20px;
     padding: 5px 15px;
-    color: #22a7ea;
+    color: #4091fb;
   }
   .refuse-reason {
     width: 350px;
@@ -451,7 +451,7 @@
   }
 
   .modal-footer>.btn-sure{
-    background: #22a7ea;
+    background: #4091fb;
     color: #fff;
   }
 

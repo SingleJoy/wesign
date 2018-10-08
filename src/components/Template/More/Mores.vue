@@ -15,7 +15,7 @@
                     </el-tab-pane>
                 </el-tabs>
             </div>
-        </div> 
+        </div>
     </div>
 </template>
 <script>
@@ -71,7 +71,7 @@ export default {
 			width: 300px;
 			height: 48px;
 			background: #fff;
-			border: 1px solid #22a7ea;
+			border: 1px solid #4091fb;
 			cursor: pointer;
 			outline: none;
 			-webkit-box-shadow: none;
@@ -86,7 +86,7 @@ export default {
 			border:none;
 			width: 300px;
 			height: 48px;
-			background: #22a7ea;
+			background: #4091fb;
 			color: #fff;
 			cursor: pointer;
 			outline: none;
@@ -103,7 +103,7 @@ export default {
 		height:0;
 	}
 }
- 
+
 </style>
 
 

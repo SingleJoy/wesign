@@ -221,7 +221,7 @@
       background-size:100% 100%;
    }
    .ConpanyTop{
-     background:#22a7ea;
+     background:#4091fb;
    }
 </style>
 <script>

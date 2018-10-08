@@ -498,7 +498,7 @@
   }
   .batch-list>.el-checkbox-group {
     padding-left: 20px;
-    border-left: 1px solid #22a7ea;
+    border-left: 1px solid #4091fb;
   }
   .account-ruleForm>.el-form-item{
     width: 525px;
@@ -525,7 +525,7 @@
   }
   b.agreement-sign>a{
     padding-left: 10px;
-    color: #22a7ea;
+    color: #4091fb;
     cursor: pointer;
   }
 

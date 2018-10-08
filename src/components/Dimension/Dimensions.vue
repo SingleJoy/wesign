@@ -7,7 +7,7 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="contractCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' v-show="clickSign==true" @click="submitBtn">提交签署</el-button>
+        <el-button style='color:#4091fb' v-show="clickSign==true" @click="submitBtn">提交签署</el-button>
       </div>
     </nav>
   </div>
@@ -67,7 +67,7 @@
        </p>
        <br>
        <br>
-          <el-button style='color:#22a7ea' v-show='recapture == true' @click='showDilog'>重新获取</el-button>
+          <el-button style='color:#4091fb' v-show='recapture == true' @click='showDilog'>重新获取</el-button>
       </div>
     </div>
     <!-- 签署合同结束 -->
@@ -206,7 +206,7 @@ export default {
       that.pollingPanel(this.timer)
     }, 3000)
 
-    
+
     this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+ contractNo +'/user/'+ cookie.getJSON('tenant')[0].userCode + '/signerpositions').then(function (res) {
       if(res.data.sessionStatus == '0'){
         this.$router.push('/Server')

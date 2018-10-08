@@ -7,7 +7,7 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="templateSignCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' v-show="clickSign==true" @click="submitBtn">提交签署</el-button>
+        <el-button style='color:#4091fb' v-show="clickSign==true" @click="submitBtn">提交签署</el-button>
       </div>
       <!-- <el-dialog
         title="提示"
@@ -30,7 +30,7 @@
         <p></p>
         <li class="active"><i class='el-icon-edit'></i><b>指定位置</b></li>
         <p></p>
-        <li class="active"><i class='el-icon-menu' style='background:#22a7ea'></i><b>合同签署</b></li>
+        <li class="active"><i class='el-icon-menu' style='background:#4091fb'></i><b>合同签署</b></li>
         <p></p>
         <li><i class='el-icon-check' style='background:#ccc'></i><b style='color:#ccc'>完成</b></li>
       </ul>
@@ -224,7 +224,7 @@ export default {
 				preventDefault:false,
         probeType: 3,
       })
-    
+
       this.rightScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
       })

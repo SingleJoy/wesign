@@ -437,7 +437,7 @@
   .Tops{
     width: 100%;
     height: 80px;
-    background:#22a7ea;
+    background:#4091fb;
     overflow:hidden;
   }
   .nav{
@@ -498,10 +498,10 @@
     margin-top: 17px;
   }
   .nav .btns li:nth-child(1) a{
-    color: #22a7ea;
+    color: #4091fb;
   }
   .nav .btns li:nth-child(2) a{
-    color: #22a7ea;
+    color: #4091fb;
   }
   .nav .btns li:nth-child(3){
     width: 116px;
@@ -549,7 +549,7 @@
     line-height: 40px;
     background-color: #fff;
     font-size: 16px;
-    color: #22a7ea;
+    color: #4091fb;
     border-radius: 5px;
     margin-left: 10px;
   }

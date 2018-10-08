@@ -34,13 +34,13 @@
   color: #ccc;
 }
 .step ul li.active{
-  border-color: #00a7e7;
+  border-color: #4091fb;
 }
 .step ul li.active i{
-  background: #00a7e7;
+  background: #4091fb;
 }
 .step ul li.active b{
-  color: #00a7e7;
+  color: #4091fb;
 }
 .step ul p{
   float: left;

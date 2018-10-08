@@ -7,8 +7,8 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="lastStepFit">上一步</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
+        <el-button style='color:#4091fb' @click="lastStepFit">上一步</el-button>
+        <el-button style='color:#4091fb' @click="nextStepFit">下一步</el-button>
       </div>
       <!-- <el-dialog
         title="提示"
@@ -318,7 +318,7 @@ export default {
                 this.$loading.hide(); //隐藏
             }
             this.imgList = data
-            
+
         }
     })
 
@@ -460,7 +460,7 @@ export default {
   .signBox{
     width: 138px;
     height: 138px;
-    border: 1px solid #22a7ea;
+    border: 1px solid #4091fb;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     position: absolute;
@@ -481,14 +481,14 @@ export default {
     position:  absolute;
     right: -21px;
     top: -17px;
-    border:  1px solid #22a7ea;
+    border:  1px solid #4091fb;
     border-radius:  50%;
     width:  50px;
     width:  20px;
     height:  20px;
     line-height: 20px;
     text-align:  center;
-    color: #22a7ea;
+    color: #4091fb;
     font-weight:normal;
   }
 </style>

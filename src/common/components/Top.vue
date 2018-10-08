@@ -37,7 +37,7 @@
 
      <div class='upload-dilog'>
            <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
-          <div style="color:#22a7ea;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
+          <div style="color:#4091fb;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
           <div class='leftDilog'>
               <el-upload
             ref='upload'

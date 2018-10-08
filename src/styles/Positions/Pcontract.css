@@ -28,7 +28,7 @@
   line-height: 72px;
   display: block;
   font-size: 32px;
-  background: #22a7ea !important;
+  background: #4091fb !important;
   border-radius: 50%;
   color: #fff;
 }
@@ -151,7 +151,7 @@
 .more dl{
   width: 138px;
   height: 138px;
-  border: 1px solid #22a7ea;
+  border: 1px solid #4091fb;
   box-sizing: border-box;
   margin-bottom: 5px;
 }
@@ -164,7 +164,7 @@
 }
 .more dl dd:nth-child(4){
   margin-top: 16px;
-  background:#22a7ea;
+  background:#4091fb;
   line-height: 30px;
   color: #fff;
   font-size: 12px;

@@ -38,7 +38,7 @@
               <div slot="content">{{this.$store.state.contractName1}}</div>
               <span id='templateTextInfo'>{{this.$store.state.contractName1}}</span>
             </el-tooltip>
-            <a href="javascript:void(0);" @click="seeContractImg" style='color:#22a7ea'>查看合同</a>
+            <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
             </p></li>
             <li><p><span>截至时间：</span><span>{{validTime}}</span></p></li>
             <li>签署人员：</li>
@@ -48,7 +48,7 @@
                 <div slot="content">{{item.signUserName}}</div>
                 <span class='name'>{{item.signUserName}}</span>
               </el-tooltip>
-                <span style='color:#22a7ea;'  v-if="item.signStatus == 1">已签署</span>
+                <span style='color:#4091fb;'  v-if="item.signStatus == 1">已签署</span>
                 <span style='color:red;'  v-else>未签署</span>
               </li>
             </ol>
@@ -211,7 +211,7 @@ export default {
   white-space: nowrap;
   width:230px;
   vertical-align:sub;
-  color:#22a7ea;
+  color:#4091fb;
 }
 #contractAddress1{
   display: inline-block;
@@ -220,7 +220,7 @@ export default {
   white-space: nowrap;
   width:230px;
   vertical-align:sub;
-  color:#22a7ea;
+  color:#4091fb;
 }
 </style>
 <style>

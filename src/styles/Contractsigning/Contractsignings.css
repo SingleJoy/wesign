@@ -38,11 +38,11 @@
     font-size: 14px;
     padding-left: 36px;
     padding-right: 27px;
-    color: #22a7ea;
+    color: #4091fb;
 }
 .proper .replace {
     font-size: 14px;
-    color: #22a7ea;
+    color: #4091fb;
 }
 .first{
     padding-top: 30px;
@@ -94,7 +94,7 @@
     text-align: center;
     line-height: 40px;
     color: #fff;
-    background: #22a7ea;
+    background: #4091fb;
     border-radius: 5px;
 }
 /* 渲染table的样式开始 */
@@ -146,7 +146,7 @@
   #next{
     width: 208px;
     height: 40px;
-    background: #22a7ea;
+    background: #4091fb;
     color: #fff;
     display: block;
     border-radius: 5px;

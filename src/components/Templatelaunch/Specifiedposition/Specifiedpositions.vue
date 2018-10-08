@@ -7,8 +7,8 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="templateCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style='color:#22a7ea' :disabled="isAction" @click="lastStepFit">上一步</el-button>
-          <el-button style='color:#22a7ea' :disabled="isAction" @click="nextStepFit">下一步</el-button>
+          <el-button style='color:#4091fb' :disabled="isAction" @click="lastStepFit">上一步</el-button>
+          <el-button style='color:#4091fb' :disabled="isAction" @click="nextStepFit">下一步</el-button>
         </div>
         <!-- <el-dialog
           title="提示"
@@ -29,7 +29,7 @@
           <p></p>
           <li class="active"><i class='el-icon-edit'></i><b >签署设置</b></li>
           <p></p>
-          <li class="active" style='border:1px dashed #22a7ea'><i class='el-icon-edit' style='background:#22a7ea'></i><b style='color:#22a7ea'>指定位置</b></li>
+          <li class="active" style='border:1px dashed #4091fb'><i class='el-icon-edit' style='background:#4091fb'></i><b style='color:#4091fb'>指定位置</b></li>
           <p></p>
           <li><i class='el-icon-menu'></i><b>合同签署</b></li>
           <p></p>
@@ -458,7 +458,7 @@
   .signBox{
     width: 138px;
     height: 138px;
-    border: 1px solid #22a7ea;
+    border: 1px solid #4091fb;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     position: absolute;
@@ -479,13 +479,13 @@
     position:  absolute;
     right: -21px;
     top: -17px;
-    border:  1px solid #22a7ea;
+    border:  1px solid #4091fb;
     border-radius:  50%;
     width:  20px;
     height:  20px;
     line-height: 20px;
     text-align:  center;
-    color: #22a7ea;
+    color: #4091fb;
     font-weight:normal;
   }
   .signBox .infoStyle{

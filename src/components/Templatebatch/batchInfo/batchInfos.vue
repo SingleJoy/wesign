@@ -7,8 +7,8 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="batchTempInfoCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="lastStepFit">上一步</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit">下一步</el-button>
+        <el-button style='color:#4091fb' @click="lastStepFit">上一步</el-button>
+        <el-button style='color:#4091fb' @click="nextStepFit">下一步</el-button>
       </div>
       <!-- <el-dialog
         title="提示"
@@ -99,7 +99,7 @@ export default {
       current:1,
       // 左侧页码显示的个数
       showItem:0,
-      allpage:0,
+
       // 左侧页码的总数
       allpage:1,
       imgList:[],
@@ -152,12 +152,12 @@ export default {
         return pag
     }
   },
-    mounted() { 
+    mounted() {
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
             preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
-        
+
     },
   created() {
     var templateName = sessionStorage.getItem('templateName');
@@ -264,12 +264,12 @@ export default {
             })
 
         }
-      
+
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
             preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
         })
-        
+
         // console.log(this.rightScroll)
         // this.rightScroll.hasVerticalScroll =true;
         // console.log(this.allpage)
