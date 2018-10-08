@@ -29,7 +29,7 @@
               <div v-for="(item,index) in arr" :key="index" >
                 <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;margin-left: 5px;'>
                   <img src="../../../static/images/Container/icons_1.png" alt="">
-                  <span style='color:#22a7ea'>{{item.name}}</span>
+                  <span style='color:#4091fb'>{{item.name}}</span>
                 </div>
               </div>
               <div class='two'  v-if='arr.length>2' @click='otherTemplate'>
@@ -138,7 +138,7 @@
 
       <div class='upload-dilog'>
         <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
-        <div style="color:#22a7ea;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
+        <div style="color:#4091fb;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
         <div class='leftDilog'>
           <el-upload
             ref='upload'
@@ -180,7 +180,7 @@
             <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shutAuthority">X</a>
             <p>{{contractNum}}</p>
         </div>
-       
+
     </div>
   </div>
 </template>
@@ -389,9 +389,9 @@
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                 this.$alert('您暂无上传发起权限','提示', {
                     confirmButtonText: '确定'
-                })  
+                })
             }else{
-                this.popupContainer = !this.popupContainer;               
+                this.popupContainer = !this.popupContainer;
             }
         },
         shut() {
@@ -512,7 +512,7 @@
             }
         }
     },
-   
+
     created() {
         var data = [];
         var flag = "";
@@ -580,7 +580,7 @@
       })
 
       //合同概括请求
-      //在读取属性[]和.注意！  server.requestType[i]报错  
+      //在读取属性[]和.注意！  server.requestType[i]报错
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
       let param={
             accountCode:this.accountCode
@@ -630,7 +630,7 @@
   }
   .warn-num{
       text-align: center;
-      
+
       p{
           line-height: 30px;
       }
@@ -641,7 +641,7 @@
   .el-icon-warning{
       display: none;
   }
-  
+
   .upload-warn{
     // width: 68.1rem;
     // height: 32rem;
@@ -662,8 +662,8 @@
     background: url(/static/images/Login/up-warn.png) no-repeat;
     background-size: 100% 100%;
     p{
-        // position: absolute; 
-        // left: 274px; 
+        // position: absolute;
+        // left: 274px;
         // top: 169px;
         // font-size: 18px;
         position: absolute;
@@ -749,10 +749,10 @@
     text-align: left !important;
   }
   .one:hover {
-    border: 1px solid #22a7ea;
+    border: 1px solid #4091fb;
   }
   .two:hover {
-    border: 1px solid #22a7ea;
+    border: 1px solid #4091fb;
   }
   #close {
     width: 30px;

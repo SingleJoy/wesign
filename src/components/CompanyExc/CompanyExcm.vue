@@ -11,8 +11,8 @@
       <div class='first' style="display: inherit;">
             <p style="line-height: 60px;float: left;">
                 <span>我的合同</span>
-                <span style="color:#22a7ea" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-                <span style="color:#22a7ea" v-else> >合同详情</span>
+                <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+                <span style="color:#4091fb" v-else> >合同详情</span>
             </p>
 
             <p id="sign-icon" v-if="accountCode!= operator && accountName">
@@ -170,7 +170,7 @@
     height: 700px;
   }
   .el-step__title.is-process,.el-step__description.is-process{
-    color:#22a7ea
+    color:#4091fb
   }
   .el-tabs__nav-scroll{
     font-size: 16px;

@@ -67,7 +67,7 @@
 </script>
 <style scoped>
   @import "../common/styles/demo/DemoTops.css";
-  @import "../common/styles/demo/DemoSigningSteps.css";
+
 
 
   .demoAddPerson-container{

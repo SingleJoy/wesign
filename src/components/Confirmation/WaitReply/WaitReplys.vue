@@ -13,7 +13,7 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <!-- <el-button style='color:#22a7ea'>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button> -->
+          <!-- <el-button style='color:#4091fb'>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button> -->
         </div>
       </nav>
     </div>

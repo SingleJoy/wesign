@@ -204,7 +204,7 @@ export default {
                         }).then(() => {
                             this.$router.push('/')
                         }).catch(() => {
-                        
+
                         });
 					} else {
 						//倒计时
@@ -242,7 +242,7 @@ export default {
                         }).catch(errot=>{
 
                         })
-						
+
 
 					}
 				}).catch(error => {
@@ -407,7 +407,7 @@ export default {
 	}
 	.select-btn:hover {
 	border: 2px solid #44caf7;
-	color: #22a7ea;
+	color: #4091fb;
 	}
 	.login-wrap {
 	width: 100%;
@@ -505,7 +505,7 @@ export default {
 	margin-top: -0.625em;
 	}
 	#submit {
-	color: #22a7ea;
+	color: #4091fb;
 	float: right;
 	}
 .account {

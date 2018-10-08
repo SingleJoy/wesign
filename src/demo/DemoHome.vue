@@ -91,7 +91,7 @@ export default {
 	.select-experience
 		width 1063px
 		height 697px
-		margin 150px auto
+		margin 30px auto
 		position absolute
 		left 50%
 		transform translate(-50%)

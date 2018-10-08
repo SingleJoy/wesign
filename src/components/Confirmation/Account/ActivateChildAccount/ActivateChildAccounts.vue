@@ -152,7 +152,6 @@
     },
     // 组件销毁前清除定时器
     beforeDestroy() {
-
       clearInterval(this.timer);
       this.timer = null;
     },
@@ -407,14 +406,11 @@
       //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
-
         this.authorizationImg=res.bodyText;
       })
 
-
       let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
       this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
-
         this.qrSignImg=res.bodyText;
       });
 
@@ -441,7 +437,7 @@
   .Tops{
     width: 100%;
     height: 80px;
-    background:#22a7ea;
+    background:#4091fb;
     overflow:hidden;
   }
   .nav{
@@ -502,10 +498,10 @@
     margin-top: 17px;
   }
   .nav .btns li:nth-child(1) a{
-    color: #22a7ea;
+    color: #4091fb;
   }
   .nav .btns li:nth-child(2) a{
-    color: #22a7ea;
+    color: #4091fb;
   }
   .nav .btns li:nth-child(3){
     width: 116px;
@@ -553,7 +549,7 @@
     line-height: 40px;
     background-color: #fff;
     font-size: 16px;
-    color: #22a7ea;
+    color: #4091fb;
     border-radius: 5px;
     margin-left: 10px;
   }

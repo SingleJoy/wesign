@@ -33,7 +33,7 @@
             </ul>
             <p class='personInfo'>
               <!-- <span>对不起！您的实名未通过</span> -->
-              <span style='color:#22a7ea'>证件上传完成</span>
+              <span style='color:#4091fb'>证件上传完成</span>
             </p>
           </div>
           <div class="header-title-4" style="padding:20px;background: #fafafa;">

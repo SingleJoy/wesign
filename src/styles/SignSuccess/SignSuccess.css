@@ -30,7 +30,7 @@
   height: 180px;
 }
 .SignSucces>.main>.state>.stateInfo>div{
-  color: #22a7ea;
+  color: #4091fb;
   display: inline-block;
   text-align: left;
   vertical-align:middle;
@@ -40,7 +40,7 @@
 }
 .SignSucces>.main>.state>.stateInfo span{
   padding-top: 30px;
-  color: #22a7ea;
+  color: #4091fb;
 }
 /* 合同所有信息开始 */
 .contractInfo{
@@ -58,7 +58,7 @@
     margin-left: 5px;
 }
 .first dd:nth-child(1) h3{
-    color:#22a7ea;
+    color:#4091fb;
     font-size: 16px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
@@ -71,7 +71,7 @@
 }
 .first dd:nth-child(2) p a{
     padding-left: 50px;
-    color:#22a7ea;
+    color:#4091fb;
 }
 .first dd:nth-child(3) p{
     padding-top: 10px;
@@ -103,7 +103,7 @@
     margin-right: 20px;
 }
 .second dd:nth-child(1) h3{
-    color:#22a7ea;
+    color:#4091fb;
     font-size: 16px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
@@ -119,7 +119,7 @@
 }
 .second dd:nth-child(2) p a{
     padding-left: 110px;
-    color:#22a7ea;
+    color:#4091fb;
 }
 /* .second dd:nth-child(3) p{
     padding-top: 10px;
@@ -147,7 +147,7 @@
     margin-right: 5px;
 }
 .third dd:nth-child(1) h3{
-    color:#22a7ea;
+    color:#4091fb;
     font-size: 16px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
@@ -163,7 +163,7 @@
 }
 .third dd:nth-child(2) p a{
     padding-left: 110px;
-    color:#22a7ea;
+    color:#4091fb;
 }
 /* .third dd:nth-child(3) p{
     padding-top: 10px;
@@ -199,7 +199,7 @@
     margin-left: 5px;
 }
 .oneInfo .infoss{
-    color: #22a7ea;
+    color: #4091fb;
     font-size: 16px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;

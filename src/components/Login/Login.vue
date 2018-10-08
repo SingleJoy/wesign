@@ -143,7 +143,7 @@
                         let param={
                             mobile:this.ruleForm.username,
                         };
-                        if (stateCode == "1") { 
+                        if (stateCode == "1") {
                             if(response.data.dataList[0].length>0){
                                 var urlParam =  response.data.dataList[0][0].interfaceCode;
                                 var enterpriseName = response.data.dataList[0][0].enterpriseName;
@@ -190,7 +190,7 @@
                                 server.login(param,urlParam).then(res => {
                                         if (res.data.dataList[1].isBusiness == "0") {  //未付费
                                             // 不是众签商户
-                                            if(res.data.dataList[1].auditSteps!=2){  
+                                            if(res.data.dataList[1].auditSteps!=2){
                                                 this.$message({
                                                 showClose: true,
                                                     duration: 1000,
@@ -200,19 +200,19 @@
                                                 cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
                                                 this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
                                                 this.$router.push("/Merchant");
-                                            }else{ 
+                                            }else{
                                                  this.$message({
                                                     showClose: true,
                                                     duration: 1000,
                                                     message: "登录成功",
                                                     type: "success"
                                                 });
-                                                cookie.set("tenant", res.data.dataList); 
+                                                cookie.set("tenant", res.data.dataList);
                                                 this.$store.dispatch("tabIndex", { tabIndex: 0 });
                                                 this.$router.push("/Home");
                                                 can.user = res.data.dataList;
                                             }
-                                           
+
                                         } else {
                                             this.$message({
                                                 showClose: true,
@@ -220,13 +220,13 @@
                                                 message: "登录成功",
                                                 type: "success"
                                             });
-                                            cookie.set("tenant", res.data.dataList); 
+                                            cookie.set("tenant", res.data.dataList);
                                             this.$store.dispatch("tabIndex", { tabIndex: 0 });
                                             this.$router.push("/Home");
                                             can.user = res.data.dataList;
                                         }
-                                    
-                                    
+
+
                                 }).catch(error => {
 
                                 });
@@ -324,7 +324,7 @@
   }
   .select-btn:hover {
     border: 2px solid #44caf7;
-    color: #22a7ea;
+    color: #4091fb;
   }
   }
   .login-wrap {
@@ -454,7 +454,7 @@
   }
 
   #submit {
-    color: #22a7ea;
+    color: #4091fb;
     float: right;
   }
   .fade {

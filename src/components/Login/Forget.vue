@@ -135,7 +135,7 @@
                   type: 'warning'
                 })
           return false
-        } 
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var pass = md5(this.ruleForm.password);
@@ -287,7 +287,7 @@
     height:36px;
   }
   #submit{
-    color: #22a7ea;
+    color: #4091fb;
     float:right;
     margin-top:10px;
   }

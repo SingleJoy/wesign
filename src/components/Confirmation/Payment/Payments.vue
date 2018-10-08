@@ -1904,7 +1904,7 @@
   .modal-header-title>div{
     font-size: 20px;
     padding: 5px 15px;
-    color: #22a7ea;
+    color: #4091fb;
   }
   .refuse-reason {
     width: 330px;
@@ -1935,7 +1935,7 @@
   }
 
   .modal-footer>.btn-sure{
-    background: #22a7ea;
+    background: #4091fb;
     color: #fff;
   }
 

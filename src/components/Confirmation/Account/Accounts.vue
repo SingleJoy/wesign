@@ -753,7 +753,7 @@
             <p>对不起，您还未获得正式授权，暂不支持开通子账号</p>
             <p class="vertifiId-warn warn-first">客服电话,400-0000-6923</p>
            </div>, '警告',{confirmButtonText: '确定',});
-          
+
         }
       },
       // 完善子账号

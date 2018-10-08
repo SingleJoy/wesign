@@ -8,7 +8,7 @@
           </p>
           <div class='buttons'>
             <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-            <el-button style='color:#22a7ea' :disabled="nextBtn" @click="nextFit">下一步</el-button>
+            <el-button style='color:#4091fb' :disabled="nextBtn" @click="nextFit">下一步</el-button>
           </div>
         </nav>
       </div>

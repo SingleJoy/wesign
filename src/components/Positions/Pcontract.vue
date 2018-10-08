@@ -7,8 +7,8 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' :disabled="isAction" @click="lastStepFit">上一步</el-button>
-        <el-button style='color:#22a7ea' :disabled="isAction" @click="nextStepFit">下一步</el-button>
+        <el-button style='color:#4091fb' :disabled="isAction" @click="lastStepFit">上一步</el-button>
+        <el-button style='color:#4091fb' :disabled="isAction" @click="nextStepFit">下一步</el-button>
       </div>
     </nav>
   </div>
@@ -127,15 +127,15 @@ export default {
       return pag
     }
   },
-   mounted() { 
+   mounted() {
     // this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-    this.$nextTick(() => { 
+    this.$nextTick(() => {
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
         scrollY: true,
         preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
-      }) 
-    }) 
+      })
+    })
   },
   methods:{
       goto (currentIndex){
@@ -473,7 +473,7 @@ export default {
   .signBox{
     width: 138px;
     height: 138px;
-    border: 1px solid #22a7ea;
+    border: 1px solid #4091fb;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     position: absolute;
@@ -494,14 +494,14 @@ export default {
     position:  absolute;
     right: -21px;
     top: -17px;
-    border:  1px solid #22a7ea;
+    border:  1px solid #4091fb;
     border-radius:  50%;
     width:  50px;
     width:  20px;
     height:  20px;
     line-height: 20px;
     text-align:  center;
-    color: #22a7ea;
+    color: #4091fb;
     font-weight:normal;
   }
 </style>

@@ -30,7 +30,7 @@
 										<div class="sign_info">
 											<span class="dot dot-waitme"></span>
 											<span>待我签署</span>
-											<p style="color: #22a7ea">{{item.waitForMeSign?item.waitForMeSign:0}}</p>
+											<p style="color: #4091fb">{{item.waitForMeSign?item.waitForMeSign:0}}</p>
 										</div>
 										<div class="sign_info">
 											<span class="dot dot-waitother"></span>
@@ -221,7 +221,7 @@ import cookie from '@/common/js/getTenant'
 			height: 150px;
 			text-align: center;
 			p{
-				color: #22a7ea;
+				color: #4091fb;
 				font-size: 34px;
 				line-height: 150px;
 			}
@@ -352,10 +352,10 @@ import cookie from '@/common/js/getTenant'
 							border-top-left-radius: 0;
 							color:#333;
 							cursor: pointer;
-							
+
 						}
 						.item-right:hover{
-							color: #22a7ea;
+							color: #4091fb;
 						}
                         .item-right-none{
                             float: right;
@@ -433,7 +433,7 @@ import cookie from '@/common/js/getTenant'
 							.subcompany-name{
 								font-size: 18px;
 								span{
-									color:#22a7ea;
+									color:#4091fb;
 									font-size: 14px;
 									margin-left: 15px;
 								}
@@ -465,7 +465,7 @@ import cookie from '@/common/js/getTenant'
 						.item-right{
 							float: right;
 							// display: inline-block;
-							color: #22a7ea;
+							color: #4091fb;
 							line-height: 172px;
 							width: 138px;
 							height:172px;
@@ -476,7 +476,7 @@ import cookie from '@/common/js/getTenant'
 							border-top-left-radius: 0;
 							color:#333;
 							cursor: pointer;
-							
+
                         }
                          .item-right-none{
                             float: right;
@@ -488,7 +488,7 @@ import cookie from '@/common/js/getTenant'
                             border-top-left-radius: 0;
                         }
 						.item-right:hover{
-							color:#22a7ea;
+							color:#4091fb;
 						}
 					}
 				}

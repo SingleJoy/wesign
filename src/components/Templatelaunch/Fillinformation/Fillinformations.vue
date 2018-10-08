@@ -7,7 +7,7 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#22a7ea' @click="nextStepFit" :loading= load>下一步</el-button>
+        <el-button style='color:#4091fb' @click="nextStepFit" :loading= load>下一步</el-button>
       </div>
       <!-- <el-dialog
         title="提示"
@@ -129,13 +129,13 @@ export default {
       return pag
     }
   },
-   mounted() { 
-    this.$nextTick(() => { 
+   mounted() {
+    this.$nextTick(() => {
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
         preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-      }) 
-    }) 
+      })
+    })
   },
   created() {
     var templateName = sessionStorage.getItem('templateName');

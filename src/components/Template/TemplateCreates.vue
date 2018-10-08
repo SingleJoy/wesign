@@ -18,10 +18,10 @@
                             <el-button type="primary"  style='margin-left:5px;letter-spacing:5px;' @click="queryTempBatch">搜索</el-button>
                         </span>
                    </div>
-                   
+
                 </div>
-               
-                <div class="line"></div> 
+
+                <div class="line"></div>
                 <div class="template-list">
                     <ul>
                         <li v-for="(item,index) in contractList" :key="index" >
@@ -53,12 +53,12 @@
                                                 <img src="../../../static/images/Multiparty/see.png" alt="">
                                                 <span>在线预览</span>
                                             </span>
-                                            
+
                                             <span class="item-option">
                                                 <img src="../../../static/images/Multiparty/creater.png" alt="">
                                                 <span>立即发起</span>
                                             </span>
-                                          
+
                                         </p>
                                     </div>
                                 </div>
@@ -78,8 +78,8 @@
                     </div>
                 </div>
             </div>
-           
-           
+
+
         </div>
     </div>
 </template>
@@ -103,7 +103,7 @@ export default {
                 pageSize:10,
                 templateSpecies:'single',
                 order:'DESC'
-            } 
+            }
         }
     },
     created(){
@@ -188,7 +188,7 @@ export default {
 <style lang="scss" scoped>
   	@import "../../common/styles/content.scss";
 
-    
+
     .template-body{
         background: #fff;
         padding-bottom: 60px;
@@ -236,7 +236,7 @@ export default {
                             word-wrap: break-word;
                             overflow: hidden;
                             text-overflow: ellipsis;
-                            background: #22a7ea;
+                            background: #4091fb;
                             color: #fff;
                             font-size: 20px;
                             line-height: 50px;
@@ -259,7 +259,7 @@ export default {
                              font-size: 20px;
                              line-height: 20px;
                              margin-bottom:20px;
-                             color:#22a7ea;
+                             color:#4091fb;
                              font-weight: 700;
                              margin-top:14px;
                          }
@@ -287,7 +287,7 @@ export default {
                              margin-right: 40px;
                              cursor: pointer;
                              span{
-                                color:#22a7ea;
+                                color:#4091fb;
                                 display: block;
                                 margin-top:14px;
                              }
@@ -299,15 +299,15 @@ export default {
                      }
                 }
                 .contract-content:hover{
-                     border:1px solid #22a7ea;
+                     border:1px solid #4091fb;
                      background: #fafafa;
                      transition: border 1s linear,background 1s linear;
                 }
             }
-            
+
         }
     }
-  
+
 
 </style>
 

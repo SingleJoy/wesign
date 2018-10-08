@@ -13,7 +13,7 @@
                       <div v-for="(item,index) in arr" :key="index">
                         <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>
                             <img src="../../../static/images/Container/icons_1.png" alt="">
-                            <span style='color:#22a7ea'>{{item.name}}</span>
+                            <span style='color:#4091fb'>{{item.name}}</span>
                         </div>
                       </div>
                       <div class='two'  @click='otherTemplate'>
@@ -501,10 +501,10 @@ export default {
   text-align:left !important;
 }
 .one:hover{
-  border: 1px solid #22a7ea;
+  border: 1px solid #4091fb;
 }
 .two:hover{
-  border: 1px solid #22a7ea;
+  border: 1px solid #4091fb;
 }
 #close{
   width:30px;

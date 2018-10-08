@@ -6,7 +6,7 @@
 				<div :class="[activeTab?'btn-active':'btn-default']" @click="signCreate">单次发起合同</div>
 				<div :class="[activeTab?'btn-default':'btn-active']" style="margin-left: -5px;" @click="batchCreate">批量发起合同</div>
 			</div> -->
-		
+
 				<el-tabs class="multi-tab" v-model="activeName">
 					<el-tab-pane label="单次发起合同" name="first">
 							<singleTemplate></singleTemplate>
@@ -15,7 +15,7 @@
 						<batchTemplate></batchTemplate>
 					</el-tab-pane>
 				</el-tabs>
-		
+
       	</div>
     </div>
   </div>
@@ -45,7 +45,7 @@
 			width: 300px;
 			height: 48px;
 			background: #fff;
-			border: 1px solid #22a7ea;
+			border: 1px solid #4091fb;
 			cursor: pointer;
 			outline: none;
 			-webkit-box-shadow: none;
@@ -60,7 +60,7 @@
 			border:none;
 			width: 300px;
 			height: 48px;
-			background: #22a7ea;
+			background: #4091fb;
 			color: #fff;
 			cursor: pointer;
 			outline: none;
@@ -77,7 +77,7 @@
 		height:0;
 	}
 }
-  
+
 </style>
 <script>
 import SingleTemplate from './SingleTemplate'

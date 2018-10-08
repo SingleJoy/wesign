@@ -144,7 +144,7 @@
                       word-wrap: break-word;
                       overflow: hidden;
                       text-overflow: ellipsis;
-                      background: #22a7ea;
+                      background: #4091fb;
                       color: #fff;
                       font-size: 20px;
                       line-height: 50px;
@@ -168,7 +168,7 @@
                        font-size: 20px;
                        line-height: 20px;
                        margin-bottom:20px;
-                       color:#22a7ea;
+                       color:#4091fb;
                        font-weight: 700;
                        margin-top:14px;
                    }
@@ -196,7 +196,7 @@
                        margin-right: 40px;
                        cursor: pointer;
                        span{
-                          color:#22a7ea;
+                          color:#4091fb;
                           display: block;
                           margin-top:14px;
                        }
@@ -209,12 +209,12 @@
                }
           }
           .contract-content:hover{
-               border:1px solid #22a7ea;
+               border:1px solid #4091fb;
                background: #fafafa;
                transition: border 1s linear,background 1s linear;
           }
       }
-      
+
   }
 }
 

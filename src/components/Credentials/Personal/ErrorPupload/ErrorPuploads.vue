@@ -37,7 +37,7 @@
           </div>
           <div class="header-title-2">
             <div class='personUpload'>
-              <h6><span></span><b style="color:#22a7ea">图片示例</b></h6>
+              <h6><span></span><b style="color:#4091fb">图片示例</b></h6>
               <div class='leftImg'>
 
               </div>
