@@ -181,7 +181,7 @@
         // mobile:sessionStorage.getItem("mobile"),
         mobileShowFirst:'',
         mobileShowLast:'',
-        dialogAgreement:true,
+        dialogAgreement:false,
         once:false, //提交按钮单次点击,
 
         rules:{
@@ -210,13 +210,13 @@
             { required: true,validator: validatePhoneCode, trigger: 'blur' }
           ],
         },
-        // interfaceCode:sessionStorage.getItem("interfaceCode"),
-        interfaceCode:sessionStorage.getItem('interfaceCode'),
+        interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
         formLabelWidth:'200px',
         smsCode:'',   //短信码
         smsNoVer:'',   //
         appId:'',  //验证码返回appId
         repeat:false,
+        pollTimer:null   //轮询的定时器
 
       }
     },
@@ -405,8 +405,10 @@
       pollingPanel(timer){ //轮询手写面板
         server.moneyStatus(this.interfaceCode).then(function (res) {
           if(res.data.resultCode=='1') {
-            clearInterval(this.queryTime());
-          } else {
+            clearInterval(this.pollTimer);
+          } else if(res.data.resultCode=='-1'){
+              this.$router.push('/EnterpriseCertificate')
+          }else{
 
           }
 
@@ -417,7 +419,7 @@
     },
     created() {
       this.enterpriseName=sessionStorage.getItem("companyName");
-      console.log(this.interfaceCode);
+    //   console.log(this.interfaceCode);
       // 查询企业银行信息
       server.getBank(this.interfaceCode).then(response =>{
         if (response.data.resultCode == '1') {
@@ -438,10 +440,10 @@
 
       // 轮询查找打款进度信息
 
-      let that = this
-      let timer = null
-      this.timer = setInterval(function () {
-        that.pollingPanel(this.timer)
+      let that = this;
+      let pollTimer = this.pollTimer;
+      this.pollTimer = setInterval(function () {
+        that.pollingPanel(this.pollTimer)
       }, 3000)
 
     }

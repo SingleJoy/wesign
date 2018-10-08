@@ -61,7 +61,7 @@
 
                         <p>
                             <span>身份证号码：</span>
-                            <span>{{IdInfo.idcard}}</span>
+                            <span>{{IdInfo.idCard}}</span>
                         </p>
                         <p>
                             <span>企业公章（盖章）：</span>
@@ -89,7 +89,7 @@
               <div class="enterprise-attorney-synopsis">
                     <h2>企业法人说明函</h2>
                     <p class="attorney-text">
-                            <span> 姓名：</span> <span class="add-info">{{IdInfo.userName}}</span><span>，身份证号：</span> <span class="add-info">{{IdInfo.idcard}}</span><span>，系</span> 
+                            <span> 姓名：</span> <span class="add-info">{{IdInfo.userName}}</span><span>，身份证号：</span> <span class="add-info">{{IdInfo.idCard}}</span><span>，系</span> 
                             <span class="add-info">{{licenseInfo.tenantName}}</span><span>的法定代表人。</span>
                         
                     </p>
@@ -186,8 +186,8 @@
                     </div>
                     <div class="admin-type">
                         <el-radio-group @change="changeAuthorType" v-model="adminType">
-                            <el-radio  label='0' style='float:left;padding-top:5px;'>法人本人</el-radio>
                             <el-radio  label='1' style='float:left;padding-top:5px;'>被授权人</el-radio>
+                            <el-radio  label='0' style='float:left;padding-top:5px;'>法人本人</el-radio>
                         </el-radio-group>
                     </div>
                     <p  v-if="!IdStatus" class="el-icon-warning  result-warning">个人信息审核未通过，请上传真实有效的个人信息</p>
@@ -262,7 +262,7 @@
                                         <el-input
                                             style='width:336px'
                                             placeholder=""
-                                            v-model="IdInfo.idcard"
+                                            v-model="IdInfo.idCard"
                                             @blur='validateIdInfo'
                                             :disabled= IdDisabled
                                         >
@@ -403,7 +403,7 @@ export default {
             frontIdExample:false,
             backIdExample:false,
             IdInfo:{
-                idcard:'',
+                idCard:'',
                 userName:'',
                 mobile:'',
                 smsCode:'',
@@ -419,8 +419,8 @@ export default {
             IdBackImg:'',             //反面img
             IdCardFrontSize:0,     //身份证正面
             IdCardBackSize:0,      //身份证反面
-            authorizerType:false,     //管理员了类型  false:0 法人/true:1 授权人
-            adminType:'0',
+            authorizerType:true,     //管理员了类型  false:0 法人/true:1 授权人
+            adminType:'1',
             idMobile:true,
             checked:false,
             bankInfo:{
@@ -2056,6 +2056,7 @@ export default {
         let licenseInfo = this.licenseInfo;
         let bankInfo = this.bankInfo;
         let IdInfo = this.IdInfo;
+        let options = [];
         // console.log(this.interfaceCode)
         server.companyInfoDetail(param,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
@@ -2067,15 +2068,14 @@ export default {
                 // if(licenseInfo.tenantName){
                     this.licenseInputShow = true;
                 // }
-
-                IdInfo.idcard = data.idcard
+                IdInfo.idCard = data.idCard
                 IdInfo.userName = data.userName
                 IdInfo.mobile = data.mobile
                 IdInfo.frontPhoto = data.frontPhoto
                 IdInfo.backPhoto = data.backPhoto
                 IdInfo.adminType = data.authorizerType
                 
-                // if(IdInfo.idcard){
+                // if(IdInfo.idCard){
                     this.IdInfoShow = true;
                     // this.smsSend = true;
                     this.getAuthDate();
@@ -2087,6 +2087,8 @@ export default {
                 bankInfo.to_pro_name = data.to_pro_name
                 bankInfo.to_city_name = data.to_city_name
                 bankInfo.to_acc_dept = data.to_acc_dept
+                options.push(data.to_pro_name,data.to_city_name)
+                this.selectedOptions = options
             }
         }).catch(error=>{
 
@@ -2191,7 +2193,7 @@ export default {
                     this.IdCardFrontSize = file.size;
                     this.IdInfo.frontPhoto = name.data.frontPhoto;
                     this.IdInfo.userName = name.data.name
-                    this.IdInfo.idcard = name.data.idcard
+                    this.IdInfo.idCard = name.data.idCard
                     this.IdInfoShow = true;
                     this.IdStatus = true;
                     if(this.authorizerType){
@@ -2354,13 +2356,14 @@ export default {
         //授权人类型
         changeAuthorType(){
             this.IdStatus = true;
+            this.IdInfoShow = false;
             if(!this.authorizerType){
                 this.authorizerType = true
             }else{
                 this.authorizerType = false
             }
             this.IdInfo={
-                idcard:'',
+                idCard:'',
                 userName:'',
                 mobile:'',
                 smsCode:'',
@@ -2483,6 +2486,7 @@ export default {
                 creditCode:this.licenseInfo.creditCode,
                 creditPhoto:this.licenseInfo.creditPhoto,
                 legalPerson:this.licenseInfo.legalPerson,
+                interfaceCode:this.interfaceCode
             }
             server.licenseInfo(param).then(res=>{
                  if(res.data.resultCode==1){
@@ -2503,7 +2507,7 @@ export default {
         subIdInfo(){
             let params={
                 userName:this.IdInfo.userName,
-                idCard:this.IdInfo.idcard,
+                idCard:this.IdInfo.idCard,
                 mobile:this.IdInfo.mobile,
                 interfaceCode:this.interfaceCode,
                 authorizerType:this.authorizerType==true?1:0,
