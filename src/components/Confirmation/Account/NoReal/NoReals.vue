@@ -185,8 +185,13 @@
         this.centerDialogVisible = false
       },
       realName() {
-       this.$store.dispatch('tabIndex',{tabIndex:5});
-        this.$router.push('/EnterpriseCertificate');
+        var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+        this.$store.dispatch('tabIndex',{tabIndex:5});
+        if(auditSteps==2){
+            this.$router.push('/EnterprisePayment');
+        }else{
+            this.$router.push('/EnterpriseCertificate');
+        }
         // if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
         //   sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode);
         //   sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode);
@@ -278,17 +283,18 @@
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
       // authStatus  -1和0 都是未通过  1是通过
-      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
-      var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态 2 跳打款 其余跳企业认证
-      var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
-      var status = cookie.getJSON('tenant')[2].status            // 打款状态
+        var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
+        // var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
+        var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态 2 跳打款 其余跳企业认证
+        var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
+        var status = cookie.getJSON('tenant')[2].status            // 打款状态
 
-      if(companySteps == 2){  //2 跳打款 其余跳企业认证
-          this.auditStatus = true
-      }else{
-            this.identifier = true
-      }
+        var auditSteps = cookie.getJSON('tenant')[1].auditSteps    //企业认证步骤
+        if(auditSteps == 3){  //2 跳打款 其余跳企业认证
+            this.auditStatus = true
+        }else{
+                this.identifier = true
+        }
       // 是否判断
     //   if(authStatus == '1') {
     //     this.authStatus = true

@@ -8,7 +8,7 @@
 					<div :class="[activeTab?'btn-default':'btn-active']" style="margin-left: -5px;" @click="EnterEnter">企业对企业</div>
 				</div>
 			</div>
-			<div class='contract-type'>
+			<!-- <div class='contract-type'>
 				<el-tabs v-model="activeName" tab-position="40px">
 					<el-tab-pane label="全部文件" name="first">
 					</el-tab-pane>
@@ -25,7 +25,7 @@
 						<inquiry-expired></inquiry-expired>
 					</el-tab-pane>
 				</el-tabs>
-			</div>
+			</div> -->
 		</div>
    </div>
     <div class='contractTitle' style="text-align: left;">
@@ -99,7 +99,7 @@
 </template>
 <style lang="scss" scoped>
 @import "../../common/styles/content.scss";
- 
+@import '../../styles/Multiparty/Multiparties.scss';
 </style>
 
 <script>
@@ -111,7 +111,14 @@ export default {
       activeTab:1,
       activeName:'first',
       isActive:true,
-      contractListType:1              //合同列表类型：1: B2C  2:B2B ;   0: 小b  
+      contractListType:1,              //合同列表类型：1: B2C  2:B2B ;   0: 小b  
+      inputVal:'',
+      filters: {
+            column: {
+                create_start_date: null,
+                create_end_date: null
+            },
+        },
     }
   },
   methods:{

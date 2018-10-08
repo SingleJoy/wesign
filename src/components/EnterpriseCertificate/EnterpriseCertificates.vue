@@ -126,6 +126,7 @@
                                             :on-success="handIdSuccess"
                                             :show-file-list=false
                                             :on-change="fileChange"
+                                            :disabled="this.auditStatus==2"
                                             >
                                              <div class="license-wrap">
                                                 <img  v-if="licenseInfo.creditPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+licenseInfo.creditPhoto" class="avatar">
@@ -208,6 +209,7 @@
                                                 :before-upload="beforeUpload"
                                                 :on-success="handIdFrontSuccess"
                                                 :show-file-list=false
+                                                :disabled="this.authStatus==1"
                                                 >
                                                 <div class="upload_warp">
                                                     <img  v-if="IdInfo.frontPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdInfo.frontPhoto" class="avatar">
@@ -228,6 +230,7 @@
                                                 :before-upload="beforeUpload"
                                                 :on-success="handIdBackSuccess"
                                                 :show-file-list=false
+                                                :disabled="this.authStatus==1"
                                                 >
                                                 <div class="upload_warp">
                                                     <img  v-if="IdInfo.backPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdInfo.backPhoto" class="avatar">
@@ -389,6 +392,8 @@ export default {
         return {
             baseURL:this.baseURL.BASE_URL,
             interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+            auditStatus:'',     //企业认证状态
+            authStatus:'',      //个人认证状态
             licenseSize:0,             //营业执照大小
             licenseInfoEdit:false,   //营业执照信息
             licenseInputShow:false,
@@ -2065,9 +2070,9 @@ export default {
                 licenseInfo.creditCode = data.creditCode
                 licenseInfo.creditPhoto = data.creditPhoto
                 licenseInfo.legalPerson = data.legalPerson
-                // if(licenseInfo.tenantName){
+                if(licenseInfo.tenantName){
                     this.licenseInputShow = true;
-                // }
+                }
                 IdInfo.idCard = data.idCard
                 IdInfo.userName = data.userName
                 IdInfo.mobile = data.mobile
@@ -2075,11 +2080,11 @@ export default {
                 IdInfo.backPhoto = data.backPhoto
                 IdInfo.adminType = data.authorizerType
                 
-                // if(IdInfo.idCard){
+                if(IdInfo.idCard){
                     this.IdInfoShow = true;
                     // this.smsSend = true;
                     this.getAuthDate();
-                // }
+                }
 
                 bankInfo.to_acc_name = data.to_acc_name
                 bankInfo.to_acc_no = data.to_acc_no
@@ -2089,6 +2094,16 @@ export default {
                 bankInfo.to_acc_dept = data.to_acc_dept
                 options.push(data.to_pro_name,data.to_city_name)
                 this.selectedOptions = options
+                
+                this.auditStatus = data.auditStatus;
+                this.authStatus = data.authStatus;
+                if(this.auditStatus==2){
+                    this.licenseStatus = true;
+                }
+                if(this.auditStatus ==1){
+                    this.IdStatus = true;
+                }
+
             }
         }).catch(error=>{
 
@@ -2300,12 +2315,14 @@ export default {
             var curCount = count
             var timer = null
             let params = {
-                userName:this.IdInfo.mobile,
-                sendType:codeType
+                userName:this.IdInfo.userName,
+                codeType:codeType,
+                mobile:this.IdInfo.mobile,
+                interfaceCode:this.interfaceCode
             }
             let that = this;
             server.smsCode(params).then(res=>{
-                if (res.data.resultCode == 0) {
+                if (res.data.resultCode == 1) {
                     that.smsCodeText = curCount + '秒';
                     that.IdInfo.appId =  res.data.appId;
                     that.IdInfo.smsNo =  res.data.smsNo
@@ -2469,9 +2486,21 @@ export default {
                     this.$loading.show(
                         '信息提交中...',  
                     );
-                    this.sublicenseInfo();
-                    this.subIdInfo();
-                    this.subbankInfo();
+                    if(this.auditStatus==2){
+                        this.subIdInfo();
+                        this.subbankInfo();
+                        this.count+=1;
+                    }else if(this.auditSteps==1){
+                        this.sublicenseInfo();
+                        this.subbankInfo();
+                        this.count+=1;
+                    }else{
+                        this.sublicenseInfo();
+                        this.subIdInfo();
+                        this.subbankInfo();
+                    }
+                  
+                    
                 }
             })
 
@@ -2572,6 +2601,7 @@ export default {
 </script>
 <style lang="scss" scoped>
     @import "../../common/styles/content.scss";
+    @import "../../common/styles/SigningSteps.css";
     @import "../../styles/CompanyCertificate/CompanyCertificate.scss";
 
 </style>

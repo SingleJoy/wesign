@@ -143,7 +143,7 @@ const service = {
         })
     },
     //打款金额接口
-    moneyStatus(param, interfaceCode) {
+    moneyStatus(interfaceCode) {
         return request({
         url: '/api/v1.6/tenant/' + interfaceCode + '/moneyStatus',
         method: 'get',
@@ -160,6 +160,7 @@ const service = {
     },
     // 查询认证完成商户信息
     authSuccess(interfaceCode) {
+        console.log(interfaceCode)
         return request({
             url: '/api/v1.4/tenant/' + interfaceCode + '/authSuccess',
             method: 'get',

@@ -109,9 +109,10 @@
 
 </template>
 <script>
-  import server from '@/api/url.js'
-  import {validateOpenName,TrimAll,validateDecimal,onlyChinese,validateCard,validateMoblie,validateSmsCode} from '@/common/js/validate'
-  export default {
+    import server from '@/api/url.js'
+    import cookie from '@/common/js/getTenant'
+    import {validateOpenName,TrimAll,validateDecimal,onlyChinese,validateCard,validateMoblie,validateSmsCode} from '@/common/js/validate'
+    export default {
     name: 'EnterprisePayments',
 
     data () {
@@ -119,7 +120,7 @@
       var validatePaymentNum=(rule,value,callback)=>{
         if (value === '') {
           callback(new Error('请输入打款金额'));
-        }else if(TrimAll(value)!==''&&validateDecimal(value)){
+        }else if(TrimAll(value).length>4||TrimAll(value)<0.01||TrimAll(value)>0.99){
           callback(new Error('打款金额填写只能在0.01~0.99之间'));
         }else {
           callback()
@@ -367,14 +368,15 @@
             confirmButtonText: '确定'
           });
           return false
-        }else if(!validateDecimal(this.ruleForm.paymentNum)){
+        }else if(this.ruleForm.paymentNum<0.01||this.ruleForm.paymentNum>0.99||this.ruleForm.paymentNum.length>4){
           this.$alert('打款金额必须是0.01~0.99之间', '提示',{
             confirmButtonText: '确定'
           });
           return false
         }else{
           this.once=true;
-          let param ={'trans_money':this.legalForm.paymentNum};
+
+          let param ={'trans_money':this.ruleForm.paymentNum};
 
           server.verifyRemittance(param,this.interfaceCode).then(res => {
             if (res.data.resultCode == 0) {
@@ -402,10 +404,11 @@
         },
 
       //轮询
-      pollingPanel(timer){ //轮询手写面板
+      pollingPanel(timer){ //轮询打款状态
+        let that = this;
         server.moneyStatus(this.interfaceCode).then(function (res) {
           if(res.data.resultCode=='1') {
-            clearInterval(this.pollTimer);
+            clearInterval(that.pollTimer);
           } else if(res.data.resultCode=='-1'){
               this.$router.push('/EnterpriseCertificate')
           }else{
@@ -441,7 +444,7 @@
       // 轮询查找打款进度信息
 
       let that = this;
-      let pollTimer = this.pollTimer;
+      let pollTimer = null;
       this.pollTimer = setInterval(function () {
         that.pollingPanel(this.pollTimer)
       }, 3000)

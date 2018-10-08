@@ -190,7 +190,7 @@
                                 server.login(param,urlParam).then(res => {
                                         if (res.data.dataList[1].isBusiness == "0") {  //未付费
                                             // 不是众签商户
-                                            if(res.data.dataList[1].auditSteps!=2){
+                                            if(res.data.dataList[1].auditSteps!=3){
                                                 this.$message({
                                                 showClose: true,
                                                     duration: 1000,
@@ -341,15 +341,15 @@
   // top: 315px;
   // left: 266px;
 
-    width: 77.5rem;
-    height: 34rem;
-    background: url("/static/images/Login/try.png") no-repeat;
-    position: absolute;
-    background-size: 100%;
-    top: 50%;
-    left: 50%;
-    margin-left: -39rem;
-    margin-top: -10rem;
+    // width: 77.5rem;
+    // height: 34rem;
+    // background: url("/static/images/Login/try.png") no-repeat;
+    // position: absolute;
+    // background-size: 100%;
+    // top: 50%;
+    // left: 50%;
+    // margin-left: -39rem;
+    // margin-top: -10rem;
   }
   .userInfo {
     color: #16a8f2;
