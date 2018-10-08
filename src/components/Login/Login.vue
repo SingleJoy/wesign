@@ -317,7 +317,7 @@
   @import "../../../static/icon/iconfont.css";
   .Login {
     width: 100%;
-    height: 350px;
+    // height: 350px;
   .select-btn {
     background-color: #fff;
     color: #666;
