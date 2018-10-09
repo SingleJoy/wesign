@@ -27,7 +27,7 @@
 					<!-- <div class="water-qrurl-code" >
 						<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
 					</div> -->
-					<div class='center'>
+					<div class='center-user'>
 						<div class='user'>
 						<h2 class='userInfo'>用户登录</h2>
 						<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
@@ -351,25 +351,6 @@
     width: 100%;
 
     background: #f4f2f2;
-  }
-  .center {
-  // width: 77.5rem;
-  // height: 34rem;
-  // background:url('../../../static/images/Login/try.png') no-repeat;
-  // position: absolute;
-  // background-size: 100%;
-  // top: 315px;
-  // left: 266px;
-
-    // width: 77.5rem;
-    // height: 34rem;
-    // background: url("/static/images/Login/try.png") no-repeat;
-    // position: absolute;
-    // background-size: 100%;
-    // top: 50%;
-    // left: 50%;
-    // margin-left: -39rem;
-    // margin-top: -10rem;
   }
   .userInfo {
     color: #333333;
