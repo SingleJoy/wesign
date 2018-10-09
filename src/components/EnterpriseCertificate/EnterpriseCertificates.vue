@@ -65,7 +65,6 @@
                         </p>
                         <p>
                             <span>企业公章（盖章）：</span>
-                            <!-- <span>{{IdInfo.userName}}</span> -->
                         </p>
                         <p>
                             <span>法定代表人：</span>
@@ -2149,6 +2148,9 @@ export default {
             // console.log(file)
         },
         beforeUpload(file){
+            this.$loading.show(
+                '图片上传中...',  
+            );
             var max_size = 5; // 5M
             var reg= /[.](png|PNG|jpg|JPG|jpeg|JPEG)$/
             var index = file.name.lastIndexOf('.')
@@ -2178,16 +2180,18 @@ export default {
                 this.licenseInfo.legalPerson = name.data.legalPerson;
                 this.bankInfo.to_acc_name = name.data.tenantName;
                 this.licenseStatus = true;
+                this.$loading.hide();
                 this.$message({
                     showClose: true,
                     message: '上传成功',
                     type: 'success'
                 })
             }else{
+                 this.$loading.hide();
                  this.IdInfoShow = false;
                   this.$message({
                     showClose: true,
-                    message: "营业执照认证失败",
+                    message: res.data.resultMessage,
                     type: 'error'
                 })
             }
@@ -2197,14 +2201,15 @@ export default {
         //身份证正面上传成功
         handIdFrontSuccess(name, file, fileList){
             if(name.resultCode == 1){
-                // if((this.licenseInfo.legalPerson!= this.IdInfo.userName)&&this.licenseInfo.legalPerson&&this.authorizerType==0){
-                //     this.$message({
-                //         showClose: true,
-                //         message: '当前身份信息与企业法人信息不一致',
-                //         type: 'error'
-                //     })
-
-                // }else{
+                    if(this.licenseInfo.legalPerson&&name.data.name&&this.authorizerType==0&&(this.licenseInfo.legalPerson!=name.data.name)){
+                        this.$loading.hide();
+                        this.$message({
+                            showClose: true,
+                            message: '当前身份信息与企业法人信息不一致',
+                            type: 'error'
+                        })
+                        return 
+                    }
                     this.IdCardFrontSize = file.size;
                     this.IdInfo.frontPhoto = name.data.frontPhoto;
                     this.IdInfo.userName = name.data.name
@@ -2214,25 +2219,20 @@ export default {
                     if(this.authorizerType){
                         this.IdInfo.mobile = sessionStorage.getItem('mobile')
                     }
-                    if(this.licenseInfo.legalPerson&&this.IdInfo.userName&&this.authorizerType==0&&(this.licenseInfo.legalPerson!= this.IdInfo.userName)){
-                          this.$message({
-                            showClose: true,
-                            message: '当前身份信息与企业法人信息不一致',
-                            type: 'error'
-                        })
-                    }
+                    this.$loading.hide();
                     this.getAuthDate()
+                    
                     this.$message({
                         showClose: true,
                         message: '上传成功',
                         type: 'success'
                     })
-                // }
                
              }else{
+                this.$loading.hide();
                 this.$message({
                     showClose: true,
-                    message:"实名认证信息上传有误!",
+                    message:res.data.resultMessage,
                     type: 'error'
                 })
              }
@@ -2249,12 +2249,14 @@ export default {
             if(name.resultCode == 1){
                 this.IdCardBackSize = file.size;
                 this.IdInfo.backPhoto = name.data.backPhoto;
+                this.$loading.hide();
                 this.$message({
                     showClose: true,
                     message: '上传成功',
                     type: 'success'
                 })
              }else{
+                this.$loading.hide();
                 this.$message({
                     showClose: true,
                     message: name.data.resultMessage,
@@ -2374,6 +2376,8 @@ export default {
         changeAuthorType(){
             this.IdStatus = true;
             this.IdInfoShow = false;
+            this.IdCardFrontSize = 0;
+            this.IdCardBackSize = 0;
             if(!this.authorizerType){
                 this.authorizerType = true
             }else{
@@ -2412,6 +2416,7 @@ export default {
         },
         //提交
         submit(bankInfo){
+            this.count = 0;
             if(!this.licenseInfo.creditPhoto){
                 this.$message({
                     showClose: true,
@@ -2520,12 +2525,14 @@ export default {
             server.licenseInfo(param).then(res=>{
                  if(res.data.resultCode==1){
                     this.licenseStatus = true;
-                    // this.interfaceCode = res.data.interfaceCode;
                     this.count+=1;
                 }else{
                     this.licenseStatus = false;
                     this.$loading.hide();
                     this.count-=1;
+                    // this.$alert('营业执照信息有误!','认证', {
+                    //     confirmButtonText: '确定'
+                    // });
                 }
             }).catch(error=>{
 
@@ -2551,6 +2558,9 @@ export default {
                     this.IdStatus = false;
                     this.$loading.hide();
                     this.count-=1;
+                    // this.$alert('身份证信息有误!','认证', {
+                    //     confirmButtonText: '确定'
+                    // });
                 }
 
             }).catch(error=>{
@@ -2592,6 +2602,7 @@ export default {
     },
     watch:{
         count:function(val){
+            console.log(val)
             this.success(val);
         }
     }

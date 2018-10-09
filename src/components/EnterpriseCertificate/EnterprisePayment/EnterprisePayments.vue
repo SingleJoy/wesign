@@ -358,7 +358,7 @@
         })
       },
       cancel(){
-          this.$router.push('/EnterpriseCertificate')
+          this.$router.push('/Home')
       },
       //提交
       submit(){
@@ -397,6 +397,12 @@
               this.legalForm.legalPerson=res.data.data;
               this.dialogAgreement=true;
 
+            }else{
+                this.$message({
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                })
             }
 
           })

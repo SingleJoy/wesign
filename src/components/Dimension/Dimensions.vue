@@ -312,13 +312,14 @@ export default {
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
-                if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-                  this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-                  this.$router.push('/Merchant');
-                }else{
-                  this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-                  this.$router.push('/Home');
-                }
+                // if(cookie.getJSON('tenant')[1].isBusiness == '0'){
+                //   this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
+                //   this.$router.push('/Merchant');
+                // }else{
+                //   this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
+                //   this.$router.push('/Home');
+                // }
+                this.$router.push('/Home');
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;
                 }, 50);

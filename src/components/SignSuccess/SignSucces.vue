@@ -150,14 +150,17 @@ export default {
       }
     },
     back(){
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证状态
-        if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-            if(auditSteps !=3 ){
-                this.$router.push('/Merchant')
-            }
-        }else{
-            this.$router.push('/Home')
-        }
+        var auditSteps = cookie.getJSON('tenant')[1].auditSteps;  //企业认证状态
+        // if(cookie.getJSON('tenant')[1].isBusiness == '0'){
+        //     if(auditSteps !=3 ){
+        //         this.$router.push('/Merchant')
+        //     }else{
+
+        //     }
+        // }else{
+        //     this.$router.push('/Home')
+        // }
+        this.$router.push('/Home')
     }
   }
 }

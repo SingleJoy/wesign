@@ -173,8 +173,7 @@ import cookie from '@/common/js/getTenant'
 				this.$router.push('/ActivateChildAccount')
 			}else{
 				server.login(params,urlParam).then(res=>{
-					if( res.data.dataList[1].isBusiness == '0'){
-						this.$message({
+                        this.$message({
 							showClose: true,
 							duration:1000,
 							message: '登录成功',
@@ -182,18 +181,7 @@ import cookie from '@/common/js/getTenant'
 						})
 						cookie.set('tenant',res.data.dataList) 			//存入cookie 所需信息
 						this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-						this.$router.push('/Merchant')
-					}else{
-						this.$message({
-							showClose: true,
-							duration:1000,
-							message: '登录成功',
-							type: 'success'
-						})
-						cookie.set('tenant',res.data.dataList) 			//存入cookie 所需信息
-						this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-						this.$router.push('/Home')
-					}
+                        this.$router.push('/Home')
 				}).catch(error=>{
 					this.$message({
 						showClose: true,
