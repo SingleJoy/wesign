@@ -1,18 +1,18 @@
 <template>
   <div class='Contract'>
-    <LoginTop></LoginTop>
     <Forget></Forget>
+    <QRcode></QRcode>
     <Bottom></Bottom>
   </div>
 </template>
 <script>
-import LoginTop from '../../common/components/LoginTop'
+import QRcode from '../../common/components/QRcode'
 import Forget from './Forget.vue'
 import Bottom from '../../common/components/Bottom'
 export default {
   name: 'Contract',
     components: {
-      LoginTop,
+      QRcode,
       Forget,
       Bottom
   }

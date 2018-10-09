@@ -1,19 +1,20 @@
 <template>
     <div class="IndividualRegister">
-        <LoginTop></LoginTop>
+        <!-- <LoginTop></LoginTop> -->
         <IndividualRegisters></IndividualRegisters>
-        <Bottom style="margin-top: 28.125rem;"></Bottom>
+        <QRcode></QRcode>
+        <Bottom></Bottom>
     </div>
 </template>
 <script>
-    import LoginTop from '../../common/components/LoginTop'
+    import QRcode from '../../common/components/QRcode'
     import IndividualRegisters from './IndividualRegisters.vue'
     import Bottom from '../../common/components/Bottom'
     export default {
         name: 'Register',
         components: {
           IndividualRegisters,
-            LoginTop,
+            QRcode,
             Bottom,
         }
     }
