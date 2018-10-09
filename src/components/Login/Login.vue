@@ -332,6 +332,9 @@
 
 <style lang="scss" scoped>
 //   @import "../../../static/icon/iconfont.css";
+.el-button--primary{
+  background-color: #4091fb;
+}
   .Login {
     width: 100%;
     // height: 350px;
@@ -421,7 +424,7 @@
   }
   .login-btn button {
     width: 100%;
-    height: 50px;
+    height: 40px;
   }
   .login-operate {
     position: relative;

@@ -238,8 +238,11 @@
 
 <style scoped>
 .el-input-group__append button.el-button[data-v-2334ea23], .el-input-group__append div.el-select .el-input__inner[data-v-2334ea23], .el-input-group__append div.el-select:hover .el-input__inner[data-v-2334ea23], .el-input-group__prepend button.el-button[data-v-2334ea23], .el-input-group__prepend div.el-select .el-input__inner[data-v-2334ea23], .el-input-group__prepend div.el-select:hover .el-input__inner[data-v-2334ea23]{
-	background-color: #16a8f2;
+	background-color: #4091fb;
     color: #ffffff;
+}
+.el-button--primary {
+	background-color: #4091fb;
 }
   .forget-wrap{
     width: 100%;
@@ -318,7 +321,7 @@
   }
   .forget-btn button{
     width:100%;
-    height:50px;
+    height:40px;
   }
   #submit{
     color: #4091fb;

@@ -326,14 +326,17 @@ export default {
 <style lang="scss" scoped>
 	@import "../../../static/icon/iconfont.css";
 	.el-input-group__append button.el-button, .el-input-group__append div.el-select .el-input__inner, .el-input-group__append div.el-select:hover .el-input__inner, .el-input-group__prepend button.el-button, .el-input-group__prepend div.el-select .el-input__inner, .el-input-group__prepend div.el-select:hover .el-input__inner{
-		background-color: #16a8f2;
+		background-color: #4091fb;
 		color: #ffffff;
+	}
+	.el-button--primary {
+		background-color: #4091fb;
 	}
 	.user .el-form .el-form-item {
 		margin-bottom: 1.4rem;
 	}
 	.agreement {
-		color: #16a8f2;
+		color: #4091fb;
 	}
 
 	.Login {
@@ -493,7 +496,7 @@ export default {
 	}
 	.login-btn button {
 	width: 100%;
-	height: 50px;
+	height: 40px;
 	margin-top: -0.625em;
 	}
 	#submit {
