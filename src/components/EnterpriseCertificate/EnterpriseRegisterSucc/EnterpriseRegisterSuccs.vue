@@ -86,7 +86,14 @@
            <p class="down-btn"><a href="javascript:void(0);" @click="download">点击下载</a></p>
          </div>
       </div>
-      <div @click="returnIndex">返回首页</div>
+      <div style="text-align: center;
+    background: #4091fb;
+    padding: 10px 20px;
+    width: 200px;
+    margin: 0 auto;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;" @click="returnIndex">返回首页</div>
 
     </div>
   </div>
@@ -95,6 +102,7 @@
 </template>
 <script>
   import server from '@/api/url.js'
+   import cookie from '@/common/js/getTenant'
   export default {
     name: 'EnterpriseRegisterSuccs',
 
@@ -106,7 +114,7 @@
         effectiveStartTime:'',
         effectiveEndTime:'',
         enterpriseName:'' ,
-        interfaceCode:'ZQ39488187c444c88e2d69761ff28b5f',
+        interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
         signBadgePath:''
       }
     },
@@ -120,10 +128,11 @@
         up.click()
       },
       returnIndex(){
-          
+          this.$router.push(".Home")
       },
     },
     created() {
+        
       server.authSuccess(this.interfaceCode).then(response =>{
 
         if (response.data.resultCode == '1') {

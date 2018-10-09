@@ -265,7 +265,8 @@
         this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
         var authStatus = cookie.getJSON('tenant')[0].authStatus
         var auditStatus = cookie.getJSON('tenant')[1].auditStatus
-        if(authStatus != '1' || auditStatus != '2'){
+        var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+        if(auditSteps!=3){
             this.topTip = false
         }
         var data =[];

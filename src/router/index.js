@@ -129,7 +129,7 @@ export const router = new Router({
         }
     },
     {
-        path:'/',
+        path:'/ContractList',
         name:'ContractList',
         component:ContractList,
         meta:{

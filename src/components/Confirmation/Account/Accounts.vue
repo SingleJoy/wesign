@@ -170,7 +170,7 @@
               <!--<div class="list-content" v-for="item in accountList">-->
               <div class="list-content" v-for="(item,index) in accountList" :key="index" v-if="showSecondList">
                 <ul>
-                  <li >
+                  <li>
                     <span>管理员姓名:</span>
                     <b >{{item.userName}}</b>
                   </li>

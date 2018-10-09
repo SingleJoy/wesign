@@ -357,7 +357,8 @@
         getContractNum(){
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
-                    this.contractNum = res.data.contractNum;
+                    this.contractNum = res.data.data;
+
                 }else{
                     this.$message({
                         showClose: true,
@@ -385,6 +386,8 @@
                             confirmButtonText: '确定',
                             showCancelButton:false
                     })
+                }else{
+                    this.popupContainer = !this.popupContainer;
                 }
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                 this.$alert('您暂无上传发起权限','提示', {

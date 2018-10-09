@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.Login{
+    width: 100%;
+    height: 54rem;
+    overflow:hidden;
+    background: url('../../../static/images/Login/bg3.jpg') no-repeat;
+    background-size: 100% 100%;
+}
+.Login{
+    display: block;
+    margin: 18px auto;
+
+}
+.login-top{
+    height: 70px;
+    margin-right: 70px;
+}
+.login-top-right{
+    float: right;
+    .login-click-btn{
+        color:#409EFF;
+        cursor: pointer;
+    }
+}
+.login-body-left{
+    position: absolute;
+    left: 172px;
+    top: 17rem;
+    color: #fff;
+}
+input:-webkit-autofill {
+    background-color: #FAFFBD;
+    background-image: none;
+    color: #000;
+}

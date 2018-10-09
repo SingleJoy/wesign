@@ -6,8 +6,11 @@
 */
 <template>
   <div class="Login">
-
-
+      <div class="login-body-left">
+          <p style="font-size: 40px;">更快，更安全的电子合同解决方案</p>
+          <p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+          <p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+      </div>
     <div class="login-wrap">
       <div class="ms-login">
         <!-- <div class="water-qrurl-code" >
@@ -31,7 +34,7 @@
                 </div>
                 <div class="login-operate">
                     <div class="register" @click="toRegister">
-                    <p ></p>
+                    <p></p>
                     <span>立即注册</span>
                     </div>
                     <div class="experience" @click="toExperience">
@@ -190,7 +193,7 @@
                                 server.login(param,urlParam).then(res => {
                                         if (res.data.dataList[1].isBusiness == "0") {  //未付费
                                             // 不是众签商户
-                                            if(res.data.dataList[1].auditSteps!=2){
+                                            if(res.data.dataList[1].auditSteps!=3){
                                                 this.$message({
                                                 showClose: true,
                                                     duration: 1000,
@@ -210,7 +213,7 @@
                                                 cookie.set("tenant", res.data.dataList);
                                                 this.$store.dispatch("tabIndex", { tabIndex: 0 });
                                                 this.$router.push("/Home");
-                                                can.user = res.data.dataList;
+                                                // can.user = res.data.dataList;
                                             }
 
                                         } else {
@@ -317,7 +320,7 @@
   @import "../../../static/icon/iconfont.css";
   .Login {
     width: 100%;
-    height: 350px;
+    // height: 350px;
   .select-btn {
     background-color: #fff;
     color: #666;
@@ -341,35 +344,33 @@
   // top: 315px;
   // left: 266px;
 
-    width: 77.5rem;
-    height: 34rem;
-    background: url("/static/images/Login/try.png") no-repeat;
-    position: absolute;
-    background-size: 100%;
-    top: 50%;
-    left: 50%;
-    margin-left: -39rem;
-    margin-top: -10rem;
+    // width: 77.5rem;
+    // height: 34rem;
+    // background: url("/static/images/Login/try.png") no-repeat;
+    // position: absolute;
+    // background-size: 100%;
+    // top: 50%;
+    // left: 50%;
+    // margin-left: -39rem;
+    // margin-top: -10rem;
   }
   .userInfo {
-    color: #16a8f2;
-
+    color: #333;
     text-align: center;
     font-size: 2.25rem;
+    font-weight: 500;
   }
 
   .user {
-  // width: 328px;
-  // height: 310px;
-  // position: absolute;
-  // right: 10%;
-  // top: 130px;
-
-    width: 21rem;
+    width: 22rem;
     height: 28rem;
     position: absolute;
-    right: 10%;
-    top: 5rem;
+    right: 26%;
+    top: 18rem;
+    background: #fff;
+    padding: 20px 31px;
+    border-radius: 15px;
+    box-sizing: border-box;
   }
   .login-logo {
     width: 100px;
