@@ -5,19 +5,7 @@
     background: #fff;
     height: 800px;
 }
-.title{
-    padding-top: 10px;
 
-    padding-left: 10px;
-
-    display: -o-flex;
-    display: -webkit-flex;
-    display: -moz-flex;
-    font-size:12px;
-    font-family:"微软雅黑";
-    border-bottom:1px solid  #ccc;
-
-}
 .title img{
     height:45px;
 }

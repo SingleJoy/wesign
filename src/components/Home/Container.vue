@@ -633,7 +633,6 @@
   }
   .warn-num{
       text-align: center;
-
       p{
           line-height: 30px;
       }
