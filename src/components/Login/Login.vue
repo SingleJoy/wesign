@@ -6,8 +6,11 @@
 */
 <template>
   <div class="Login">
-
-
+      <div class="login-body-left">
+          <p>更快，更安全的电子合同解决方案</p>
+          <p>众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+          <p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+      </div>
     <div class="login-wrap">
       <div class="ms-login">
         <!-- <div class="water-qrurl-code" >
@@ -31,7 +34,7 @@
                 </div>
                 <div class="login-operate">
                     <div class="register" @click="toRegister">
-                    <p ></p>
+                    <p></p>
                     <span>立即注册</span>
                     </div>
                     <div class="experience" @click="toExperience">
@@ -210,7 +213,7 @@
                                                 cookie.set("tenant", res.data.dataList);
                                                 this.$store.dispatch("tabIndex", { tabIndex: 0 });
                                                 this.$router.push("/Home");
-                                                can.user = res.data.dataList;
+                                                // can.user = res.data.dataList;
                                             }
 
                                         } else {
