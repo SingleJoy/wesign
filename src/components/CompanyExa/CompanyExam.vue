@@ -27,7 +27,8 @@
 
           </div>
           <p class='second'>
-             <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
+             <div class="title">签署文件</div>
+
              <span class='text'>
                <strong>当前状态：</strong>
                <span>{{status}}</span>
@@ -49,7 +50,7 @@
                </strong>
 
             </p>
-             <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pic-a' style="display:block;margin-left:5px;margin-top:20px;" >
+            <div class="title" style="margin-top: 15px">签署人员</div>
           </div>
           <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs'>
             <div v-for="(item,index) in imgList" :key="index" >
@@ -106,7 +107,7 @@
               </el-table-column>
             </el-table>
             </div>
-            <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
+            <div class="title" style="margin-top: 15px">合同历史</div>
             <div style="margin-top: 30px;margin-left: 70px;">
               <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
               <el-steps direction="vertical" :active=0>
@@ -124,6 +125,23 @@
   </div>
 </template>
 <style lang="scss">
+  .CompanyExam .main .title{
+    height: 46px;
+    margin: -65px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
+  }
+  .CompanyExam .main .text{
+   margin-top: -30px;
+    float: right;
+    padding-right: 50px;
+  }
+
   .back-home{
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
