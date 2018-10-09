@@ -20,12 +20,26 @@
 				</div>
 			</div>
 		</div>
+		<div class="login-nav">
+			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+			<div class="logo-content">
+				<span>已有账号，</span>
+				<span class="register" @click="login()">立即登录</span>
+				<img src="../../../static/images/Login/goback-right.png" alt="">
+			</div>
+		</div>
 		<div class="login-wrap">
+			
 			<div class="ms-login">
 			<!-- <div class="water-qrurl-code" >
 				<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
 			</div> -->
 				<div class='center'>
+					<div class="login-body-left">
+						<p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+						<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+						<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+					</div>
 					<div class='user'>
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
@@ -50,12 +64,6 @@
 						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
 						</div>
-						<p style="font-size:12px;color:#999;padding-top: 0.9rem;">
-
-							<a href="javascript:void(0);" id='submit' @click="login()">,立即登录</a>
-
-							<a href="javascript:void(0);" class="account">已有账号</a>
-						</p>
 					</el-form>
 					</div>
 				</div>
@@ -411,8 +419,10 @@ export default {
 	}
 	.login-wrap {
 	width: 100%;
-
-	background: #f4f2f2;
+    height: 40rem;
+    overflow:hidden;
+    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background-size: 100% 100%;
 	}
 	.center {
 	// width: 77.5rem;
@@ -423,37 +433,30 @@ export default {
 	// top: 315px;
 	// left: 266px;
 
-	width: 77.5rem;
-	height: 38rem;
-	background: url("/static/images/Login/userRegister.png") no-repeat;
-	position: absolute;
-	background-size: 100%;
-	top: 50%;
-	left: 50%;
-	margin-left: -39rem;
-	margin-top: -10rem;
-	background-color: #fff;
-	border-radius: 10px;
+		width: 75rem;
+		height: auto;
+		margin: 0 auto;
+		border-radius: 10px;
+		position: relative;
 	}
 	.userInfo {
-	color: #16a8f2;
+	color: #333333;
 
 	text-align: center;
-	font-size: 1.7rem;
+	font-size: 1.5rem;
 	}
 
 	.user {
-	// width: 328px;
-	// height: 310px;
-	// position: absolute;
-	// right: 10%;
-	// top: 130px;
-
-	width: 21rem;
-	height: 28rem;
-	position: absolute;
-	right: 10%;
-	top: 3rem;
+	    width: 24.5rem;
+		position: absolute;
+		background: #fff;
+		padding: 1.875rem;
+		border-radius: 15px;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		position: absolute;
+		right: 0;
+		top: 3.75rem;
 	}
 	.login-logo {
 	width: 100px;
@@ -482,17 +485,6 @@ export default {
 	position: absolute;
 	right: 20px;
 	}
-	/* .ms-login{
-		position: absolute;
-		left:50%;
-		top:50%;
-		width:300px;
-		height:240px;
-		margin:-150px 0 0 -190px;
-		padding:40px;
-		border-radius: 5px;
-
-	} */
 	.login-input {
 	margin-top: 30px;
 	}
@@ -501,7 +493,7 @@ export default {
 	}
 	.login-btn button {
 	width: 100%;
-	height: 36px;
+	height: 50px;
 	margin-top: -0.625em;
 	}
 	#submit {
@@ -588,4 +580,35 @@ export default {
 	margin-top: 320px !important;
 	font-size: 16px !important;
 	}
+	.login-nav {
+	background-color: #fff;
+	height: 80px;
+	line-height: 80px;
+	padding: 0 50px;
+}
+.logo-zq {
+	display: inline-block;
+}
+.logo-zq img {
+	vertical-align: middle;
+	// background-color: #000;
+	// width: 30px;
+}
+.logo-content {
+	display: inline-block;
+	float: right;
+}
+.logo-content img {
+	vertical-align: middle;
+}
+.register {
+	color: #4091fb;
+	cursor: pointer;
+}
+.login-body-left{
+    position: absolute;
+    left: 0;
+    top: 6.875rem;
+    color: #fff;
+}
 </style>

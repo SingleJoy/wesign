@@ -1,28 +1,49 @@
 <template>
-  <div class="forget-wrap">
-    <div class="ms-forget">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="">
-        <h2 class="forget-logo">忘记密码</h2>
-        <el-form-item prop="username">
-          <el-input v-model="ruleForm.username" placeholder="请输入手机号码" class="forget-input" :maxlength=11></el-input>
-        </el-form-item>
-        <el-form-item prop="message">
-          <el-input type="text" placeholder="请输入短信验证码" class='forget-messageInput' v-model="ruleForm.message" style="width: 200px;"></el-input>
-          <el-button type="primary" class="forget-messageButton" @click='sendCode' id='code' style="margin-left: 20px;">获取</el-button>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="ruleForm.password" type="password" placeholder="请设置登录密码"></el-input>
-        </el-form-item>
-        <el-form-item prop="passwordAgain">
-          <el-input v-model="ruleForm.passwordAgain" type="password" placeholder="请再次输入登录密码"></el-input>
-        </el-form-item>
-        <div class="forget-btn">
-          <el-button type="primary" @click="submitForm('ruleForm')">提&nbsp;&nbsp;交</el-button>
-          <router-link to='/'><p style="font-size:12px;line-height:30px;color:#999;"><a id='submit' href="javascript:void(0)">返回登录</a></p></router-link>
-        </div>
-      </el-form>
-    </div>
-  </div>
+	<div>
+		<div class="login-nav">
+			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+			<div class="logo-content">
+				<span>还没账号？</span>
+				<span class="register" @click="register()">立即注册</span>
+				<img src="../../../static/images/Login/goback-right.png" alt="">
+			</div>
+		</div>
+		<div class="forget-wrap">
+			<div class="ms-forget">
+				<div class="login-body-left">
+					<p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+					<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+					<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+				</div>
+				<div class="form-forget">
+					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="">
+						<h2 class="forget-logo">忘记密码</h2>
+						<el-form-item prop="username">
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号码" class="forget-input" :maxlength=11></el-input>
+						</el-form-item>
+						<el-form-item prop="message">
+						<el-form-item prop="code">
+							<el-input v-model="ruleForm.message" maxlength="6" placeholder="请输入短信验证码" class="">
+								<el-button slot="append" @click='sendCode' id='code'>获取验证码</el-button>
+							</el-input>
+						</el-form-item>
+						<!-- <el-input type="text" placeholder="请输入短信验证码" class='forget-messageInput' v-model="ruleForm.message" style="width: 200px;"></el-input>
+						<el-button type="primary" class="forget-messageButton" @click='sendCode' id='code' style="margin-left: 20px;">获取</el-button> -->
+						</el-form-item>
+						<el-form-item prop="password">
+						<el-input v-model="ruleForm.password" type="password" placeholder="请设置登录密码"></el-input>
+						</el-form-item>
+						<el-form-item prop="passwordAgain">
+						<el-input v-model="ruleForm.passwordAgain" type="password" placeholder="请再次输入登录密码"></el-input>
+						</el-form-item>
+						<div class="forget-btn">
+						<el-button type="primary" @click="submitForm('ruleForm')">确&nbsp;&nbsp;认</el-button>
+						</div>
+					</el-form>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -128,6 +149,9 @@
       }
     },
     methods: {
+		register() {
+			this.$router.push('/Register');
+		},
       submitForm(formName) {
         if(this.ruleForm.mobile != this.ruleForm.username){//校验发送验证码的手机和提交时的手机是否是一个
           this.$message({
@@ -187,13 +211,13 @@
           this.ruleForm.mobile = res.data.mobile  //发送验证码后返回的手机号
           if (resultCode === '0') {
             var codeInfo = document.getElementById('code')
-            codeInfo.innerText =  curCount + '秒'
+            codeInfo.innerText =  curCount + '秒后获取'
             this.smsNum = smsNo
             codeInfo.setAttribute('disabled', 'true')
             timer = setInterval(function () {
-              codeInfo.innerText =  (curCount - 1) + '秒'
+              codeInfo.innerText =  (curCount - 1) + '秒后获取'
               if (curCount === 0) {
-                codeInfo.innerText = '获取'
+                codeInfo.innerText = '重新获取验证码获取'
                 clearInterval(timer)
                 codeInfo.removeAttribute('disabled')
               } else {
@@ -213,15 +237,16 @@
 </script>
 
 <style scoped>
+.el-input-group__append button.el-button[data-v-2334ea23], .el-input-group__append div.el-select .el-input__inner[data-v-2334ea23], .el-input-group__append div.el-select:hover .el-input__inner[data-v-2334ea23], .el-input-group__prepend button.el-button[data-v-2334ea23], .el-input-group__prepend div.el-select .el-input__inner[data-v-2334ea23], .el-input-group__prepend div.el-select:hover .el-input__inner[data-v-2334ea23]{
+	background-color: #16a8f2;
+    color: #ffffff;
+}
   .forget-wrap{
-    position: relative;
-    width:1200px;
-    height:600px;
-    background: url("../../../static/images/Login/forget_word.png") no-repeat;
-    background-size: 1200px;
-    margin:-60px auto 0 auto;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    width: 100%;
+    height: 40rem;
+    overflow:hidden;
+    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background-size: 100% 100%;
   }
   /* .water-qrurl-code{
   position: absolute;
@@ -235,11 +260,11 @@
   background-position: -1px -1px;
   } */
   .forget-logo{
-    width: 100px;
-    height: 50px;
+	width: 100px;
     margin-top:-10px;
     margin-left: 100px;
-    color:#409EFF;
+	color:#333333;
+	font-size: 1.5rem;
     font-family: '幼圆';
   }
   .sy_close {
@@ -259,16 +284,25 @@
     position: absolute;
     right: 20px;
   }
-  .ms-forget{
-
-    width:300px;
-    height:345px;
-    margin:-200px 0 0 760px;
-    padding:40px;
-    border-radius: 10px;
-
-
-  }
+.ms-forget{
+	width: 75rem;
+	height: auto;
+	margin: 0 auto;
+	border-radius: 10px;
+	position: relative;
+}
+.form-forget{
+	 width: 22.5rem;
+	position: absolute;
+	background: #fff;
+	padding: 1.875rem;
+	border-radius: 15px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	position: absolute;
+	right: 0;
+	top: 7.75rem;
+}
   .forget-input{
     margin-top: 20px;
 
@@ -284,14 +318,43 @@
   }
   .forget-btn button{
     width:100%;
-    height:36px;
+    height:50px;
   }
   #submit{
     color: #4091fb;
     float:right;
     margin-top:10px;
   }
-
-
+.login-body-left{
+    position: absolute;
+    left: 0;
+    top: 6.875rem;
+    color: #fff;
+}
+.login-nav {
+	background-color: #fff;
+	height: 80px;
+	line-height: 80px;
+	padding: 0 50px;
+}
+.logo-zq {
+	display: inline-block;
+}
+.logo-zq img {
+	vertical-align: middle;
+	// background-color: #000;
+	// width: 30px;
+}
+.logo-content {
+	display: inline-block;
+	float: right;
+}
+.logo-content img {
+	vertical-align: middle;
+}
+.register {
+	color: #4091fb;
+	cursor: pointer;
+}
 
 </style>
