@@ -1,9 +1,4 @@
-/*
- * @Author: wangjia
- * @Date: 2018-06-04 11:06:39
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-07-03 18:00:29
- */
+
 <template>
   <div>
   <div class="Tops">

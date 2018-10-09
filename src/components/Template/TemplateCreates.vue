@@ -195,7 +195,7 @@ export default {
         .template-title{
              padding:20px 15px 0 15px;
             .title-bg{
-                background: url('../../../static/images/Multiparty/title.png') no-repeat;
+                background: url('../../../static/images/Common/title.png') no-repeat;
                 height:46px;
             }
             .title-name{
@@ -214,6 +214,17 @@ export default {
             }
             .search-btn{
                 margin-left: 100px;
+               #search-btn{
+                 display: inline-block;
+                 width: 200px;
+                 height: 38px;
+                 padding-left: 5px;
+                 padding-right: 5px;
+                 outline: none;
+                 border: 1px solid #ddd;
+                 border-radius: 3px;
+                 margin-right: 20px
+                }
             }
         }
         .template-list{

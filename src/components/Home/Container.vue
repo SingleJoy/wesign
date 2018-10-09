@@ -14,7 +14,7 @@
                      <span>点击上传文件到此处</span>
                  </div>
                 <div class="footer">
-                  <span>文件支持.docx / pdf/ .txt / .doc文件，文件大小不超过5M</span>
+                  <span>文件支持.docx / pdf / .txt / .doc文件，文件大小不超过5M</span>
                 </div>
               </div>
             </div>
@@ -28,7 +28,7 @@
             <div  class='single' v-if='count>0'>
               <div v-for="(item,index) in arr" :key="index" >
                 <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;margin-left: 5px;'>
-                  <img src="../../../static/images/Container/icons_1.png" alt="">
+                  <img src="../../../static/images/Container/home-icon-v1.6.png" alt="">
                   <span style='color:#4091fb'>{{item.name}}</span>
                 </div>
               </div>
@@ -66,8 +66,8 @@
       </div>
       <div class='main_table' style="padding-bottom:20px">
 
-        <div class='title' style="padding: 0;">
-          <h1 style="padding-left: 15px;"><img src="../../../static/images/Container/title.png" alt=""></h1>
+        <div class="table-left" style="padding: 0;">
+          <div class="title">近期合同</div>
           <a href="javascript:void(0);" @click='jump'>查看更多>></a>
         </div>
 
@@ -152,7 +152,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/geren.png" alt="">
+            <img src="../../../static/images/Login/v1.6-geren.png" alt="">
           </el-upload>
         </div>
         <div class='rightDilog'>
@@ -169,7 +169,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/qiye.png" alt="">
+            <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
           </el-upload>
           <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
         </div>
@@ -731,13 +731,6 @@
     font-size: 16px;
     color: #333;
   }
-  #tab-first,
-  #tab-second,
-  #tab-third,
-  #tab-fourth,
-  #tab-five {
-    font-size: 16px;
-  }
   .el-table th > .cell {
     text-align: center;
   }
@@ -748,9 +741,7 @@
     white-space: nowrap !important;
   }
 
-  #title {
-    text-align: left !important;
-  }
+
   .one:hover {
     border: 1px solid #4091fb;
   }
@@ -760,7 +751,7 @@
   #close {
     width: 30px;
     height: 30px;
-    border-raduis: 50%;
+    border-radius:50% ;
     text-align: center;
     line-height: 30px;
     display: block;
@@ -776,5 +767,16 @@
     background: #eee;
     border-color: #95989d;
     color: #333;
+  }
+  .Container .main .title{
+    height: 46px;
+    margin: 0px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
   }
 </style>
