@@ -7,8 +7,8 @@
 <template>
   <div class="Login">
       <div class="login-body-left">
-          <p>更快，更安全的电子合同解决方案</p>
-          <p>众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+          <p style="font-size: 40px;">更快，更安全的电子合同解决方案</p>
+          <p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
           <p>问题。使用众签让你的工作，生活更美好，更随意。</p>
       </div>
     <div class="login-wrap">
@@ -355,24 +355,22 @@
     // margin-top: -10rem;
   }
   .userInfo {
-    color: #16a8f2;
-
+    color: #333;
     text-align: center;
     font-size: 2.25rem;
+    font-weight: 500;
   }
 
   .user {
-  // width: 328px;
-  // height: 310px;
-  // position: absolute;
-  // right: 10%;
-  // top: 130px;
-
-    width: 21rem;
+    width: 22rem;
     height: 28rem;
     position: absolute;
-    right: 10%;
-    top: 5rem;
+    right: 26%;
+    top: 18rem;
+    background: #fff;
+    padding: 20px 31px;
+    border-radius: 15px;
+    box-sizing: border-box;
   }
   .login-logo {
     width: 100px;
