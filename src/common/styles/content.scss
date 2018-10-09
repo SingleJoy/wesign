@@ -63,7 +63,7 @@
   margin: 0 auto;
 }
 .el-tabs__nav-scroll{
-  line-height: 58px; 
+  line-height: 58px;
   padding:0 25px;
 }
 .el-tabs__item{
@@ -127,9 +127,6 @@
     line-height: 48px;
     text-align: center;
     display: inline-block;
-    /* border-radius: 5px;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0; */
     vertical-align: bottom;
   }
 
@@ -139,12 +136,11 @@
 
   /* 头部title样式 */
   .title-bg{
-    background: url('/static/images/Multiparty/title.png') no-repeat;
+    background: url('/static/images/Common/title.png') no-repeat;
     height: 46px;
     margin-bottom:15px;
     margin-top:20px;
-    // background-size: cover;
-    // width:184px;
+
 }
 .title-name{
     color: #fff;

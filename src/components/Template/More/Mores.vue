@@ -29,7 +29,7 @@ export default {
 }
 </script>
 <style lang="scss">
-    /* @import "../../../styles/Multiparty/Mores.css"; */
+
     @import "../../../common/styles/SigningSteps.css";
     @import "../../../common/styles/content.scss";
 
