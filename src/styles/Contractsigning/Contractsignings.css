@@ -12,17 +12,15 @@
   padding-top: 20px;
 }
 .Contractsignings>.file>.fileInfo{
-    padding-left: 15px;
     height: 70px;
     border-bottom: 1px solid #ccc;
-
 }
 .proper{
     font-weight: normal;
     }
 /* 文件信息样式 */
 .proper{
-    padding-left: 10px;
+  
 }
 .proper .first {
     padding-top: 40px;
@@ -67,9 +65,7 @@
     clear: both;
 }
 .setting>.settingInfo{
-    margin-top: 30px;
-    padding-left: 15px;
-    height: 70px;
+    padding-top: 10px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
 }

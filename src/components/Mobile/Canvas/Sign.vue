@@ -11,25 +11,7 @@
       </div>
       <canvas id="canvas"></canvas>
     </div>
-    <!-- <div class="image-box" v-show="showBox">
-      <header>
-        请长按图片并保存至本地后发送好友
-        <input type="button" value="返回" @click="showBox = false"/>
-      </header>
-      <img :src="signImage">
-    </div> -->
-    <!-- <div class='bg'>
-        <div class='center_cen'>
-            <p>您还没有完成签署！</p>
-            <a href="javascript:void(0);" id='closeBtn'>确定111</a>
-        </div>
-    </div>
-   <div class='bg1'>
-        <div class='center1'>
-            <p>为了更好的签署体验，请关闭手机自动旋转功能！</p>
-            <a href="javascript:void(0);" id='closeBtn'>确定111</a>
-        </div>
-    </div> -->
+
 
     <div class="modal unsign-modal" id="unsign-modal">
       <div class="modal-box" >
@@ -53,7 +35,7 @@
 
 <script>
   import Draw from '@/common/js/draw';
-  import cookie from '@/common/js/getTenant'
+
   import {GetQueryString} from '@/common/js/InterceptUrl'
 
   export default {

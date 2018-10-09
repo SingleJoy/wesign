@@ -26,7 +26,7 @@
           <div class="payment-success">
 
             <div class="image">
-              <img src="../../../../static/images/Complete/success.png" alt="" style="margin-top: 40px;">
+              <img src="../../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
             </div>
 
             <div  class="success-tips">
@@ -133,7 +133,7 @@
       },
     },
     created() {
-        
+
       server.authSuccess(this.interfaceCode).then(response =>{
 
         if (response.data.resultCode == '1') {

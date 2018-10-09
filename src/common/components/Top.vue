@@ -51,7 +51,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
             >
-            <img src="../../../static/images/Login/geren.png" alt="">
+            <img src="../../../static/images/Login/v1.6-geren.png" alt="">
             </el-upload>
           </div>
             <div class='rightDilog'>
@@ -68,7 +68,7 @@
               element-loading-text="拼命上传中"
               element-loading-background="rgba(0, 0, 0, 0.5)"
               >
-              <img src="../../../static/images/Login/qiye.png" alt="">
+              <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
               </el-upload>
             <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
           </div>

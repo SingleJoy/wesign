@@ -1,15 +1,13 @@
 <template>
   <div class="NoReal">
     <div  class='content'>
-      <h2 class='title' style="padding-top: 30px;padding-bottom: 20px;border-top: none;padding-left: 15px;">
-        <img src="../../../../../static/images/Confirmation/Account/my.jpg" alt="">
-        <!-- <p v-if="identifier"  @click="companyRealName"><i class='el-icon-info'></i><span>您提交的企业实名信息未通过审核，请</span><a href="javascript:void(0);">重新提交企业信息</a></p>
-        <p v-if="auditStatus" @click="IdentificationState"><i class='el-icon-info'></i><span>您尚未完成企业实名认证，请</span><a href="javascript:void(0);">继续完善信息</a></p> -->
-      </h2>
+      <br/>
+      <p class="title">账号管理</p>
       <div class='contentInfo'>
         <div class='companyName'>
           <p>
-            <span className="company-name">企业名称：</span><span>{{companyName}}</span>
+            <span className="company-name">企业名称：</span>
+            <span>{{companyName}}</span>
           </p>
         </div>
         <div class='userInfo'>
@@ -24,9 +22,7 @@
           </p>
           <a href="javascript:void(0);" @click="centerDialogVisible = true">修改密码</a>
         </div>
-        <h2 class='title' style='border-top:none;padding-bottom: 20px;padding-left: 15px;'>
-          <img src="../../../../../static/images/Confirmation/Account/my1.jpg" alt="" >
-        </h2>
+        <p class="title">签章管理</p>
         <div class='accountPic'>
           <img :src="[contractSign]" alt="" style="width:100%">
           <p style="padding-left: 58px;width: 95px;">{{chapter}}</p>
@@ -361,6 +357,18 @@
 </script>
 <style scoped>
   @import "../../../../styles/Confirmation/Account/Accounts.css";
+  .NoReal .content .title{
+    display: block;
+    height: 65px;
+    margin: 20px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../../../static/images/Common/title.png") no-repeat;
+  }
   .modal{
     width: 100%;
     height: 100%;

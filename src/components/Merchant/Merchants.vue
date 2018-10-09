@@ -22,7 +22,7 @@
                   <span>点击上传文件到此处</span>
                 </div>
                 <div class="footer">
-                  <span>文件支持.docx / pdf/ .txt / .doc文件，文件大小不超过5M</span>
+                  <span>文件支持.docx / pdf / .txt / .doc文件，文件大小不超过5M</span>
                 </div>
               </div>
             </div>
@@ -36,7 +36,7 @@
           <div  class='single' v-if='count>0'>
             <div v-for="(item,index) in arr" :key="index">
               <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>
-                <img src="../../../static/images/Container/icons_1.png" alt="">
+                <img src="../../../static/images/Container/home-icon-v1.6.png" alt="">
                 <span style='color:#4091fb'>{{item.name}}</span>
               </div>
             </div>
@@ -71,10 +71,11 @@
         </div>
       </div>
       <div class='main_table'>
-        <div class='Merchant-title'>
-          <h1><img src="../../../static/images/Container/title.png" alt=""></h1>
+        <div class='Merchant-title table-left'>
+          <div class="title">近期合同</div>
           <a href="javascript:void(0);" @click='jump'>查看更多>></a>
         </div>
+        <br/>
         <div class='table'>
           <el-table
             :header-cell-style="getRowClass"
@@ -398,9 +399,7 @@
   .el-table tr:nth-child(even){
     background:#f5f5f5;
   }
-  .el-table th>.cell{
-    text-align: none;
-  }
+
 
   .el-tabs__nav-scroll{
     font-size: 16px;
@@ -443,5 +442,16 @@
     background: #eee;
     border-color: #95989d;
     color: #333;
+  }
+  .Merchants .main .title{
+    height: 46px;
+    margin: 0px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
   }
 </style>

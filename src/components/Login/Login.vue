@@ -6,63 +6,77 @@
 */
 <template>
   <div class="Login">
-      <div class="login-body-left">
-          <p style="font-size: 40px;">更快，更安全的电子合同解决方案</p>
-          <p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
-          <p>问题。使用众签让你的工作，生活更美好，更随意。</p>
-      </div>
-    <div class="login-wrap">
-      <div class="ms-login">
-        <!-- <div class="water-qrurl-code" >
-          <a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
-        </div> -->
-        <div class='center'>
-          <div class='user'>
-            <h2 class='userInfo'>用户登录</h2>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
-                <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
-                </el-form-item>
-                <el-form-item prop="password" style="margin-bottom: 10px;">
-                    <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
-                </el-form-item>
-                <p style="font-size:12px;color:#999;margin-bottom: 10px;line-height: 25px;">
-                    <a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
-                </p>
-                <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-                </div>
-                <div class="login-operate">
-                    <div class="register" @click="toRegister">
-                    <p></p>
-                    <span>立即注册</span>
-                    </div>
-                    <div class="experience" @click="toExperience">
-                    <p></p>
-                    <span>免费体验</span>
-                    </div>
-                </div>
+    <div class="login-nav">
+		<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+		<div class="logo-content">
+			<span>还没账号？</span>
+			<span class="register" @click="toRegister">立即注册</span>
+			<img src="../../../static/images/Login/goback-right.png" alt="">
+		</div>
+	</div>
+	<div class="user-login">
+		<div>
+			<div class="contain-login">
+				<div class="login-body-left">
+					<p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+					<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+					<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+				</div>
+				<div class="login-wrap">
+					<div class="ms-login">
+					<!-- <div class="water-qrurl-code" >
+						<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
+					</div> -->
+					<div class='center-user'>
+						<div class='user'>
+						<h2 class='userInfo'>用户登录</h2>
+						<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
+							<el-form-item prop="username">
+								<el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
+							</el-form-item>
+							<el-form-item prop="password" style="margin-bottom: 1.25rem;">
+								<el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
+							</el-form-item>
+							<p style="font-size:12px;color:#999;margin-bottom: 1.375rem;">
+								<a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
+							</p>
+							<div class="login-btn">
+								<el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+							</div>
+							<!-- <div class="login-operate">
+								<div class="register" @click="toRegister">
+								<p></p>
+								<span>立即注册</span>
+								</div>
+								<div class="experience" @click="toExperience">
+								<p></p>
+								<span>免费体验</span>
+								</div>
+							</div> -->
 
-            </el-form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fade" id="fade"></div>
-    <div class="succ-pop" id="succ-pop">
-      <span class="login-cancel" @click="cancelLogin">+</span>
-      <div class="su-pop">
-        <h5 class="title">
-          选择企业角色
-        </h5>
-        <div class="central_section" v-for="(item,index) in tenantNum" :key="index">
-          <p>
-            <el-radio v-model="radio" :label=index @change="variety(item)">{{item.enterpriseName}}</el-radio>
-          </p>
-        </div>
-      </div>
-      <el-button class="select-btn"  type="primary" round @click="changeClick">确&nbsp;&nbsp;定</el-button>
-    </div>
+						</el-form>
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="fade" id="fade"></div>
+				<div class="succ-pop" id="succ-pop">
+					<span class="login-cancel" @click="cancelLogin">+</span>
+					<div class="su-pop">
+					<h5 class="title">
+						选择企业角色
+					</h5>
+					<div class="central_section" v-for="(item,index) in tenantNum" :key="index">
+						<p>
+						<el-radio v-model="radio" :label=index @change="variety(item)">{{item.enterpriseName}}</el-radio>
+						</p>
+					</div>
+					</div>
+					<el-button class="select-btn"  type="primary" round @click="changeClick">确&nbsp;&nbsp;定</el-button>
+				</div>
+			</div>
+		</div>
+	</div>	
   </div>
 </template>
 
@@ -338,7 +352,10 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../../static/icon/iconfont.css";
+//   @import "../../../static/icon/iconfont.css";
+.el-button--primary{
+  background-color: #4091fb;
+}
   .Login {
     width: 100%;
     // height: 350px;
@@ -356,40 +373,20 @@
 
     background: #f4f2f2;
   }
-  .center {
-  // width: 77.5rem;
-  // height: 34rem;
-  // background:url('../../../static/images/Login/try.png') no-repeat;
-  // position: absolute;
-  // background-size: 100%;
-  // top: 315px;
-  // left: 266px;
-
-    // width: 77.5rem;
-    // height: 34rem;
-    // background: url("/static/images/Login/try.png") no-repeat;
-    // position: absolute;
-    // background-size: 100%;
-    // top: 50%;
-    // left: 50%;
-    // margin-left: -39rem;
-    // margin-top: -10rem;
-  }
   .userInfo {
-    color: #333;
+    color: #333333;
     text-align: center;
-    font-size: 2.25rem;
+    font-size: 1.5rem;
     font-weight: 500;
   }
 
   .user {
-    width: 22rem;
-    height: 28rem;
+    width: 22.5rem;
     position: absolute;
-    right: 26%;
-    top: 18rem;
+    right: 0%;
+    top: 8.75rem;
     background: #fff;
-    padding: 20px 31px;
+    padding: 1.875rem;
     border-radius: 15px;
     box-sizing: border-box;
   }
@@ -422,39 +419,18 @@
   }
 
   .login-input {
-    margin-top: 30px;
+    margin-top: 1.75rem;
   }
   .login-btn {
     text-align: center;
   }
   .login-btn button {
     width: 100%;
-    height: 36px;
+    height: 40px;
   }
   .login-operate {
     position: relative;
     height: 80px;
-  }
-  .register,.experience{
-    display: inline-block;
-    cursor: pointer;
-  }
-  .register>p{
-    margin-top: 20px;
-    width: 51px;
-    height: 51px;
-    background: url("../../../static/images/Login/register.png") no-repeat;
-  }
-  .register>span,.experience>span{
-    font-size: 12px;
-    display: inline-block;
-    margin-left: 5em;
-    top: -30px;
-    position: absolute;
-  }
-  .register>span{
-    top: 35px;
-    color: #fb9b29;
   }
   .experience>span{
     right: -6em;
@@ -477,7 +453,6 @@
 
   #submit {
     color: #4091fb;
-    float: right;
   }
   .fade {
     width: 100%;
@@ -555,4 +530,72 @@
     margin-top: 320px !important;
     font-size: 16px !important;
   }
+
+
+
+.login-nav {
+	background-color: #fff;
+	height: 80px;
+	line-height: 80px;
+	padding: 0 50px;
+}
+.logo-zq {
+	display: inline-block;
+}
+.logo-zq img {
+	vertical-align: middle;
+	// background-color: #000;
+	// width: 30px;
+}
+.logo-content {
+	display: inline-block;
+	float: right;
+}
+.logo-content img {
+	vertical-align: middle;
+}
+.register {
+	color: #4091fb;
+	cursor: pointer;
+}
+.user-login{
+    width: 100%;
+    height: 40rem;
+    overflow:hidden;
+    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background-size: 100% 100%;
+}
+.contain-login {
+    width: 75rem;
+    margin: 0 auto;
+    height: 40rem;
+    position: relative;
+}
+.login-top{
+    height: 70px;
+    margin-right: 70px;
+}
+.login-top-right{
+    float: right;
+    .login-click-btn{
+        color:#409EFF;
+        cursor: pointer;
+    }
+}
+.login-body-left{
+    position: absolute;
+    left: 0;
+    top: 6.875rem;
+    color: #fff;
+}
+input:-webkit-autofill {
+    background-color: #FAFFBD;
+    background-image: none;
+    color: #000;
+}
+.user {
+    position: absolute;
+    right: 0;
+    top: 8.75rem;
+}
 </style>

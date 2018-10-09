@@ -29,9 +29,7 @@
         </div>
         <!-- 文件信息开始 -->
         <div class="file">
-          <h2 class='fileInfo'>
-            <img src="../../../../static/images/Contractsigning/person.png" alt="">
-          </h2>
+          <p class="title">文件信息</p>
           <h3 class='proper'>
             <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='inputText' :maxlength= 50 >
             <a class='select' @click="seeTemplate" style="padding-left:0">查看</a>
@@ -68,7 +66,7 @@
         <!-- 签署人设置开始 -->
         <div class="setting">
           <h2 class='settingInfo'>
-            <img src="../../../../static/images/Contractsigning/settings.png" alt="">
+            <p class="title">签署人设置</p>
             <p class='personInfonfo'>
               <!-- <el-checkbox></el-checkbox>
               <b class='info'>短信通知</b>
@@ -653,7 +651,19 @@ export default {
   @import "../../../styles/Signaturesetting/Signaturesettings.css";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
-
+  .Signaturesettings .file .title,.Signaturesettings .setting .title{
+    display: block;
+    height: 65px;
+    margin: 20px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../../static/images/Common/title.png") no-repeat;
+    font-weight: normal;
+  }
  .first #inputText{
     -webkit-appearance: none;
     background-color: #fff;

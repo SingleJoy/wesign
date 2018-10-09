@@ -32,10 +32,11 @@
         </ul>
       </div>
       <!-- 文件信息开始 -->
-      <div class="file">
-        <h2 class='fileInfo'>
-          <img src="../../../static/images/Contractsigning/person.png" alt="">
+      <div class="file main">
+        <h2 class="fileInfo">
+          <div class="title">文件信息</div>
         </h2>
+
         <h3 class='proper'>
           <p class='first'><b>合同名称：</b>
             <input type="text" v-model="contractName" id='firstText' :maxlength= 50>
@@ -91,7 +92,7 @@
       <!-- 签署人设置开始 -->
       <div class="setting">
         <h2 class='settingInfo'>
-          <img src="../../../static/images/Contractsigning/settings.png" alt="">
+          <div class="title" >签署人设置</div>
           <p class="personInfo2">
             <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
             <el-dialog title="添加人员" :visible.sync="dialogFormVisible"  width="360px"  top="30vh"   custom-class='outInfo' center @close="closeDialog('ruleForm')"   :lock-scroll= false>
@@ -738,6 +739,17 @@
   @import "../../styles/Contractsigning/Contractsignings.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";
+  .Contractsignings .main .title,.Contractsignings .setting .title{
+    height: 46px;
+    margin: 10px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
+  }
 
   .upload-demo .el-upload .el-upload--text{
     display: block !important;

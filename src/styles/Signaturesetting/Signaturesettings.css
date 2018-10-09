@@ -8,9 +8,10 @@
 
 /* 文件信息样式开始 */
 .Signaturesettings>.file{
-    clear: both;
+  clear: both;
   border-top: 1px solid #ddd;
-  padding-top: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-top: 5px;
 
 }
 .Signaturesettings>.file>.fileInfo{
@@ -43,13 +44,13 @@
     color: #4091fb;
 }
 .first{
-    padding-top: 40px;
+    padding-top: 25px;
     padding-left:48px;
     float: left;
 }
 .second{
     float: left;
-    padding-top: 30px;
+    padding-top: 16px;
     padding-left: 88px;
     font-size: 14px;
     color: #666;
@@ -60,15 +61,12 @@
     color: #666;
 }
 /* 签署人设置开始 */
-.setting{
+.Signaturesettings .setting{
     clear: both;
 }
 .setting>.settingInfo{
-    margin-top: 30px;
-    padding-left: 15px;
-    height: 70px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    border-bottom: 1px solid #ddd;
 }
 .settingInfo>img{
     padding-top: 20px;
@@ -77,7 +75,7 @@
 .settingInfo .personInfonfo{
     float: right;
     padding-right: 15px;
-    margin-top: 25px;
+    margin-top: -55px;
 }
 .personInfonfo .info{
     font-size: 14px;

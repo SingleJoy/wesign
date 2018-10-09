@@ -9,7 +9,7 @@
             </a>
           </p>
           <p class='second'>
-             <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
+            <div class="title">签署文件</div>
              <span class='text'>
                <strong>当前状态：</strong>
                <span>{{status}}</span>
@@ -44,9 +44,7 @@
               <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
               <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified">保存</el-button>
             </p>
-            <div style="text-align:left;">
-              <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics1'>
-            </div>
+            <div class="title" style="margin-top: 15px">签署人员</div>
           </div>
           <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs'>
             <div v-for="(item,index) in imgList" :key="index" >
@@ -97,7 +95,23 @@
       </div>
   </div>
 </template>
-<style>
+<style scoped>
+  .ContractDelays .main .title{
+    height: 46px;
+    margin: -65px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
+  }
+  .ContractDelays .main .text{
+    margin-top: -30px;
+    float: right;
+    padding-right: 50px;
+  }
   .back-home{
     background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;

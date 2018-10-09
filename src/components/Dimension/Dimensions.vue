@@ -57,7 +57,9 @@
       <!-- 合同内容结束 -->
       <!-- 右侧签署按钮开始 -->
       <div class='sign_right'>
-        <a href="javascript:void(0);" @click="getPosition"><img src="../../../static/images/Contract/submit1.png" alt="" ></a>
+        <a href="javascript:void(0);" @click="getPosition">
+          <img src="../../../static/images/Contract/seal-submit.png" alt="" >
+        </a>
 
        <p id='smCode'>
          <el-tooltip class="item" effect="dark" content="被授权人扫码签署" placement="right">
@@ -67,7 +69,7 @@
        </p>
        <br>
        <br>
-          <el-button style='color:#4091fb' v-show='recapture == true' @click='showDilog'>重新获取</el-button>
+          <el-button style='color:#4091fb' v-show='recapture == true' @click='showDialog'>重新获取</el-button>
       </div>
     </div>
     <!-- 签署合同结束 -->
@@ -227,7 +229,7 @@ export default {
     })
   },
   methods:{
-    showDilog(){
+    showDialog(){
       var smCode = document.getElementById('smCode')
       smCode.style.display ='block'
       this.recapture = false

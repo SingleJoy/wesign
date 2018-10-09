@@ -27,9 +27,10 @@
         </div>
         <!-- 文件信息开始 -->
         <div class="file">
-          <h2 class='fileInfo'>
-            <img src="../../../../static/images/Contractsigning/person.png" alt="">
-          </h2>
+          <div style="border-bottom: 1px solid #ddd;padding-bottom: 20px">
+            <div class="title" >文件信息</div>
+          </div>
+
           <h3 class='proper'>
             <!-- <p class='first'><b>合同名称：</b><input type="text" :value=this.$store.state.templateName id='batchText' :maxlength= 50  @blur="changeContName"> -->
             <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='batchText' :maxlength= 50>
@@ -62,7 +63,8 @@
         <!-- 签署人设置开始 -->
         <div class="setting">
           <h2 class='settingInfo'>
-            <img src="../../../../static/images/Contractsigning/settings.png" alt="">
+
+            <div class="title" >签署人设置</div>
             <p class='batchInfo'>
               <!-- <el-checkbox></el-checkbox>
               <b class='info'>短信通知</b>
@@ -618,6 +620,18 @@ export default {
 </style>
 
 <style lang="scss">
+  .batchSettings .setting .title ,.batchSettings .file .title{
+    height: 46px;
+    margin: 0 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../../static/images/Common/title.png") no-repeat;
+    font-weight: normal;
+  }
   .first #batchText{
     -webkit-appearance: none;
     background-color: #fff;

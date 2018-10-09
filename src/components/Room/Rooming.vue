@@ -3,7 +3,7 @@
     <div class='main'>
       <div class='top'>
         <p class='set'>
-          <img src="../../../static/images/Room/seeting.png" alt="">
+        <div class="title">签约室设置</div>
         </p>
         <p class='copy'>
           <span>签约室链接:</span>
@@ -163,6 +163,17 @@ export default {
   }
   .upload-demo{
     margin-top: -24px !important;
+  }
+  .Rooming .main .title{
+    height: 46px;
+    margin: 0px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
   }
 </style>
 

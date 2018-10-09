@@ -3,33 +3,24 @@
 <!--touchstart,touchmove,touchend,touchcancel 这-->
     <canvas id="canvas" disable-scroll="true" style="position: fixed;left:0;top:0;" width="500" height="700">Canvas画板</canvas>
     <h2 class='info_info'>请在下面签署</h2>
-    <!-- <van-button type="primary" style='width:60px;height:60px;background:#0e6eb8;border-radius:50%;font-size:12px;position:fixed;right:3%;bottom:35%; transform: rotate(90deg);' v-on:click="save">提交</van-button>
-    <van-button type="primary" style='width:60px;height:60px;background:#0e6eb8;border-radius:50%;font-size:12px;position:fixed;right:3%;bottom:22%; transform: rotate(90deg);' v-on:click="clear">清除</van-button> -->
+
     <p style='color:#fff;width:60px;height:60px;text-align:center;line-height:60px;background:#0e6eb8;border-radius:50%;font-size:12px;position:fixed;right:3%;bottom:30%; transform: rotate(90deg);' v-on:click="save">提交</p>
     <br>
     <p style='color:#fff;width:60px;height:60px;text-align:center;line-height:60px;background:#0e6eb8;border-radius:50%;font-size:12px;position:fixed;right:3%;bottom:15%; transform: rotate(90deg);' v-on:click="clear">清除</p>
-    <!-- <van-button type="primary" style='width:60px;height:60px;background:#0e6eb8;border-radius:50%;font-size:12px;position:fixed;right:3%;bottom:10%; transform: rotate(90deg);'  v-on:click="closeCan">退出</van-button>  -->
-    <div>
-      <!-- <mu-dialog :open="dialog">
-         <p>确认提交签署？</p>
-          <mu-flat-button label="确定" slot="actions" primary @click="close" />
-      </mu-dialog> -->
-    </div>
 
-      <!-- <mu-dialog :open="hint">
-         <p>您还没有书写您的签名</p>
-          <mu-flat-button label="确定" slot="actions" primary @click="closeDown" />
-      </mu-dialog> -->
+
+
+
       <div class='bg'>
           <div class='center_cen'>
               <p>您还没有完成签署！</p>
-              <a href="javascript:void(0);" id='closeBtn' @click='closeBtn'>确定</a>
+              <a href="javascript:void(0);"  @click='closeBtn' class="closeBtn">确定</a>
           </div>
       </div>
     <div class='bg1'>
           <div class='center1'>
               <p>为了更好的签署体验，请关闭手机自动旋转功能！</p>
-              <a href="javascript:void(0);" id='closeBtn' @click='closeBtn1'>确定</a>
+              <a href="javascript:void(0);"  @click='closeBtn1' class="closeBtn">确定</a>
           </div>
       </div>
     <div id='bg'>
@@ -317,9 +308,7 @@ export default {
      height:220px;
      background-size:100% 100%;
   }
-  .demo-flat-button{
 
-  }
 .bg{
     width:100%;
     height:100%;
@@ -348,13 +337,9 @@ export default {
     text-align:center;
     padding-top:10px;
     font-size:18px;
-    font-family:'SimHei';
+
 }
-#closeBtn{
-    display:block;
-    padding-top:30px;
-    padding-left:40%;
-}
+
 
 .bg1{
     width:100%;
@@ -387,7 +372,7 @@ export default {
     font-family:'SimHei';
     text-indent:2rem;
 }
-#closeBtn{
+.closeBtn{
     display:block;
     padding-top:30px;
     padding-left:40%;

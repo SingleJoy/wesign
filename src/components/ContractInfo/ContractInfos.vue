@@ -10,145 +10,159 @@
 
         <p id="sign-icon" v-if="accountCode!= operator && accountName">
           <span class="department">{{accountName}}</span>
-          <!-- <span>张丽华</span> -->
         </p>
 
         <p>
           <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-          <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
         </p>
 
       </div>
-      <p class='second'>
-        <img src="../../../static/images/ContractInfo/uploading.png" alt="" class='pic'>
-        <span class='text'>
-               <strong>当前状态：</strong>
-               <span>{{status}}</span>
-             </span>
+      <p class="second">
+      <div class="title">签署文件</div>
+      <span class="text">
+        <strong>当前状态：</strong>
+        <span>{{status}}</span>
+       </span>
       </p>
-      <div class='three' style="text-align: left;">
-        <p class='details'>
+      <div class="three" style="text-align: left;">
+        <p class="details">
           <strong style="line-height: 20px;">合同文件：</strong><span class="contract_Name" :title="contractName">{{contractName}}</span>
           <a href="javascript:void(0);" @click="seeContractImg">查看</a>
           <a href="javascript:void(0);" @click="downloadClick">下载</a>
           <strong>发起方式：</strong><span>{{createType}}</span>
           <strong>签署截止日期：</strong><span>{{validTime}}</span>
         </p>
-        <img src="../../../static/images/ContractInfo/launch.png" alt="" class='pics'>
+        <div class="title" style="margin-top: 15px">签署人员</div>
       </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='showDialogs'>
+      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class="showDialogs">
 
-            <div v-for="(item,index) in imgList" :key="index" >
-               <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
-            </div>
-          </el-dialog>
-          <div class='table' style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
-              <el-table
-                :data="tableData2"
-                style="width: 100%;text-align:center"
-                :header-cell-style="getRowClass"
-                >
-                <el-table-column
-                prop="signUserName"
-                label="姓名"
-                style="text-align:center"
-                width="250">
-                </el-table-column>
-                <el-table-column
-                prop="mobile"
-                label="手机号"
-                width="200">
-                </el-table-column>
-                <el-table-column
-                prop="idCard"
-                label="身份证号码"
-                width="300">
-                </el-table-column>
-                <el-table-column
-                prop="signStatus"
-                label="状态"
-                width="250"
-                >
-                <template slot-scope="scope">
-                  <el-button  type="text" size="small" v-if ='scope.row.signStatus === 1 '>已签署</el-button>
-                  <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 ' style="color:red;">未签署</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="operation"
-                label="操作"
-                width="200"
-                >
-                <template slot-scope="scope">
-                    <el-button  type="text" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile &&scope.row.userCode!=interfaceCode &&scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
-                    <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
-                </template>
-              </el-table-column>
-            </el-table>
-            </div>
-            <img src="../../../static/images/ContractInfo/history.png" alt="" class='pic-a' style="display:block;margin-left:12px;margin-top:20px;" >
-            <div style="margin-top: 30px;margin-left: 70px;">
-              <img v-if="History.length>1"  style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
-              <el-steps direction="vertical" :active=0>
-                <el-step :title=item.signUserName+item.logInfo
-                    :description=item.signTime
-                    v-for="(item,index) in History"
-                    :key="index" icon="el-icon-location"
-                    :class="{'currentStep':index == 0}"
-                    style="font-size: 40px;height:100px;">
-                </el-step>
-              </el-steps>
+        <div v-for="(item,index) in imgList" :key="index" >
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+        </div>
+      </el-dialog>
+      <div class="table" style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
+        <el-table
+          :data="tableData2"
+          style="width: 100%;text-align:center"
+          :header-cell-style="getRowClass"
+        >
+          <el-table-column
+            prop="signUserName"
+            label="姓名"
+            style="text-align:center"
+            width="250">
+          </el-table-column>
+          <el-table-column
+            prop="mobile"
+            label="手机号"
+            width="200">
+          </el-table-column>
+          <el-table-column
+            prop="idCard"
+            label="身份证号码"
+            width="300">
+          </el-table-column>
+          <el-table-column
+            prop="signStatus"
+            label="状态"
+            width="250"
+          >
+            <template slot-scope="scope">
+              <el-button  type="text" size="small" v-if ='scope.row.signStatus === 1 '>已签署</el-button>
+              <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 ' style="color:red;">未签署</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="operation"
+            label="操作"
+            width="200"
+          >
+            <template slot-scope="scope">
+              <el-button  type="text" size="mini" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile &&scope.row.userCode!=interfaceCode &&scope.row.isCreater && status != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+              <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="title" style="margin-top: 15px">合同历史</div>
+      <div style="margin-top: 30px;margin-left: 70px;">
+        <img v-if="History.length>1"  style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+        <el-steps direction="vertical" :active=0>
+          <el-step :title=item.signUserName+item.logInfo
+                   :description=item.signTime
+                   v-for="(item,index) in History"
+                   :key="index" icon="el-icon-location"
+                   :class="{'currentStep':index == 0}"
+                   style="font-size: 40px;height:100px;">
+          </el-step>
+        </el-steps>
 
       </div>
     </div>
   </div>
 </template>
-<style lang="scss">
-    .el-table--scrollable-x .el-table__body-wrapper{
-        overflow: hidden;
-    }
-    .el-step__main{
-        height: 100px;
-    }
-    .back-home{
-        background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
-        width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
-    }
-    .main .first #sign-icon{
-        background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
-        height: 60px;
-        position: absolute;
-        text-align: center;
-        display: inline-block;
-        margin-left: 20px;
-        background-size: cover;
-        line-height: 44px;
-        padding-left: 35px;
-        padding-right: 15px;
-        span{
-            color:#fff;
-            font-size: 12px;
-            padding-left: 0;
-        }
-        .department{
-            font-size: 14px;
-            display: block;
-            font-weight: 500;
-            margin-top: 10px;
-        }
+<style lang="scss" >
+  .ContractInfos .main .title{
+    height: 46px;
+    margin: -65px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../static/images/Common/title.png") no-repeat;
+  }
+  .ContractInfos .main .text{
+    margin-top: -30px;
+    float: right;
+    padding-right: 50px;
+  }
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden;
+  }
+  .el-step__main{
+    height: 100px;
+  }
+  .back-home{
+    background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+    width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
+  }
+  .main .first #sign-icon{
+    background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+    height: 60px;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    margin-left: 20px;
+    background-size: cover;
+    line-height: 44px;
+    padding-left: 35px;
+    padding-right: 15px;
+  span{
+    color:#fff;
+    font-size: 12px;
+    padding-left: 0;
+  }
+  .department{
+    font-size: 14px;
+    display: block;
+    font-weight: 500;
+    margin-top: 10px;
+  }
 
-    }
-    .extension-btn{
-        float: right;
-        background: #4091fb;
-        padding: 5px 20px;
-        height: 20px;
-        line-height: 20px;
-        border-radius: 5px;
-        color: #fff;
-        margin-top: 15px;
-        cursor: pointer;
-    }
+  }
+  .extension-btn{
+    float: right;
+    background: #4091fb;
+    padding: 5px 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 15px;
+    cursor: pointer;
+  }
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -168,7 +182,7 @@
 
   .showDialogs{
     height: 700px;
-    // overflow-y: scroll;
+  // overflow-y: scroll;
     overflow: hidden;
   }
   .showDialogs .el-dialog__body{
@@ -400,26 +414,26 @@
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
         if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-            if(cookie.getJSON('state') == 'A'){
-                this.$store.dispatch('tabIndex',{tabIndex:1});
-            }else{
-                this.$store.dispatch('tabIndex',{tabIndex:0});
-            }
-            this.$router.push("/Home")
+          if(cookie.getJSON('state') == 'A'){
+            this.$store.dispatch('tabIndex',{tabIndex:1});
+          }else{
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+          }
+          this.$router.push("/Home")
         }else{
           this.$router.push("/Mycontract")
-        //   this.$store.dispatch('tabIndex',{tabIndex:1});
+          //   this.$store.dispatch('tabIndex',{tabIndex:1});
         }
       }
     },
 
-  created() {
-    this.signMobile = cookie.getJSON('tenant')[0].mobile
-    var contractNo = sessionStorage.getItem('contractNo');
-    var accountLevel = sessionStorage.getItem('accountLevel');
-    var accountCode = sessionStorage.getItem('accountCode');
-    var detailAccountCode = sessionStorage.getItem('detailAccountCode');
-    if (contractNo) {
+    created() {
+      this.signMobile = cookie.getJSON('tenant')[0].mobile
+      var contractNo = sessionStorage.getItem('contractNo');
+      var accountLevel = sessionStorage.getItem('accountLevel');
+      var accountCode = sessionStorage.getItem('accountCode');
+      var detailAccountCode = sessionStorage.getItem('detailAccountCode');
+      if (contractNo) {
         // contractNo = JSON.parse(contractNo)
         if ( this.$store.state.rowNumber == ''){
           this.contractNo = contractNo;
@@ -430,12 +444,12 @@
       //判断是不是二级账户如果是不请求顶部显示部门姓名
       if(accountLevel != 2){
         let param={
-            accountCode:detailAccountCode
+          accountCode:detailAccountCode
         }
         server.getAccountName(param,this.interfaceCode).then(res=>{
-            if(res.data.resultCode == 1){
-                this.accountName = res.data.data
-            }
+          if(res.data.resultCode == 1){
+            this.accountName = res.data.data
+          }
         }).catch({
 
         })
