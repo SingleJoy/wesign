@@ -388,13 +388,13 @@ export default {
       // }else {
       //   this.oneAccount=false;
       // }
-      var Status = cookie.getJSON('tenant')[1].isBusiness;
+      var auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       // console.log("Status"+Status)
-      if(Status == '0'){
-        this.Jurisdiction = false
+      if(auditSteps == 3){
+        this.Jurisdiction = true
 
       }else {
-        this.Jurisdiction = true
+        this.Jurisdiction = false
       }
 
 

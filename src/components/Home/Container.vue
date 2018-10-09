@@ -206,6 +206,7 @@
             arr: [],
             uploadFile: true,
             interfaceCode: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+            isBusiness: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].isBusiness:'',
             accountCode:sessionStorage.getItem('accountCode'),
             Type: { contractType: "0" },
             welcomeMessage:true, //欢迎信息
@@ -371,23 +372,24 @@
             })
         },
         choice() {
-            if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-                this.welcomeMessage = true;
-            }else if(this.contractNum>0){
-                this.getContractNum();
-                if(this.contractNum==0){
-                    this.$confirm(
-                        <div class="warn-num">
-                            <p class="title">对不起，您的免费签约次数已用尽!</p>
-                            <p>成为正式用户享受更多使用权限</p>
-                            <p>客服电话：400-00006923</p>
-                            <p></p>
-                        </div>,'提示', {
-                            confirmButtonText: '确定',
-                            showCancelButton:false
-                    })
-                }else{
-                    this.popupContainer = !this.popupContainer;
+            if(!this.isBusiness){         //先判断是否为大B（付费用户）
+                if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+                    this.welcomeMessage = true;
+                }else if(this.contractNum>0){
+                    this.getContractNum();
+                    if(this.contractNum==0){
+                        this.$confirm(
+                            <div class="warn-num">
+                                <p class="title">对不起，您的免费签约次数已用尽!</p>
+                                <p>成为正式用户享受更多使用权限</p>
+                                <p>客服电话：400-00006923</p>
+                            </div>,'提示', {
+                                confirmButtonText: '确定',
+                                showCancelButton:false
+                        })
+                    }else{
+                        this.popupContainer = !this.popupContainer;
+                    }
                 }
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                 this.$alert('您暂无上传发起权限','提示', {
