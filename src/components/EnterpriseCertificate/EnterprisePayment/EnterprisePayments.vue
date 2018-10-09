@@ -221,10 +221,10 @@
 
       }
     },
-    beforeDestroy() {
-      clearInterval(this.timer);
-      this.timer = null;
-    },
+      beforeDestroy() {
+        clearInterval(this.timer);
+        this.timer = null;
+      },
     methods:{
       change (val) {
         this.province=val[0]
@@ -449,10 +449,10 @@
 
       // 轮询查找打款进度信息
 
-      let that = this;
-      let pollTimer = null;
-      this.pollTimer = setInterval(function () {
-        that.pollingPanel(this.pollTimer)
+      let that = this
+      let timer = null
+      this.timer = setInterval(function () {
+        that.pollingPanel(this.timer)
       }, 3000)
 
     }

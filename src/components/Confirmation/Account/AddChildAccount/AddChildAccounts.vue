@@ -326,9 +326,7 @@
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
         //   console.log(res.bodyText)
-
           this.date=res.bodyText;
-
         });
       },
 
@@ -340,9 +338,7 @@
 
       //提交事件
       submitBtn(formName){
-
         console.log(this.batchTemplate+this.singleTemplate)
-
         let enterpriseName= sessionStorage.getItem("enterpriseName");
         if(this.agree){
           this.$refs[formName].validate((valid) => {
@@ -355,7 +351,6 @@
               let pass = md5(this.ruleForm.password); //密码MD5加密
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
-
 
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");

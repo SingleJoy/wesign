@@ -79,7 +79,6 @@ import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                
 import Register from "../components/UserRegister/Register.vue";                       //个人注册
 import BusinessRegister from '../components/UserRegister/BusinessRegister.vue'                       //企业注册
 
-
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
 
 // demo 演示
@@ -90,7 +89,6 @@ import DemoAddPerson from '../demo/DemoAddPerson.vue'   //demo添加签署人
 import DemoSuccess from '../demo/DemoSuccess.vue'   //demo添加签署人
 import DemoTemplateFill from '../demo/DemoTemplateFill.vue'   //demo添加签署人
 import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署人
-
 
 Vue.use(Router)
 

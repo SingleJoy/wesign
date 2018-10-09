@@ -79,9 +79,6 @@
 </script>
 <style scoped>
 
-  @import "../common/styles/demo/DemoTops.css";
-
-
   .demoTemplateFill-content{
     width: 1200px;
     margin: 20px auto;

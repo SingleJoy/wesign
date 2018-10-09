@@ -66,9 +66,6 @@
   }
 </script>
 <style scoped>
-  @import "../common/styles/demo/DemoTops.css";
-
-
 
   .demoAddPerson-container{
     width: 1200px;
