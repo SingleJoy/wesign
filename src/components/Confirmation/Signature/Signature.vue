@@ -31,9 +31,7 @@
       <div class="file" style="border-top: 1px solid #ddd;">
         <!--文件信息-->
         <div class="setting" style="padding-top: 15px;">
-          <h2 class="fileInfo">
-            <img src="../../../../static/images/Contractsigning/person.png">
-          </h2>
+          <p class="title">文件信息</p>
           <div class="file-info" style="margin-bottom: 30px;">
 
             <div class="info-left">
@@ -85,9 +83,7 @@
         </el-dialog>
          <!--签署人设置-->
           <div class="sign-people">
-            <h2 class='settingInfo' style="padding: 0 0 0 15px;">
-              <img src="../../../../static/images/Contractsigning/settings.png" />
-            </h2>
+            <p class="title">签署人设置</p>
             <div class="list-content">
               <div  class="list-body">
                 <div class="list-left" >
@@ -667,9 +663,22 @@
   @import "../../../styles/Confirmation/Signature/Signature.css";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
+  .Contents .file .setting .title{
+    display: block;
+    height: 65px;
+    margin: 20px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("../../../../static/images/Common/title.png") no-repeat;
+  }
 
 </style>
 <style>
+
   .contract-info{
     box-sizing: border-box !important;
     height:700px !important;

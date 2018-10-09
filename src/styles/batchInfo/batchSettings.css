@@ -2,9 +2,7 @@
     width: 1200px;
     margin: 0 auto;
     background: #fff;
-
 }
-
 
 /* 文件信息样式开始 */
 .file{
@@ -62,16 +60,11 @@
     clear: both;
 }
 .setting>.settingInfo{
-    margin-top: 30px;
-    padding-left: 15px;
-    height: 70px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 20px;
-}
-.settingInfo>img{
     padding-top: 20px;
-    float: left;
 }
+
 .settingInfo .batchInfo{
     float: right;
     padding-right: 15px;

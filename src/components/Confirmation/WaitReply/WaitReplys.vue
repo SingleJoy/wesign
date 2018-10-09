@@ -1,3 +1,4 @@
+<!--
 /*
 * @Author: wangjia
 * @Date: 2018-06-19 16:24:23
@@ -13,7 +14,7 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <!-- <el-button style='color:#4091fb'>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button> -->
+          &lt;!&ndash; <el-button style='color:#4091fb'>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</el-button> &ndash;&gt;
         </div>
       </nav>
     </div>
@@ -120,8 +121,8 @@
               <p id='errorInfo'></p>
             </div>
             <div class="edit-btn" >
-              <!-- <el-button type="primary" style="width: 160px;" @click="reviseInformation" v-if="click == false">编辑</el-button>
-              <el-button type="primary" style="width: 160px;" @click="successInformation" v-else>完成</el-button> -->
+              &lt;!&ndash; <el-button type="primary" style="width: 160px;" @click="reviseInformation" v-if="click == false">编辑</el-button>
+              <el-button type="primary" style="width: 160px;" @click="successInformation" v-else>完成</el-button> &ndash;&gt;
               <el-button type="primary" style="width: 330px;height: 40px;z-index: 999;position: relative;" @click="validateSMS">提交</el-button>
             </div>
 
@@ -319,3 +320,4 @@
   @import "../../../common/styles/Topes.css";
   @import "../../../common/styles/SigningSteps.css";
 </style>
+-->
