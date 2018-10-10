@@ -167,9 +167,8 @@ export default {
 				}
 			}
         }
-    
         let getinterfaceCode =  GetQueryString("appId");
-        
+
         if(getinterfaceCode){
             server.getUrlMobile(getinterfaceCode).then(res=>{
                 if (res.data.resultCode == '1') {
@@ -423,7 +422,7 @@ export default {
 	.layer_close {
 		height: 30px;
 		color: #bbbbbb;
-		line-height: 30px;	
+		line-height: 30px;
 	}
 	.layer_close_right {
 		float: right;

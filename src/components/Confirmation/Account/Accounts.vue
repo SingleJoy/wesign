@@ -865,6 +865,7 @@
           this.Email=res.data.data.email;
           this.account=res.data.data.enterpriseName;
           this.authName=res.data.data.authorizerName;
+          this.enterpriseName=res.data.data.enterpriseName;
           sessionStorage.setItem("authName",this.authName);
         }
       })
