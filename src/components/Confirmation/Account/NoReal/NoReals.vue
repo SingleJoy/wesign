@@ -3,7 +3,7 @@
     <div  class='content'>
       <br/>
       <p class="title">账号管理</p>
-      <div class='contentInfo'>
+      <div class='contentInfo' style="border-top: 1px solid #ddd;">
         <div class='companyName'>
           <p>
             <span className="company-name">企业名称：</span>
@@ -23,8 +23,8 @@
           <a href="javascript:void(0);" @click="centerDialogVisible = true">修改密码</a>
         </div>
         <p class="title">签章管理</p>
-        <div class='accountPic'>
-          <img :src="[contractSign]" alt="" style="width:100%">
+        <div class='accountPic'  style="border-top: 1px solid #ddd;">
+          <img :src="[contractSign]" alt="" style="width:160px;height: 160px">
           <p style="padding-left: 58px;width: 95px;">{{chapter}}</p>
         </div>
       </div>
