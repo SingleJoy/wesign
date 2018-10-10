@@ -1,48 +1,58 @@
 <template>
-  <div class='Contract'>
-    <LoginTop></LoginTop>
-     <div class="Login">
-
-
-    <div class="login-wrap">
-      <div class="ms-login">
-        <div class='center'>
-          <div class='user'>
-            <h2 class='userInfo'>体验登录</h2>
-            <el-form  label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
-                <el-form-item prop="username">
-                    <el-input placeholder="请输入姓名" v-model="ruleForm.username"></el-input>
-                </el-form-item>
-                <el-form-item prop="mobile">
-                    <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="请输入手机号"></el-input>
-                </el-form-item>
-                <el-form-item prop="code">
-                    <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码">
-                        <el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
-                    </el-input>
-                </el-form-item>
-                <div class="login-btn">
-                    <el-button type="primary" @click="experience('ruleForm')">立即体验</el-button>
-                </div>
-                <div class="giveUp" @click="abandon()">放弃体验</div>
-            </el-form>
-          </div>
+    <div class='Contract'>
+        <div class="login-nav">
+            <div class="logo-zq"><img src="../../static/images/Login/modification-logo.png" alt=""></div>
+            <div class="logo-content">
+                <span class="register" @click="abandon()">放弃体验</span>
+                <img src="../../static/images/Login/goback-right.png" alt="">
+            </div>
         </div>
-      </div>
+        <div class="Login">
+            <div class="login-wrap">
+                <div class="ms-login">
+                <div class='center-user'>
+                    <div class="login-body-left">
+					<p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+					<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+					<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+				</div>
+                    <div class='user'>
+                    <h2 class='userInfo'>体验登录</h2>
+                    <el-form  label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
+                        <el-form-item prop="username">
+                            <el-input placeholder="请输入姓名" v-model="ruleForm.username"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="mobile">
+                            <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="请输入手机号"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="code">
+                            <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码">
+                                <el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
+                            </el-input>
+                        </el-form-item>
+                        <div class="login-btn">
+                            <el-button type="primary" @click="experience('ruleForm')">立即体验</el-button>
+                        </div>
+                        <!-- <div class="giveUp" @click="abandon()">放弃体验</div> -->
+                    </el-form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <QRcode></QRcode>
+        <Bottom></Bottom>
     </div>
-  </div>
-    <Bottom></Bottom>
-  </div>
 </template>
 <script>
-import LoginTop from '../common/components/LoginTop'
+import QRcode from '../common/components/QRcode'
 import Bottom from '../common/components/Bottom'
 import server from "@/api/url";
 import { validateMoblie, validateSmsCode} from "@/common/js/validate";
 export default {
     name: 'Contract',
         components: {
-        LoginTop,
+        QRcode,
         Bottom
     },
     data () {
@@ -184,9 +194,11 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "../../static/icon/iconfont.css";
+  .el-button--primary {
+      background-color: #4091fb;
+  }
   .Login {
     width: 100%;
-    height: 350px;
   .select-btn {
     background-color: #fff;
     color: #666;
@@ -198,34 +210,46 @@ export default {
   }
   .login-wrap {
     width: 100%;
-
-    background: #f4f2f2;
+    height: 40rem;
+    overflow:hidden;
+    background: url('../../static/images/Login/new-login.png') no-repeat;
+    background-size: 100% 100%;
   }
-  .center {
-    width: 77.5rem;
-    height: 34rem;
-    background: url("../../static/images/Login/try.png") no-repeat;
-    position: absolute;
-    background-size: 100%;
-    top: 50%;
-    left: 50%;
-    margin-left: -39rem;
-    margin-top: -10rem;
+  .center-user {
+    width: 75rem;
+    margin: 0 auto;
+    position: relative;
   }
+  .user-login{
+    
+}
   .userInfo {
-    color: #409EFF;
-
+    color: #333333;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     text-align: center;
-    font-size: 2.25rem;
+    font-size: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
   .user {
-    width: 21rem;
-    height: 28rem;
+    width: 22.5rem;
     position: absolute;
-    right: 10%;
-    top: 5rem;
+    right: 0%;
+    top: 8.75rem;
+    background: #fff;
+    padding: 1.875rem;
+    border-radius: 15px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 22.5rem;
+    position: absolute;
+    right: 0%;
+    top: 8.75rem;
+    background: #fff;
+    padding: 1.875rem;
+    border-radius: 15px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
   }
   .login-logo {
     width: 100px;
@@ -263,7 +287,7 @@ export default {
   }
   .login-btn button {
     width: 100%;
-    height: 36px;
+    height: 40px;
   }
   .giveUp {
       font-size: 14px;
@@ -272,8 +296,39 @@ export default {
       float: right;
       cursor: pointer;
   }
+  .login-body-left{
+    position: absolute;
+    left: 0;
+    top: 6.875rem;
+    color: #fff;
+}
+.login-nav {
+	background-color: #fff;
+	height: 80px;
+	line-height: 80px;
+	padding: 0 50px;
+}
+.logo-zq {
+	display: inline-block;
+}
+.logo-zq img {
+	vertical-align: middle;
+	// background-color: #000;
+	// width: 30px;
+}
+.logo-content {
+	display: inline-block;
+	float: right;
+}
+.logo-content img {
+	vertical-align: middle;
+}
+.register {
+	color: #4091fb;
+	cursor: pointer;
+}
  .el-input-group__append button.el-button, .el-input-group__append div.el-select .el-input__inner, .el-input-group__append div.el-select:hover .el-input__inner, .el-input-group__prepend button.el-button, .el-input-group__prepend div.el-select .el-input__inner, .el-input-group__prepend div.el-select:hover .el-input__inner{
-		background-color: #409EFF;
+		background-color: #4091fb;
 		color: #ffffff;
 	}
 </style>
