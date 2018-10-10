@@ -675,9 +675,9 @@
         // left: 274px;
         // top: 169px;
         // font-size: 18px;
-        position: absolute;
-        left: 190px;
-        top: 120px;
+        position: relative;
+        left: 12rem;
+        top: 7.5rem;
         font-size: 14px;
     }
     .close-warn{

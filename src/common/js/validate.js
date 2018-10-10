@@ -45,6 +45,16 @@ export function validateCredit(str){
     return reg.test(str)
 }
 
+
+
+// /**
+//  *  @param {*Name-Chinese} str
+//  */
+// export function validateCredit(str){
+//     const reg =  /\u4e00-\u9fa5/
+//     return reg.test(str)
+// }
+
 /**
  *  @param {*nonnumeric} str
  */

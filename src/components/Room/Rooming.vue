@@ -120,7 +120,9 @@ export default {
         } else {
         this.inputData = res.data.data.signRoomLink;
         this.signRoomLogo = res.data.data.signRoomLogo;
-        this.message = res.data.data.signRoomName;
+        if(res.data.data.signRoomName){
+            this.message = res.data.data.signRoomName;
+        }
           if(this.signRoomLogo==null ||this.signRoomLogo=='null'){
             this.showImage=false
 

@@ -191,6 +191,7 @@
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
+ import server from "@/api/url";
 export default {
   name: 'Top',
       data() {

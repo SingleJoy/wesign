@@ -44,7 +44,7 @@
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
 						<el-form-item prop="username">
-						<el-input v-model="ruleForm.username" placeholder="请输入手机号" maxlength="11" class="login-input" ></el-input><i class="icon-user"></i>
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
 						</el-form-item>
 						<el-form-item prop="code">
 							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
@@ -52,10 +52,10 @@
 							</el-input>
 						</el-form-item>
 						<el-form-item prop="password">
-						<el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input><i class="icon-suo"></i>
+						<el-input type="password" v-model="ruleForm.password" :disabled="passwordDisabled" placeholder="请输入密码"></el-input><i class="icon-suo"></i>
 						</el-form-item>
 						<el-form-item prop="newPassword">
-						<el-input type="password" v-model="ruleForm.newPassword" placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
+						<el-input type="password" v-model="ruleForm.newPassword" :disabled="passwordDisabled"  placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
 						</el-form-item>
 						<el-form-item>
 						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
@@ -130,7 +130,9 @@ export default {
 		};
 		return {
 			checked: false,
-			interfaceCode: Math.random(),
+            interfaceCode: Math.random(),
+            userDisabled:false,
+            passwordDisabled:false,
 			smsNo: '',
 			smsCode: '',
 			codeSure: false,
@@ -168,8 +170,8 @@ export default {
 			}
         }
         let getinterfaceCode =  GetQueryString("appId");
-
         if(getinterfaceCode){
+            this.interfaceCode = getinterfaceCode
             server.getUrlMobile(getinterfaceCode).then(res=>{
                 if (res.data.resultCode == '1') {
                     this.$message({
@@ -178,11 +180,32 @@ export default {
                         type: 'success'
                     })
                 }
-                this.ruleForm.username = res.data.data.mobile;
+                let molie = res.data.data.mobile;
+                let psaaword = res.data.data.password;
+                let params = {
+                    username: res.data.data.mobile
+                };
+                this.ruleForm.username = molie;
+                server.verficate(params).then(res => {
+                     if (res.data === 0) {
+                        this.userDisabled = true;
+                        if(!psaaword){
+                            this.ruleForm.password="test111111";
+                            this.ruleForm.newPassword="test111111";
+                            this.passwordDisabled = true;
+                        }
+                        callback();
+                    } else {
+                        callback(new Error("此用户不存在"));
+                    }
+                }).catch(error=>{
+
+                })
             }).catch(error=>{
 
             })
         }
+
 
 
 	},
@@ -293,7 +316,11 @@ export default {
 						}).then(res => {
 							if(res.body.resultCode == 1) {
 								//个人注册提交
-								server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
+								server.individualRegister({
+                                    'mobile': this.ruleForm.username,
+                                    'password': md5(this.ruleForm.password),
+                                    'interfaceCode':this.interfaceCode
+                                    }).then( res=> {
 									if(res.data.resultCode === '1') {
 										this.isShow = true;
 										this.isShowSkip = true;
@@ -304,7 +331,6 @@ export default {
 												clearInterval(setTimer);
 												_this.$router.push('/')
 											}
-											console.log(_this.count);
 										}, 1000);
 										//this.$router.push('/');
 									} else {
