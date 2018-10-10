@@ -396,12 +396,11 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-        if(cookie.getJSON('state') == 'E'){
-
-          this.$router.push("/Home")
-        }else if(cookie.getJSON('state') == 'E1'){
-          this.$router.push("/CompanyContract")
-        }
+            if(cookie.getJSON('state') == 'List'){
+                this.$router.push("/Home")
+            }else{
+                this.$router.push("/Mycontract")
+            }
       }
     },
     created() {

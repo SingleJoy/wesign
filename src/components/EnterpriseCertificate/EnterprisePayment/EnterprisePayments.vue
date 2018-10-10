@@ -58,7 +58,7 @@
           <div class="edit-btn" >
             <el-button type="info" style="width:200px;height: 40px;" @click="cancel">返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
 
-            <el-button type="primary" style="width: 200px;height: 40px;" @click="submit" :disbled="once">提交</el-button>
+            <el-button type="primary" style="width: 200px;height: 40px;" @click="submit" :disabled="once">提交</el-button>
           </div>
 
           <el-dialog
@@ -94,7 +94,7 @@
               </el-form-item>
 
               <div class="forget-btn" style="margin-top: 20px;margin-left: 62px;">
-                <el-button type="primary" @click="thaw('legalForm')" style="width: 235px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+                <el-button type="primary" @click="thaw('legalForm')" style="width: 235px;" :disabled="verifySub">提&nbsp;&nbsp;交</el-button>
               </div>
 
             </el-form>
@@ -127,21 +127,21 @@
         }
       }
      //法人姓名校验
-     var validateLegalPerson=(rule,value,callback)=>{
-        if(value===''){
-          callback(new Error('法人姓名不可为空'))
-        }else if(value!==''&&!(onlyChinese(TrimAll(value)))){
-          callback(new Error('法人姓名只能输入中文'));
-        }else{
-          callback()
-        }
-      }
+    //  var validateLegalPerson=(rule,value,callback)=>{
+    //     if(value===''){
+    //       callback(new Error('法人姓名不可为空'))
+    //     }else if(value!==''&&!(onlyChinese(TrimAll(value)))){
+    //       callback(new Error('法人姓名只能输入中文'));
+    //     }else{
+    //       callback()
+    //     }
+    //   }
       // 法人身份证号校验
       var validateIDcard=(rule,value,callback)=>{
         if(value===''){
           callback(new Error('法人身份证号不可为空'))
         }else if(value!==''&&!(validateCard(TrimAll(value)))){
-          callback(new Error('法人姓名只能输入中文'));
+          callback(new Error('身份证号格式不正确'));
         }else{
           callback()
         }
@@ -160,9 +160,9 @@
       //校验6位手机验证码
       var validatePhoneCode=(rule,value,callback)=>{
         if(value===''){
-          callback(new Error('法人手机号不可为空'))
+          callback(new Error('验证码不为空'))
         }else if(value!==''&&!(validateSmsCode(TrimAll(value)))){
-          callback(new Error('手机号验证码只能是6位数字'));
+          callback(new Error('验证码只能是6位数字'));
         }else{
           callback()
         }
@@ -184,6 +184,7 @@
         mobileShowLast:'',
         dialogAgreement:false,
         once:false, //提交按钮单次点击,
+        verifySub:false, //五次打款验证提交
 
         rules:{
           paymentNum: [
@@ -198,9 +199,9 @@
           phoneCode:'',
         },
         ruleFormRules:{
-          legalPerson:[
-            { required: true,validator: validateLegalPerson, trigger: 'blur' }
-          ],
+        //   legalPerson:[
+        //     { required: true,validator: validateLegalPerson, trigger: 'blur' }
+        //   ],
           IDcard:[
             { required: true,validator: validateIDcard, trigger: 'blur' }
           ],
@@ -301,65 +302,68 @@
       },
       // 解冻打款失败
       thaw(legalForm){
-
+        this.verifySub = true 
         this.$refs[legalForm].validate((valid) => {
-
-          this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-            params: {
-              'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
-            }
-          }).then(res => {
-            //手机号验证码检验失败
-            if (res.data.resultCode != 1) {
-              this.$message({
-                showClose: true,
-                message: res.data.resultMessage,
-                type: 'error'
-              })
-            }else {
-              //手机号验证码检验成功
-              this.$message({
-                showClose: true,
-                message: res.data.resultMessage,
-                type: 'success'
-              })
-              //手机号验证码校验成功后，开始调用解冻打款确认接口
-
-              let param ={
-                'userName':this.legalForm.legalPerson,
-                'idCard':this.legalForm.IDcard,
-                'mobile':this.legalForm.legalMobile,
-                'interfaceCode':this.interfaceCode,
-              };
-              server.unfreezeRemittance(param).then(function (res) {
-                if (res.data.resultCode == '1') {
-                  this.$message({
-                    showClose: true,
-                    message: res.data.resultMessage,
-                    type: 'success'
-                  })
-                } else {
-                  this.$message({
+            if(valid){
+                this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+                    params: {
+                    'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
+                    }
+            }).then(res => {
+                //手机号验证码检验失败
+                if (res.data.resultCode != 1) {
+                    this.verifySub = false  
+                this.$message({
                     showClose: true,
                     message: res.data.resultMessage,
                     type: 'error'
-                  })
+                })
+                }else {
+                //手机号验证码检验成功
+                this.verifySub = false  
+                this.$message({
+                    showClose: true,
+                    message: res.data.resultMessage,
+                    type: 'success'
+                })
+                //手机号验证码校验成功后，开始调用解冻打款确认接口
+
+                let param ={
+                    'userName':this.legalForm.legalPerson,
+                    'idCard':this.legalForm.IDcard,
+                    'mobile':this.legalForm.legalMobile,
+                    'interfaceCode':this.interfaceCode,
+                };
+                server.unfreezeRemittance(param).then(function (res) {
+                    if (res.data.resultCode == '1') {
+                        this.verifySub = false  
+                        this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: 'success'
+                        })
+                    } else {
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: 'error'
+                    })
+
+                    }
+
+                })
 
                 }
 
-              })
-
-            }
-
 
           })
-
-
+        }
         })
       },
-      cancel(){
-          this.$router.push('/Home')
-      },
+        cancel(){
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+            this.$router.push('/Merchant')
+        },
       //提交
       submit(){
         // this.dialogAgreement=true;
@@ -375,9 +379,7 @@
           return false
         }else{
           this.once=true;
-
           let param ={'trans_money':this.ruleForm.paymentNum};
-
           server.verifyRemittance(param,this.interfaceCode).then(res => {
             if (res.data.resultCode == 0) {
               this.$message({
@@ -387,17 +389,29 @@
               })
               this.once=false;
             } else if (res.data.resultCode == 1) {
-              this.$alert(res.data.resultMessage, '提示', {
+                this.once=false;
+                this.$alert(res.data.resultMessage, '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
-                this.$router.push('/EnterpriseRegisterSucc')
+                    let param={
+                            mobile:sessionStorage.getItem('mobile')
+                    };
+                    let urlParam = sessionStorage.getItem('interfaceCode')
+                    server.login(param,urlParam).then(res => {           
+                        cookie.set("tenant", res.data.dataList);  //更新cookie
+                        this.$router.push('/EnterpriseRegisterSucc')
+                    })
+                
               })
+                this.once=false;
             } else if(res.data.resultCode == '-4'){
-              this.message=res.data.resultMessage;
-              this.legalForm.legalPerson=res.data.data;
-              this.dialogAgreement=true;
+                this.once=false;
+                this.message=res.data.resultMessage;
+                this.legalForm.legalPerson=res.data.data;
+                this.dialogAgreement=true;
 
             }else{
+                this.once=false;
                 this.$message({
                     showClose: true,
                     message:res.data.resultMessage,
@@ -413,13 +427,13 @@
       pollingPanel(timer){ //轮询打款状态
         let that = this;
         server.moneyStatus(this.interfaceCode).then(function (res) {
-          if(res.data.resultCode=='1') {
-            clearInterval(that.pollTimer);
-          } else if(res.data.resultCode=='-1'){
-              this.$router.push('/EnterpriseCertificate')
-          }else{
+            if(res.data.resultCode=='1') {
+                clearInterval(that.pollTimer);
+            } else if(res.data.resultCode=='-1'){
+                this.$router.push('/EnterpriseCertificate')
+            }else{
 
-          }
+            }
 
         })
       },
@@ -455,6 +469,10 @@
         that.pollingPanel(this.timer)
       }, 3000)
 
+    },
+    destroyed:function(){
+        let that =this;
+        clearInterval(that.pollTimer);
     }
   }
 </script>

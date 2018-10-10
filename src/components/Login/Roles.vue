@@ -173,15 +173,27 @@ import cookie from '@/common/js/getTenant'
 				this.$router.push('/ActivateChildAccount')
 			}else{
 				server.login(params,urlParam).then(res=>{
+                    if(res.data.dataList[1].auditSteps!=3){
                         this.$message({
-							showClose: true,
-							duration:1000,
-							message: '登录成功',
-							type: 'success'
-						})
-						cookie.set('tenant',res.data.dataList) 			//存入cookie 所需信息
-						this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-                        this.$router.push('/Home')
+                        showClose: true,
+                            duration: 1000,
+                            message: "登录成功",
+                            type: "success"
+                        });
+                        cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+                        this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                        this.$router.push("/Merchant");
+                    }else{
+                            this.$message({
+                            showClose: true,
+                            duration: 1000,
+                            message: "登录成功",
+                            type: "success"
+                        });
+                        cookie.set("tenant", res.data.dataList);
+                        this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                    }
+                       
 				}).catch(error=>{
 					this.$message({
 						showClose: true,

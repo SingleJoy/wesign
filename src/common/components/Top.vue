@@ -389,10 +389,8 @@ export default {
       //   this.oneAccount=false;
       // }
       var auditSteps = cookie.getJSON('tenant')[1].auditSteps;
-      // console.log("Status"+Status)
       if(auditSteps == 3){
         this.Jurisdiction = true
-
       }else {
         this.Jurisdiction = false
       }

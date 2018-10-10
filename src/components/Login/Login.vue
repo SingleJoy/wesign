@@ -39,6 +39,7 @@
 							</el-form-item>
 							<p style="font-size:12px;color:#999;margin-bottom: 1.375rem;">
 								<a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
+                <a id='submit' class="experience" href="javascript:void(0)" @click="toExperience">免费体验</a>
 							</p>
 							<div class="login-btn">
 								<el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
@@ -208,26 +209,26 @@
                                     //先判断是否为实名用户，再根据isBusiness 判断是否有发起合同10次限制
                                     //判断是否为实名用户 auditSteps=3 已实名
                                         if(res.data.dataList[1].auditSteps!=3){
+                                            this.$message({
+                                            showClose: true,
+                                                duration: 1000,
+                                                message: "登录成功",
+                                                type: "success"
+                                            });
+                                            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                                            this.$router.push("/Merchant");
+                                        }else{
                                                 this.$message({
                                                 showClose: true,
-                                                    duration: 1000,
-                                                    message: "登录成功",
-                                                    type: "success"
-                                                });
-                                                cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                                                this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                                                this.$router.push("/Merchant");
-                                            }else{
-                                                 this.$message({
-                                                    showClose: true,
-                                                    duration: 1000,
-                                                    message: "登录成功",
-                                                    type: "success"
-                                                });
-                                                cookie.set("tenant", res.data.dataList);
-                                                this.$store.dispatch("tabIndex", { tabIndex: 0 });
-                                                this.$router.push("/Home");
-                                            }
+                                                duration: 1000,
+                                                message: "登录成功",
+                                                type: "success"
+                                            });
+                                            cookie.set("tenant", res.data.dataList);
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                                            this.$router.push("/Home");
+                                        }
 
                                         // if (res.data.dataList[1].isBusiness == "0") {  //未付费
                                         //     // 不是众签商户
@@ -377,7 +378,7 @@
     color: #333333;
     text-align: center;
     font-size: 1.5rem;
-    font-weight: 500;
+    // font-weight: 500;
   }
 
   .user {
@@ -432,27 +433,21 @@
     position: relative;
     height: 80px;
   }
-  .experience>span{
-    right: -6em;
-    top:15px;
-    color: #f95b5f;
-    display: block;
-    width: 60px;
-  }
-  .experience{
-    position: absolute;
-    margin-left: 10.9375em;
-    margin-top: 20px;
-  }
-  .experience p{
-    width: 51px;
-    height: 51px;
-
-    background: url("../../../static/images/Login/expercise.png")  no-repeat;
+  // .experience>span{
+  //   float: right;
+  // }
+  // .experience{
+  //   position: absolute;
+  //   margin-left: 10.9375em;
+  //   margin-top: 20px;
+  // }
+  .experience {
+    float: right;
   }
 
   #submit {
     color: #4091fb;
+    display: inline-block;
   }
   .fade {
     width: 100%;

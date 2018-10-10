@@ -76,10 +76,11 @@
 <script>
 //import cookie from "@/common/js/getTenant";
 //import Img from "../../../static/images/Login/qrcode.png";
-import { validateMoblie, validatePassWord, validateSmsCode } from "@/common/js/validate";
+import { validateMoblie, validatePassWord, validateSmsCode, } from "@/common/js/validate";
 import md5 from "js-md5";
 //import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
+import {GetQueryString} from '@/common/js/InterceptUrl'
 export default {
 	name: "IndividualRegisters",
 	data() {
@@ -143,7 +144,7 @@ export default {
 				username: "",
 				code: "",
 				password: "",
-				newPassword: ""
+				newPassword: "",
 			},
 			//表单验证
 			rules: {
@@ -164,7 +165,26 @@ export default {
 					_this.submitForm('ruleForm');
 				}
 			}
-		}
+        }
+        
+
+        let getinterfaceCode =  GetQueryString("appId");
+        if(getinterfaceCode){
+            server.getUrlMobile(getinterfaceCode).then(res=>{
+                if (res.data.resultCode == '1') {
+                    this.$message({
+                        showClose: true,
+                        message: '您已拥有微签账号，无需重新设置密码',
+                        type: 'success'
+                    })
+                }
+                this.ruleForm.username = res.data.data.tenantName;
+            }).catch(error=>{
+
+            })
+        }
+
+        
 	},
 	methods: {
 		//跳转到登录
@@ -444,7 +464,6 @@ export default {
 	}
 	.userInfo {
 	color: #333333;
-
 	text-align: center;
 	font-size: 1.5rem;
 	}
