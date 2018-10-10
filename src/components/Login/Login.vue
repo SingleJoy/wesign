@@ -378,7 +378,7 @@
     color: #333333;
     text-align: center;
     font-size: 1.5rem;
-    font-weight: 500;
+    // font-weight: 500;
   }
 
   .user {

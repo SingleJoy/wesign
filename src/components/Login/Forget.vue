@@ -289,7 +289,7 @@
     margin-left: 100px;
 	color:#333333;
 	font-size: 1.5rem;
-    font-family: '幼圆';
+    /* font-family: '幼圆'; */
   }
   .sy_close {
     width: 42px;

@@ -464,7 +464,6 @@ export default {
 	}
 	.userInfo {
 	color: #333333;
-
 	text-align: center;
 	font-size: 1.5rem;
 	}
