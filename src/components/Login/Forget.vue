@@ -21,12 +21,12 @@
 						<el-form-item prop="username">
 						<el-input v-model="ruleForm.username" placeholder="请输入手机号码" class="forget-input" :maxlength=11></el-input>
 						</el-form-item>
-						<el-form-item prop="message">
-						<el-form-item prop="code">
-							<el-input v-model="ruleForm.message" maxlength="6" placeholder="请输入短信验证码" class="">
-								<el-button slot="append" @click='sendCode' id='code'>获取验证码</el-button>
-							</el-input>
-						</el-form-item>
+						<!-- <el-form-item prop="message"> -->
+              <el-form-item prop="code">
+                <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
+                  <el-button slot="append" @click='sendCode' id='code'>获取验证码</el-button>
+                </el-input>
+              <!-- </el-form-item> -->
 						<!-- <el-input type="text" placeholder="请输入短信验证码" class='forget-messageInput' v-model="ruleForm.message" style="width: 200px;"></el-input>
 						<el-button type="primary" class="forget-messageButton" @click='sendCode' id='code' style="margin-left: 20px;">获取</el-button> -->
 						</el-form-item>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import {validateMoblie} from '@/common/js/validate'
+  import {validateMoblie, validateSmsCode, validatePassWord} from '@/common/js/validate'
   import md5 from 'js-md5'
   import cookie from '@/common/js/getTenant'
   export default {
@@ -82,21 +82,11 @@
       }
       var checkMessage = (rule,value,callback) => {   //判断短信验证码（长度，非空验证）
         if (value === ''){
-          callback(new Error('请输入短信验证码'))
-        } else if (value.length < 6){
-          callback(new Error('短信验证码长度必须为6位'))
+          callback(new Error('请输入短信验证码'));
+        } else if (!validateSmsCode(value)){
+          callback(new Error('验证码格式不正确'));
         } else {
-          this.$http.get(process.env.API_HOST+'v1/sms',{params:{
-              'userName':this.ruleForm.username,'smsNo': this.smsNum,'smsCode': value,'appId':this.appId
-            }}).then(response =>{
-            if (response.body === 0) {
-              callback()
-              this.getCode = true
-            } else {
-              callback(new Error('短信验证码填写错误'))
-              this.getCode = false
-            }
-          })
+          callback();
         }
       }
       var checkPassWord = (rule,value,callback) => {  //判断密码（长度，非空验证）
@@ -104,19 +94,21 @@
           callback(new Error('请输入密码'))
         } else if (value.length < 8 || value.length > 16) {
           callback(new Error('密码长度必须为8-16位'))
+        }else if (!validatePassWord(value)){
+					callback(new Error('密码格式为数字+字母'))
         } else {
           callback()
         }
       }
       var checkPassWordAgain = (rule,value,callback) => { //再次判断密码（长度，非空验证,一致性）
-        if (value === ''){
-          callback(new Error('请再次输入密码'))
-        } else if (value.length < 8 || value.length > 16) {
-          callback(new Error('密码长度必须为8-16位'))
-        } else if (value !== this.ruleForm.password){
-          callback(new Error('两次输入密码不一致!'))
+        if (value === "") {
+          callback(new Error("请输入密码"));
+        } else if(!validatePassWord(value)) {
+          callback(new Error("密码格式不对"));
+        } else if(value !== this.ruleForm.password){
+          callback(new Error("两次输入密码不一致"));
         } else {
-          callback()
+          callback();
         }
       }
 
@@ -124,9 +116,11 @@
         ruleForm: {
           username: '',
           message: '',
+          code: '',
           password: '',
           passwordAgain: '',
-          appId:'',
+		  appId:'',
+		  smsNo: '',
           disCode:false,
           mobile:'',
           getCode:false
@@ -135,7 +129,7 @@
           username: [
             { validator: checkName, trigger: 'blur' }
           ],
-          message:[
+          code:[
             { validator: checkMessage, trigger: 'blur' }
           ],
           password: [
@@ -161,24 +155,50 @@
           return false
         }
         this.$refs[formName].validate((valid) => {
-          if (valid) {
-            var pass = md5(this.ruleForm.password);
-            var user = {'mobile':this.ruleForm.username,'newPassword':pass}
-            this.$http.post(process.env.API_HOST+'v1.4/tenant/changePassword',user,{emulateJSON: true}).then(response =>{
-              var resultCode = response.data.resultCode
-              if (resultCode === '1') {
-                this.$message({
-                  message: '修改密码成功',
-                  type: 'success'
-                })
-                this.$router.push('/')
-              }
-            })
-          } else {
-            return false;
-          }
+			if (valid) {
+				//验证码是否正确
+				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+					params: {
+						'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+					}
+				}).then(res => {
+					if(res.body.resultCode == 1) {
+						var pass = md5(this.ruleForm.password);
+						var user = {'mobile':this.ruleForm.username,'newPassword':pass};
+						this.$http.post(process.env.API_HOST+'v1.4/tenant/changePassword',user,{emulateJSON: true}).then(response =>{
+							var resultCode = response.data.resultCode
+							if (resultCode === '1') {
+								this.$message({
+									message: '修改密码成功',
+									type: 'success'
+								})
+								this.$router.push('/')
+							}
+						}).catch(error => {
+							this.$message({
+								message: res.data.resultMessage,
+								type: 'error'
+							})
+						})
+					}else {
+						this.$message({
+							showClose: true,
+							message: res.data.resultMessage,
+							type: 'error'
+						});
+					}
+				}).catch(error => {
+				this.$message({
+					showClose: true,
+					message: res.data.resultMessage,
+					type: 'error'
+				});
+			})
+			} else {
+				return false;
+			}
         });
-      },
+    },
       sendCode(){
         if(this.ruleForm.username == ''){
             this.$message({
@@ -206,7 +226,8 @@
           var appId = res.data.appId
           this.appId = appId
           var resultCode = res.data.resultCode
-          var smsNo = res.data.smsNo
+		  var smsNo = res.data.smsNo
+		  this.smsNo = res.data.smsNo
           var smsCode = res.data.smsCode
           this.ruleForm.mobile = res.data.mobile  //发送验证码后返回的手机号
           if (resultCode === '0') {
@@ -217,7 +238,7 @@
             timer = setInterval(function () {
               codeInfo.innerText =  (curCount - 1) + '秒后获取'
               if (curCount === 0) {
-                codeInfo.innerText = '重新获取验证码获取'
+                codeInfo.innerText = '重新获取验证码'
                 clearInterval(timer)
                 codeInfo.removeAttribute('disabled')
               } else {
