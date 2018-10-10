@@ -39,6 +39,7 @@
 							</el-form-item>
 							<p style="font-size:12px;color:#999;margin-bottom: 1.375rem;">
 								<a id='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
+                <a id='submit' class="experience" href="javascript:void(0)" @click="toExperience">免费体验</a>
 							</p>
 							<div class="login-btn">
 								<el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
@@ -411,27 +412,21 @@
     position: relative;
     height: 80px;
   }
-  .experience>span{
-    right: -6em;
-    top:15px;
-    color: #f95b5f;
-    display: block;
-    width: 60px;
-  }
-  .experience{
-    position: absolute;
-    margin-left: 10.9375em;
-    margin-top: 20px;
-  }
-  .experience p{
-    width: 51px;
-    height: 51px;
-
-    background: url("../../../static/images/Login/expercise.png")  no-repeat;
+  // .experience>span{
+  //   float: right;
+  // }
+  // .experience{
+  //   position: absolute;
+  //   margin-left: 10.9375em;
+  //   margin-top: 20px;
+  // }
+  .experience {
+    float: right;
   }
 
   #submit {
     color: #4091fb;
+    display: inline-block;
   }
   .fade {
     width: 100%;
