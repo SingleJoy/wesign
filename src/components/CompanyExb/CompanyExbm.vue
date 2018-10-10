@@ -376,14 +376,15 @@
         }
       },
       backHome(){
+           this.$router.push("/Home")
         // console.log("state"+cookie.getJSON('state'))
-        if(cookie.getJSON('state') == 'C'||cookie.getJSON('state') == 'H' ){
-          this.$router.push("/Merchant")
-        }else if(cookie.getJSON('state') == 'C2'){
-          this.$router.push("/Procontract")
-        }else if(cookie.getJSON('state') == 'G'){
-          this.$router.push("/Home")
-        }
+        // if(cookie.getJSON('state') == 'C'||cookie.getJSON('state') == 'H' ){
+        //   this.$router.push("/Merchant")
+        // }else if(cookie.getJSON('state') == 'C2'){
+        //   this.$router.push("/Procontract")
+        // }else if(cookie.getJSON('state') == 'G'){
+        //   this.$router.push("/Home")
+        // }
       }
     },
     created() {

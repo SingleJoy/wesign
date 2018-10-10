@@ -115,12 +115,13 @@
         effectiveEndTime:'',
         enterpriseName:'' ,
         interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
-        signBadgePath:''
+        signBadgePath:'',
+        downloadUrl:''
       }
     },
     methods:{
       download(){
-        var way = '3'
+        var way = this.downloadUrl;
         var url = process.env.API_HOST+'v1.4/tenant/downloadFile?fileType='+way;
         var up = document.createElement('a');
         document.body.appendChild(up)
@@ -128,7 +129,7 @@
         up.click()
       },
       returnIndex(){
-          this.$router.push(".Home")
+          this.$router.push("/Home")
       },
     },
     created() {
@@ -145,6 +146,7 @@
           this.effectiveStartTime =response.data.data.certificateStartTime //起始有效期
 
           this.signBadgePath = response.data.data.signBadgePath //签章地址
+          this.downloadUrl = response.data.data.authorizationPhoto
         } else {
           this.$message({
             showClose: true,

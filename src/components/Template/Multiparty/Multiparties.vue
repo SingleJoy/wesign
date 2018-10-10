@@ -48,7 +48,7 @@
 			border: 1px solid #4091fb;
 			cursor: pointer;
 			outline: none;
-			-webkit-box-shadow: none;
+			   -webkit-box-shadow: none;
 			box-shadow: none;
 			line-height: 48px;
 			text-align: center;
@@ -64,7 +64,7 @@
 			color: #fff;
 			cursor: pointer;
 			outline: none;
-			-webkit-box-shadow: none;
+			   -webkit-box-shadow: none;
 			box-shadow: none;
 			line-height: 48px;
 			text-align: center;

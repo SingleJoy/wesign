@@ -25,7 +25,7 @@
       <div class="state">
         <div class="stateInfo">
           <div>
-            <img src="../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
+            <img src="../../../static/images/Complete/success.png" alt="" style="margin-top: 40px;">
           </div>
           <div style="margin-left: 30px;">
             <span>恭喜,合同签署成功！</span>
@@ -141,23 +141,26 @@ export default {
       this.prompt = true
     },
     examineDetails () { //查看详情
-      if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-        cookie.set('state','H')
-        this.$router.push('/CompanyExb')
-      }else{
-        cookie.set('state','G')
+    //   if(cookie.getJSON('tenant')[1].isBusiness == '0'){
+    //     cookie.set('state','H')
+    //     this.$router.push('/CompanyExb')
+    //   }else{
+    //     cookie.set('state','G')
         this.$router.push('/CompanyExa')
-      }
+    //   }
     },
     back(){
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证状态
-        if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-            if(auditSteps !=3 ){
-                this.$router.push('/Merchant')
-            }
-        }else{
-            this.$router.push('/Home')
-        }
+        var auditSteps = cookie.getJSON('tenant')[1].auditSteps;  //企业认证状态
+        // if(cookie.getJSON('tenant')[1].isBusiness == '0'){
+        //     if(auditSteps !=3 ){
+        //         this.$router.push('/Merchant')
+        //     }else{
+
+        //     }
+        // }else{
+        //     this.$router.push('/Home')
+        // }
+        this.$router.push('/Home')
     }
   }
 }
