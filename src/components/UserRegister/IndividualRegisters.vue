@@ -80,6 +80,7 @@ import { validateMoblie, validatePassWord, validateSmsCode } from "@/common/js/v
 import md5 from "js-md5";
 //import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
+import {GetQueryString} from '@/common/js/InterceptUrl'
 export default {
 	name: "IndividualRegisters",
 	data() {
@@ -164,7 +165,26 @@ export default {
 					_this.submitForm('ruleForm');
 				}
 			}
-		}
+        }
+        
+
+        let getinterfaceCode =  GetQueryString("appId");
+        if(getinterfaceCode){
+            server.getUrlMobile(getinterfaceCode).then(res=>{
+                if (res.data.resultCode == '1') {
+                    this.$message({
+                        showClose: true,
+                        message: '您已拥有微签账号，无需重新设置密码',
+                        type: 'success'
+                    })
+                }
+                this.ruleForm.username = res.data.data.tenantName;
+            }).catch(error=>{
+
+            })
+        }
+
+        
 	},
 	methods: {
 		//跳转到登录

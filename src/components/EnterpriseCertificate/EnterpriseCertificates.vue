@@ -259,7 +259,7 @@
                                         >
                                         </el-input>
                                     </div>
-                                     <div class="input-item">
+                                    <div class="input-item">
                                         <span class="input-title">身份证号</span>
                                         <el-input
                                             style='width:336px'
@@ -269,6 +269,18 @@
                                             :disabled= IdDisabled
                                         >
                                         </el-input>
+                                    </div>
+                                     <div class="input-item">
+                                        <span class="input-title">绑定邮箱</span>
+                                        <el-input
+                                            style='width:336px'
+                                            placeholder=""
+                                            v-model="IdInfo.email"
+                                            @blur='validateIdInfo("email")'
+                                            
+                                        >
+                                        </el-input>
+                                        <span v-if="emailTip" class="validate-tip">{{emailText}}</span>
                                     </div>
                                     <div class="input-item">
                                         <span class="input-title">手机号</span>
@@ -344,7 +356,7 @@
 
                 <div class="submit-btn">
                      <el-button type="" style='width:280px' @click="cancelIDcard">取&nbsp;&nbsp;消</el-button>
-                     <el-button type="primary" style='width:280px' @click="submit('bankInfo')">提&nbsp;&nbsp;交</el-button>
+                     <el-button type="primary" style='width:280px' :disabled="sigleClick" @click="submit('bankInfo')">提&nbsp;&nbsp;交</el-button>
                 </div>
             </div>
         </div>
@@ -353,7 +365,7 @@
 
 <script>
 import server from "@/api/certificationUrl";
-import {validateMoblie,validatePassWord,validateBankNum,TrimAll} from '../../common/js/validate.js';
+import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
 export default {
     name:'',
@@ -413,6 +425,7 @@ export default {
                 smsCode:'',
                 smsNo:'',
                 appId:'',
+                email:'',
                 resultMobile:'',
                 frontPhoto:'',  //正面照地址
                 backPhoto:'',   //反面照地址
@@ -460,8 +473,9 @@ export default {
             IDcardSide:{
                 src:''
             },
-
-
+            sigleClick:false,
+            emailTip:false,
+            emailText:'',
             mobileTip:false,
             mobileTipText:'',
             smsTip:false,
@@ -2078,7 +2092,7 @@ export default {
                 IdInfo.frontPhoto = data.frontPhoto
                 IdInfo.backPhoto = data.backPhoto
                 IdInfo.adminType = data.authorizerType
-                
+                IdInfo.email = data.email;
                 if(IdInfo.idCard){
                     this.IdInfoShow = true;
                     // this.smsSend = true;
@@ -2148,9 +2162,6 @@ export default {
             // console.log(file)
         },
         beforeUpload(file){
-            this.$loading.show(
-                '图片上传中...',  
-            );
             var max_size = 5; // 5M
             var reg= /[.](png|PNG|jpg|JPG|jpeg|JPEG)$/
             var index = file.name.lastIndexOf('.')
@@ -2165,7 +2176,9 @@ export default {
                 });
                 return false
             } else {
-
+                this.$loading.show(
+                    '图片上传中...',  
+                );
             }
 
         },
@@ -2191,7 +2204,7 @@ export default {
                  this.IdInfoShow = false;
                   this.$message({
                     showClose: true,
-                    message: res.data.resultMessage,
+                    message: name.resultMessage,
                     type: 'error'
                 })
             }
@@ -2232,7 +2245,7 @@ export default {
                 this.$loading.hide();
                 this.$message({
                     showClose: true,
-                    message:res.data.resultMessage,
+                    message:name.resultMessage,
                     type: 'error'
                 })
              }
@@ -2259,7 +2272,7 @@ export default {
                 this.$loading.hide();
                 this.$message({
                     showClose: true,
-                    message: name.data.resultMessage,
+                    message: name.resultMessage,
                     type: 'error'
                 })
              }
@@ -2287,6 +2300,20 @@ export default {
                     this.smsTip=false;
                     this.smsTipText = "";
                     this.valiteSms()
+                }
+            }else if(type=='email'){
+                if(this.IdInfo.email==''){
+                    this.emailTip = true
+                    this.emailText = '请输入邮箱'
+                    return false
+                }else if(!validateEmail(this.IdInfo.email)){
+                    this.emailTip = true
+                    this.emailText = '邮箱格式不正确';
+                    return false
+                }else{
+                    this.emailTip = false
+                    this.emailText = '';
+                    return true 
                 }
             }
         },
@@ -2412,7 +2439,7 @@ export default {
         },
         //取消
         cancelIDcard(){
-            this.$router.push('/')
+            this.$router.push('/Merchant')
         },
         //提交
         submit(bankInfo){
@@ -2446,6 +2473,22 @@ export default {
                     type: 'error'
                 })
                 return 
+            }
+            if(this.IdInfo.email==""){
+                this.$message({
+                     showClose: true,
+                    message: '邮箱为必填',
+                    type: 'error'
+                })
+                return
+            }
+            if(!validateEmail(this.IdInfo.email)){
+                 this.$message({
+                    showClose: true,
+                    message: '邮箱格式不正确',
+                    type: 'error'
+                })
+                return
             }
             if(this.IdInfo.mobile==""){
                 this.$message({
@@ -2491,21 +2534,20 @@ export default {
                     this.$loading.show(
                         '信息提交中...',  
                     );
-                    if(this.auditStatus==2){
+                    this.sigleClick = true;
+                    if(this.auditStatus==2){   //企业认证成功
                         this.subIdInfo();
-                        this.subbankInfo();
+                        // this.subbankInfo();
                         this.count+=1;
-                    }else if(this.auditSteps==1){
+                    }else if(this.auditSteps==1){     //个人认证成功
                         this.sublicenseInfo();
-                        this.subbankInfo();
+                        // this.subbankInfo();
                         this.count+=1;
                     }else{
                         this.sublicenseInfo();
                         this.subIdInfo();
-                        this.subbankInfo();
+                        // this.subbankInfo();
                     }
-                  
-                    
                 }
             })
 
@@ -2524,9 +2566,12 @@ export default {
             }
             server.licenseInfo(param).then(res=>{
                  if(res.data.resultCode==1){
+                    this.sigleClick = false;
                     this.licenseStatus = true;
+                    this.$loading.hide();
                     this.count+=1;
                 }else{
+                    this.sigleClick = false;
                     this.licenseStatus = false;
                     this.$loading.hide();
                     this.count-=1;
@@ -2548,13 +2593,17 @@ export default {
                 interfaceCode:this.interfaceCode,
                 authorizerType:this.authorizerType==true?1:0,
                 frontPhoto:this.IdInfo.frontPhoto,
-                backPhoto:this.IdInfo.backPhoto
+                backPhoto:this.IdInfo.backPhoto,
+                email:this.IdInfo.email
             }
             server.IdCardInfo(params).then(res=>{
                 if(res.data.resultCode==1){
+                    this.sigleClick = false;
+                    this.$loading.hide();
                     this.IdStatus = true;
                     this.count+=1;
                 }else{
+                    this.sigleClick = false;
                     this.IdStatus = false;
                     this.$loading.hide();
                     this.count-=1;
@@ -2580,10 +2629,13 @@ export default {
             let interfaceCode = this.interfaceCode;
             server.bankInfo(param,interfaceCode).then(res=>{
                 if(res.data.resultCode==1){
+                    this.sigleClick = false;
                     this.bankStatus = true;
                     this.count+=1;
                     this.$loading.hide();
+                    this.$router.push('/EnterprisePayment')
                 }else{
+                    this.sigleClick = false;
                     this.bankStatus = false
                     this.$loading.hide();
                     this.count-=1;
@@ -2594,15 +2646,15 @@ export default {
         },
         //请求成功跳转
         success(val){
-            if(val==3){
-                this.$loading.hide();
-                this.$router.push('/EnterprisePayment')
+            if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
+                if(this.licenseStatus&&this.IdStatus){
+                    this.subbankInfo()
+                }
             }
         }
     },
     watch:{
         count:function(val){
-            console.log(val)
             this.success(val);
         }
     }

@@ -413,17 +413,24 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-        if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-          if(cookie.getJSON('state') == 'A'){
+        if(cookie.getJSON('state')=='List'){
+            this.$router.push("/Mycontract")
             this.$store.dispatch('tabIndex',{tabIndex:1});
-          }else{
-            this.$store.dispatch('tabIndex',{tabIndex:0});
-          }
-          this.$router.push("/Home")
         }else{
-          this.$router.push("/Mycontract")
-          //   this.$store.dispatch('tabIndex',{tabIndex:1});
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+            this.$router.push("/Home")
         }
+        // if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
+        //   if(cookie.getJSON('state') == 'A'){
+        //     this.$store.dispatch('tabIndex',{tabIndex:1});
+        //   }else{
+        //     this.$store.dispatch('tabIndex',{tabIndex:0});
+        //   }
+        //   this.$router.push("/Home")
+        // }else{
+        //   this.$router.push("/Mycontract")
+        //     this.$store.dispatch('tabIndex',{tabIndex:1});
+        // }
       }
     },
 

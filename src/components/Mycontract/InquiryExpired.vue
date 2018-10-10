@@ -247,11 +247,12 @@ export default {
       this.inquiry = true
     },
     rowLockClick (row) {
-      this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', row.contractNum)
+        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+        sessionStorage.setItem('contractNo', row.contractNum)
         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-      cookie.set('state','F')
-      this.$router.push('/ContractInfo')
+        cookie.set('state','List')
+        this.$router.push('/ContractInfo')
+        this.$store.dispatch('tabIndex',{tabIndex:1});
     },
     signClick (row) { //签署
       this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
