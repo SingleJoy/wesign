@@ -113,6 +113,7 @@ export default {
         var contractNo = sessionStorage.getItem('contractNo')
         this.$store.dispatch('contractsInfo',{contractNo:contractNo})
         this.$store.dispatch('tabIndex',{tabIndex:1});
+        cookie.set("state", "Home");
         this.$router.push('/ContractInfo')
     },
     seeContractImg (){

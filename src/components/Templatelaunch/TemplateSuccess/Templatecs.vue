@@ -117,6 +117,7 @@
       lookDetails () { //查看详情
         this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
         this.$router.push('/ContractInfo');
+        cookie.set("state", "Home");
         this.$store.dispatch('tabIndex',{tabIndex:1});
       },
       seeContractImg (){

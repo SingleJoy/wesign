@@ -146,6 +146,7 @@ export default {
     //     this.$router.push('/CompanyExb')
     //   }else{
     //     cookie.set('state','G')
+        cookie.set("state", "Home");
         this.$router.push('/CompanyExa')
     //   }
     },
