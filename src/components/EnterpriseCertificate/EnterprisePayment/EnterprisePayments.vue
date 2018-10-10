@@ -68,7 +68,7 @@
             center>
 
             <div  class="send-code" style="color: red;text-align: center;">
-              对不起，您印证打款金额错误次数已超过五次，<br/>
+              对不起，您验证打款金额错误次数已超过五次，<br/>
               需要您验证一下信息。</div>
             <!--<div  class="send-code">为确保是您本人操作，请填写以下信息。</div>-->
             <!--<div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>-->
@@ -89,7 +89,7 @@
 
               </el-form-item>
 
-              <el-form-item prop="phoneCode" label="验证码  ">
+              <el-form-item prop="phoneCode" label="验证码">
                 <el-input type="text" placeholder="请输入验证码" v-model="legalForm.phoneCode" style="width:165px;margin-left: 15px" :maxlength= 6 :minlength= 6></el-input>
                 <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 10px;" :disabled="repeat">获取</el-button>
               </el-form-item>
@@ -123,8 +123,6 @@
           callback(new Error('请输入打款金额'));
         }else if(TrimAll(value).length>4||TrimAll(value)<0.01||TrimAll(value)>0.99){
           callback(new Error('打款金额填写只能在0.01~0.99之间'));
-        }else {
-          callback()
         }
       }
      //法人姓名校验
@@ -143,7 +141,7 @@
           callback(new Error('法人身份证号不可为空'))
         }else if(value!==''&&!(validateCard(TrimAll(value)))){
           callback(new Error('身份证号格式不正确'));
-        }else{
+        }else {
           callback()
         }
       }
@@ -153,7 +151,7 @@
           callback(new Error('法人手机号不可为空'))
         }else if(value!==''&&!(validateMoblie(TrimAll(value)))){
           callback(new Error('法人手机号填写格式错误'));
-        }else{
+        }else {
           callback()
         }
       }
@@ -164,7 +162,7 @@
           callback(new Error('验证码不为空'))
         }else if(value!==''&&!(validateSmsCode(value))){
           callback(new Error('验证码只能是6位数字'));
-        }else{
+        }else {
           callback()
         }
       }
@@ -303,12 +301,14 @@
       },
       // 解冻打款失败
       thaw(legalForm){
-        this.verifySub = true
+
         this.$refs[legalForm].validate((valid) => {
+          this.verifySub = true;
             if(valid){
+              console.log('this.ruleForm.phoneCode'+this.ruleFormRules.phoneCode)
                 this.$http.get(process.env.API_HOST + 'v1.4/sms', {
                     params: {
-                    'mobile': this.legalForm.legalMobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
+                    'mobile': this.legalForm.legalMobile, 'smsNo': this.smsNoVer, 'smsCode': this.legalForm.phoneCode, 'appId': this.appId
                     }
             }).then(res => {
                 //手机号验证码检验失败
@@ -321,12 +321,13 @@
                 })
                 }else {
                 //手机号验证码检验成功
-                this.verifySub = false
-                this.$message({
-                    showClose: true,
-                    message: res.data.resultMessage,
-                    type: 'success'
-                })
+                this.verifySub = false;
+                // this.$message({
+                //     showClose: true,
+                //     message: res.data.resultMessage,
+                //     type: 'success'
+                // })
+
                 //手机号验证码校验成功后，开始调用解冻打款确认接口
 
                 let param ={
@@ -335,20 +336,25 @@
                     'mobile':this.legalForm.legalMobile,
                     'interfaceCode':this.interfaceCode,
                 };
+                console.log(param);
+                let that=this;
                 server.unfreezeRemittance(param).then(function (res) {
                     if (res.data.resultCode == '1') {
-                        this.verifySub = false
-                        this.$message({
+                        that.verifySub = false
+                        that.$message({
                             showClose: true,
                             message: res.data.resultMessage,
                             type: 'success'
                         })
+                      that.dialogAgreement=false;
+                      that.ruleForm.paymentNum='';
                     } else {
-                    this.$message({
+                      that.$message({
                         showClose: true,
                         message: res.data.resultMessage,
                         type: 'error'
                     })
+                      that.dialogAgreement=false;
 
                     }
 
@@ -429,11 +435,14 @@
         let that = this;
         server.moneyStatus(this.interfaceCode).then(function (res) {
             if(res.data.resultCode=='1') {
-                clearInterval(that.pollTimer);
-            } else if(res.data.resultCode=='-1'){
-                this.$router.push('/EnterpriseCertificate')
-            }else{
+                clearInterval(that.timer);
+                that.timer = null;
+            }else if(res.data.resultCode=='0'){
 
+            }else if(res.data.resultCode=='-1'){
+              clearInterval(that.timer);
+              that.timer = null;
+              that.$router.push('/EnterpriseCertificate')
             }
 
         })
@@ -445,7 +454,7 @@
         if(cookie.getJSON("tenant")[1].auditSteps==3){
             this.$router.push("/Home")
             return
-        } 
+        }
         this.enterpriseName=sessionStorage.getItem("companyName");
         //   console.log(this.interfaceCode);
         // 查询企业银行信息
