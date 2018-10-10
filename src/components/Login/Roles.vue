@@ -192,6 +192,7 @@ import cookie from '@/common/js/getTenant'
                         });
                         cookie.set("tenant", res.data.dataList);
                         this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                        this.$router.push("/Home");
                     }
                        
 				}).catch(error=>{
