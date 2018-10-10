@@ -410,18 +410,28 @@ export default {
         // console.log("state"+cookie.getJSON('state'))
         // console.log(cookie.getJSON('tenant')[1].isBusiness)
         // if(cookie.getJSON('tenant')[1].isBusiness != '0'){
-                if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'G'){
-                    this.$router.push("/Home")
-                }else if(cookie.getJSON('state') == 'B'){
-                    this.$router.push("/Mycontract")
-                }else if(cookie.getJSON('state') == 'H'){
-                    this.$router.push("/Merchant")
-                }else{
-                    this.$router.push("/CompanyContract")
-                }
-            }
+            //     if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'G'){
+            //         this.$router.push("/Home")
+            //     }else if(cookie.getJSON('state') == 'B'){
+            //         this.$router.push("/Mycontract")
+            //     }else if(cookie.getJSON('state') == 'H'){
+            //         this.$router.push("/Merchant")
+            //     }else{
+            //         this.$router.push("/CompanyContract")
+            //     }
+            // }
         // }
-    },
+
+            if(cookie.getJSON('state')=='List'){
+                this.$router.push("/Mycontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }else{
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+                this.$router.push("/Home")
+            }
+        
+    }
+  },
   created() {
         this.signMobile = cookie.getJSON('tenant')[0].mobile;
         var contractNo = sessionStorage.getItem('contractNo');

@@ -184,5 +184,13 @@ const service = {
         })
     },
 
+    //注册链接获取手机号/
+    getUrlMobile(interfaceCode) {
+        return request({
+            url: '/api/v1.4/tenant/'+interfaceCode+'/userIsExist',
+            method: 'get',
+            params:''
+        })
+    },
 }
 export default service;

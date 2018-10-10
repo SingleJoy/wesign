@@ -338,7 +338,7 @@ export default {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
         sessionStorage.setItem("contractNo", row.contractNum);
         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-        cookie.set("state", "B2");
+        cookie.set("state", "List");
         this.$router.push("/CompanyExa");
       } else {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
@@ -346,6 +346,7 @@ export default {
         sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
         this.$router.push("/ContractInfo");
       }
+      this.$store.dispatch('tabIndex',{tabIndex:1});
     },
     affixClick(row) {
       //签署

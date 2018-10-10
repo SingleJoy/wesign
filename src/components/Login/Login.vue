@@ -209,26 +209,26 @@
                                     //先判断是否为实名用户，再根据isBusiness 判断是否有发起合同10次限制
                                     //判断是否为实名用户 auditSteps=3 已实名
                                         if(res.data.dataList[1].auditSteps!=3){
+                                            this.$message({
+                                            showClose: true,
+                                                duration: 1000,
+                                                message: "登录成功",
+                                                type: "success"
+                                            });
+                                            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+                                            this.$router.push("/Merchant");
+                                        }else{
                                                 this.$message({
                                                 showClose: true,
-                                                    duration: 1000,
-                                                    message: "登录成功",
-                                                    type: "success"
-                                                });
-                                                cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                                                this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                                                this.$router.push("/Merchant");
-                                            }else{
-                                                 this.$message({
-                                                    showClose: true,
-                                                    duration: 1000,
-                                                    message: "登录成功",
-                                                    type: "success"
-                                                });
-                                                cookie.set("tenant", res.data.dataList);
-                                                this.$store.dispatch("tabIndex", { tabIndex: 0 });
-                                                this.$router.push("/Home");
-                                            }
+                                                duration: 1000,
+                                                message: "登录成功",
+                                                type: "success"
+                                            });
+                                            cookie.set("tenant", res.data.dataList);
+                                            this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                                            this.$router.push("/Home");
+                                        }
 
                                         // if (res.data.dataList[1].isBusiness == "0") {  //未付费
                                         //     // 不是众签商户

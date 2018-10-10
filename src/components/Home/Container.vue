@@ -210,7 +210,7 @@
             accountCode:sessionStorage.getItem('accountCode'),
             Type: { contractType: "0" },
             welcomeMessage:true, //欢迎信息
-            contractNum:10,    //合同剩余次数
+            contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
         };
     },
     methods: {
@@ -356,10 +356,10 @@
 
         //合同剩余发起次数
         getContractNum(){
+            console.log(33)
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
                     this.contractNum = res.data.data;
-
                 }else{
                     this.$message({
                         showClose: true,
@@ -372,7 +372,7 @@
             })
         },
         choice() {
-            if(!this.isBusiness){         //先判断是否为大B（付费用户）
+            if(this.isBusiness==0){         //先判断是否为大B（付费用户）
                 if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
                     this.welcomeMessage = true;
                 }else if(this.contractNum>0){
@@ -420,15 +420,16 @@
                 this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
                 sessionStorage.setItem("contractNo", row.contractNum);
                 sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-                cookie.set("state", "A");
+                cookie.set("state", "Home");
                 this.$router.push("/CompanyExa");//企业对企业
             } else {
                 this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
                 sessionStorage.setItem("contractNo", row.contractNum);
                       sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-                cookie.set("state", "B");
+                cookie.set("state", "Home");
                 this.$router.push("/ContractInfo");//企业对个人
             }
+            this.$store.dispatch('tabIndex',{tabIndex:0});
         },
         handleChange(name) {
             this.$loading.show();
@@ -519,15 +520,19 @@
     },
 
     created() {
+        
         var data = [];
         var flag = "";
         var isCreater = "";
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
-        if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].auditSteps!=2){
+        if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].auditSteps!=3){
             this.welcomeMessage = false;
         }
+      
+        this.getContractNum()
+      
         var requestVo = {
             pageNo: "1",
             pageSize: "7",
@@ -601,6 +606,7 @@
       let resParam={
           accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
       }
+    
 
       // 首页模板列表
         this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList",{params:resParam}).then(function(res) {
