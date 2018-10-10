@@ -6,7 +6,7 @@
 					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
-					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
+					<span>您已完成企业绑定，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
 					<span class="count_down">{{count}}</span>
 				</div>
 			</div>
@@ -41,28 +41,28 @@
 						<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
 					</div>
 					<div class='user'>
-					<h2 class='userInfo'>用户注册</h2>
-					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
-						<el-form-item prop="username">
-						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
+					<h2 class='userInfo'>企业绑定</h2>
+					<el-form label-width="0px" :model="ruleForm" ref="ruleForm">
+                        <el-form-item prop="tenantName">
+                            <el-input  v-model="ruleForm.tenantName" :disabled="true" class="login-input" placeholder="企业名称"></el-input>
+						</el-form-item>
+                        <el-form-item prop="userName">
+                            <el-input  v-model="ruleForm.userName" :disabled="true" placeholder="姓名"></el-input>
+						</el-form-item>
+						<el-form-item prop="mobile">
+						    <el-input v-model="ruleForm.mobile" :disabled="true"  maxlength="11" >手机号</el-input>
 						</el-form-item>
 						<el-form-item prop="code">
 							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
 								<el-button slot="append" id="elButton" :disabled="isDisabled" @click="sendCode()">获取验证码</el-button>
 							</el-input>
 						</el-form-item>
-						<el-form-item prop="password">
-						<el-input type="password" v-model="ruleForm.password" :disabled="passwordDisabled" placeholder="请输入密码"></el-input><i class="icon-suo"></i>
-						</el-form-item>
-						<el-form-item prop="newPassword">
-						<el-input type="password" v-model="ruleForm.newPassword" :disabled="passwordDisabled"  placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
-						</el-form-item>
 						<el-form-item>
 						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
 						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
 						</el-form-item>
 						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
-							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
+							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">绑定</el-button>
 						</div>
 					</el-form>
 					</div>
@@ -144,14 +144,16 @@ export default {
 			isShowClose: false,
 			count: 3,
 			ruleForm: {
-				username: "",
+                tenantName:'',
+                userName: "",
+                mobile:'',
 				code: "",
 				password: "",
 				newPassword: "",
 			},
 			//表单验证
 			rules: {
-				username: [{ validator: checkName, trigger: "blur" }],
+				userName: [{ validator: checkName, trigger: "blur" }],
 				code: [{ validator: checkCode, trigger: "blur" }],
 				password: [{ validator: checkPassWord, trigger: "blur" }],
 				newPassword: [{ validator: checkNewPassWord, trigger: "blur" }],
@@ -169,42 +171,22 @@ export default {
 				}
 			}
         }
-        // let getinterfaceCode =  GetQueryString("appId");
-        // if(getinterfaceCode){
-        //     this.interfaceCode = getinterfaceCode
-        //     server.getUrlMobile(getinterfaceCode).then(res=>{
-        //         if (res.data.resultCode == '1') {
-        //             this.$message({
-        //                 showClose: true,
-        //                 message: '您已拥有微签账号，无需重新设置密码',
-        //                 type: 'success'
-        //             })
-        //         }
-        //         let molie = res.data.data.mobile;
-        //         let psaaword = res.data.data.password;
-        //         let params = {
-        //             username: res.data.data.mobile
-        //         };
-        //         this.ruleForm.username = molie;
-        //         server.verficate(params).then(res => {
-        //              if (res.data === 0) {
-        //                 this.userDisabled = true;
-        //                 if(!psaaword){
-        //                     this.ruleForm.password="test111111";
-        //                     this.ruleForm.newPassword="test111111";
-        //                     this.passwordDisabled = true;
-        //                 }
-        //                 callback();
-        //             } else {
-        //                 callback(new Error("此用户不存在"));
-        //             }
-        //         }).catch(error=>{
+        let getinterfaceCode =  GetQueryString("appId");
+        if(getinterfaceCode){
+            this.interfaceCode = getinterfaceCode
+            server.getUrlMobile(getinterfaceCode).then(res=>{
+                if (res.data.resultCode == '1') {
+                    this.ruleForm.tenantName = res.data.data.tenantName;
+                    this.ruleForm.userName = res.data.data.userName;
+                    this.ruleForm.mobile = res.data.data.mobile;
+                }else{
 
-        //         })
-        //     }).catch(error=>{
+                }
+                
+            }).catch(error=>{
 
-        //     })
-        // }
+            })
+        }
 
 
 
@@ -231,147 +213,99 @@ export default {
 		},
 		//点击获取验证码
 		sendCode() {
-			if(!this.ruleForm.username) {
-				this.$message({
-					showClose: true,
-					message: "请输入手机号",
-					type: 'error'
-				});
-				return false;
-			} else if (!validateMoblie(this.ruleForm.username)){
-				this.$message({
-					showClose: true,
-					message: "手机号输入错误",
-					type: 'error'
-				});
-				return false;
-			} else {
-				//校验手机号是否存在
-				server.verficate({'username': this.ruleForm.username}).then(res => {
-					this.iscode = true;
-					if (res.data == 0) {
-                        this.$alert('此用户已存在您可直接去登录', '提示', {
-                            confirmButtonText: '确定',
-                        }).then(() => {
-                            this.$router.push('/')
-                        }).catch(() => {
-
-                        });
-					} else {
-						this.codeSure = true;
+				this.codeSure = true;
 						//倒计时
-						let _this = this;
-						this.isDisabled = true;
-						let btnValue = document.getElementById("elButton");
-						btnValue.innerText = 60 + '秒后获取';
-						let i = 60;
-						let timer = setInterval(function() {
-							i--;
-							btnValue.innerText = i + '秒后获取';
-							if(i <= 0) {
-								btnValue.innerText = "重新获取验证码";
-								_this.isDisabled= false;
-								clearInterval(timer);
-							}
-						}, 1000);
-                        //获取验证码
-                        let param={
-                            mobile: this.ruleForm.username,
-                            interfaceCode:this.interfaceCode
-                        }
-                        server.smsCode(param).then(res=>{
-                            if(res.data.resultCode == 1) {
-								this.smsNo = res.data.smsNo;
-								this.appId= res.data.appId
-							} else {
-								this.$message({
-									showClose: true,
-									message: res.data.resultMessage,
-									type: 'error'
-								});
-							}
+                let _this = this;
+                this.isDisabled = true;
+                let btnValue = document.getElementById("elButton");
+                btnValue.innerText = 60 + '秒后获取';
+                let i = 60;
+                let timer = setInterval(function() {
+                    i--;
+                    btnValue.innerText = i + '秒后获取';
+                    if(i <= 0) {
+                        btnValue.innerText = "重新获取验证码";
+                        _this.isDisabled= false;
+                        clearInterval(timer);
+                    }
+                }, 1000);
+                //获取验证码
+                let param={
+                    mobile: this.ruleForm.mobile,
+                    interfaceCode:this.interfaceCode
+                }
+                server.smsCode(param).then(res=>{
+                    if(res.data.resultCode == 1) {
+                        this.smsNo = res.data.smsNo;
+                        this.appId= res.data.appId
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: 'error'
+                        });
+                    }
 
-                        }).catch(errot=>{
+                }).catch(errot=>{
 
-                        })
-
-
-					}
-				}).catch(error => {
-
-				})
-			}
+                })
 		},
 		//个人注册操作
 		submitForm(formName) {
-			//校验填写内容是否正确
-			this.$refs[formName].validate((valid) => {
-				if(valid) {
-					if(this.codeSure) {
-						//验证码是否正确
-						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-							params: {
-								'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-							}
-						}).then(res => {
-							if(res.body.resultCode == 1) {
-								//个人注册提交
-								server.individualRegister({
-                                    'mobile': this.ruleForm.username,
-                                    'password': md5(this.ruleForm.password),
-                                    }).then( res=> {
-									if(res.data.resultCode === '1') {
-										this.isShow = true;
-										this.isShowSkip = true;
-										let _this = this;
-										let setTimer = setInterval(function() {
-											_this.count = _this.count - 1;
-											if(_this.count <= 0) {
-												clearInterval(setTimer);
-												_this.$router.push('/')
-											}
-										}, 1000);
-										//this.$router.push('/');
-									} else {
-											this.$message({
-												showClose: true,
-												message: res.data.resultMessage,
-												type: 'error'
-											});
-										}
-									}).catch(error => {
-										this.$message({
-											showClose: true,
-											message: res.data.resultMessage,
-											type: 'error'
-										});
-								});
-							} else {
-								this.$message({
-									showClose: true,
-									message: res.data.resultMessage,
-									type: 'error'
-								});
-							}
+                if(this.codeSure) {
+                    //验证码是否正确
+                    this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+                        params: {
+                            'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+                        }
+                    }).then(res => {
+                        if(res.data.resultCode == 1) {
+                            //个人绑定企业提交
+                            server.bindEnterpress({
+                                'mobile': this.ruleForm.mobile,
+                                'interfaceCode':this.interfaceCode
+                                },this.interfaceCode).then( res=> {
+                                if(res.data.resultCode === '1') {
+                                    this.isShow = true;
+                                    this.isShowSkip = true;
+                                    let _this = this;
+                                    let setTimer = setInterval(function() {
+                                        _this.count = _this.count - 1;
+                                        if(_this.count <= 0) {
+                                            clearInterval(setTimer);
+                                            _this.$router.push('/')
+                                        }
+                                    }, 1000);
+                                } else {
+                                        this.$message({
+                                            showClose: true,
+                                            message: res.data.resultMessage,
+                                            type: 'error'
+                                        });
+                                    }
+                                }).catch(error => {
+                                    
+                            });
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: res.data.resultMessage,
+                                type: 'error'
+                            });
+                        }
 
-						}).catch(error => {
-							this.$message({
-								showClose: true,
-								message: res.data.resultMessage,
-								type: 'error'
-							});
-						})
-					} else {
-						this.$message({
-							showClose: true,
-							message: "请先获取验证码",
-							type: 'error'
-						});
-					}
-				} else {
-					return false
-				}
-			});
+                    }).catch(error => {
+                      
+                    })
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: "请先获取验证码",
+                        type: 'error'
+                    });
+                }
+				
+		
 		}
 	}
 }

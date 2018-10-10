@@ -2077,7 +2077,6 @@ export default {
         let bankInfo = this.bankInfo;
         let IdInfo = this.IdInfo;
         let options = [];
-        // console.log(this.interfaceCode)
         server.companyInfoDetail(param,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
                 let data = res.data.data;
@@ -2637,20 +2636,14 @@ export default {
             }
             let interfaceCode = this.interfaceCode;
             server.bankInfo(param,interfaceCode).then(res=>{
+                console.log(res.data.resultCode,'这是认证状态')
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.bankStatus = true;
                     this.count+=1;
                     this.$loading.hide();
-                    let param={
-                            mobile:sessionStorage.getItem('mobile')
-                    };
-                    let urlParam = sessionStorage.getItem('interfaceCode')
-                    server.login(param,urlParam).then(res => {
-                        cookie.set("tenant", res.data.dataList);  //更新cookie
-                        this.$router.push('/EnterprisePayment')
-                    })
-                    
+                    this.updateCookie();
+
                 }else{
                     this.sigleClick = false;
                     this.bankStatus = false
@@ -2664,6 +2657,18 @@ export default {
                 }
             }).catch(error=>{
                    
+            })
+        },
+        //跟新cookie
+        updateCookie(){
+            let param={
+                mobile:sessionStorage.getItem('mobile')
+            };
+            let urlParam = sessionStorage.getItem('interfaceCode')
+            let that=this
+            server.login(param,urlParam).then(res => {
+                cookie.set("tenant", res.data.dataList);  //更新cookie
+                that.$router.push('/EnterprisePayment');
             })
         },
         //请求成功跳转

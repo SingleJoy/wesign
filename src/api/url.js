@@ -192,5 +192,13 @@ const service = {
             params:''
         })
     },
+    //企业绑定
+    bindEnterpress(mobile,interfaceCode) {
+        return request({
+            url: '/api/v1.4/tenant/register/'+interfaceCode+'/mobile',
+            method: 'get',
+            params:mobile
+        })
+    },
 }
 export default service;
