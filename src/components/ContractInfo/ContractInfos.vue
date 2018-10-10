@@ -413,13 +413,29 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-        if(cookie.getJSON('state')=='List'){
-            this.$router.push("/Mycontract")
-            this.$store.dispatch('tabIndex',{tabIndex:1});
-        }else{
-            this.$store.dispatch('tabIndex',{tabIndex:0});
-            this.$router.push("/Home")
-        }
+        // if(cookie.getJSON('state')=='List'){
+        //     this.$router.push("/Mycontract")
+        //     this.$store.dispatch('tabIndex',{tabIndex:1});
+        // }else{
+        //     this.$store.dispatch('tabIndex',{tabIndex:0});
+        //     this.$router.push("/Home")
+        // }
+
+            if(cookie.getJSON('state')=='list'){
+                this.$router.push("/Procontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }else if(cookie.getJSON('state')=='home'){
+                this.$router.push("/Merchant")
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }else if(cookie.getJSON('state')== 'Home'){
+                this.$router.push("/Home")
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }else if(cookie.getJSON('state') == 'List'){
+                this.$router.push("/Mycontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }
+
+
         // if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
         //   if(cookie.getJSON('state') == 'A'){
         //     this.$store.dispatch('tabIndex',{tabIndex:1});

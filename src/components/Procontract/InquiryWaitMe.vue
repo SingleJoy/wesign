@@ -300,11 +300,12 @@ export default {
       if (row.contractType == "0") {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
         sessionStorage.setItem("contractNo", row.contractNum);
-        cookie.set("state", "C2");
+        cookie.set('state','list')
         this.$router.push("/CompanyExb");
       } else {
         this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
         sessionStorage.setItem("contractNo", row.contractNum);
+        cookie.set('state','list')
         this.$router.push("/ContractInfo");
       }
     },

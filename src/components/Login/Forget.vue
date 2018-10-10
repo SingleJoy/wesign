@@ -121,6 +121,7 @@
           passwordAgain: '',
 		  appId:'',
 		  smsNo: '',
+		  iscode: '',
           disCode:false,
           mobile:'',
           getCode:false
@@ -231,6 +232,7 @@
           var smsCode = res.data.smsCode
           this.ruleForm.mobile = res.data.mobile  //发送验证码后返回的手机号
           if (resultCode === '0') {
+			this.iscode = true;
             var codeInfo = document.getElementById('code')
             codeInfo.innerText =  curCount + '秒后获取'
             this.smsNum = smsNo

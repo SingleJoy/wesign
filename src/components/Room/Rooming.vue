@@ -48,7 +48,7 @@
           </dd>
         <dt>
           <div style="margin-top:27px">
-             <img :src="baseURL+'/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" style="height:150px;width:150px" id="id" v-if="showImage==true">
+             <img :src="baseURL+'/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo"  id="id" v-if="showImage==true">
              <img src="../../../static/images/Room/room-logo.png" style="height:150px;width:150px" v-else-if="showImage==false">
           </div>
         </dt>
@@ -72,10 +72,10 @@ export default {
       inputData: '',
       signRoomLogo:'',
       dropzone: '',
-      message:'源自清华 一诺签金',
+      message:'用合约重构交易',
       interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
       uploadData:{
-        signRoomName:'源自清华 一诺签金'
+        signRoomName:'用合约重构交易'
       },
       value1:'',
       value2:'',

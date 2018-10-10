@@ -122,8 +122,8 @@
               width="200"
             >
               <template slot-scope="scope">
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && auditStatus == 2'>签&nbsp;&nbsp;署</el-button>
-                <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载 </el-button>
+                <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && auditStatus == 2'>签&nbsp;&nbsp;署</el-button> -->
+                <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载 </el-button>
                 <!-- <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else >延&nbsp;&nbsp;期</el-button> -->
                 <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
               </template>
@@ -231,11 +231,12 @@
         if(row.contractType == '0'){
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
           sessionStorage.setItem('contractNo', row.contractNum)
-          cookie.set('state','C')
+          cookie.set('state','home')
           this.$router.push('/CompanyExb')
         }else{
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
           sessionStorage.setItem('contractNo', row.contractNum)
+          cookie.set('state','home')
           this.$router.push('/ContractInfo')
         }
       }

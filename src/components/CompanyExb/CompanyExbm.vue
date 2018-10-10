@@ -376,7 +376,20 @@
         }
       },
       backHome(){
-           this.$router.push("/Home")
+            if(cookie.getJSON('state')=='list'){
+                this.$router.push("/Procontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }else if(cookie.getJSON('state')=='home'){
+                this.$router.push("/Merchant")
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }else if(cookie.getJSON('state')== 'Home'){
+                this.$router.push("/Home")
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }else if(cookie.getJSON('state') == 'List'){
+                this.$router.push("/Mycontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }
+           
         // console.log("state"+cookie.getJSON('state'))
         // if(cookie.getJSON('state') == 'C'||cookie.getJSON('state') == 'H' ){
         //   this.$router.push("/Merchant")
