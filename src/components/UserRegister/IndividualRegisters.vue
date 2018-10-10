@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class="login-wrap">
-			
+
 			<div class="ms-login">
 			<!-- <div class="water-qrurl-code" >
 				<a :style="{backgroundImage: 'url(' + img + ')' }" class="sy_close"></a>
@@ -166,8 +166,7 @@ export default {
 				}
 			}
         }
-        
-
+    
         let getinterfaceCode =  GetQueryString("appId");
         if(getinterfaceCode){
             server.getUrlMobile(getinterfaceCode).then(res=>{
@@ -178,13 +177,13 @@ export default {
                         type: 'success'
                     })
                 }
-                this.ruleForm.username = res.data.data.tenantName;
+                this.ruleForm.username = res.data.data.mobile;
             }).catch(error=>{
 
             })
         }
 
-        
+
 	},
 	methods: {
 		//跳转到登录
