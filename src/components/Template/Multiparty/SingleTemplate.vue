@@ -95,7 +95,7 @@
 <style lang="scss" scoped>
   @import "../../../styles/Multiparty/Multiparties.scss";
   @import "../../../common/styles/content.scss";
-  
+
   .el-input .el-input--small{
     width: 150px !important;
   }

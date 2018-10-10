@@ -85,12 +85,12 @@
               </el-form-item>
 
               <el-form-item prop="legalMobile" label="手机号码">
-                <el-input type="text" placeholder="请输入手机号码"  v-model="legalForm.legalMobile" style="width: 250px;"></el-input>
+                <el-input type="text" placeholder="请输入手机号码"  v-model="legalForm.legalMobile" style="width: 250px;" :maxlength= 11 :minlength= 11></el-input>
 
               </el-form-item>
 
               <el-form-item prop="phoneCode" label="验证码  ">
-                <el-input type="text" placeholder="请输入验证码" v-model="legalForm.phoneCode" style="width:165px;margin-left: 15px"></el-input>
+                <el-input type="text" placeholder="请输入验证码" v-model="legalForm.phoneCode" style="width:165px;margin-left: 15px" :maxlength= 6 :minlength= 6></el-input>
                 <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left: 10px;" :disabled="repeat">获取</el-button>
               </el-form-item>
 
@@ -162,7 +162,7 @@
       var validatePhoneCode=(rule,value,callback)=>{
         if(value===''){
           callback(new Error('验证码不为空'))
-        }else if(value!==''&&!(validateSmsCode(TrimAll(value)))){
+        }else if(value!==''&&!(validateSmsCode(value))){
           callback(new Error('验证码只能是6位数字'));
         }else{
           callback()
@@ -223,10 +223,10 @@
 
       }
     },
-    beforeDestroy() {
-      clearInterval(this.timer);
-      this.timer = null;
-    },
+      beforeDestroy() {
+        clearInterval(this.timer);
+        this.timer = null;
+      },
     methods:{
       change (val) {
         this.province=val[0]
@@ -303,7 +303,7 @@
       },
       // 解冻打款失败
       thaw(legalForm){
-        this.verifySub = true 
+        this.verifySub = true
         this.$refs[legalForm].validate((valid) => {
             if(valid){
                 this.$http.get(process.env.API_HOST + 'v1.4/sms', {
@@ -313,7 +313,7 @@
             }).then(res => {
                 //手机号验证码检验失败
                 if (res.data.resultCode != 1) {
-                    this.verifySub = false  
+                    this.verifySub = false
                 this.$message({
                     showClose: true,
                     message: res.data.resultMessage,
@@ -321,7 +321,7 @@
                 })
                 }else {
                 //手机号验证码检验成功
-                this.verifySub = false  
+                this.verifySub = false
                 this.$message({
                     showClose: true,
                     message: res.data.resultMessage,
@@ -337,7 +337,7 @@
                 };
                 server.unfreezeRemittance(param).then(function (res) {
                     if (res.data.resultCode == '1') {
-                        this.verifySub = false  
+                        this.verifySub = false
                         this.$message({
                             showClose: true,
                             message: res.data.resultMessage,
@@ -398,11 +398,11 @@
                             mobile:sessionStorage.getItem('mobile')
                     };
                     let urlParam = sessionStorage.getItem('interfaceCode')
-                    server.login(param,urlParam).then(res => {           
+                    server.login(param,urlParam).then(res => {
                         cookie.set("tenant", res.data.dataList);  //更新cookie
                         this.$router.push('/EnterpriseRegisterSucc')
                     })
-                
+
               })
                 this.once=false;
             } else if(res.data.resultCode == '-4'){
@@ -468,10 +468,10 @@
 
       // 轮询查找打款进度信息
 
-      let that = this;
-      let pollTimer = null;
-      this.pollTimer = setInterval(function () {
-        that.pollingPanel(this.pollTimer)
+      let that = this
+      let timer = null
+      this.timer = setInterval(function () {
+        that.pollingPanel(this.timer)
       }, 3000)
 
     },

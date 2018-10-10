@@ -54,7 +54,9 @@
       <!-- 合同内容结束 -->
       <!-- 右侧签署按钮开始 -->
       <div class='sign_right' v-show="contSignImg == false">
-        <a href="javascript:void(0);" @click="gainPosition"><img src="../../../static/images/Contract/submit.png" alt="" ></a>
+        <a href="javascript:void(0);" @click="gainPosition">
+          <img src="../../../static/images/Contract/submit.png" alt="" >
+        </a>
       </div>
     </div>
     <!-- 签署合同结束 -->

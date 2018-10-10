@@ -82,9 +82,6 @@
   }
 </script>
 <style scoped>
-
-  @import "../common/styles/demo/DemoTops.css";
-
   .demoSuccess-content{
     width: 1200px;
     clear: both;
