@@ -63,6 +63,7 @@
 
           <el-dialog
             :visible.sync="dialogAgreement"
+            :close-on-click-modal=false
             width="400px"
             center>
 
@@ -307,7 +308,7 @@
             if(valid){
                 this.$http.get(process.env.API_HOST + 'v1.4/sms', {
                     params: {
-                    'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
+                    'mobile': this.legalForm.legalMobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
                     }
             }).then(res => {
                 //手机号验证码检验失败
@@ -441,25 +442,29 @@
 
     },
     created() {
-      this.enterpriseName=sessionStorage.getItem("companyName");
-    //   console.log(this.interfaceCode);
-      // 查询企业银行信息
-      server.getBank(this.interfaceCode).then(response =>{
-        if (response.data.resultCode == '1') {
-          this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
-          this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
-          this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
-          this.ruleForm.bankArea = response.data.data.to_pro_name+response.data.data.to_city_name; //收款人开户行省市名
-          this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
+        if(cookie.getJSON("tenant")[1].auditSteps==3){
+            this.$router.push("/Home")
+            return
+        } 
+        this.enterpriseName=sessionStorage.getItem("companyName");
+        //   console.log(this.interfaceCode);
+        // 查询企业银行信息
+        server.getBank(this.interfaceCode).then(response =>{
+            if (response.data.resultCode == '1') {
+            this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
+            this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
+            this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
+            this.ruleForm.bankArea = response.data.data.to_pro_name+response.data.data.to_city_name; //收款人开户行省市名
+            this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
 
-        } else if(response.data.resultCode == '0'){
-          this.$message({
-            showClose: true,
-            message:res.data.resultMessage,
-            type: 'error'
-          })
-        }
-      })
+            } else if(response.data.resultCode == '0'){
+            this.$message({
+                showClose: true,
+                message:response.data.resultMessage,
+                type: 'error'
+            })
+            }
+        })
 
       // 轮询查找打款进度信息
 

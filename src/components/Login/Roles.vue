@@ -17,7 +17,7 @@
 						<ul v-if="companyList.length>0" class="role-ul">
 							<li v-for="(item,index) in companyList" :key="index" class="role-item">
 								<div class="item-left">
-									<span class="sign" v-if="item.auditStatus==2">
+									<span class="sign" v-if="item.auditSteps==3">
 										<img src="../../../static/images/Login/sign_red.png" alt="">
 										<span class="company-status active">已实名</span>
 									</span>

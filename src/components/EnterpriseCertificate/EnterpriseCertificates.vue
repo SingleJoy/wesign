@@ -302,6 +302,8 @@
                                             v-model="IdInfo.smsCode"
                                             @blur='validateIdInfo("smsCode")'
                                             :disabled= fullName
+                                            :maxlength=6
+                                            :minlength=6
                                         >
                                         </el-input>
                                         <span>
@@ -335,7 +337,7 @@
                                     <el-input v-model="bankInfo.to_acc_no" placeholder="请输入"></el-input>
                                 </el-form-item>
                                 <el-form-item  label="银行名称"  prop="to_bank_name" label-width="473px">
-                                    <el-input v-model="bankInfo.to_bank_name" placeholder="请输入"></el-input>
+                                    <el-input   v-model="bankInfo.to_bank_name" placeholder="请输入"></el-input>
                                 </el-form-item>
                                 
                                 <el-form-item label="开户行所在省／市"  label-width="473px">
@@ -365,7 +367,7 @@
 
 <script>
 import server from "@/api/certificationUrl";
-import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail} from '../../common/js/validate.js';
+import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
 export default {
     name:'',
@@ -2296,6 +2298,9 @@ export default {
                 if(this.IdInfo.smsCode==""){
                     this.smsTip=true;
                     this.smsTipText = "验证码不能为空";
+                }else if(!validateSmsCode(this.IdInfo.smsCode)){
+                      this.smsTip=true;
+                    this.smsTipText = "验证码只能为6位数字";
                 }else{
                     this.smsTip=false;
                     this.smsTipText = "";
@@ -2606,7 +2611,7 @@ export default {
                     this.sigleClick = false;
                     this.IdStatus = false;
                     this.$loading.hide();
-                    this.count-=1;
+                    this.count+=1;
                     // this.$alert('身份证信息有误!','认证', {
                     //     confirmButtonText: '确定'
                     // });
@@ -2638,7 +2643,7 @@ export default {
                     this.sigleClick = false;
                     this.bankStatus = false
                     this.$loading.hide();
-                    this.count-=1;
+                    this.count+=1;
                 }
             }).catch(error=>{
                    
@@ -2674,6 +2679,18 @@ export default {
 .el-cascader-menu::-webkit-scrollbar{width:2px;}
 .el-cascader-menu::-webkit-scrollbar-track{background-color:rgb(217, 217, 217);}
 .el-cascader-menu::-webkit-scrollbar-thumb{background-color:rgb(205, 205, 205);}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none; 
+    margin: 0; 
+}
+input{
+    -moz-appearance:textfield;
+}
+
+
 </style>
 
 

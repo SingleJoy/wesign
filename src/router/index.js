@@ -403,9 +403,12 @@ export const router = new Router({
       }
     },
     {
-      path: '/EnterprisePayment',
-      name: 'EnterprisePayment',
-      component: EnterprisePayment,
+        path: '/EnterprisePayment',
+        name: 'EnterprisePayment',
+        component: EnterprisePayment,
+        meta: {
+            auth: true
+        }
     },
     {
       path: '/EnterpriseRegisterSucc',
