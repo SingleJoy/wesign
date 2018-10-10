@@ -11,9 +11,9 @@
 				</div>
 			</div>
 			<div class="layer_content" v-show="isShowClose">
-				<div class="layer_close" @click="close()">
+				<div class="layer_close">
 					<span class="layer_close_left"></span>
-					<span class="layer_close_rigth">X</span>
+					<span class="layer_close_right" @click="close()">X</span>
 				</div>
 				<div class="layer_character">
 					<img src="../../../static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
@@ -133,6 +133,7 @@ export default {
 			interfaceCode: Math.random(),
 			smsNo: '',
 			smsCode: '',
+			codeSure: false,
 			iscode: false,
 			isDisabled: false,
 			isClick: true,
@@ -235,6 +236,7 @@ export default {
 
                         });
 					} else {
+						this.codeSure = true;
 						//倒计时
 						let _this = this;
 						this.isDisabled = true;
@@ -283,57 +285,65 @@ export default {
 			//校验填写内容是否正确
 			this.$refs[formName].validate((valid) => {
 				if(valid) {
-					//验证码是否正确
-					this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-						params: {
-							'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-						}
-					}).then(res => {
-						if(res.body.resultCode == 1) {
-							//个人注册提交
-							server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
-								if(res.data.resultCode === '1') {
-									this.isShow = true;
-									this.isShowSkip = true;
-									let _this = this;
-									let setTimer = setInterval(function() {
-										_this.count = _this.count - 1;
-										if(_this.count <= 0) {
-											clearInterval(setTimer);
-											_this.$router.push('/')
+					if(this.codeSure) {
+						//验证码是否正确
+						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
+							params: {
+								'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
+							}
+						}).then(res => {
+							if(res.body.resultCode == 1) {
+								//个人注册提交
+								server.individualRegister({'mobile': this.ruleForm.username, 'password': md5(this.ruleForm.password)}).then( res=> {
+									if(res.data.resultCode === '1') {
+										this.isShow = true;
+										this.isShowSkip = true;
+										let _this = this;
+										let setTimer = setInterval(function() {
+											_this.count = _this.count - 1;
+											if(_this.count <= 0) {
+												clearInterval(setTimer);
+												_this.$router.push('/')
+											}
+											console.log(_this.count);
+										}, 1000);
+										//this.$router.push('/');
+									} else {
+											this.$message({
+												showClose: true,
+												message: res.data.resultMessage,
+												type: 'error'
+											});
 										}
-										console.log(_this.count);
-									}, 1000);
-									//this.$router.push('/');
-								} else {
+									}).catch(error => {
 										this.$message({
 											showClose: true,
 											message: res.data.resultMessage,
 											type: 'error'
 										});
-									}
-								}).catch(error => {
-									this.$message({
-										showClose: true,
-										message: res.data.resultMessage,
-										type: 'error'
-									});
-							});
-						} else {
+								});
+							} else {
+								this.$message({
+									showClose: true,
+									message: res.data.resultMessage,
+									type: 'error'
+								});
+							}
+
+						}).catch(error => {
 							this.$message({
 								showClose: true,
-								message: "请先获取验证码",
+								message: res.data.resultMessage,
 								type: 'error'
 							});
-						}
-
-					}).catch(error => {
+						})
+					} else {
 						this.$message({
 							showClose: true,
-							message: res.data.resultMessage,
+							message: "请先获取验证码",
 							type: 'error'
 						});
-					})
+					}
 				} else {
 					return false
 				}
@@ -413,23 +423,20 @@ export default {
 	.layer_close {
 		height: 30px;
 		color: #bbbbbb;
-		line-height: 30px;
-		cursor: pointer;
-	}
-	.layer_close_left {
-		display: inline-block;
-		width: 97%;
+		line-height: 30px;	
 	}
 	.layer_close_right {
-		display: inline-block;
+		float: right;
 		width: 3%;
+		cursor: pointer;
 	}
 	.layer_character {
 		overflow-y: auto;
 		height: 100%;
+		background-color: #fff;
 	}
 	.layer_character img {
-		height: auto;
+		width: 100%;
 	}
 
 	.select-btn {
