@@ -177,12 +177,14 @@
 									type: 'success'
 								})
 								this.$router.push('/')
-							}
+							}else{
+                this.$message({
+                  message: res.data.resultMessage,
+                  type: 'error'
+                })
+              }
 						}).catch(error => {
-							this.$message({
-								message: res.data.resultMessage,
-								type: 'error'
-							})
+
 						})
 					}else {
 						this.$message({
