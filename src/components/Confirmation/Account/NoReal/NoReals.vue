@@ -26,7 +26,7 @@
         <p class="title">签章管理</p>
         <div class="line"></div>
         <div class='accountPic'>
-          <img :src="[contractSign]" alt="" style="width:100%">
+          <img :src="[contractSign]" alt="" style="width:160px;height: 160px;">
           <p style="padding-left: 58px;width: 95px;">{{chapter}}</p>
         </div>
       </div>
@@ -294,7 +294,7 @@
         // }else{
         //         this.identifier = true
         // }
-     
+
       let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getSignature'
       this.$http.get(url).then(function (res) {
         this.contractSign = res.bodyText

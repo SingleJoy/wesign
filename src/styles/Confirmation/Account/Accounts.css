@@ -19,9 +19,7 @@
 
 .userInfo {
     font-size:12px;
-    font-family:"微软雅黑";
     color:#333;
-
     height: 50px;
 }
 .userInfo p{
@@ -33,7 +31,6 @@
 }
 .companyName{
     font-size:12px;
-    font-family:"微软雅黑";
     color:#333;
     height: 50px;
 }
