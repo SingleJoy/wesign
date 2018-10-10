@@ -356,7 +356,6 @@
 
         //合同剩余发起次数
         getContractNum(){
-            console.log(33)
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
                     this.contractNum = res.data.data;
@@ -375,7 +374,7 @@
             if(this.isBusiness==0){         //先判断是否为大B（付费用户）
                 if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
                     this.welcomeMessage = true;
-                }else if(this.contractNum>0){
+                }else{
                     this.getContractNum();
                     if(this.contractNum==0){
                         this.$confirm(
@@ -527,7 +526,7 @@
         let accountLevel = sessionStorage.getItem('accountLevel');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let interfaceCode = this.interfaceCode;
-        if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].auditSteps!=3){
+        if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
             this.welcomeMessage = false;
         }
       

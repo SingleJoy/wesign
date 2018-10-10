@@ -50,8 +50,8 @@
     position: absolute;
 }
 .cleft img{
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    /* height: 80px; */
 }
 .cright{
     float: left;

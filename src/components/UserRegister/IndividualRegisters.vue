@@ -170,6 +170,7 @@ export default {
         
 
         let getinterfaceCode =  GetQueryString("appId");
+        
         if(getinterfaceCode){
             server.getUrlMobile(getinterfaceCode).then(res=>{
                 if (res.data.resultCode == '1') {

@@ -2099,7 +2099,7 @@ export default {
                     this.getAuthDate();
                 }
 
-                bankInfo.to_acc_name = data.to_acc_name
+                bankInfo.to_acc_name = data.tenantName
                 bankInfo.to_acc_no = data.to_acc_no
                 bankInfo.to_bank_name = data.to_bank_name
                 bankInfo.to_pro_name = data.to_pro_name
