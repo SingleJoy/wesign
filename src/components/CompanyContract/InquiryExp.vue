@@ -314,7 +314,7 @@ export default {
     lookClick(row){  //延期
       if(row.contractType == '0'){
         sessionStorage.setItem('contractNo', row.contractNum)
-        cookie.set('state','E1')
+        cookie.set('state','List')
         this.$router.push('/CompanyExc')
       }else{
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})

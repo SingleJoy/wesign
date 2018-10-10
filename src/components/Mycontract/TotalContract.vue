@@ -342,7 +342,7 @@ export default {
     seeClick (row) { //延期
     this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
     sessionStorage.setItem('contractNo', row.contractNum)
-    cookie.set('state','D1')
+    cookie.set('state','List')
     this.$router.push('/ContractDelay')
     },
     // getStartTime(){ //日期
