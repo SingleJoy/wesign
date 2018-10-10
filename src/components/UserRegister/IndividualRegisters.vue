@@ -76,7 +76,7 @@
 <script>
 //import cookie from "@/common/js/getTenant";
 //import Img from "../../../static/images/Login/qrcode.png";
-import { validateMoblie, validatePassWord, validateSmsCode, validateEmail } from "@/common/js/validate";
+import { validateMoblie, validatePassWord, validateSmsCode, } from "@/common/js/validate";
 import md5 from "js-md5";
 //import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
@@ -465,7 +465,6 @@ export default {
 	}
 	.userInfo {
 	color: #333333;
-
 	text-align: center;
 	font-size: 1.5rem;
 	}
