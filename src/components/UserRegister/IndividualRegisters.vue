@@ -276,13 +276,15 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if(valid) {
 					if(this.codeSure) {
-						//验证码是否正确
-						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-							params: {
-								'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-							}
-						}).then(res => {
-							if(res.body.resultCode == 1) {
+                        //验证码是否正确
+                        let param={
+                            'mobile': this.ruleForm.username, 
+                            'smsNo': this.smsNo, 
+                            'smsCode': this.ruleForm.code,
+                             'appId': this.appId
+                        }
+                        server.valiteSmsCode(param).then(res => {
+							if(res.data.resultCode == 1) {
 								//个人注册提交
 								server.individualRegister({
                                     'mobile': this.ruleForm.username,
@@ -294,7 +296,8 @@ export default {
 										this.isShowSkip = true;
 										let _this = this;
 										let setTimer = setInterval(function() {
-											_this.count = _this.count - 1;
+                                            _this.count = _this.count - 1;
+                                            
 											if(_this.count <= 0) {
 												clearInterval(setTimer);
 												_this.$router.push('/')
@@ -322,13 +325,8 @@ export default {
 									type: 'error'
 								});
 							}
-
 						}).catch(error => {
-							this.$message({
-								showClose: true,
-								message: res.data.resultMessage,
-								type: 'error'
-							});
+							
 						})
 					} else {
 						this.$message({
