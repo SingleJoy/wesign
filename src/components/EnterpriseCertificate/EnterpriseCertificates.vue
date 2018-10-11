@@ -289,7 +289,7 @@
                                             placeholder=""
                                             v-model="IdInfo.mobile"
                                             @blur='validateIdInfo("mobile")'
-                                            :disabled = authorizerType
+                                            :disabled = true
                                         >
                                         </el-input>
                                         <span v-if="mobileTip" class="validate-tip">{{mobileTipText}}</span>
@@ -2197,7 +2197,7 @@ export default {
                 this.$loading.hide();
                 this.$message({
                     showClose: true,
-                    message: '上传成功',
+                    message: '营业执照上传成功',
                     type: 'success'
                 })
             }else{
@@ -2205,7 +2205,7 @@ export default {
                  this.IdInfoShow = false;
                   this.$message({
                     showClose: true,
-                    message: '营业执照上传错误',
+                    message: name.resultMessage,
                     type: 'error'
                 })
             }
@@ -2230,9 +2230,9 @@ export default {
                     this.IdInfo.idCard = name.data.idCard
                     this.IdInfoShow = true;
                     this.IdStatus = true;
-                    if(this.authorizerType){
+                    // if(this.authorizerType){
                         this.IdInfo.mobile = sessionStorage.getItem('mobile')
-                    }
+                    // }
                     this.$loading.hide();
                     this.getAuthDate()
                     
