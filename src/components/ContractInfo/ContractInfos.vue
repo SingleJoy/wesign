@@ -17,13 +17,14 @@
         </p>
 
       </div>
-      <p class="second">
+    
       <div class="title">签署文件</div>
+       <div class="line"></div>
       <span class="text">
         <strong>当前状态：</strong>
         <span>{{status}}</span>
        </span>
-      </p>
+  
       <div class="three" style="text-align: left;">
         <p class="details">
           <strong style="line-height: 20px;">合同文件：</strong><span class="contract_Name" :title="contractName">{{contractName}}</span>
@@ -102,9 +103,10 @@
   </div>
 </template>
 <style lang="scss" >
+@import "../../common/styles/content.scss";
   .ContractInfos .main .title{
     height: 46px;
-    margin: -65px 0 0 15px;
+    // margin: -65px 0 0 15px;
     line-height: 46px;
     padding-left: 40px;
     color: #fff;
@@ -112,9 +114,11 @@
     padding-top: 0 !important;
     border-top: none !important;
     background: url("../../../static/images/Common/title.png") no-repeat;
+    margin-top: 20px;
+    margin-left: 15px;
   }
   .ContractInfos .main .text{
-    margin-top: -30px;
+    margin-top: -70px;
     float: right;
     padding-right: 50px;
   }

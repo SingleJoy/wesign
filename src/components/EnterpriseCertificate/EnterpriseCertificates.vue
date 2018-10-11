@@ -367,7 +367,7 @@
 
 <script>
 import server from "@/api/certificationUrl";
-import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode} from '../../common/js/validate.js';
+import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode,specialCharacter} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
 export default {
     name:'',
@@ -391,6 +391,8 @@ export default {
         var checkBankName = (rule,value,callback)=>{
              if(!value){
                 callback(new Error('请输入企业银行名称'))
+            }else if(!specialCharacter(TrimAll(value))){
+                callback(new Error('名称格式不正确'))
             }else{
                   callback()
             }
@@ -398,6 +400,8 @@ export default {
         var checkBank =  (rule,value,callback)=>{
             if(!value){
                 callback(new Error('请输入开户行行名称'))
+            }else if(!specialCharacter(TrimAll(value))){
+                callback(new Error('名称格式不正确'))
             }else{
                 callback()
             }
@@ -2538,20 +2542,21 @@ export default {
                     this.$loading.show(
                         '信息提交中...',  
                     );
-                    this.sigleClick = true;
-                    if(this.auditStatus==2){   //企业认证成功
-                        this.subIdInfo();
-                        // this.subbankInfo();
-                        this.count+=1;
-                    }else if(this.auditSteps==1){     //个人认证成功
-                        this.sublicenseInfo();
-                        // this.subbankInfo();
-                        this.count+=1;
-                    }else{
-                        this.sublicenseInfo();
-                        this.subIdInfo();
-                        // this.subbankInfo();
-                    }
+                    this.sublicenseInfo()
+                    // this.sigleClick = true;
+                    // if(this.auditStatus==2){   //企业认证成功
+                    //     this.subIdInfo();
+                    //     // this.subbankInfo();
+                    //     this.count+=1;
+                    // }else if(this.auditSteps==1){     //个人认证成功
+                    //     this.sublicenseInfo();
+                    //     // this.subbankInfo();
+                    //     this.count+=1;
+                    // }else{
+                    //     this.sublicenseInfo();
+                    //     this.subIdInfo();
+                    //     // this.subbankInfo();
+                    // }
                 }
             })
 
@@ -2572,7 +2577,8 @@ export default {
                  if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.licenseStatus = true;
-                    this.$loading.hide();
+                    this.subIdInfo();
+                    // this.$loading.hide();
                     this.count+=1;
                 }else{
                     this.sigleClick = false;
@@ -2606,7 +2612,8 @@ export default {
             server.IdCardInfo(params).then(res=>{
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
-                    this.$loading.hide();
+                    // this.$loading.hide();
+                     this.subbankInfo();
                     this.IdStatus = true;
                     this.count+=1;
                 }else{
@@ -2638,7 +2645,6 @@ export default {
             }
             let interfaceCode = this.interfaceCode;
             server.bankInfo(param,interfaceCode).then(res=>{
-                console.log(res.data.resultCode,'这是认证状态')
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.bankStatus = true;
@@ -2657,7 +2663,7 @@ export default {
                    
             })
         },
-        //跟新cookie
+        //更新cookie
         updateCookie(){
             let param={
                 mobile:sessionStorage.getItem('mobile')

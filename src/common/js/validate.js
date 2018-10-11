@@ -129,7 +129,11 @@ export function validateBankAccountNumber(str){
   const reg = /^d{1,30}$/;
   return reg.test(str)
 }
-
+//名称特殊字符
+export function specialCharacter(str) {
+    const reg = /^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/;
+    return reg.test(str)
+}
 
 // 去除字符串空格
 export  function Trim(str){
