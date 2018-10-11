@@ -133,7 +133,7 @@ export default {
 		};
 		return {
 			checked: false,
-            interfaceCode: Math.random(),
+            interfaceCode:'',
             userDisabled:false,
             passwordDisabled:false,
 			smsNo: '',
@@ -172,45 +172,12 @@ export default {
 				}
 			}
         }
-        // let getinterfaceCode =  GetQueryString("appId");
-        // if(getinterfaceCode){
-        //     this.interfaceCode = getinterfaceCode
-        //     server.getUrlMobile(getinterfaceCode).then(res=>{
-        //         if (res.data.resultCode == '1') {
-        //             this.$message({
-        //                 showClose: true,
-        //                 message: '您已拥有微签账号，无需重新设置密码',
-        //                 type: 'success'
-        //             })
-        //         }
-        //         let molie = res.data.data.mobile;
-        //         let psaaword = res.data.data.password;
-        //         let params = {
-        //             username: res.data.data.mobile
-        //         };
-        //         this.ruleForm.username = molie;
-        //         server.verficate(params).then(res => {
-        //              if (res.data === 0) {
-        //                 this.userDisabled = true;
-        //                 if(!psaaword){
-        //                     this.ruleForm.password="test111111";
-        //                     this.ruleForm.newPassword="test111111";
-        //                     this.passwordDisabled = true;
-        //                 }
-        //                 callback();
-        //             } else {
-        //                 callback(new Error("此用户不存在"));
-        //             }
-        //         }).catch(error=>{
-
-        //         })
-        //     }).catch(error=>{
-
-        //     })
-        // }
-
-
-
+        let getinterfaceCode =  GetQueryString("appId");
+        if(getinterfaceCode){
+            this.interfaceCode = getinterfaceCode
+        }else{
+            this.interfaceCode = Math.random();
+        }
 	},
 	methods: {
 		//跳转到登录
@@ -322,6 +289,7 @@ export default {
 								server.individualRegister({
                                     'mobile': this.ruleForm.username,
                                     'password': md5(this.ruleForm.password),
+                                    'interfaceCode':this.interfaceCode
                                     }).then( res=> {
 									if(res.data.resultCode === '1') {
 										this.isShow = true;

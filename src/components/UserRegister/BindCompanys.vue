@@ -61,8 +61,8 @@
 							</el-input>
 						</el-form-item>
 						<el-form-item>
-						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
-						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
+						<!-- <el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
+						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a> -->
 						</el-form-item>
 						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">绑定</el-button>
@@ -141,7 +141,7 @@ export default {
 			codeSure: false,
 			iscode: false,
 			isDisabled: false,
-			isClick: true,
+			isClick: false,
 			isShow: false,
 			isShowSkip: false,
 			isShowClose: false,
