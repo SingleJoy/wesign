@@ -491,14 +491,9 @@
         that.pollingPanel(this.timer)
       }, 3000);
 
-
       setInterval(function () {
         that.time=that.time+1;
       },1000)
-
-
-
-
 
     }
 
