@@ -21,6 +21,11 @@ background: #f5f5f5;
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
+.el-button--primary{
+    color: #fff;
+    background-color: #0091ff;
+    border-color: #0091ff;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
