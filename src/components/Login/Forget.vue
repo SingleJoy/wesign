@@ -4,16 +4,19 @@
 			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
 			<div class="logo-content">
 				<span>已有账号，</span>
-				<span class="register" @click="register()">立即登录 </span>
-				<img src="../../../static/images/Login/goback-right.png" alt="">
+        <span @click="register()" class="simulation">
+          <span class="register">立即登录 </span>
+          <img src="../../../static/images/Login/goback-right.png" alt="">
+        </span>
 			</div>
 		</div>
 		<div class="forget-wrap">
 			<div class="ms-forget">
 				<div class="login-body-left">
-					<p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+          <p style="font-size: 2.5rem;">电子合同+，用合约重构交易</p>
+					<!-- <p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
 					<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
-					<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+					<p>问题。使用众签让你的工作，生活更美好，更随意。</p> -->
 				</div>
 				<div class="form-forget">
 					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="">
@@ -145,7 +148,7 @@
     },
     methods: {
 		register() {
-			this.$router.push('/Register');
+			this.$router.push('/');
 		},
       submitForm(formName) {
         if(this.ruleForm.mobile != this.ruleForm.username){//校验发送验证码的手机和提交时的手机是否是一个
@@ -382,6 +385,9 @@
 .register {
 	color: #4091fb;
 	cursor: pointer;
+}
+.simulation {
+  cursor: pointer;
 }
 
 </style>

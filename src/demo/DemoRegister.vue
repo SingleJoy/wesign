@@ -2,8 +2,8 @@
     <div class='Contract'>
         <div class="login-nav">
             <div class="logo-zq"><img src="../../static/images/Login/modification-logo.png" alt=""></div>
-            <div class="logo-content">
-                <span class="register" @click="abandon()">放弃体验</span>
+            <div class="logo-content simulation" @click="abandon()">
+                <span class="register">放弃体验</span>
                 <img src="../../static/images/Login/goback-right.png" alt="">
             </div>
         </div>
@@ -12,9 +12,10 @@
                 <div class="ms-login">
                 <div class='center-user'>
                     <div class="login-body-left">
-					<p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+					<!-- <p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
 					<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
-					<p>问题。使用众签让你的工作，生活更美好，更随意。</p>
+					<p>问题。使用众签让你的工作，生活更美好，更随意。</p> -->
+                    <p style="font-size: 2.5rem;">电子合同+，用合约重构交易</p>
 				</div>
                     <div class='user'>
                     <h2 class='userInfo'>体验登录</h2>
@@ -331,4 +332,7 @@ export default {
 		background-color: #4091fb;
 		color: #ffffff;
 	}
+.simulation {
+  cursor: pointer;
+}
 </style>
