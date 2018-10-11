@@ -129,8 +129,7 @@
         up.click()
       },
       returnIndex(){
-           this.$store.dispatch('tabIndex',{tabIndex:0});
-           this.$router.push("/Home");
+          this.$router.push("/Home")
       },
     },
     created() {

@@ -39,15 +39,15 @@
 				<div class='center'>
 					<div class="login-body-left">
 						<p style="font-size: 2.5rem;">电子合同+，用合约重构交易</p>
-						<!-- <p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p> -->
-						<!-- <p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
+						<!-- <p style="font-size: 2.5rem;">更快，更安全的电子合同解决方案</p>
+						<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
 						<p>问题。使用众签让你的工作，生活更美好，更随意。</p> -->
 					</div>
 					<div class='user'>
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
 						<el-form-item prop="username">
-						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" :maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
 						</el-form-item>
 						<el-form-item prop="code">
 							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
@@ -62,7 +62,7 @@
 						</el-form-item>
 						<el-form-item>
 						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
-						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签用户使用协议》</a>
+						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
 						</el-form-item>
 						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>

@@ -4,8 +4,8 @@
 			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
 			<div class="logo-content">
 				<span>已有账号，</span>
-        <span @click="register()" class="simulation">
-          <span class="register">立即登录 </span>
+        <span class="simulation" @click="register()">
+          <span class="register">立即登录</span>
           <img src="../../../static/images/Login/goback-right.png" alt="">
         </span>
 			</div>
@@ -25,11 +25,11 @@
 						<el-input v-model="ruleForm.username" placeholder="请输入手机号码" class="forget-input" :maxlength=11></el-input>
 						</el-form-item>
 						<!-- <el-form-item prop="message"> -->
-                        <el-form-item prop="code">
-                            <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
-                            <el-button slot="append" @click='sendCode' id='code'>获取验证码</el-button>
-                            </el-input>
-                        <!-- </el-form-item> -->
+              <el-form-item prop="code">
+                <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
+                  <el-button slot="append" @click='sendCode' id='code'>获取验证码</el-button>
+                </el-input>
+              <!-- </el-form-item> -->
 						<!-- <el-input type="text" placeholder="请输入短信验证码" class='forget-messageInput' v-model="ruleForm.message" style="width: 200px;"></el-input>
 						<el-button type="primary" class="forget-messageButton" @click='sendCode' id='code' style="margin-left: 20px;">获取</el-button> -->
 						</el-form-item>
@@ -68,11 +68,11 @@
               'username':this.ruleForm.username
             }}).then(response =>{
             if (response.body === 0) {
-                this.disCode = false
-                callback()
+              this.disCode = false
+              callback()
             } else {
-                callback(new Error('此用户不存在'))
-                this.disCode = true
+              callback(new Error('此用户不存在'))
+              this.disCode = true
             }
           }).catch((err) => {
             this.disCode = true
@@ -159,7 +159,6 @@
           return false
         }
         this.$refs[formName].validate((valid) => {
-            console.log(1222)
 			if (valid) {
 				//验证码是否正确
 				this.$http.get(process.env.API_HOST + 'v1.4/sms', {
@@ -389,5 +388,4 @@
 .simulation {
   cursor: pointer;
 }
-
 </style>

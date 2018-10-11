@@ -57,7 +57,7 @@
 						</el-form-item>
 						<el-form-item>
 							<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
-							<a href="javascript:;" class="agreement" @click="protocol()">《微签用户使用协议》</a>
+							<a href="javascript:;" class="agreement" @click="protocol()">《微签注册使用协议》</a>
 						</el-form-item>
 					</el-form>
 				</div>

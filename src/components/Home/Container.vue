@@ -121,7 +121,7 @@
               width="200"
             >
             <template slot-scope="scope">
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && (this.interfaceCode == accountCode?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
+                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
                 <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true && accountCode == scope.row.operator'>
                 <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
                 </el-tooltip>
@@ -360,7 +360,7 @@
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
                     this.contractNum = res.data.data;
-                    if(this.clickup){
+                    if(clickup){
                         if(this.contractNum==0){
                             this.$confirm(
                                 <div class="warn-num">
