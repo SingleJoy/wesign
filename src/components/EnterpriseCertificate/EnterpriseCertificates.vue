@@ -367,7 +367,7 @@
 
 <script>
 import server from "@/api/certificationUrl";
-import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode} from '../../common/js/validate.js';
+import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode,specialCharacter} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
 export default {
     name:'',
@@ -391,6 +391,8 @@ export default {
         var checkBankName = (rule,value,callback)=>{
              if(!value){
                 callback(new Error('请输入企业银行名称'))
+            }else if(!specialCharacter(TrimAll(value))){
+                callback(new Error('名称格式不正确'))
             }else{
                   callback()
             }
@@ -398,6 +400,8 @@ export default {
         var checkBank =  (rule,value,callback)=>{
             if(!value){
                 callback(new Error('请输入开户行行名称'))
+            }else if(!specialCharacter(TrimAll(value))){
+                callback(new Error('名称格式不正确'))
             }else{
                 callback()
             }
@@ -2578,7 +2582,7 @@ export default {
                     this.sigleClick = false;
                     this.licenseStatus = false;
                     this.$loading.hide();
-                    this.count-=1;
+                    this.count+=1;
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
@@ -2636,7 +2640,6 @@ export default {
             }
             let interfaceCode = this.interfaceCode;
             server.bankInfo(param,interfaceCode).then(res=>{
-                console.log(res.data.resultCode,'这是认证状态')
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.bankStatus = true;
@@ -2659,7 +2662,7 @@ export default {
                    
             })
         },
-        //跟新cookie
+        //更新cookie
         updateCookie(){
             let param={
                 mobile:sessionStorage.getItem('mobile')

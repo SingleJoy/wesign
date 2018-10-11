@@ -94,7 +94,7 @@
         <h2 class='settingInfo'>
           <div class="title" >签署人设置</div>
           <p class="personInfo2">
-            <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline" style="margin-top: 66px;">添加人员</el-button>
+            <el-button type="primary" size="medium" @click='addSigners' icon="el-icon-circle-plus-outline">添加人员</el-button>
             <el-dialog title="添加人员" :visible.sync="dialogFormVisible"  width="360px"  top="30vh"   custom-class='outInfo' center @close="closeDialog('ruleForm')"   :lock-scroll= false>
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
                 <el-form-item label="姓名" :label-width="formLabelWidth" prop="signUserName">

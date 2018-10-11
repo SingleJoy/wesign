@@ -60,7 +60,7 @@
                   <dd>{{item.mobile}}</dd>
                   <p class='hidden' style="display:none">{{item.userCode}}</p>
                   <!-- <dd v-on:click="getIndex(item,index)">拖入位置</dd> -->
-                  <dd style='font-size:12px;'>拖入位置（0）次</dd>
+                  <dd style='font-size:12px;margin-top: 46px;'>拖入位置（0）次</dd>
                 </dl>
               </div>
           </div>
@@ -480,7 +480,7 @@ export default {
   }
   .Pcontract .infoStyle{
     text-align:center;
-    line-height:86px;
+    line-height:38px;
     font-size:16px;
     font-weight:normal;
   }
