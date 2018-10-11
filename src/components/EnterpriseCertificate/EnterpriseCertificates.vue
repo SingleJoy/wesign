@@ -2542,20 +2542,21 @@ export default {
                     this.$loading.show(
                         '信息提交中...',  
                     );
-                    this.sigleClick = true;
-                    if(this.auditStatus==2){   //企业认证成功
-                        this.subIdInfo();
-                        // this.subbankInfo();
-                        this.count+=1;
-                    }else if(this.auditSteps==1){     //个人认证成功
-                        this.sublicenseInfo();
-                        // this.subbankInfo();
-                        this.count+=1;
-                    }else{
-                        this.sublicenseInfo();
-                        this.subIdInfo();
-                        // this.subbankInfo();
-                    }
+                    this.sublicenseInfo()
+                    // this.sigleClick = true;
+                    // if(this.auditStatus==2){   //企业认证成功
+                    //     this.subIdInfo();
+                    //     // this.subbankInfo();
+                    //     this.count+=1;
+                    // }else if(this.auditSteps==1){     //个人认证成功
+                    //     this.sublicenseInfo();
+                    //     // this.subbankInfo();
+                    //     this.count+=1;
+                    // }else{
+                    //     this.sublicenseInfo();
+                    //     this.subIdInfo();
+                    //     // this.subbankInfo();
+                    // }
                 }
             })
 
@@ -2576,12 +2577,14 @@ export default {
                  if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.licenseStatus = true;
-                    this.$loading.hide();
+                    this.subIdInfo();
+                    // this.$loading.hide();
                     this.count+=1;
                 }else{
                     this.sigleClick = false;
                     this.licenseStatus = false;
-                    this.$loading.hide();
+                    this.subIdInfo();
+                    // this.$loading.hide();
                     this.count+=1;
                     this.$message({
                         showClose: true,
@@ -2609,13 +2612,15 @@ export default {
             server.IdCardInfo(params).then(res=>{
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
-                    this.$loading.hide();
+                    // this.$loading.hide();
+                     this.subbankInfo();
                     this.IdStatus = true;
                     this.count+=1;
                 }else{
                     this.sigleClick = false;
                     this.IdStatus = false;
-                    this.$loading.hide();
+                    // this.$loading.hide();
+                    this.subbankInfo();
                     this.count+=1;
                     this.$message({
                         showClose: true,
@@ -2678,7 +2683,7 @@ export default {
         success(val){
             if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
                 if(this.licenseStatus&&this.IdStatus){
-                    this.subbankInfo()
+                    // this.subbankInfo()
                 }
             }
         }
