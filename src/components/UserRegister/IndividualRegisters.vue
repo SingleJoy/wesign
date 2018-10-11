@@ -44,7 +44,7 @@
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
 						<el-form-item prop="username">
-						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" :maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
 						</el-form-item>
 						<el-form-item prop="code">
 							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
