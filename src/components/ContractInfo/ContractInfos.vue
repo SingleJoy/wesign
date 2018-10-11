@@ -485,5 +485,5 @@
   }
 </script>
 <style>
-  @import "../../styles/ContractInfo/ContractInfos.css";
+  @import "../../styles/ContractInfo/ContractInfos.scss";
 </style>
