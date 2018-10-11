@@ -177,7 +177,7 @@
         verifySub:false, //五次打款验证提交
         showAlert:true,  //轮询查询打款失败  第一次弹窗
         time:1,
-        allowInput:true,//打款失败 禁止输入
+        allowInput:false,//打款失败 禁止输入
         rules:{
           paymentNum: [
             {validator: validatePaymentNum, trigger: 'blur' }
@@ -498,14 +498,9 @@
         that.pollingPanel(this.timer)
       }, 3000);
 
-
       setInterval(function () {
         that.time=that.time+1;
       },1000)
-
-
-
-
 
     }
 
