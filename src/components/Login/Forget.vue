@@ -3,8 +3,8 @@
 		<div class="login-nav">
 			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
 			<div class="logo-content">
-				<span>还没账号？</span>
-				<span class="register" @click="register()">立即注册</span>
+				<span>已有账号，</span>
+				<span class="register" @click="register()">立即登录 </span>
 				<img src="../../../static/images/Login/goback-right.png" alt="">
 			</div>
 		</div>
