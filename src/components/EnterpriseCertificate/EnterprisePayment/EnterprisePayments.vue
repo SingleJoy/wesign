@@ -28,7 +28,7 @@
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="account-ruleForm" size="medium">
 
             <el-form-item label="打款金额" :label-width="formLabelWidth" prop="paymentNum">
-              <el-input v-model="ruleForm.paymentNum" auto-complete="off" placeholder="请输入打款金额" style="width: 330px;height:40px;"></el-input>
+              <el-input v-model="ruleForm.paymentNum" auto-complete="off" placeholder="请输入打款金额" style="width: 330px;height:40px;" :disabled="allowInput"></el-input>
             </el-form-item>
 
             <el-form-item label="企业名称" :label-width="formLabelWidth" prop="enterpriseName">
@@ -177,6 +177,7 @@
         verifySub:false, //五次打款验证提交
         showAlert:true,  //轮询查询打款失败  第一次弹窗
         time:1,
+        allowInput:true,//打款失败 禁止输入
         rules:{
           paymentNum: [
             {validator: validatePaymentNum, trigger: 'blur' }
@@ -364,61 +365,70 @@
       },
       //提交
       submit(){
-        // this.dialogAgreement=true;
-        if(this.ruleForm.paymentNum==''){
-          this.$alert('打款金额不可为空', '提示',{
+        //打款成功  用户可提交
+        console.log(this.once)
+        if(!this.once){
+          this.$alert('正在打款中，请等待', '提示',{
             confirmButtonText: '确定'
           });
-          return false
-        }else if(this.ruleForm.paymentNum<0.01||this.ruleForm.paymentNum>0.99||this.ruleForm.paymentNum.length>4){
-          this.$alert('打款金额必须是0.01~0.99之间', '提示',{
-            confirmButtonText: '确定'
-          });
-          return false
-        }else{
-          this.once=true;
-          let param ={'trans_money':this.ruleForm.paymentNum};
-          server.verifyRemittance(param,this.interfaceCode).then(res => {
-            if (res.data.resultCode == 0) {
-              this.$message({
-                showClose: true,
-                message:res.data.resultMessage,
-                type: 'error'
-              })
-              this.once=false;
-            } else if (res.data.resultCode == 1) {
-              this.once=false;
-              this.$alert(res.data.resultMessage, '提示', {
-                confirmButtonText: '确定'
-              }).then(() => {
-                let param={
-                  mobile:sessionStorage.getItem('mobile')
-                };
-                let urlParam = sessionStorage.getItem('interfaceCode')
-                server.login(param,urlParam).then(res => {
-                  cookie.set("tenant", res.data.dataList);  //更新cookie
-                  this.$router.push('/EnterpriseRegisterSucc')
+        }else {
+          // this.dialogAgreement=true;
+          if(this.ruleForm.paymentNum==''){
+            this.$alert('打款金额不可为空', '提示',{
+              confirmButtonText: '确定'
+            });
+            return false
+          }else if(this.ruleForm.paymentNum<0.01||this.ruleForm.paymentNum>0.99||this.ruleForm.paymentNum.length>4){
+            this.$alert('打款金额必须是0.01~0.99之间', '提示',{
+              confirmButtonText: '确定'
+            });
+            return false
+          }else{
+            this.once=true;
+            let param ={'trans_money':this.ruleForm.paymentNum};
+            server.verifyRemittance(param,this.interfaceCode).then(res => {
+              if (res.data.resultCode == 0) {
+                this.$message({
+                  showClose: true,
+                  message:res.data.resultMessage,
+                  type: 'error'
                 })
+                this.once=false;
+              } else if (res.data.resultCode == 1) {
+                this.once=false;
+                this.$alert(res.data.resultMessage, '提示', {
+                  confirmButtonText: '确定'
+                }).then(() => {
+                  let param={
+                    mobile:sessionStorage.getItem('mobile')
+                  };
+                  let urlParam = sessionStorage.getItem('interfaceCode')
+                  server.login(param,urlParam).then(res => {
+                    cookie.set("tenant", res.data.dataList);  //更新cookie
+                    this.$router.push('/EnterpriseRegisterSucc')
+                  })
 
-              })
-              this.once=false;
-            } else if(res.data.resultCode == '-4'){
-              this.once=false;
-              this.message=res.data.resultMessage;
-              this.legalForm.legalPerson=res.data.data;
-              this.dialogAgreement=true;
+                })
+                this.once=false;
+              } else if(res.data.resultCode == '-4'){
+                this.once=false;
+                this.message=res.data.resultMessage;
+                this.legalForm.legalPerson=res.data.data;
+                this.dialogAgreement=true;
 
-            }else{
-              this.once=false;
-              this.$message({
-                showClose: true,
-                message:res.data.resultMessage,
-                type: 'error'
-              })
-            }
+              }else{
+                this.once=false;
+                this.$message({
+                  showClose: true,
+                  message:res.data.resultMessage,
+                  type: 'error'
+                })
+              }
 
-          })
+            })
+          }
         }
+
       },
 
       //轮询
@@ -428,13 +438,17 @@
           if(res.data.resultCode=='1') {
             clearInterval(that.timer);
             that.timer = null;
+            that.allowInput=false;
           }else if(res.data.resultCode=='0'){
             if(that.showAlert){
-              that.$alert('打款失败，请您耐心等待', '提示',{
+              that.$alert(res.data.resultMessage, '提示',{
                 confirmButtonText: '确定'
               });
+
             }
-           that.showAlert=false;
+            that.showAlert=false;
+            that.allowInput=true;
+            that.once=true;
             if(that.time>600){
               clearInterval(that.timer);
               that.timer = null;
@@ -443,6 +457,8 @@
           }else if(res.data.resultCode=='-1'){
             clearInterval(that.timer);
             that.timer = null;
+            that.once=true;
+            that.allowInput=true;
             that.$router.push('/EnterpriseCertificate')
           }
 
