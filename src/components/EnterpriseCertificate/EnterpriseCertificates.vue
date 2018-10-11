@@ -2585,7 +2585,7 @@ export default {
                     this.licenseStatus = false;
                     this.subIdInfo();
                     // this.$loading.hide();
-                    this.count+=1;
+                    this.count-=1;
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
@@ -2621,7 +2621,7 @@ export default {
                     this.IdStatus = false;
                     // this.$loading.hide();
                     this.subbankInfo();
-                    this.count+=1;
+                    this.count-=1;
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
@@ -2648,15 +2648,11 @@ export default {
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.bankStatus = true;
-                    this.count+=1;
                     this.$loading.hide();
-                    this.updateCookie();
-
                 }else{
                     this.sigleClick = false;
                     this.bankStatus = false
                     this.$loading.hide();
-                    this.count+=1;
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
@@ -2682,9 +2678,9 @@ export default {
         //请求成功跳转
         success(val){
             if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
-                if(this.licenseStatus&&this.IdStatus){
-                    // this.subbankInfo()
-                }
+                // if(this.licenseStatus&&this.IdStatus){
+                    this.updateCookie();
+                // }
             }
         }
     },

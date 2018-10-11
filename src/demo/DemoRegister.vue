@@ -293,7 +293,7 @@ export default {
   .giveUp {
       font-size: 14px;
       margin-top: 15px;
-      color: #409EFF;
+      color: #4091fb;
       float: right;
       cursor: pointer;
   }

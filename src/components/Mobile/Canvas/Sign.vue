@@ -179,12 +179,12 @@
     position: absolute;
     right: 0;
     top:-50px;
-    border: 1px solid #409EFF;
+    border: 1px solid #4091fb;
     background: #fff ;
-    color:#409EFF;
+    color:#4091fb;
   }
   .sign-submit{
-    background: #409EFF;
+    background: #4091fb;
     color: #fff;
   }
 
@@ -204,7 +204,7 @@
     line-height: 30px;
     width: 100%;
     text-align: center;
-    color:#409EFF;
+    color:#4091fb;
 
   }
 

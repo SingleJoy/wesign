@@ -576,7 +576,7 @@
 .login-top-right{
     float: right;
     .login-click-btn{
-        color:#409EFF;
+        color:#4091fb;
         cursor: pointer;
     }
 }

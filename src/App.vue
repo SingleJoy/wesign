@@ -23,8 +23,8 @@ input:-webkit-autofill {
 }
 .el-button--primary{
     color: #fff;
-    background-color: #0091ff;
-    border-color: #0091ff;
+    background-color: #4091fb;
+    border-color: #4091fb;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
