@@ -181,6 +181,7 @@ export default {
                 this.ruleForm.username = res.data.data.mobile;
             }).catch(error=>{
 
+
             })
         }
 
