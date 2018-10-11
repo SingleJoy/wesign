@@ -50,7 +50,7 @@
                             <el-input  v-model="ruleForm.userName" :disabled="true" placeholder="姓名"></el-input>
 						</el-form-item>
 						<el-form-item prop="mobile">
-						    <el-input v-model="ruleForm.mobile" :disabled="true"  maxlength="11" >手机号</el-input>
+						    <el-input v-model="ruleForm.mobile" :disabled="true"  placeholder="手机号" maxlength="11" ></el-input>
 						</el-form-item>
 						<el-form-item prop="code">
 							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
