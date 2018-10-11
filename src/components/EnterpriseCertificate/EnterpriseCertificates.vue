@@ -494,7 +494,7 @@ export default {
             licenseStatus:true,        //营业执照认证状态
             IdStatus:true,        //管理员信息认证状态
             bankStatus:true,   //企业信息认证状态
-            count:0,           //请求计数
+            countRequest:0,           //请求计数
             options: [{
           value: '北京市',
           label: '北京市',
@@ -2451,7 +2451,7 @@ export default {
         },
         //提交
         submit(bankInfo){
-            this.count = 0;
+            this.countRequest = 0;
             if(!this.licenseInfo.creditPhoto){
                 this.$message({
                     showClose: true,
@@ -2547,11 +2547,11 @@ export default {
                     // if(this.auditStatus==2){   //企业认证成功
                     //     this.subIdInfo();
                     //     // this.subbankInfo();
-                    //     this.count+=1;
+                    //     this.countRequest+=1;
                     // }else if(this.auditSteps==1){     //个人认证成功
                     //     this.sublicenseInfo();
                     //     // this.subbankInfo();
-                    //     this.count+=1;
+                    //     this.countRequest+=1;
                     // }else{
                     //     this.sublicenseInfo();
                     //     this.subIdInfo();
@@ -2579,13 +2579,13 @@ export default {
                     this.licenseStatus = true;
                     this.subIdInfo();
                     // this.$loading.hide();
-                    this.count+=1;
+                    this.countRequest+=1;
                 }else{
                     this.sigleClick = false;
                     this.licenseStatus = false;
                     this.subIdInfo();
                     // this.$loading.hide();
-                    this.count-=1;
+                    this.countRequest-=1;
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
@@ -2615,13 +2615,13 @@ export default {
                     // this.$loading.hide();
                      this.subbankInfo();
                     this.IdStatus = true;
-                    this.count+=1;
+                    this.countRequest+=1;
                 }else{
                     this.sigleClick = false;
                     this.IdStatus = false;
                     // this.$loading.hide();
                     this.subbankInfo();
-                    this.count-=1;
+                    this.countRequest-=1;
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
@@ -2677,6 +2677,7 @@ export default {
         },
         //请求成功跳转
         success(val){
+            console.log()
             if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
                 // if(this.licenseStatus&&this.IdStatus){
                     this.updateCookie();
@@ -2685,7 +2686,7 @@ export default {
         }
     },
     watch:{
-        count:function(val){
+        countRequest:function(val){
             this.success(val);
         }
     }

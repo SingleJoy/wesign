@@ -390,11 +390,11 @@
         choice() {
             this.clickup = true;
             if(this.isBusiness==0){         //先判断是否为大B（付费用户）
-                if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-                    this.welcomeMessage = true;
-                }else{
+                // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+                //     this.welcomeMessage = true;
+                // }else{
                     this.getContractNum();
-                }
+                // }
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                 this.$alert('您暂无上传发起权限','提示', {
                     confirmButtonText: '确定'

@@ -1,219 +1,223 @@
 .Multiparties{
-  margin-top: 20px;
+    margin-top: 20px;
 }
-.main{
-  /* width: 1200px;
-  margin: 0 auto;
-  background: #fff;
-  padding-left: 5px;
-  padding-right: 5px; */
-
+.el-table td, .el-table th{
+    text-align: center;
 }
-.main h2{
-  font-weight: normal;
-  font-size: 18px;
-}
-.main h2{
-  font-size: 14px;
-}
-.main h6{
-  color: #eb5a5d;
-  line-height: 50px;
-}
-.main h2 input{
-  display:inline-block;
-  width: 238px;
-  height: 40px;
-  border: 1px solid #ccc;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.main h2 b{
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #ccc;
-  vertical-align: bottom;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-}
-.main h2 span{
-  display: inline-block;
-}
-.tab{
-  margin-top: 20px;
-}
-.cell{
-  text-align: center;
-}
-.el-table th{
-  font-size: large;
-//   background: red;
-}
-.pagetion{
-  padding-top: 50px;
-  text-align: center;
-}
-
-#textInfoModel{
-  display: inline-block;
-  width: 237px;
-  height:38px;
-  padding-left: 5px;
-  padding-right: 5px;
-  outline: none;
-  border: 1px solid #dcdfe6;
-  border-radius: 3px;
-  margin-right: 20px;
-}
-#textInfoModel:focus{
-  border: 1px solid #4091fb;
-}
-.contractTitle{
-  padding-left: 30px;
-  border-bottom: 1px solid #ccc;
-  padding-top: 20px;
-  font-size: 14px;
-  background: #fff;
-  height: 80px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-#text{
-  padding-left: 30px;
-}
-.el-table th>.cell{
-  text-align: center;
-}
-
-.common-top{
-	.el-tabs__nav-wrap{
-		background: #fff;
-		margin-bottom: 20px;
-		height: 126px;
-	}
-}
-
-.template-body{
-  background: #fff;
-  padding-bottom: 60px;
-  .template-title{
-       padding:20px 15px 0 15px;
-      .title-bg{
-          //background: url('../../../static/images/Common/title.png') no-repeat;
-          height:46px;
-      }
-      .title-name{
-          color: #fff;
-          font-size: 20px;
-          font-weight: 700;
-          margin-left: 28px;
-          margin-top: 10px;
-          display: inline-block;
-          letter-spacing: 2px;
-          width:204px;
-      }
-      .title-tip{
-          font-size: 14px;
-          color: red;
-      }
-      .search-btn{
-          margin-left: 50px;
+  .main{
+    /* width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    padding-left: 5px;
+    padding-right: 5px; */
+  
+  }
+  .main h2{
+    font-weight: normal;
+    font-size: 18px;
+  }
+  .main h2{
+    font-size: 14px;
+  }
+  .main h6{
+    color: #eb5a5d;
+    line-height: 50px;
+  }
+  .main h2 input{
+    display:inline-block;
+    width: 238px;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .main h2 b{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    vertical-align: bottom;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+  }
+  .main h2 span{
+    display: inline-block;
+  }
+  .tab{
+    margin-top: 20px;
+  }
+  .cell{
+    text-align: center;
+  }
+  .el-table th{
+    font-size: large;
+  //   background: red;
+  }
+  .pagetion{
+    padding-top: 50px;
+    text-align: center;
+  }
+  
+  #textInfoModel{
+    display: inline-block;
+    width: 237px;
+    height:38px;
+    padding-left: 5px;
+    padding-right: 5px;
+    outline: none;
+    border: 1px solid #dcdfe6;
+    border-radius: 3px;
+    margin-right: 20px;
+  }
+  #textInfoModel:focus{
+    border: 1px solid #4091fb;
+  }
+  .contractTitle{
+    padding-left: 30px;
+    border-bottom: 1px solid #ccc;
+    padding-top: 20px;
+    font-size: 14px;
+    background: #fff;
+    height: 80px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+  #text{
+    padding-left: 30px;
+  }
+  .el-table th>.cell{
+    text-align: center;
+  }
+  
+  .common-top{
+      .el-tabs__nav-wrap{
+          background: #fff;
+          margin-bottom: 20px;
+          height: 126px;
       }
   }
-  .template-list{
-      .contract-box{
-          padding:0px 25px;
-          .contract-content{
-              overflow: hidden;
-              padding:20px 28px;
-              border:1px solid#fff;
-              .content-left{
-                  cursor: pointer;
-                  border: 1px solid #ddd;
-                  float: left;
-                  height:270px;
-                  width:180px;
-                  background: #ddd;
-                  position: relative;
-                  // background: url("../../")
-                  p{
-                      text-align: center;
-                      word-wrap: break-word;
-                      overflow: hidden;
-                      text-overflow: ellipsis;
-                      background: #4091fb;
-                      color: #fff;
-                      font-size: 20px;
-                      line-height: 50px;
-                      height: 50px;
-                      font-weight: 600;
-                      position: absolute;
-                      bottom: 0;
-                      width: 100%;
-                      visibility: hidden;
-                  }
-              }
-              .content-left:hover p{
-                  visibility: visible;
-                  transition: visibility 3s ease-in;
-                //   transition: border 1s linear,background 1s linear;
-              }
-               .content-right{
-                   float: left;
-                   margin-left:24px;
-                   h3{
-                       font-size: 20px;
-                       line-height: 20px;
-                       margin-bottom:20px;
-                       color:#4091fb;
-                       font-weight: 700;
-                       margin-top:14px;
-                   }
-                   .item-name{
-                       height:34px;
-                       font-size: 14px;
-                       color: #666;
-                       .item-default{
-                          width:84px;
-                          display: inline-block;
-                          text-align:justify;
-                          text-justify:distribute-all-lines;/*ie6-8*/
-                          text-align-last:justify;/* ie9*/
-                          -moz-text-align-last:justify;/*ff*/
-                          -webkit-text-align-last:justify;/*chrome 20+*/
-                       }
-                       .total-num{
-                           font-size: 18px;
-                           color:#ff9d45;
-                       }
-                   }
-                   .item-option{
-                       float: left;
-                       text-align: center;
-                       margin-right: 40px;
-                       cursor: pointer;
-                       span{
-                          color:#4091fb;
-                          display: block;
-                          margin-top:14px;
-                       }
-                   }
-                  .upload-time{
-                      font-size: 12px;
-                      color:#999;
-                      margin-bottom: 25px;
-                  }
-               }
-          }
-          .contract-content:hover{
-               border:1px solid #4091fb;
-               background: #fafafa;
-               transition: border 1s linear,background 1s linear;
-          }
-      }
-
+  
+  .template-body{
+    background: #fff;
+    padding-bottom: 60px;
+    .template-title{
+         padding:20px 15px 0 15px;
+        .title-bg{
+            //background: url('../../../static/images/Common/title.png') no-repeat;
+            height:46px;
+        }
+        .title-name{
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-left: 28px;
+            margin-top: 10px;
+            display: inline-block;
+            letter-spacing: 2px;
+            width:204px;
+        }
+        .title-tip{
+            font-size: 14px;
+            color: red;
+        }
+        .search-btn{
+            margin-left: 50px;
+        }
+    }
+    .template-list{
+        .contract-box{
+            padding:0px 25px;
+            .contract-content{
+                overflow: hidden;
+                padding:20px 28px;
+                border:1px solid#fff;
+                .content-left{
+                    cursor: pointer;
+                    border: 1px solid #ddd;
+                    float: left;
+                    height:270px;
+                    width:180px;
+                    background: #ddd;
+                    position: relative;
+                    // background: url("../../")
+                    p{
+                        text-align: center;
+                        word-wrap: break-word;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        background: #4091fb;
+                        color: #fff;
+                        font-size: 20px;
+                        line-height: 50px;
+                        height: 50px;
+                        font-weight: 600;
+                        position: absolute;
+                        bottom: 0;
+                        width: 100%;
+                        visibility: hidden;
+                    }
+                }
+                .content-left:hover p{
+                    visibility: visible;
+                    transition: visibility 3s ease-in;
+                  //   transition: border 1s linear,background 1s linear;
+                }
+                 .content-right{
+                     float: left;
+                     margin-left:24px;
+                     h3{
+                         font-size: 20px;
+                         line-height: 20px;
+                         margin-bottom:20px;
+                         color:#4091fb;
+                         font-weight: 700;
+                         margin-top:14px;
+                     }
+                     .item-name{
+                         height:34px;
+                         font-size: 14px;
+                         color: #666;
+                         .item-default{
+                            width:84px;
+                            display: inline-block;
+                            text-align:justify;
+                            text-justify:distribute-all-lines;/*ie6-8*/
+                            text-align-last:justify;/* ie9*/
+                            -moz-text-align-last:justify;/*ff*/
+                            -webkit-text-align-last:justify;/*chrome 20+*/
+                         }
+                         .total-num{
+                             font-size: 18px;
+                             color:#ff9d45;
+                         }
+                     }
+                     .item-option{
+                         float: left;
+                         text-align: center;
+                         margin-right: 40px;
+                         cursor: pointer;
+                         span{
+                            color:#4091fb;
+                            display: block;
+                            margin-top:14px;
+                         }
+                     }
+                    .upload-time{
+                        font-size: 12px;
+                        color:#999;
+                        margin-bottom: 25px;
+                    }
+                 }
+            }
+            .contract-content:hover{
+                 border:1px solid #4091fb;
+                 background: #fafafa;
+                 transition: border 1s linear,background 1s linear;
+            }
+        }
+  
+    }
   }
-}
-
+  
+  

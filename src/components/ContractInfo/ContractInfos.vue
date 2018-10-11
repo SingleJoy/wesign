@@ -484,6 +484,6 @@
     }
   }
 </script>
-<style>
+<style lang="scss">
   @import "../../styles/ContractInfo/ContractInfos.scss";
 </style>
