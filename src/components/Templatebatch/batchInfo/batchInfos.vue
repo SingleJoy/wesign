@@ -379,8 +379,8 @@ export default {
   },
 }
 </script>
-<style scoped>
-  @import "../../../styles/batchInfo/batchInfo.css";
+<style lang="scss" scoped>
+  @import "../../../styles/batchInfo/batchInfo.scss";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
 </style>

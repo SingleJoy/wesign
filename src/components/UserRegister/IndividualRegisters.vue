@@ -175,8 +175,6 @@ export default {
         let getinterfaceCode =  GetQueryString("appId");
         if(getinterfaceCode){
             this.interfaceCode = getinterfaceCode
-        }else{
-            this.interfaceCode = Math.random();
         }
 	},
 	methods: {
@@ -247,7 +245,7 @@ export default {
                         //获取验证码
                         let param={
                             mobile: this.ruleForm.username,
-                            interfaceCode:this.interfaceCode
+                            interfaceCode:Math.random()
                         }
                         server.smsCode(param).then(res=>{
                             if(res.data.resultCode == 1) {

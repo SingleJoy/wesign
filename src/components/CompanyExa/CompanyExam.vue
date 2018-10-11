@@ -468,6 +468,6 @@ export default {
 }
 </script>
 <style scoped>
-  @import "../../styles/CompanyExam/CompanyExam.css";
+  @import "../../styles/CompanyExam/CompanyExam.scss";
 
 </style>
