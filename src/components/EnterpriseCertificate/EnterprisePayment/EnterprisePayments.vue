@@ -305,7 +305,7 @@
         this.$refs[legalForm].validate((valid) => {
           this.verifySub = true;
             if(valid){
-              console.log('this.ruleForm.phoneCode'+this.ruleFormRules.phoneCode)
+            //   console.log('this.ruleForm.phoneCode'+this.ruleFormRules.phoneCode)
                 this.$http.get(process.env.API_HOST + 'v1.4/sms', {
                     params: {
                     'mobile': this.legalForm.legalMobile, 'smsNo': this.smsNoVer, 'smsCode': this.legalForm.phoneCode, 'appId': this.appId
@@ -320,49 +320,47 @@
                     type: 'error'
                 })
                 }else {
-                //手机号验证码检验成功
-                this.verifySub = false;
-                // this.$message({
-                //     showClose: true,
-                //     message: res.data.resultMessage,
-                //     type: 'success'
-                // })
+                    //手机号验证码检验成功
+                    this.verifySub = false;
+                    // this.$message({
+                    //     showClose: true,
+                    //     message: res.data.resultMessage,
+                    //     type: 'success'
+                    // })
 
-                //手机号验证码校验成功后，开始调用解冻打款确认接口
+                    //手机号验证码校验成功后，开始调用解冻打款确认接口
 
-                let param ={
-                    'userName':this.legalForm.legalPerson,
-                    'idCard':this.legalForm.IDcard,
-                    'mobile':this.legalForm.legalMobile,
-                    'interfaceCode':this.interfaceCode,
-                };
-                console.log(param);
-                let that=this;
-                server.unfreezeRemittance(param).then(function (res) {
-                    if (res.data.resultCode == '1') {
-                        that.verifySub = false
-                        that.$message({
-                            showClose: true,
-                            message: res.data.resultMessage,
-                            type: 'success'
-                        })
-                      that.dialogAgreement=false;
-                      that.ruleForm.paymentNum='';
-                    } else {
-                      that.$message({
-                        showClose: true,
-                        message: res.data.resultMessage,
-                        type: 'error'
+                    let param ={
+                        'userName':this.legalForm.legalPerson,
+                        'idCard':this.legalForm.IDcard,
+                        'mobile':this.legalForm.legalMobile,
+                        'interfaceCode':this.interfaceCode,
+                    };
+                    // console.log(param);
+                    let that=this;
+                    server.unfreezeRemittance(param).then(function (res) {
+                        if (res.data.resultCode == '1') {
+                            that.verifySub = false
+                            that.$message({
+                                showClose: true,
+                                message: res.data.resultMessage,
+                                type: 'success'
+                            })
+                            that.legalForm.phoneCode = '';
+                            that.dialogAgreement=false;
+                            that.ruleForm.paymentNum='';
+                        } else {
+                            that.verifySub = false
+                            that.$message({
+                                showClose: true,
+                                message: res.data.resultMessage,
+                                type: 'error'
+                            })
+                            that.dialogAgreement=false;
+                        }
                     })
-                      that.dialogAgreement=false;
-
-                    }
-
-                })
 
                 }
-
-
           })
         }
         })

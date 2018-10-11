@@ -129,7 +129,8 @@
         up.click()
       },
       returnIndex(){
-          this.$router.push("/Home")
+           this.$store.dispatch('tabIndex',{tabIndex:0});
+           this.$router.push("/Home");
       },
     },
     created() {

@@ -61,8 +61,8 @@
 						<el-input type="password" v-model="ruleForm.newPassword" :disabled="passwordDisabled"  placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
 						</el-form-item>
 						<el-form-item>
-						<el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
-						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
+						<!-- <el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
+						<a href="javascript:void(0);" @click="protocol()" class="agreement">《微签用户使用协议》</a> -->
 						</el-form-item>
 						<div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
 							<el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
@@ -132,7 +132,7 @@ export default {
 			}
 		};
 		return {
-			checked: false,
+			checked: true,
             interfaceCode: Math.random(),
             userDisabled:false,
             passwordDisabled:false,
@@ -141,7 +141,7 @@ export default {
 			codeSure: false,
 			iscode: false,
 			isDisabled: false,
-			isClick: true,
+			isClick: false,
 			isShow: false,
 			isShowSkip: false,
 			isShowClose: false,
