@@ -29,7 +29,7 @@
 		</div>
 		<section class="contain">
 			<div class="image_register">
-				<img src="../../../static/images/Login/title.png" alt="">
+				<img src="../../../static/images/Common/title.png" alt="">
 				<div class="register">注&nbsp;&nbsp;&nbsp;&nbsp;册</div>
 			</div>
 			<div class="shadow">
@@ -132,7 +132,7 @@
 				} else if(!validatePassWord(value)) {
 					callback(new Error("密码格式不对"));
 				} else {
-					callback(); 
+					callback();
 				}
 			};
 			//校验密码
@@ -170,7 +170,7 @@
 					userName: '',
 					code: '',
 					password: '',
-					newpassword: '',	
+					newpassword: '',
 				},
 				//验证规则
 				rules: {
@@ -210,9 +210,9 @@
                         }
                     });
                 }
-				
+
             },
-            
+
             sendInfo(){
                 this.$http.get(process.env.API_HOST + 'v1.4/sms', {
                     params: {
@@ -292,7 +292,7 @@
 									});
 								}
 							});
-							
+
 						}
 					}).catch(error => {
 
@@ -335,7 +335,7 @@
 							type: 'error'
 						})
                     }
-                   
+
 				})
 			},
 			//同意注册协议
@@ -389,7 +389,7 @@
 							}
 						}, 1000);
 					} else if(this.accountStatus=='0'){
-						
+
 					}
 					return false
 				} else{
@@ -412,7 +412,7 @@
 					this.ruleForm.newpassword = "";
                 }
 			}).catch(error => {
-				
+
 			});
 			//键盘注册
 			var _this = this;
@@ -422,7 +422,7 @@
 					if(_this.isClick == false) {
 						_this.submitForm('ruleForm');
 					}
-				}	
+				}
 			}
 		}
 	}
@@ -438,7 +438,7 @@
 		background-color rgba(0, 0, 0, 0.7)
 		position fixed
 		z-index 100
-		.reminder 
+		.reminder
 			background-color #ffffff;
 			position absolute
 			top 30%
@@ -471,7 +471,7 @@
 			top 5%
 			left: 30%
 			height: 90%
-			.layer_close 
+			.layer_close
 				height 30px
 				color #bbbbbb
 				line-height 30px
@@ -480,12 +480,12 @@
 					display inline-block
 					width 97%
 				.layer_close_right
-					display inline-block	
+					display inline-block
 					width 3%
 			.layer_character
 				overflow auto
 				height 100%
-				img 
+				img
 					height auto;
 	.contain
 		width 1160px
@@ -502,7 +502,7 @@
 		.shadow
 			width 844px
 			height 596px
-			margin 0 auto 
+			margin 0 auto
 			background-color #fafafa
 			padding-top 20px
 			margin-top 15px
@@ -514,10 +514,10 @@
 				padding-top 100px
 				.agreement
 					color #16a8f2
-		.submit 
+		.submit
 			width 200px
 			margin 20px auto
-		
+
 </style>
 <style scoped>
 .el-input-group__append button.el-button, .el-input-group__append div.el-select .el-input__inner, .el-input-group__append div.el-select:hover .el-input__inner, .el-input-group__prepend button.el-button, .el-input-group__prepend div.el-select .el-input__inner, .el-input-group__prepend div.el-select:hover .el-input__inner{

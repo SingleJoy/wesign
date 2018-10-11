@@ -191,6 +191,7 @@
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
+ import server from "@/api/url";
 export default {
   name: 'Top',
       data() {
@@ -218,19 +219,6 @@ export default {
         choice(){
              if(this.isBusiness==0){ 
                 this.getContractNum();
-                if(this.contractNum==0){
-                    this.$confirm(
-                        <div class="warn-num">
-                            <p class="title">对不起，您的免费签约次数已用尽!</p>
-                            <p>成为正式用户享受更多使用权限</p>
-                            <p>客服电话：400-00006923</p>
-                        </div>,'提示', {
-                            confirmButtonText: '确定',
-                            showCancelButton:false
-                    })
-                }else{
-                    this.popup =!this.popup
-                }
             }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
                 this.$alert('您暂无上传发起权限','提示', {
                     confirmButtonText: '确定'
@@ -244,12 +232,25 @@ export default {
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
                     this.contractNum = res.data.data;
-                }else{
-                    this.$message({
-                        showClose: true,
-                        message: res.data.resultMessage,
-                        type: "error"
-                    });
+                    if(this.contractNum==0){
+                        this.$confirm(
+                            <div class="warn-num">
+                                <p class="title">对不起，您的免费签约次数已用尽!</p>
+                                <p>成为正式用户享受更多使用权限</p>
+                                <p>客服电话：400-00006923</p>
+                            </div>,'提示', {
+                                confirmButtonText: '确定',
+                                showCancelButton:false
+                        })
+                    }else{
+                        this.popup =!this.popup
+                    }
+                    }else{
+                        this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: "error"
+                        });
                 }
             }).catch(error=>{
 

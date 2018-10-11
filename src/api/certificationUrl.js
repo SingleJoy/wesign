@@ -65,6 +65,14 @@ const service = {
             params:param
         })
     },
+      //登录接口
+      login(param, urlParam) {
+        return request({
+        url: '/api/v1.4/tenant/' + urlParam + '/homePage',
+        method: 'get',
+        params: param
+        })
+    },
 }
 export default service;
 

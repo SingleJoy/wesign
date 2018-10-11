@@ -1,5 +1,5 @@
 <template>
-    <div class="CompanyRegister">
+    <div class="BusinessRegister">
         <BusinessRegisters></BusinessRegisters>
         <Bottom></Bottom>
     </div>
@@ -8,7 +8,7 @@
     import BusinessRegisters from './BusinessRegisters.vue'
     import Bottom from '../../common/components/Bottom'
     export default {
-        name: 'CompanyRegister',
+        name: 'BusinessRegister',
         components: {
             BusinessRegisters,Bottom
         }

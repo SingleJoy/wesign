@@ -3,7 +3,7 @@
         <div class="companyCertificate">
             <div class="step">
                 <ul>
-                    <li class="active"><i class='el-icon-edit'></i><b>企业认证</b></li>
+                    <li class="active"><i class='el-icon-goods'></i><b>实名认证</b></li>
                     <p></p>
                     <li><i class='el-icon-menu'></i><b>打款验证</b></li>
                     <p></p>
@@ -373,30 +373,30 @@ export default {
     name:'',
     data() {
         var checkName= (rule,value,callback)=>{
-            if(value==''){
+            if(!value){
                 callback(new Error('企业名称不为空'))
             }else{
                   callback()
             }
         }
         var checkBankNum = (rule,value,callback)=>{
-            if(value==''){
+            if(!value){
                 callback(new Error('请输入企业银行账号'))
             }else if(!validateBankNum(value)){
                 callback(new Error('银行账号输入不正确'))
             }else{
-                  callback()
+                callback()
             }
         }
         var checkBankName = (rule,value,callback)=>{
-             if(value==''){
+             if(!value){
                 callback(new Error('请输入企业银行名称'))
             }else{
                   callback()
             }
         }
         var checkBank =  (rule,value,callback)=>{
-            if(value==''){
+            if(!value){
                 callback(new Error('请输入开户行行名称'))
             }else{
                 callback()
@@ -2077,7 +2077,6 @@ export default {
         let bankInfo = this.bankInfo;
         let IdInfo = this.IdInfo;
         let options = [];
-        // console.log(this.interfaceCode)
         server.companyInfoDetail(param,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
                 let data = res.data.data;
@@ -2206,7 +2205,7 @@ export default {
                  this.IdInfoShow = false;
                   this.$message({
                     showClose: true,
-                    message: name.resultMessage,
+                    message: '营业执照上传错误',
                     type: 'error'
                 })
             }
@@ -2247,7 +2246,7 @@ export default {
                 this.$loading.hide();
                 this.$message({
                     showClose: true,
-                    message:name.resultMessage,
+                    message:'身份证信息验证失败',
                     type: 'error'
                 })
              }
@@ -2282,7 +2281,7 @@ export default {
         //身份证信息校验
         validateIdInfo(type){
             if(type == 'mobile'){
-                if(this.IdInfo.mobile == ''){
+                if(!this.IdInfo.mobile){
                     this.mobileTip = true;
                     this.mobileTipText="请输入手机号"
                     return false
@@ -2307,7 +2306,7 @@ export default {
                     this.valiteSms()
                 }
             }else if(type=='email'){
-                if(this.IdInfo.email==''){
+                if(!this.IdInfo.email){
                     this.emailTip = true
                     this.emailText = '请输入邮箱'
                     return false
@@ -2479,7 +2478,7 @@ export default {
                 })
                 return 
             }
-            if(this.IdInfo.email==""){
+            if(!this.IdInfo.email){
                 this.$message({
                      showClose: true,
                     message: '邮箱为必填',
@@ -2495,7 +2494,7 @@ export default {
                 })
                 return
             }
-            if(this.IdInfo.mobile==""){
+            if(!this.IdInfo.mobile){
                 this.$message({
                     showClose: true,
                     message: '手机号不能为空',
@@ -2503,7 +2502,7 @@ export default {
                 })
                 return
             }
-            if(this.IdInfo.smsCode==""){
+            if(!this.IdInfo.smsCode){
                 this.$message({
                     showClose: true,
                     message: '验证码不能为空',
@@ -2527,9 +2526,9 @@ export default {
                 })
                 return
             }
-            if(this.bankInfo.to_pro_name==""){
-                this.cityTip = true;
-                return 
+            if(!this.bankInfo.to_pro_name){
+                    this.cityTip = true;
+                    return 
                 }else{
                     this.cityTip = false;
             }
@@ -2580,9 +2579,11 @@ export default {
                     this.licenseStatus = false;
                     this.$loading.hide();
                     this.count-=1;
-                    // this.$alert('营业执照信息有误!','认证', {
-                    //     confirmButtonText: '确定'
-                    // });
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
                 }
             }).catch(error=>{
 
@@ -2612,9 +2613,11 @@ export default {
                     this.IdStatus = false;
                     this.$loading.hide();
                     this.count+=1;
-                    // this.$alert('身份证信息有误!','认证', {
-                    //     confirmButtonText: '确定'
-                    // });
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
                 }
 
             }).catch(error=>{
@@ -2633,20 +2636,39 @@ export default {
             }
             let interfaceCode = this.interfaceCode;
             server.bankInfo(param,interfaceCode).then(res=>{
+                console.log(res.data.resultCode,'这是认证状态')
                 if(res.data.resultCode==1){
                     this.sigleClick = false;
                     this.bankStatus = true;
                     this.count+=1;
                     this.$loading.hide();
-                    this.$router.push('/EnterprisePayment')
+                    this.updateCookie();
+
                 }else{
                     this.sigleClick = false;
                     this.bankStatus = false
                     this.$loading.hide();
                     this.count+=1;
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
                 }
             }).catch(error=>{
                    
+            })
+        },
+        //跟新cookie
+        updateCookie(){
+            let param={
+                mobile:sessionStorage.getItem('mobile')
+            };
+            let urlParam = sessionStorage.getItem('interfaceCode')
+            let that=this
+            server.login(param,urlParam).then(res => {
+                cookie.set("tenant", res.data.dataList);  //更新cookie
+                that.$router.push('/EnterprisePayment');
             })
         },
         //请求成功跳转

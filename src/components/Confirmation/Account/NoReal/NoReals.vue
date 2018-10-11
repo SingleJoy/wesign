@@ -3,6 +3,7 @@
     <div  class='content'>
       <br/>
       <p class="title">账号管理</p>
+      <div class="line"></div>
       <div class='contentInfo'>
         <div class='companyName'>
           <p>
@@ -14,7 +15,7 @@
           <p>
             <span>账号：</span><span>{{mobile}}</span>
           </p>
-          <a href="javascript:void(0);" v-show="identifier" @click="realName">去实名</a>
+          <a href="javascript:void(0);"  @click="realName">去实名</a>
         </div>
         <div class='userInfo'>
           <p>
@@ -23,8 +24,9 @@
           <a href="javascript:void(0);" @click="centerDialogVisible = true">修改密码</a>
         </div>
         <p class="title">签章管理</p>
+        <div class="line"></div>
         <div class='accountPic'>
-          <img :src="[contractSign]" alt="" style="width:100%">
+          <img :src="[contractSign]" alt="" style="width:160px;height: 160px;">
           <p style="padding-left: 58px;width: 95px;">{{chapter}}</p>
         </div>
       </div>
@@ -285,64 +287,14 @@
         var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
         var status = cookie.getJSON('tenant')[2].status            // 打款状态
 
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps    //企业认证步骤
-        if(auditSteps == 3){  //2 跳打款 其余跳企业认证
-            this.auditStatus = true
-        }else{
-                this.identifier = true
-        }
-      // 是否判断
-    //   if(authStatus == '1') {
-    //     this.authStatus = true
-    //   }else if(authStatus == '-1' && auditSteps == '1'){
-    //     this.personalRealName = '1'
-    //     this.chapter = '暂无签章'
-    //     // this.modalTips = true
-    //   }else if(authStatus == '-1' && auditSteps == '2'){
-    //     this.personalRealName = '2'
-    //     this.chapter = '暂无签章'
-    //     // this.modalTips = true
-    //   }else if(authStatus == '0' && auditSteps == '1'){
-    //     this.personalRealName = '3'
-    //     this.chapter = '暂无签章'
-    //   }else if(authStatus == '0' && auditSteps == '2'){
-    //     this.personalRealName = '4'
-    //     this.chapter = '暂无签章'
-    //   }
-    //   if(this.authStatus == false){
-    //     this.auditStatus = true
-    //     this.identifier = true
-    //   }else {
-    //     if (auditStatus == '2') {
-    //       this.auditStatus = true
-    //       this.identifier = true
-    //     }else if (auditStatus == '-1' && companySteps == '1') {//填写企业信息
-    //       this.enterpriseRealName = '0'
-    //       this.chapter = '暂无签章'
-    //       this.auditStatus = true
-    //     } else if (auditStatus == '0' && companySteps == '1') { //填写企业信息
-    //       this.enterpriseRealName = '1'
-    //       this.chapter = '暂无签章'
-    //       this.identifier = true
-    //     }  else if (auditStatus == '1' && companySteps == '1') { //银行信息
-    //       this.enterpriseRealName = '2'
-    //       this.chapter = '暂无签章'
-    //       this.identifier = true
-    //     } else if (auditStatus == '1' && companySteps == '2') { //小额打款
-    //       if(status == '0' || status == '1'){
-    //         this.enterpriseRealName = '3'
-    //         this.chapter = '暂无签章'
-    //         this.identifier = true
-    //       } else if(status == '3'){ //银行信息
-    //         this.enterpriseRealName = '4'
-    //         this.chapter = '暂无签章'
-    //         this.identifier = true
-    //       }else{
-    //         this.enterpriseRealName = '3'
-    //         this.identifier = true;
-    //       }
-    //     }
-    //   }
+        var auditSteps = cookie.getJSON('tenant')[1].auditSteps;    //企业认证步骤
+        console.log(auditSteps)
+        // if(auditSteps == 3){  //2 跳打款 其余跳企业认证
+        //     this.identifier = true
+        // }else{
+        //         this.identifier = true
+        // }
+
       let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getSignature'
       this.$http.get(url).then(function (res) {
         this.contractSign = res.bodyText
@@ -356,7 +308,8 @@
   }
 </script>
 <style scoped>
-  @import "../../../../styles/Confirmation/Account/Accounts.css";
+   @import "../../../../styles/Confirmation/Account/Accounts.css";
+   @import "../../../../common/styles/content.scss";
   .NoReal .content .title{
     display: block;
     height: 65px;

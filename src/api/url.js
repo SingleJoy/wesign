@@ -168,11 +168,11 @@ const service = {
         })
     },
     //解冻打款验证
-    unfreezeRemittance() {
+    unfreezeRemittance(param) {
         return request({
             url: '/api/v1.6/tenant/unfreezeRemittance',
             method: 'post',
-            params:''
+            params:param
         })
     },
     //10次发起验证
@@ -190,6 +190,14 @@ const service = {
             url: '/api/v1.4/tenant/'+interfaceCode+'/userIsExist',
             method: 'get',
             params:''
+        })
+    },
+    //企业绑定
+    bindEnterpress(mobile,interfaceCode) {
+        return request({
+            url: '/api/v1.4/tenant/register',
+            method: 'post',
+            params:mobile
         })
     },
 }
