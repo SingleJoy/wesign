@@ -177,7 +177,7 @@
         verifySub:false, //五次打款验证提交
         showAlert:true,  //轮询查询打款失败  第一次弹窗
         time:1,
-        allowInput:true,//打款失败 禁止输入
+        allowInput:false,//打款失败 禁止输入
         rules:{
           paymentNum: [
             {validator: validatePaymentNum, trigger: 'blur' }
@@ -365,14 +365,6 @@
       },
       //提交
       submit(){
-        //打款成功  用户可提交
-        console.log(this.once)
-        if(!this.once){
-          this.$alert('正在打款中，请等待', '提示',{
-            confirmButtonText: '确定'
-          });
-        }else {
-          // this.dialogAgreement=true;
           if(this.ruleForm.paymentNum==''){
             this.$alert('打款金额不可为空', '提示',{
               confirmButtonText: '确定'
@@ -427,7 +419,7 @@
 
             })
           }
-        }
+       
 
       },
 
@@ -444,22 +436,23 @@
               that.$alert(res.data.resultMessage, '提示',{
                 confirmButtonText: '确定'
               });
-
             }
             that.showAlert=false;
             that.allowInput=true;
-            that.once=true;
-            if(that.time>600){
+            if(that.time>(1000*60*60)){
               clearInterval(that.timer);
               that.timer = null;
             }
-
           }else if(res.data.resultCode=='-1'){
             clearInterval(that.timer);
             that.timer = null;
-            that.once=true;
             that.allowInput=true;
-            that.$router.push('/EnterpriseCertificate')
+            that.$alert(res.data.resultMessage, '提示',{
+                confirmButtonText: '确定'
+              }).then(()=>{
+                   that.$router.push('/EnterpriseCertificate')
+              });
+           
           }
 
         })
@@ -498,14 +491,9 @@
         that.pollingPanel(this.timer)
       }, 3000);
 
-
       setInterval(function () {
         that.time=that.time+1;
       },1000)
-
-
-
-
 
     }
 

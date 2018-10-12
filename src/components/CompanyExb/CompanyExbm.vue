@@ -431,6 +431,6 @@
   }
 </script>
 <style scoped>
-  @import "../../styles/CompanyExbm/CompanyExbm.css";
+  @import "../../styles/CompanyExbm/CompanyExbm.scss";
 
 </style>

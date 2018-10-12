@@ -467,7 +467,7 @@ export default {
   }
 }
 </script>
-<style scoped>
-  @import "../../styles/CompanyExam/CompanyExam.css";
+<style lang="scss" scoped>
+  @import "../../styles/CompanyExam/CompanyExam.scss";
 
 </style>

@@ -92,8 +92,8 @@
 		line-height: 58px;
 	}
 	.el-tabs__item.is-active {
-		color: #409EFF;
-		border-bottom: 2px solid #409EFF;
+		color: #4091fb;
+		border-bottom: 2px solid #4091fb;
 	}
 
 }

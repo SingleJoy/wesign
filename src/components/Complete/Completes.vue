@@ -191,7 +191,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../styles/Complete/Completes.css";
+  @import "../../styles/Complete/Completes.scss";
   @import "../../common/styles/SigningSteps.css";
   #nameInfo{
     display: inline-block;

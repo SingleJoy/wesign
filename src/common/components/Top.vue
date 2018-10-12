@@ -237,7 +237,7 @@ export default {
                             <div class="warn-num">
                                 <p class="title">对不起，您的免费签约次数已用尽!</p>
                                 <p>成为正式用户享受更多使用权限</p>
-                                <p>客服电话：400-00006923</p>
+                                <p>客服电话：400-0000-6923</p>
                             </div>,'提示', {
                                 confirmButtonText: '确定',
                                 showCancelButton:false

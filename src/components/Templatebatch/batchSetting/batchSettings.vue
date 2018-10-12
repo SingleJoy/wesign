@@ -613,8 +613,8 @@ export default {
   }
 }
 </script>
-<style scoped>
-  @import "../../../styles/batchInfo/batchSettings.css";
+<style lang="scss" scoped>
+  @import "../../../styles/batchInfo/batchSettings.scss";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
 </style>

@@ -25,10 +25,11 @@
         </div>
         <p class="title">签章管理</p>
         <div class="line"></div>
-        <div class='accountPic'>
+        <div class='accountPic' v-if="contractSign">
           <img :src="[contractSign]" alt="" style="width:160px;height: 160px;">
-          <p style="padding-left: 58px;width: 95px;">{{chapter}}</p>
+          <p style="padding-left: 58px;width: 95px;">合同章</p>
         </div>
+        <div v-else style="font-size:12px;margin-left:50px">暂无签章</div>
       </div>
     </div>
     <el-dialog
@@ -140,7 +141,6 @@
       }
       return{
         companyName:'',
-        chapter:'合同章',
         contractSign:'',
         mobile:'',
         centerDialogVisible: false,

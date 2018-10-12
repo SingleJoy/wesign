@@ -193,11 +193,20 @@ const service = {
         })
     },
     //企业绑定
-    bindEnterpress(mobile,interfaceCode) {
+    bindEnterpress(mobile) {
         return request({
             url: '/api/v1.4/tenant/register',
             method: 'post',
             params:mobile
+        })
+    },
+
+    //校验验证码
+    valiteSmsCode(param) {
+        return request({
+            url: '/api/v1.4/sms',
+            method: 'get',
+            params:param
         })
     },
 }

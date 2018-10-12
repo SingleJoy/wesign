@@ -283,7 +283,7 @@
   }
 </script>
 <style scoped>
-  @import "../../../styles/batchInfo/batchsigns.css";
+  @import "../../../styles/batchInfo/batchsigns.scss";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
 </style>

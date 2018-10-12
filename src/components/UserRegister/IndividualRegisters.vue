@@ -133,7 +133,7 @@ export default {
 		};
 		return {
 			checked: false,
-            interfaceCode: Math.random(),
+            interfaceCode:'',
             userDisabled:false,
             passwordDisabled:false,
 			smsNo: '',
@@ -172,45 +172,10 @@ export default {
 				}
 			}
         }
-        // let getinterfaceCode =  GetQueryString("appId");
-        // if(getinterfaceCode){
-        //     this.interfaceCode = getinterfaceCode
-        //     server.getUrlMobile(getinterfaceCode).then(res=>{
-        //         if (res.data.resultCode == '1') {
-        //             this.$message({
-        //                 showClose: true,
-        //                 message: '您已拥有微签账号，无需重新设置密码',
-        //                 type: 'success'
-        //             })
-        //         }
-        //         let molie = res.data.data.mobile;
-        //         let psaaword = res.data.data.password;
-        //         let params = {
-        //             username: res.data.data.mobile
-        //         };
-        //         this.ruleForm.username = molie;
-        //         server.verficate(params).then(res => {
-        //              if (res.data === 0) {
-        //                 this.userDisabled = true;
-        //                 if(!psaaword){
-        //                     this.ruleForm.password="test111111";
-        //                     this.ruleForm.newPassword="test111111";
-        //                     this.passwordDisabled = true;
-        //                 }
-        //                 callback();
-        //             } else {
-        //                 callback(new Error("此用户不存在"));
-        //             }
-        //         }).catch(error=>{
-
-        //         })
-        //     }).catch(error=>{
-
-        //     })
-        // }
-
-
-
+        let getinterfaceCode =  GetQueryString("appId");
+        if(getinterfaceCode){
+            this.interfaceCode = getinterfaceCode
+        }
 	},
 	methods: {
 		//跳转到登录
@@ -280,7 +245,7 @@ export default {
                         //获取验证码
                         let param={
                             mobile: this.ruleForm.username,
-                            interfaceCode:this.interfaceCode
+                            interfaceCode:Math.random()
                         }
                         server.smsCode(param).then(res=>{
                             if(res.data.resultCode == 1) {
@@ -311,24 +276,28 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if(valid) {
 					if(this.codeSure) {
-						//验证码是否正确
-						this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-							params: {
-								'mobile': this.ruleForm.username, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-							}
-						}).then(res => {
-							if(res.body.resultCode == 1) {
+                        //验证码是否正确
+                        let param={
+                            'mobile': this.ruleForm.username, 
+                            'smsNo': this.smsNo, 
+                            'smsCode': this.ruleForm.code,
+                             'appId': this.appId
+                        }
+                        server.valiteSmsCode(param).then(res => {
+							if(res.data.resultCode == 1) {
 								//个人注册提交
 								server.individualRegister({
                                     'mobile': this.ruleForm.username,
                                     'password': md5(this.ruleForm.password),
+                                    'interfaceCode':this.interfaceCode
                                     }).then( res=> {
 									if(res.data.resultCode === '1') {
 										this.isShow = true;
 										this.isShowSkip = true;
 										let _this = this;
 										let setTimer = setInterval(function() {
-											_this.count = _this.count - 1;
+                                            _this.count = _this.count - 1;
+                                            
 											if(_this.count <= 0) {
 												clearInterval(setTimer);
 												_this.$router.push('/')
@@ -356,13 +325,8 @@ export default {
 									type: 'error'
 								});
 							}
-
 						}).catch(error => {
-							this.$message({
-								showClose: true,
-								message: res.data.resultMessage,
-								type: 'error'
-							});
+							
 						})
 					} else {
 						this.$message({

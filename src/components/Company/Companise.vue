@@ -426,8 +426,8 @@ export default {
 	}
 }
 </script>
-<style lang="css" scoped>
-    @import "../../styles/Company/Companise.css";
+<style lang="scss" scoped>
+    @import "../../styles/Company/Companise.scss";
     .right1:hover,.right2:hover,.right3:hover,.right4:hover{
     -webkit-transition: all 0.5s ease-in;
     -moz-transition: all 0.5s ease-in;
