@@ -2,12 +2,12 @@
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/logo2.png" alt="">
+        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
-      <p  class="signout-btn" @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></p> 
+      <p  class="signout-btn" @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></p>
     </nav>
   </div>
-  
+
 </template>
 <style lang="scss" scoped>
 @import "../styles/Top.css";
@@ -20,7 +20,7 @@
     margin-left: 10px;
   }
 }
-  
+
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
