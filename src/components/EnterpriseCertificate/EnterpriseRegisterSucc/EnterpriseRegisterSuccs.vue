@@ -82,7 +82,7 @@
       <div class="certification-book">
          <div class="bg-png"></div>
          <div class="download">
-           <p class="tips">企业实名完成《一般企业认证授权书》已经生效，<span>您已正式成为{{enterpriseName}}企业账号管理员</span></p>
+           <p class="tips">企业实名完成<span v-if="adminType">《一般企业认证授权书》</span><span v-else>《法人说明函》</span>已经生效，<span>您已正式成为{{enterpriseName}}企业账号管理员</span></p>
            <p class="down-btn"><a href="javascript:void(0);" @click="download">点击下载</a></p>
          </div>
       </div>
@@ -116,7 +116,8 @@
         enterpriseName:'' ,
         interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
         signBadgePath:'',
-        downloadUrl:''
+        downloadUrl:'',
+        adminType:true, //true是法人   false是被授权人
       }
     },
     methods:{
@@ -133,7 +134,12 @@
       },
     },
     created() {
-
+      let adminType=sessionStorage.getItem('authorizerType')
+      if(adminType=='0'){
+        this.adminType=true
+      }else {
+        this.adminType=false
+      }
       server.authSuccess(this.interfaceCode).then(response =>{
 
         if (response.data.resultCode == '1') {
@@ -162,7 +168,7 @@
         let urlParam = sessionStorage.getItem('interfaceCode')
         server.login(param,urlParam).then(res => {
         cookie.set("tenant", res.data.dataList);  //更新cookie
-        
+
         })
     }
   }
