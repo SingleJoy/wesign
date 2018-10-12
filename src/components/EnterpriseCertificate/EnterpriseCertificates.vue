@@ -2679,12 +2679,11 @@ export default {
         // },
         //请求成功跳转
         success(val){
-            console.log()
             if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
                 // if(this.licenseStatus&&this.IdStatus){
                 // this.updateCookie();
                 // }
-                that.$router.push('/EnterprisePayment');
+                this.$router.push('/EnterprisePayment');
             }
         }
     },
