@@ -40,7 +40,7 @@
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
-      <div class="table" style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
+      <div class="table" style="width: 1200px;padding: 15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
           style="width: 100%;text-align:center"
@@ -50,7 +50,7 @@
             prop="signUserName"
             label="姓名"
             style="text-align:center"
-            width="250">
+            width="200">
           </el-table-column>
           <el-table-column
             prop="mobile"
@@ -60,7 +60,7 @@
           <el-table-column
             prop="idCard"
             label="身份证号码"
-            width="300">
+            width="320">
           </el-table-column>
           <el-table-column
             prop="signStatus"
