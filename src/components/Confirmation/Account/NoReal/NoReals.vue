@@ -102,6 +102,7 @@
   import md5 from 'js-md5'
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
+  import server from "@/api/certificationUrl";
   export default {
     name: 'NoReal',
     data() {
@@ -288,7 +289,7 @@
         var status = cookie.getJSON('tenant')[2].status            // 打款状态
 
         var auditSteps = cookie.getJSON('tenant')[1].auditSteps;    //企业认证步骤
-        console.log(auditSteps)
+        // console.log(auditSteps)
         // if(auditSteps == 3){  //2 跳打款 其余跳企业认证
         //     this.identifier = true
         // }else{
@@ -304,6 +305,18 @@
         this.auditOpinion=res.data.data;
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
+
+     
+        let param={
+            mobile:sessionStorage.getItem('mobile')
+        };
+        let urlParam = sessionStorage.getItem('interfaceCode')
+        let that=this
+        server.login(param,urlParam).then(res => {
+            cookie.set("tenant", res.data.dataList);  //更新cookie
+            
+        })
+        
     }
   }
 </script>

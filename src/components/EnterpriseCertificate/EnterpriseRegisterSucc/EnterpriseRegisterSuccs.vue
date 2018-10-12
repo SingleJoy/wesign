@@ -155,6 +155,15 @@
           })
         }
       })
+
+        let param={
+            mobile:sessionStorage.getItem('mobile')
+        };
+        let urlParam = sessionStorage.getItem('interfaceCode')
+        server.login(param,urlParam).then(res => {
+        cookie.set("tenant", res.data.dataList);  //更新cookie
+        
+        })
     }
   }
 </script>

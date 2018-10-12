@@ -32,7 +32,7 @@
 
 
       <div class="sign-success-tips">
-        <p>  https:www.zqsign.com</p>
+        <p>  https://www.zqsign.com/h5/#/DemoLogin</p>
         <div class="scan-code">
           <img src="../../static/images/Demo/demo-scan.png">
         </div>
@@ -193,7 +193,7 @@
   .sign-success-tips{
     position: relative;
     margin-left: 725px;
-    top: 635px;
+    top: 625px;
     z-index: 1003;
     }
   .sign-success-tips>p{
@@ -202,7 +202,7 @@
   }
   .sign-success-tips>.scan-code {
 
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
   .sign-success-tips>.scan-code>img{

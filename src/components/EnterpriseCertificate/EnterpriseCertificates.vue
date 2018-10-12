@@ -134,7 +134,7 @@
                                            
                                         </el-upload>
                                     </div>
-                                    <div class="upload_warp_text">
+                                    <div class="upload_warp_text" v-if="showData">
                                         共{{bytesToSize(this.licenseSize)}}
                                     </div>
 
@@ -215,7 +215,7 @@
                                                     <img v-else src="../../../static/images/Credentials/Personal/Pupload/left-card.png" alt="">
                                                 </div>
                                             </el-upload>
-											<div class="upload_warp_text">
+											<div class="upload_warp_text"  v-if="showData">
 												共&nbsp;{{bytesToSize(this.IdCardFrontSize)}}
 											</div>
                                             <p class="view-example" style="text-align:center" @click="viewExample('frontId')">查看示例</p>
@@ -236,7 +236,7 @@
                                                     <img v-else src="../../../static/images/Credentials/Personal/Pupload/right-card.png" alt="">
                                                 </div>
                                             </el-upload>
-											<div class="upload_warp_text">
+											<div class="upload_warp_text"  v-if="showData">
 												共&nbsp;{{bytesToSize(this.IdCardBackSize)}}
 											</div>
                                             <p class="view-example" style="text-align:center"  @click="viewExample('backId')">查看示例</p>
@@ -437,6 +437,7 @@ export default {
                 backPhoto:'',   //反面照地址
                 date:'',       //授权日期
             },
+            showData:true,
             IdDisabled:true,
             IdFrontImg:'',           //正面img
             IdBackImg:'',             //反面img
@@ -2083,7 +2084,9 @@ export default {
         let options = [];
         server.companyInfoDetail(param,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
+                this.showData = false
                 let data = res.data.data;
+                sessionStorage.setItem('authorizerType',this.adminType)
                 licenseInfo.tenantName = data.tenantName
                 licenseInfo.creditCode = data.creditCode
                 licenseInfo.creditPhoto = data.creditPhoto
@@ -2418,6 +2421,7 @@ export default {
             }else{
                 this.authorizerType = false
             }
+            sessionStorage.setItem('authorizerType',this.adminType)
             this.IdInfo={
                 idCard:'',
                 userName:'',
@@ -2664,24 +2668,24 @@ export default {
             })
         },
         //更新cookie
-        updateCookie(){
-            let param={
-                mobile:sessionStorage.getItem('mobile')
-            };
-            let urlParam = sessionStorage.getItem('interfaceCode')
-            let that=this
-            server.login(param,urlParam).then(res => {
-                cookie.set("tenant", res.data.dataList);  //更新cookie
-                that.$router.push('/EnterprisePayment');
-            })
-        },
+        // updateCookie(){
+        //     let param={
+        //         mobile:sessionStorage.getItem('mobile')
+        //     };
+        //     let urlParam = sessionStorage.getItem('interfaceCode')
+        //     let that=this
+        //     server.login(param,urlParam).then(res => {
+        //         cookie.set("tenant", res.data.dataList);  //更新cookie
+              
+        //     })
+        // },
         //请求成功跳转
         success(val){
-            console.log()
             if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
                 // if(this.licenseStatus&&this.IdStatus){
-                    this.updateCookie();
+                // this.updateCookie();
                 // }
+                this.$router.push('/EnterprisePayment');
             }
         }
     },

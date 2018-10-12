@@ -226,6 +226,7 @@ export default {
       if(this.checked3 == true){
         this.validTimes = ''
       }
+      this.hasClick = !this.hasClick
     },
     seeContractSign(){
       var data =[];
@@ -332,17 +333,19 @@ export default {
       }
     },
     backHome(){
-      // console.log("state"+cookie.getJSON('state'))
-      if(cookie.getJSON('state') == 'D'){
-        // 首页合同列表进入
-        this.$router.push("/Home")
-      }else if(cookie.getJSON('state') == 'D1'){
-        // 合同列表进入
-        this.$router.push("/Mycontract")
-      }else {
-        // 其他页面进入
-        this.$router.push("/");
-      }
+       if(cookie.getJSON('state')=='list'){
+            this.$router.push("/Procontract")
+            this.$store.dispatch('tabIndex',{tabIndex:1});
+        }else if(cookie.getJSON('state')=='home'){
+            this.$router.push("/Merchant")
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+        }else if(cookie.getJSON('state')== 'Home'){
+            this.$router.push("/Home")
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+        }else if(cookie.getJSON('state') == 'List'){
+            this.$router.push("/Mycontract")
+            this.$store.dispatch('tabIndex',{tabIndex:1});
+        }
     }
   },
   created() {
