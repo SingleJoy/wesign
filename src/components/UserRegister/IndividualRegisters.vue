@@ -176,12 +176,8 @@ export default {
         if(getinterfaceCode){
 			this.interfaceCode = getinterfaceCode;
 			server.getUrlMobile(getinterfaceCode).then(res=>{
-                if (res.data.resultCode == '1') {
-					this.ruleForm.userName = res.data.data.userName;
-					this.userDisabled = true;
-                }else{
-
-                }
+				this.ruleForm.userName = res.data.data.userName;
+				this.userDisabled = true;
                 
             }).catch(error=>{
 
