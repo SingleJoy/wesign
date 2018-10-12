@@ -176,13 +176,9 @@ export default {
         if(getinterfaceCode){
 			this.interfaceCode = getinterfaceCode;
 			server.getUrlMobile(getinterfaceCode).then(res=>{
-                if (res.data.resultCode == '1') {
-					this.ruleForm.userName = res.data.data.userName;
-					this.userDisabled = true;
-                }else{
+				this.ruleForm.username = res.data.data.mobile;
+				this.userDisabled = true;
 
-                }
-                
             }).catch(error=>{
 
             })
@@ -289,8 +285,8 @@ export default {
 					if(this.codeSure) {
                         //验证码是否正确
                         let param={
-                            'mobile': this.ruleForm.username, 
-                            'smsNo': this.smsNo, 
+                            'mobile': this.ruleForm.username,
+                            'smsNo': this.smsNo,
                             'smsCode': this.ruleForm.code,
                              'appId': this.appId
                         }
@@ -308,7 +304,7 @@ export default {
 										let _this = this;
 										let setTimer = setInterval(function() {
                                             _this.count = _this.count - 1;
-                                            
+
 											if(_this.count <= 0) {
 												clearInterval(setTimer);
 												_this.$router.push('/')
@@ -337,7 +333,7 @@ export default {
 								});
 							}
 						}).catch(error => {
-							
+
 						})
 					} else {
 						this.$message({
