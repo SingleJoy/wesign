@@ -339,7 +339,8 @@
                       type: 'success'
                     })
                     that.dialogAgreement=false;
-                    that.legalForm.paymentNum='';
+                    that.ruleForm.paymentNum='';
+                    that.legalForm.IDcard='';
                     that.legalForm.legalMobile='';
                     that.legalForm.phoneCode='';
                   } else {
