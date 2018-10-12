@@ -260,28 +260,24 @@ export default {
         this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-        if(this.allpage<10){
-            this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-                click: true
-            })
+        // if(this.allpage<10){
+            // console.log(23)
+           
 
-        }
-
+        // }
+        let that =this;
         setTimeout(function(){
-             this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+            that.leftScroll = new BScroll(that.$refs.leftWrapper, {
+                click: true,
+                probeType: 3,
+                // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            })
+             that.rightScroll = new BScroll(that.$refs.rightWrapper, {
                 probeType: 3,
                 preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
             })
-        },1000000)
-
-       
-
-        // console.log(this.rightScroll)
-        // this.rightScroll.hasVerticalScroll =true;
-        // console.log(this.allpage)
-        // if(this.allpage<10){
-        //     this.rightScroll.wrapperHeight = 824;
-        // }
+            // console.log(that.rightScroll)
+        },3000)
 
         this.rightScroll.on('scroll', (pos) => {
             this.scrollY = Math.abs(Math.round(pos.y))
