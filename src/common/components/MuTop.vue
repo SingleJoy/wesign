@@ -2,7 +2,7 @@
   <div class="MuTop">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/logo2.png" alt="">
+        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
         <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>

@@ -1,8 +1,9 @@
-               <template>
+<template>
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/logo2.png" alt="">
+        
+        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
         <router-link to='/Home' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
@@ -15,12 +16,12 @@
         <li :class="{'left-num':accountLevel==2}"><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
-           <router-link  @click.native="tabActive(5)" to='/Account'>
-             <img src="../../../static/images/setup.png" alt="">
-             <a href="javascript:void(0);">我的账户</a>
-           </router-link>
-         </li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
+          <router-link  @click.native="tabActive(5)" to='/Account'>
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
           <router-link  @click.native="tabActive(5)" to='/NoReal'>
             <img src="../../../static/images/setup.png" alt="">
@@ -33,13 +34,13 @@
       </div>
     </nav>
 
-   <div class='dialogbg' v-show="popup">
+    <div class='dialogbg' v-show="popup">
 
-     <div class='upload-dilog'>
-           <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
-          <div style="color:#4091fb;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
-          <div class='leftDilog'>
-              <el-upload
+      <div class='upload-dilog'>
+        <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
+        <div style="color:#4091fb;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
+        <div class='leftDilog'>
+          <el-upload
             ref='upload'
             class="upload-demo"
             :action='urlloadUrl()'
@@ -50,74 +51,74 @@
             accept='.docx,.pdf,.doc,.txt'
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
-            >
+          >
             <img src="../../../static/images/Login/v1.6-geren.png" alt="">
-            </el-upload>
-          </div>
-            <div class='rightDilog'>
-              <el-upload
-              ref='upload'
-              class="upload-demo"
-              :action='uploadUrl()'
-              :data=Type
-              :before-upload="handleChange"
-              :on-success="fileSuccess1"
-              :show-file-list= false
-              :limit=1
-              accept='.docx,.pdf,.doc,.txt'
-              element-loading-text="拼命上传中"
-              element-loading-background="rgba(0, 0, 0, 0.5)"
-              >
-              <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
-              </el-upload>
-            <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
-          </div>
-      </div>
-   </div>
-
-    <div id="dilog">
-        <div class='box'>
-          <div class='box-container'>
-            <a href="javascript:void(0);" id='close' @click='closes'>X</a>
-          </div>
+          </el-upload>
+        </div>
+        <div class='rightDilog'>
+          <el-upload
+            ref='upload'
+            class="upload-demo"
+            :action='uploadUrl()'
+            :data=Type
+            :before-upload="handleChange"
+            :on-success="fileSuccess1"
+            :show-file-list= false
+            :limit=1
+            accept='.docx,.pdf,.doc,.txt'
+            element-loading-text="拼命上传中"
+            element-loading-background="rgba(0, 0, 0, 0.5)"
+          >
+            <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
+          </el-upload>
+          <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
         </div>
       </div>
+    </div>
+
+    <div id="dilog">
+      <div class='box'>
+        <div class='box-container'>
+          <a href="javascript:void(0);" id='close' @click='closes'>X</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style lang="css" scoped>
-@import "../styles/Top.css";
-.Top .nav a{
+  @import "../styles/Top.css";
+  .Top .nav a{
     font-size: 16px;
-}
-.el-tabs__item.is-active{
-  color:#fff
-}
-.el-tabs__item:hover{
-  color:#fff
-}
-.el-tabs__item{
-  color:#fff
-}
-.el-tabs__active-bar{
-  background-color:red
-}
-.el-tabs__nav-wrap::after{
-  height:0
-}
-.left-num{
+  }
+  .el-tabs__item.is-active{
+    color:#fff
+  }
+  .el-tabs__item:hover{
+    color:#fff
+  }
+  .el-tabs__item{
+    color:#fff
+  }
+  .el-tabs__active-bar{
+    background-color:red
+  }
+  .el-tabs__nav-wrap::after{
+    height:0
+  }
+  .left-num{
     margin-left: 80px;
-}
-.dialogbg{
-  background:#000;
-  background:rgba(0,0,0,.3);
-  width:100%;
-  height:1080px;
-  position: absolute;
-  left:0;
-  top:0;
-  z-index: 1999;
+  }
+  .dialogbg{
+    background:#000;
+    background:rgba(0,0,0,.3);
+    width:100%;
+    height:1080px;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 1999;
 
-}
+  }
   #dilog{
     width:100%;
     height: 100%;
@@ -131,7 +132,7 @@
     bottom:0;
     margin:auto;
     display:none;
-    }
+  }
   .box{
     width:360px;
     height: 430px;
@@ -150,7 +151,7 @@
   .box .container h2{
     text-align:center;
   }
-   .box .container p{
+  .box .container p{
     line-height:30px;
     padding-left:30px;
     color:#999;
@@ -174,7 +175,7 @@
   .el-dialog--center .el-dialog__footer {
     margin-top: -17px;
   }
-    .loginOut{
+  .loginOut{
     height:200px !important;
     width:400px !important;
     overflow: hidden !important;
@@ -190,11 +191,11 @@
   }
 </style>
 <script>
-import cookie from '@/common/js/getTenant'
- import server from "@/api/url";
-export default {
-  name: 'Top',
-      data() {
+  import cookie from '@/common/js/getTenant'
+  import server from "@/api/url";
+  export default {
+    name: 'Top',
+    data() {
       return {
         baseURL:this.baseURL.BASE_URL,
         fullscreenLoading: false,
@@ -216,225 +217,225 @@ export default {
     methods: {
 
 
-        choice(){
-             if(this.isBusiness==0){ 
-                this.getContractNum();
-            }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
-                this.$alert('您暂无上传发起权限','提示', {
-                    confirmButtonText: '确定'
-                })
-            }else{
-                 this.popup =!this.popup
-            }
-        },
-         //合同剩余发起次数
-        getContractNum(){
-            server.authorityUpload(this.interfaceCode).then(res=>{
-                if(res.data.resultCode == 1){
-                    this.contractNum = res.data.data;
-                    if(this.contractNum==0){
-                        this.$confirm(
-                            <div class="warn-num">
-                                <p class="title">对不起，您的免费签约次数已用尽!</p>
-                                <p>成为正式用户享受更多使用权限</p>
-                                <p>客服电话：400-0000-6923</p>
-                            </div>,'提示', {
-                                confirmButtonText: '确定',
-                                showCancelButton:false
-                        })
-                    }else{
-                        this.popup =!this.popup
-                    }
-                    }else{
-                        this.$message({
-                            showClose: true,
-                            message: res.data.resultMessage,
-                            type: "error"
-                        });
-                }
-            }).catch(error=>{
-
-            })
-        },
-   
-        urlloadUrl(){
-            return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
-        },
-        uploadUrl(){
-            return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
-        },
-      handleChange (name) {
-        this.$loading.show();
-        var max_size = 5;// 5M
-        var fileContName = name.name.replace(/\s+/g, "")
-        var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
-        if(!reg.test(fileContName)){
-          this.$message({
-            showClose: true,
-            message: '只能传pdf,doc,txt,docx格式的文件',
-            type: 'error'
-          });
-          this.$refs.upload.clearFiles()
-          this.uploadFile = false
-          this.$loading.hide();
-          return false
-
-        } else if( name.size > max_size*1024*1024){
-          this.$message({
-            showClose: true,
-            message: '文件大小超过限制',
-            type: 'error'
-          });
-          this.$refs.upload.clearFiles()
-          this.uploadFile = false
-          this.$loading.hide();
-          return false
-
-        } else if(fileContName.length >50){
-          this.$message({
-            showClose: true,
-            message: '上传文件名称不得超过50字符！',
-            type: 'error'
-          });
-          this.$refs.upload.clearFiles()
-          this.uploadFile = false
-          this.$loading.hide();
-          return false
-
-        } else {
-          this.loading2 = true
-          this.uploadFile = true
+      choice(){
+        if(this.isBusiness==0){
+          this.getContractNum();
+        }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
+          this.$alert('您暂无上传发起权限','提示', {
+            confirmButtonText: '确定'
+          })
+        }else{
+          this.popup =!this.popup
         }
       },
-      shut() {
-        this.popup=!this.popup
-      },
-      fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+      //合同剩余发起次数
+      getContractNum(){
+        server.authorityUpload(this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.contractNum = res.data.data;
+            if(this.contractNum==0){
+              this.$confirm(
+              <div class="warn-num">
+                <p class="title">对不起，您的免费签约次数已用尽!</p>
+              <p>成为正式用户享受更多使用权限</p>
+              <p>客服电话：400-0000-6923</p>
+              </div>,'提示', {
+              confirmButtonText: '确定',
+                showCancelButton:false
+            })
+      }else{
+        this.popup =!this.popup
+    }
+  }else{
+    this.$message({
+      showClose: true,
+      message: res.data.resultMessage,
+      type: "error"
+    });
+  }
+  }).catch(error=>{
+
+  })
+  },
+
+  urlloadUrl(){
+    return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
+  },
+  uploadUrl(){
+    return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
+  },
+  handleChange (name) {
+    this.$loading.show();
+    var max_size = 5;// 5M
+    var fileContName = name.name.replace(/\s+/g, "")
+    var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
+    if(!reg.test(fileContName)){
+      this.$message({
+        showClose: true,
+        message: '只能传pdf,doc,txt,docx格式的文件',
+        type: 'error'
+      });
+      this.$refs.upload.clearFiles()
+      this.uploadFile = false
       this.$loading.hide();
-      var contractName = file.name.replace(/\s+/g, "")
-      var contractNo = file.response.contractNo
-      var resultCode = file.response.resultCode
-      if(  this.uploadFile == true ){
+      return false
+
+    } else if( name.size > max_size*1024*1024){
+      this.$message({
+        showClose: true,
+        message: '文件大小超过限制',
+        type: 'error'
+      });
+      this.$refs.upload.clearFiles()
+      this.uploadFile = false
+      this.$loading.hide();
+      return false
+
+    } else if(fileContName.length >50){
+      this.$message({
+        showClose: true,
+        message: '上传文件名称不得超过50字符！',
+        type: 'error'
+      });
+      this.$refs.upload.clearFiles()
+      this.uploadFile = false
+      this.$loading.hide();
+      return false
+
+    } else {
+      this.loading2 = true
+      this.uploadFile = true
+    }
+  },
+  shut() {
+    this.popup=!this.popup
+  },
+  fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+    this.$loading.hide();
+    var contractName = file.name.replace(/\s+/g, "")
+    var contractNo = file.response.contractNo
+    var resultCode = file.response.resultCode
+    if(  this.uploadFile == true ){
+      this.$message({
+        showClose: true,
+        message: '上传成功',
+        type: 'success'
+      });
+      var index1=contractName.lastIndexOf(".");
+      var suffix=contractName.slice(0,index1);
+      this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+      sessionStorage.setItem('contractName', suffix)
+      sessionStorage.setItem('contractNo', contractNo)
+      this.$router.push('/Contractsigning')
+    }
+  },
+  fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
+    this.$loading.hide();
+    var contractName = file.name.replace(/\s+/g, "")
+    var contractNo = file.response.contractNo
+    var resultCode = file.response.resultCode
+    if( this.uploadFile == true ){
+      this.$message({
+        showClose: true,
+        message: '上传成功',
+        type: 'success'
+      });
+      var index1=contractName.lastIndexOf(".");
+      var suffix=contractName.slice(0,index1);
+      this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+      sessionStorage.setItem('contractName', suffix)
+      sessionStorage.setItem('contractNo', contractNo)
+      this.$router.push('/Signature')
+    }
+  },
+  openFullScreen() {
+    this.fullscreenLoading = true
+  },
+  dialogVisible (value) {
+    this.tabIndex = value
+    var dilog = document.getElementById('dilog')
+    dilog.style.display='block'
+  },
+  closes(){
+    this.tabIndex = this.$store.state.tabIndex
+    var dilog = document.getElementById('dilog')
+    dilog.style.display='none'
+  },
+  amendPassWord() {
+    const h = this.$createElement;
+    this.$msgbox({
+      title: '提示',
+      message: h('p', null, [
+        h('span', null, '是否确定要退出？ '),
+        h('i', { style: 'color: teal' }, '')
+      ]),
+      center:true,
+      showCancelButton: true,
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true;
+          instance.confirmButtonText = '执行中...';
+          setTimeout(() => {
+            this.signOut()
+            done();
+            setTimeout(() => {
+              instance.confirmButtonLoading = false;
+            }, 500);
+          }, 1000);
+        } else {
+          done();
+          this.resubmit = true
+          this.$message({
+            type: 'info',
+            message: '取消退出操作'
+          });
+        }
+      }
+    })
+  },
+  signOut () {
+    this.$http.get(process.env.API_HOST+'v1/tenant/exitAndDeleteSession').then(function (res) {
+      if(res.data.sessionStatus == '0'){
+        this.$router.push('/')
+      } else {
         this.$message({
           showClose: true,
-          message: '上传成功',
+          message: res.body.message,
           type: 'success'
-        });
-        var index1=contractName.lastIndexOf(".");
-        var suffix=contractName.slice(0,index1);
-        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', suffix)
-        sessionStorage.setItem('contractNo', contractNo)
-        this.$router.push('/Contractsigning')
-        }
-      },
-      fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-        this.$loading.hide();
-        var contractName = file.name.replace(/\s+/g, "")
-        var contractNo = file.response.contractNo
-        var resultCode = file.response.resultCode
-        if( this.uploadFile == true ){
-          this.$message({
-            showClose: true,
-            message: '上传成功',
-            type: 'success'
-          });
-          var index1=contractName.lastIndexOf(".");
-          var suffix=contractName.slice(0,index1);
-          this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-          sessionStorage.setItem('contractName', suffix)
-          sessionStorage.setItem('contractNo', contractNo)
-          this.$router.push('/Signature')
-        }
-      },
-      openFullScreen() {
-        this.fullscreenLoading = true
-      },
-      dialogVisible (value) {
-        this.tabIndex = value
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='block'
-      },
-      closes(){
-        this.tabIndex = this.$store.state.tabIndex
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='none'
-      },
-      amendPassWord() {
-        const h = this.$createElement;
-        this.$msgbox({
-          title: '提示',
-          message: h('p', null, [
-            h('span', null, '是否确定要退出？ '),
-            h('i', { style: 'color: teal' }, '')
-          ]),
-          center:true,
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = '执行中...';
-              setTimeout(() => {
-                this.signOut()
-                done();
-                setTimeout(() => {
-                  instance.confirmButtonLoading = false;
-                }, 500);
-              }, 1000);
-            } else {
-              done();
-              this.resubmit = true
-              this.$message({
-                type: 'info',
-                message: '取消退出操作'
-              });
-            }
-          }
         })
-      },
-      signOut () {
-        this.$http.get(process.env.API_HOST+'v1/tenant/exitAndDeleteSession').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/')
-          } else {
-            this.$message({
-              showClose: true,
-              message: res.body.message,
-              type: 'success'
-            })
-            this.$router.push('/')
-          }
-        })
-      },
-       tabActive(value){
-        this.$store.dispatch('tabIndex',{tabIndex:value});
-        this.tabIndex = this.$store.state.tabIndex;
-
-      },
-    },
-    created(){
-
-      this.tabIndex = this.$store.state.tabIndex;
-      // this.auditStatus=sessionStorage.getItem("auditStatus");
-      // console.log(this.auditStatus);
-      // if(this.auditStatus=='2'){
-      //   this.oneAccount=true;
-      // }else {
-      //   this.oneAccount=false;
-      // }
-      var auditSteps = cookie.getJSON('tenant')[1].auditSteps;
-      if(auditSteps == 3){
-        this.Jurisdiction = true
-      }else {
-        this.Jurisdiction = false
+        this.$router.push('/')
       }
+    })
+  },
+  tabActive(value){
+    this.$store.dispatch('tabIndex',{tabIndex:value});
+    this.tabIndex = this.$store.state.tabIndex;
+
+  },
+  },
+  created(){
+
+    this.tabIndex = this.$store.state.tabIndex;
+    // this.auditStatus=sessionStorage.getItem("auditStatus");
+    // console.log(this.auditStatus);
+    // if(this.auditStatus=='2'){
+    //   this.oneAccount=true;
+    // }else {
+    //   this.oneAccount=false;
+    // }
+    var auditSteps = cookie.getJSON('tenant')[1].auditSteps;
+    if(auditSteps == 3){
+      this.Jurisdiction = true
+    }else {
+      this.Jurisdiction = false
+    }
 
 
-    },
+  },
 
 
-}
+  }
 </script>
 

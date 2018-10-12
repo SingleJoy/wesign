@@ -3,7 +3,7 @@
    <div class="Tops">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/logo2.png" alt="">
+        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="templateCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
