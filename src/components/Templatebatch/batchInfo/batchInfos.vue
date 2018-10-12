@@ -208,9 +208,11 @@ export default {
             this.imgList = data
         }
         this.$nextTick(() => {
-            this._initScroll()
+             this._initScroll()
             this._calculateHeight()
+            
         })
+       
     })
 
     this.$http.get(urls,{params:{"contractTempNo":this.$store.state.contractNo1}}).then(function (res) { //获取批量模板jsonVal list信息
@@ -265,10 +267,14 @@ export default {
 
         }
 
-        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-            probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-        })
+        setTimeout(function(){
+             this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+                probeType: 3,
+                preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            })
+        },1000000)
+
+       
 
         // console.log(this.rightScroll)
         // this.rightScroll.hasVerticalScroll =true;
