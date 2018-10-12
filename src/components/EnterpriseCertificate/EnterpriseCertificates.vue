@@ -2086,6 +2086,7 @@ export default {
             if(res.data.resultCode==1){
                 this.showData = false
                 let data = res.data.data;
+                sessionStorage.setItem('authorizerType',this.adminType)
                 licenseInfo.tenantName = data.tenantName
                 licenseInfo.creditCode = data.creditCode
                 licenseInfo.creditPhoto = data.creditPhoto
@@ -2420,6 +2421,7 @@ export default {
             }else{
                 this.authorizerType = false
             }
+            sessionStorage.setItem('authorizerType',this.adminType)
             this.IdInfo={
                 idCard:'',
                 userName:'',
