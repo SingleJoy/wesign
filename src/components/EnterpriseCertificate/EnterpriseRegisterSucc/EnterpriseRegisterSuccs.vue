@@ -136,9 +136,9 @@
     created() {
       let adminType=sessionStorage.getItem('authorizerType')
       if(adminType=='0'){
-        this.adminType=true
-      }else {
         this.adminType=false
+      }else {
+        this.adminType=true
       }
       server.authSuccess(this.interfaceCode).then(response =>{
 
