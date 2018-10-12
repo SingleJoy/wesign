@@ -361,6 +361,7 @@
         if(this.checked3 == true){
           this.validTime = ''
         }
+        this.hasClick = !this.hasClick
       },
       dateModified () {  // 修改日期
         var perpetualValid = ''
@@ -396,11 +397,26 @@
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-            if(cookie.getJSON('state') == 'List'){
+            // if(cookie.getJSON('state') == 'List'){
+            //     this.$router.push("/Home")
+            // }else{
+            //     this.$router.push("/Mycontract")
+            // }
+
+              if(cookie.getJSON('state')=='list'){
+                this.$router.push("/Procontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
+            }else if(cookie.getJSON('state')=='home'){
+                this.$router.push("/Merchant")
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }else if(cookie.getJSON('state')== 'Home'){
                 this.$router.push("/Home")
-            }else{
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+            }else if(cookie.getJSON('state') == 'List'){
                 this.$router.push("/Mycontract")
+                this.$store.dispatch('tabIndex',{tabIndex:1});
             }
+
       }
     },
     created() {

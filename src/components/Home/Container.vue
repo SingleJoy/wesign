@@ -332,12 +332,12 @@
             //延期
             if (row.contractType == "0") {
             sessionStorage.setItem("contractNo", row.contractNum);
-            cookie.set("state", "E");
+            cookie.set("state", "Home");
             this.$router.push("/CompanyExc");
             } else {
             this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
             sessionStorage.setItem("contractNo", row.contractNum);
-            cookie.set("state", "D");
+            cookie.set("state", "Home");
             this.$router.push("/ContractDelay");
             }
         },
