@@ -340,6 +340,8 @@
                     })
                     that.dialogAgreement=false;
                     that.ruleForm.paymentNum='';
+                    that.ruleForm.legalMobile='';
+                    that.ruleForm.phoneCode='';
                   } else {
                     that.$message({
                       showClose: true,
@@ -411,7 +413,7 @@
 
             })
           }
-       
+
 
       },
 
