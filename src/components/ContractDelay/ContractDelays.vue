@@ -51,8 +51,9 @@
                 <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
             </div>
           </el-dialog>
-          <div class='table'>
+          <div class='table' style="width: 1200px;padding:15px;box-sizing: border-box;">
               <el-table
+                :header-cell-style="getRowClass"
                 :data="tableData2"
                 style="width: 100%;text-align:center"
                 >
@@ -75,7 +76,7 @@
                 <el-table-column
                 prop="signStatus"
                 label="状态"
-                width="250"
+                width="220"
                 >
                 <template slot-scope="scope">
                   <el-button  type="text" size="small" v-if ='scope.row.signStatus === 1 '>已签署</el-button>
@@ -168,6 +169,13 @@ export default {
     }
   },
   methods: {
+    getRowClass({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex == 0) {
+        return "background:#f5f5f5;text-align:center;font-weight:bold;";
+        } else {
+        return "";
+        }
+    },
     remindSignClick (row) {
       this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/signRoom/showSignRoomInfo').then(function (res) {
         var status = res.data.data.status

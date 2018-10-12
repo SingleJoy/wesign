@@ -50,7 +50,7 @@
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
-      <div class='table' style="width: 1200px;padding: 20px 15px;box-sizing: border-box;">
+      <div class='table' style="width: 1200px;padding:15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
           style="width: 100%;text-align:center"
@@ -60,12 +60,12 @@
             prop="signUserName"
             label="企业名称"
             style="text-align:center"
-            width="210">
+            width="240">
           </el-table-column>
           <el-table-column
             prop="email"
             label="邮箱"
-            width="230">
+            width="200">
           </el-table-column>
           <el-table-column
             prop="userName"
@@ -80,7 +80,7 @@
           <el-table-column
             prop="signStatus"
             label="状态"
-            width="180"
+            width="170"
           >
             <template slot-scope="scope">
               <el-button  type="text" size="small" v-if ='scope.row.signStatus === 1 '>已签署</el-button>
@@ -90,7 +90,7 @@
           <el-table-column
             prop="operation"
             label="操作"
-            width="180"
+            width="160"
           >
             <template slot-scope="scope">
               <!-- <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && status!="已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button> -->
