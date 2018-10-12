@@ -339,9 +339,9 @@
                       type: 'success'
                     })
                     that.dialogAgreement=false;
-                    that.ruleForm.paymentNum='';
-                    that.ruleForm.legalMobile='';
-                    that.ruleForm.phoneCode='';
+                    that.legalForm.paymentNum='';
+                    that.legalForm.legalMobile='';
+                    that.legalForm.phoneCode='';
                   } else {
                     that.$message({
                       showClose: true,
