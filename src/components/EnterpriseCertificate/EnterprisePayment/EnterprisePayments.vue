@@ -28,7 +28,7 @@
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="account-ruleForm" size="medium">
 
             <el-form-item label="打款金额" :label-width="formLabelWidth" prop="paymentNum">
-              <el-input v-model="ruleForm.paymentNum" auto-complete="off" placeholder="请输入打款金额" style="width: 330px;height:40px;" :disabled="allowInput"></el-input>
+              <el-input v-model="ruleForm.paymentNum" auto-complete="off" placeholder="请输入打款金额" style="width: 330px;height:40px;"></el-input>
             </el-form-item>
 
             <el-form-item label="企业名称" :label-width="formLabelWidth" prop="enterpriseName">
@@ -175,9 +175,9 @@
         dialogAgreement:false,
         once:false, //提交按钮单次点击,
         verifySub:false, //五次打款验证提交
-        showAlert:true,  //轮询查询打款失败  第一次弹窗
+        // showAlert:true,  //轮询查询打款失败  第一次弹窗
         time:1,
-        allowInput:false,//打款失败 禁止输入
+        // allowInput:false,//打款失败 禁止输入
         rules:{
           paymentNum: [
             {validator: validatePaymentNum, trigger: 'blur' }
@@ -391,15 +391,7 @@
                 this.$alert(res.data.resultMessage, '提示', {
                   confirmButtonText: '确定'
                 }).then(() => {
-                  let param={
-                    mobile:sessionStorage.getItem('mobile')
-                  };
-                  let urlParam = sessionStorage.getItem('interfaceCode')
-                  server.login(param,urlParam).then(res => {
-                    cookie.set("tenant", res.data.dataList);  //更新cookie
                     this.$router.push('/EnterpriseRegisterSucc')
-                  })
-
                 })
                 this.once=false;
               } else if(res.data.resultCode == '-4'){
@@ -430,15 +422,7 @@
           if(res.data.resultCode=='1') {
             clearInterval(that.timer);
             that.timer = null;
-            that.allowInput=false;
-          }else if(res.data.resultCode=='0'){
-            if(that.showAlert){
-              that.$alert(res.data.resultMessage, '提示',{
-                confirmButtonText: '确定'
-              });
-            }
-            that.showAlert=false;
-            that.allowInput=true;
+          }else if(res.data.resultCode=='-4'){
             if(that.time>(1000*60*60)){
               clearInterval(that.timer);
               that.timer = null;
@@ -446,13 +430,11 @@
           }else if(res.data.resultCode=='-1'){
             clearInterval(that.timer);
             that.timer = null;
-            that.allowInput=true;
             that.$alert(res.data.resultMessage, '提示',{
                 confirmButtonText: '确定'
               }).then(()=>{
                    that.$router.push('/EnterpriseCertificate')
               });
-           
           }
 
         })

@@ -401,9 +401,8 @@
             //     this.$router.push("/Home")
             // }else{
             //     this.$router.push("/Mycontract")
-            // }
 
-              if(cookie.getJSON('state')=='list'){
+            if(cookie.getJSON('state')=='list'){
                 this.$router.push("/Procontract")
                 this.$store.dispatch('tabIndex',{tabIndex:1});
             }else if(cookie.getJSON('state')=='home'){
