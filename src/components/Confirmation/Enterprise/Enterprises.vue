@@ -169,8 +169,20 @@
       }
     },
     created() {
-      var enterpriseName = sessionStorage.getItem('enterpriseName')
-      this.tenantName = enterpriseName
+      var enterpriseName1=sessionStorage.getItem('enterpriseName')
+      var enterpriseName2=localStorage.getItem('enterpriseName')
+
+      if(enterpriseName1){
+        this.tenantName=enterpriseName1
+        return false
+      }else if(enterpriseName2){
+        this.tenantName=enterpriseName2
+        return false
+      }else if(enterpriseName1||enterpriseName2){
+        this.tenantName=enterpriseName1
+        return false
+      }
+
     },
     methods: {
       enterpriseName() {

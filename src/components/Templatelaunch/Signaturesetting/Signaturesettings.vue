@@ -697,4 +697,3 @@ export default {
     overflow-y: scroll !important;
   }
 </style>
-
