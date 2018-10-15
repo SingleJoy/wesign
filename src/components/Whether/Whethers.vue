@@ -149,12 +149,12 @@ export default {
       // })
 
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-        mouseWheel: {
-					speed: 1200,
-					invert: false,
-					easeTime: 300
-				},
-				preventDefault:false,
+        // mouseWheel: {
+		// 			speed: 1200,
+		// 			invert: false,
+		// 			easeTime: 300
+		// 		},
+		// 		preventDefault:false,
         probeType: 3,
         preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
       })
