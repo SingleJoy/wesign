@@ -2075,7 +2075,6 @@ export default {
     },
     created(){
         let param={
-
         }
         let interfaceCode = this.interfaceCode;
         let licenseInfo = this.licenseInfo;
