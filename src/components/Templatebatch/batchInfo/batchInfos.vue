@@ -208,9 +208,11 @@ export default {
             this.imgList = data
         }
         this.$nextTick(() => {
-            this._initScroll()
+             this._initScroll()
             this._calculateHeight()
+            
         })
+       
     })
 
     this.$http.get(urls,{params:{"contractTempNo":this.$store.state.contractNo1}}).then(function (res) { //获取批量模板jsonVal list信息
@@ -258,24 +260,24 @@ export default {
         this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-        if(this.allpage<10){
-            this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-                click: true
-            })
-
-        }
-
-        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-            probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-        })
-
-        // console.log(this.rightScroll)
-        // this.rightScroll.hasVerticalScroll =true;
-        // console.log(this.allpage)
         // if(this.allpage<10){
-        //     this.rightScroll.wrapperHeight = 824;
+            // console.log(23)
+           
+
         // }
+        let that =this;
+        setTimeout(function(){
+            that.leftScroll = new BScroll(that.$refs.leftWrapper, {
+                click: true,
+                probeType: 3,
+                // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            })
+             that.rightScroll = new BScroll(that.$refs.rightWrapper, {
+                probeType: 3,
+                preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+            })
+            // console.log(that.rightScroll)
+        },3000)
 
         this.rightScroll.on('scroll', (pos) => {
             this.scrollY = Math.abs(Math.round(pos.y))

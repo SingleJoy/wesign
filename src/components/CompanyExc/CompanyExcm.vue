@@ -15,7 +15,7 @@
                 <span style="color:#4091fb" v-else> >合同详情</span>
             </p>
 
-            <p id="sign-icon" v-if="accountCode!= operator && accountName">
+            <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
                 <span class="department">{{accountName}}</span>
                 <!-- <span>张丽华</span> -->
             </p>
@@ -245,7 +245,8 @@
             interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
             accountName:'',
             accountCode :sessionStorage.getItem('accountCode'),
-            operator:''
+            operator:'',
+            sponsorInterfaceCode:''//合同发起人的interfaceCode
         };
     },
     methods: {
@@ -288,6 +289,7 @@
             this.contractName = res.data.data.contractName
             var type = res.data.data.contractType
             this.operator = res.data.data.operator
+            this.sponsorInterfaceCode = res.data.data.interfaceCode
             switch (type) {
               case '1':
                 this.createType = '模板发起'
@@ -299,10 +301,12 @@
             this.status = res.data.data.status
              if(res.data.data.perpetualValid == '1'){
                this.checked3 = true
+                 this.validTime = ''
              }else{
                this.checked3 = false
+                this.validTime = res.data.data.validTime
              }
-            this.validTime = res.data.data.validTime
+             
             var signUserVo = res.data.dataList
             for (let i = 0; i < signUserVo.length;i++) {
               var obj = {}
@@ -360,15 +364,19 @@
       checkedBox () {
         if(this.checked3 == true){
           this.validTime = ''
+          this.hasClick = false
+        }else{
+            this.hasClick = true 
         }
-        this.hasClick = !this.hasClick
       },
       dateModified () {  // 修改日期
         var perpetualValid = ''
           if (this.checked3 == true){
             perpetualValid = '1'
+            this.hasClick = false
           } else {
             perpetualValid = '0'
+             this.hasClick = true
           }
           if(this.validTime =='' && this.checked3 == false){
             this.$message({

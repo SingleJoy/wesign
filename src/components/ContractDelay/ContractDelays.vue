@@ -220,13 +220,17 @@ export default {
     },
     dateInput () {
         this.hasClick = false;
-      this.checked3 = false
+        this.checked3 = false
     },
     checkedBox () {
       if(this.checked3 == true){
         this.validTimes = ''
       }
-      this.hasClick = !this.hasClick
+      if(this.checked3 == true){
+          this.hasClick = false
+      }else{
+          this.hasClick = true
+      }
     },
     seeContractSign(){
       var data =[];

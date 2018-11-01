@@ -121,7 +121,7 @@
               width="200"
             >
             <template slot-scope="scope">
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(this.interfaceCode == accountCode?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
+                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
                 <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true && accountCode == scope.row.operator'>
                 <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
                 </el-tooltip>
@@ -551,7 +551,7 @@
                 this.$router.push("/Server");
             } else {
                 for (let i = 0; i < res.data.content.length; i++) {
-                    if (res.data.content[i].creater == interfaceCode) {
+                    if (res.data.content[i].creater == interfaceCode) {  //发起方
                         flag = true;
                     } else {
                         flag = false;
@@ -568,6 +568,7 @@
                     obj.flag = res.data.content[i].flag;
                     obj.operator = res.data.content[i].operator
                     obj.operation = "";
+                    // obj.creater = res.data.content[i].creater    
                     switch (obj.contractStatus) {
                         case "1":
                             obj.contractStatus = "待我签署";

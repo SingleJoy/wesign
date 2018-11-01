@@ -65,7 +65,7 @@
           <h2 class='settingInfo'>
 
             <div class="title" >签署人设置</div>
-            <p class='batchInfo'>
+            <p class='batchInfo' style="margin-top:-40px;">
               <!-- <el-checkbox></el-checkbox>
               <b class='info'>短信通知</b>
               <el-checkbox></el-checkbox>

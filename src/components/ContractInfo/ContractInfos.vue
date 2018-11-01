@@ -8,7 +8,7 @@
           <span style="color:#4091fb" v-else> >合同详情</span>
         </p>
 
-        <p id="sign-icon" v-if="accountCode!= operator && accountName">
+        <p id="sign-icon" v-if="accountCode!= operator && accountName &&(this.sponsorInterfaceCode == this.interfaceCode)">
           <span class="department">{{accountName}}</span>
         </p>
 
@@ -237,7 +237,8 @@
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         accountName:'',
         operator:'',
-        accountCode:sessionStorage.getItem('accountCode')
+        accountCode:sessionStorage.getItem('accountCode'),
+        sponsorInterfaceCode:''
       };
     },
     methods: {
@@ -362,6 +363,7 @@
             this.validTime = contractVo.validTime
             this.status = contractVo.status
             this.operator = res.data.contractVo.operator
+            this.sponsorInterfaceCode = res.data.contractVo.interfaceCode
             switch (type) {
               case '1':
                 this.createType = '模板发起'

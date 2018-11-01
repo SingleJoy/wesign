@@ -90,7 +90,7 @@
         width="190"
         >
           <template slot-scope="scope">
-          <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && (this.interfaceCode == accountCode?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
+          <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
           <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
           <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
           </el-tooltip>
@@ -336,7 +336,7 @@ export default {
     lookClick(row){  //延期
       if(row.contractType == '0'){
         sessionStorage.setItem('contractNo', row.contractNum)
-        cookie.set('state','E1')
+        cookie.set('state','List')
         this.$router.push('/CompanyExc')
       }else{
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})

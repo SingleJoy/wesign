@@ -16,7 +16,7 @@
                 <span style="color:#4091fb" v-else> >合同详情</span>
             </p>
 
-            <p id="sign-icon" v-if="accountCode!= operator && accountName">
+            <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
                 <span class="department">{{accountName}}</span>
                 <!-- <span>张丽华</span> -->
             </p>
@@ -27,7 +27,7 @@
             </p>
 
         </div>
-      <p class='second'  >
+      <p class='second'>
       <div class="title">签署文件</div>
         <span class='text'>
                <strong>当前状态：</strong>
@@ -224,7 +224,8 @@
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         accountName:'',
         accountCode :sessionStorage.getItem('accountCode'),
-        operator:''
+        operator:'',
+        sponsorInterfaceCode:''
       };
     },
     methods: {
@@ -314,6 +315,7 @@
             }
             var contractNoZq = res.data.data.contractNoZq
             this.contractName = res.data.data.contractName
+            this.sponsorInterfaceCode = res.data.data.interfaceCode
             var type = res.data.data.contractType
             switch (type) {
               case '1':
@@ -347,6 +349,7 @@
               obj.idCard = signUserVo[i].idCard
               obj.signStatus = signUserVo[i].signStatus
               obj.userCode = signUserVo[i].userCode
+
               switch ( obj.signStatus ){
                 case "0":
                   obj.signStatus = 0

@@ -2653,6 +2653,9 @@ export default {
                     this.sigleClick = false;
                     this.bankStatus = true;
                     this.$loading.hide();
+                    if(this.countRequest==2){
+                        this.$router.push('/EnterprisePayment');
+                    }
                 }else{
                     this.sigleClick = false;
                     this.bankStatus = false
@@ -2680,18 +2683,18 @@ export default {
         //     })
         // },
         //请求成功跳转
-        success(val){
-            if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
-                // if(this.licenseStatus&&this.IdStatus){
-                // this.updateCookie();
-                // }
-                this.$router.push('/EnterprisePayment');
-            }
-        }
+        // success(val){
+        //     if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
+        //         if(this.licenseStatus&&this.IdStatus){
+        //         this.updateCookie();
+        //         }
+               
+        //     }
+        // }
     },
     watch:{
         countRequest:function(val){
-            this.success(val);
+            // this.success(val);
         }
     }
 
