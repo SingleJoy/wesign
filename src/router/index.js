@@ -56,9 +56,9 @@ import EditChildNoActive from '../components/Account/EditChildNoActive/EditChild
 import NoReal from '../components/Account/NoReal/NoReal.vue'                //我的账户->账户未激活(签章，账号管理)
  // 费用中心
 import CostCenter from '../components/Account/CostCenter/CostCenter.vue'                //我的账户->账户中心
-import Invoice from '../components/Account/CostCenter/Invoice/Invoice.vue'                //我的账户->账户中心->发票
-//import Bill from '../components/Account/CostCenter/Bill/Bill.vue'                //我的账户->账户中心->账单
-import Charge from '../components/Account/CostCenter/Charge/Charge.vue';          //我的账户->费用中心->充值记录
+import Charge from '../components/Account/CostCenter/Charge/Charge.vue'                //我的账户->账户中心->充值记录
+import Bill from '../components/Account/CostCenter/Bill/Bill.vue'                //我的账户->账户中心->账单
+import Invoice from '../components/Account/CostCenter/Invoice/Invoices.vue'                //我的账户->账户中心->发票
 
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
@@ -652,16 +652,25 @@ export const router = new Router({
         auth: true
       }
     },
-    // 账户中心->我的账单
-    // {
-    //   path: '/Bill',
-    //   name: 'Bill',
-    //   component: Bill,
-    //   meta: {
-    //     auth: true
-    //   }
-    // },
-    // 账户中心->发票
+    // 账户中心->账单管理
+    {
+      path: '/Bill',
+      name: 'Bill',
+      component: Bill,
+      meta: {
+        auth: true
+      }
+    },
+    // 账户中心->充值记录
+    {
+      path: '/Charge',
+      name: 'Charge',
+      component: Charge,
+      meta: {
+        auth: true
+      }
+    },
+    // 账户中心->发票管理
     {
       path: '/Invoice',
       name: 'Invoice',
@@ -670,6 +679,7 @@ export const router = new Router({
         auth: true
       }
     },
+
     //微签1.6 体验demo
     {
       path: '/DemoRegister',

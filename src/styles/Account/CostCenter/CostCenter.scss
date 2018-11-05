@@ -1,0 +1,39 @@
+.CostCenters{
+  background-color: #fff;
+  width: 1200px;
+  margin: 20px auto;
+
+  div.tab {
+    width: 630px;
+    margin: 0 auto 40px auto;
+    padding-top: 30px;
+
+    .btn-default {
+      background: #fff;
+      color: #4091fb;
+      border: 1px solid #4091fb;
+      height: 46px;
+    }
+
+    .btn-active {
+      background: #4091fb;
+      color: #fff;
+      height: 48px;
+    }
+    div {
+      width: 300px;
+      cursor: pointer;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      line-height: 48px;
+      text-align: center;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+}
+
+
+
+
+

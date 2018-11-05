@@ -5,12 +5,12 @@
     <div class="main" >
 
       <div class="container">
-        
+
 
         <div class="tap">
 
-        <div class="btn-active" >账户中心</div>
-        <div class="btn-default" style="margin-left: -5px;" >费用中心</div>
+        <div class="btn-active"  @click="AccoutCenter">账户中心</div>
+        <div class="btn-default" style="margin-left: -5px;" @click="CostCenter">费用中心</div>
         </div>
 
         <div class="content">
@@ -490,6 +490,12 @@
       }
     },
     methods: {
+      AccoutCenter(){
+        this.$router.push('/Account')
+      },
+      CostCenter(){
+        this.$router.push('/CostCenter')
+      },
       closeDialog (formName) {
         this.$refs[formName].resetFields()
         this.centerDialogVisible = false
