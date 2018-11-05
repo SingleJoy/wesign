@@ -57,7 +57,8 @@ import NoReal from '../components/Account/NoReal/NoReal.vue'                //�
  // 费用中心
 import CostCenter from '../components/Account/CostCenter/CostCenter.vue'                //我的账户->账户中心
 import Invoice from '../components/Account/CostCenter/Invoice/Invoice.vue'                //我的账户->账户中心->发票
-import Bill from '../components/Account/CostCenter/Bill/Bill.vue'                //我的账户->账户中心->账单
+//import Bill from '../components/Account/CostCenter/Bill/Bill.vue'                //我的账户->账户中心->账单
+import Charge from '../components/Account/CostCenter/Charge/Charge.vue';          //我的账户->费用中心->充值记录
 
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
@@ -633,10 +634,11 @@ export const router = new Router({
         auth: true
       }
     },
+    //充值记录
     {
-      path: '/CompanyExc',
-      name: 'CompanyExc',
-      component: CompanyExc,
+      path: '/Charge',
+      name: 'Charge',
+      component: Charge,
       meta: {
         auth: true
       }
@@ -651,14 +653,14 @@ export const router = new Router({
       }
     },
     // 账户中心->我的账单
-    {
-      path: '/Bill',
-      name: 'Bill',
-      component: Bill,
-      meta: {
-        auth: true
-      }
-    },
+    // {
+    //   path: '/Bill',
+    //   name: 'Bill',
+    //   component: Bill,
+    //   meta: {
+    //     auth: true
+    //   }
+    // },
     // 账户中心->发票
     {
       path: '/Invoice',
