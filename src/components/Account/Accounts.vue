@@ -491,7 +491,7 @@
     },
     methods: {
       AccoutCenter(){
-        this.$router.push('/Accout')
+        this.$router.push('/Account')
       },
       CostCenter(){
         this.$router.push('/CostCenter')
