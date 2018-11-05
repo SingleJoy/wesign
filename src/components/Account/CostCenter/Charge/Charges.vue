@@ -108,10 +108,8 @@ export default {
 
 <style lang="stylus" scoped>
 .charges
-	width 1200px
 	margin 20px auto
 	background-color #fff
-	padding 15px
 	.block
 		text-align center
 		margin 60px

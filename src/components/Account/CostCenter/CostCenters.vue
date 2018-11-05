@@ -9,14 +9,37 @@
       </div>
 
       <div class="content-tabs">
-        <ul>
-          <li class="default-tab-style" :class="{'active-tab-router':isA,'default-tab-router':!isA}" @click="tabClick('A')"><a href="javascript:void(0);">充值记录</a></li>
-          <li class="default-tab-style" :class="{'active-tab-router':isB,'default-tab-router':!isB}" @click="tabClick('B')"><a href="javascript:void(0);">发票管理</a></li>
-          <li class="default-tab-style" :class="{'active-tab-router':isC,'default-tab-router':!isC}" @click="tabClick('C')"><a href="javascript:void(0);">对账单</a></li>
-        </ul>
+<!--<<<<<<< HEAD-->
+        <!--<ul>-->
+          <!--<li class="default-tab-style" :class="{'active-tab-router':isA,'default-tab-router':!isA}" @click="tabClick('A')"><a href="javascript:void(0);">充值记录</a></li>-->
+          <!--<li class="default-tab-style" :class="{'active-tab-router':isB,'default-tab-router':!isB}" @click="tabClick('B')"><a href="javascript:void(0);">发票管理</a></li>-->
+          <!--<li class="default-tab-style" :class="{'active-tab-router':isC,'default-tab-router':!isC}" @click="tabClick('C')"><a href="javascript:void(0);">对账单</a></li>-->
+        <!--</ul>-->
+
+<!--=======-->
+        <!-- <el-tabs v-model="activeName" tab-position="40px">
+          <el-tab-pane label="充值记录" name="first">
+            <Charge></Charge>
+          </el-tab-pane>
+          <el-tab-pane label="发票管理" name="second">
+            <Invoice></Invoice>
+          </el-tab-pane>
+          <el-tab-pane label="对账单" name="third">
+            <BillList></BillList>
+          </el-tab-pane>
+
+        </el-tabs> -->
+         <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="充值记录" name="" @tab-click="changeSwitch()">
+          </el-tab-pane>
+          <el-tab-pane label="发票管理" name=""></el-tab-pane>
+          <el-tab-pane label="对账单" name=""></el-tab-pane>
+      </el-tabs>
+      </div>
+      <div class="content-tabs-view">
+        <router-view></router-view>
 
       </div>
-
     </div>
 </template>
 
@@ -25,13 +48,13 @@
 <script>
   import Charge from './Charge/Charge'
   import Invoice from './Invoice/Invoice'
-  import Bill from './Bill/Bill'
+  import BillList from './Bill/BillList'
 
   export default {
     name:'CostCenters',
     components:{
       Charge,
-      Bill,
+      BillList,
       Invoice
     },
 
@@ -67,6 +90,7 @@
       CostCenter(){
         this.$router.push('/CostCenter')
       },
+
       tabClick(showTab){
         let show=showTab;
         if(show=='A'){
@@ -85,6 +109,20 @@
           this.isC=true;
           this.$router.push('/Bill')
         }
+      },
+
+
+      handleClick(tab, event) {
+        // this.$router.push('/BillDetail');
+        if(tab.index == 0) {
+          this.$router.push('/CostCenter/Charge');
+        } else if (tab.index == 1) {
+
+        } else if(tab.index == 2){
+          this.$router.push('/CostCenter/BillList');
+
+        }
+
       }
 
     }
@@ -104,6 +142,15 @@
   #tab-first,#tab-second,#tab-third{
     font-size: 16px;
   }
+<<<<<<< HEAD
+=======
+  .content-tabs{
+    padding: 20px 20px 0px 20px;
+  }
+  .content-tabs-view {
+    padding: 0 20px 20px 20px;
+  }
+>>>>>>> 6b5685078bd726ff81101a38e2cdde41078ed031
   .content-tabs .el-tabs__item.is-active {
     color: #4091fb;
     border-bottom: 2px solid #4091fb;
