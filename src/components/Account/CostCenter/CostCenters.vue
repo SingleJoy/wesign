@@ -1,7 +1,7 @@
 <template>
     <div class="CostCenters">
-      <div class="tab">
 
+      <div class="tab">
         <div class="btn-active" >账户中心</div>
         <div class="btn-default" style="margin-left: -5px;" >费用中心</div>
       </div>
@@ -53,3 +53,21 @@
 
 </style>
 
+<style >
+  #tab-first,#tab-second,#tab-third{
+    font-size: 16px;
+  }
+  .content-tabs{
+    padding-left: 20px;
+  }
+  .content-tabs .el-tabs__item.is-active {
+    color: #4091fb;
+    border-bottom: 2px solid #4091fb;
+  }
+  .content-tabs .el-tabs__item {
+    height: 58px;
+    line-height: 58px;
+  }
+
+
+</style>
