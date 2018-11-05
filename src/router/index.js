@@ -58,7 +58,8 @@ import NoReal from '../components/Account/NoReal/NoReal.vue'                //�
 import CostCenter from '../components/Account/CostCenter/CostCenter.vue'                //我的账户->账户中心
 import Charge from '../components/Account/CostCenter/Charge/Charge.vue'                //我的账户->账户中心->充值记录
 import Bill from '../components/Account/CostCenter/Bill/Bill.vue'                //我的账户->账户中心->账单
-import Invoice from '../components/Account/CostCenter/Invoice/Invoices.vue'                //我的账户->账户中心->发票
+import Invoice from '../components/Account/CostCenter/Invoice/Invoice.vue'                //我的账户->账户中心->发票
+import InvoiceDetail from '../components/Account/CostCenter/Invoice/InvoiceDetail.vue'                //我的账户->账户中心->发票详情
 
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
@@ -679,6 +680,17 @@ export const router = new Router({
         auth: true
       }
     },
+    // 账户中心->发票详情
+    {
+      path: '/InvoiceDetail',
+      name: 'InvoiceDetail',
+      component: InvoiceDetail,
+      meta: {
+        auth: true
+      }
+    },
+
+
 
     //微签1.6 体验demo
     {
