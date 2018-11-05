@@ -1,13 +1,13 @@
 <template>
-  <div class="Invoices">
+	 <div class="Invoices">
 
-  </div>
+   </div>
 </template>
 
 <script>
-  export default {
-    name: "Invoices"
-  }
+	export default {
+		name: "Invoices",
+	}
 </script>
 
 <style scoped>

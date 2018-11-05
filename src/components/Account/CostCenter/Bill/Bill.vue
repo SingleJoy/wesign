@@ -1,14 +1,17 @@
 <template>
-  <div class="Bill"></div>
+  <div class="Bill">
+    <Bills></Bills>
+  </div>
 
 </template>
 
 <script>
-  import Bills from './Bills'
+  import Bills from './Bills.vue'
+
 	export default {
 		name: "Bill",
     components:{
-      Bills
+      Bills,
     },
     data(){
 		  return{

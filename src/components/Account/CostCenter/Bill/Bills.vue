@@ -1,10 +1,24 @@
 <template>
- <div class="Bills"></div>
+
+ <div class="Bills">
+
+ </div>
+
 </template>
 
 <script>
+
 	export default {
-		name: "Bills"
+		name: "Bills",
+    components:{
+
+    },
+    data(){
+		  return{
+
+      }
+    }
+
 	}
 </script>
 
