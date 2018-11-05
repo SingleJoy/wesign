@@ -48,15 +48,20 @@ import EnterpriseRegisterSucc from '../components/EnterpriseCertificate/Enterpri
 import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
 import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
 
-import Account from '../components/Confirmation/Account/Account.vue'                              //个人账户(签章，账号管理)
-import AddChildAccount from '../components/Confirmation/Account/AddChildAccount/AddChildAccount.vue'                              //我的账户->新增二级账户(签章，账号管理)
-import EditChildAccount from '../components/Confirmation/Account/EditChildAccount/EditChildAccount.vue'                              //我的账户->编辑二级账户(签章，账号管理)
-import ActivateChildAccount from '../components/Confirmation/Account/ActivateChildAccount/ActivateChildAccount.vue'                //我的账户->激活二级账户(签章，账号管理)
-import EditChildNoActive from '../components/Confirmation/Account/EditChildNoActive/EditChildNoActive.vue'                //我的账户->激活二级账户(签章，账号管理)
-import NoReal from '../components/Confirmation/Account/NoReal/NoReal.vue'                //我的账户->账户未激活(签章，账号管理)
+import Account from '../components/Account/Account.vue'                              //个人账户(签章，账号管理)
+import AddChildAccount from '../components/Account/AddChildAccount/AddChildAccount.vue'                              //我的账户->新增二级账户(签章，账号管理)
+import EditChildAccount from '../components/Account/EditChildAccount/EditChildAccount.vue'                              //我的账户->编辑二级账户(签章，账号管理)
+import ActivateChildAccount from '../components/Account/ActivateChildAccount/ActivateChildAccount.vue'                //我的账户->激活二级账户(签章，账号管理)
+import EditChildNoActive from '../components/Account/EditChildNoActive/EditChildNoActive.vue'                //我的账户->激活二级账户(签章，账号管理)
+import NoReal from '../components/Account/NoReal/NoReal.vue'                //我的账户->账户未激活(签章，账号管理)
+ // 费用中心
+import CostCenter from '../components/Account/CostCenter/CostCenter.vue'                //我的账户->账户中心
+import Invoice from '../components/Account/CostCenter/Invoice/Invoice.vue'                //我的账户->账户中心->发票
+import Bill from '../components/Account/CostCenter/Bill/Bill.vue'                //我的账户->账户中心->账单
+
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
-import Signature from '../components/Confirmation/Signature/Signature.vue'                        //企业签署设置
+import Signature from '../components/Signature/Signature.vue'                        //企业签署设置
 import Place from '../components/Place/Place.vue'                                                 //b2b多位置
 import Dimension from '../components/Dimension/Dimension.vue'                                    //b2b 二维码
 import Mobile from '../components/Mobile/Canvas/Sign.vue'                                          //签名面板
@@ -636,6 +641,34 @@ export const router = new Router({
         auth: true
       }
     },
+    // 账户中心
+    {
+      path: '/CostCenter',
+      name: 'CostCenter',
+      component: CostCenter,
+      meta: {
+        auth: true
+      }
+    },
+    // 账户中心->我的账单
+    {
+      path: '/Bill',
+      name: 'Bill',
+      component: Bill,
+      meta: {
+        auth: true
+      }
+    },
+    // 账户中心->发票
+    {
+      path: '/Invoice',
+      name: 'Invoice',
+      component: Invoice,
+      meta: {
+        auth: true
+      }
+    },
+    //微签1.6 体验demo
     {
       path: '/DemoRegister',
       name: 'DemoRegister',

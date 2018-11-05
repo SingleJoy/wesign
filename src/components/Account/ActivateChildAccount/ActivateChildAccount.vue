@@ -1,6 +1,6 @@
 <template>
   <div class="EditChildAccount">
-   
+
     <ActivateChildAccounts></ActivateChildAccounts>
     <Bottom></Bottom>
   </div>
@@ -22,12 +22,12 @@
       }
     },
    methods:{
-     
+
    }
   }
 </script>
 <style scoped>
-  @import "../../../../common/styles/Tops.css";
+  @import "../../../common/styles/Tops.css";
 
 </style>
 

@@ -3,7 +3,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../../static/images/logo2.png" alt="">
+          <img src="../../../../static/images/logo2.png" alt="">
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -425,9 +425,9 @@
   }
 </script>
 <style lang="stylus">
-  @import "../../../../styles/Confirmation/Account/ChildAccount.styl";
+  @import "../../../styles/Account/ChildAccount.styl";
   .content-body>p.title{
-    background: url("../../../../../static/images/Common/title.png") no-repeat;
+    background: url("../../../../static/images/Common/title.png") no-repeat;
   }
   .send-code{
     margin: 15px 0;

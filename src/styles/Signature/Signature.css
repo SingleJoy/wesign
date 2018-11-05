@@ -66,7 +66,7 @@
 .list-left{
   width: 531px;
   height: 780px;
-  background:url("../../../../static/images/Contractsigning/initiator.png") no-repeat;
+  background:url("../../../static/images/Contractsigning/initiator.png") no-repeat;
   float: left;
 
 }
@@ -86,14 +86,14 @@
   width: 531px;
   height: 740px;
   display: inline-block;
-  background: url("../../../../static/images/Contractsigning/opponent.png") no-repeat;
+  background: url("../../../static/images/Contractsigning/opponent.png") no-repeat;
    float: left;
 }
 .authentication{
   display: inline-block;
   width: 67px;
   height: 28px;
-  background: url("../../../../static/images/Contractsigning/authentication.png") no-repeat;
+  background: url("../../../static/images/Contractsigning/authentication.png") no-repeat;
   margin-top: -3px;
   vertical-align: middle;
 

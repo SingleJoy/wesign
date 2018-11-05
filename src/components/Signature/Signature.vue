@@ -4,7 +4,7 @@
       <div class="Tops">
         <nav class='nav'>
           <p class='logo'>
-            <img src="../../../../static/images/logo2.png" alt="">
+            <img src="../../../static/images/logo2.png" alt="">
           </p>
           <div class='buttons'>
             <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -241,7 +241,7 @@
 
 </template>
 <script>
-  import Bottom from '../../../common/components/Bottom'
+  import Bottom from '../../common/components/Bottom'
   import cookie from '@/common/js/getTenant'
   import {validateMoblie,validateEmail,TrimAll} from '@/common/js/validate'
   export default {
@@ -660,9 +660,9 @@
   }
 </script>
 <style scoped>
-  @import "../../../styles/Confirmation/Signature/Signature.css";
-  @import "../../../common/styles/Tops.css";
-  @import "../../../common/styles/SigningSteps.css";
+  @import "../../styles/Signature/Signature.css";
+  @import "../../common/styles/Tops.css";
+  @import "../../common/styles/SigningSteps.css";
   .Contents .file .setting .title{
     display: block;
     height: 65px;
@@ -673,7 +673,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("../../../static/images/Common/title.png") no-repeat;
   }
 
 </style>

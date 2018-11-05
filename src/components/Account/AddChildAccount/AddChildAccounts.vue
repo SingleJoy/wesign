@@ -72,7 +72,7 @@
                     </el-checkbox-group>
 
                   </template>
-                  <!--<div class="no-singleTemplate-list" v-if="(!singleTemplateLength)&&(batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>-->
+
 
                 </div>
 
@@ -88,11 +88,11 @@
 
                   </template>
 
-                  <!--<div class="no-batchTemplate-list" v-if="(singleTemplateLength)&&(!batchTemplateLength)"><img src="../../../../../static/images/Confirmation/Account/no-template.png"></div>-->
+
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="../../../../../static/images/Confirmation/Account/no-template.png">
+                  <img src="../../../../static/images/Account/no-template.png">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 
@@ -489,7 +489,7 @@
 </script>
 
 <style lang="stylus">
-  @import "../../../../styles/Confirmation/Account/ChildAccount.styl";
+  @import "../../../styles/Account/ChildAccount.styl";
   .single-list,.batch-list{
     width: 470px;
     float: left;
@@ -541,7 +541,7 @@
     margin-left: 20px;
   }
   .content-body>p.title{
-    background: url("../../../../../static/images/Common/title.png") no-repeat;
+    background: url("../../../../static/images/Common/title.png") no-repeat;
   }
 
   b.agreement-sign{

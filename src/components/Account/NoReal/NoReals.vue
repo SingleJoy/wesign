@@ -306,7 +306,7 @@
         // this.toEnterprise = res.data.data.verifyMoneyNum
       })
 
-     
+
         let param={
             mobile:sessionStorage.getItem('mobile')
         };
@@ -314,15 +314,15 @@
         let that=this
         server.login(param,urlParam).then(res => {
             cookie.set("tenant", res.data.dataList);  //更新cookie
-            
+
         })
-        
+
     }
   }
 </script>
 <style scoped>
-   @import "../../../../styles/Confirmation/Account/Accounts.css";
-   @import "../../../../common/styles/content.scss";
+   @import "../../../styles/Account/Accounts.css";
+   @import "../../../common/styles/content.scss";
   .NoReal .content .title{
     display: block;
     height: 65px;
@@ -333,7 +333,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../../../static/images/Common/title.png") no-repeat;
+    background: url("../../../../static/images/Common/title.png") no-repeat;
   }
   .modal{
     width: 100%;

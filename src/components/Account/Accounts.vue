@@ -5,14 +5,13 @@
     <div class="main" >
 
       <div class="container">
-        <!--账号管理   新增二级账号-->
+        账号管理   新增二级账号
 
-        <!--<div class="tap">-->
-        <!--&lt;!&ndash;<div class="btn-active" @click="EnterAccount">账户中心</div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="btn-default" style="margin-left: -5px;" @click="EnterCostCenter">页面中心</div>&ndash;&gt;-->
-        <!--<div class="btn-active" >账户中心</div>-->
-        <!--<div class="btn-default" style="margin-left: -5px;" >费用中心</div>-->
-        <!--</div>-->
+        <div class="tap">
+
+        <div class="btn-active" >账户中心</div>
+        <div class="btn-default" style="margin-left: -5px;" >费用中心</div>
+        </div>
 
         <div class="content">
 
@@ -54,7 +53,7 @@
               </div>
               <a href="javascript:void(0);" @click="centerDialogVisible = true" class="changePassword">修改密码</a>
               <div class="real-name-state" v-if="realNameState" v-show="accountLevel=='1'">
-                <img src="../../../../static/images/Confirmation/Account/realName.png">
+                <img src="../../../static/images/Account/realName.png">
               </div>
             </div>
 
@@ -129,7 +128,8 @@
             </div>
             <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showSealDemo" >    <!-- :lock-scroll= false有问题！！！！ -->
 
-              <img src="../../../../static/images/Confirmation/Account/create-seal-demo.jpg"  style='width:100%;'>
+              <img src="../../../static/images/Account/create-seal-demo.jpg"  style='width:100%;'>
+
 
             </el-dialog>
           </div>
@@ -369,12 +369,11 @@
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
-  import  Home from '../../Home/Home'
+
   export default {
     name: 'Accounts',
     components:{
       AddChildAccount,
-      Home
     },
     data() {
 
@@ -899,24 +898,26 @@
 </script>
 
 <style lang="stylus">
-  @import "../../../styles/Confirmation/Account/Account.styl";
+
+  @import "../../styles/Account/Account.styl";
   .content-body .title,.sign-management .title,.seal-management .title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+
+    background: url("../../../static/images/Common/title.png") no-repeat;
   }
   .right-card{
-    background: url('/../../../../static/images/Common/numberCertificate.png') no-repeat 4px 4px;
+    background: url('../../../static/images/Common/numberCertificate.png') no-repeat 4px 4px;
   }
   .create-seal{
-    background: url(" ../../../../static/images/Confirmation/Account/defalut-seal.png")no-repeat;
+    background: url("../../../static/images/Account/defalut-seal.png")no-repeat;
   }
   .seal-management .left-plus,.child-account>.account-list>.list-content{
-    background: url("../../../../static/images/Confirmation/Account/addSeal.png")no-repeat;
+    background: url("../../../static/images/Account/addSeal.png")no-repeat;
   }
   .border-bottom{
     width:100%;height: 1px;border-bottom: 1px solid #ddd;margin-top: 20px
   }
   .chooseDefaultSeal{
-    background: url("../../../../static/images/Confirmation/Account/default-seal.png")no-repeat;
+    background: url("../../../static/images/Account/default-seal.png")no-repeat;
   }
  .visibility{
    visibility:hidden;
@@ -928,7 +929,7 @@
     right: 5px;
     top:5px;
     cursor: pointer;
-    background: url("../../../../static/images/Confirmation/Account/seal-tips.png")no-repeat;
+    background: url("../../../static/images/Account/seal-tips.png")no-repeat;
   }
   .showSealDemo{
     overflow-y: scroll;
