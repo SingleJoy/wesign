@@ -417,7 +417,6 @@
   },
   created(){
 
-    this.tabIndex = this.$store.state.tabIndex;
     // this.auditStatus=sessionStorage.getItem("auditStatus");
     // console.log(this.auditStatus);
     // if(this.auditStatus=='2'){

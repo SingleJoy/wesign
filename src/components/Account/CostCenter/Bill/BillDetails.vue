@@ -1,6 +1,6 @@
 <template>
-    <div class="BillDetails CostCenters">
-        <div class="content-tabs">
+    <div class="BillDetails">
+        <div class="BillDetails-tabs">
                 <div class="account-title">
                     <div class="account-title-left">****有限公司第四季度对账单</div>
                     <div class="account-title-right">
@@ -44,7 +44,8 @@
                     <el-table-column
                         prop="remainingAmount"
                         label="剩余用量"
-                        align="center">
+                        align="center"
+                        width="200">
                     </el-table-column>
                 </el-table>
       </div>
@@ -60,19 +61,19 @@ export default {
             tableData: [
                 {
                     signScene: '对企业签署',
-                    monthAmount: '本月使用量',
-                    monthRecharge: '本月充值量',
-                    cumulativeUsage: '累计使用用量',
-                    cumulativeRechargeAmount: '累计充值用量',
-                    remainingAmount: '剩余用量',
+                    monthAmount: '0',
+                    monthRecharge: '0',
+                    cumulativeUsage: '2',
+                    cumulativeRechargeAmount: '3',
+                    remainingAmount: '2',
                 },
                 {
                     signScene: '对个人签署',
-                    monthAmount: '本月使用量',
-                    monthRecharge: '本月充值量',
-                    cumulativeUsage: '累计使用用量',
-                    cumulativeRechargeAmount: '累计充值用量',
-                    remainingAmount: '剩余用量',
+                    monthAmount: '3',
+                    monthRecharge: '0',
+                    cumulativeUsage: '3',
+                    cumulativeRechargeAmount: '4',
+                    remainingAmount: '2',
                 },
             ]
         }
@@ -106,26 +107,23 @@ export default {
   @import "../../../../styles/Account/CostCenter/CostCenter.scss";
 </style>
 <style>
- .BillDetails .content-tabs{
-    padding: 20px;
-}
-.BillDetails .content-tabs .el-tabs__item.is-active {
+.BillDetails .BillDetails-tabs .el-tabs__item.is-active {
     color: #4091fb;
     border-bottom: 2px solid #4091fb;
 }
-.BillDetails .content-tabs .el-tabs__item {
+.BillDetails .BillDetails-tabs .el-tabs__item {
     height: 58px;
     line-height: 58px;
 }
-.BillDetails .content-tabs .el-table--border {
+.BillDetails .BillDetails-tabs .el-table--border {
     border: 2px solid #4091fb;
     border-top: 1px solid #4091fb;
 }
-.BillDetails .content-tabs .el-table--border td{
+.BillDetails .BillDetails-tabs .el-table--border td{
     border-right: 1px solid #4091fb;
     border-bottom: 1px solid #4091fb;
 }
-.BillDetails .content-tabs .el-table th.is-leaf {
+.BillDetails .BillDetails-tabs .el-table th.is-leaf {
     border-right: 1px solid #4091fb;
     border-bottom: 1px solid #4091fb;
 }
@@ -136,7 +134,7 @@ export default {
     font-size: 16px;
 }
 .BillDetails{
-    .content-tabs{
+    .BillDetails-tabs{
         .account-title{
             height: 84px;
             display: flex;
@@ -148,7 +146,7 @@ export default {
                 flex: auto;
             }
             .account-title-right{
-                width: 194px;
+                width: 200px;
                 border-left: 1px solid #4091fb;
                 .date{
                     text-align: center;
@@ -162,9 +160,6 @@ export default {
                     color: #666666;
                 }
             }
-        }
-        >>> .change-tr-height{
-            height: 100px;
         }
     }
 }

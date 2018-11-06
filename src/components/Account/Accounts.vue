@@ -494,7 +494,7 @@
         this.$router.push('/Account')
       },
       CostCenter(){
-        this.$router.push('/CostCenter')
+        this.$router.push('/CostCenter/Charge')
       },
       closeDialog (formName) {
         this.$refs[formName].resetFields()
