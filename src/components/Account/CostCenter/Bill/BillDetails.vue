@@ -57,7 +57,6 @@ export default {
     name: 'BillDetails',
     data() {
         return{
-            activeName:'third',
             tableData: [
                 {
                     signScene: '对企业签署',

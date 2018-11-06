@@ -1,21 +1,21 @@
 <template>
 	<div class="InvoiceDetail">
-    <Top></Top>
+
     <InvoiceDetails></InvoiceDetails>
-    <Bottom></Bottom>
+
   </div>
 </template>
 
 <script>
-  import Top from '@/common/components/Top.vue'
+
   import InvoiceDetails from './InvoiceDetails.vue'
-  import Bottom from '@/common/components/Bottom.vue'
+
 	export default {
 		name: "InvoiceDetail",
     components:{
-      Top,
+
       InvoiceDetails,
-      Bottom
+
     },
 
 

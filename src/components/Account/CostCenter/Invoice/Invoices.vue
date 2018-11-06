@@ -2,22 +2,17 @@
 
   <div class="Invoices">
 
-    <div class="top-tabs">
-      <div class="tab">
-        <div class="btn-default" @click="AccountCenter">账户中心</div>
-        <div class="btn-active" style="margin-left: -5px;"  @click="CostCenter">费用中心</div>
-      </div>
-    </div>
+
 
     <div class="Invoices-body" style="background-color: #fff;">
-      <div class="content-tabs">
-        <ul>
-          <li class="default-tab-style" :class="{'active-tab-router':isA,'default-tab-router':!isA}" @click="tabClick('A')"><a href="javascript:void(0);">充值记录</a></li>
-          <li class="default-tab-style" :class="{'active-tab-router':isB,'default-tab-router':!isB}" @click="tabClick('B')"><a href="javascript:void(0);">发票管理</a></li>
-          <li class="default-tab-style" :class="{'active-tab-router':isC,'default-tab-router':!isC}" @click="tabClick('C')"><a href="javascript:void(0);">对账单</a></li>
-        </ul>
+      <!--<div class="content-tabs">-->
+        <!--<ul>-->
+          <!--<li class="default-tab-style" :class="{'active-tab-router':isA,'default-tab-router':!isA}" @click="tabClick('A')"><a href="javascript:void(0);">充值记录</a></li>-->
+          <!--<li class="default-tab-style" :class="{'active-tab-router':isB,'default-tab-router':!isB}" @click="tabClick('B')"><a href="javascript:void(0);">发票管理</a></li>-->
+          <!--<li class="default-tab-style" :class="{'active-tab-router':isC,'default-tab-router':!isC}" @click="tabClick('C')"><a href="javascript:void(0);">对账单</a></li>-->
+        <!--</ul>-->
 
-      </div>
+      <!--</div>-->
       <div class="data-content" >
         <el-table
           :data="tableData"
@@ -81,20 +76,17 @@
 
     </div>
 
-
-
   </div>
 </template>
 
 <script>
   import Charge from '../Charge/Charge'
   import Invoice from '../Invoice/Invoice'
-  import Bill from '../Bill/Bill'
+
   export default {
     name: "Invoices",
     components:{
       Charge,
-      Bill,
       Invoice
     },
     data(){
@@ -147,12 +139,12 @@
           this.isA=false;
           this.isB=false;
           this.isC=true;
-          this.$router.push('/Bill')
+
         }
       },
       //查看详情
       rowLockClick(){
-        this.$router.push('/InvoiceDetail');
+        this.$router.push('/CostCenter/InvoiceDetail');
       },
       AccountCenter(){
         this.$router.push('/Account')
