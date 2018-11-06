@@ -1,65 +1,49 @@
 <template>
 
   <div class="Invoices">
-
-
-
     <div class="Invoices-body" style="background-color: #fff;">
-      <!--<div class="content-tabs">-->
-        <!--<ul>-->
-          <!--<li class="default-tab-style" :class="{'active-tab-router':isA,'default-tab-router':!isA}" @click="tabClick('A')"><a href="javascript:void(0);">充值记录</a></li>-->
-          <!--<li class="default-tab-style" :class="{'active-tab-router':isB,'default-tab-router':!isB}" @click="tabClick('B')"><a href="javascript:void(0);">发票管理</a></li>-->
-          <!--<li class="default-tab-style" :class="{'active-tab-router':isC,'default-tab-router':!isC}" @click="tabClick('C')"><a href="javascript:void(0);">对账单</a></li>-->
-        <!--</ul>-->
-
-      <!--</div>-->
       <div class="data-content" >
         <el-table
           :data="tableData"
           stripe
           style="width: 100%;text-align: center"
-          :row-style="tableRowStyle"
           :header-cell-style="tableHeaderColor">
           <el-table-column
-            prop="transactionName"
+            prop="invoiceId"
             label="发票号码"
-            width="250"
+            width="400"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="rechargeAmount"
+            prop="totalMoney"
             label="金额"
-            width="150"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="paymentMode"
+            prop="invoiceType"
             label="发票类型"
-            width="170"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="prepaidTime"
+            prop="invoiceTime"
             label="开票时间"
-            width="200"
             align="center">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="accountBalance"
             label="账户余额"
             width="200"
             align="center">
-          </el-table-column>
+          </el-table-column> -->
 
           <el-table-column
             prop="operation"
             label="操作"
             width="200"
-            style="text-align: center;">
-            <template slot-scope="scope" style="text-align: center;">
-
-              <el-button @click="rowLockClick()" type="primary" size="mini">查看详情</el-button>
-            </template>
+            align="center">
+           	<template slot-scope="scope">
+				<el-button @click="viewDetail(scope.row)" type="text" size="small">查看详情</el-button>
+			</template>
           </el-table-column>
         </el-table>
         <div class="block" style="padding-top: 50px;text-align: center;">
@@ -67,9 +51,9 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-size="3"
+            :page-size="10"
             layout="prev, pager, next, total, jumper"
-            :total="6">
+            :total="totalPageNumber">
           </el-pagination>
         </div>
       </div>
@@ -80,91 +64,75 @@
 </template>
 
 <script>
-  import Charge from '../Charge/Charge'
-  import Invoice from '../Invoice/Invoice'
-
-  export default {
+import server from '../../../../api/url.js'
+export default {
     name: "Invoices",
-    components:{
-      Charge,
-      Invoice
-    },
     data(){
-      return{
-        isA:false,
-        isB:true,
-        isC:false,
-        tableData: [
-          {
-            transactionName: '64646464646364643',
-            rechargeAmount: '5000',
-            paymentMode: '对公账户打款',
-            prepaidTime: '2017-1-12 09:20:09',
-            accountBalance: '5000',
-          },],
-        currentPage:1,
-      }
+      	return{
+			interfaceCode: '',
+			totalPageNumber: '',
+			tableData: [
+				{
+					transactionName: '64646464646364643',
+					rechargeAmount: '5000',
+					paymentMode: '对公账户打款',
+					prepaidTime: '2017-1-12 09:20:09',
+					accountBalance: '5000',
+				}
+			],
+			currentPage:1,
+		}
     },
     methods:{
-      tableRowStyle({ row, rowIndex }) {
-        return 'border: 1px solid red;'
-      },
-      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex === 0) {
-          return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333;'
-        }
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
-      rowLockClick(){
+		//修改table的th的样式
+		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+			if (rowIndex === 0) {
+				return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333;'
+			}
+		},
+		handleSizeChange(val) {
+			
+		},
+		handleCurrentChange(val) {
+			//点击页码切换列表
+			this.invoiceId(val,1)
+		},
+		//查看详情
+		viewDetail(scope){
+			console.log(scope)
+			this.$router.push({path:'/CostCenter/InvoiceDetail', query: {invoiceId: scope.invoiceId}});
+		},
+		//发票列表分页
+		getList(pageNum, pageSize) {
+			let param = {
+				pageNum: pageNum,
+				pageSize: pageSize
+			}
+			server.queryinvoiceList(param,'ZQc28fcd73754c70a62813354985d4a0').then(res => {
+				let content = res.data.content;
+				for(var i = 0; i < content.length; i++) {
+					if(content[i].invoiceType == 0) {
+						content[i].invoiceType = "电子发票"
+					} else if(content[i].invoiceType == 1) {
+						content[i].invoiceType = "纸质发票"
+					}
+				}
+				this.totalPageNumber = res.data.totalPageNumber;
+				this.tableData = res.data.content;
+			}).catch(error => {
 
-      },
-      tabClick(showTab){
-        let show=showTab;
-        if(show=='A'){
-          this.isA=true;
-          this.isB=false;
-          this.isC=false;
-          this.$router.push('/Charge')
-        }else if(show=='B'){
-          this.isA=false;
-          this.isB=true;
-          this.isC=false;
-          this.$router.push('/Invoice')
-        }else if(show=='C'){
-          this.isA=false;
-          this.isB=false;
-          this.isC=true;
-
-        }
-      },
-      //查看详情
-      rowLockClick(){
-        this.$router.push('/CostCenter/InvoiceDetail');
-      },
-      AccountCenter(){
-        this.$router.push('/Account')
-      },
-      CostCenter(){
-        this.$router.push('/CostCenter')
-      },
-    }
-  }
+			})
+		}
+	},
+	created() {
+		this.interfaceCode = sessionStorage.getItem("interfaceCode");
+		//第一次进入页面获取发票列表
+		this.getList(1,1);
+	}
+}
 </script>
 
 <style scoped>
-  @import "../../../../styles/Account/CostCenter/CostCenter.scss";
-  @import "../../../../common/styles/tabs-router.scss";
-  .data-content{
-   padding: 0 15px;
-    margin-top: 20px;
-    background-color: #fff;
-  }
-  .data-content .el-table__header-wrapper tr th {
-    text-align: center !important;
-  }
+
+
 </style>

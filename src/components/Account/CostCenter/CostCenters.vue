@@ -78,7 +78,9 @@
   #tab-first,#tab-second,#tab-third{
     font-size: 16px;
   }
-
+  .content-tabs-view {
+    padding: 20px;
+  }
   .content-tabs .el-tabs__item {
     height: 58px;
     line-height: 58px;

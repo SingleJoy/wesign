@@ -7,43 +7,43 @@
 			:row-style="tableRowStyle"
 			:header-cell-style="tableHeaderColor">
 			<el-table-column
-				prop="transactionName"
+				prop="rechargeId"
 				label="交易流水号"
 				width="300"
 				align="center">
 			</el-table-column>
 			<el-table-column
-				prop="rechargeAmount"
+				prop="rechargeMoney"
 				label="充值金额"
 				width="200"
 				align="center">
 			</el-table-column>
 			<el-table-column
-				prop="paymentMode"
+				prop="rechargeType"
 				label="支付方式"
 				align="center">
 			</el-table-column>
 			<el-table-column
-				prop="prepaidTime"
+				prop="rechargeTime"
 				label="充值时间"
 				width="200"
 				align="center">
 			</el-table-column>
-			<el-table-column
+			<!-- <el-table-column
 				prop="accountBalance"
 				label="账户余额"
 				width="200"
 				align="center">
-			</el-table-column>
+			</el-table-column> -->
 		</el-table>
 		<div class="block">
 			<el-pagination
 			@size-change="handleSizeChange"
 			@current-change="handleCurrentChange"
-			:current-page="currentPage"
-			:page-size="3"
+			:current-page="1"
+			:page-size="10"
 			layout="prev, pager, next, total, jumper"
-			:total="6">
+			:total="totalPageNumber">
 			</el-pagination>
 		</div>
 	</div>
@@ -56,6 +56,7 @@ export default {
 	data() {
         return {
 			interfaceCode: '',
+			totalPageNumber: '',
           	tableData: [
 				{
 					transactionName: '64646464646364643',
@@ -86,7 +87,6 @@ export default {
 					accountBalance: '5000',
 				},
 			],
-			currentPage: 4
 		}
 	},
 	methods: {
@@ -99,11 +99,10 @@ export default {
 			}
 		},
 		handleSizeChange(val) {
-			console.log(`每页 ${val} 条`);
+			
 		},
 		handleCurrentChange(val) {
-			this.getList(val, 1)
-			console.log(`当前页: ${val}`);
+			this.getList(val, 1);
 		},
 		getList(pageNum, pageSize) {
 			let param = {
@@ -111,7 +110,14 @@ export default {
 				pageSize: pageSize
 			}
 			server.rechargeRecord(param, this.interfaceCode).then(res => {
-				console.log(res);
+				let contents = res.data.contents;
+				for(var i = 0; i < contents.length; i++) {
+					if(contents[i].rechargeType == 0) {
+						contents[i].rechargeType = "对公打款"
+					}
+				}
+				this.totalPageNumber = res.data.totalPageNumber;
+				this.tableData = res.data.contents;
 			}).then(error => {
 
 			})
@@ -119,7 +125,7 @@ export default {
 	},
 	created() {
 		this.interfaceCode = sessionStorage.getItem("interfaceCode");
-		//this.getList(1,1);
+		this.getList(1,1);
 	}
 }
 </script>

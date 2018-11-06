@@ -223,25 +223,46 @@ const service = {
   //个人账户 -> 费用中心 -> 充值记录
   rechargeRecord(param, interfaceCode) {
     return request({
-      url: "/api/v1.6/tenant/" + interfaceCode + "/getWesignBillDetail",
+      url: "/api/v1.6/tenant/" + interfaceCode + "/getRechargRecordPage",
       method: "get",
       params: param
     });
   },
   //个人账户->费用中心->查询对账单列表
   queryStatementList(param, interfaceCode) {
-      return request({
-          url: "/api/v1.6/tenant/"+interfaceCode+"/getAllWesignBill",
-          method: "get",
-          params: param
-      });   
+    return request({
+      url: "/api/v1.6/tenant/" + interfaceCode + "/getAllWesignBill",
+      method: "get",
+      params: param
+    });
   },
   //个人账户 -> 费用中心 -> 查询对账单详情
   queryStatementDetail(interfaceCode, billTitle) {
-      return request({
-          url: "/api/v1.6/tenant/" + interfaceCode + "/" + billTitle +"/getWesignBillDetail",
-          method: "get",
-      });
+    return request({
+      url:
+        "/api/v1.6/tenant/" +
+        interfaceCode +
+        "/" +
+        billTitle +
+        "/getWesignBillDetail",
+      method: "get"
+    });
   },
+  //个人账户 -> 费用中心 -> 查询发票列表
+  queryinvoiceList(param,interfaceCode) {
+		return request({
+			url: "/api/v1.6/tenant/" + interfaceCode + "/getInvoiceList",
+			method: "get",
+			params: param
+		});
+	},
+	queryinvoiceDetail(param,interfaceCode) {
+		return request({
+			url: "/api/v1.6/tenant/" + interfaceCode + "/getInvoice",
+			method: "get",
+			params: param
+		});
+  	}
+  
 };
 export default service;
