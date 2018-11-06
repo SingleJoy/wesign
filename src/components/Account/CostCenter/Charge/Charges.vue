@@ -55,6 +55,7 @@ export default {
 	name: "charges",
 	data() {
         return {
+			interfaceCode: '',
           	tableData: [
 				{
 					transactionName: '64646464646364643',
@@ -101,14 +102,24 @@ export default {
 			console.log(`每页 ${val} 条`);
 		},
 		handleCurrentChange(val) {
+			this.getList(val, 1)
 			console.log(`当前页: ${val}`);
+		},
+		getList(pageNum, pageSize) {
+			let param = {
+				pageNum: pageNum,
+				pageSize: pageSize
+			}
+			server.rechargeRecord(param, this.interfaceCode).then(res => {
+				console.log(res);
+			}).then(error => {
+
+			})
 		}
 	},
 	created() {
-		let interfaceCode = 
-		server.queryStatement().then(res => {
-			console.log(res)
-		})
+		this.interfaceCode = sessionStorage.getItem("interfaceCode");
+		//this.getList(1,1);
 	}
 }
 </script>

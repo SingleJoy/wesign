@@ -1,10 +1,11 @@
 <template>
     <div class="BillDetails">
         <div class="BillDetails-tabs">
+                <div class="download" @click="download()">下载</div>
                 <div class="account-title">
-                    <div class="account-title-left">****有限公司第四季度对账单</div>
+                    <div class="account-title-left">{{getTitle}}</div>
                     <div class="account-title-right">
-                        <div class="date">日期：2018-10-09</div>
+                        <div class="date">日期：{{createTime}}</div>
                         <div class="unit">单位/份</div>
                     </div>
                 </div>
@@ -16,33 +17,33 @@
                     :row-style="tableRowStyle">
                     <el-table-column
                         fixed
-                        prop="signScene"
+                        prop="signType"
                         label="签署场景"
                         row-class-name="changeTr"
                         align="center">
                     </el-table-column>
                     <el-table-column
-                        prop="monthAmount"
+                        prop="signNum"
                         label="本月使用量"
                         align="center">
                     </el-table-column>
                     <el-table-column
-                        prop="monthRecharge"
+                        prop="rechargeNum"
                         label="本月充值量"
                         align="center">
                     </el-table-column>
                     <el-table-column
-                        prop="cumulativeUsage"
+                        prop="totalSignNum"
                         label="累计使用用量"
                         align="center">
                     </el-table-column>
                     <el-table-column
-                        prop="cumulativeRechargeAmount"
+                        prop="totalRechargeNum"
                         label="累计充值用量"
                         align="center">
                     </el-table-column>
                     <el-table-column
-                        prop="remainingAmount"
+                        prop="contractNum"
                         label="剩余用量"
                         align="center"
                         width="200">
@@ -54,28 +55,16 @@
 <script>
 import Charge from '../Charge/Charge'
 import Invoice from '../Invoice/Invoice'
+import server from '../../../../api/url.js'
 export default {
     name: 'BillDetails',
     data() {
         return{
-            activeName:'third',
+            interfaceCode: '',
+            getTitle: '',
+            createTime: '',
             tableData: [
-                {
-                    signScene: '对企业签署',
-                    monthAmount: '0',
-                    monthRecharge: '0',
-                    cumulativeUsage: '2',
-                    cumulativeRechargeAmount: '3',
-                    remainingAmount: '2',
-                },
-                {
-                    signScene: '对个人签署',
-                    monthAmount: '3',
-                    monthRecharge: '0',
-                    cumulativeUsage: '3',
-                    cumulativeRechargeAmount: '4',
-                    remainingAmount: '2',
-                },
+               
             ]
         }
     },
@@ -101,6 +90,33 @@ export default {
         tableRowStyle({ row, column, rowIndex, columnIndex }) {
             return 'height: 84px;color: #666666;font-size: 18px;'
         },
+        download() {
+            const billTitle = this.$route.query.billTitle
+            var url = "/api/v1.6/tenant/" + this.interfaceCode + "/" + billTitle + "/downloadWesignBill";
+            var download = document.createElement('a');
+            document.body.appendChild(download)
+            download.setAttribute('href',url);
+            download.click()
+        }
+    },
+    created() {
+        const billTitle = this.$route.query.billTitle
+        this.interfaceCode = sessionStorage.getItem('interfaceCode');
+        server.queryStatementDetail(this.interfaceCode, billTitle).then(res => {
+            const dataList = res.data.dataList;
+            for(let i = 0; i < dataList.length; i++) {
+                if(dataList[i].signType == 0) {
+                    dataList[i].signType = "对企业签署";
+                } else if(dataList[i].signType == 1){
+                    dataList[i].signType = "对个人签署";
+                }
+            }
+            this.getTitle = dataList[0].companyName + dataList[0].billTitle;
+            this.createTime = dataList[0].createTime;
+            this.tableData = dataList;
+        }).then(error => {
+
+        }) 
     }
 }
 </script>
@@ -136,6 +152,13 @@ export default {
 }
 .BillDetails{
     .BillDetails-tabs{
+        margin-bottom: 20px;
+        .download{
+            text-align: right;
+            margin-bottom: 10px;
+            color: #4091fb;
+            cursor: pointer;
+        }
         .account-title{
             height: 84px;
             display: flex;

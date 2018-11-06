@@ -213,13 +213,35 @@ const service = {
       params: param
     });
   },
-  //个人账户->费用中心->查询对账单
-  queryStatement(interfaceCode,param) {
+  queryStatementList(param, interfaceCode) {
     return request({
-      url: "/api/v1.6/tenant/{interfaceCode}/getAllWesignBill",
+      url: "/api/v1.6/tenant/" + interfaceCode + "/getAllWesignBill",
       method: "get",
       params: param
     });
-  }
+  },
+  //个人账户 -> 费用中心 -> 充值记录
+  rechargeRecord(param, interfaceCode) {
+    return request({
+      url: "/api/v1.6/tenant/" + interfaceCode + "/getWesignBillDetail",
+      method: "get",
+      params: param
+    });
+  },
+  //个人账户->费用中心->查询对账单列表
+  queryStatementList(param, interfaceCode) {
+      return request({
+          url: "/api/v1.6/tenant/"+interfaceCode+"/getAllWesignBill",
+          method: "get",
+          params: param
+      });   
+  },
+  //个人账户 -> 费用中心 -> 查询对账单详情
+  queryStatementDetail(interfaceCode, billTitle) {
+      return request({
+          url: "/api/v1.6/tenant/" + interfaceCode + "/" + billTitle +"/getWesignBillDetail",
+          method: "get",
+      });
+  },
 };
 export default service;

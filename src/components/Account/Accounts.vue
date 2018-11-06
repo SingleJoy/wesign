@@ -45,6 +45,11 @@
                   <span>被授权人姓名:</span>
                   <b>{{authName}}</b>
                 </div>
+                <div class="card-line">合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</div>
+                <div class="card-line">
+                  <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同&nbsp;100&nbsp;&nbsp;|&nbsp;</span>
+                  <span>对个人合同&nbsp;100</span>
+                </div>
                 <div class="card-line" v-if="accountLevel=='2'">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
                   <b>{{enterpriseName}}</b>
@@ -494,7 +499,7 @@
         this.$router.push('/Account')
       },
       CostCenter(){
-        this.$router.push('/CostCenter')
+        this.$router.push('/CostCenter/Charge')
       },
       closeDialog (formName) {
         this.$refs[formName].resetFields()

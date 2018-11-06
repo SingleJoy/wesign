@@ -7,7 +7,7 @@
 			:row-style="tableRowStyle"
 			:header-cell-style="tableHeaderColor">
 			<el-table-column
-				prop="accountTitle"
+				prop="billTitle"
 				label="对账单标题"
 				width="400"
 				align="center">
@@ -32,40 +32,24 @@
 			@size-change="handleSizeChange"
 			@current-change="handleCurrentChange"
 			:current-page="currentPage"	
-			:page-size="3"
+			:page-size="1"
 			layout="prev, pager, next, total, jumper"
-			:total="6">
+			:total="totalPageNumber">
 			</el-pagination>
 		</div>
     </div>
 </template>
 
 <script>
+import server from '../../../../api/url.js'
 export default {
 	name: "BillLists",
 	data() {
         return {
+			interfaceCode: '',
+			totalPageNumber: '',
           	tableData: [
-				{
-					accountTitle: '2018-10月度账单',
-					createTime: '2017-1-12',
-				},
-				{
-					accountTitle: '2018-10月度账单',
-					createTime: '2017-1-12',
-				},
-				{
-					accountTitle: '2018-10月度账单',
-					createTime: '2017-1-12',
-				},
-				{
-					accountTitle: '2018-10月度账单',
-					createTime: '2017-1-12',
-				},
-				{
-					accountTitle: '2018-10月度账单',
-					createTime: '2017-1-12',
-				},
+
 			],
 			currentPage: 4
 		}
@@ -83,11 +67,27 @@ export default {
 			console.log(`每页 ${val} 条`);
 		},
 		handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			this.getList(val,1);
 		},
-		viewDetail() {
-			this.$router.push('/CostCenter/BillDetail');
+		viewDetail(scope) {
+			this.$router.push({path:'/CostCenter/BillDetail', query: {billTitle: scope.billTitle}});
+		},
+		getList(pageNum, pageSize) {
+			let params = {
+				pageNum: pageNum,
+				pageSize: pageSize
+			}
+			server.queryStatementList(params, this.interfaceCode).then(res => {
+				this.tableData = res.data.contents;
+				this.totalPageNumber = res.data.totalPageNumber
+			}).then(error => {
+				
+			})
 		}
+	},
+	created() {
+		this.interfaceCode = sessionStorage.getItem("interfaceCode");
+		this.getList(1,1)
 	}
 }
 </script>
