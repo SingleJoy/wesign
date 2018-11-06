@@ -57,9 +57,12 @@ import NoReal from '../components/Account/NoReal/NoReal.vue'                //�
  // 费用中心
 import CostCenter from '../components/Account/CostCenter/CostCenter.vue'                //我的账户->账户中心
 import Charge from '../components/Account/CostCenter/Charge/Charge.vue'                //我的账户->账户中心->充值记录
+
 import BillList from "../components/Account/CostCenter/Bill/BillList.vue";                //我的账户->账户中心->账单列表
 import BillDetail from "../components/Account/CostCenter/Bill/BillDetail.vue";                //我的账户->账户中心->账单列表详情
 import Invoice from '../components/Account/CostCenter/Invoice/Invoices.vue'                //我的账户->账户中心->发票
+import InvoiceDetail from '../components/Account/CostCenter/Invoice/InvoiceDetail.vue'                //我的账户->账户中心->发票
+
 
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
@@ -662,48 +665,23 @@ export const router = new Router({
         {
           component: Charge,
           path: "/CostCenter/Charge"
-        }
+        },
+        {
+          component: Invoice,
+          path: "/CostCenter/Invoice"
+        },
+        {
+          component: InvoiceDetail,
+          path: "/CostCenter/InvoiceDetail"
+        },
       ],
       meta: {
         auth: true
       }
     },
-    // 账户中心->账单管理-账单列表
-    // {
-    //   path: '/BillList',
-    //   name: 'BillList',
-    //   component: BillList,
-    //   meta: {
-    //     auth: true
-    //   }
-    // },
-    // 账户中心->账单管理-账单列表详情
-    {
-      path: '/BillDetail',
-      name: 'BillDetail',
-      component: BillDetail,
-      meta: {
-        auth: true
-      }
-    },
-    // 账户中心->充值记录
-    // {
-    //   path: '/Charge',
-    //   name: 'Charge',
-    //   component: Charge,
-    //   meta: {
-    //     auth: true
-    //   }
-    // },
-    // 账户中心->发票管理
-    {
-      path: '/Invoice',
-      name: 'Invoice',
-      component: Invoice,
-      meta: {
-        auth: true
-      }
-    },
+
+
+
 
     //微签1.6 体验demo
     {

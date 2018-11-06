@@ -25,8 +25,8 @@
       return{
 
       }
+    },
 
-    }
   }
 
 </script>

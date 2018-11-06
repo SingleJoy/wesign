@@ -3,7 +3,7 @@
     <div class='contractTitle' style="text-align: left;">
 		<input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
 		<el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
-      
+
 			<el-option
 				v-for="item in options"
 				:key="item.accountCode"
@@ -85,8 +85,7 @@
           <el-table-column
         prop="operation"
         label="操作"
-        width="190"
-        >
+        width="190">
           <template slot-scope="scope">
           <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
           <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
@@ -110,7 +109,7 @@
       </el-pagination>
     </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -378,7 +377,7 @@ export default {
         'accountCode':this.accountLevel==2?this.accountCode:''
     };
     this.getData (requestVo)
-  
+
   }
 }
 </script>
