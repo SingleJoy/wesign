@@ -94,7 +94,6 @@ export default {
 
 <style lang="stylus" scoped>
 .BillLists
-	margin 20px auto
 	background-color #fff
 	.block
 		text-align center

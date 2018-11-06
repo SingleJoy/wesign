@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import server from '../../../../api/url.js'
 export default {
 	name: "charges",
 	data() {
@@ -102,13 +103,18 @@ export default {
 		handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);
 		}
+	},
+	created() {
+		let interfaceCode = 
+		server.queryStatement().then(res => {
+			console.log(res)
+		})
 	}
 }
 </script>
 
 <style lang="stylus" scoped>
 .charges
-	margin 20px auto
 	background-color #fff
 	.block
 		text-align center
