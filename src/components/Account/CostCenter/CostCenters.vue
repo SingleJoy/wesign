@@ -59,7 +59,6 @@ export default {
 .el-tabs__item, .el-tabs__item.is-active {
     height: 58px;
     line-height: 58px;
-    width: auto;
 }
 </style>
 
