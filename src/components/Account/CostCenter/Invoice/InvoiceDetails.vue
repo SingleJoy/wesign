@@ -110,14 +110,17 @@ export default {
 		}
 	},
 	methods:{
+        //修改table样式
 		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
 			if (rowIndex === 0) {
 				return 'color: #333333;height: 70px; font-size: 18px;'
             }
-		},
+        },
+        //修改tr样式
 		tableRowStyle({ row, column, rowIndex, columnIndex }) {
             return 'height: 70px;color: #666666;font-size: 18px;'
         },
+        //下载
 		download() {
             let download = document.createElement('a');
             document.body.appendChild(download)
@@ -126,19 +129,27 @@ export default {
         }
 	},
 	created() {
-		const invoiceId = this.$route.query.invoiceId;
+        //获取发票invoiceId
+        const invoiceId = this.$route.query.invoiceId;
+        //获取interfaceCode
 		const interfaceCode = sessionStorage.getItem("interfaceCode");
+		const param = {
+			invoiceId: invoiceId
+        }
+        //查询发票详情
 		server.queryinvoiceDetail({invoiceId:'000000000001'}, interfaceCode).then(res => {
 			let rechargeList = res.data.rechargeList;
 			for(var i = 0; i < rechargeList.length; i++) {
 				if(rechargeList[i].rechargeType == 0) {
 					rechargeList[i].rechargeType = "对公打款";
 				}
-			}
-			this.downloadUrl = res.data.pdfUrl;
-			this.invoiceList = res.data;
-			this.tableData = rechargeList
-			console.log(this.invoiceList)
+            }
+            //pdf下载地址获取
+            this.downloadUrl = res.data.pdfUrl;
+            //发票详情赋值
+            this.invoiceList = res.data;
+            //发票信息赋值
+			this.tableData = rechargeList;
 		})
 	}
 }
@@ -165,7 +176,6 @@ export default {
     border-bottom: 1px solid #4091fb;
 }
 </style>
-
 <style lang="scss" scoped>
 .InvoiceDetails{
     .invoice-info{

@@ -1,34 +1,17 @@
 <template>
 	<div class="InvoiceDetail">
-
-    <InvoiceDetails></InvoiceDetails>
-
-  </div>
+        <InvoiceDetails></InvoiceDetails>
+    </div>
 </template>
-
 <script>
-
-  import InvoiceDetails from './InvoiceDetails.vue'
-
-	export default {
-		name: "InvoiceDetail",
+import InvoiceDetails from './InvoiceDetails.vue'
+export default {
+    name: "InvoiceDetail",
     components:{
-
-      InvoiceDetails,
-
+        InvoiceDetails,
     },
-
-
-	}
+}
 </script>
-
 <style lang="scss" scoped>
-  @import "../../../../styles/Account/CostCenter/CostCenter.scss";
-
-</style>
-
-<style >
-
-
-
+@import "../../../../styles/Account/CostCenter/CostCenter.scss";
 </style>

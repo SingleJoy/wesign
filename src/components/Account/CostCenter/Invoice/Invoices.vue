@@ -1,68 +1,63 @@
 <template>
-
   <div class="Invoices">
     <div class="Invoices-body" style="background-color: #fff;">
       <div class="data-content" >
-        <el-table
-          :data="tableData"
-          stripe
-          style="width: 100%;text-align: center"
-          :header-cell-style="tableHeaderColor">
-          <el-table-column
-            prop="invoiceId"
-            label="发票号码"
-            width="400"
-            align="center">
-          </el-table-column>
-          <el-table-column
-            prop="totalMoney"
-            label="金额"
-            align="center">
-          </el-table-column>
-          <el-table-column
-            prop="invoiceType"
-            label="发票类型"
-            align="center">
-          </el-table-column>
-          <el-table-column
-            prop="invoiceTime"
-            label="开票时间"
-            align="center">
-          </el-table-column>
-          <!-- <el-table-column
-            prop="accountBalance"
-            label="账户余额"
-            width="200"
-            align="center">
-          </el-table-column> -->
-
-          <el-table-column
-            prop="operation"
-            label="操作"
-            width="200"
-            align="center">
-           	<template slot-scope="scope">
-				<el-button @click="viewDetail(scope.row)" type="text" size="small">查看详情</el-button>
-			</template>
-          </el-table-column>
-        </el-table>
-        <div class="block" style="padding-top: 50px;text-align: center;">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="1"
-            layout="prev, pager, next, total, jumper"
-            :total="totalPageNumber">
-          </el-pagination>
+            <el-table
+                :data="tableData"
+                stripe
+                style="width: 100%;text-align: center"
+                :header-cell-style="tableHeaderColor">
+                <el-table-column
+                    prop="invoiceId"
+                    label="发票号码"
+                    width="400"
+                    align="center">
+                </el-table-column>
+                <el-table-column
+                    prop="totalMoney"
+                    label="金额"
+                    align="center">
+                </el-table-column>
+                <el-table-column
+                    prop="invoiceType"
+                    label="发票类型"
+                    align="center">
+                </el-table-column>
+                <el-table-column
+                    prop="invoiceTime"
+                    label="开票时间"
+                    align="center">
+                </el-table-column>
+                <!-- <el-table-column
+                    prop="accountBalance"
+                    label="账户余额"
+                    width="200"
+                    align="center">
+                </el-table-column> -->
+                <el-table-column
+                    prop="operation"
+                    label="操作"
+                    width="200"
+                    align="center">
+                    <template slot-scope="scope">
+                        <el-button @click="viewDetail(scope.row)" type="text" size="small">查看详情</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="block" style="text-align: center;margin: 60px;">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-size="1"
+                    layout="prev, pager, next, total, jumper"
+                    :total="totalPageNumber">
+                </el-pagination>
+            </div>
         </div>
-      </div>
-
     </div>
-
   </div>
 </template>
-
 <script>
 import server from '../../../../api/url.js'
 export default {
@@ -92,9 +87,9 @@ export default {
 		},
 		handleSizeChange(val) {
 			
-		},
+        },
+        //点击页码切换列表
 		handleCurrentChange(val) {
-			//点击页码切换列表
 			this.getList(val,1)
 		},
 		//查看详情

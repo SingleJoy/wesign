@@ -48,7 +48,6 @@
 		</div>
 	</div>
 </template>
-
 <script>
 import server from '../../../../api/url.js'
 export default {
@@ -90,9 +89,11 @@ export default {
 		}
 	},
 	methods: {
+        //修改table样式
 		tableRowStyle({ row, rowIndex }) {
 			return 'border: 1px solid red;'
-		},
+        },
+        //修改th样式
 		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
 			if (rowIndex === 0) {
 				return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333333;'
@@ -100,10 +101,12 @@ export default {
 		},
 		handleSizeChange(val) {
 			
-		},
+        },
+        //点击切换列表数据
 		handleCurrentChange(val) {
 			this.getList(val, 1);
-		},
+        },
+        //获取列表数据
 		getList(pageNum, pageSize) {
 			let param = {
 				pageNum: pageNum,
@@ -124,7 +127,9 @@ export default {
 		}
 	},
 	created() {
-		this.interfaceCode = sessionStorage.getItem("interfaceCode");
+        //获取interfaceCode
+        this.interfaceCode = sessionStorage.getItem("interfaceCode");
+        //第一次进去页面获取列表
 		this.getList(1,1);
 	}
 }

@@ -1,30 +1,25 @@
 <template>
 	<div class="Invoice">
-     <Top></Top>
-     <Invoices></Invoices>
-    <Bottom></Bottom>
+        <Top></Top>
+        <Invoices></Invoices>
+        <Bottom></Bottom>
 	</div>
 </template>
-
-<style>
-
-</style>
-
 <script>
-  import Top from '@/common/components/Top.vue'
-  import Bottom from '@/common/components/Bottom.vue'
-  import Invoices from "./Invoices.vue"
-	export default {
-	  name:'Invoice',
+import Top from '@/common/components/Top.vue'
+import Bottom from '@/common/components/Bottom.vue'
+import Invoices from "./Invoices.vue"
+export default {
+    name:'Invoice',
     components:{
-      Top,
-      Invoices,
-      Bottom
+        Top,
+        Invoices,
+        Bottom
     },
-		data() {
-			return {
+    data() {
+        return {
 
-			}
-		}
-	}
+        }
+    }
+}
 </script>
