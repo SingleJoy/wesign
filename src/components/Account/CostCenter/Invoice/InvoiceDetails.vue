@@ -196,7 +196,7 @@ export default {
 					position: absolute;
 					width: 454px;
 					height: 18px;
-					background-color: red;
+					// background-color: red;
 					left: 188px;
 					top: 135px;
 					word-wrap: break-word; 
