@@ -55,12 +55,12 @@ export default {
 <style lang="scss" scoped>
 @import "../../../styles/Account/CostCenter/CostCenter.scss";
 </style>
-<style lang="scss" scoped>
-.content-tabs-view {
-    padding: 20px;
-}
-.content-tabs .el-tabs__item {
+<style lang="scss">
+.el-tabs__item, .el-tabs__item.is-active {
     height: 58px;
     line-height: 58px;
+    width: auto;
 }
 </style>
+
+

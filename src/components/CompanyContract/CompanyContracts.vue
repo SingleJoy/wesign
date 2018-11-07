@@ -78,24 +78,25 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .contract-type{
-	.el-tabs__header{
-		background: #fff;
-		margin: 0 auto;
-	}
-	.el-tabs__nav-scroll{
-		line-height: 58px;
-		padding:0 25px;
-	}
-	.el-tabs__item{
-		height:58px;
-		line-height: 58px;
-	}
-	.el-tabs__item.is-active {
-		color: #4091fb;
-		border-bottom: 2px solid #4091fb;
-	}
-
+  .CompanyContracts {
+    .contract-type{
+        .el-tabs__header{
+            background: #fff;
+            margin: 0 auto;
+        }
+        .el-tabs__nav-scroll{
+            line-height: 58px;
+            padding:0 25px;
+        }
+        .el-tabs__item{
+            height:58px;
+            line-height: 58px;
+        }
+        .el-tabs__item.is-active {
+            color: #4091fb;
+            border-bottom: 2px solid #4091fb;
+        }
+    }
 }
   .optPower{
     width: 630px;

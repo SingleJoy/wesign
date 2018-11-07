@@ -137,7 +137,7 @@ export default {
 			invoiceId: invoiceId
         }
         //查询发票详情
-		server.queryinvoiceDetail({invoiceId:'000000000001'}, interfaceCode).then(res => {
+		server.queryinvoiceDetail(param, interfaceCode).then(res => {
 			let rechargeList = res.data.rechargeList;
 			for(var i = 0; i < rechargeList.length; i++) {
 				if(rechargeList[i].rechargeType == 0) {

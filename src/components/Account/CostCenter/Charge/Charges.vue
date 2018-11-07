@@ -41,7 +41,7 @@
 			@size-change="handleSizeChange"
 			@current-change="handleCurrentChange"
 			:current-page="1"
-			:page-size="1"
+			:page-size="10"
 			layout="prev, pager, next, total, jumper"
 			:total="totalPageNumber">
 			</el-pagination>
@@ -104,7 +104,7 @@ export default {
         },
         //点击切换列表数据
 		handleCurrentChange(val) {
-			this.getList(val, 1);
+			this.getList(val, 10);
         },
         //获取列表数据
 		getList(pageNum, pageSize) {
@@ -130,7 +130,7 @@ export default {
         //获取interfaceCode
         this.interfaceCode = sessionStorage.getItem("interfaceCode");
         //第一次进去页面获取列表
-		this.getList(1,1);
+		this.getList(1,10);
 	}
 }
 </script>

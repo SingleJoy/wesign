@@ -49,7 +49,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
-                    :page-size="1"
+                    :page-size="10"
                     layout="prev, pager, next, total, jumper"
                     :total="totalPageNumber">
                 </el-pagination>
@@ -90,7 +90,7 @@ export default {
         },
         //点击页码切换列表
 		handleCurrentChange(val) {
-			this.getList(val,1)
+			this.getList(val,10)
 		},
 		//查看详情
 		viewDetail(scope){
@@ -102,7 +102,7 @@ export default {
 				pageNum: pageNum,
 				pageSize: pageSize
 			}
-			server.queryinvoiceList(param,'ZQc28fcd73754c70a62813354985d4a0').then(res => {
+			server.queryinvoiceList(param,this.interfaceCode).then(res => {
 				let content = res.data.content;
 				for(var i = 0; i < content.length; i++) {
 					if(content[i].invoiceType == 0) {
@@ -121,7 +121,7 @@ export default {
 	created() {
 		this.interfaceCode = sessionStorage.getItem("interfaceCode");
 		//第一次进入页面获取发票列表
-		this.getList(1,1);
+		this.getList(1,10);
 	}
 }
 </script>
