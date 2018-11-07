@@ -47,7 +47,7 @@ export default {
 	data() {
         return {
 			interfaceCode: '',
-			totalPageNumber: '',
+			totalPageNumber: 0,
           	tableData: [
 
 			],

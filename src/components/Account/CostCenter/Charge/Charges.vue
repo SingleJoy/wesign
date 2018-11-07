@@ -41,7 +41,7 @@
 			@size-change="handleSizeChange"
 			@current-change="handleCurrentChange"
 			:current-page="1"
-			:page-size="10"
+			:page-size="1"
 			layout="prev, pager, next, total, jumper"
 			:total="totalPageNumber">
 			</el-pagination>
@@ -56,7 +56,7 @@ export default {
 	data() {
         return {
 			interfaceCode: '',
-			totalPageNumber: '',
+			totalPageNumber: 0,
           	tableData: [
 				{
 					transactionName: '64646464646364643',

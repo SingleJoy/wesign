@@ -25,10 +25,10 @@
 					<div class="shop-tax-paid buy-common shop-common">taxMoney</div>
 					<div class="shop-total-big buy-common">五千两百元</div>
 					<div class="shop-total-small buy-common">{{invoiceList.totalMoney}}</div>
-					<div class="market-name buy-common market-common">北京众签科技</div>
-					<div class="market-identify buy-common market-common">546465456456465465464</div>
-					<div class="market-location buy-common market-common">北京市朝阳区，15742336554</div>
-					<div class="market-bank buy-common market-common">中国银行，5213487654654654654</div>
+					<div class="market-name buy-common market-common">北京众签科技有限公司</div>
+					<div class="market-identify buy-common market-common">91110108085515424L</div>
+					<div class="market-location buy-common market-common">北京市海淀区海淀大街3号1幢400-0000-6923</div>
+					<div class="market-bank buy-common market-common">中国工商银行股份有限公司北京成府路支行0200095709200070521</div>
 					<!-- <div>备注备注</div>
 					<div>收款人</div>
 					<div>复核</div> -->
@@ -199,6 +199,8 @@ export default {
 					background-color: red;
 					left: 188px;
 					top: 135px;
+					word-wrap: break-word; 
+					word-break: break-all; 
 				}
 				.invoice-commom {
 					width: 210px;

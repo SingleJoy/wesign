@@ -47,8 +47,8 @@
                 </div>
                 <div class="card-line">合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</div>
                 <div class="card-line">
-                  <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同&nbsp;100&nbsp;&nbsp;|&nbsp;</span>
-                  <span>对个人合同&nbsp;100</span>
+                  <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同&nbsp;{{b2bNum}}&nbsp;&nbsp;|&nbsp;</span>
+                  <span>对个人合同&nbsp;{{b2cNum}}</span>
                 </div>
                 <div class="card-line" v-if="accountLevel=='2'">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
@@ -445,6 +445,8 @@
         toEnterprise:null,  //根据进入页面时请求到的verfiyMoneyNum 判断是否再跳回注册页面
         officeSeal:true,
         officeSealUrl:'',
+        b2bNum: '',
+        b2cNum: '',
 
         auditCode:'',
         auditOpinion:'',
@@ -877,6 +879,8 @@
           this.authName=res.data.data.authorizerName;
           this.enterpriseName=res.data.data.enterpriseName;
           sessionStorage.setItem("authName",this.authName);
+          this.b2bNum = res.data.data.b2bNum;
+          this.b2cNum = res.data.data.b2cNum;
         }
       })
 

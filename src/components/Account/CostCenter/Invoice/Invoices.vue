@@ -51,7 +51,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-size="10"
+            :page-size="1"
             layout="prev, pager, next, total, jumper"
             :total="totalPageNumber">
           </el-pagination>
@@ -70,7 +70,7 @@ export default {
     data(){
       	return{
 			interfaceCode: '',
-			totalPageNumber: '',
+			totalPageNumber: 0,
 			tableData: [
 				{
 					transactionName: '64646464646364643',
@@ -95,7 +95,7 @@ export default {
 		},
 		handleCurrentChange(val) {
 			//点击页码切换列表
-			this.invoiceId(val,1)
+			this.getList(val,1)
 		},
 		//查看详情
 		viewDetail(scope){
