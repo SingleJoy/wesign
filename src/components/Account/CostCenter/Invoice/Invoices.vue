@@ -94,7 +94,6 @@ export default {
 		},
 		//查看详情
 		viewDetail(scope){
-			console.log(scope)
 			this.$router.push({path:'/CostCenter/InvoiceDetail', query: {invoiceId: scope.invoiceId}});
 		},
 		//发票列表分页
