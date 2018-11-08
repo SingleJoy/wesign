@@ -102,7 +102,7 @@ export default {
 				pageNum: pageNum,
 				pageSize: pageSize
 			}
-			server.queryinvoiceList(param,this.interfaceCode).then(res => {
+			server.queryinvoiceList(param,'ZQ42bac784b2e445b79555cda94b490ca5').then(res => {
 				let content = res.data.content;
 				for(var i = 0; i < content.length; i++) {
 					if(content[i].invoiceType == 0) {

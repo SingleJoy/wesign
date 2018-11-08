@@ -60,6 +60,15 @@ export default {
     height: 58px;
     line-height: 58px;
 }
+.el-tabs__header{
+    background: #fff;
+    // margin: 0 auto;
+}
+.el-tabs__item.is-active {
+    text-align: center;
+    color: #4091fb;
+    border-bottom: 2px solid #4091fb;
+}
 </style>
 
 
