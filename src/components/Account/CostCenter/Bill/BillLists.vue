@@ -34,7 +34,7 @@
 			:current-page="currentPage"	
 			:page-size="1"
 			layout="prev, pager, next, total, jumper"
-			:total="totalPageNumber">
+			:total="totalItemNumber">
 			</el-pagination>
 		</div>
     </div>
@@ -47,7 +47,7 @@ export default {
 	data() {
         return {
 			interfaceCode: '',
-			totalPageNumber: 0,
+			totalItemNumber: 0,
           	tableData: [
 
 			],
@@ -79,7 +79,7 @@ export default {
 			}
 			server.queryStatementList(params, this.interfaceCode).then(res => {
 				this.tableData = res.data.contents;
-				this.totalPageNumber = res.data.totalPageNumber
+				this.totalItemNumber = res.data.totalItemNumber
 			}).then(error => {
 				
 			})

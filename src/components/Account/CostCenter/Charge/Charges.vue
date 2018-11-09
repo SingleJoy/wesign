@@ -43,7 +43,7 @@
 			:current-page="1"
 			:page-size="10"
 			layout="prev, pager, next, total, jumper"
-			:total="totalPageNumber">
+			:total="totalItemNumber">
 			</el-pagination>
 		</div>
 	</div>
@@ -55,7 +55,7 @@ export default {
 	data() {
         return {
 			interfaceCode: '',
-			totalPageNumber: 0,
+			totalItemNumber: 0,
           	tableData: [
 				{
 					transactionName: '64646464646364643',
@@ -119,7 +119,7 @@ export default {
 						contents[i].rechargeType = "对公打款"
 					}
 				}
-				this.totalPageNumber = res.data.totalPageNumber;
+				this.totalItemNumber = res.data.totalItemNumber;
 				this.tableData = res.data.contents;
 			}).then(error => {
 
