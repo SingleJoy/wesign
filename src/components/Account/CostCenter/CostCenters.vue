@@ -69,6 +69,14 @@ export default {
     color: #4091fb;
     border-bottom: 2px solid #4091fb;
 }
+.content-tabs{
+    .el-tabs--bottom .el-tabs__item.is-bottom:nth-child(2), .el-tabs--bottom .el-tabs__item.is-top:nth-child(2), .el-tabs--top .el-tabs__item.is-bottom:nth-child(2), .el-tabs--top .el-tabs__item.is-top:nth-child(2){
+        padding-left: 20px;
+    }
+    .el-tabs--bottom .el-tabs__item.is-bottom:last-child, .el-tabs--bottom .el-tabs__item.is-top:last-child, .el-tabs--top .el-tabs__item.is-bottom:last-child, .el-tabs--top .el-tabs__item.is-top:last-child {
+        padding-right: 20px;
+    }
+}
 </style>
 
 
