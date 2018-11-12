@@ -51,7 +51,7 @@
                     :current-page="currentPage"
                     :page-size="10"
                     layout="prev, pager, next, total, jumper"
-                    :total="totalPageNumber">
+                    :total="totalItemNumber">
                 </el-pagination>
             </div>
         </div>
@@ -62,10 +62,11 @@
 import server from '../../../../api/url.js'
 export default {
     name: "Invoices",
+    
     data(){
       	return{
 			interfaceCode: '',
-			totalPageNumber: 0,
+			totalItemNumber: 0,
 			tableData: [
 				{
 					transactionName: '64646464646364643',
@@ -111,7 +112,7 @@ export default {
 						content[i].invoiceType = "纸质发票"
 					}
 				}
-				this.totalPageNumber = res.data.totalPageNumber;
+				this.totalItemNumber = res.data.totalItemNumber;
 				this.tableData = res.data.content;
 			}).catch(error => {
 

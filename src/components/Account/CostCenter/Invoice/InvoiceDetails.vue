@@ -5,35 +5,37 @@
 				<div class="invoice-title">
 					<div class="invoice-title-detail">发票详情</div>
 				</div>
-				<div class="invoice-img">
-					<div class="invoice-code buy-common invoice-commom">{{invoiceList.invoiceCode}}</div>
-					<div class="invoice-number buy-common invoice-commom">{{invoiceList.invoiceNum}}</div>
-					<div class="invoice-date buy-common invoice-commom">{{invoiceList.invoiceTime}}</div>
-					<div class="invoice-checking buy-common invoice-commom">{{invoiceList.checkCode}}</div>
-					<div class="buy-unit buy-common">{{invoiceList.invoiceTitle}}</div>
-					<div class="buy-identify buy-common">{{invoiceList.invoiceTaxNo}}</div>
-					<div class="buy-location buy-common"></div>
-					<div class="buy-bank buy-common"></div>
-					<div class="buy-pwd buy-common">中国银行321022154558874554788</div>
-					<div class="shop-name buy-common shop-common">{{invoiceList.invoiceContent}}</div>
-					<div class="shop-model buy-common shop-common"></div>
-					<div class="shop-unit buy-common shop-common"></div>
-					<div class="shop-num buy-common shop-common">1</div>
-					<div class="shop-price buy-common shop-common">{{invoiceList.invoiceMoney}}</div>
-					<div class="shop-money buy-common shop-common">{{invoiceList.invoiceMoney}}</div>
-					<div class="shop-tax-rate buy-common shop-common">3%</div>
-					<div class="shop-tax-paid buy-common shop-common">taxMoney</div>
-					<div class="shop-total-big buy-common">五千两百元</div>
-					<div class="shop-total-small buy-common">{{invoiceList.totalMoney}}</div>
-					<div class="market-name buy-common market-common">北京众签科技有限公司</div>
-					<div class="market-identify buy-common market-common">91110108085515424L</div>
-					<div class="market-location buy-common market-common">北京市海淀区海淀大街3号1幢400-0000-6923</div>
-					<div class="market-bank buy-common market-common">中国工商银行股份有限公司北京成府路支行0200095709200070521</div>
-					<!-- <div>备注备注</div>
-					<div>收款人</div>
-					<div>复核</div> -->
-					<div class="market-pepole buy-common">薛珂琪</div>
-				</div>
+                <div class="invoice-content">
+                    <div class="invoice-img">
+                        <div class="invoice-code buy-common invoice-commom">{{invoiceList.invoiceCode}}</div>
+                        <div class="invoice-number buy-common invoice-commom">{{invoiceList.invoiceNum}}</div>
+                        <div class="invoice-date buy-common invoice-commom">{{invoiceList.invoiceTime}}</div>
+                        <div class="invoice-checking buy-common invoice-commom">{{invoiceList.checkCode}}</div>
+                        <div class="buy-unit buy-common">{{invoiceList.invoiceTitle}}</div>
+                        <div class="buy-identify buy-common">{{invoiceList.invoiceTaxNo}}</div>
+                        <div class="buy-location buy-common"></div>
+                        <div class="buy-bank buy-common"></div>
+                        <div class="buy-pwd buy-common">{{invoiceList.fpMw}}</div>
+                        <div class="shop-name buy-common shop-common">{{invoiceList.invoiceContent}}</div>
+                        <div class="shop-model buy-common shop-common"></div>
+                        <div class="shop-unit buy-common shop-common"></div>
+                        <div class="shop-num buy-common shop-common">1</div>
+                        <div class="shop-price buy-common shop-common">{{invoiceList.invoiceMoney}}</div>
+                        <div class="shop-money buy-common shop-common">{{invoiceList.invoiceMoney}}</div>
+                        <div class="shop-tax-rate buy-common shop-common">3%</div>
+                        <div class="shop-tax-paid buy-common shop-common">{{invoiceList.taxMoney}}</div>
+                        <div class="shop-total-big buy-common">{{invoiceList.toalmoney}}</div>
+                        <div class="shop-total-small buy-common">{{invoiceList.totalMoney}}</div>
+                        <div class="market-name buy-common market-common">北京众签科技有限公司</div>
+                        <div class="market-identify buy-common market-common">91110108085515424L</div>
+                        <div class="market-location buy-common market-common">北京市海淀区海淀大街3号1幢400-0000-6923</div>
+                        <div class="market-bank buy-common market-common">中国工商银行股份有限公司北京成府路支行0200095709200070521</div>
+                        <!-- <div>备注备注</div>
+                        <div>收款人</div>
+                        <div>复核</div> -->
+                        <div class="market-pepole buy-common">薛珂琪</div>
+                    </div>
+                </div>
 			</div>
 			<div class="invoice-info-particulars">
 				<div class="invoice-title">
@@ -93,20 +95,8 @@ export default {
 	data(){
 		return{
 			downloadUrl: '',
-			tableData: [
-				
-			],
-			invoiceList: {
-				invoiceCode: '',
-				invoiceNum: '',
-				invoiceTime: '',
-				checkCode: '',
-				invoiceTitle: '',
-				invoiceTaxNo: '',
-				invoiceContent: '',
-				invoiceMoney: '',
-				taxMoney: ''
-			}
+			tableData: [],
+			invoiceList: {}
 		}
 	},
 	methods:{
@@ -193,128 +183,136 @@ export default {
 			}
 			.invoice-info-table {
 				margin: 20px 0;
-			}
-			.invoice-img {
-				font-size: 14px;	
-				height: 758px;
-				width: 1160px;
-				background: url('../../../../../static/images/Account/invoice-img.png') no-repeat;
-				background-size: 100%;
-				margin: 20px 0;
-				position: relative;
-				.buy-common {
-					position: absolute;
-					width: 454px;
-					height: 18px;
-					// background-color: red;
-					left: 188px;
-					top: 135px;
-					word-wrap: break-word; 
-					word-break: break-all; 
-				}
-				.invoice-commom {
-					width: 210px;
-					left: 914px;
-					top: 12px;
-				}
-				.invoice-code {
-					
-				}
-				.invoice-number {
-					top: 38px;
-				}
-				.invoice-date {
-					top: 64px;
-				}
-				.invoice-checking {
-					top: 92px;
-				}
-				.buy-unit {
-					
-				}
-				.buy-identify {
-					top: 162px;
-				}
-				.buy-location {
-					top: 188px;
-				}
-				.buy-bank{
-					top: 214px;
-				}
-				.buy-pwd {
-					height: 100px;
-					left: 686px;
-					width: 431px;
-				}
-				.shop-common {
-					top: 288px; 
-					height: 160px;
-				}
-				.shop-name {
-					left: 17px;
-					width: 258px;
-				}
-				.shop-model {
-					left: 305px;
-    				width: 118px;
-				}
-				.shop-unit {
-					left: 444px;
-					width: 50px;
-				}
-				.shop-num {
-					left: 510px;
-					width: 98px;
-				}
-				.shop-price {
-					left: 620px;
-					width: 96px;
-				}
-				.shop-money {
-					left: 728px;
-					width: 156px;
-				}
-				.shop-tax-rate {
-					left: 894px;
-					width: 54px;
-				}
-				.shop-tax-paid {
-					left: 960px;
-					width: 160px;
-				}
-				.shop-total-big {
-					top: 506px;
-					left: 308px;
-					width: 540px;
-				}
-				.shop-total-small {
-					top: 506px;
-					left: 958px;
-					width: 160px;
-				}
-				.market-common {
-					top: 545px;
-					left: 190px;
-					width: 431px;
-				}
-				.market-name {
+            }
+            .invoice-content {
+                width: 852px;
+                height: 578px;
+                border: 2px solid #ddd;
+                margin: 40px auto;
+                .invoice-img {
+                    margin: 20px auto;
+                    font-size: 14px;	
+                    height: 538px;
+                    width: 812px;
+                    background: url('../../../../../static/images/Account/invoice-img.png') no-repeat;
+                    background-size: 100%;
+                    position: relative;
+                    .buy-common {
+                        font-size: 12px;
+                        position: absolute;
+                        width: 312px;
+                        height: 18px;
+                        left: 134px;
+                        top: 135px;
+                        word-wrap: break-word; 
+                        word-break: break-all; 
+                        // background-color: red;
+                    }
+                    .invoice-commom {
+                        width: auto;
+                        left: 646px;
+                        top: 6px;
+                    }
+                    .invoice-code {
+                        
+                    }
+                    .invoice-number {
+                        top: 26px;
+                    }
+                    .invoice-date {
+                        top: 46px;
+                    }
+                    .invoice-checking {
+                        top: 66px;
+                    }
+                    .buy-unit {
+                        top: 95px;
+                    }
+                    .buy-identify {
+                        top: 113px;
+                    }
+                    .buy-location {
+                        top: 131px;
+                    }
+                    .buy-bank{
+                        top: 149px;
+                    }
+                    .buy-pwd {
+                        height: 74px;
+                        left: 478px;
+                        width: 305px;
+                        top: 92px;
+                    }
+                    .shop-common {
+                        top: 202px; 
+                        height: 112px;
+                    }
+                    .shop-name {
+                        left: 10px;
+                        width: 186px;
+                    }
+                    .shop-model {
+                        left: 212px;
+                        width: 84px;
+                    }
+                    .shop-unit {
+                        left: 310px;
+                        width: 36px;
+                    }
+                    .shop-num {
+                        left: 358px;
+                        width: 66px;
+                    }
+                    .shop-price {
+                        left: 434px;
+                        width: 66px;
+                    }
+                    .shop-money {
+                        left: 510px;
+                        width: 108px;
+                    }
+                    .shop-tax-rate {
+                        left: 628px;
+                        width: 32px;
+                    }
+                    .shop-tax-paid {
+                        left: 674px;
+                        width: 108px;
+                    }
+                    .shop-total-big {
+                        top: 351px;
+                        left: 219px;
+                        width: 384px;
+                    }
+                    .shop-total-small {
+                        top: 351px;
+                        left: 672px;
+                        width: 110px;
+                    }
+                    .market-common {
+                        top: 378px;
+                        left: 136px;
+                        width: 302px;
+                    }
+                    .market-name {
 
-				}
-				.market-identify {
-					top: 570px;
-				}
-				.market-location {
-					top: 598px;
-				}
-				.market-bank {
-					top: 622px;
-				}
-				.market-pepole {
-					top: 678px;
-					left: 718px;
-					width: auto;
-				}
-			}
+                    }
+                    .market-identify {
+                        top: 396px;
+                    }
+                    .market-location {
+                        top: 414px;
+                    }
+                    .market-bank {
+                        top: 432px;
+                    }
+                    .market-pepole {
+                        top: 472px;
+                        left: 494px;
+                        width: auto;
+                    }
+                }
+            }
 		}
         .download {
 			width: 100px;
