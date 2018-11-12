@@ -71,6 +71,7 @@
 <script>
 import BScroll from 'better-scroll'
 import cookie from '@/common/js/getTenant'
+import {prohibit} from '@/common/js/prohibitBrowser'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Pcontract',
