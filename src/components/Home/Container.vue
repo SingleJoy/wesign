@@ -161,7 +161,7 @@
             class="upload-demo"
             :action='uploadUrl()'
             :data=Type
-            :before-upload="handleChange"
+            :before-upload="handleChange1"
             :on-success="fileSuccess1"
             :show-file-list= false
             :limit=1
@@ -177,8 +177,12 @@
     </div>
     <div class='dialogbg' v-show="welcomeMessage">
         <div class="upload-warn">
-            <a  href="javascript:void(0);" id="upload-dilog-close" class="close-warn" @click="shutAuthority">X</a>
-            <p>{{contractNum}}</p>
+            <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
+            <!--<p>{{contractNum}}</p>-->
+             <div class="contract-num">
+               <p class="b2b">{{b2bNum}}</p>
+               <p class="b2c">{{b2cNum}}</p>
+             </div>
         </div>
 
     </div>
@@ -212,6 +216,8 @@
             Type: { contractType: "0" },
             welcomeMessage:true, //欢迎信息
             contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
+            b2bNum:'0',
+            b2cNum:'0',
         };
     },
     methods: {
@@ -359,23 +365,12 @@
         getContractNum(){
             server.authorityUpload(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
-                    this.contractNum = res.data.data;
+                    this.b2bNum = res.data.data.b2bNum;
+                    this.b2cNum = res.data.data.b2cNum;
                     if(this.clickup){
-                        if(this.contractNum==0){
-                            this.$confirm(
-                                <div class="warn-num">
-                                    <p class="title">对不起，您的免费签约次数已用尽!</p>
-                                    <p>成为正式用户享受更多使用权限</p>
-                                    <p>客服电话：400-0000-6923</p>
-                                </div>,'提示', {
-                                    confirmButtonText: '确定',
-                                    showCancelButton:false
-                            })
-                        }else{
-                            this.popupContainer = !this.popupContainer;
-                        }
+                      this.popupContainer = !this.popupContainer;
                     }
-                   
+
                 }else{
                     this.$message({
                         showClose: true,
@@ -400,7 +395,8 @@
                     confirmButtonText: '确定'
                 })
             }else{
-                this.popupContainer = !this.popupContainer;
+                // this.popupContainer = !this.popupContainer;
+                 this.getContractNum();
             }
         },
         shut() {
@@ -450,7 +446,8 @@
             this.uploadFile = false;
             this.$loading.hide();
             return false;
-            } else if (name.size > max_size * 1024 * 1024) {
+            }
+            else if (name.size > max_size * 1024 * 1024) {
             this.$message({
                 showClose: true,
                 message: "文件大小超过限制",
@@ -460,7 +457,8 @@
             this.uploadFile = false;
             this.$loading.hide();
             return false;
-            } else if (fileContName.length > 50) {
+            }
+            else if (fileContName.length > 50) {
             this.$message({
                 showClose: true,
                 message: "上传文件名称不得超过50字符！",
@@ -470,11 +468,113 @@
             this.uploadFile = false;
             this.$loading.hide();
             return false;
-            } else {
-            this.loading2 = true;
-            this.uploadFile = true;
+            }
+            else if((this.b2bNum!=0)&&(this.b2cNum==0)){
+              this.$confirm(
+              <div class="warn-num">
+                <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
+              <p>成为正式用户享受更多使用权限</p>
+              <p>客服电话：400-0000-6923</p>
+              </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+
+               this.$refs.upload.clearFiles();
+               this.uploadFile = false;
+               this.$loading.hide();
+
+              return false
+           }
+            else if((this.b2bNum=='0')&&(this.b2cNum=='0')){
+
+              this.$confirm(
+              <div class="warn-num">
+                <p class="title">对不起，您的免费签约次数已用尽!</p>
+              <p>成为正式用户享受更多使用权限</p>
+              <p>客服电话：400-0000-6923</p>
+              </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+
+              this.$refs.upload.clearFiles();
+              this.uploadFile = false;
+              this.$loading.hide();
+
+              return false
+            }
+            else {
+              this.loading2 = true;
+               this.uploadFile = true;
             }
         },
+        handleChange1(name) {
+        this.$loading.show();
+        var max_size = 5; // 5M
+        var fileContName = name.name.replace(/\s+/g, "");
+        var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
+        if (!reg.test(fileContName)) {
+          this.$message({
+            showClose: true,
+            message: "只能传pdf,doc,txt,docx格式的文件",
+            type: "error"
+          });
+          this.$refs.upload.clearFiles();
+          this.uploadFile = false;
+          this.$loading.hide();
+          return false;
+        }
+        else if (name.size > max_size * 1024 * 1024) {
+          this.$message({
+            showClose: true,
+            message: "文件大小超过限制",
+            type: "error"
+          });
+          this.$refs.upload.clearFiles();
+          this.uploadFile = false;
+          this.$loading.hide();
+          return false;
+        }
+        else if (fileContName.length > 50) {
+          this.$message({
+            showClose: true,
+            message: "上传文件名称不得超过50字符！",
+            type: "error"
+          });
+          this.$refs.upload.clearFiles();
+          this.uploadFile = false;
+          this.$loading.hide();
+          return false;
+        }
+        else if((this.b2bNum==0)&&(this.b2cNum!=0)){
+          this.$confirm(
+          <div class="warn-num">
+            <p class="title">对不起，您的免费对企业签约次数已用尽!</p>
+          <p>成为正式用户享受更多使用权限</p>
+          <p>客服电话：400-0000-6923</p>
+          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+
+          this.$refs.upload.clearFiles();
+          this.uploadFile = false;
+          this.$loading.hide();
+
+          return false
+        }
+        else if((this.b2bNum=='0')&&(this.b2cNum=='0')){
+
+          this.$confirm(
+          <div class="warn-num">
+            <p class="title">对不起，您的免费签约次数已用尽!</p>
+          <p>成为正式用户享受更多使用权限</p>
+          <p>客服电话：400-0000-6923</p>
+          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+
+          this.$refs.upload.clearFiles();
+          this.uploadFile = false;
+          this.$loading.hide();
+
+          return false
+        }
+        else {
+          this.loading2 = true;
+          this.uploadFile = true;
+        }
+      },
         fileSuccess(name, file, fileList) {
             //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
             this.$loading.hide();
@@ -524,7 +624,7 @@
     },
 
     created() {
-        
+
         var data = [];
         var flag = "";
         var isCreater = "";
@@ -534,9 +634,9 @@
         if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
             this.welcomeMessage = false;
         }
-      
+
         this.getContractNum()
-      
+
         var requestVo = {
             pageNo: "1",
             pageSize: "7",
@@ -568,7 +668,7 @@
                     obj.flag = res.data.content[i].flag;
                     obj.operator = res.data.content[i].operator
                     obj.operation = "";
-                    // obj.creater = res.data.content[i].creater    
+                    // obj.creater = res.data.content[i].creater
                     switch (obj.contractStatus) {
                         case "1":
                             obj.contractStatus = "待我签署";
@@ -611,7 +711,7 @@
       let resParam={
           accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
       }
-    
+
 
       // 首页模板列表
         this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList",{params:resParam}).then(function(res) {
@@ -676,15 +776,16 @@
     margin-top: -20rem;
     background: url(/static/images/Login/up-warn.png) no-repeat;
     background-size: 100% 100%;
-    p{
-        // position: absolute;
-        // left: 274px;
-        // top: 169px;
-        // font-size: 18px;
+    div.contract-num{
         position: relative;
-        left: 12rem;
-        top: 7.5rem;
+        left: 14rem;
+        top: 9.0rem;
         font-size: 14px;
+        p{
+          font-size: 16px;
+          color: red;
+          line-height: 20px;
+        }
     }
     .close-warn{
         position: absolute;
