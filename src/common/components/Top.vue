@@ -30,8 +30,7 @@
         </li>
       </ol>
 
-      <div id='update'>
-      </div>
+      <div id='update'></div>
     </nav>
 
     <div class='dialogbg' v-show="popup">
@@ -76,13 +75,10 @@
       </div>
     </div>
 
-    <div id="dilog">
-      <div class='box'>
-        <div class='box-container'>
-          <a href="javascript:void(0);" id='close' @click='closes'>X</a>
-        </div>
-      </div>
-    </div>
+    <template>
+      <Version v-show="showVersion" :showVersion="showVersion" @closeVersion="closeVersion"></Version>
+    </template>
+
   </div>
 </template>
 <style lang="css" scoped>
@@ -108,70 +104,8 @@
   .left-num{
     margin-left: 80px;
   }
-  .dialogbg{
-    background:#000;
-    background:rgba(0,0,0,.3);
-    width:100%;
-    height:1080px;
-    position: absolute;
-    left:0;
-    top:0;
-    z-index: 1999;
 
-  }
-  #dilog{
-    width:100%;
-    height: 100%;
 
-    position: absolute;
-    z-index:1000;
-    background-color:rgba(0,0,0,0.5);
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    margin:auto;
-    display:none;
-  }
-  .box{
-    width:360px;
-    height: 430px;
-
-    background:url('../../../static/images/Top/version-info1.6.gif');
-    position: absolute;
-    left:0;
-    top:0;
-    right: 0;
-    bottom:0;
-    margin: auto;
-  }
-  .box .container{
-    margin-top:180px;
-  }
-  .box .container h2{
-    text-align:center;
-  }
-  .box .container p{
-    line-height:30px;
-    padding-left:30px;
-    color:#999;
-  }
-  .box .container p:nth-child(2){
-    padding-left:30px;
-    padding-top:20px;
-  }
-  #close{
-    position: absolute;
-    right:-30px;
-    top:-16px;
-    width:30px;
-    height: 30px;
-    color:#fff;
-    background:#ccc;
-    border-radius:50%;
-    text-align:center;
-    line-height:30px;
-  }
   .el-dialog--center .el-dialog__footer {
     margin-top: -17px;
   }
@@ -192,12 +126,17 @@
 </style>
 <script>
   import cookie from '@/common/js/getTenant'
+  import Version from '@/common/components/Version.vue'
   import server from "@/api/url";
   export default {
     name: 'Top',
+    components:{
+      Version
+    },
     data() {
       return {
         baseURL:this.baseURL.BASE_URL,
+        showVersion:false, //版本号默认不显示
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
@@ -215,7 +154,6 @@
       }
     },
     methods: {
-
 
       choice(){
         if(this.isBusiness==0){
@@ -293,7 +231,7 @@
           this.$loading.hide();
           return false;
         }
-        else if((this.b2bNum!=0)&&(this.b2cNum==0)){
+        else if((this.b2bNum!='0')&&(this.b2cNum=='0')){
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
@@ -365,7 +303,7 @@
           this.$loading.hide();
           return false;
         }
-        else if((this.b2bNum==0)&&(this.b2cNum!=0)){
+        else if((this.b2bNum=='0')&&(this.b2cNum!='0')){
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的免费对企业签约次数已用尽!</p>
@@ -444,15 +382,13 @@
         this.fullscreenLoading = true
       },
       dialogVisible (value) {
-        this.tabIndex = value
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='block'
+
+        this.showVersion=true;
       },
-      closes(){
-        this.tabIndex = this.$store.state.tabIndex
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='none'
+      closeVersion(){
+        this.showVersion=false;
       },
+
       amendPassWord() {
         const h = this.$createElement;
         this.$msgbox({

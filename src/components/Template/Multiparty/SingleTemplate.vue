@@ -131,7 +131,9 @@ export default {
         dialogTableVisible:false,
         imgList:[],
         textTip:'暂无模板',
-        accountLevel:sessionStorage.getItem("accountLevel")
+        accountLevel:sessionStorage.getItem("accountLevel"),
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+
         };
     },
     methods: {
@@ -210,12 +212,30 @@ export default {
         }
         },
         generateClick(row){
-            var templateName = ''
-            var templateNo = ''
-            this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
-            sessionStorage.setItem('templateName', row.templateName)
-            sessionStorage.setItem('templateNo', row.templateNo)
-            this.$router.push('/Fillinformation')
+
+          server.authorityUpload(this.interfaceCode).then(res=>{
+             if(res.data.resultCode == 1){
+
+              this.b2cNum = res.data.data.b2cNum;
+              sessionStorage.setItem("b2cNum",this.b2cNum);
+              if(this.b2cNum==0){
+                this.$confirm(
+                <div class="warn-num">
+                  <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
+                <p>成为正式用户享受更多使用权限</p>
+                <p>客服电话：400-0000-6923</p>
+                </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+              }else {
+                var templateName = ''
+                var templateNo = ''
+                this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
+                sessionStorage.setItem('templateName', row.templateName)
+                sessionStorage.setItem('templateNo', row.templateNo)
+                this.$router.push('/Fillinformation')
+              }
+
+            }
+          })
         },
         getTemplateList (templateInfoRequest) {
             var data =[];

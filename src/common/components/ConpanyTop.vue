@@ -33,145 +33,87 @@
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
         <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li>
       </ol>
-      <div id="dilog">
-          <div class='box'>
-            <div class='container'>
-              <!-- <h2>版本更新内容</h2>
-              <p>1.更新了UI风格，使用更舒心</p>
-              <p>2.优化了原版本使用卡顿的现象</p>
-              <p>3.增加了众签在线客服，随时为您服务</p>
-              <p>4.增加了新手教程，通过引导使用户更容易上手</p> -->
-              <a href="javascript:void(0);" id='close' class='el-icon-close' @click='closes'>X</a>
-            </div>
-          </div>
-        </div>
+      <template>
+        <Version v-show="showVersion" :showVersion="showVersion" @closeVersion="closeVersion"></Version>
+      </template>
       <div id='update'>
-      <el-dialog
-        custom-class='dlstyle'
-        title="修改密码"
-        :visible.sync="centerDialogVisible"
-        width="360px"
-        top="30vh"
-        center
-        @close="closeDialog('ruleForm')"
+        <el-dialog
+          custom-class='dlstyle'
+          title="修改密码"
+          :visible.sync="centerDialogVisible"
+          width="360px"
+          top="30vh"
+          center
+          @close="closeDialog('ruleForm')"
         >
-        <div id='logner'>
-          <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" label-width="85px">
-            <el-form-item label="原密码：" prop="oldPassWord">
-              <el-input v-model="ruleForm.oldPassWord" type="password" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="新密码：" prop="newPassWord">
-              <el-input v-model="ruleForm.newPassWord" type="password" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="确认密码：" prop="checkPassWord">
-              <el-input v-model="ruleForm.checkPassWord" type="password" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
-        <span slot="footer" class="dialog-footer">
+          <div id='logner'>
+            <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" label-width="85px">
+              <el-form-item label="原密码：" prop="oldPassWord">
+                <el-input v-model="ruleForm.oldPassWord" type="password" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="新密码：" prop="newPassWord">
+                <el-input v-model="ruleForm.newPassWord" type="password" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="确认密码：" prop="checkPassWord">
+                <el-input v-model="ruleForm.checkPassWord" type="password" auto-complete="off"></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+          <span slot="footer" class="dialog-footer">
           <el-button @click="resetForm('ruleForm')" size='medium'>取 消</el-button>
           <el-button type="primary"  @click="submitForm('ruleForm')" size="medium">确 定</el-button>
         </span>
-      </el-dialog>
+        </el-dialog>
       </div>
     </nav>
     <div class='dilog' v-show="popup">
-          <div class='left'>
-              <el-upload
-            ref='upload'
-            class="upload-demo"
-            :action='urlloadUrl()'
-            :before-upload="handleChange"
-            :on-success="fileSuccess"
-            :show-file-list= false
-            :limit=1
-            accept='.docx,.pdf,.doc,.txt'
-            element-loading-text="拼命上传中"
-            element-loading-background="rgba(0, 0, 0, 0.5)"
-            >
-            <img src="../../../static/images/Login/b2c.png" alt="">
-            </el-upload>
-          </div>
-
-            <div class='right'>
-              <el-upload
-              ref='upload'
-              class="upload-demo"
-              :action='uploadUrl()'
-              :data=Type
-              :before-upload="handleChange"
-              :on-success="fileSuccess1"
-              :show-file-list= false
-              :limit=1
-              accept='.docx,.pdf,.doc,.txt'
-              element-loading-text="拼命上传中"
-              element-loading-background="rgba(0, 0, 0, 0.5)"
-              >
-              <img src="../../../static/images/Login/b2b.png" alt="">
-              </el-upload>
-            <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
-          </div>
+      <div class='left'>
+        <el-upload
+          ref='upload'
+          class="upload-demo"
+          :action='urlloadUrl()'
+          :before-upload="handleChange"
+          :on-success="fileSuccess"
+          :show-file-list= false
+          :limit=1
+          accept='.docx,.pdf,.doc,.txt'
+          element-loading-text="拼命上传中"
+          element-loading-background="rgba(0, 0, 0, 0.5)"
+        >
+          <img src="../../../static/images/Login/b2c.png" alt="">
+        </el-upload>
       </div>
+
+      <div class='right'>
+        <el-upload
+          ref='upload'
+          class="upload-demo"
+          :action='uploadUrl()'
+          :data=Type
+          :before-upload="handleChange"
+          :on-success="fileSuccess1"
+          :show-file-list= false
+          :limit=1
+          accept='.docx,.pdf,.doc,.txt'
+          element-loading-text="拼命上传中"
+          element-loading-background="rgba(0, 0, 0, 0.5)"
+        >
+          <img src="../../../static/images/Login/b2b.png" alt="">
+        </el-upload>
+        <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
-@import "../styles/Top.css";
+  @import "../styles/Top.css";
 </style>
 <style>
-  #dilog{
-    width:100%;
-    height: 100%;
-    background:#000;
-    position: absolute;
-    z-index:1000;
-    background-color:rgba(0,0,0,0.5);
-    top:0;
-    left:0;
-    display:none;
-    }
-  .box{
-    width:360px;
-    height: 430px;
 
-    background:url('../../../static/images/Top/version-info1.6.gif');
-    position: absolute;
-    left:0;
-    top:0;
-    right: 0;
-    bottom:0;
-    margin: auto;
-  }
-  .box .container{
-    margin-top:180px;
-  }
-  .box .container h2{
-    text-align:center;
-  }
-   .box .container p{
-    line-height:30px;
-    padding-left:30px;
-    color:#999;
-  }
-  .box .container p:nth-child(2){
-    padding-left:30px;
-    padding-top:20px;
-  }
-  #close{
-    position: absolute;
-    right:-30px;
-    top:-16px;
-    width:30px;
-    height: 30px;
-    color:#fff;
-    background:#ccc;
-    border-radius:50%;
-    text-align:center;
-    line-height:30px;
-  }
   .el-dialog--center .el-dialog__footer {
     margin-top: -17px;
   }
-    .loginOut{
+  .loginOut{
     height:200px !important;
     width:400px !important;
     overflow: hidden !important;
@@ -195,43 +137,39 @@
     background:url('../../../static/images/Login/context.png');
     background-size:100% 100%;
   }
-   .dilog .left{
-      float: left;
-      width:252px;
-      height:191px;
-      background:#fff;
-      margin-left:63px;
-      margin-top:50px;
-      background:url('../../../static/images/Login/b2b.png');
-      background-size:100% 100%;
+  .dilog .left{
+    float: left;
+    width:252px;
+    height:191px;
+    background:#fff;
+    margin-left:63px;
+    margin-top:50px;
+    background:url('../../../static/images/Login/b2b.png');
+    background-size:100% 100%;
 
-   }
-    .dilog .left .upload-demo{
-       width:252px !important;
-      height:191px ;
-    }
-   .dilog .right{
-      float: left;
-      width:252px;
-      height:191px;
-      background:#fff;
-      margin-left:30px;
-      margin-top:50px;
-      background:url('../../../static/images/Login/b2c.png');
-      background-size:100% 100%;
-   }
-   .ConpanyTop{
-     background:#4091fb;
-   }
+  }
+  .dilog .left .upload-demo{
+    width:252px !important;
+    height:191px ;
+  }
+
+  .ConpanyTop{
+    background:#4091fb;
+  }
 </style>
 <script>
-import md5 from 'js-md5'
-import {validatePassWord} from '@/common/js/validate'
-import cookie from '@/common/js/getTenant'
-export default {
-  name: 'ConpanyTop',
-      data() {
-       var validateOldPassWord = (rule, value, callback) => {
+  import md5 from 'js-md5'
+  import {validatePassWord} from '@/common/js/validate'
+  import cookie from '@/common/js/getTenant'
+  import Version from '@/common/components/Version.vue'
+  export default {
+    name: 'ConpanyTop',
+    components:{
+      Version
+    },
+
+    data() {
+      var validateOldPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入原密码'));
         } else {
@@ -256,7 +194,7 @@ export default {
           callback();
         }
       }
-       var validateCheckPassWord = (rule, value, callback) => {
+      var validateCheckPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
         } else if (value !== this.ruleForm.newPassWord) {
@@ -295,10 +233,10 @@ export default {
         this.popup =!this.popup
       },
       urlloadUrl(){
-       return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
       },
       uploadUrl(){
-       return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
+        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name, file, fileList) {
         var max_size = 5;// 5M
@@ -310,14 +248,14 @@ export default {
             message: '只能传pdf,doc,txt,docx格式的文件',
             type: 'error'
           });
-         this.$refs.upload.clearFiles()
+          this.$refs.upload.clearFiles()
         } else if( name.size > max_size*1024*1024){
           this.$message({
             showClose: true,
             message: '文件大小超过限制',
             type: 'error'
           });
-         this.$refs.upload.clearFiles()
+          this.$refs.upload.clearFiles()
         } else if(fileContName.length >50){
           this.$message({
             showClose: true,
@@ -330,40 +268,23 @@ export default {
         }
 
       },
-      // fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-      //  var contractName = file.name.replace(/\s+/g, "")
-      //  var contractNo = file.response.contractNo
-      //  var resultCode = file.response.resultCode
-      //   this.fullscreenLoading = false
-      //   this.$message({
-      //      message: '上传成功',
-      //      type: 'success'
-      //   });
 
-      //   var index1=contractName.lastIndexOf(".");
-      //   var suffix=contractName.slice(0,index1);
-      //   this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-      //   sessionStorage.setItem('contractName', JSON.stringify(suffix))
-      //   sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
-      //   this.$router.push('/Contractsigning')
-
-      // },
       fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-      var contractName = file.name.replace(/\s+/g, "")
-      var contractNo = file.response.contractNo
-      var resultCode = file.response.resultCode
-      if(  this.uploadFile == true ){
-        this.$message({
-          showClose: true,
-          message: '上传成功',
-          type: 'success'
-        });
-        var index1=contractName.lastIndexOf(".");
-        var suffix=contractName.slice(0,index1);
-        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', JSON.stringify(suffix))
-        sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
-        this.$router.push('/Contractsigning')
+        var contractName = file.name.replace(/\s+/g, "")
+        var contractNo = file.response.contractNo
+        var resultCode = file.response.resultCode
+        if(  this.uploadFile == true ){
+          this.$message({
+            showClose: true,
+            message: '上传成功',
+            type: 'success'
+          });
+          var index1=contractName.lastIndexOf(".");
+          var suffix=contractName.slice(0,index1);
+          this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+          sessionStorage.setItem('contractName', JSON.stringify(suffix))
+          sessionStorage.setItem('contractNo', JSON.stringify(contractNo))
+          this.$router.push('/Contractsigning')
         }
       },
       fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
@@ -387,14 +308,11 @@ export default {
       openFullScreen() {
         this.fullscreenLoading = true
       },
-      dialogVisible () {
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='block'
+      dialogVisible (value) {
+        this.showVersion=true;
       },
-      closes(){
-        var close = document.getElementById('close')
-        close.style.display='block'
-        dilog.style.display='none'
+      closeVersion(){
+        this.showVersion=false;
       },
       closeDialog (formName) {
         this.$refs[formName].resetFields()
@@ -485,6 +403,6 @@ export default {
         })
       }
     }
-}
+  }
 </script>
 
