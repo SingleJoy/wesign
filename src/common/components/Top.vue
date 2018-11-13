@@ -34,7 +34,6 @@
     </nav>
 
     <div class='dialogbg' v-show="popup">
-
       <div class='upload-dilog'>
         <a  href="javascript:void(0);" id="upload-dilog-close" class="upload-dilog-close" @click="shut">X</a>
         <div style="color:#4091fb;text-align:center;font-size:16px;margin-top:20px;font-weight:bold;font-family: 微软雅黑;">请选择对手方身份</div>
@@ -83,6 +82,16 @@
 </template>
 <style lang="css" scoped>
   @import "../styles/Top.css";
+  .dialogbg {
+    background: #000;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 1080px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1999;
+  }
   .Top .nav a{
     font-size: 16px;
   }
@@ -151,11 +160,14 @@
         showAccount:true,
         isBusiness: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].isBusiness:'',
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
+        b2bNum:'',
+        b2cNum:'',
       }
     },
     methods: {
 
       choice(){
+
         if(this.isBusiness==0){
           this.getContractNum();
         }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
@@ -163,7 +175,8 @@
             confirmButtonText: '确定'
           })
         }else{
-          this.popup =!this.popup
+          this.getContractNum();
+          this.popup =!this.popup;
         }
       },
       //合同剩余发起次数
@@ -173,7 +186,7 @@
             this.contractNum = res.data.data;
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
-            this.popup =!this.popup
+
 
           }else{
             this.$message({
@@ -231,7 +244,7 @@
           this.$loading.hide();
           return false;
         }
-        else if((this.b2bNum!='0')&&(this.b2cNum=='0')){
+        else if((this.b2bNum!=0)&&(this.b2cNum==0)){
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
@@ -245,8 +258,9 @@
 
           return false
         }
-        else if((this.b2bNum=='0')&&(this.b2cNum=='0')){
-
+        else if((this.b2bNum==0)&&(this.b2cNum==0)){
+         console.log("1111+"+this.b2bNum)
+         console.log("22222:"+this.b2cNum);
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的免费签约次数已用尽!</p>
@@ -303,7 +317,7 @@
           this.$loading.hide();
           return false;
         }
-        else if((this.b2bNum=='0')&&(this.b2cNum!='0')){
+        else if((this.b2bNum==0)&&(this.b2cNum!=0)){
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的免费对企业签约次数已用尽!</p>
@@ -317,7 +331,7 @@
 
           return false
         }
-        else if((this.b2bNum=='0')&&(this.b2cNum=='0')){
+        else if((this.b2bNum==0)&&(this.b2cNum==0)){
 
           this.$confirm(
           <div class="warn-num">
@@ -445,13 +459,6 @@
     },
     created(){
 
-      // this.auditStatus=sessionStorage.getItem("auditStatus");
-      // console.log(this.auditStatus);
-      // if(this.auditStatus=='2'){
-      //   this.oneAccount=true;
-      // }else {
-      //   this.oneAccount=false;
-      // }
       var auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       if(auditSteps == 3){
         this.Jurisdiction = true

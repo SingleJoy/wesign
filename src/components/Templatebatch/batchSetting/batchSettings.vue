@@ -551,7 +551,7 @@
         if((this.tableDate3 != '')&&(this.tableDate3.length>b2cNum-1)){
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的免费对个人签约次数</p>
+            <p class="title"><strong>对个人合同</strong>份数已用尽，若想添加更多签约人请联系客服购买合同套餐</p>
           <p>成为正式用户享受更多使用权限</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
