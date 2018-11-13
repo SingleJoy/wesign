@@ -172,6 +172,7 @@
 <script>
   import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
+  import {prohibit} from '@/common/js/prohibitBrowser'
   import Loading from '@/common/components/Loading'
   export default {
     name: 'Contractsignings',
