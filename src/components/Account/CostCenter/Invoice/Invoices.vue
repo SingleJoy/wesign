@@ -40,7 +40,8 @@
                     width="200"
                     align="center">
                     <template slot-scope="scope">
-                        <el-button @click="viewDetail(scope.row)" type="text" size="small">查看详情</el-button>
+                        <el-button @click="viewDetail(scope.row)" type="text" size="small" v-if="scope.row.invoiceType=='电子发票'">查看详情</el-button>
+                        <el-button type="text" size="small" v-if="scope.row.invoiceType=='纸质发票'"></el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -107,9 +108,10 @@ export default {
 				let content = res.data.content;
 				for(var i = 0; i < content.length; i++) {
 					if(content[i].invoiceType == 0) {
-						content[i].invoiceType = "电子发票"
+						content[i].invoiceType = "电子发票";
 					} else if(content[i].invoiceType == 1) {
-						content[i].invoiceType = "纸质发票"
+						content[i].invoiceType = "纸质发票";
+                        this.isShow = false;
 					}
 				}
 				this.totalItemNumber = res.data.totalItemNumber;
