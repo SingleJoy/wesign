@@ -17,7 +17,7 @@
         <li><router-link to='/Multiparty'>我的模板</router-link></li>
         <li><router-link v-if="accountLevel!=2" to='/Room'>签约室</router-link></li>
         <li @click="dialogVisible"><a >版本</a></li>
-        <li class="contract-add no-border"><router-link v-if="accountLevel!=2" to='/MultipartyUp'>模板发起</router-link></li>
+        <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
         <li v-if="Jurisdiction"><router-link to='/Account'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
         <li v-else><router-link to='/NoReal'>我的账户</router-link></li>
