@@ -47,7 +47,7 @@
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
 						<el-form-item prop="username">
-						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" :maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
+						<el-input v-model="ruleForm.username" placeholder="请输入手机号" @change="resetSlide($event)" :disabled="userDisabled" :maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
 						</el-form-item>
                         <el-form-item>
                             <div class="slide_box" ref="slide"  @mouseover="slideSuccess && mouseoverFn($event)" @mouseout="mouseoutFn($event)">
@@ -245,6 +245,7 @@ export default {
 	methods: {
         
         mouseoverFn(e){
+            
             this.slideShow=true
         },
         mouseoutFn(e){
@@ -347,7 +348,7 @@ export default {
                             that.slideText='>>';
                             that.slideShow=false;
                         }
-                         that.isDisabled = false;
+                        that.isDisabled = false;
                     }else{                         //滑动失败
                         that.bgStyle = {
                             width:l+'px',
@@ -393,6 +394,30 @@ export default {
                     'backgroundImage':'url(static/images/'+this.number+'.png)'
                 }
 
+        },
+        //滑动成功后修改手机号
+        resetSlide(){
+            let that =this;
+            if(!that.slideSuccess){
+                console.log(1111111111)
+                setTimeout(function(){
+                    that.bgStyle = {
+                        width:0,
+                        background:'#5997ec'
+                    }
+                    that.swiperStyle={
+                        background:'#fff',
+                        left:0,
+                        color:'#adaaaa'
+                    }
+                    that.isDisabled = true;
+                    that.slideStatue = '>>';
+                    that.slideShow=false;
+                    that.slideSuccess = true;
+                    that.slideText="向右拖动滑块拼图验证"
+                },500)
+            }
+            
         },
         //滑动成功但未输入手机号或手机号输入格式不正确
         slideSuccessNoName(l){
