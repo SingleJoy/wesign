@@ -84,13 +84,13 @@
                   </div>
                   <div class="right-line">
                     <span>颁发给:</span>
-                    <b>{{companyName}}</b>
+                    <b style="display: inline-block;width: 180px;word-wrap:break-word;vertical-align: top;">{{companyName}}</b>
                   </div>
                   <!--<div class="right-line">-->
                   <!--<span>证件号:</span>-->
                   <!--<b>{{cardNumber}}</b>-->
                   <!--</div>-->
-                  <div class="right-line">
+                  <div class="right-line" style="margin-top: 20px;">
                     <span>有效起始时间:</span>
                     <b>{{effectiveStartTime}}</b>
                   </div>
@@ -431,7 +431,7 @@
         mobile:'',
         Email:'',
         authName:'',
-        enterpriseName:sessionStorage.getItem("enterpriseName"),
+        enterpriseName:'',
         companyName:'',
         chapter:'合同章',
         serialNumber:'',  //序列号
@@ -866,6 +866,8 @@
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
+        //   this.enterpriseName=res.data.data.companyName;
+            this.companyName=res.data.data.companyName;
           // this.authName=res.data.data.userName;
           this.cardNumber=res.data.data.mobile;
           this.effectiveStartTime=res.data.data.certificateStartTime;
@@ -928,7 +930,8 @@
     background: url("../../../static/images/Common/title.png") no-repeat;
   }
   .right-card{
-    background: url('../../../static/images/Common/numberCertificate.png') no-repeat 4px 4px;
+    background: url('../../../static/images/Common/numberCertificate.png') no-repeat 18px 2px;
+    background-size: 94%;
   }
   .create-seal{
     background: url("../../../static/images/Account/defalut-seal.png")no-repeat;
