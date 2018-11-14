@@ -21,10 +21,7 @@
     margin-left: 80px;
     line-height: 78px;
 }
-.nav ul li{
-    float: left;
-    padding: 0 22px 0 22px;
-}
+
 #ul li:hover{
    border-bottom: 3px solid red;
 }

@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { validateMoblie, validatePassWord, validateSmsCode, } from "@/common/js/validate";
+import { validateMoblie, validatePassWord, validateSmsCode } from "@/common/js/validate";
 // import SlideBar from '@/common/js/slideBar';
 import md5 from "js-md5";
 import server from "@/api/url";
@@ -241,10 +241,9 @@ export default {
             left: this.verX+'px',
             top: this.verY+'px'
         }
-       
     },
 	methods: {
-
+        
         mouseoverFn(e){
             this.slideShow=true
         },
@@ -258,7 +257,7 @@ export default {
             }else{
                 e.stopPropagation();
             }
-            let disX = e.clientX - document.getElementsByClassName('swiper')[0].getBoundingClientRect().left,
+            let disX = e.clientX - document.getElementsByClassName('swiper')[0].getBoundingClientRect().left,    //鼠标位置距离当前元素位置
                 disY = e.clientY - document.getElementsByClassName('swiper')[0].getBoundingClientRect().top,
                 curX = e.clientX;        //鼠标当前位置
             this.swiperStyle={
@@ -267,39 +266,44 @@ export default {
             }
             let that = this;
             that.$refs.swiper.onmousemove = function(e){
-                e = event || window.event;
+                e=window.event||e;
+                if(document.all){        //只有ie识别
+                    e.cancelBubble=true;
+                }else{
+                    e.stopPropagation();
+                }
                 let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
                     // maxWin = that.$refs.handle.getBoundingClientRect().width+20;
-                     maxWin = 300
+                     maxWin = 300;        //最大滑动距离
                 if(l < 0){
                     l = 0
                 }else if(l>maxWin){
                     l = maxWin
-                }
+                };
                 that.swiperStyle={
                     background:'#4391fb',
                     color:'#fff',
                     left:l+'px',
-                }
+                };
                 that.verifyStyle={
                     display:'block',
                     top:that.verY+'px',
                     'backgroundPosition':-that.verX+'px'+' '+-that.verY+'px',
                     left:l + 2+'px',
                     'backgroundImage':'url(static/images/'+that.number+'.png)'
-                }
+                };
                 that.bgStyle={
                     width:l+'px'
                 }
                 that.slideText='';
-
-            }
+            };
             that.$refs.swiper.onmouseup = function(e){
-                that.$refs.swiper.onmousemove = null;
-                that.$refs.swiper.onmouseup = null;
+                console.log(33333333)
+                // that.$refs.swiper.onmousemove = null;
+                // that.$refs.swiper.onmouseup = null;
                 let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
                     // maxWin = that.$refs.handle.getBoundingClientRect().width-40;
-                    maxWin = 300
+                    maxWin = 300;
                 if(l < 0){
                     l = 0
                 }else if(l>maxWin){
@@ -310,7 +314,6 @@ export default {
                     // that.$refs.swiper.onmousemove = null;
                     // that.$refs.swiper.onmouseup = null;
                     if(Math.abs(distance-that.verX) < 10){
-                        console.log(9999)
                         if(!that.ruleForm.username) {//成功但未输入手机号
                             that.$message({
                                 showClose: true,
@@ -375,6 +378,7 @@ export default {
                     }
                
             }
+            
         },
 
         //切换图片
@@ -389,9 +393,8 @@ export default {
                 }
 
         },
-        //滑动成功但未输入手机号
+        //滑动成功但未输入手机号或手机号输入格式不正确
         slideSuccessNoName(l){
-            console.log(111)
             let that = this;
             that.bgStyle = {
                 width:l+'px',
