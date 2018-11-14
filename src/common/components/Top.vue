@@ -2,7 +2,6 @@
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-
         <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
