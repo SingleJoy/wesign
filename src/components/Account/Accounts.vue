@@ -7,7 +7,7 @@
       <div class="container">
 
 
-        <div class="tab-body">
+        <div class="tab-body" v-show="isShow">
           <div class="tap">
 
             <div class="btn-active"  @click="AccoutCenter">账户中心</div>
@@ -428,6 +428,7 @@
         }
       }
       return{
+          isShow: true,
         ContractAllowance: '',
         baseURL:this.baseURL.BASE_URL,
         Jurisdiction:true,
@@ -903,6 +904,8 @@
 
         this.searchSecondAccounts();
       }else {
+          console.log(1211)
+          this.isShow = false;
         this.oneLever=false;      //二级账号不查询，并且不显示账号管理模块
       }
       // 子账户信息
