@@ -219,13 +219,21 @@ export const router = new Router({
       }
     },
     {
-      path: '/Multiparty',
+      path: '/Multiparty',   //我的模板
       name: 'Multiparty',
       component: Multiparty,
       meta: {
         auth: true
       }
     },
+    {
+        path: '/MultipartyUp',  //模板发起
+        name: 'MultipartyUp',
+        component: Multiparty,
+        meta: {
+          auth: true
+        }
+      },
     {
       path: '/Positions',
       name: 'Positions',

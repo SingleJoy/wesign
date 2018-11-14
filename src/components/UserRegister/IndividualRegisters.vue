@@ -295,7 +295,8 @@ export default {
 
             }
             that.$refs.swiper.onmouseup = function(e){
-                
+                that.$refs.swiper.onmousemove = null;
+                that.$refs.swiper.onmouseup = null;
                 let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
                     // maxWin = that.$refs.handle.getBoundingClientRect().width-40;
                     maxWin = 300
@@ -306,8 +307,8 @@ export default {
                 } 
                 var stopL = that.$refs.verify.getBoundingClientRect().left,
                     distance = stopL-(curX-disX);  //鼠标滑动距离
-                    that.$refs.swiper.onmousemove = null;
-                    that.$refs.swiper.onmouseup = null;
+                    // that.$refs.swiper.onmousemove = null;
+                    // that.$refs.swiper.onmouseup = null;
                     if(Math.abs(distance-that.verX) < 10){
                         console.log(9999)
                         if(!that.ruleForm.username) {//成功但未输入手机号

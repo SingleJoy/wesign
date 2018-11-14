@@ -134,7 +134,7 @@ const service = {
   //验证码
   smsCode(param) {
     return request({
-      url: "/api/v1.4/sms/sendCode",
+      url: "/api/v1.6/sms/sendCode",
       method: "post",
       params: param
     });

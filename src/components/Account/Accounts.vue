@@ -310,7 +310,7 @@
                      </span>
                     <br/><br/>
                     <span style="color: #d69856;line-height: 25px">文件签署<br/>
-                       <span style="color: #333;">签署“带我签署”状态的合同</span>
+                       <span style="color: #333;">签署“待我签署”状态的合同</span>
                      </span>
                      <br/><br/>
                     <span style="color: #d69856;line-height: 25px">延期<br/>
