@@ -7,11 +7,14 @@
       <div class="container">
 
 
-        <div class="tap">
+        <div class="tab-body">
+          <div class="tap">
 
-        <div class="btn-active"  @click="AccoutCenter">账户中心</div>
-        <div class="btn-default" style="margin-left: -5px;" @click="CostCenter">费用中心</div>
+            <div class="btn-active"  @click="AccoutCenter">账户中心</div>
+            <div class="btn-default" style="margin-left: -5px;" @click="CostCenter">费用中心</div>
+          </div>
         </div>
+
 
         <div class="content">
 
