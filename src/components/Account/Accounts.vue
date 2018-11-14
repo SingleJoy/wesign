@@ -80,7 +80,7 @@
 
               <div class="card right-card" style="margin-top: 20px;margin-left: 20px;">
                 <div class="right-card-content">
-                  <div class="right-line" style="height: 50px;">
+                  <div class="right-line">
                     <span style="display: inline-block;width: 60px;vertical-align: top;">序列号:</span>
                     <b style="display: inline-block;width: 180px;word-wrap:break-word;vertical-align: top;">{{issuedNumber}}</b>
                   </div>
@@ -92,7 +92,7 @@
                   <!--<span>证件号:</span>-->
                   <!--<b>{{cardNumber}}</b>-->
                   <!--</div>-->
-                  <div class="right-line" style="margin-top: 20px;">
+                  <div class="right-line">
                     <span>有效起始时间:</span>
                     <b>{{effectiveStartTime}}</b>
                   </div>
