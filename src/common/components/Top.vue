@@ -181,14 +181,16 @@
       choice(){
 
         if(this.isBusiness==0){
-          this.getContractNum();
+            this.popup =!this.popup;
+            this.getContractNum();
         }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
           this.$alert('您暂无上传发起权限','提示', {
             confirmButtonText: '确定'
           })
         }else{
-          this.getContractNum();
-          this.popup =!this.popup;
+             this.popup =!this.popup;
+             this.getContractNum();
+        //   console.log( this.popup)
         }
       },
       //合同剩余发起次数
