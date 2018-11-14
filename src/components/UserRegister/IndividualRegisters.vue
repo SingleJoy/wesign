@@ -266,7 +266,12 @@ export default {
             }
             let that = this;
             that.$refs.swiper.onmousemove = function(e){
-                e = event || window.event;
+                e=window.event||e;
+                if(document.all){        //只有ie识别
+                    e.cancelBubble=true;
+                }else{
+                    e.stopPropagation();
+                }
                 let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
                     // maxWin = that.$refs.handle.getBoundingClientRect().width+20;
                      maxWin = 300;        //最大滑动距离
@@ -293,8 +298,9 @@ export default {
                 that.slideText='';
             };
             that.$refs.swiper.onmouseup = function(e){
-                that.$refs.swiper.onmousemove = null;
-                that.$refs.swiper.onmouseup = null;
+                console.log(33333333)
+                // that.$refs.swiper.onmousemove = null;
+                // that.$refs.swiper.onmouseup = null;
                 let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
                     // maxWin = that.$refs.handle.getBoundingClientRect().width-40;
                     maxWin = 300;
