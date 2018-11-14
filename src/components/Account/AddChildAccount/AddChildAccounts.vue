@@ -34,7 +34,7 @@
                     <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis" id="password"></el-input>
 
                     <el-tooltip class="item" effect="dark" content="当前手机号已在平台注册，密码自动填充" placement="right"  v-show="showToolTip">
-                      <el-button style="position: absolute;top:-3px;right:-25px;border:none;padding: 10px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
+                      <el-button style="position: absolute;top:-3px;right:-4px;border:none;padding: 10px;"><i class="el-icon-question" style="font-size: 25px;color: red;"></i></el-button>
                     </el-tooltip>
                   </el-form-item>
 
@@ -182,7 +182,7 @@
       // 校验二级账户名称姓名
       var validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
-          callback(new Error('请输入姓名'))
+          callback(new Error('请输入账户名称'))
         } else if (value.length<2 || value.length > 15 ) {
           callback(new Error('姓名长度2-15位'))
         } else {
@@ -192,7 +192,7 @@
       // 校验二级账号管理员账户
       var validateUserName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
-          callback(new Error('请输入管理员账户'))
+          callback(new Error('请输入管理员姓名'))
         } else if (value.length<2 || value.length > 15 ) {
           callback(new Error('管理员账户格式错误'))
         } else {

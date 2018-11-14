@@ -64,7 +64,7 @@
                   <dl v-for="(item,index) in signUserList" :key="index" v-drag style="position:relative;width:100%;background:#fff">
                     <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.signUserName}}</dd>
                     <!-- <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.userName}}</dd> -->
-                    <dd>{{item.userName}}<br>{{item.mobile}}</dd>
+                    <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.userName}}<br>{{item.mobile}}</dd>
                     <p class='hidden' style="display:none">{{item.interfaceCode}}</p>
                     <p class='hidden' style="display:none">{{item.userCode}}</p>
                     <!-- <dd v-on:click="getIndex(item,index)">拖入位置</dd> -->
@@ -76,10 +76,9 @@
                   <p style="line-height: 40px;font-family: 幼圆;">对手方</p>
                   <dl v-for="(item,index) in analogueList" :key="index"  v-drag style="position:relative;background:#fff">
                     <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap;'>{{item.signUserName}}</dd>
-                    <dd>{{item.userName}}<br>{{item.mobile}}</dd>
+                    <dd style='width:130px;overflow:hidden;text-overflow:ellipsis; white-space:nowrap'>{{item.userName}}<br>{{item.mobile}}</dd>
                     <p class='hidden' style="display:none">{{item.interfaceCode}}</p>
                     <p class='hidden' style="display:none">{{item.userCode}}</p>
-                    <!-- <dd v-on:click="getIndex(item,index)">拖入位置</dd> -->
                     <dd style='font-size:12px;position:absolute;width:100%;bottom:0;'>拖入位置（0）次</dd>
                   </dl>
               </div>
