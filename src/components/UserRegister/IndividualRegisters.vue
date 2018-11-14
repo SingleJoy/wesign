@@ -265,7 +265,7 @@ export default {
                 color:'#fff'
             }
             let that = this;
-            that.$refs.swiper.onmousemove = function(e){
+            that.$refs.slide.onmousemove = function(e){
                 e=window.event||e;
                 if(document.all){        //只有ie识别
                     e.cancelBubble=true;
@@ -297,7 +297,7 @@ export default {
                 }
                 that.slideText='';
             };
-            that.$refs.swiper.onmouseup = function(e){
+            that.$refs.slide.onmouseup = function(e){
                 console.log(33333333)
                 // that.$refs.swiper.onmousemove = null;
                 // that.$refs.swiper.onmouseup = null;
@@ -311,8 +311,8 @@ export default {
                 } 
                 var stopL = that.$refs.verify.getBoundingClientRect().left,
                     distance = stopL-(curX-disX);  //鼠标滑动距离
-                    // that.$refs.swiper.onmousemove = null;
-                    // that.$refs.swiper.onmouseup = null;
+                    that.$refs.slide.onmousemove = null;
+                    that.$refs.slide.onmouseup = null;
                     if(Math.abs(distance-that.verX) < 10){
                         if(!that.ruleForm.username) {//成功但未输入手机号
                             that.$message({
@@ -373,6 +373,7 @@ export default {
                             }
                             that.slideStatue = '>>';
                             that.slideShow=false;
+                            that.slideText="向右拖动滑块拼图验证"
                         },500)
 
                     }
@@ -417,6 +418,7 @@ export default {
                     color:'#adaaaa',
                     left:0+'px',
                 }
+                that.slideText="向右拖动滑块拼图验证"
             },500)
         },
 		//跳转到登录
