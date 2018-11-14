@@ -10,7 +10,7 @@
 
 </template>
 <style lang="scss" scoped>
-@import "../styles/Top.css";
+@import "../styles/Top.scss";
 .signout-btn{
   float: right;
   margin-top: 25px;

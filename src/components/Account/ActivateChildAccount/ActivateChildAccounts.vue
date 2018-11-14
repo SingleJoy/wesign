@@ -461,7 +461,7 @@
   }
   .nav ul li{
     float: left;
-    padding: 0 22px 0 22px;
+    // padding: 0 22px 0 22px;
   }
 
   .nav ul li a{
@@ -536,7 +536,7 @@
   .buttons{
     position: absolute;
     right: 10px;
-    top: 15px;
+    top: 20px;
   }
   .active-button{
     float:right

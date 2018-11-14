@@ -91,8 +91,8 @@
 
   </div>
 </template>
-<style lang="css" scoped>
-  @import "../styles/Top.css";
+<style lang="scss" scoped>
+  @import "../styles/Top.scss";
   .dialogbg {
     background: #000;
     background: rgba(0, 0, 0, 0.6);

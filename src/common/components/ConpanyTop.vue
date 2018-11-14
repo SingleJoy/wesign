@@ -105,8 +105,8 @@
     </div>
   </div>
 </template>
-<style scoped>
-  @import "../styles/Top.css";
+<style lang="scss" scoped>
+  @import "../styles/Top.scss";
 </style>
 <style>
 
