@@ -260,7 +260,7 @@
         else if((this.b2bNum!=0)&&(this.b2cNum==0)){
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
+            <p class="title">对不起，您的对个人签约次数已用尽!</p>
           <p>成为正式用户享受更多使用权限</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
@@ -276,7 +276,7 @@
          console.log("22222:"+this.b2cNum);
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的免费签约次数已用尽!</p>
+            <p class="title">对不起，您的签约次数已用尽!</p>
           <p>成为正式用户享受更多使用权限</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
@@ -333,7 +333,7 @@
         else if((this.b2bNum==0)&&(this.b2cNum!=0)){
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的免费对企业签约次数已用尽!</p>
+            <p class="title">对不起，您的对企业签约次数已用尽!</p>
           <p>成为正式用户享受更多使用权限</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
@@ -348,7 +348,7 @@
 
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的免费签约次数已用尽!</p>
+            <p class="title">对不起，您的签约次数已用尽!</p>
           <p>成为正式用户享受更多使用权限</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})

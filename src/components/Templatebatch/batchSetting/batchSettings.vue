@@ -682,4 +682,14 @@
     overflow-y: scroll;
     height: 700px;
   }
+  .warn-num{
+    text-align: center;
+  p{
+    line-height: 30px;
+    text-align: left;
+  }
+  .title{
+    font-size: 18px;
+  }
+  }
 </style>
