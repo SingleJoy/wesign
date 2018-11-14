@@ -659,7 +659,7 @@
                     this.$router.push('/Whether')
                   }
                 } else {
-                  this.$alert('更换合同失败!','提示', {
+                  this.$alert(res.data.resultMessage,'提示', {
                     confirmButtonText: '确定'
                   })
                   this.falg = true;

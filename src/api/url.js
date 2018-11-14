@@ -8,6 +8,15 @@ const service = {
       params: param
     });
   },
+
+  //图形验证码获取token
+  getImgToken(param){
+    return request({
+        url: "/api/v1.6/sms/sendToken",
+        method: "get",
+        params: param
+      });
+  },
   //登录接口
   login(param, urlParam) {
     return request({
