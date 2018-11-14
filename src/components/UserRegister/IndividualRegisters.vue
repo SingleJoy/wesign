@@ -43,14 +43,14 @@
 						<p style="margin-top: 15px;">众签应用互联网云技术，用最快的方式解决互联网在线签署及其司法效力等</p>
 						<p>问题。使用众签让你的工作，生活更美好，更随意。</p> -->
 					</div>
-					<div class='user'>
+					<div class='user' ref="slide" >
 					<h2 class='userInfo'>用户注册</h2>
 					<el-form label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
 						<el-form-item prop="username">
 						<el-input v-model="ruleForm.username" placeholder="请输入手机号" :disabled="userDisabled" :maxlength="11" class="login-input"></el-input><i class="icon-user"></i>
 						</el-form-item>
                         <el-form-item>
-                            <div class="slide_box" ref="slide"  @mouseover="slideSuccess && mouseoverFn($event)" @mouseout="mouseoutFn($event)">
+                            <div class="slide_box" onselectstart="return false;"  @mouseover="slideSuccess && mouseoverFn($event)" @mouseout="!ismouseUp && mouseoutFn($event)">
                                 <div class="imgBox" v-if="slideShow">
                                     <img class="verImg" :src="'../../../static/images/'+number+'.png'" alt="">
                                     <div class="verify" :style="verifyStyle" ref="verify"></div>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="handle" ref="handle" :disabled="!slideSuccess">
                                     <span class="bg" :style="bgStyle"></span>
-                                    <span class="swiper" ref="swiper" :style="swiperStyle" @mousedown="slideSuccess&&mousedownFn($event)">{{slideStatue}}</span>
+                                    <span class="swiper" ref="swiper" onselectstart="return false;" :style="swiperStyle" @mousedown="slideSuccess&&mousedownFn($event)">{{slideStatue}}</span>
                                     <span class="slide_text">{{slideText}}</span>
                                 </div>
                             </div>
@@ -158,6 +158,7 @@ export default {
 			}
 		};
 		return {
+            ismouseUp:false,
             slideSuccess:true,
             verY:'',     //top值
             verX:'',      //
@@ -228,7 +229,7 @@ export default {
             this.number = imgIndex+''+imgIndex;
         var imgH = 200;
            // 随机生成坐标（图片框固定宽度为300px，高度不定）
-        this.verX = 100 * (2 + Math.random()), //小于300保证
+        this.verX = 100 * (2 + Math.random())-40, //小于290保证
         this.verY = imgH / 4 + Math.random() * imgH / 2;
         this.verifyStyle={
             display:'block',
@@ -248,7 +249,7 @@ export default {
             this.slideShow=true
         },
         mouseoutFn(e){
-             this.slideShow=false
+            this.slideShow=false
         },
         mousedownFn(e){
             e=window.event||e;
@@ -257,7 +258,9 @@ export default {
             }else{
                 e.stopPropagation();
             }
-            let disX = e.clientX - document.getElementsByClassName('swiper')[0].getBoundingClientRect().left,    //鼠标位置距离当前元素位置
+            this.ismouseUp = true;
+            this.slideShow=true
+            var disX = e.clientX - document.getElementsByClassName('swiper')[0].getBoundingClientRect().left,    //鼠标位置距离当前元素位置
                 disY = e.clientY - document.getElementsByClassName('swiper')[0].getBoundingClientRect().top,
                 curX = e.clientX;        //鼠标当前位置
             this.swiperStyle={
@@ -265,20 +268,25 @@ export default {
                 color:'#fff'
             }
             let that = this;
+            var l,maxWin;
+            var sildeMove = that.$refs.slide;   //暂存slide节点 删除move事件
             that.$refs.slide.onmousemove = function(e){
                 e=window.event||e;
                 if(document.all){        //只有ie识别
                     e.cancelBubble=true;
                 }else{
                     e.stopPropagation();
-                }
-                let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
-                    // maxWin = that.$refs.handle.getBoundingClientRect().width+20;
-                     maxWin = 300;        //最大滑动距离
+                };
+                l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left;  //移动距离
+                maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离  
+                // console.log(l,maxWin,that.$refs.handle.getBoundingClientRect().width)
+                console.log(l)
                 if(l < 0){
                     l = 0
                 }else if(l>maxWin){
-                    l = maxWin
+                    l = maxWin;
+                    sildeMove.onmousemove = null;
+                    that.slideFaild(l);
                 };
                 that.swiperStyle={
                     background:'#4391fb',
@@ -298,88 +306,50 @@ export default {
                 that.slideText='';
             };
             that.$refs.slide.onmouseup = function(e){
-                console.log(33333333)
-                // that.$refs.swiper.onmousemove = null;
-                // that.$refs.swiper.onmouseup = null;
-                let l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left,
-                    // maxWin = that.$refs.handle.getBoundingClientRect().width-40;
-                    maxWin = 300;
-                if(l < 0){
-                    l = 0
-                }else if(l>maxWin){
-                    l = maxWin
-                } 
-                var stopL = that.$refs.verify.getBoundingClientRect().left,
-                    distance = stopL-(curX-disX);  //鼠标滑动距离
-                    that.$refs.slide.onmousemove = null;
-                    that.$refs.slide.onmouseup = null;
-                    if(Math.abs(distance-that.verX) < 10){
-                        if(!that.ruleForm.username) {//成功但未输入手机号
-                            that.$message({
-                                showClose: true,
-                                message: "请输入手机号",
-                                type: 'error'
-                            });
-                            that.slideSuccessNoName(l);
-                            return false;
-                        } else if (!validateMoblie(that.ruleForm.username)){
-                            that.$message({
-                                showClose: true,
-                                message: "手机号输入错误",
-                                type: 'error'
-                            });
-                            that.slideSuccessNoName(l);
-                            return false;
+                sildeMove.onmousemove = null;
+                sildeMove.onmouseup = null;
+                that.slideShow=false
+                that.ismouseUp = true;
+                if(Math.abs(l-that.verX) < 4){
+                    if(!that.ruleForm.username) {//成功但未输入手机号
+                        that.$message({
+                            showClose: true,
+                            message: "请输入手机号",
+                            type: 'error'
+                        });
+                        that.slideSuccessNoName(l);
+                        return false;
+                    } else if (!validateMoblie(that.ruleForm.username)){
+                        that.$message({
+                            showClose: true,
+                            message: "手机号输入错误",
+                            type: 'error'
+                        });
+                        that.slideSuccessNoName(l);
+                        return false;
 
-                        } else {               //滑动成功
-                            that.getToken();
-                            that.bgStyle = {
-                                width:l+'px',
-                                background:'#d2f4ef'
-                            }
-                            that.swiperStyle={
-                                background:'#52ccba',
-                                color:'#fff',
-                                left:l+'px',
-                            }
-
-                            that.slideSuccess = false;
-                            that.slideText='>>';
-                            that.slideShow=false;
-                        }
-                         that.isDisabled = false;
-                    }else{                         //滑动失败
+                    } else {               //滑动成功
+                        that.getToken();
                         that.bgStyle = {
                             width:l+'px',
-                            background:'#ff5c57'
+                            background:'#d2f4ef'
                         }
                         that.swiperStyle={
-                            background:'#ce2b26',
+                            background:'#52ccba',
                             color:'#fff',
                             left:l+'px',
                         }
-                        that.slideStatue = 'X';
-                        that.isDisabled = true;
-                        that.slideShow=false;
-                        setTimeout(function(){
-                            that.bgStyle = {
-                                width:0,
-                                background:'#5997ec'
-                            }
-                            that.swiperStyle={
-                                background:'#fff',
-                                left:0,
-                                color:'#adaaaa'
-                            }
-                            that.slideStatue = '>>';
-                            that.slideShow=false;
-                            that.slideText="向右拖动滑块拼图验证"
-                        },500)
 
+                        that.slideSuccess = false;
+                        that.slideText='>>';
+                        that.slideShow=false;
+                        that.ismouseUp = false;
                     }
-               
-            }
-            
+                        that.isDisabled = false;
+                }else{                         //滑动失败
+                    that.slideFaild(l);
+                }
+            } 
         },
 
         //切换图片
@@ -418,7 +388,43 @@ export default {
                     color:'#adaaaa',
                     left:0+'px',
                 }
+                that.ismouseUp = false;
+                that.changeImg();
                 that.slideText="向右拖动滑块拼图验证"
+            },500)
+        },
+
+        //slide滑动失败
+        slideFaild(l){
+            console.log(3333333333333)
+            let that = this;
+            that.bgStyle = {
+                width:l+'px',
+                background:'#ff5c57'
+            }
+            that.swiperStyle={
+                background:'#ce2b26',
+                color:'#fff',
+                left:l+'px',
+            }
+            that.slideStatue = 'X';
+            that.isDisabled = true;
+            that.slideShow=false;
+            setTimeout(function(){
+                that.bgStyle = {
+                    width:0,
+                    background:'#5997ec'
+                }
+                that.swiperStyle={
+                    background:'#fff',
+                    left:0,
+                    color:'#adaaaa'
+                }
+                that.changeImg();
+                that.slideStatue = '>>';
+                that.slideShow=false;
+                that.slideText="向右拖动滑块拼图验证";
+                that.ismouseUp = false;
             },500)
         },
 		//跳转到登录
