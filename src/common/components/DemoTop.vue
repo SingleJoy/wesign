@@ -1,4 +1,4 @@
-               <template>
+<template>
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
@@ -15,12 +15,12 @@
         <li :class="{'left-num':accountLevel==2}"><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
-           <router-link  @click.native="tabActive(5)" to='/Account'>
-             <img src="../../../static/images/setup.png" alt="">
-             <a href="javascript:void(0);">我的账户</a>
-           </router-link>
-         </li>
+        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
+          <router-link  @click.native="tabActive(5)" to='/Account'>
+            <img src="../../../static/images/setup.png" alt="">
+            <a href="javascript:void(0);">我的账户</a>
+          </router-link>
+        </li>
         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
           <router-link  @click.native="tabActive(5)" to='/NoReal'>
             <img src="../../../static/images/setup.png" alt="">
@@ -29,105 +29,43 @@
         </li>
       </ol>
 
-
     </nav>
 
-
-
+    <template>
+      <Version v-show="showVersion" :showVersion="showVersion" @closeVersion="closeVersion"></Version>
+    </template>
 
   </div>
 </template>
 <style lang="css" scoped>
-@import "../styles/DemoHomeTop.css";
-.Top .nav a{
+  @import "../styles/DemoHomeTop.css";
+  .Top .nav a{
     font-size: 16px;
-}
-.el-tabs__item.is-active{
-  color:#fff
-}
-.el-tabs__item:hover{
-  color:#fff
-}
-.el-tabs__item{
-  color:#fff
-}
-.el-tabs__active-bar{
-  background-color:red
-}
-.el-tabs__nav-wrap::after{
-  height:0
-}
-.left-num{
+  }
+  .el-tabs__item.is-active{
+    color:#fff
+  }
+  .el-tabs__item:hover{
+    color:#fff
+  }
+  .el-tabs__item{
+    color:#fff
+  }
+  .el-tabs__active-bar{
+    background-color:red
+  }
+  .el-tabs__nav-wrap::after{
+    height:0
+  }
+  .left-num{
     margin-left: 80px;
-}
-.dialogbg{
-  background:#000;
-  background:rgba(0,0,0,.3);
-  width:100%;
-  height:1080px;
-  position: absolute;
-  left:0;
-  top:0;
-  z-index: 1999;
+  }
 
-}
-  #dilog{
-    width:100%;
-    height: 100%;
 
-    position: absolute;
-    z-index:1000;
-    background-color:rgba(0,0,0,0.5);
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    margin:auto;
-    display:none;
-    }
-  .box{
-    width:360px;
-    height: 430px;
-
-    background:url('../../../static/images/Top/version-info1.6.gif');
-    position: absolute;
-    left:0;
-    top:0;
-    right: 0;
-    bottom:0;
-    margin: auto;
-  }
-  .box .container{
-    margin-top:180px;
-  }
-  .box .container h2{
-    text-align:center;
-  }
-   .box .container p{
-    line-height:30px;
-    padding-left:30px;
-    color:#999;
-  }
-  .box .container p:nth-child(2){
-    padding-left:30px;
-    padding-top:20px;
-  }
-  #close{
-    position: absolute;
-    right:-30px;
-    top:-16px;
-    width:30px;
-    height: 30px;
-    color:#fff;
-    background:#ccc;
-    border-radius:50%;
-    text-align:center;
-    line-height:30px;
-  }
   .el-dialog--center .el-dialog__footer {
     margin-top: -17px;
   }
-    .loginOut{
+  .loginOut{
     height:200px !important;
     width:400px !important;
     overflow: hidden !important;
@@ -143,12 +81,17 @@
   }
 </style>
 <script>
-import cookie from '@/common/js/getTenant'
-export default {
-  name: 'Top',
-      data() {
+  import cookie from '@/common/js/getTenant'
+  import Version from '@/common/components/Version.vue'
+  export default {
+    name: 'Top',
+    components:{
+      Version
+    },
+    data() {
       return {
         baseURL:this.baseURL.BASE_URL,
+        showVersion:false, //版本号默认不显示
         fullscreenLoading: false,
         popup:false,
         Type:{contractType:'0'},
@@ -165,15 +108,15 @@ export default {
       }
     },
     methods: {
-        choice(){
-            if(cookie.getJSON('tenant')[1].createContractRole== 1){
-                this.$alert('您暂无发起权限','提示', {
-                    confirmButtonText: '确定'
-                })
-            }else{
-                this.popup =!this.popup
-            }
-        },
+      choice(){
+        if(cookie.getJSON('tenant')[1].createContractRole== 1){
+          this.$alert('您暂无发起权限','提示', {
+            confirmButtonText: '确定'
+          })
+        }else{
+          this.popup =!this.popup
+        }
+      },
       urlloadUrl(){
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
@@ -227,22 +170,22 @@ export default {
         this.popup=!this.popup
       },
       fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-      this.$loading.hide();
-      var contractName = file.name.replace(/\s+/g, "")
-      var contractNo = file.response.contractNo
-      var resultCode = file.response.resultCode
-      if(  this.uploadFile == true ){
-        this.$message({
-          showClose: true,
-          message: '上传成功',
-          type: 'success'
-        });
-        var index1=contractName.lastIndexOf(".");
-        var suffix=contractName.slice(0,index1);
-        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', suffix)
-        sessionStorage.setItem('contractNo', contractNo)
-        this.$router.push('/Contractsigning')
+        this.$loading.hide();
+        var contractName = file.name.replace(/\s+/g, "")
+        var contractNo = file.response.contractNo
+        var resultCode = file.response.resultCode
+        if(  this.uploadFile == true ){
+          this.$message({
+            showClose: true,
+            message: '上传成功',
+            type: 'success'
+          });
+          var index1=contractName.lastIndexOf(".");
+          var suffix=contractName.slice(0,index1);
+          this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+          sessionStorage.setItem('contractName', suffix)
+          sessionStorage.setItem('contractNo', contractNo)
+          this.$router.push('/Contractsigning')
         }
       },
       fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
@@ -267,15 +210,12 @@ export default {
       openFullScreen() {
         this.fullscreenLoading = true
       },
-      dialogVisible (value) {
-        this.tabIndex = value
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='block'
+      dialogVisible () {
+
+        this.showVersion=true;
       },
-      closes(){
-        this.tabIndex = this.$store.state.tabIndex
-        var dilog = document.getElementById('dilog')
-        dilog.style.display='none'
+      closeVersion(){
+        this.showVersion=false;
       },
       amendPassWord() {
         const h = this.$createElement;
@@ -325,7 +265,7 @@ export default {
           }
         })
       },
-       tabActive(value){
+      tabActive(value){
         this.$store.dispatch('tabIndex',{tabIndex:value});
         this.tabIndex = this.$store.state.tabIndex;
 
@@ -343,17 +283,17 @@ export default {
       // }
       //var Status = cookie.getJSON('tenant')[1].isBusiness;
       // console.log("Status"+Status)
-    //   if(Status == '0'){
-    //     this.Jurisdiction = false
+      //   if(Status == '0'){
+      //     this.Jurisdiction = false
 
-    //   }else {
-    //     this.Jurisdiction = true
-    //   }
+      //   }else {
+      //     this.Jurisdiction = true
+      //   }
 
 
     },
 
 
-}
+  }
 </script>
 

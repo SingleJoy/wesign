@@ -123,7 +123,8 @@
         baseURL:this.baseURL.BASE_URL,
         show:false,
         dialogTableVisible:false,
-        accountLevel:sessionStorage.getItem("accountLevel")
+        accountLevel:sessionStorage.getItem("accountLevel"),
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
       };
     },
     methods: {
@@ -163,13 +164,32 @@
         }
       },
       generateClick(row){
-        // console.log(row)
-        this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
-        this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
-        sessionStorage.setItem('templateName', row.templateName)
-        sessionStorage.setItem('templateNo',row.templateNo)
-        sessionStorage.setItem('templateGenre',row.templateGenre)
-        this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
+
+        server.authorityUpload(this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+
+            this.b2cNum = res.data.data.b2cNum;
+            sessionStorage.setItem("b2cNum",this.b2cNum)
+            if(this.b2cNum==0){
+              this.$confirm(
+              <div class="warn-num">
+                <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
+              <p>成为正式用户享受更多使用权限</p>
+              <p>客服电话：400-0000-6923</p>
+              </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+            }else {
+              this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
+              this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
+              sessionStorage.setItem('templateName', row.templateName)
+              sessionStorage.setItem('templateNo',row.templateNo)
+              sessionStorage.setItem('templateGenre',row.templateGenre)
+              this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
+            }
+
+          }
+        })
+
+
       },
       getTemplateList (templateInfoRequest) {
         var data =[];

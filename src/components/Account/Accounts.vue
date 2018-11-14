@@ -45,10 +45,16 @@
                   <span>被授权人姓名:</span>
                   <b>{{authName}}</b>
                 </div>
-                <div class="card-line">合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</div>
                 <div class="card-line">
-                  <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同&nbsp;{{b2bNum}}份&nbsp;&nbsp;|&nbsp;</span>
-                  <span>对个人合同&nbsp;{{b2cNum}}份</span>
+                    <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
+                    <span>{{ContractAllowance}}&nbsp;份</span>
+                </div>
+                <div class="card-line">
+                  <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同:&nbsp;{{b2bNum}}&nbsp;份</span>
+                  <!-- <span>对个人合同&nbsp;{{b2cNum}}份</span> -->
+                </div>
+                <div class="card-line">
+                  <span>对&nbsp;个&nbsp;人&nbsp;合&nbsp;同:&nbsp;{{b2cNum}}&nbsp;份</span>
                 </div>
                 <div class="card-line" v-if="accountLevel=='2'">
                   <span>企&nbsp;&nbsp;业&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
@@ -419,6 +425,7 @@
         }
       }
       return{
+        ContractAllowance: '',
         baseURL:this.baseURL.BASE_URL,
         Jurisdiction:true,
         mobile:'',
@@ -881,6 +888,7 @@
           sessionStorage.setItem("authName",this.authName);
           this.b2bNum = res.data.data.b2bNum;
           this.b2cNum = res.data.data.b2cNum;
+          this.ContractAllowance = Number(this.b2bNum) + Number(this.b2cNum);
         }
       })
 
