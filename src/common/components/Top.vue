@@ -17,7 +17,7 @@
         <li><router-link to='/Multiparty'>我的模板</router-link></li>
         <li><router-link v-if="accountLevel!=2" to='/Room'>签约室</router-link></li>
         <li @click="dialogVisible"><a >版本</a></li>
-        <li class="contract-add no-border"><router-link to='/MultipartyUp'>模板发起</router-link></li>
+        <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
         <li v-if="Jurisdiction"><router-link to='/Account'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
         <li v-else><router-link to='/NoReal'>我的账户</router-link></li>
@@ -199,8 +199,6 @@
             this.contractNum = res.data.data;
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
-
-
           }else{
             this.$message({
               showClose: true,
@@ -261,7 +259,7 @@
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的对个人签约次数已用尽!</p>
-          <p>成为正式用户享受更多使用权限</p>
+          <p>购买更多签约次数可联系客服</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
@@ -277,7 +275,7 @@
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的签约次数已用尽!</p>
-          <p>成为正式用户享受更多使用权限</p>
+          <p>购买更多签约次数可联系客服</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
@@ -334,7 +332,7 @@
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的对企业签约次数已用尽!</p>
-          <p>成为正式用户享受更多使用权限</p>
+          <p>购买更多签约次数可联系客服</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
@@ -349,7 +347,7 @@
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的签约次数已用尽!</p>
-          <p>成为正式用户享受更多使用权限</p>
+          <p>购买更多签约次数可联系客服</p>
           <p>客服电话：400-0000-6923</p>
           </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
