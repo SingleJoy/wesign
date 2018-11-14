@@ -6,16 +6,14 @@
 
       <div class="container">
 
-       <div class="tab-body">
-         <div class="tap">
 
-           <div class="btn-active"  @click="AccoutCenter">账户中心</div>
-           <div class="btn-default" style="margin-left: -5px;" @click="CostCenter">费用中心</div>
-         </div>
-       </div>
+        <div class="tap">
 
+        <div class="btn-active"  @click="AccoutCenter">账户中心</div>
+        <div class="btn-default" style="margin-left: -5px;" @click="CostCenter">费用中心</div>
+        </div>
 
-        <div class="content" >
+        <div class="content">
 
           <!--账户信息-->
           <div class="content-body">
@@ -48,8 +46,8 @@
                   <b>{{authName}}</b>
                 </div>
                 <div class="card-line">
-                  <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
-                  <span>{{ContractAllowance}}&nbsp;份</span>
+                    <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
+                    <span>{{ContractAllowance}}&nbsp;份</span>
                 </div>
                 <div class="card-line">
                   <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同:&nbsp;{{b2bNum}}&nbsp;份</span>
@@ -113,10 +111,10 @@
           <div class="border-bottom"></div>
           <div class="sign-content">
             <!--签章管理显示逻辑：-->
-            <!--一级账号：始终会有一个默认签章，可以再添加一个签章并且签章可以进行切换选择一个默认合同签章；-->
-            <!--二级账号：二级账号激活后，进入我的账户页面，签章只显示一级账号选择的默认签章，无法进行签章切换操作-->
-            <!--渲染签章列表逻辑-->
-            <!--只有一级账号才会全部渲染，二级账号只显示默认签章-->
+             <!--一级账号：始终会有一个默认签章，可以再添加一个签章并且签章可以进行切换选择一个默认合同签章；-->
+             <!--二级账号：二级账号激活后，进入我的账户页面，签章只显示一级账号选择的默认签章，无法进行签章切换操作-->
+              <!--渲染签章列表逻辑-->
+             <!--只有一级账号才会全部渲染，二级账号只显示默认签章-->
             <!--accountLevel  1为一级账号  2为二级账号  item.defultCode 0为默认签章 1为非默认签章->
             <!--item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
             <!--chooseDefaultSeal  -->
@@ -130,7 +128,7 @@
 
 
             <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
-              <!--<div class="create-seal" >-->
+            <!--<div class="create-seal" >-->
               <!--生成公章-->
               <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
               <span>录入公章防伪码在线生成</span>
@@ -150,7 +148,31 @@
         </div>
 
         <div class="seal-management" v-if="oneLever">
-          <p class="title" style="position: relative;">账号管理</p>
+          <p class="title" style="position: relative;">账号管理
+
+            <!--<el-tooltip class="item" effect="dark" style="width: 400px;" content="-->
+            <!--一、什么是子账号？-->
+            <!--子账号由企业管理员开通授权，使用手机号登录，可发起合同、管理合同-->
+            <!--二、子账号拥有哪些权限？-->
+            <!--子账号仅可管理本账号内的合同，不可接收合同文件-->
+            <!--1.发起合同-->
+            <!--可上传文件发起合同，也可以通过一级账号分配的模板发起合同-->
+            <!--2.文件签署-->
+            <!--签署“待我签署”状态的合同-->
+            <!--3.下载文件-->
+            <!--合同签署完成后，子账号管理员可将合同下载到本地-->
+            <!--4.延期-->
+            <!--合同已到达签署截止日且仍未签署完成时，子账号管理员可修改签署截止日-->
+            <!--三、开通子账号需要哪几步？-->
+            <!--1.录入子账号基本信息，对子账号管理员主体进行实名认证（若账号已经在微签注册、实名过，则不需要设置密码）-->
+            <!--2.为子账号分配模板-->
+            <!--3.提交开通子账号申请-->
+            <!--4.短信通知子账号管理员-->
+            <!--5.子账号管理员登录账号，签署授权书激活子账号" placement="right">-->
+            <!--<span><i class="el-icon-warning" style="color: red;font-size: 20px;margin-left: 80px;position:absolute;top: 15px;"></i></span>-->
+
+            <!--</el-tooltip>-->
+          </p>
 
           <div class="border-bottom"></div>
           <div class="child-account" style="overflow: hidden" >
@@ -624,7 +646,7 @@
 
           }else if((res.data.resultCode == '1')&&(accountStatus=='3')){
             //冻结成功重新查询二级账号
-            this.$loading.show(); //显示
+             this.$loading.show(); //显示
             this.accountList=[];
             this.searchSecondAccounts();
             this.$loading.hide(); //loading隐藏
@@ -665,21 +687,21 @@
 
           let data=res.data;
           let sealArray=[];
-          if(data.resultCode=='1'){
-            //   console.log(data.dataList);
-            for(let i=0;i<data.dataList.length;i++){
-              sealArray.push(data.dataList[i])
+         if(data.resultCode=='1'){
+        //   console.log(data.dataList);
+          for(let i=0;i<data.dataList.length;i++){
+            sealArray.push(data.dataList[i])
 
-            };
-            if(data.dataList.length>1){
-              this.officeSeal=true;
-            }else {
-              this.officeSeal=false;
-            }
-            this.SealList=sealArray;
-          }else{
-
+          };
+          if(data.dataList.length>1){
+            this.officeSeal=true;
+          }else {
+            this.officeSeal=false;
           }
+           this.SealList=sealArray;
+         }else{
+
+         }
 
         });
       },
@@ -748,8 +770,8 @@
         } else {
           this.$alert(<div style="textAlign:center">
             <p>对不起，您还未获得正式授权，暂不支持开通子账号</p>
-          <p class="vertifiId-warn warn-first">客服电话:400-0000-6923</p>
-          </div>, '警告',{confirmButtonText: '确定',});
+            <p class="vertifiId-warn warn-first">客服电话:400-0000-6923</p>
+           </div>, '警告',{confirmButtonText: '确定',});
 
         }
       },
@@ -844,8 +866,8 @@
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
-          //   this.enterpriseName=res.data.data.companyName;
-          this.companyName=res.data.data.companyName;
+        //   this.enterpriseName=res.data.data.companyName;
+            this.companyName=res.data.data.companyName;
           // this.authName=res.data.data.userName;
           this.cardNumber=res.data.data.mobile;
           this.effectiveStartTime=res.data.data.certificateStartTime;
@@ -923,8 +945,8 @@
   .chooseDefaultSeal{
     background: url("../../../static/images/Account/default-seal.png")no-repeat;
   }
-  .visibility{
-    visibility:hidden;
+ .visibility{
+   visibility:hidden;
   }
   .create-seal>.tips-img{
     position: absolute;
