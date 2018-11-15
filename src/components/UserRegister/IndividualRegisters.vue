@@ -63,19 +63,6 @@
                                     <span class="slide_text">{{slideText}}</span>
                                 </div>
                             </div>
-                            <!-- <div class="slide_box">
-                                <div class="imgBox" v-if="slideShow">
-                                   
-                                    <div class="verify"></div>
-                                    <div class="verified"></div>
-                                    <span class="refresh">切换</span>
-                                </div>
-                                <div class="handle" >
-                                    <span class="bg" ></span>
-                                    <span class="swiper">>></span>
-                                    <span class="slide_text">{{slideText}}</span>
-                                </div>
-                            </div> -->
                         </el-form-item>
 						<el-form-item prop="code">
 							<el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
@@ -174,7 +161,7 @@ export default {
 			checked: false,
             interfaceCode:'',
             userDisabled:false,
-            passwordDisabled:false,
+            passwordDisabled:false, 
 			smsNo: '',
 			smsCode: '',
 			codeSure: false,
@@ -281,7 +268,6 @@ export default {
                 l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left;  //移动距离
                 maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离  
                 // console.log(l,maxWin,that.$refs.handle.getBoundingClientRect().width)
-                console.log(l)
                 if(l < 0){
                     l = 0
                 }else if(l>maxWin){
@@ -369,7 +355,6 @@ export default {
         resetSlide(){
             let that =this;
             if(!that.slideSuccess){
-                console.log(1111111111)
                 setTimeout(function(){
                     that.bgStyle = {
                         width:0,
@@ -421,7 +406,6 @@ export default {
 
         //slide滑动失败
         slideFaild(l){
-            console.log(3333333333333)
             let that = this;
             that.bgStyle = {
                 width:l+'px',
