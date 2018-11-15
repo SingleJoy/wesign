@@ -149,17 +149,7 @@
       </div>
     </el-dialog>
 
-    <div class="dialogbg" v-show="showUpDialog">
-      <div class="upload-warn">
-        <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
-        <div class="tips-text">
-          <div v-if="(b2cNum<=0)&&(b2bNum>0)">对个人合同份数已用尽，若想添加更多签约人</div>
-          <div>请联系客服购买合同套餐</div>
-        </div>
-        <div class="btn-operation">
-          <el-button style='color:#4091fb' @click="shutAuthority">确定</el-button>
-        </div>
-      </div>
+
 
 
     </div>
@@ -569,9 +559,13 @@
       },
       addSigner(){
 
-
         if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
-          this.sho
+          this.$confirm(
+          <div class="warn-num">
+            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+            <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
           return false
         }
         if(this.editSigner == false){
@@ -707,5 +701,11 @@
   .title{
     font-size: 18px;
   }
+  }
+  .customer-service{
+    width: 200px!important;
+    height: 50px!important;
+    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    margin-left: 80px;
   }
 </style>
