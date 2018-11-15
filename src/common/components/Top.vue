@@ -14,7 +14,7 @@
         <li><router-link to='/Home'>首页</router-link></li>
         <li><router-link to='/Mycontract'>我的合同</router-link></li>
         <li><router-link to='/Multiparty'>我的模板</router-link></li>
-        <li><router-link v-if="accountLevel!=2" to='/Room'>签约室</router-link></li>
+        <li v-if="accountLevel!=2"><router-link  to='/Room'>签约室</router-link></li>
         <li @click="dialogVisible"><a >版本</a></li>
         <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
