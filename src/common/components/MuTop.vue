@@ -11,15 +11,12 @@
         <router-link v-if="accountLevel!=2" to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
         <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-size:16px;'>版本</li>
       </ul>
-      <ol class='btns'>
+      <!-- <ol class='btns'>
         <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>
         <li>
           <a href="javascript:void(0);" @click='choice'>上传发起</a>
-          <!-- </el-upload> -->
         </li>
         <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-        <!-- <li id='dloa'  @click="centerDialogVisible = true"><img src="../../../static/images/setup.png" alt=""><a href="javascript:void(0);">修改密码</a></li> -->
-
         <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="(Jurisdiction)">
           <router-link to='/Account'  @click.native="tabActive(5)">
             <img src="../../../static/images/setup.png" alt="">
@@ -32,7 +29,7 @@
             <a href="javascript:void(0);">我的账户</a>
           </router-link>
         </li>
-      </ol>
+      </ol> -->
       <div id='update'>
       </div>
     </nav>
