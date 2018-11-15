@@ -5,12 +5,6 @@
         <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
-        <!-- <router-link to='/Home' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
-        <router-link to='/Mycontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
-        <router-link to='/Multiparty' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
-        <router-link v-if="accountLevel!=2" to='/Room' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-size:16px;'>版本</li> -->
-
         <li><router-link to='/Home'>首页</router-link></li>
         <li><router-link to='/Mycontract'>我的合同</router-link></li>
         <li><router-link to='/Multiparty'>我的模板</router-link></li>
@@ -19,27 +13,9 @@
         <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
         <li v-if="Jurisdiction"><router-link to='/Account'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
-        <li v-else><router-link to='/NoReal'>我的账户</router-link></li>
-        <li class="login-out-btn no-border" @click='loginOut'><a><img src="../../../static/images/back.png" alt="">退出</a></li>
+        <li v-else><router-link to='/NoReal'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
+        <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="../../../static/images/back.png" alt="">退出</a></li>
       </ul>
-      <!-- <ol class='btns'>
-        <li :class="{'left-num':accountLevel==2}"><router-link to='/Multiparty'><a href="javascript:void(0);">模板发起</a></router-link></li>
-        <li><a href="javascript:void(0);" @click='choice'>上传发起</a></li>
-        <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="Jurisdiction">
-          <router-link  @click.native="tabActive(5)" to='/Account'>
-            <img src="../../../static/images/setup.png" alt="">
-            <a href="javascript:void(0);">我的账户</a>
-          </router-link>
-        </li>
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
-          <router-link  @click.native="tabActive(5)" to='/NoReal'>
-            <img src="../../../static/images/setup.png" alt="">
-            <a href="javascript:void(0);">我的账户</a>
-          </router-link>
-        </li>
-      </ol> -->
-
       <div id='update'></div>
     </nav>
 

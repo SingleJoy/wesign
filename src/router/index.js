@@ -624,6 +624,30 @@ export const router = new Router({
       }
     },
     {
+        path: '/BuyProductTemplate',   //未实名模板发起
+        name: 'BuyProductTemplate',
+        component: BuyProduct,
+        meta: {
+          auth: false
+        }
+    },
+    {
+        path: '/BuyProductUp',   //未实名上传发起
+        name: 'BuyProductUp',
+        component: BuyProduct,
+        meta: {
+          auth: false
+        }
+    },
+    {
+        path: '/BuyProductRoom',        //未实名签约室
+        name: 'BuyProductRoom',
+        component: BuyProduct,
+        meta: {
+          auth: false
+        }
+    },
+    {
       path: '/Merchant',
       name: 'Merchant',
       component: Merchant,
