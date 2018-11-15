@@ -154,6 +154,15 @@ export const router = new Router({
         }
     },
     {
+        path:'/CompanyExc',
+        name:'CompanyExc',
+        component:CompanyExc,
+        meta:{
+            auth:true
+        }
+    },
+    
+    {
       path: '/Forget',
       name: 'Forget',
       component: Forget,
