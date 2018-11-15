@@ -109,6 +109,12 @@
     width: 100%;
     height:100%;
   }
+  .customer-service{
+    width: 200px!important;
+    height: 50px!important;
+    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    margin-left: 80px;
+  }
 
 </style>
 
@@ -220,10 +226,10 @@ export default {
               sessionStorage.setItem("b2cNum",this.b2cNum);
               if(this.b2cNum==0){
                 this.$confirm(
-                <div class="warn-num">
-                  <p class="title">对不起，您的免费对个人签约次数已用尽!</p>
-                <p>购买更多签约次数可联系客服</p>
-                <p>客服电话：400-0000-6923</p>
+                <div class="warn-num ">
+                  <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽</p>
+                  <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+                  <div class="customer-service"></div>
                 </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
               }else {
                 var templateName = ''

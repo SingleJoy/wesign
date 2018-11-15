@@ -148,6 +148,22 @@
         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
+
+    <div class="dialogbg" v-show="showUpDialog">
+      <div class="upload-warn">
+        <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
+        <div class="tips-text">
+          <div v-if="(b2cNum<=0)&&(b2bNum>0)">对个人合同份数已用尽，若想添加更多签约人</div>
+          <div>请联系客服购买合同套餐</div>
+        </div>
+        <div class="btn-operation">
+          <el-button style='color:#4091fb' @click="shutAuthority">确定</el-button>
+        </div>
+      </div>
+
+
+    </div>
+
   </div>
 </template>
 <script>
@@ -198,6 +214,7 @@
       return {
         baseURL:this.baseURL.BASE_URL,
         primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',
+        showUpDialog:false,
         value8: '',
         checked: true,
         falg:true,       //重复提交标示
@@ -237,6 +254,8 @@
         },
         templateName:sessionStorage.getItem('templateName'),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        b2cNum:sessionStorage.getItem("b2cNum"),
+        b2bNum:sessionStorage.getItem("b2bNum"),
       }
     },
     methods: {
@@ -254,6 +273,9 @@
           return 'success-row';
         }
         return '';
+      },
+      shutAuthority(){
+        this.showUpDialog=false;
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -546,16 +568,10 @@
         }
       },
       addSigner(){
-        var b2cNum=sessionStorage.getItem("b2cNum");
 
-        if((this.tableDate3 != '')&&(this.tableDate3.length>b2cNum-1)){
-          this.$confirm(
-          <div class="warn-num">
-            <p class="title"><strong>对个人合同</strong>份数已用尽，若想添加更多签约人请联系客服购买合同套餐</p>
-          <p>购买更多签约次数可联系客服</p>
-          <p>客服电话：400-0000-6923</p>
-          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
-          this.modifyPassword =false
+
+        if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
+          this.sho
           return false
         }
         if(this.editSigner == false){
