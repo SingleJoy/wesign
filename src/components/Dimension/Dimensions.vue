@@ -280,7 +280,7 @@ export default {
         probeType: 3,
         preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
       })
-        console.log(this.rightScroll)
+
       this.rightScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
       })

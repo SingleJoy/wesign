@@ -166,7 +166,7 @@ export default {
                     this.contractList = list;
                     this.total = res.data.totalItemNumber
                     this.loading = false;
-                    console.log(this.contractList);
+                    // console.log(this.contractList);
                 }
             }).catch(erro=>{
 

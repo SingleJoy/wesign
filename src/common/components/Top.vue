@@ -14,7 +14,7 @@
         <li><router-link to='/Home'>首页</router-link></li>
         <li><router-link to='/Mycontract'>我的合同</router-link></li>
         <li><router-link to='/Multiparty'>我的模板</router-link></li>
-        <li><router-link v-if="accountLevel!=2" to='/Room'>签约室</router-link></li>
+        <li v-if="accountLevel!=2"><router-link  to='/Room'>签约室</router-link></li>
         <li @click="dialogVisible"><a >版本</a></li>
         <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
@@ -190,7 +190,7 @@
         }else{
              this.popup =!this.popup;
              this.getContractNum();
-        //   console.log( this.popup)
+
         }
       },
       //合同剩余发起次数
@@ -271,8 +271,7 @@
           return false
         }
         else if((this.b2bNum==0)&&(this.b2cNum==0)){
-         console.log("1111+"+this.b2bNum)
-         console.log("22222:"+this.b2cNum);
+
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的签约次数已用尽!</p>

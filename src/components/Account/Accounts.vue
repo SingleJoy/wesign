@@ -904,7 +904,7 @@
 
         this.searchSecondAccounts();
       }else {
-          console.log(1211)
+
           this.isShow = false;
         this.oneLever=false;      //二级账号不查询，并且不显示账号管理模块
       }
