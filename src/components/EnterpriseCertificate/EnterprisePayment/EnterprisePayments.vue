@@ -297,7 +297,7 @@
         this.$refs[legalForm].validate((valid) => {
           this.verifySub = true;
           if(valid){
-            console.log('this.ruleForm.phoneCode'+this.ruleFormRules.phoneCode)
+            // console.log('this.ruleForm.phoneCode'+this.ruleFormRules.phoneCode)
             this.$http.get(process.env.API_HOST + 'v1.4/sms', {
               params: {
                 'mobile': this.legalForm.legalMobile, 'smsNo': this.smsNoVer, 'smsCode': this.legalForm.phoneCode, 'appId': this.appId
@@ -328,7 +328,7 @@
                   'mobile':this.legalForm.legalMobile,
                   'interfaceCode':this.interfaceCode,
                 };
-                console.log(param);
+                // console.log(param);
                 let that=this;
                 server.unfreezeRemittance(param).then(function (res) {
                   if (res.data.resultCode == '1') {

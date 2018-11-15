@@ -190,7 +190,7 @@
         }else{
              this.popup =!this.popup;
              this.getContractNum();
-        //   console.log( this.popup)
+
         }
       },
       //合同剩余发起次数
@@ -271,8 +271,7 @@
           return false
         }
         else if((this.b2bNum==0)&&(this.b2cNum==0)){
-         console.log("1111+"+this.b2bNum)
-         console.log("22222:"+this.b2cNum);
+
           this.$confirm(
           <div class="warn-num">
             <p class="title">对不起，您的签约次数已用尽!</p>

@@ -1,10 +1,10 @@
 /**
  * 滑块验证
- * 
+ *
  */
 import $ from "jquery";
 function SlideBar(){
-    
+
     var box = $('.slide_box'),
     imgBox = $('.imgBox'),
     handle = $('.handle'),
@@ -25,10 +25,10 @@ function SlideBar(){
     for (var i = 0; i < 3; i++) {
         imgs.push('' + i + i)
     }
-    
+
     $(function() {
         // 随机添加背景图
-        refreshImg()       
+        refreshImg()
         refresh.click(function() {
             e = event || window.event
             e.stopPropagation()
@@ -48,7 +48,7 @@ function SlideBar(){
 
     function start() {
       var verImg = document.getElementsByClassName('verImg')[0];
-      console.log(verImg)
+      // console.log(verImg)
       if (verImg) {
         verImg.onload = function() {
           // 获取图片高度
@@ -57,28 +57,28 @@ function SlideBar(){
           var verX = 100 * (2 + Math.random()), //小于200保证
               verY = imgH / 4 + Math.random() * imgH / 2;
             // 40为模块宽度
-               
+
             verify.css({
                 display:'block',
                   top:verY+'px',
                   'backgroundPosition':-verX+'px'+' '+-verY+'px'
             })
             verified.css({ display: 'block', left: verX+'px', top: verY+'px'})
-    
+
           // 用户移动滑块函数
           fnDown(verX, verY)
-         
+
         }
       }
     }
-    
+
     function fnDown(verX, verY) {
-        console.log(4444)
+
         if ( swiper.setCapture ) {
             swiper.setCapture();
         }
         swiper.mousedown(function(e) {
-            
+
     //		obj = event.srcElement ? event.srcElement : event.target;
             e=window.event||e;
             if(document.all){  //只有ie识别
@@ -94,13 +94,13 @@ function SlideBar(){
             // 防止重复绑定触发多次
             box.unbind('mousemove')
             box.unbind('mouseup')
-        
+
             // 移动
             box.bind('mousemove', function(event) {
               e = event || window.event
               fnMove(e, disX, disY)
             })
-        
+
             // 释放
             box.bind('mouseup', function() {
                 if ( swiper.releaseCapture ) {
@@ -130,7 +130,7 @@ function SlideBar(){
                       codebtn.attr("disabled",false)
                       getToken();
                   }
-                 
+
               } else {
                   // 解除绑定，并将滑动模块归位
                   bg.css({'background':'#ff5c57'})
@@ -148,9 +148,9 @@ function SlideBar(){
                       swiper.text(">>")
                       refreshImg()
                   },500)
-                  
+
               }
-              
+
             })
         })
     }
@@ -169,7 +169,7 @@ function SlideBar(){
       swiper.css('left', l+'px')
       verify.css('left', l + 2+'px')
     }
-    
+
     function refreshImg() {
         // 随机生成下标
         var index = Math.round(Math.random() * 2);

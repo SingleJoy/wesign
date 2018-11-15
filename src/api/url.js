@@ -173,7 +173,7 @@ const service = {
   },
   // 查询认证完成商户信息
   authSuccess(interfaceCode) {
-    console.log(interfaceCode);
+    // console.log(interfaceCode);
     return request({
       url: "/api/v1.4/tenant/" + interfaceCode + "/authSuccess",
       method: "get",
@@ -272,6 +272,6 @@ const service = {
 			params: param
 		});
   	}
-  
+
 };
 export default service;

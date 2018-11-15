@@ -31,7 +31,7 @@
 			<el-pagination
 			@size-change="handleSizeChange"
 			@current-change="handleCurrentChange"
-			:current-page="currentPage"	
+			:current-page="currentPage"
 			:page-size="1"
 			layout="prev, pager, next, total, jumper"
 			:total="totalItemNumber">
@@ -64,7 +64,7 @@ export default {
 			}
 		},
 		handleSizeChange(val) {
-			console.log(`每页 ${val} 条`);
+			// console.log(`每页 ${val} 条`);
 		},
 		handleCurrentChange(val) {
 			this.getList(val,1);
@@ -81,7 +81,7 @@ export default {
 				this.tableData = res.data.contents;
 				this.totalItemNumber = res.data.totalItemNumber
 			}).then(error => {
-				
+
 			})
 		}
 	},

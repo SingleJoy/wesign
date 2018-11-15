@@ -280,7 +280,7 @@
 						} else {
 							//获取验证码
 							this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.ruleForm.mobile,'interfaceCode': this.num}, {emulateJSON: true}).then(function (res) {
-								console.log(res);
+								// console.log(res);
 								if(res.body.resultCode == 1) {
 									this.smsNo = res.body.smsNo;
 									this.appId= res.body.appId
