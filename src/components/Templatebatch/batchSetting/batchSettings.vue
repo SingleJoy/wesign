@@ -148,6 +148,12 @@
         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
+
+
+
+
+    </div>
+
   </div>
 </template>
 <script>
@@ -198,6 +204,7 @@
       return {
         baseURL:this.baseURL.BASE_URL,
         primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:'',
+        showUpDialog:false,
         value8: '',
         checked: true,
         falg:true,       //重复提交标示
@@ -237,6 +244,8 @@
         },
         templateName:sessionStorage.getItem('templateName'),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        b2cNum:sessionStorage.getItem("b2cNum"),
+        b2bNum:sessionStorage.getItem("b2bNum"),
       }
     },
     methods: {
@@ -254,6 +263,9 @@
           return 'success-row';
         }
         return '';
+      },
+      shutAuthority(){
+        this.showUpDialog=false;
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -547,16 +559,14 @@
         }
       },
       addSigner(){
-        var b2cNum=sessionStorage.getItem("b2cNum");
 
-        if((this.tableDate3 != '')&&(this.tableDate3.length>b2cNum-1)){
+        if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
           this.$confirm(
           <div class="warn-num">
-            <p class="title"><strong>对个人合同</strong>份数已用尽，若想添加更多签约人请联系客服购买合同套餐</p>
-          <p>购买更多签约次数可联系客服</p>
-          <p>客服电话：400-0000-6923</p>
-          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
-          this.modifyPassword =false
+            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+            <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
           return false
         }
         if(this.editSigner == false){
@@ -692,5 +702,11 @@
   .title{
     font-size: 18px;
   }
+  }
+  .customer-service{
+    width: 200px!important;
+    height: 50px!important;
+    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    margin-left: 80px;
   }
 </style>

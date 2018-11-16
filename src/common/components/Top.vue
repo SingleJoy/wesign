@@ -118,6 +118,12 @@
     border-bottom: 3px solid red;
     font-weight: 700;
   }
+  .customer-service{
+    width: 200px!important;
+    height: 50px!important;
+    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    margin-left: 80px;
+  }
 </style>
 <script>
   import cookie from '@/common/js/getTenant'
@@ -235,10 +241,10 @@
         else if((this.b2bNum!=0)&&(this.b2cNum==0)){
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的对个人签约次数已用尽!</p>
-          <p>购买更多签约次数可联系客服</p>
-          <p>客服电话：400-0000-6923</p>
-          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+            <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+            <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -250,10 +256,10 @@
 
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的签约次数已用尽!</p>
-          <p>购买更多签约次数可联系客服</p>
-          <p>客服电话：400-0000-6923</p>
-          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+            <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+            <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -306,11 +312,11 @@
         }
         else if((this.b2bNum==0)&&(this.b2cNum!=0)){
           this.$confirm(
-          <div class="warn-num">
-            <p class="title">对不起，您的对企业签约次数已用尽!</p>
-          <p>购买更多签约次数可联系客服</p>
-          <p>客服电话：400-0000-6923</p>
-          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+          <div class="warn-num ">
+            <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
+            <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+            <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -322,10 +328,10 @@
 
           this.$confirm(
           <div class="warn-num">
-            <p class="title">对不起，您的签约次数已用尽!</p>
-          <p>购买更多签约次数可联系客服</p>
-          <p>客服电话：400-0000-6923</p>
-          </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+            <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+            <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -459,4 +465,5 @@
 
   }
 </script>
+
 

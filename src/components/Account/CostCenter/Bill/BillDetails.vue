@@ -111,7 +111,7 @@ export default {
                     dataList[i].signType = "对个人签署";
                 }
             }
-            this.getTitle = dataList[0].companyName + dataList[0].billTitle;
+            this.getTitle = dataList[0].companyName + "\xa0\xa0" + dataList[0].billTitle;
             this.createTime = dataList[0].createTime;
             this.tableData = dataList;
         }).then(error => {
