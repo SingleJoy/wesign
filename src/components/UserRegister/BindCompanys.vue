@@ -207,13 +207,11 @@ export default {
         if(getinterfaceCode){
             this.interfaceCode = getinterfaceCode
             server.getUrlMobile(getinterfaceCode).then(res=>{
-                if (res.data.resultCode == '1') {
+               
                     this.ruleForm.tenantName = res.data.data.tenantName;
                     this.ruleForm.userName = res.data.data.userName;
                     this.ruleForm.mobile = res.data.data.mobile;
-                }else{
-
-                }
+               
                 
             }).catch(error=>{
 
@@ -472,7 +470,8 @@ export default {
                     btnValue.innerText = i + '秒后获取';
                     if(i <= 0) {
                         btnValue.innerText = "重新获取验证码";
-                        _this.isDisabled= false;
+                        _this.isDisabled= true;    //再次获取时需要重新获取图形验证的token
+                        _this.resetSlide();
                         clearInterval(timer);
                     }
                 }, 1000);
