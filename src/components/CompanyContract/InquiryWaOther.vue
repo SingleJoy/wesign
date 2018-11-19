@@ -228,6 +228,7 @@ export default {
       });
     },
     handleCurrentChange3(val) {
+        this.currentPage2 = val;
       if (
         this.inputVal2 !== "" ||
         this.filters.column.create_start_date !== "" ||
@@ -314,6 +315,7 @@ export default {
         pageSize: "10",
         contractStatus: "2",
       };
+      this.currentPage2 = 1;
       this.getRecord(requestVo);
       this.$message({
         showClose: true,

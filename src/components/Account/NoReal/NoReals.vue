@@ -278,7 +278,8 @@
       }
     },
     created() {
-      this.mobile = cookie.getJSON('tenant')[0].mobile
+    //   this.mobile = cookie.getJSON('tenant')[0].mobile
+      this.mobile = sessionStorage.getItem('mobile');
       this.companyName = cookie.getJSON('tenant')[1].companyName
       // console.log(cookie.getJSON('tenant')[0])
       // authStatus  -1和0 都是未通过  1是通过

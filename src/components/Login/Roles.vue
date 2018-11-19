@@ -432,7 +432,10 @@ import cookie from '@/common/js/getTenant'
 								color: #333;
 							}
 							.subcompany-name{
-								font-size: 18px;
+                                font-size: 18px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
 								span{
 									color:#4091fb;
 									font-size: 14px;

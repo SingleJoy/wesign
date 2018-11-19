@@ -213,6 +213,7 @@ export default {
       })
     },
     handleCurrentChange5(val) {
+         this.currentPage4 = val
       if ( this.inputVal4 !== ''  || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' ) {
         if(this.inquiry == true){
           var start = this.filters.column.create_start_date
@@ -244,6 +245,7 @@ export default {
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
       var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getData (requestVo)
+      this.currentPage4 =1
       this.inquiry = true
     },
     rowLockClick (row) {
