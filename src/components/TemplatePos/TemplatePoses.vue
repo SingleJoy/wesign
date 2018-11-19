@@ -371,8 +371,10 @@ export default {
             var del = document.getElementsByClassName('delete')
               for(var i= 0;i<del.length;i++){
                     del[i].onclick=function () {
-
-                      this.parentNode.parentNode.removeChild(this.parentNode)
+                        if(this.parentNode.parentNode){
+                            this.parentNode.parentNode.removeChild(this.parentNode)
+                        }
+                      
                       n--
                      el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
                     }

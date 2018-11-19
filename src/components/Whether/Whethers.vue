@@ -373,7 +373,9 @@ export default {
               for(var i= 0;i<del.length;i++){
 
                     del[i].addEventListener('click', function () {
-                    this.parentNode.parentNode.removeChild(this.parentNode)
+                        if(this.parentNode.parentNode){
+                            this.parentNode.parentNode.removeChild(this.parentNode)
+                        }
                       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
                       n--
                       m--
