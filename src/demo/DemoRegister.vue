@@ -1,5 +1,5 @@
 <template>
-    <div class='Contract'>
+    <div class='Contract Demo'>
         <div class="login-nav">
             <div class="logo-zq"><img src="../../static/images/Login/modification-logo.png" alt=""></div>
             <div class="logo-content simulation" @click="abandon()">
@@ -17,7 +17,7 @@
 					<p>问题。使用众签让你的工作，生活更美好，更随意。</p> -->
                     <p style="font-size: 2.5rem;">电子合同+，用合约重构交易</p>
 				</div>
-                    <div class='user'>
+                    <div class='user' ref="slide">
                     <h2 class='userInfo'>体验登录</h2>
                     <el-form  label-width="0px" :model="ruleForm" ref="ruleForm" :rules="rules">
                         <el-form-item prop="username">
@@ -25,6 +25,21 @@
                         </el-form-item>
                         <el-form-item prop="mobile">
                             <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="请输入手机号"></el-input>
+                        </el-form-item>
+                          <el-form-item>
+                            <div class="slide_box" onselectstart="return false;"  @mouseover="slideSuccess && mouseoverFn($event)" @mouseout="!ismouseUp && mouseoutFn($event)">
+                                <div class="imgBox" v-if="slideShow">
+                                    <img class="verImg" :src="'../../../static/images/'+number+'.png'" alt="">
+                                    <div class="verify" :style="verifyStyle" ref="verify"></div>
+                                    <div class="verified" :style="verifiedStyle"></div>
+                                    <span class="refresh" @click="changeImg">切换</span>
+                                </div>
+                                <div class="handle" ref="handle" :disabled="!slideSuccess">
+                                    <span class="bg" :style="bgStyle"></span>
+                                    <span class="swiper" ref="swiper" onselectstart="return false;" :style="swiperStyle" @mousedown="slideSuccess&&mousedownFn($event)">{{slideStatue}}</span>
+                                    <span class="slide_text">{{slideText}}</span>
+                                </div>
+                            </div>
                         </el-form-item>
                         <el-form-item prop="code">
                             <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码">
@@ -49,6 +64,7 @@
 import QRcode from '../common/components/QRcode'
 import Bottom from '../common/components/Bottom'
 import server from "@/api/url";
+import md5 from "js-md5";
 import { validateMoblie, validateSmsCode} from "@/common/js/validate";
 export default {
     name: 'Contract',
@@ -87,10 +103,23 @@ export default {
 			}
 		};
         return {
+            ismouseUp:false,
+            slideSuccess:true,
+            verY:'',     //top值
+            verX:'',      //
+            number:'00',
+            verifyStyle:{},
+            verifiedStyle:{},
+            swiperStyle:{},
+            bgStyle:{},
+            slideText:'向右拖动滑块拼图验证',
+            slideShow:false,
+            slideStatue:'>>',
+            token:'',
             interfaceCode: Math.random(),
             smsNo: '',
             appId: '',
-            isDisabled: false,
+            isDisabled: true,
             ruleForm: {
                 username: "",
                 code: "",
@@ -104,7 +133,249 @@ export default {
             },
         }
     },
+     mounted(){
+        var imgIndex = Math.round(Math.random() * 2);
+            this.number = imgIndex+''+imgIndex;
+        var imgH = 200;
+           // 随机生成坐标（图片框固定宽度为300px，高度不定）
+        this.verX = 100 * (2 + Math.random())-40, //小于290保证
+        this.verY = imgH / 4 + Math.random() * imgH / 2;
+        this.verifyStyle={
+            display:'block',
+            top:this.verY+'px',
+            'backgroundPosition':-this.verX+'px'+' '+-this.verY+'px',
+            'backgroundImage':'url(static/images/'+this.number+'.png)'
+        }
+        this.verifiedStyle={
+            display: 'block',
+            left: this.verX+'px',
+            top: this.verY+'px'
+        }
+    },
     methods: {
+         mouseoverFn(e){
+            
+            this.slideShow=true
+        },
+        mouseoutFn(e){
+            this.slideShow=false
+        },
+        mousedownFn(e){
+            e=window.event||e;
+            if(document.all){        //只有ie识别
+                e.cancelBubble=true;
+            }else{
+                e.stopPropagation();
+            }
+            this.ismouseUp = true;
+            this.slideShow=true
+            var disX = e.clientX - document.getElementsByClassName('swiper')[0].getBoundingClientRect().left,    //鼠标位置距离当前元素位置
+                disY = e.clientY - document.getElementsByClassName('swiper')[0].getBoundingClientRect().top,
+                curX = e.clientX;        //鼠标当前位置
+            this.swiperStyle={
+                background:'#4391fb',
+                color:'#fff'
+            }
+            let that = this;
+            var l,maxWin;
+            var sildeMove = that.$refs.slide;   //暂存slide节点 删除move事件
+            that.$refs.slide.onmousemove = function(e){
+                e=window.event||e;
+                if(document.all){        //只有ie识别
+                    e.cancelBubble=true;
+                }else{
+                    e.stopPropagation();
+                };
+                l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left;  //移动距离
+                maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离  
+                // console.log(l,maxWin,that.$refs.handle.getBoundingClientRect().width)
+                if(l < 0){
+                    l = 0
+                }else if(l>maxWin){
+                    l = maxWin;
+                    sildeMove.onmousemove = null;
+                    that.slideFaild(l);
+                };
+                that.swiperStyle={
+                    background:'#4391fb',
+                    color:'#fff',
+                    left:l+'px',
+                };
+                that.verifyStyle={
+                    display:'block',
+                    top:that.verY+'px',
+                    'backgroundPosition':-that.verX+'px'+' '+-that.verY+'px',
+                    left:l + 2+'px',
+                    'backgroundImage':'url(static/images/'+that.number+'.png)'
+                };
+                that.bgStyle={
+                    width:l+'px'
+                }
+                that.slideText='';
+            };
+            that.$refs.slide.onmouseup = function(e){
+                sildeMove.onmousemove = null;
+                sildeMove.onmouseup = null;
+                that.slideShow=false
+                that.ismouseUp = true;
+                if(Math.abs(l-that.verX) < 4){
+                    if(that.ruleForm.username==''){
+                        that.$message({
+                            showClose: true,
+                            message: "请输入姓名",
+                            type: 'error'
+                        });
+                        that.slideSuccessNoName(l);
+                        return false;
+                    }
+                    if(!that.ruleForm.mobile) {    //成功但未输入手机号
+                        that.$message({
+                            showClose: true,
+                            message: "请输入手机号",
+                            type: 'error'
+                        });
+                        that.slideSuccessNoName(l);
+                        return false;
+                    } else if (!validateMoblie(that.ruleForm.mobile)){
+                        that.$message({
+                            showClose: true,
+                            message: "手机号输入错误",
+                            type: 'error'
+                        });
+                        that.slideSuccessNoName(l);
+                        return false;
+                    } else {               //滑动成功
+                        that.getToken();
+                        that.bgStyle = {
+                            width:l+'px',
+                            background:'#d2f4ef'
+                        }
+                        that.swiperStyle={
+                            background:'#52ccba',
+                            color:'#fff',
+                            left:l+'px',
+                        }
+
+                        that.slideSuccess = false;
+                        that.slideText='>>';
+                        that.slideShow=false;
+                        that.ismouseUp = false;
+                    }
+                        that.isDisabled = false;
+                }else{                         //滑动失败
+                    that.slideFaild(l);
+                }
+            } 
+        },
+
+        //切换图片
+        changeImg(){
+            var imgIndex = Math.round(Math.random() * 2);
+                this.number = imgIndex+''+imgIndex;
+                this.verifyStyle={
+                    display:'block',
+                    top:this.verY+'px',
+                    'backgroundPosition':-this.verX+'px'+' '+-this.verY+'px',
+                    'backgroundImage':'url(static/images/'+this.number+'.png)'
+                }
+
+        },
+        //滑动成功后修改手机号
+        resetSlide(){
+            let that =this;
+            if(!that.slideSuccess){
+                setTimeout(function(){
+                    that.bgStyle = {
+                        width:0,
+                        background:'#5997ec'
+                    }
+                    that.swiperStyle={
+                        background:'#fff',
+                        left:0,
+                        color:'#adaaaa'
+                    }
+                    that.isDisabled = true;
+                    that.slideStatue = '>>';
+                    that.slideShow=false;
+                    that.slideSuccess = true;
+                    that.slideText="向右拖动滑块拼图验证"
+                },500)
+            }
+            
+        },
+        //滑动成功但未输入手机号或手机号输入格式不正确
+        slideSuccessNoName(l){
+            let that = this;
+            that.bgStyle = {
+                width:l+'px',
+                background:'#d2f4ef'
+            }
+
+            that.swiperStyle={
+                background:'#52ccba',
+                color:'#fff',
+                left:l+'px',
+            }
+            that.slideShow=false;
+            setTimeout(function(){
+                that.bgStyle = {
+                    width:0+'px',
+                    background:'#fff'
+                }
+                that.swiperStyle={
+                    background:'#fff',
+                    color:'#adaaaa',
+                    left:0+'px',
+                }
+                that.ismouseUp = false;
+                that.changeImg();
+                that.slideText="向右拖动滑块拼图验证"
+            },500)
+        },
+
+        //slide滑动失败
+        slideFaild(l){
+            let that = this;
+            that.bgStyle = {
+                width:l+'px',
+                background:'#ff5c57'
+            }
+            that.swiperStyle={
+                background:'#ce2b26',
+                color:'#fff',
+                left:l+'px',
+            }
+            that.slideStatue = 'X';
+            that.isDisabled = true;
+            that.slideShow=false;
+            setTimeout(function(){
+                that.bgStyle = {
+                    width:0,
+                    background:'#5997ec'
+                }
+                that.swiperStyle={
+                    background:'#fff',
+                    left:0,
+                    color:'#adaaaa'
+                }
+                that.changeImg();
+                that.slideStatue = '>>';
+                that.slideShow=false;
+                that.slideText="向右拖动滑块拼图验证";
+                that.ismouseUp = false;
+            },500)
+        },
+
+         getToken(){
+            let param={
+                // tel:this.ruleForm.username
+            }
+            server.getImgToken(param).then(res=>{
+                this.token  = res.data.data;
+            }).catch(error=>{
+
+            })
+        },
         abandon() {
             this.$router.push('/');
         },
@@ -135,13 +406,16 @@ export default {
                     if(i <= 0) {
                         btnValue.innerText = "重新获取验证码";
                         _this.isDisabled= false;
+                        _this.isDisabled= true;    //再次获取时需要重新获取图形验证的token
+                        _this.resetSlide();
                         clearInterval(timer);
                     }
                 }, 1000);
                 //获取验证码
                 let param={
                     mobile: this.ruleForm.mobile,
-                    interfaceCode:this.interfaceCode
+                    interfaceCode:this.interfaceCode,
+                    token:(md5(md5(this.token))).substring(0,6)
                 }
                 server.smsCode(param).then(res=>{
                     if(res.data.resultCode == 1) {
@@ -195,6 +469,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "../../static/icon/iconfont.css";
+  @import "@/common/styles/slideBar.scss";
   .el-button--primary {
       background-color: #4091fb;
   }
@@ -334,5 +609,9 @@ export default {
 	}
 .simulation {
   cursor: pointer;
+}
+.Demo .Login .imgBox{
+    width:300px;
+    top:-190px;
 }
 </style>

@@ -223,6 +223,7 @@ export default {
       })
     },
     handleCurrentChange3(val) {
+        this.currentPage2 = val
       if ( this.inputVal2 !== ''  || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
         if (this.checked == true) {
           var perpetualValid = '1'
@@ -263,6 +264,7 @@ export default {
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
       var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal2,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'2'};
       this.getData (requestVo)
+      this.currentPage2 = 1;
       this.$message({
         showClose: true,
         message: '查询成功!',

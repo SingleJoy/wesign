@@ -124,7 +124,7 @@ export default {
         return {
             isBusiness:cookie.getJSON('tenant')[1].isBusiness,
             options: [],
-            queryAccountCode:'',
+            queryAccountCode:sessionStorage.getItem('accountCode'),
             value:'',
             hasQuery:false,
             currentPage: 1,
@@ -227,6 +227,7 @@ export default {
       })
     },
     handleCurrentChange(val) {
+        this.currentPage = val
       if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
         if (this.checked == true) {
           var perpetualValid = '1'

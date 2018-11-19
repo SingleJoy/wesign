@@ -227,6 +227,7 @@ export default {
       });
     },
     handleCurrentChange4(val) {
+        this.currentPage3 = val;
       if (
         this.inputVal3 !== "" ||
         this.filters.column.create_start_date !== "" ||
@@ -314,6 +315,7 @@ export default {
             contractStatus: "3",
         };
         this.getRecord(requestVo);
+        this.currentPage3 = 1;
         this.$message({
             showClose: true,
             message: "查询成功!",

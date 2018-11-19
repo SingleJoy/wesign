@@ -2209,7 +2209,7 @@ export default {
                 })
             }else{
                  this.$loading.hide();
-                 this.IdInfoShow = false;
+                //  this.IdInfoShow = false;
                   this.$message({
                     showClose: true,
                     message: name.resultMessage,
@@ -2422,6 +2422,7 @@ export default {
                 this.authorizerType = false
             }
             sessionStorage.setItem('authorizerType',this.adminType)
+            this.authStatus = 0;    //切换个人身份时打开身份证上传
             this.IdInfo={
                 idCard:'',
                 userName:'',

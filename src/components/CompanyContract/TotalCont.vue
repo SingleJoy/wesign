@@ -226,6 +226,7 @@ export default {
         })
     },
     handleCurrentChange(val) {
+        this.currentPage = val;
       if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
         if (this.checked == true) {
           var perpetualValid = '1'
@@ -233,19 +234,23 @@ export default {
           var perpetualValid = ''
         }
         if(this.inquiry == true){
-        var start = this.filters.column.create_start_date
-        var end =   this.filters.column.create_end_date
-        if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
-        if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
-        this.getRecord (requestVo)
+            var start = this.filters.column.create_start_date
+            var end =   this.filters.column.create_end_date
+        if(start == null) {
+            start =null
         }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
-        this.getRecord (requestVo)
+            start = moment(start).format().slice(0,10)
+        }
+        if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
+            var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            this.getRecord (requestVo)
+        }else{
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            this.getRecord (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
-        this.getRecord (requestVo)
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            this.getRecord (requestVo)
       }
     },
     handleSizeChange(val) {
@@ -273,31 +278,32 @@ export default {
         type: 'success'
       });
       this.inquiry = true
+      console.log(this.currentPage)
     },
     rowlookClick (row) {//详情
-      if(row.contractType == '0'){
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-        cookie.set('state','List')
-        this.$router.push('/CompanyExa')
-      }else{
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-        this.$router.push('/ContractInfo')
-      }
-      this.$store.dispatch('tabIndex',{tabIndex:1});
+        if(row.contractType == '0'){
+            this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+            sessionStorage.setItem('contractNo', row.contractNum)
+            sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+            cookie.set('state','List')
+            this.$router.push('/CompanyExa')
+        }else{
+            this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+            sessionStorage.setItem('contractNo', row.contractNum)
+            sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+            this.$router.push('/ContractInfo')
+        }
+        this.$store.dispatch('tabIndex',{tabIndex:1});
     },
     affixClick (row) { //签署
-      if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          this.$router.push('/Dimension')
+        if(row.contractType == '0'){
+            this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+            sessionStorage.setItem('contractNo', row.contractNum)
+            this.$router.push('/Dimension')
         }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          this.$router.push('/Contract')
+            this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+            sessionStorage.setItem('contractNo', row.contractNum)
+            this.$router.push('/Contract')
         }
     },
     warnClick (row) { //提醒
