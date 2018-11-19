@@ -57,34 +57,7 @@ export default {
 			interfaceCode: '',
 			totalItemNumber: 0,
           	tableData: [
-				{
-					transactionName: '64646464646364643',
-					rechargeAmount: '5000',
-					paymentMode: '对公账户打款',
-					prepaidTime: '2017-1-12 09:20:09',
-					accountBalance: '5000',
-				},
-				{
-					transactionName: '64646464646364643',
-					rechargeAmount: '5000',
-					paymentMode: '对公账户打款',
-					prepaidTime: '2017-1-12 09:20:09',
-					accountBalance: '5000',
-				},
-				{
-					transactionName: '64646464646364643',
-					rechargeAmount: '5000',
-					paymentMode: '对公账户打款',
-					prepaidTime: '2017-1-12 09:20:09',
-					accountBalance: '5000',
-				},
-				{
-					transactionName: '64646464646364643',
-					rechargeAmount: '5000',
-					paymentMode: '对公账户打款',
-					prepaidTime: '2017-1-12 09:20:09',
-					accountBalance: '5000',
-				},
+				
 			],
 		}
 	},
