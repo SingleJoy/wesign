@@ -84,7 +84,7 @@
 					<el-table-column
 				prop="operation"
 				label="操作"
-				width="200"
+
 				>
 				<template slot-scope="scope">
 					<el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>

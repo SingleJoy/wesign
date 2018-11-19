@@ -81,7 +81,7 @@
 						label="当前状态"
 						width="150">
 					</el-table-column>
-					<el-table-column prop="operation" label="操作" width="200">
+					<el-table-column prop="operation" label="操作" >
 						<template slot-scope="scope">
 							<el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && auditStatus == 2 '>签&nbsp;&nbsp;署</el-button>
 							<el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
@@ -239,7 +239,7 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "1",
-         
+
           };
           this.getData(requestVo);
         } else {
