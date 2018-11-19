@@ -246,15 +246,16 @@ export default {
                 'pageNo':val,
                 'pageSize':'10',
                 'contractStatus':'0',
-                'accountCode':this.accountLevel==2?this.accountCode:''
+                // 'accountCode':this.accountLevel==2?this.accountCode:''
+                'accountCode':this.queryAccountCode
             };
             this.getData (requestVo)
         }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getData (requestVo)
         }
       } else {
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountCode};
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getData (requestVo)
       }
     },

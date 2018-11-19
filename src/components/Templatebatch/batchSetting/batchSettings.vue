@@ -510,7 +510,8 @@
               "idCards":id_nums,
               "mobiles":mobiles,
               "emails":emails,
-              "templateSpecificType":this.$store.state.templateGenre
+              "templateSpecificType":this.$store.state.templateGenre,
+              "accountCode":sessionStorage.getItem('accountCode')
             }
           } else {
             var zqUserContractTempVo = {

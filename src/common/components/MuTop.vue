@@ -5,11 +5,22 @@
         <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
-        <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
+        <!-- <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
         <router-link to='/Procontract' @click.native="tabActive(1)"><li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">我的合同</a></li></router-link>
         <router-link to='/BuyProduct' @click.native="tabActive(2)"><li :class="{'active-tab':tabIndex==2}"><a href="javascript:void(0);">我的模板</a></li></router-link>
         <router-link v-if="accountLevel!=2" to='/BuyProduct' @click.native="tabActive(3)"><li :class="{'active-tab':tabIndex==3}"><a href="javascript:void(0);">签约室</a></li></router-link>
-        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-size:16px;'>版本</li>
+        <li :class="{'active-tab':tabIndex==4}" @click="dialogVisible(4)" style='color:#fff;cursor:pointer;font-size:16px;'>版本</li> -->
+        <li><router-link to='/Merchant'>首页</router-link></li>
+        <li><router-link to='/Procontract'>我的合同</router-link></li>
+        <li><router-link to='/BuyProduct'>我的模板</router-link></li>
+        <li v-if="accountLevel!=2"><router-link  to='/BuyProductRoom'>签约室</router-link></li>
+        <li @click="dialogVisible"><a >版本</a></li>
+        <li class="contract-add no-border"><router-link  to='/BuyProductTemplate'>模板发起</router-link></li>
+        <li class="contract-add no-border"><router-link  to='/BuyProductUp'>上传发起</router-link></li>
+        <li v-if="Jurisdiction"><router-link to='/Account'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
+        <li v-else><router-link to='/NoReal'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
+        <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="../../../static/images/back.png" alt="">退出</a></li>
+
       </ul>
       <!-- <ol class='btns'>
         <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>

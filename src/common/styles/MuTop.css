@@ -23,14 +23,14 @@
 }
 .nav ul li{
     float: left;
-    padding: 0 20px 0 20px;
+    /* padding: 0 20px 0 20px; */
 }
 #ul li:hover{
    border-bottom: 3px solid red;
 }
-.nav ul li a{
+/* .nav ul li a{
     color: #fff;
-}
+} */
 .nav .btns{
     margin-left: 5px;
     /* line-height: 80px; */
@@ -100,4 +100,35 @@
 
 #dloa{
     margin-left: 30px;
+}
+
+.nav ul li a{
+    color: #fff;
+    padding:31px 20px;
+}
+.nav ul li img{
+    margin-top: 26px;
+    float: left;
+    margin-right: -16px;
+}
+.nav #ul .login-out-btn{
+    float: right;
+}
+
+.nav ul .contract-add a{
+    background: #fff;
+    border-radius: 5px;
+    padding: 14px;
+    border: none;
+    color: #4091fb;
+    font-weight: 500;
+    margin-right:16px;
+}
+.nav #ul  .no-border:hover{
+    border:none!important;
+    cursor: pointer;
+}
+.router-link-active {
+   border-bottom: 3px solid red;
+   font-weight: 700;
 }

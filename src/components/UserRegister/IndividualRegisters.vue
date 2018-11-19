@@ -6,7 +6,7 @@
 					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
-					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
+					<span>{{successText}}&nbsp;&nbsp;</span>
 					<span class="count_down">{{count}}</span>
 				</div>
 			</div>
@@ -169,7 +169,8 @@ export default {
 			isDisabled: true,
 			isClick: true,
 			isShow: false,
-			isShowSkip: false,
+            isShowSkip: false,
+            successText:'您已完成注册，请使用账号密码进行登录，即将跳转至登录页面',
 			isShowClose: false,
             count: 3,
 			ruleForm: {
@@ -202,8 +203,38 @@ export default {
         if(getinterfaceCode){
 			this.interfaceCode = getinterfaceCode;
 			server.getUrlMobile(getinterfaceCode).then(res=>{
-				this.ruleForm.username = res.data.data.mobile;
-				this.userDisabled = true;
+                if(res.data.resultCode == 0){
+                    this.ruleForm.username = res.data.data.mobile;
+                    this.userDisabled = true;
+                }else if(res.data.resultCode==1){
+                    this.isShow = true;
+                    this.isShowSkip = true;
+                    this.successText = '您已完成注册，请使用账号密码进行登录，即将跳转至登录页面'
+                    let _this = this;
+                    let setTimer = setInterval(function() {
+                        _this.count = _this.count - 1;
+
+                        if(_this.count <= 0) {
+                            clearInterval(setTimer);
+                            _this.$router.push('/')
+                        }
+                    }, 1000);
+                
+                }else if(res.data.resultCode==2){
+                    this.isShow = true;
+                    this.isShowSkip = true;
+                    this.successText = '您已完成注册，请使用账号密码进行企业绑定，即将跳转至企业绑定页面'
+                    let _this = this;
+                    let setTimer = setInterval(function() {
+                        _this.count = _this.count - 1;
+
+                        if(_this.count <= 0) {
+                            clearInterval(setTimer);
+                            _this.$router.push('/Bind?appId='+getinterfaceCode)
+                        }
+                    }, 1000);
+                }
+				
 
             }).catch(error=>{
 
@@ -508,7 +539,8 @@ export default {
 							btnValue.innerText = i + '秒后获取';
 							if(i <= 0) {
 								btnValue.innerText = "重新获取验证码";
-								_this.isDisabled= false;
+                                _this.isDisabled= true;    //再次获取时需要重新获取图形验证的token
+                                _this.resetSlide();
 								clearInterval(timer);
 							}
 						}, 1000);
@@ -564,7 +596,8 @@ export default {
                                     }).then( res=> {
 									if(res.data.resultCode === '1') {
 										this.isShow = true;
-										this.isShowSkip = true;
+                                        this.isShowSkip = true;
+                                        this.successText = '您已完成注册，请使用账号密码进行登录，即将跳转至登录页面'
 										let _this = this;
 										let setTimer = setInterval(function() {
                                             _this.count = _this.count - 1;
