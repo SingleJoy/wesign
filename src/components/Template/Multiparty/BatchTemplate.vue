@@ -176,9 +176,9 @@
 
             this.b2cNum = res.data.data.b2cNum;
             sessionStorage.setItem("b2cNum",this.b2cNum)
-            if(this.b2cNum==0){
+            if(this.b2cNum<=0){
               this.$confirm(
-              <div class="warn-num ">
+              <div class="warn-num">
                 <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽</p>
                 <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
                 <div class="customer-service"></div>

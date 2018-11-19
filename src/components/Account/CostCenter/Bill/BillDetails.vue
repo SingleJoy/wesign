@@ -64,7 +64,7 @@ export default {
             getTitle: '',
             createTime: '',
             tableData: [
-               
+
             ]
         }
     },
@@ -116,14 +116,14 @@ export default {
             this.tableData = dataList;
         }).then(error => {
 
-        }) 
+        })
     }
 }
 </script>
 <style lang="scss" scoped>
   @import "../../../../styles/Account/CostCenter/CostCenter.scss";
 </style>
-<style>
+<style scoped>
 .BillDetails .BillDetails-tabs .el-tabs__item.is-active {
     color: #4091fb;
     border-bottom: 2px solid #4091fb;
