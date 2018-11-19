@@ -384,6 +384,7 @@ export default {
              var del = document.getElementsByClassName('delete')
               for(var i= 0;i<del.length;i++){
                     del[i].addEventListener('click', function () {
+                        console.log(this.parentNode.parentNode)
                       this.parentNode.parentNode.removeChild(this.parentNode)
                       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
                        el.style.display='block'
@@ -419,7 +420,7 @@ export default {
                     var e = e|| window.event;
                     let le = e.clientX - X;
                     let to = e.clientY - Y ;
-                    e.preventDefault = false
+                    e.preventDefault ();
                     if (le <= 0) {
                      le = 0;
                     } else if (le > div2.clientWidth - _this.offsetWidth) {

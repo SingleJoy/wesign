@@ -124,7 +124,7 @@ export default {
   data() {
     return {
         options: [],
-        queryAccountCode:'',
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         value:'',
         hasQuery:false,
         currentPage2: 1,
@@ -262,7 +262,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal2,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'2'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal2,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'2'};
       this.getData (requestVo)
       this.currentPage2 = 1;
       this.$message({
@@ -343,6 +343,7 @@ export default {
                     this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
                     this.hasQuery=true;
                 }
+                console.log(this.options)
             })
         }
     }

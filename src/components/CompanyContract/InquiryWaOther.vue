@@ -126,7 +126,7 @@ export default {
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         options: [],
-        queryAccountCode: "",
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         hasQuery:false,
         value: "",
         currentPage2: 1,
@@ -265,15 +265,16 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "2",
-            accountCode:this.accountLevel==2?this.accountCode:''
+            // accountCode:this.accountLevel==2?this.accountCode:''
+            accountCode:this.queryAccountCode
           };
           this.getRecord(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" ,accountCode:this.accountLevel==2?this.accountCode:''};
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2" ,accountCode:this.queryAccountCode};
           this.getRecord(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.accountLevel==2?this.accountCode:''};
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
         this.getRecord(requestVo);
       }
     },

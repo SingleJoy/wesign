@@ -124,7 +124,7 @@ export default {
   data() {
     return {
         options: [],
-        queryAccountCode:"",
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         value:'',
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
@@ -262,7 +262,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
       this.getData (requestVo)
       this.currentPage1 = 1;
       this.$message({

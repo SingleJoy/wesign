@@ -90,8 +90,8 @@
           width="150"
           >
             <template slot-scope="scope">                         
-            <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if='scope.row.operation === 1 && auditStatus == 2 '>签&nbsp;&nbsp;署</el-button>
-            <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+            <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button> -->
+            <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
             <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
             </template>
         </el-table-column>
@@ -129,7 +129,7 @@ export default {
         num: '',
         value:'',
         options:[],
-        queryAccountCode:'',
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         options:[],
         loading: true,
         inputVal:'',
@@ -170,41 +170,49 @@ export default {
     },
     getData (requestVo) {
     var data =[];
+    var isCreater = '';
+    let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
     // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
     let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/b2bContrants';
       this.$http.get(url, {params: requestVo}).then(function (res) {
         if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
+            this.$router.push('/Server')
         } else {
         for (let i = 0; i < res.data.content.length;i++) {
-          var obj = {}
-          obj.contractName = res.data.content[i].contractName;
-          obj.contractNum = res.data.content[i].contractNum;
-          obj.createTime = res.data.content[i].createTime;
-          obj.signers =  res.data.content[i].signers;
-          obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.validTime =  res.data.content[i].validTime
-          obj.contractType = res.data.content[i].contractType
-          obj.operator = res.data.content[i].operator
-          obj.operation = ''
-          switch (obj.contractStatus){
-            case "1":
-            obj.contractStatus="待我签署";
-            obj.operation = 1
-              break;
-            case "2":
-            obj.contractStatus="待他人签署";
-            obj.operation = 2
-              break;
-            case "3":
-            obj.contractStatus="已生效";
-            obj.operation = 3
-              break;
-            default:
-            obj.contractStatus="已截止";
-            obj.operation = 4
-              break;
-          }
+            var obj = {}
+            if (res.data.content[i].creater == currentFaceCode) {
+                isCreater = true;
+            } else {
+                isCreater = false;
+            }
+            obj.contractName = res.data.content[i].contractName;
+            obj.contractNum = res.data.content[i].contractNum;
+            obj.createTime = res.data.content[i].createTime;
+            obj.signers =  res.data.content[i].signers;
+            obj.contractStatus =  res.data.content[i].contractStatus;
+            obj.validTime =  res.data.content[i].validTime
+            obj.contractType = res.data.content[i].contractType
+            obj.operator = res.data.content[i].operator
+            obj.isCreater = isCreater;
+            obj.operation = ''
+            switch (obj.contractStatus){
+                case "1":
+                obj.contractStatus="待我签署";
+                obj.operation = 1
+                break;
+                case "2":
+                obj.contractStatus="待他人签署";
+                obj.operation = 2
+                break;
+                case "3":
+                obj.contractStatus="已生效";
+                obj.operation = 3
+                break;
+                default:
+                obj.contractStatus="已截止";
+                obj.operation = 4
+                break;
+            }
           data[i] = obj
         }
         this.tableData2 = data
@@ -225,14 +233,23 @@ export default {
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0'};
+        var requestVo ={
+            "contractName":this.inputVal,
+            "queryTimeStart":start,
+            "queryTimeEnd":  end,
+            'perpetualValid':perpetualValid,
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'0',
+            'accountCode':this.queryAccountCode
+        };
         this.getData (requestVo)
         }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
         this.getData (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0'};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
         this.getData (requestVo)
       }
     },
@@ -252,7 +269,9 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      var requestVo ={
+          'accountCode':this.queryAccountCode,
+          "contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
       this.getData (requestVo)
       this.currentPage = 1
       this.$message({

@@ -118,7 +118,7 @@ export default {
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         options: [],
-        queryAccountCode:'',
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         value:'',
         currentPage4: 1,
         value8: '',
@@ -243,7 +243,7 @@ export default {
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getData (requestVo)
       this.currentPage4 =1
       this.inquiry = true

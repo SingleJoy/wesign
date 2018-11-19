@@ -430,7 +430,8 @@ export default {
                     var e = e|| window.event;
                     let le = e.clientX - X;
                     let to = e.clientY - Y ;
-                    e.preventDefault = false
+                    // e.preventDefault = false
+                    e.preventDefault()
                     if (le <= 0) {
                      le = 0;
                     } else if (le > div2.clientWidth - _this.offsetWidth) {

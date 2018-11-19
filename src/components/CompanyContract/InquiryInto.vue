@@ -126,7 +126,7 @@ export default {
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         options: [],
-        queryAccountCode: "",
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         value: "",
         currentPage3: 1,
         hasQuery:false,
@@ -264,15 +264,16 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "3",
-            accountCode:this.accountLevel==2?this.accountCode:''
+            // accountCode:this.accountLevel==2?this.accountCode:''
+            accountCode:this.queryAccountCode
           };
           this.getRecord(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3",accountCode:this.accountLevel==2?this.accountCode:''};
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3",accountCode:this.queryAccountCode};
           this.getRecord(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.accountLevel==2?this.accountCode:''};
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
         this.getRecord(requestVo);
       }
     },
@@ -305,7 +306,8 @@ export default {
             .slice(0, 10);
         }
         var requestVo = {
-            accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
+            // accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
+            accountCode:this.queryAccountCode,
             contractName: this.inputVal3,
             queryTimeStart: start,
             queryTimeEnd: end,

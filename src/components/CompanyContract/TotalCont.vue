@@ -129,7 +129,7 @@ export default {
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         options: [],
         value:'',
-        queryAccountCode:'',
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         currentPage: 1,
         value8: '',
         value9: '',
@@ -242,14 +242,26 @@ export default {
             start = moment(start).format().slice(0,10)
         }
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-            var requestVo ={"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            var requestVo ={
+                "contractName":this.inputVal,
+                "queryTimeStart":start,
+                "queryTimeEnd":  end,
+                'perpetualValid':perpetualValid,
+                'pageNo':val,
+                'pageSize':'10',
+                'contractStatus':'0',
+                // 'accountCode':this.accountLevel==2?this.queryAccountCode:''
+                'accountCode':this.queryAccountCode
+            };
             this.getRecord (requestVo)
         }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            // var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getRecord (requestVo)
         }
       } else {
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            // var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getRecord (requestVo)
       }
     },

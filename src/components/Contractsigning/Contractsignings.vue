@@ -791,9 +791,13 @@
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
+    text-align: center!important;
   }
   .el-table th>.cell{
     text-align: center;
+  }
+  .el-table .cell{
+      text-align: center;
   }
 
 

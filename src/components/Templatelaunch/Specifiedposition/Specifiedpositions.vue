@@ -408,7 +408,8 @@
                       this.style.position='absolute';
                       var _this=this
                       document.onmousemove = function (e) {
-                        e.preventDefault = false
+                        // e.preventDefault = false
+                        e.preventDefault()
 
                         var e = e|| window.event;
                         let le = e.clientX - X;

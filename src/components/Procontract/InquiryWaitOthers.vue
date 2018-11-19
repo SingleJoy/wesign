@@ -88,8 +88,8 @@
 					width="200"
 					>
 					<template slot-scope="scope">
-					<el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-					<el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+					<!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button> -->
+					<el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
 					<el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
 					</template>
 					</el-table-column>
@@ -120,7 +120,7 @@ export default {
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
-        queryAccountCode:"",
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         value:'',
         options:[],
         currentPage2: 1,
@@ -158,7 +158,9 @@ export default {
   },
   methods: {
     getData(requestVo) {
-      var data = [];
+        var data = [];
+        var isCreater = '';
+        let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
       // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
       let url =
         process.env.API_HOST +
@@ -171,6 +173,11 @@ export default {
         } else {
           for (let i = 0; i < res.data.content.length; i++) {
             var obj = {};
+            if (res.data.content[i].creater == currentFaceCode) {
+                isCreater = true;
+            } else {
+                isCreater = false;
+            }
             obj.contractName = res.data.content[i].contractName;
             obj.contractNum = res.data.content[i].contractNum;
             obj.createTime = res.data.content[i].createTime;
@@ -179,6 +186,7 @@ export default {
             obj.validTime = res.data.content[i].validTime;
             obj.contractType = res.data.content[i].contractType;
             obj.operator = res.data.content[i].operator;
+            obj.isCreater = isCreater
             obj.operation = "";
             switch (obj.contractStatus) {
               case "1":
@@ -243,14 +251,15 @@ export default {
             pageNo: val,
             pageSize: "10",
             contractStatus: "2",
+            accountCode:this.queryAccountCode
           };
           this.getData(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2"};
+          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
           this.getData(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2"};
+        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this,queryAccountCode};
         this.getData(requestVo);
       }
     },
@@ -290,6 +299,7 @@ export default {
         pageNo: "1",
         pageSize: "10",
         contractStatus: "2",
+        accountCode:this.queryAccountCode
       };
       this.getData(requestVo);
       this.$message({
