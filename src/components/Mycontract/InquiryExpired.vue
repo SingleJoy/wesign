@@ -213,7 +213,8 @@ export default {
       })
     },
     handleCurrentChange5(val) {
-         this.currentPage4 = val
+        this.currentPage4 = val
+        this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
       if ( this.inputVal4 !== ''  || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' ) {
         if(this.inquiry == true){
           var start = this.filters.column.create_start_date
@@ -221,14 +222,14 @@ export default {
           if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
           if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
           // var inputVal4
-          var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
+          var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
           this.getData (requestVo)
         }else{
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
+          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
           this.getData (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
+        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
         this.getData (requestVo)
       }
     },
@@ -239,14 +240,15 @@ export default {
       this.queryAccountCode=value
     },
     contractInquiryExpired () {
-      var start = this.filters.column.create_start_date
-      var end =   this.filters.column.create_end_date
-      if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
-      if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
-      this.getData (requestVo)
-      this.currentPage4 =1
-      this.inquiry = true
+        var start = this.filters.column.create_start_date
+        var end =   this.filters.column.create_end_date
+        this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
+        if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
+        if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
+        var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+        this.getData (requestVo)
+        this.currentPage4 =1
+        this.inquiry = true
     },
     rowLockClick (row) {
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})

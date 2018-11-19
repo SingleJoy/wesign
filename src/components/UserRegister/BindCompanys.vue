@@ -169,7 +169,7 @@ export default {
 			smsCode: '',
 			codeSure: false,
 			iscode: false,
-			isDisabled: false,
+			isDisabled: true,
 			isClick: false,
 			isShow: false,
 			isShowSkip: false,

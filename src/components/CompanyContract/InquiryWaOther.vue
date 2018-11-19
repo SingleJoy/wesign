@@ -229,6 +229,7 @@ export default {
     },
     handleCurrentChange3(val) {
         this.currentPage2 = val;
+        this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
       if (
         this.inputVal2 !== "" ||
         this.filters.column.create_start_date !== "" ||
@@ -257,6 +258,7 @@ export default {
               .format()
               .slice(0, 10);
           }
+            this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
           var requestVo = {
             contractName: this.inputVal2,
             queryTimeStart: start,
@@ -285,6 +287,7 @@ export default {
       this.queryAccountCode = value;
     },
     contractInquiryWaitOthers() {
+          this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
       if (this.checked == true) {
         var perpetualValid = "1";
       } else {
