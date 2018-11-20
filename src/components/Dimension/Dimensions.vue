@@ -213,17 +213,29 @@ export default {
       if(res.data.sessionStatus == '0'){
         this.$router.push('/Server')
       } else {
-      var array = res.data.list
 
-        for (var i =0 ; i<array.length; i++){
-          var userCode = array[i].userCode;
-          if(userCode == cookie.getJSON('tenant')[1].interfaceCode){
-            this.arr.push(array[i])
-          }
-          if(userCode != cookie.getJSON('tenant')[1].interfaceCode){
-            this.group.push(array[i])
+        if(res.data.resultCode==0){
+          this.$message({
+            showClose: true,
+            message: '合同次数已用尽，无法继续发起对企业合同',
+            type: 'warning'
+          });
+          // this.$router.push('/Home')
+        }else{
+          var array = res.data.list
+
+          for (var i =0 ; i<array.length; i++){
+            var userCode = array[i].userCode;
+            if(userCode == cookie.getJSON('tenant')[1].interfaceCode){
+              this.arr.push(array[i])
+            }
+            if(userCode != cookie.getJSON('tenant')[1].interfaceCode){
+              this.group.push(array[i])
+            }
           }
         }
+
+
 
       }
     })
