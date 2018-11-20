@@ -271,7 +271,8 @@
                 sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
                 this.$router.push('/Templatecomplete')
               }else if(res.data.responseCode==1){
-                   this.$confirm(
+                    this.$loading.hide(); //显示
+                    this.$confirm(
                         <div class="warn-num">
                             <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
                             <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
@@ -280,12 +281,12 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(() => {
-                    // this.$router.push('/Home')
+                    this.$router.push('/Home')
                 }).catch(() => {
                     
                 });
-
               }else{
+                    this.$loading.hide(); //显示
                     this.$message({
                         showClose: true,
                         message: res.data.resultMessage,
