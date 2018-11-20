@@ -343,14 +343,14 @@
       }
     },
     mounted() {
-      sessionStorage.clear();
-      cookie.remove('tenant');
+        sessionStorage.clear();
+        cookie.remove('tenant');
 
-      document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
-      window.onresize = function temp() {
-        document.documentElement.style.fontSize =
-          document.documentElement.clientWidth / 120 + "px";
-      };
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
+        window.onresize = function temp() {
+            document.documentElement.style.fontSize =
+            document.documentElement.clientWidth / 120 + "px";
+        };
     }
   };
 </script>
@@ -385,7 +385,8 @@
   }
 
   .user {
-    width: 22.5rem;
+    // width: 22.5rem;
+    width: 350px;
     position: absolute;
     right: 0%;
     top: 8.75rem;

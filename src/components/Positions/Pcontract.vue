@@ -251,28 +251,36 @@ export default {
         }
 
         this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          if(res.data.resultCode == '0') {
-            // this.$message({
-            //   showClose: true,
-            //   message: '指定位置成功!',
-            //   type: 'success'
-            // })
-            this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', this.$store.state.contractName1)
-            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-            this.$router.push('/Contract')
-
-          }else{
-            this.$message({
-              showClose: true,
-              message: '指定位置失败!',
-              type: 'error'
-            })
-          }
-        }
+            if(res.data.sessionStatus == '0'){
+                this.$router.push('/Server')
+                } else {
+                if(res.data.resultCode == 0) {
+                    this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
+                    sessionStorage.setItem('contractName', this.$store.state.contractName1)
+                    sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                    this.$router.push('/Contract')
+                }else if(res.data.resultCode==1){
+                    this.$confirm(
+                        <div class="warn-num">
+                            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                            <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+                            <div class="customer-service"></div>
+                        </div>,'提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消'
+                        }).then(() => {
+                        //    this.$router.push('/Home')
+                        }).catch(() => {
+                            
+                        });  
+                }else{
+                    this.$message({
+                        showClose: true,
+                        message: '指定位置失败!',
+                        type: 'error'
+                    })
+                }
+            }
         })
       } else {
         this.$alert('未指定完位置!','指定位置', {
@@ -506,5 +514,11 @@ export default {
     text-align:  center;
     color: #4091fb;
     font-weight:normal;
+  }
+  .customer-service{
+    width: 200px!important;
+    height: 50px!important;
+    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    margin-left: 80px;
   }
 </style>

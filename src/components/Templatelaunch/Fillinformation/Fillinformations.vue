@@ -160,6 +160,7 @@ export default {
         if(res.sessionStatus == '0'){
             this.$router.push('/Server')
         } else {
+            if(res.data.list)
             this.allpage = res.data.list.length
             this.$nextTick(() => {
                 this._initScroll()

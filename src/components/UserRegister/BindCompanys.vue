@@ -682,7 +682,7 @@ export default {
 	}
 
 	.user {
-	    width: 24.5rem;
+	    width: 360px;
 		position: absolute;
 		background: #fff;
 		padding: 1.875rem;
