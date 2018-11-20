@@ -1,0 +1,44 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _dom = require('../../utils/dom');
+
+function bindScroll(el, binding) {
+  var callback = typeof binding.value === 'function' ? binding.value : binding.value.callback;
+  var options = binding.value.options || { passive: true };
+  var target = binding.value.target || window;
+  if (target === 'undefined') return;
+  if (target instanceof Element) {
+    target = (0, _dom.getScrollEventTarget)(target);
+  } else if (target !== window) {
+    target = document.querySelector(target);
+  }
+  if (el._onScroll && target !== el._onScroll.target) unbind(el, binding);
+
+  target.addEventListener('scroll', callback, options);
+
+  el._onScroll = {
+    callback: callback,
+    options: options,
+    target: target
+  };
+}
+
+function unbind(el, binding) {
+  var _el$_onScroll = el._onScroll,
+      callback = _el$_onScroll.callback,
+      options = _el$_onScroll.options,
+      target = _el$_onScroll.target;
+
+  if (!target) return;
+  target.removeEventListener('scroll', callback, options);
+}
+exports.default = {
+  name: 'scroll',
+  inserted: bindScroll,
+  update: bindScroll,
+  unbind: unbind
+};
