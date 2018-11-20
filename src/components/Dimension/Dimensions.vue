@@ -215,11 +215,11 @@ export default {
       } else {
 
         if(res.data.resultCode==0){
-          this.$message({
-            showClose: true,
-            message: '合同次数已用尽，无法继续发起对企业合同',
-            type: 'warning'
-          });
+        //   this.$message({
+        //     showClose: true,
+        //     message: '合同次数已用尽，无法继续发起对企业合同',
+        //     type: 'warning'
+        //   });
           // this.$router.push('/Home')
         }else{
           var array = res.data.list
