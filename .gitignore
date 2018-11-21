@@ -13,3 +13,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 
+/config/prod.env.js
+/config/global.js
+/config/global.js
+/config/prod.env.js
