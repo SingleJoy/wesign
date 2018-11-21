@@ -218,6 +218,7 @@ export default {
     },
     handleCurrentChange5(val) {
         this.currentPage4 = val;
+          this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
       if ( this.inputVal4 !== ''  || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' ) {
         if(this.inquiry == true){
           var start = this.filters.column.create_start_date
@@ -251,6 +252,7 @@ export default {
       this.queryAccountCode = value;
     },
     contractInquiryExpired () {
+          this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
       var start = this.filters.column.create_start_date
       var end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}

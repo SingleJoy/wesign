@@ -134,6 +134,11 @@ export default {
         }
     },
      mounted(){
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
+        window.onresize = function temp() {
+            document.documentElement.style.fontSize =
+            document.documentElement.clientWidth / 120 + "px";
+        };
         var imgIndex = Math.round(Math.random() * 2);
             this.number = imgIndex+''+imgIndex;
         var imgH = 200;
@@ -508,7 +513,6 @@ export default {
   }
 
   .user {
-    width: 22.5rem;
     position: absolute;
     right: 0%;
     top: 8.75rem;
@@ -517,7 +521,7 @@ export default {
     border-radius: 15px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 22.5rem;
+    width: 360px;
     position: absolute;
     right: 0%;
     top: 8.75rem;
@@ -611,7 +615,6 @@ export default {
   cursor: pointer;
 }
 .Demo .Login .imgBox{
-    width:300px;
-    top:-190px;
+    
 }
 </style>

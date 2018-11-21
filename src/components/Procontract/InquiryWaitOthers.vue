@@ -214,53 +214,54 @@ export default {
       });
     },
     handleCurrentChange3(val) {
-      if (
-        this.inputVal2 !== "" ||
-        this.filters.column.create_start_date !== "" ||
-        this.filters.column.create_end_date !== "" ||
-        this.checked !== false
-      ) {
-        if (this.checked == true) {
-          var perpetualValid = "1";
+        if (
+            this.inputVal2 !== "" ||
+            this.filters.column.create_start_date !== "" ||
+            this.filters.column.create_end_date !== "" ||
+            this.checked !== false
+        ) {
+            if (this.checked == true) {
+            var perpetualValid = "1";
+            } else {
+            var perpetualValid = "";
+            }
+            if (this.inquiry == true) {
+            var start = this.filters.column.create_start_date;
+            var end = this.filters.column.create_end_date;
+            if (start == null) {
+                start = null;
+            } else {
+                start = moment(start)
+                .format()
+                .slice(0, 10);
+            }
+            if (end == null) {
+                end = "";
+            } else {
+                end = moment(end)
+                .format()
+                .slice(0, 10);
+            }
+            this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
+            var requestVo = {
+                contractName: this.inputVal2,
+                queryTimeStart: start,
+                queryTimeEnd: end,
+                perpetualValid: perpetualValid,
+                pageNo: val,
+                pageSize: "10",
+                contractStatus: "2",
+                accountCode:this.queryAccountCode
+            };
+                this.getData(requestVo);
+            } else {
+            var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
+            this.getData(requestVo);
+            }
         } else {
-          var perpetualValid = "";
+            var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this,queryAccountCode};
+            this.getData(requestVo);
         }
-        if (this.inquiry == true) {
-          var start = this.filters.column.create_start_date;
-          var end = this.filters.column.create_end_date;
-          if (start == null) {
-            start = null;
-          } else {
-            start = moment(start)
-              .format()
-              .slice(0, 10);
-          }
-          if (end == null) {
-            end = "";
-          } else {
-            end = moment(end)
-              .format()
-              .slice(0, 10);
-          }
-          var requestVo = {
-            contractName: this.inputVal2,
-            queryTimeStart: start,
-            queryTimeEnd: end,
-            perpetualValid: perpetualValid,
-            pageNo: val,
-            pageSize: "10",
-            contractStatus: "2",
-            accountCode:this.queryAccountCode
-          };
-          this.getData(requestVo);
-        } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
-          this.getData(requestVo);
-        }
-      } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this,queryAccountCode};
-        this.getData(requestVo);
-      }
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -269,27 +270,28 @@ export default {
       this.queryAccountCode=value
     },
     contractInquiryWaitOthers() {
-      if (this.checked == true) {
-        var perpetualValid = "1";
-      } else {
-        var perpetualValid = "";
-      }
-      var start = this.filters.column.create_start_date;
-      var end = this.filters.column.create_end_date;
-      if (start == null) {
-        start = null;
-      } else {
-        start = moment(start)
-          .format()
-          .slice(0, 10);
-      }
-      if (end == null) {
-        end = "";
-      } else {
-        end = moment(end)
-          .format()
-          .slice(0, 10);
-      }
+        this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
+        if (this.checked == true) {
+            var perpetualValid = "1";
+        } else {
+            var perpetualValid = "";
+        }
+        var start = this.filters.column.create_start_date;
+        var end = this.filters.column.create_end_date;
+        if (start == null) {
+            start = null;
+        } else {
+            start = moment(start)
+            .format()
+            .slice(0, 10);
+        }
+        if (end == null) {
+            end = "";
+        } else {
+            end = moment(end)
+            .format()
+            .slice(0, 10);
+        }
       var requestVo = {
         contractName: this.inputVal2,
         queryTimeStart: start,

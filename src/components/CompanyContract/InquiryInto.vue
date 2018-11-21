@@ -227,6 +227,7 @@ export default {
       });
     },
     handleCurrentChange4(val) {
+          this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         this.currentPage3 = val;
       if (
         this.inputVal3 !== "" ||
@@ -305,6 +306,7 @@ export default {
             .format()
             .slice(0, 10);
         }
+          this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         var requestVo = {
             // accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
             accountCode:this.queryAccountCode,

@@ -253,6 +253,20 @@ export default {
             if(this.$store.state.needSign != 1){
               this.$router.push('/Success')
             }
+          }else if(res.data.resultCode==1){
+               this.$confirm(
+                    <div class="warn-num">
+                        <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                        <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+                        <div class="customer-service"></div>
+                    </div>,'提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消'
+                }).then(() => {
+                    // this.$router.push('/Home')
+                }).catch(() => {
+                    
+                });
           }else{
             this.$message({
               showClose: true,
@@ -492,5 +506,11 @@ export default {
     text-align:  center;
     color: #4091fb;
     font-weight:normal;
+  }
+   .customer-service{
+    width: 200px!important;
+    height: 50px!important;
+    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    margin-left: 80px;
   }
 </style>

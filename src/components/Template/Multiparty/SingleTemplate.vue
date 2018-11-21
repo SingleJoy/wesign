@@ -218,8 +218,10 @@ export default {
         }
         },
         generateClick(row){
-
-          server.authorityUpload(this.interfaceCode).then(res=>{
+            let param={
+                t:Math.random()
+            }
+            server.authorityUpload(param,this.interfaceCode).then(res=>{
              if(res.data.resultCode == 1){
 
               this.b2cNum = res.data.data.b2cNum;

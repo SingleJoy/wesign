@@ -222,36 +222,37 @@ export default {
       })
     },
     handleCurrentChange(val) {
-      if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
-        if (this.checked == true) {
-          var perpetualValid = '1'
+        this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
+        if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
+            if (this.checked == true) {
+            var perpetualValid = '1'
+            } else {
+            var perpetualValid = ''
+            }
+            if(this.inquiry == true){
+            var start = this.filters.column.create_start_date
+            var end =   this.filters.column.create_end_date
+            if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
+            if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
+            var requestVo ={
+                "contractName":this.inputVal,
+                "queryTimeStart":start,
+                "queryTimeEnd":  end,
+                'perpetualValid':perpetualValid,
+                'pageNo':val,
+                'pageSize':'10',
+                'contractStatus':'0',
+                'accountCode':this.queryAccountCode
+            };
+            this.getData (requestVo)
+            }else{
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+            this.getData (requestVo)
+            }
         } else {
-          var perpetualValid = ''
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+            this.getData (requestVo)
         }
-        if(this.inquiry == true){
-        var start = this.filters.column.create_start_date
-        var end =   this.filters.column.create_end_date
-        if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
-        if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={
-            "contractName":this.inputVal,
-            "queryTimeStart":start,
-            "queryTimeEnd":  end,
-            'perpetualValid':perpetualValid,
-            'pageNo':val,
-            'pageSize':'10',
-            'contractStatus':'0',
-            'accountCode':this.queryAccountCode
-        };
-        this.getData (requestVo)
-        }else{
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
-        this.getData (requestVo)
-        }
-      } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
-        this.getData (requestVo)
-      }
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -260,26 +261,27 @@ export default {
       this.queryAccountCode=value
     },
     contractInquiry () {
-      if (this.checked == true) {
-        var perpetualValid = '1'
-      } else {
-        var perpetualValid = ''
-      }
-      var start = this.filters.column.create_start_date
-      var end =   this.filters.column.create_end_date
-      if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
-      if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={
-          'accountCode':this.queryAccountCode,
-          "contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
-      this.getData (requestVo)
-      this.currentPage = 1
-      this.$message({
-        showClose: true,
-        message: '查询成功!',
-        type: 'success'
-      });
-      this.inquiry = true
+        this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
+        if (this.checked == true) {
+            var perpetualValid = '1'
+        } else {
+            var perpetualValid = ''
+        }
+        var start = this.filters.column.create_start_date
+        var end =   this.filters.column.create_end_date
+        if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
+        if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
+        var requestVo ={
+            'accountCode':this.queryAccountCode,
+            "contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+        this.getData (requestVo)
+        this.currentPage = 1
+        this.$message({
+            showClose: true,
+            message: '查询成功!',
+            type: 'success'
+        });
+        this.inquiry = true
     },
     rowLockClick (row) {//详情
       if(row.contractType == '0'){
