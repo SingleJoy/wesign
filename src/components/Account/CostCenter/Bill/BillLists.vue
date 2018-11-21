@@ -70,7 +70,7 @@ export default {
 			this.getList(val,1);
 		},
 		viewDetail(scope) {
-			this.$router.push({path:'/CostCenter/BillDetail', query: {billTitle: scope.billTitle}});
+			this.$router.push({path:'/CostCenter/BillDetail', query: {billTitle: encodeURI(scope.billTitle)}});
 		},
 		getList(pageNum, pageSize) {
 			let params = {

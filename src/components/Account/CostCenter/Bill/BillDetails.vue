@@ -100,7 +100,7 @@ export default {
         }
     },
     created() {
-        const billTitle = this.$route.query.billTitle
+        const billTitle = decodeURI(this.$route.query.billTitle);
         this.interfaceCode = sessionStorage.getItem('interfaceCode');
         server.queryStatementDetail(this.interfaceCode, billTitle).then(res => {
             const dataList = res.data.dataList;
