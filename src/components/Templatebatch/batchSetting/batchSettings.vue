@@ -508,8 +508,7 @@
               "perpetualValid":perpetualValid,
               "names":names,
               "idCards":id_nums,
-              "mobiles":mobiles,
-              "emails":emails,
+              "mobiles":mobiles, 
               "templateSpecificType":this.$store.state.templateGenre,
               "accountCode":sessionStorage.getItem('accountCode')
             }
@@ -523,7 +522,6 @@
               "names":names,
               "idCards":id_nums,
               "mobiles":mobiles,
-              "emails":emails,
               "templateSpecificType":this.$store.state.templateGenre,
               "accountCode":sessionStorage.getItem('accountCode')
             }

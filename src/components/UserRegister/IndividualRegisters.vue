@@ -268,7 +268,7 @@ export default {
             this.slideShow=true
         },
         mouseoutFn(e){
-            // this.slideShow=false
+            this.slideShow=false
         },
         mousedownFn(e){
             e=window.event||e;

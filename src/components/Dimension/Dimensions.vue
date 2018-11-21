@@ -470,8 +470,9 @@ export default {
     pollingPanel(timer) { //轮询手写面板
       var userCode = cookie.getJSON('tenant')[0].userCode
       var contractNo = sessionStorage.getItem('contractNo')
+      var t = Math.random()
     //   contractNo = JSON.parse(contractNo)
-      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg').then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg?t='+t).then(function (res) {
       this.canvasTest =  res.bodyText
       if(res.bodyText != '') {
         var smCode = document.getElementById('smCode')

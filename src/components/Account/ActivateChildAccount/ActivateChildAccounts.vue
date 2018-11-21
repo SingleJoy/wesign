@@ -369,8 +369,8 @@
 
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
-
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg').then(function (res) {
+        let t = Math.random();
+        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg?t='+t).then(function (res) {
           this.canvasTest =  res.bodyText
           //   console.log(res.bodyText)
           if(res.bodyText != '') {
