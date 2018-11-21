@@ -1,10 +1,11 @@
 <template>
   <div >
-    <div class="Tops" style="position: relative">
+    <div class="Top">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../static/images/logo2.png" alt="">
+          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
+
       </nav>
     </div>
 
@@ -172,7 +173,26 @@
     margin-left: 10px;
 
   }
+  .Top {
+    width: 100%;
+    height: 80px;
+    background: #4091fb;
+    overflow: hidden;
+  }
 
+  .Top .nav{
+    width: 1200px;
+    margin: 0 auto;
+    height: 80px;
+    overflow:hidden;
+  }
+  .Top .nav .logo{
+    float: left;
+    margin-right: 40px;
+  }
+  .Top .nav .logo img{
+    margin-top: 18px;
+  }
 </style>
 
 
