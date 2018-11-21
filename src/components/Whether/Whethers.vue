@@ -341,62 +341,74 @@ export default {
     drag: {
     bind :function (el, binding) {
         var n = 0
-       var that = null
+         var that = null
         el.onmousedown = function (e) {
-          e.preventDefault();
-          //鼠标按下，计算当前元素距离可视区的距离
-          //el.style.position='absolute';
-          n++;
+            e.preventDefault();
+            //鼠标按下，计算当前元素距离可视区的距离
+            //el.style.position='absolute';
+            n++;
 
-          let disX = e.clientX - el.offsetLeft;
-          let disY = e.clientY - el.offsetTop + document.documentElement.scrollTop;
-          var item = document.createElement("div");
-          var more = document.getElementById('more')
-          //var div2 = document.getElementById('div2')
-          item.style.left = disX+'px'
-          item.style.top = disY+'px'
-          //item.style.width = div2.clientWidth*9/21 +'px'
-          //item.style.height = div2.clientWidth*9/21 +'px'
-          more.appendChild(item);
-          document.onmousemove = function (e) {
-            item.style.cursor='move'
-            var maxRight = document.getElementById('div1').clientWidth+ document.getElementById('div1').offsetLeft - el.clientWidth //最大右部距离
-            var minLeft = document.getElementById('div1').offsetLeft   //判断最小左面距离
-            var minTop = document.getElementById('div1').offsetTop     //判断最小上部距离
-            var maxTop = document.getElementById('div1').offsetHeight + minTop -  el.clientWidth //最大下距离
-            //通过事件委托，计算移动的距离
-            var e = e|| window.event;
-            let l = e.clientX - disX;
-            let t = e.clientY - disY + document.documentElement.scrollTop;
-            //移动当前元素
-            item.className ='signBox'
-            item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
+            let disX = e.clientX - el.offsetLeft;
+            let disY = e.clientY - el.offsetTop + document.documentElement.scrollTop;
+            var item = document.createElement("div");
+            var more = document.getElementById('more')
+            //var div2 = document.getElementById('div2')
+            item.style.left = disX+'px'
+            item.style.top = disY+'px'
+            //item.style.width = div2.clientWidth*9/21 +'px'
+            //item.style.height = div2.clientWidth*9/21 +'px'
+            more.appendChild(item);
+            document.onmousemove = function (e) {
+                item.style.cursor='move'
+                var maxRight = document.getElementById('div1').clientWidth+ document.getElementById('div1').offsetLeft - el.clientWidth //最大右部距离
+                var minLeft = document.getElementById('div1').offsetLeft   //判断最小左面距离
+                var minTop = document.getElementById('div1').offsetTop     //判断最小上部距离
+                var maxTop = document.getElementById('div1').offsetHeight + minTop -  el.clientWidth //最大下距离
+                //通过事件委托，计算移动的距离
+                var e = e|| window.event;
+                let l = e.clientX - disX;
+                let t = e.clientY - disY + document.documentElement.scrollTop;
+                //移动当前元素
+                item.className ='signBox'
+                item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
 
-            item.style.left = l + 'px';
-            item.style.top = t + 'px';
+                item.style.left = l + 'px';
+                item.style.top = t + 'px';
 
-            if(l < minLeft || l>maxRight){
-              document.onmouseup = null
-            } else if (t< minTop || t>maxTop) {
-              document.onmouseup = null
-            } else {
-             document.onmouseup = function (e) {
-             document.onmousemove = null;
-             document.onmouseup = null;
-                  var del = document.getElementsByClassName('delete')
-              for(var i= 0;i<del.length;i++){
-
-                    del[i].addEventListener('click', function () {
+                if(l < minLeft || l>maxRight){
+                    document.onmouseup = null
+                } else if (t< minTop || t>maxTop) {
+                    document.onmouseup = null
+                } else {
+                document.onmouseup = function (e) {
+                document.onmousemove = null;
+                document.onmouseup = null;
+                var del = document.getElementsByClassName('delete')
+                if(del){
+                    del[del.length-1].addEventListener('click', function () {
                         if(this.parentNode.parentNode){
                             this.parentNode.parentNode.removeChild(this.parentNode)
                         }
-                      var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
-                      n--
-                      m--
-                     el.childNodes[6].innerText ='拖入位置（'+m +'）次'
-                     el.childNodes[6].style.color ='white'
-                      }, true);
-                  }
+                        var m = Number(el.childNodes[8].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+                        el.style.display='block'
+                        n--
+                        m--
+                        el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+                        el.childNodes[6].style.color ='white'
+                    }, true);
+                }
+                // for(var i= 0;i<del.length;i++){
+                //     del[i].addEventListener('click', function () {
+                //         if(this.parentNode.parentNode){
+                //             this.parentNode.parentNode.removeChild(this.parentNode)
+                //         }
+                //       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+                //       n--
+                //       m--
+                //      el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+                //      el.childNodes[6].style.color ='white'
+                //       }, true);
+                // }
              more.removeChild(item)
              var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
              var left = l - document.getElementById('div2').offsetLeft  //进入合同页面左偏移量

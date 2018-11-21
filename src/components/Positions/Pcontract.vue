@@ -390,21 +390,35 @@ export default {
              document.onmousemove = null;
              document.onmouseup = null;
              var del = document.getElementsByClassName('delete')
-              for(var i= 0;i<del.length;i++){
-                    del[i].addEventListener('click', function () {
-                        if( this.parentNode.parentNode){
+                if(del){
+                    del[del.length-1].addEventListener('click', function () {
+                        if(this.parentNode.parentNode){
                             this.parentNode.parentNode.removeChild(this.parentNode)
                         }
-                        var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
-                       el.style.display='block'
+                        var m = Number(el.childNodes[8].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+                        el.style.display='block'
+                        n--
+                        m--
+                        el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+                        el.childNodes[6].style.fontSize='12px'
+                        el.childNodes[6].style.color ='white'
+                    }, true);
+                }
+                // for(var i= 0;i<del.length;i++){
+                //     del[i].addEventListener('click', function () {
+                //         if( this.parentNode.parentNode){
+                //             this.parentNode.parentNode.removeChild(this.parentNode)
+                //         }
+                //         var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+                //        el.style.display='block'
 
-                      n--
-                      m--
-                      el.childNodes[6].innerText ='拖入位置（'+m +'）次'
-                      el.childNodes[6].style.fontSize='12px'
-                      el.childNodes[6].style.color ='white'
-                        }, true);
-                  }
+                //       n--
+                //       m--
+                //       el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+                //       el.childNodes[6].style.fontSize='12px'
+                //       el.childNodes[6].style.color ='white'
+                //         }, true);
+                // }
              more.removeChild(item)
              var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
              var left = l - document.getElementById('div2').offsetLeft  //进入合同页面左偏移量

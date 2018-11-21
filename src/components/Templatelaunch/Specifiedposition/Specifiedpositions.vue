@@ -369,21 +369,35 @@
               item.className ='signBox'
               item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
               var del = document.getElementsByClassName('delete')
-              for(var i= 0;i<del.length;i++){
-                del[i].addEventListener('click', function () {
-                    if(this.parentNode.parentNode){
-                        this.parentNode.parentNode.removeChild(this.parentNode)
+                if(del){
+                        del[del.length-1].addEventListener('click', function () {
+                            if(this.parentNode.parentNode){
+                                this.parentNode.parentNode.removeChild(this.parentNode)
+                            }
+                        var m = Number(el.childNodes[8].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+                        el.style.display='block'
+                        n--
+                        m--
+                        el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+                        el.childNodes[6].style.fontSize='12px'
+                        el.childNodes[6].style.color ='white'
+                        }, true);
                     }
-                  var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
-                  el.style.display='block'
+            //   for(var i= 0;i<del.length;i++){
+            //     del[i].addEventListener('click', function () {
+            //         if(this.parentNode.parentNode){
+            //             this.parentNode.parentNode.removeChild(this.parentNode)
+            //         }
+            //       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+            //       el.style.display='block'
 
-                  n--
-                  m--
-                  el.childNodes[6].innerText ='拖入位置（'+m +'）次'
-                  el.childNodes[6].style.fontSize='12px'
-                  el.childNodes[6].style.color ='white'
-                }, true);
-              }
+            //       n--
+            //       m--
+            //       el.childNodes[6].innerText ='拖入位置（'+m +'）次'
+            //       el.childNodes[6].style.fontSize='12px'
+            //       el.childNodes[6].style.color ='white'
+            //     }, true);
+            //   }
 
               item.style.left = l + 'px';
               item.style.top = t + 'px';

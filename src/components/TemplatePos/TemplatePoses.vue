@@ -375,19 +375,26 @@ export default {
             //移动当前元素
             item.className ='signBox'
             item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
-
-
-            var del = document.getElementsByClassName('delete')
-              for(var i= 0;i<del.length;i++){
-                    del[i].onclick=function () {
-                        if(this.parentNode.parentNode){
-                            this.parentNode.parentNode.removeChild(this.parentNode)
-                        }
-                      
-                      n--
-                     el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
+            var del = document.getElementsByClassName('delete');
+            if(del){
+                del[del.length-1].addEventListener('click', function () {
+                    if(this.parentNode.parentNode){
+                        this.parentNode.parentNode.removeChild(this.parentNode)
                     }
-                  }
+                    n--
+                    el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
+                }, true);
+            }
+            // for(var i= 0;i<del.length;i++){
+            //     del[i].onclick=function () {
+            //         if(this.parentNode.parentNode){
+            //             this.parentNode.parentNode.removeChild(this.parentNode)
+            //         }
+                    
+            //         n--
+            //         el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
+            //     }
+            // }
 
             item.style.left = l + 'px';
             item.style.top = t + 'px';
