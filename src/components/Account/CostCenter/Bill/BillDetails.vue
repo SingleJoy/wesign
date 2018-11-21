@@ -123,7 +123,7 @@ export default {
 <style lang="scss" scoped>
   @import "../../../../styles/Account/CostCenter/CostCenter.scss";
 </style>
-<style scoped>
+<style >
 .BillDetails .BillDetails-tabs .el-tabs__item.is-active {
     color: #4091fb;
     border-bottom: 2px solid #4091fb;
