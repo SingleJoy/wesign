@@ -1,6 +1,14 @@
 <template>
 	<div class="container-template-list">
-		<DemoTop></DemoTop>
+    <div class="Top">
+      <nav class='nav'>
+        <p class='logo'>
+          <!--<img src="../../../../../static/images/Top/v1.6-logo.png" alt="logo图">-->
+          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
+        </p>
+
+      </nav>
+    </div>
 		<div class="layer">
 		</div>
 		<div class="select-experience" v-show="isShow">
@@ -209,5 +217,24 @@ export default {
     background-color #fff
 		img
 			width 100%
+</style>
+<style scoped>
+  .Top{
+    width: 100%;
+    height: 80px;
+    background: #4091fb;
+    overflow: hidden;
+  }
+  .Top .nav{
+    width: 1200px;
+    margin: 0 auto;
+    height: 80px;
+    overflow: hidden;
+  }
+  .Top .nav .logo{
+    float: left;
+    margin-right: 40px;
+  }
+
 </style>
 

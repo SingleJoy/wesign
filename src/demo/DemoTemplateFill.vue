@@ -1,12 +1,16 @@
 <template>
   <div >
-    <div class="Tops" style="position: relative">
-      <nav class="nav">
-        <p class="logo">
-          <img src="../../static/images/logo2.png" alt="">
+
+    <div class="Top">
+      <nav class='nav'>
+        <p class='logo'>
+          <!--<img src="../../../../../static/images/Top/v1.6-logo.png" alt="logo图">-->
+          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
+
       </nav>
     </div>
+
 
 
     <div class="demoTemplateFill-content" style="margin-top:20px;" >
@@ -211,6 +215,28 @@
     top:-85px;
     background: url("../../static/images/Demo/pointer.png") no-repeat;
   }
+
+  .Top {
+    width: 100%;
+    height: 80px;
+    background: #4091fb;
+    overflow: hidden;
+  }
+
+  .Top .nav{
+    width: 1200px;
+    margin: 0 auto;
+    height: 80px;
+    overflow:hidden;
+  }
+  .Top .nav .logo{
+    float: left;
+    margin-right: 40px;
+  }
+  .Top .nav .logo img{
+    margin-top: 18px;
+  }
+
 
 
 </style>

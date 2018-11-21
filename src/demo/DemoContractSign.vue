@@ -1,10 +1,12 @@
 <template>
   <div >
-    <div class="Tops" style="position: relative">
-      <nav class="nav">
-        <p class="logo">
-          <img src="../../static/images/logo2.png" alt="">
+    <div class="Top">
+      <nav class='nav'>
+        <p class='logo'>
+          <!--<img src="../../../../../static/images/Top/v1.6-logo.png" alt="logo图">-->
+          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
+
       </nav>
     </div>
 
@@ -118,15 +120,7 @@
     left: 650px;
     top: 930px;
   }
-  /*.direction{*/
-    /*width: 320px;*/
-    /*height: 150px;*/
-    /*z-index: 1002;*/
-    /*position: absolute;*/
-    /*left: 530px;*/
-    /*top: -60px;*/
-    /*background: url("../../static/images/Demo/nextStep.png") no-repeat;*/
-  /*}*/
+
   .step-modal{
     width: 1200px;
     height: 1110px;
@@ -214,7 +208,26 @@
     background: url("../../static/images/Demo/information-input.png") no-repeat ;
     border-radius: 5px;
   }
+  .Top {
+    width: 100%;
+    height: 80px;
+    background: #4091fb;
+    overflow: hidden;
+  }
 
+  .Top .nav{
+    width: 1200px;
+    margin: 0 auto;
+    height: 80px;
+    overflow:hidden;
+  }
+  .Top .nav .logo{
+    float: left;
+    margin-right: 40px;
+  }
+  .Top .nav .logo img{
+    margin-top: 18px;
+  }
 </style>
 
 

@@ -156,8 +156,8 @@ export default {
 			color #4091fb
 			border-radius 5px
 			position absolute
-			top -22px
-			right 340px
+			top -23px
+			right 373px
 		.img-hand
 			position absolute
 			top 34px
