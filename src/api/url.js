@@ -190,11 +190,11 @@ const service = {
     });
   },
   //10次发起验证
-  authorityUpload(interfaceCode) {
+  authorityUpload(param,interfaceCode) {
     return request({
       url: "/api/v1.6/tenant/" + interfaceCode + "/conNum",
       method: "get",
-      params: ""
+      params: param
     });
   },
 

@@ -108,7 +108,7 @@
                     v-for="(item,index) in History"
                     :key="index" icon="el-icon-location"
                     :class="{'currentStep':index == 0}"
-                    style="font-size: 40px;height:100px;">
+                    style="font-size: 40px;height:100px;flex-basis: auto;">
                 </el-step>
             </el-steps>
         </div>

@@ -177,7 +177,10 @@
       },
       //合同剩余发起次数
       getContractNum(){
-        server.authorityUpload(this.interfaceCode).then(res=>{
+        let param={
+            t:Math.random()
+        }
+        server.authorityUpload(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
             this.contractNum = res.data.data;
             this.b2bNum = res.data.data.b2bNum;
