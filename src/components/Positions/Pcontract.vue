@@ -395,7 +395,7 @@ export default {
                         if(this.parentNode.parentNode){
                             this.parentNode.parentNode.removeChild(this.parentNode)
                         }
-                        var m = Number(el.childNodes[8].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
+                        var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
                         el.style.display='block'
                         n--
                         m--
