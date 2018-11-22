@@ -472,9 +472,12 @@
       // 轮询查找打款进度信息
       let that = this;
       let timer = null;
-      this.timer = setInterval(function () {
-        that.pollingPanel(this.timer)
-      }, 3000);
+    //   setTimeout(function(){
+        this.timer = setInterval(function () {
+            that.pollingPanel(this.timer)
+        }, 3000);
+    //   },3000)
+      
 
       setInterval(function () {
         that.time=that.time+1;
