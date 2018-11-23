@@ -102,7 +102,7 @@
   import md5 from 'js-md5'
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
-  import server from "@/api/certificationUrl";
+  import server from "@/api/certification";
   export default {
     name: 'NoReal',
     data() {

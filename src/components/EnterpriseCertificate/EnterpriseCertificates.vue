@@ -366,7 +366,7 @@
 </template>
 
 <script>
-import server from "@/api/certificationUrl";
+import server from "@/api/certification";
 import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode,specialCharacter} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
 export default {

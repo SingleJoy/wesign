@@ -83,6 +83,35 @@ const service = {
       params: param
     });
   },
+  //小B
+    waitForMeSign(param,interfaceCode){
+        return request({
+            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+            method: "get",
+            params: param
+        })
+    },
+    waitForOtherSign(param,interfaceCode){
+        return request({
+            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+            method: "get",
+            params: param
+        })
+    },
+    takeEffect(param,interfaceCode){
+        return request({
+            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+            method: "get",
+            params: param
+        })
+    },
+    deadline(param,interfaceCode){
+        return request({
+            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+            method: "get",
+            params: param
+        })
+    },
   //首页合同列表
   contractLists(param, interfaceCode) {
     return request({

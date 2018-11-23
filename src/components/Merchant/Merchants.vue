@@ -135,8 +135,10 @@
   </div>
 </template>
 <script>
-  import { mapActions, mapState } from 'vuex'
-  import cookie from '@/common/js/getTenant'
+    import { mapActions, mapState } from 'vuex'
+    import cookie from '@/common/js/getTenant'
+    import server from "@/api/url";
+    import {homePageContractLists} from '@/api/home'
 
   export default {
     name: 'Merchants',
@@ -273,11 +275,8 @@
         }
         var data =[];
         var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-        let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
-        this.$http.get(url, {params: requestVo}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-            } else {
+        // let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
+        homePageContractLists(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
                 var obj = {}
                 obj.contractName = res.data.content[i].contractName;
@@ -309,20 +308,36 @@
             }
             this.tableData = data
             this.loading = false
-            }
+            
+        }).catch(error=>{
+
         })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForMeSign').then(function (res) {
-            this.waitMe = res.data.count
-        })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForOtherSign').then(function (res) {
-            this.waitOther = res.data.count
-        })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/takeEffect').then(function (res) {
-            this.takeEffect = res.data.count
-        })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/deadline').then(function (res) {
-            this.deadline = res.data.count
-        })
+
+        let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
+        let responseType=['waitMe','waitOther','takeEffect','deadline']
+        let param={
+            accountCode:this.accountCode
+        }
+        for(var i=0;i< requestType.length;i++){
+            let type =  responseType[i];
+            server[requestType[i]](param,this.interfaceCode).then(res=>{
+            this[type] = res.data.count
+            }).catch(error=>{
+
+            })
+        }
+        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForMeSign').then(function (res) {
+        //     this.waitMe = res.data.count
+        // })
+        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForOtherSign').then(function (res) {
+        //     this.waitOther = res.data.count
+        // })
+        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/takeEffect').then(function (res) {
+        //     this.takeEffect = res.data.count
+        // })
+        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/deadline').then(function (res) {
+        //     this.deadline = res.data.count
+        // })
         this.count = 0
     },
     mounted() {

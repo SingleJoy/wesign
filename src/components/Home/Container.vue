@@ -192,6 +192,7 @@
   import { mapActions, mapState } from "vuex";
   import cookie from "@/common/js/getTenant";
   import server from "@/api/url";
+  import {templateList,remind} from "@/api/home"
   export default {
     name: "Container",
     data() {
@@ -303,29 +304,32 @@
         var remindParam={
           contractType:row.contractType==0?0:1
         };
-        this.$http.get(process.env.API_HOST + "v1/tenant/" + cookie.getJSON("tenant")[1].interfaceCode + "/contract/" + row.contractNum +"/remind",{params:remindParam}).then(function(res) {
-          var resultCode = res.data.resultCode;
-          var resultMessage = res.data.resultMessage;
-          if (resultCode === "0") {
-            this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: "success"
-            });
-          } else if (resultCode === "2") {
-            this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: "success"
-            });
-          } else {
-            this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: "error"
-            });
-          }
-        });
+        let interfaceCode = this.interfaceCode;
+        remind(remindParam,interfaceCode,row.contractNum).then(res=>{
+             var resultCode = res.data.resultCode;
+            var resultMessage = res.data.resultMessage;
+            if (resultCode === "0") {
+                this.$message({
+                showClose: true,
+                message: resultMessage,
+                type: "success"
+                });
+            } else if (resultCode === "2") {
+                this.$message({
+                showClose: true,
+                message: resultMessage,
+                type: "success"
+                });
+            } else {
+                this.$message({
+                showClose: true,
+                message: resultMessage,
+                type: "error"
+                });
+            }
+        }).catch(error=>{
+
+        })
       },
       urlloadUrl() {
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
@@ -714,18 +718,18 @@
       }
       let resParam={
         accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
-      }
-
-
+      };
       // 首页模板列表
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList",{params:resParam}).then(function(res) {
-        if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
-          this.arr = res.data.slice(0, 3);
-          this.count = res.data.length;
-        }
-      });
+        templateList(resParam,interfaceCode).then(res=>{
+            if (res.data.sessionStatus == "0") {
+                this.$router.push("/Server");
+            } else {
+                this.arr = res.data.slice(0, 3);
+                this.count = res.data.length;
+            }
+        }).catch(error=>{
+
+        })
     },
     mounted() {
       sessionStorage.removeItem("type");
