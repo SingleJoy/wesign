@@ -125,7 +125,7 @@ import {b2bContrants,remind} from '@/api/list'
 export default {
   data() {
     return { 
-        interfaceCode:cooki.getItem('tenant')[1].interfaceCode,
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
