@@ -117,11 +117,13 @@
 <script>
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
-import server from "@/api/url";
+import server from "@/api/url"
+import {b2cContrants,remind} from '@/api/list'
 export default {
   name:'InquiryWaitMe',
   data() {
     return {
+        interfaceCode:cooki.getItem('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,

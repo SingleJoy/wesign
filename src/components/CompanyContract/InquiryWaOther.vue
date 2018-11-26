@@ -118,10 +118,12 @@
 import cookie from "@/common/js/getTenant";
 import moment from "moment";
 import server from "@/api/url";
+import {b2bContrants,remind} from '@/api/list'
 export default {
   name: "InquiryWaitMe",
   data() {
     return {
+        interfaceCode:cooki.getItem('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
@@ -172,19 +174,12 @@ export default {
       }
     },
     getRecord(requestVo) {
-      var data = [];
-      var isCreater = "";
-      let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-      let url =
-        process.env.API_HOST +
-        "v1.4/tenant/" +
-        cookie.getJSON("tenant")[1].interfaceCode +
-        "/b2bContrants";
-      this.$http.get(url, { params: requestVo }).then(function(res) {
-        if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
-          for (let i = 0; i < res.data.content.length; i++) {
+        var data = [];
+        var isCreater = "";
+        let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
+        let url = process.env.API_HOST +"v1.4/tenant/" +cookie.getJSON("tenant")[1].interfaceCode +"/b2bContrants";
+        b2bContrants(requestVo,this.interfaceCode).then(res=>{
+            for (let i = 0; i < res.data.content.length; i++) {
             if (res.data.content[i].creater == currentFaceCode) {
               isCreater = true;
             } else {
@@ -224,8 +219,9 @@ export default {
           this.tableInformation = data;
           this.num = res.data.totalItemNumber;
           this.loading = false;
-        }
-      });
+        }).catch(error=>{
+
+        })
     },
     handleCurrentChange3(val) {
         this.currentPage2 = val;
@@ -368,42 +364,29 @@ export default {
     },
     warnClick(row) {
       //提醒
-      this.$http
-        .get(
-          process.env.API_HOST +
-            "v1/tenant/" +
-            cookie.getJSON("tenant")[1].interfaceCode +
-            "/contract/" +
-            row.contractNum +
-            "/remind",
-          {
-            params: {
-              contractType: 0,
-              remindType: 0
-            }
-          }
-        )
-        .then(function(res) {
-          if (res.data.sessionStatus == "0") {
-            this.$router.push("/Server");
-          } else {
+        let param={
+            contractType:0,
+            remindType:0
+        }
+        remind(param,this.interfaceCode,row.contractNum).then(res=>{
             var resultCode = res.data.resultCode;
             var resultMessage = res.data.resultMessage;
             if (resultCode === "0") {
-              this.$message({
-                showClose: true,
-                message: resultMessage,
-                type: "success"
-              });
+                this.$message({
+                    showClose: true,
+                    message: resultMessage,
+                    type: "success"
+                });
             } else {
-              this.$message({
-                showClose: true,
-                message: resultMessage,
-                type: "error"
-              });
+                this.$message({
+                    showClose: true,
+                    message: resultMessage,
+                    type: "error"
+                });
             }
-          }
-        });
+        }).catch(error=>{
+
+        })
     },
     downloadClick(row) {
       //下载

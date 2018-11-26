@@ -24,3 +24,12 @@ apiA(param).then(res=>{
 
 })
 ```
+
+###原有接口中的
+```
+if(res.data.sessionStatus == '0'){
+    this.$router.push('/Server')
+}
+```
+ ###不必再写 会统一处理
+                  

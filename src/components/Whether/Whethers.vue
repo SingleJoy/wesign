@@ -78,6 +78,7 @@
 import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
+import {signerpositions,contractDetail,contractImg} from '@/api/personal.js'
 export default {
   name: 'Pcontract',
     data () {
@@ -236,24 +237,18 @@ export default {
             param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
           }
         }
-
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-           if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          if(res.data.resultCode == '0') {
-            // this.$message({
-            //   showClose: true,
-            //   message: '指定位置成功!',
-            //   type: 'success'
-            // })
-            this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', this.$store.state.contractName1)
-            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-            if(this.$store.state.needSign != 1){
-              this.$router.push('/Success')
-            }
-          }else if(res.data.resultCode==1){
+        let requestParam={
+            signerpositions:param
+        }; 
+        signerpositions(requestParam,this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+            if(res.data.resultCode == '0') {
+                this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
+                sessionStorage.setItem('contractName', this.$store.state.contractName1)
+                sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                if(this.$store.state.needSign != 1){
+                this.$router.push('/Success')
+                }
+            }else if(res.data.resultCode==1){
                this.$confirm(
                     <div class="warn-num">
                         <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
@@ -263,19 +258,19 @@ export default {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(() => {
-                    // this.$router.push('/Home')
                 }).catch(() => {
                     
                 });
-          }else{
-            this.$message({
-              showClose: true,
-              message: '指定位置失败!',
-              type: 'error'
-            })
-          }
-        }
-        })
+            }else{
+                this.$message({
+                showClose: true,
+                message: '指定位置失败!',
+                type: 'error'
+                })
+            }
+        }).catch(error=>{
+
+        }) 
       } else {
         this.$message({
           showClose: true,
@@ -289,6 +284,7 @@ export default {
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
     var needSign = sessionStorage.getItem('needSign')
+    var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
     if (contractName) {
     //   contractName = JSON.parse(contractName)
       if ( this.$store.state.contractName1 == ''){
@@ -308,32 +304,28 @@ export default {
       }
     }
     this.$loading.show(); //显示
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-       if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-      var signUserVo = res.data.signUserVo
-      this.signUserList = signUserVo
-        }
-    })
-    var data =[];
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-       if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-            this.allpage = res.data.length
-            this.$nextTick(() => {
-                this.initScroll()
-                this.calculateHeight()
-            })
-            for (let i = 0; i < res.data.length;i++) {
-                let contractUrl = res.data[i].contractUrl
-                data[i] = contractUrl
-                this.$loading.hide(); //隐藏
-            }
-            this.imgList = data
+    contractDetail(interfaceCode,this.$store.state.contractNo1).then(res=>{
+        var signUserVo = res.data.signUserVo
+        this.signUserList = signUserVo
+    }).catch(error=>{
 
+    })
+   
+    var data =[];
+    contractImg(interfaceCode,this.$store.state.contractNo1).then(res=>{
+        this.allpage = res.data.length
+        this.$nextTick(() => {
+            this.initScroll()
+            this.calculateHeight()
+        })
+        for (let i = 0; i < res.data.length;i++) {
+            let contractUrl = res.data[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
         }
+        this.imgList = data
+    }).catch(error=>{
+
     })
 
   },
@@ -397,18 +389,6 @@ export default {
                         el.childNodes[6].style.color ='white'
                     }, true);
                 }
-                // for(var i= 0;i<del.length;i++){
-                //     del[i].addEventListener('click', function () {
-                //         if(this.parentNode.parentNode){
-                //             this.parentNode.parentNode.removeChild(this.parentNode)
-                //         }
-                //       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
-                //       n--
-                //       m--
-                //      el.childNodes[6].innerText ='拖入位置（'+m +'）次'
-                //      el.childNodes[6].style.color ='white'
-                //       }, true);
-                // }
              more.removeChild(item)
              var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
              var left = l - document.getElementById('div2').offsetLeft  //进入合同页面左偏移量

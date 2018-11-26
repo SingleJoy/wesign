@@ -73,6 +73,7 @@ import BScroll from 'better-scroll'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import { mapActions, mapState } from 'vuex'
+import {signerpositions,signUser} from '@/api/personal.js'
 export default {
   name: 'Pcontract',
     data () {
@@ -223,75 +224,83 @@ export default {
       this.$router.push('/Contractsigning')
     },
     nextStepFit(){  //下一步
-      var imgHeight = document.getElementById('signImg').offsetHeight
-      var imgWidth = document.getElementById('signImg').offsetWidth
-      var signBox = document.getElementsByClassName('signBox')
-      var len = document.getElementById('more').getElementsByTagName('dl').length           //获取签署人个数
-      var param = ""
-      var arr =[]
-      var sign_length = document.getElementById('more').childNodes
-      for (var i=0;i<sign_length.length;i++){
-        var elementNum = sign_length[i].childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join('')
-        arr.push(elementNum)
-      }
-      if( arr.indexOf("0") == -1){
-        for (var i = 0; i<signBox.length; i++ ) {
-          var userId = signBox[i].childNodes[2].value                                         //获取签署人的标示id
-          var topY = parseInt(signBox[i].offsetTop)       //获取用户签章的top值
-          var leftX = parseInt(signBox[i].offsetLeft)                                         //获取用户签章的left值
-          var  pageNo = parseInt(topY/imgHeight)                                              //获取页数
-          var offsetY = (topY-(imgHeight)*pageNo)/imgHeight                                   //获取签章相对于合同的偏移量
-          var offsetX  = leftX/imgWidth;                                                      //获取签章相对于合同的偏移量
-          if(i == len-1){
-            param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
-
-          }else{
-            param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
-          }
+        var imgHeight = document.getElementById('signImg').offsetHeight
+        var imgWidth = document.getElementById('signImg').offsetWidth
+        var signBox = document.getElementsByClassName('signBox')
+        var len = document.getElementById('more').getElementsByTagName('dl').length           //获取签署人个数
+        var param = ""
+        var arr =[]
+        var sign_length = document.getElementById('more').childNodes
+        for (var i=0;i<sign_length.length;i++){
+            var elementNum = sign_length[i].childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join('')
+            arr.push(elementNum)
         }
+        if( arr.indexOf("0") == -1){
+            for (var i = 0; i<signBox.length; i++ ) {
+            var userId = signBox[i].childNodes[2].value                                         //获取签署人的标示id
+            var topY = parseInt(signBox[i].offsetTop)       //获取用户签章的top值
+            var leftX = parseInt(signBox[i].offsetLeft)                                         //获取用户签章的left值
+            var  pageNo = parseInt(topY/imgHeight)                                              //获取页数
+            var offsetY = (topY-(imgHeight)*pageNo)/imgHeight                                   //获取签章相对于合同的偏移量
+            var offsetX  = leftX/imgWidth;                                                      //获取签章相对于合同的偏移量
+            if(i == len-1){
+                param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
 
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-                this.$router.push('/Server')
-                } else {
-                if(res.data.resultCode == 0) {
-                    this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-                    sessionStorage.setItem('contractName', this.$store.state.contractName1)
-                    sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-                    this.$router.push('/Contract')
-                }else if(res.data.resultCode==1){
-                    this.$confirm(
-                        <div class="warn-num">
-                            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-                            <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-                            <div class="customer-service"></div>
-                        </div>,'提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消'
-                        }).then(() => {
-                        //    this.$router.push('/Home')
-                        }).catch(() => {
-                            
-                        });  
-                }else{
-                    this.$message({
-                        showClose: true,
-                        message: '指定位置失败!',
-                        type: 'error'
-                    })
-                }
+            }else{
+                param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
             }
-        })
-      } else {
-        this.$alert('未指定完位置!','指定位置', {
-          confirmButtonText: '确定'
-        })
-      }
+            }
+            let requestParam={
+                signerpositions:param
+            }; 
+            signerpositions(requestParam,this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+                if(res.data.resultCode == 0) {
+                        this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
+                        sessionStorage.setItem('contractName', this.$store.state.contractName1)
+                        sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                        this.$router.push('/Contract')
+                    }else if(res.data.resultCode==1){
+                        this.$confirm(
+                            <div class="warn-num">
+                                <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                                <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+                                <div class="customer-service"></div>
+                            </div>,'提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消'
+                            }).then(() => {
+                            //    this.$router.push('/Home')
+                            }).catch(() => {
+                                
+                            });  
+                    }else{
+                        this.$message({
+                            showClose: true,
+                            message: '指定位置失败!',
+                            type: 'error'
+                        })
+                    }
+            }).catch(error=>{
+
+            })
+            // this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
+            //     if(res.data.sessionStatus == '0'){
+            //         this.$router.push('/Server')
+            //         } else {
+                    
+            //     }
+            // })
+        } else {
+            this.$alert('未指定完位置!','指定位置', {
+                confirmButtonText: '确定'
+            })
+        }
     }
   },
   created () {
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
+    var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
 
     if (contractName) {
     //   contractName = JSON.parse(contractName)
@@ -306,22 +315,18 @@ export default {
       }
     }
     this.$loading.show(); //显示
+    signUser(interfaceCode,this.$store.state.contractNo1).then(res=>{
+        var signUserVo = res.data.dataList
+        this.signUserList = signUserVo
+    }).catch(error=>{
 
-    //this.$http.get(process.env.API_HOST+'/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getContractDetails/'+this.$store.state.contractNo1).then(function (res) {
-    //  var signUserVo = res.data.signUserVo
-    //  this.signUserList = signUserVo
-    //})
-
-	this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractSignUser/'+this.$store.state.contractNo1).then(function (res) {
-      var signUserVo = res.data.dataList
-      this.signUserList = signUserVo
     })
-
+	// this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractSignUser/'+this.$store.state.contractNo1).then(function (res) {
+    //   var signUserVo = res.data.dataList
+    //   this.signUserList = signUserVo
+    // })
     var data =[];
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-      }else{
+    contractImg(interfaceCode,this.$store.state.contractNo1).then(res=>{
         this.allpage = res.data.length
         this.$nextTick(() => {
           this.initScroll()
@@ -338,10 +343,33 @@ export default {
           preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
         });
         this.imgList = data
-      }
-      this.isAction = false;
-    })
+        this.isAction = false;
+    }).catch(error=>{
 
+    })
+    // this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+    //     if(res.data.sessionStatus == '0'){
+    //         this.$router.push('/Server')
+    //     }else{
+    //         this.allpage = res.data.length
+    //         this.$nextTick(() => {
+    //         this.initScroll()
+    //         this.calculateHeight()
+    //         })
+    //         for (let i = 0; i < res.data.length;i++) {
+    //         let contractUrl = res.data[i].contractUrl
+    //         data[i] = contractUrl
+    //         this.$loading.hide(); //隐藏
+    //         }
+    //         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+    //         probeType: 3,
+    //         scrollY: true,
+    //         preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
+    //         });
+    //         this.imgList = data
+    //     }
+    //     this.isAction = false;
+    // })
   },
   directives: {
     drag: {

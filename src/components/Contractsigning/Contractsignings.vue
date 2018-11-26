@@ -174,6 +174,8 @@
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import Loading from '@/common/components/Loading'
+  import {contractImg} from '@/api/personal.js'
+
   export default {
     name: 'Contractsignings',
     data() {
@@ -334,19 +336,15 @@
         var data =[];
         var contractNo = sessionStorage.getItem('contractNo');
         // contractNo = JSON.parse(contractNo)
-
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        contractImg(this.interfaceCode,contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
+        }).catch(error=>{
 
-          }
         })
         this.dialogTableVisible = true
       },
@@ -640,12 +638,7 @@
             }
             this.isNext = true;
             var contractNo = sessionStorage.getItem('contractNo');
-            // contractNo = JSON.parse(contractNo)
-            // console.log(323)
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/perfectContract',contractVo,{emulateJSON:true}).then(function (res) {
-              if(res.data.sessionStatus == '0'){
-                this.$router.push('/Server')
-              } else {
+            perfectContract(contractVo,this.interfaceCode,contractNo).then(res=>{
                 if ( res.data.resultCode == '0') {
                   this.isNext = false;
                   this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
@@ -665,7 +658,8 @@
                   this.falg = true;
                   this.isNext = false;
                 }
-              }
+            }).catch(error=>{
+
             })
           }
         }
@@ -703,36 +697,34 @@
           this.$store.state.type = type
         }
       }
-      if( type == 'back' ){
-         this.isNext = true;
-         this.operate = true
-         this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/echoContractInfo').then(function (res) {
-           if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-            } else {
-              this.isNext = false;
-              var needSign = res.data.needSign;
-              var perpetualValid = res.data.perpetualValid;
-              var validTime = res.data.validTime;
-              var list = res.data.list!=null?res.data.list:[];
-              this.operateType = res.data.operateType
-              if(needSign == "1"){
-                this.checked1 = true
-              } else {
-                this.checked1 = false
-              }
-              if(perpetualValid == "1"){
-                this.checked = true
-              }else{
-                this.checked = false
-              }
-              if(validTime!=""){
-                this.value8 = validTime
-              }
-              this.tableData5 = list
-            }
-         })
-      }
+        if( type == 'back' ){
+            this.isNext = true;
+            this.operate = true;
+            echoContractInfo(this.interfaceCode,contractNo).then(res=>{
+                this.isNext = false;
+                var needSign = res.data.needSign;
+                var perpetualValid = res.data.perpetualValid;
+                var validTime = res.data.validTime;
+                var list = res.data.list!=null?res.data.list:[];
+                this.operateType = res.data.operateType
+                if(needSign == "1"){
+                    this.checked1 = true
+                } else {
+                    this.checked1 = false
+                }
+                if(perpetualValid == "1"){
+                    this.checked = true
+                }else{
+                    this.checked = false
+                }
+                if(validTime!=""){
+                    this.value8 = validTime
+                }
+                    this.tableData5 = list
+            }).catch(error=>{
+                
+            })
+        }
     }
   }
 </script>

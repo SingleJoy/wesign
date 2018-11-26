@@ -95,6 +95,7 @@
   import {mapActions, mapState} from 'vuex'
   import clip from '@/common/js/clipboard.js' // use clipboard directly
   import cookie from '@/common/js/getTenant'
+  import {contractImg,contractDetail,signLink} from '@/api/personal.js'
 
   export default {
     data () {
@@ -105,7 +106,8 @@
         dialogTableVisible:false,
         imgList:[],
         contractLink:'',
-        roomLink:''
+        roomLink:'',
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
       }
     },
     methods: {
@@ -117,17 +119,15 @@
       seeContractImg (){
         this.$loading.show(); //显示
         var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-          if(res.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        contractImg(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
-              let contractUrl = res.data[i].contractUrl
-              data[i] = contractUrl
-              this.$loading.hide(); //隐藏
+                let contractUrl = res.data[i].contractUrl
+                data[i] = contractUrl
+                this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+        }).catch(error=>{
+
         })
         this.dialogTableVisible = true
       },
@@ -158,26 +158,37 @@
           this.$store.state.contractNo1 = contractNo
         }
       }
-    //   let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+this.$store.state.contractNo1;
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-        if(res.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          this.signUser = res.data.signUserVo
-          var contractVo = res.data.contractVo
-          this.validTime = contractVo.validTime
-        }
-      })
+       contractDetail(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+            this.signUser = res.data.signUserVo
+            var contractVo = res.data.contractVo
+            this.validTime = contractVo.validTime
+        }).catch(error=>{
 
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
-        if(res.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          this.contractLink = res.bodyText
-        }
-      })
+        })
+        // this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
+        //     if(res.sessionStatus == '0'){
+        //     this.$router.push('/Server')
+        //     } else {
+        //     this.signUser = res.data.signUserVo
+        //     var contractVo = res.data.contractVo
+        //     this.validTime = contractVo.validTime
+        //     }
+        // })
+        signLink(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+            this.contractLink = res.bodyText
+        }).catch(error=>{
+
+        })
+        // this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
+        //     if(res.sessionStatus == '0'){
+        //     this.$router.push('/Server')
+        //     } else {
+        //     this.contractLink = res.bodyText
+        //     }
+        // })
     },
     mounted() {
+        
       sessionStorage.removeItem("type");
       sessionStorage.removeItem("needSign");
     }
