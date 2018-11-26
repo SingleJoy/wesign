@@ -114,24 +114,22 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-import cookie from '@/common/js/getTenant'
-import moment  from 'moment'
+import { mapActions, mapState } from 'vuex';
+import cookie from '@/common/js/getTenant';
+import moment  from 'moment';
 import server from "@/api/url";
-import {b2cContrants,remind} from '@/api/list'
+import {b2cContrants,remind} from '@/api/list';
 export default {
     name:'totalContranct',
     data() {
         return {
-            interfaceCode:cooki.getItem('tenant')[1].interfaceCode,
+            interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
             isBusiness:cookie.getJSON('tenant')[1].isBusiness,
             options: [],
             queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
             value:'',
             hasQuery:false,
             currentPage: 1,
-            value8: '',
-            value9: '',
             tableData2: [],
             num: '',
             loading: true,
@@ -182,6 +180,7 @@ export default {
         var isCreater='';
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
         let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
+        console.log(b2cContrants)
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
                 if (res.data.content[i].creater == currentFaceCode) {

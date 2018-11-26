@@ -110,10 +110,12 @@ import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
 import {Trim} from '@/common/js/validate'
 import server from "@/api/url";
+import {b2cContrants,remind} from '@/api/list'
 export default {
   name:'InquiryExpired',
   data() {
     return {
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
@@ -162,55 +164,51 @@ export default {
       }
     },
     getData (requestVo) {
-    var data =[];
-    var isCreater='';
-    let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
-      this.$http.get(url, {params: requestVo}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.content.length;i++) {
-          if (res.data.content[i].creater == currentFaceCode) {
-            isCreater = true;
-          } else {
-            isCreater = false;
-          }
-          var obj = {}
-          obj.contractName = res.data.content[i].contractName;
-          obj.contractNum = res.data.content[i].contractNum;
-          obj.createTime = res.data.content[i].createTime;
-          obj.signers =  res.data.content[i].signers;
-          obj.validTime =  res.data.content[i].validTime;
-          obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.operator = res.data.content[i].operator
-          obj.isCreater = isCreater;
-          obj.operation = ''
-          switch (obj.contractStatus){
-            case "1":
-            obj.contractStatus="待我签署";
-            obj.operation = 1
-              break;
-            case "2":
-            obj.contractStatus="待他人签署";
-            obj.operation = 2
-              break;
-            case "3":
-            obj.contractStatus="已生效";
-            obj.operation = 3
-              break;
-            default:
-            obj.contractStatus="已截止";
-            obj.operation = 4
-              break;
-          }
-          data[i] = obj
-        }
-        this.tableData2 = data
-        this.num = res.data.totalItemNumber
-        this.loading = false
-        }
-      })
+        var data =[];
+        var isCreater='';
+        let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
+        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
+        b2cContrants(requestVo,this.interfaceCode).then(res=>{
+            for (let i = 0; i < res.data.content.length;i++) {
+                if (res.data.content[i].creater == currentFaceCode) {
+                    isCreater = true;
+                } else {
+                    isCreater = false;
+                }
+                var obj = {}
+                obj.contractName = res.data.content[i].contractName;
+                obj.contractNum = res.data.content[i].contractNum;
+                obj.createTime = res.data.content[i].createTime;
+                obj.signers =  res.data.content[i].signers;
+                obj.validTime =  res.data.content[i].validTime;
+                obj.contractStatus =  res.data.content[i].contractStatus;
+                obj.operator = res.data.content[i].operator
+                obj.isCreater = isCreater;
+                obj.operation = ''
+                switch (obj.contractStatus){
+                    case "1":
+                    obj.contractStatus="待我签署";
+                    obj.operation = 1
+                    break;
+                    case "2":
+                    obj.contractStatus="待他人签署";
+                    obj.operation = 2
+                    break;
+                    case "3":
+                    obj.contractStatus="已生效";
+                    obj.operation = 3
+                    break;
+                    default:
+                    obj.contractStatus="已截止";
+                    obj.operation = 4
+                    break;
+                }
+                data[i] = obj
+            }
+            this.tableData2 = data
+            this.num = res.data.totalItemNumber
+            this.loading = false
+        })
     },
     handleCurrentChange5(val) {
         this.currentPage4 = val
@@ -264,30 +262,29 @@ export default {
       this.$router.push('/Contract')
     },
     remindClick (row) { //提醒
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+row.contractNum+'/remind',{params:{
-          'contractType':1,
-          'remindType':0
-        }}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        var resultCode = res.data.resultCode
-        var resultMessage = res.data.resultMessage
-          if ( resultCode === '0') {
-            this.$message({
-            showClose: true,
-            message: resultMessage,
-            type: 'success'
-          });
-          } else {
-            this.$message({
-            showClose: true,
-            message: resultMessage,
-            type: 'error'
-          });
+         let param={
+            'contractType':1,
+            'remindType':0
         }
-       }
-      })
+        remind(param,this.interfaceCode,row.contractNum).then(res=>{
+            var resultCode = res.data.resultCode
+            var resultMessage = res.data.resultMessage
+            if ( resultCode === '0') {
+                this.$message({
+                    showClose: true,
+                    message: resultMessage,
+                    type: 'success'
+                });
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: resultMessage,
+                    type: 'error'
+                });
+            }
+        }).catch(error=>{
+
+        })
     },
     downloadClick (row) { //下载
       var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode + '/'+ row.contractNum;
