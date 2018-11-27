@@ -1,5 +1,5 @@
 /**
- * auth:nwang 
+ * auth:nwang
  * date:2018-8-22
  */
 
@@ -27,6 +27,7 @@ Axios.interceptors.request.use((config)=>{
 // 响应时拦截
 Axios.interceptors.response.use((response)=> {
     //做点什么
+
     return response;
   },(error)=> {
     if (error && error.response) {

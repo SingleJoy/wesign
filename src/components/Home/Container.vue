@@ -721,6 +721,7 @@
       };
       // 首页模板列表
         templateList(resParam,interfaceCode).then(res=>{
+          console.log(res)
             if (res.data.sessionStatus == "0") {
                 this.$router.push("/Server");
             } else {

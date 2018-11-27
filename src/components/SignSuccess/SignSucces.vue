@@ -1,9 +1,9 @@
 /*
- * @Author: wangjia
- * @Date: 2018-06-06 13:41:52
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-06-26 17:24:06
- */
+* @Author: wangjia
+* @Date: 2018-06-06 13:41:52
+* @Last Modified by: wangjia
+* @Last Modified time: 2018-06-26 17:24:06
+*/
 <template>
   <div class='SignSucces' style="margin-top: 20px;">
     <div class="main" style="height: 850px;">
@@ -67,13 +67,13 @@
         </div>
       </div>
       <el-dialog title="合同详情图片" :visible.sync="prompt" custom-class="showDialogs" >    <!-- :lock-scroll= false有问题！！！！ -->
-            <div v-for="(item,index) in imgList" :key="index">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
-            </div>
-        </el-dialog>
+        <div v-for="(item,index) in imgList" :key="index">
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+        </div>
+      </el-dialog>
       <div class='btns'>
-          <el-button type="info" style='width:200px' @click="back">返回首页</el-button>
-          <el-button type="primary" style='width:200px' @click="examineDetails">查看详情</el-button>
+        <el-button type="info" style='width:200px' @click="back">返回首页</el-button>
+        <el-button type="primary" style='width:200px' @click="examineDetails">查看详情</el-button>
       </div>
     </div>
   </div>
@@ -85,86 +85,63 @@
 </style>
 
 <script>
-import cookie from '@/common/js/getTenant'
-export default {
-  data(){
-    return{
-      baseURL:this.baseURL.BASE_URL,
-      signContractUser:[],
-      validTimes:'',
-      prompt:false,
-      imgList:[],
-      contractName:''
-    }
-  },
-  created() {
-    var contractNo = sessionStorage.getItem('contractNo')
-    var contractName = sessionStorage.getItem('contractName');
-    // contractName = JSON.parse(contractName)
-    this.contractName = contractName
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
+  import cookie from '@/common/js/getTenant'
+  import {contractimgs,signFinish} from '@/api/business'
+  export default {
+    data(){
+      return{
+        baseURL:this.baseURL.BASE_URL,
+        signContractUser:[],
+        validTimes:'',
+        prompt:false,
+        imgList:[],
+        contractName:'',
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        contractNo:sessionStorage.getItem("contractNo"),
+        userCode:cookie.getJSON('tenant')[0].userCode
       }
-    }
-
-    this.$http.get(process.env.API_HOST+'v1.4/contract/'+contractNo+'/signFinish').then(function (res) {
-     if(res.sessionStatus == '0'){
-        this.$router.push('/Server')
-      } else {
-      this.signContractUser = res.data.dataList
-      this.validTimes = res.data.data.validTime
-       this.contractName = res.data.data.contractName
-      }
-    })
-  },
-  methods:{
-    examine() {
-      var contractNo = sessionStorage.getItem('contractNo')
-        //   contractNo = JSON.parse(contractNo)
-      this.$loading.show(); //显示
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ contractNo +'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.dataList.length;i++) {
-        let contractUrl = res.data.dataList[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
-
-        }
-      })
-      this.prompt = true
     },
-    examineDetails () { //查看详情
-    //   if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-    //     cookie.set('state','H')
-    //     this.$router.push('/CompanyExb')
-    //   }else{
-    //     cookie.set('state','G')
+    created() {
+
+
+      signFinish(this.contractNo).then(res=>{
+
+          this.signContractUser = res.data.dataList
+          this.validTimes = res.data.data.validTime
+          this.contractName = res.data.data.contractName
+
+      })
+    },
+    methods:{
+      examine() {
+
+        this.$loading.show(); //显示
+        let data =[];
+        contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
+
+            for (let i = 0; i < res.data.dataList.length;i++) {
+              let contractUrl = res.data.dataList[i].contractUrl
+              data[i] = contractUrl
+              this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+
+        }).catch(error=>{
+
+        })
+        this.prompt = true
+      },
+      examineDetails () {
+        //查看详情
         cookie.set("state", "Home");
         this.$router.push('/CompanyExa')
-    //   }
-    },
-    back(){
+      },
+      back(){
         var auditSteps = cookie.getJSON('tenant')[1].auditSteps;  //企业认证状态
-        // if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-        //     if(auditSteps !=3 ){
-        //         this.$router.push('/Merchant')
-        //     }else{
-
-        //     }
-        // }else{
-        //     this.$router.push('/Home')
-        // }
         this.$router.push('/Home')
+      }
     }
   }
-}
 </script>
 <style>
   .showDialogs .el-dialog__body{
