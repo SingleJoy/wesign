@@ -90,8 +90,9 @@
 </template>
 <script>
   import BScroll from 'better-scroll'
-  import cookie from '@/common/js/getTenant'
+
   import { mapActions, mapState } from 'vuex'
+  import { signerpositions ,contractimgs, contractSignUser} from '@/api/business'
   export default {
     name: 'Places',
     data () {
@@ -108,7 +109,9 @@
         hasClick:false,
         isAction:true,
         scrollY: 0,  //batterScroll 滚动的Y轴距离
-        rightScroll:''
+        rightScroll:'',
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        contractNo:sessionStorage.getItem("contractNo")
       }
     },
     mounted() {
@@ -230,7 +233,7 @@
         })
       },
       lastStepFit(){  //上一步
-        this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
+        this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.contractNo})
         this.$store.dispatch('type',{type:'back'})
         sessionStorage.setItem('contractName', this.$store.state.contractName1)
         sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
@@ -271,75 +274,65 @@
             }
           }
 
-          this.$http.post(process.env.API_HOST+'v1.4/tenant/'+cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-              this.$router.push('/Server')
-            } else {
+          signerpositions(this.interfaceCode,this.contractNo,{"signerpositions":param}).then(res=>{
+            console.log(res)
               if(res.data.resultCode == '1') {
                 this.$message({
                   showClose: true,
                   message: '指定位置成功!',
                   type: 'success'
                 })
-                this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-                sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
                 this.$router.push('/Dimension')
-              }else if(res.data.resultCode==0){
+              }
+              else if(res.data.resultCode==0){
                 this.$confirm(
                 <div class="warn-num">
                   <p class="title" style="font-size:16px;text-align:center;">对不起，您的对企业签约次数已用尽!</p>
-                <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+                   <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
                   <div class="customer-service"></div>
                   </div>,'提示', {
                 confirmButtonText: '确定',
-                  cancelButtonText: '取消'
-              }).then(() => {
-          }).catch(() => {
+                  cancelButtonText: '取消'})
 
-          });
+              }else{
+                this.$message({
+                  showClose: true,
+                  message: '指定位置失败!',
+                  type: 'error'
+                })
+              }
+          }).catch(error=>{
 
-        }else{
-          this.$message({
-            showClose: true,
-            message: '指定位置失败!',
-            type: 'error'
+         })
+
+        }
+        else {
+          this.$alert('未指定完位置!','指定位置', {
+            confirmButtonText: '确定'
           })
         }
       }
-    })
-  } else {
-    this.$alert('未指定完位置!','指定位置', {
-      confirmButtonText: '确定'
-    })
-  }
-  }
-  },
-  created () {
-    var contractNo = sessionStorage.getItem('contractNo')
-    if (contractNo) {
-      //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
+      },
+  created (){
+
     this.$loading.show(); //显示
 
-    this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.$store.state.contractNo1+ '/contractSignUser').then(function (res) {
-      var signUserVo = []
-      var analogueVo = []
+    contractSignUser(this.contractNo).then(res=>{
+      let signUserVo = []
+      let analogueVo = []
       signUserVo.push(res.data.dataList[0])
       signUserVo.push(res.data.dataList[1])
       analogueVo.push(res.data.dataList[2])
       analogueVo.push(res.data.dataList[3])
       this.signUserList = signUserVo
       this.analogueList = analogueVo
+    }).catch(error=>{
+
     })
 
     var data =[];
-    this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-        this.$router.push('/Server')
-      }else{
+    contractimgs(this.interfaceCode,this.contractNo).then(res=> {
+
         this.allpage = res.data.dataList.length
         this.$nextTick(() => {
           this.initScroll()
@@ -356,8 +349,9 @@
           scrollY: true,
           preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
         })
-      }
       this.isAction = false;
+    }).catch(error=>{
+
     })
 
   },

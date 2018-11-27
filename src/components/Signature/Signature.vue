@@ -244,7 +244,7 @@
   import Bottom from '../../common/components/Bottom'
   import cookie from '@/common/js/getTenant'
   import {validateMoblie,validateEmail,TrimAll} from '@/common/js/validate'
-  import {echoContractSetting,contractimgs,setting} from '@/api/business'
+  import {echoContractSetting,contractimgs,setting,getTenantByName} from '@/api/business'
   export default {
     components: {
       Bottom
@@ -378,10 +378,11 @@
           this.prohibitt = false
           return false
         }
-        // console.log(this.enterpriseName)
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/async/getTenantByName',{params: {
-            'tenantName':this.enterpriseName
-          }}).then(res =>{
+       let params={
+         'tenantName':this.enterpriseName
+       }
+       //判断对手方企业是否在微签平台已实名
+        getTenantByName(params).then(res =>{
 
           if(res.data.resultCode == '1'){
             this.$message({
@@ -406,6 +407,8 @@
             this.signInterfaceCode = ''
             this.userCode =''
           }
+        }).catch(error=>{
+
         })
       },
       agentMobile() {
@@ -543,26 +546,26 @@
         if(this.ContractNumber != contractNo){
           this.operateType = ''
         }
-
-        // this.$http.post(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/contract/'+contractNo+'/setting',{
-        setting(process.env.API_HOST+'v1.4/tenant/'+interfaceCode+'/contract/'+contractNo+'/setting',{
-          accountCode:sessionStorage.getItem('accountCode'),
-          operateType:this.operateType, //操作类型(回显)
-          signInterfaceCode:this.signInterfaceCode, //签署企业编号
-          signTenantName:this.enterpriseName, //对手方企业名称
-          tenantName:this.companyName, //签署企业名称
-          userCode:this.userCode, //签署企业授权人编号
-          userName:TrimAll(this.analogueName), //签署企业授权人名称
-          mobile:this.analogueMobile, //授权人手机号（对手方）
-          tenantMobile:this.mobile,   //发起方手机号
-          email:TrimAll(this.analogueEmail), //授权人邮箱
-          handleUserName:this.handleUserName,//经办人姓名
-          handleMobile:this.handleMobile,//经办人手机号
-          handleEmail:TrimAll(this.handleEmail),//经办人邮箱
-          contractName:TrimAll(this.input), //合同名称
-          perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
-          validTime:this.date //签署截止时间
-        },{emulateJSON: true}).then(res =>{
+      let param={
+        accountCode:sessionStorage.getItem('accountCode'),
+        operateType:this.operateType, //操作类型(回显)
+        signInterfaceCode:this.signInterfaceCode, //签署企业编号
+        signTenantName:this.enterpriseName, //对手方企业名称
+        tenantName:this.companyName, //签署企业名称
+        userCode:this.userCode, //签署企业授权人编号
+        userName:TrimAll(this.analogueName), //签署企业授权人名称
+        mobile:this.analogueMobile, //授权人手机号（对手方）
+        tenantMobile:this.mobile,   //发起方手机号
+        email:TrimAll(this.analogueEmail), //授权人邮箱
+        handleUserName:this.handleUserName,//经办人姓名
+        handleMobile:this.handleMobile,//经办人手机号
+        handleEmail:TrimAll(this.handleEmail),//经办人邮箱
+        contractName:TrimAll(this.input), //合同名称
+        perpetualValid:perpetualValid,//合同签署有效时间类型 0：非永久有效；1：永久有效
+        validTime:this.date //签署截止时间
+      }
+        // 对手方企业信息设置
+        setting(interfaceCode,contractNo,param,{emulateJSON: true}).then(res =>{
           if(res.data.resultCode == '1'){
             this.$router.push('/Place')
           }else if(res.data.resultCode == '-1'){
@@ -576,6 +579,8 @@
               type: 'warning'
             })
           }
+        }).catch(error=>{
+
         })
       },
       lookContractImg (){
@@ -583,9 +588,11 @@
         this.$loading.show(); //显示
         var data =[];
         var contractNo = sessionStorage.getItem('contractNo');
+        var interfaceCode = sessionStorage.getItem('interfaceCode');
 
+        //合同图片查看
 
-        contractimgs(interfaceCode ,contractNo).then(function (res) {
+        contractimgs(interfaceCode ,contractNo).then(res=> {
 
           for (let i = 0; i < res.data.dataList.length;i++) {
             let contractUrl = res.data.dataList[i].contractUrl
@@ -593,6 +600,8 @@
             this.$loading.hide(); //隐藏
           }
           this.imgList = data
+
+        }).catch(error=>{
 
         })
         this.dialogVisible = true
@@ -626,19 +635,21 @@
       this.email = cookie.getJSON('tenant')[1].email
       if(type == 'back'){
         var Jurisdiction = sessionStorage.getItem('Jurisdiction');
+        //页面回退  数据回显
 
+        echoContractSetting(interfaceCode,contractNo).then(res=> {
 
-        echoContractSetting(interfaceCode,contractNo).then(function (res) {
-
-          this.input = res.data.data.contractName
+          this.input = res.data.data.contractName;
           this.date = res.data.data.validTime
-          if(res.data.data.perpetualValid == '1'){
+          if(res.data.data.perpetualValid == 1){
+
             this.checked = true
           } else {
             this.checked = false
           }
 
-          if( res.data.dataList[0].accountStatus == '1' && Jurisdiction == 'true'){
+          if(res.data.dataList[0].accountStatus ==1&& Jurisdiction == true){
+
             this.prohibit = true
             this.prohibitt = true
           }
@@ -657,6 +668,8 @@
             this.handleMobile = res.data.dataList[1].agentMobile
             this.handleEmail = res.data.dataList[1].agentEmail
           }
+        }).catch(error=>{
+
         })
       }
     }
