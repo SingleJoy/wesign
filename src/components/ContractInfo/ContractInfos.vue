@@ -216,6 +216,7 @@
   import server from '@/api/url';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
+  import {remind,b2cContrantsDetail,contractSignUserInfo,b2cImgs} from '@/api/detail'
   export default {
     name: 'ContractInfos',
     data() {
@@ -248,19 +249,21 @@
           userCode:row.userCode,
           contractType:1
         }
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ this.$store.state.rowNumber +'/remind',{params:remindParam} ,{emulateJSON:true}).then(function (res) {
-          var resultCode = res.data.resultCode
-          if ( resultCode === '0') {
-            this.$message({
-              message: '短信通知成功',
-              type: 'success'
-            });
-          } else if(resultCode === '1'){
-            this.$message({
-              message: '该合同本日发送短信次数已用尽！',
-              type: 'error'
-            });
-          }
+        remind(remindParam,this.interfaceCode,this.$store.state.rowNumber).then(res=>{
+            var resultCode = res.data.resultCode
+            if ( resultCode === '0') {
+                this.$message({
+                    message: '短信通知成功',
+                    type: 'success'
+                });
+            } else if(resultCode === '1'){
+                this.$message({
+                    message: '该合同本日发送短信次数已用尽！',
+                    type: 'error'
+                });
+            }
+        }).catch(error=>{
+
         })
       },
       getTenant () {
@@ -315,17 +318,15 @@
         this.imgList =[];
         this.$loading.show(); //显示
         var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        b2cImgs(this.interfaceCode,this.$store.state.rowNumber).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+        }).catch(error=>{
+
         })
         this.dialogTableVisible = true
       },
@@ -348,11 +349,7 @@
           let contractNo=sessionStorage.getItem('contractNo')
           this.contractNo=contractNo;
         }
-        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
-        this.$http.get(url).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        b2cContrantsDetail(this.interfaceCode,this.contractNo).then(res=>{
             var contractNoZq = res.data.contractVo.contractNoZq
             var contractVo = res.data.contractVo
             var signUserVo = res.data.signUserVo
@@ -410,6 +407,23 @@
               data[i] = obj
             }
             this.tableData2 = data
+            let param={
+                contractNoZq:contractNoZq
+            }
+            contractSignUserInfo(param,this.contractNo).then(res=>{
+                this.History = res.data.dataList
+            }).catch(error=>{
+                
+            })
+        }).catch(error=>{
+
+        })
+        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
+        this.$http.get(url).then(function (res) {
+          if(res.data.sessionStatus == '0'){
+            this.$router.push('/Server')
+          } else {
+            
             this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.contractNo+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
               this.History = res.data.dataList
             })

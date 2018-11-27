@@ -222,6 +222,7 @@ import { mapActions, mapState } from 'vuex'
 import { Switch } from 'element-ui';
 import cookie from '@/common/js/getTenant';
 import server from '@/api/url';
+import {remind,b2bDetail,contractSignUserInfo,b2bImgs} from '@/api/detail'
 export default {
   name: 'CompanyExam',
   data() {
@@ -255,20 +256,22 @@ export default {
           userCode:row.userCode,
           contractType:0
         }
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ this.ContractCode +'/remind',{params: remindParam},{emulateJSON:true}).then(function (res) {
-          var resultCode = res.data.resultCode
+        remind(remindParam,this.interfaceCode,this.ContractCode).then(res=>{
+            var resultCode = res.data.resultCode
             if ( resultCode === '0') {
               this.$message({
-              message: '短信通知成功',
-              type: 'success'
-            });
+                message: '短信通知成功',
+                type: 'success'
+                });
             } else if(resultCode === '1'){
               this.$message({
-              message: '该合同本日发送短信次数已用尽！',
-              type: 'error'
-            });
-          }
-      })
+                message: '该合同本日发送短信次数已用尽！',
+                type: 'error'
+                });
+            }
+        }).catch(error=>{
+
+        })
     },
     getTenant () {
 
@@ -276,17 +279,15 @@ export default {
     seeContractImg (){
       this.$loading.show(); //显示
       var data =[];
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.ContractCode+'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.dataList.length;i++) {
-        let contractUrl = res.data.dataList[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
-        }
+      b2bImgs(this.interfaceCode,this.ContractCode).then(res=>{
+            for (let i = 0; i < res.data.dataList.length;i++) {
+                let contractUrl = res.data.dataList[i].contractUrl
+                data[i] = contractUrl
+                this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+      }).catch(error=>{
+
       })
       this.dialogTableVisible = true
     },
@@ -301,80 +302,71 @@ export default {
       var data =[];
       let url = process.env.API_HOST+'v1.4/contract/'+this.ContractCode+'/signFinish';
       let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-      this.$http.get(url).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        var contractType = res.data.data.contractType
-        if(contractType == '0'){
-          this.businessScenario = '企业对企业'
-        }
-        var contractNoZq = res.data.data.contractNoZq
-        this.contractName = res.data.data.contractName
-        this.sponsorInterfaceCode = res.data.data.interfaceCode
-        var type = res.data.data.contractType
-        switch (type) {
-          case '1':
-            this.createType = '模板发起'
-            break;
-          default:
-            this.createType = '上传发起'
-            break;
-        }
-        this.status = res.data.data.status
-        // switch ( this.status ){
-        // case "signing":
-        //   this.status = '签署中'
-        //   break;
-        // case "archive":
-        //   this.status = '已生效'
-        //   break;
-        // default:
-        //   this.status = '已截止'
-        //   break;
-        // }
-        this.validTime = res.data.data.validTime
-        var signUserVo = res.data.dataList
-        var contractStatus = res.data.data.status
-        var isCreater='';
-        this.operator = res.data.data.operator
-        if(currentFaceCode == res.data.data.interfaceCode){
-            isCreater = true
-        }else{
-            isCreater = false
-        }
-        for (let i = 0; i < signUserVo.length;i++) {
-          var obj = {}
-          obj.signUserName = signUserVo[i].signUserName
-          obj.email = signUserVo[i].email
-          obj.userName = signUserVo[i].userName
-          obj.mobile = signUserVo[i].mobile
-          obj.idCard = signUserVo[i].idCard
-          obj.signStatus = signUserVo[i].signStatus
-          obj.userCode = signUserVo[i].authorizerCode;
-          obj.status = signUserVo[i].status;
-          obj.isCreater = isCreater;
-          obj.contractStatus = contractStatus
-          switch ( obj.signStatus ){
-          case "0":
-            obj.signStatus = 0
-            break;
-          default:
-            obj.signStatus = 1
-            break;
-          }
-          if (obj.idCard === null || obj.idCard === 'undefined') {
-            obj.idCard = ''
-          }
-          data[i] = obj
-        }
-        this.tableData2 = data;
+      b2bDetail(this.ContractCode).then(res=>{
+           var contractType = res.data.data.contractType
+            if(contractType == '0'){
+            this.businessScenario = '企业对企业'
+            }
+            var contractNoZq = res.data.data.contractNoZq
+            this.contractName = res.data.data.contractName
+            this.sponsorInterfaceCode = res.data.data.interfaceCode
+            var type = res.data.data.contractType
+            switch (type) {
+            case '1':
+                this.createType = '模板发起'
+                break;
+            default:
+                this.createType = '上传发起'
+                break;
+            }
+            this.status = res.data.data.status
+            this.validTime = res.data.data.validTime
+            var signUserVo = res.data.dataList
+            var contractStatus = res.data.data.status
+            var isCreater='';
+            this.operator = res.data.data.operator
+            if(currentFaceCode == res.data.data.interfaceCode){
+                isCreater = true
+            }else{
+                isCreater = false
+            }
+            for (let i = 0; i < signUserVo.length;i++) {
+            var obj = {}
+            obj.signUserName = signUserVo[i].signUserName
+            obj.email = signUserVo[i].email
+            obj.userName = signUserVo[i].userName
+            obj.mobile = signUserVo[i].mobile
+            obj.idCard = signUserVo[i].idCard
+            obj.signStatus = signUserVo[i].signStatus
+            obj.userCode = signUserVo[i].authorizerCode;
+            obj.status = signUserVo[i].status;
+            obj.isCreater = isCreater;
+            obj.contractStatus = contractStatus
+            switch ( obj.signStatus ){
+            case "0":
+                obj.signStatus = 0
+                break;
+            default:
+                obj.signStatus = 1
+                break;
+            }
+            if (obj.idCard === null || obj.idCard === 'undefined') {
+                obj.idCard = ''
+            }
+            data[i] = obj
+            }
+            this.tableData2 = data;
+            let param={
+                contractNoZq:contractNoZq
+            }
+            contractSignUserInfo(param,this.ContractCode).then(res=>{
+                this.History = res.data.dataList
+            }).catch(error=>{
 
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.ContractCode+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-            this.History = res.data.dataList
+            })
+        }).catch(error=>{
+
         })
-        }
-      })
     },
     //延期
     extensionClick(){

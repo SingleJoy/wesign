@@ -2,7 +2,7 @@
 import request from '../utils/fetch'
 
 
-/* 获取合同详情 */
+/* b2c获取合同详情 */
 export function contractImg(interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/contractimgs",

@@ -180,7 +180,6 @@ export default {
         var isCreater='';
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
         let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
-        console.log(b2cContrants)
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
                 if (res.data.content[i].creater == currentFaceCode) {

@@ -204,6 +204,7 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
+  import {remind,b2bDetail,contractSignUserInfo,b2bImgs} from '@/api/detail'
   export default {
     name: 'CompanyExbm',
     data() {
@@ -235,19 +236,21 @@
           userCode:row.userCode,
           contractType:0
         }
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + this.$store.state.rowNumber +'/remind', {params:remindParam},{emulateJSON:true}).then(function (res) {
-          var resultCode = res.data.resultCode
-          if ( resultCode === '0') {
-            this.$message({
-              message: '短信通知成功',
-              type: 'success'
-            });
-          } else if(resultCode === '1'){
-            this.$message({
-              message: '该合同本日发送短信次数已用尽！',
-              type: 'error'
-            });
-          }
+        remind(remindParam,this.interfaceCode,this.$store.state.rowNumber).then(res=>{
+            var resultCode = res.data.resultCode
+            if ( resultCode === '0') {
+                this.$message({
+                message: '短信通知成功',
+                type: 'success'
+                });
+            } else if(resultCode === '1'){
+                this.$message({
+                message: '该合同本日发送短信次数已用尽！',
+                type: 'error'
+                });
+            }
+        }).catch(error=>{
+
         })
       },
       getTenant () {
@@ -256,17 +259,15 @@
       seeContractImg (){
         this.$loading.show(); //显示
         var data =[];
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        b2bImgs(this.interfaceCode,this.$store.state.rowNumber).then(res=>{
             for (let i = 0; i < res.data.dataList.length;i++) {
               let contractUrl = res.data.dataList[i].contractUrl
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+        }).catch(error=>{
+
         })
         this.dialogTableVisible = true
       },
@@ -305,10 +306,7 @@
       seeContractDetails () {
         var data =[];
         let url = process.env.API_HOST+'v1.4/contract/'+this.$store.state.rowNumber+'/signFinish';
-        this.$http.get(url).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        b2bDetail(this.ContractCode).then(res=>{
             var contractType = res.data.data.contractType
             if(contractType == '0'){
               this.businessScenario = '企业对企业'
@@ -327,17 +325,6 @@
             }
             this.status = res.data.data.status
             this.operator = res.data.data.operator
-            // switch ( this.status ){
-            // case "signing":
-            //   this.status = '签署中'
-            //   break;
-            // case "archive":
-            //   this.status = '已生效'
-            //   break;
-            // default:
-            //   this.status = '已截止'
-            //   break;
-            // }
             this.validTime = res.data.data.validTime
             var signUserVo = res.data.dataList
             for (let i = 0; i < signUserVo.length;i++) {
@@ -365,10 +352,16 @@
             }
             this.tableData2 = data
 
-            this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.$store.state.rowNumber+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-              this.History = res.data.dataList
+            let param={
+                contractNoZq:contractNoZq
+            }
+            contractSignUserInfo(param,this.ContractCode).then(res=>{
+                this.History = res.data.dataList
+            }).catch(error=>{
+
             })
-          }
+        }).catch(error=>{
+
         })
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
