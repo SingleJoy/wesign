@@ -26,11 +26,8 @@
       }
     },
     created() {
-    //   var Status = cookie.getJSON('tenant')[1].isBusiness
-    //   if(Status == '0'){
-    //     this.Jurisdiction = false
-    //   }
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps;
+
+        let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
         if(auditSteps == 3){
             this.Jurisdiction = true
 

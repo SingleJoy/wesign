@@ -70,6 +70,7 @@
 <script>
 import BScroll from 'better-scroll'
 import cookie from '@/common/js/getTenant'
+// import {} from '@/api/template'
 export default {
   name: 'Fillinformations',
   data () {
@@ -79,7 +80,7 @@ export default {
         current:1,
         // 左侧页码显示的个数
         showItem:0,
-        allpage:0,
+
         // 左侧页码的总数
         allpage:10,
         imgList:[],

@@ -101,6 +101,7 @@
   import Accounts from '../Accounts'
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
+  import {SignAuthbook,getSignatureImg} from '@/api/account'
   export default {
     component:{
       Accounts
@@ -181,16 +182,15 @@
 
           let mobile=this.mobile;
           this.sms = true;
-          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
+          let params={'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode};
+          server.smsCode(params, {emulateJSON: true}).then(res=> {
             // this.smsCode=res.data.smsCode
             this.smsNoVer=res.data.smsNo   //短信编号
             this.appId=res.data.appId     //appId
-
-
-            var resultCode = res.data.resultCode;
-            var smsNo = res.data.smsNo;
-            var smsCode = res.data.smsCode;
-            var message = res.data.resultMessage;
+            let resultCode = res.data.resultCode;
+            let smsNo = res.data.smsNo;
+            let smsCode = res.data.smsCode;
+            let message = res.data.resultMessage;
             if (resultCode === '1') {
               this.smsNo = true;
               this.smsCodeNum +=1;
@@ -218,10 +218,8 @@
               }, 1000)
             }else{
               let that =this;
-
               that.smsNo = false
               that.repeat = false
-
               this.$alert(res.data.resultMessage,'提示', {
                 confirmButtonText: '确定'
               })
@@ -278,12 +276,13 @@
           this.$loading.show("正在提交数据，请等待...");
         });
         this.$refs[formName].validate((valid) => {
-
-          this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-            params: {
-              'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
-            }
-          }).then(res => {
+        let params={
+          'mobile': this.mobile,
+          'smsNo': this.smsNoVer,
+          'smsCode': this.ruleForm.smsCode,
+          'appId': this.appId
+        };
+          server.valiteSmsCode(params).then(res => {
             this.fullscreenLoading = true;
             setTimeout(() => {
               this.fullscreenLoading = false;
@@ -292,26 +291,25 @@
               this.$loading.hide();
             });
             if (res.data.resultCode != 1) {
-
               this.$message({
                 showClose: true,
                 message: res.data.resultMessage,
                 type: 'error'
               })
-
             } else {
               this.$nextTick(function () {
                 this.$loading.show("数据提交成功，正在校验...");
               });
-              this.$http.post(process.env.API_HOST + 'v1.5/user/SignAuthbook', {
-                'authorizerCode': authorizerCode,
-                'mobile': this.mobile,
-                'smsNo': this.smsNoVer,
-                'appId': this.appId,
-                'smsCode': this.ruleForm.smsCode,
-                'signatureImg': signatureImg,
-                'accountCode': accountCode,
-              }, {emulateJSON: true}).then(function (res) {
+              let params={
+                  'authorizerCode': authorizerCode,
+                  'mobile': this.mobile,
+                  'smsNo': this.smsNoVer,
+                  'appId': this.appId,
+                  'smsCode': this.ruleForm.smsCode,
+                  'signatureImg': signatureImg,
+                  'accountCode': accountCode,
+                };
+                SignAuthbook(params,{emulateJSON: true}).then(res=> {
                  this.fullscreenLoading = true;
                  setTimeout(() => {
                   this.fullscreenLoading = false;
@@ -322,9 +320,7 @@
                 if(res.data.resultCode == '1'){
                   let param={
                     mobile:sessionStorage.getItem("mobile"),
-                    // accountCode:accountCode?accountCode:''
                   };
-
                   let urlParam=sessionStorage.getItem("interfaceCode");
                   this.$nextTick(function () {
                     this.$loading.show("激活成功，正在初始化数据，请等待...");
@@ -341,7 +337,6 @@
                     });
                     sessionStorage.setItem('accountStatus','1')
                     this.$router.push("/Home");
-
                   })
                 }else {
                   this.$nextTick(function () {
@@ -355,22 +350,22 @@
 
                 }
 
-              })
+              }).catch(error=>{
+
+                })
             }
+          }).catch(error=>{
 
           })
-
         })
-
       },
 
       pollingPanel(timer){ //轮询手写面板
 
-
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let t = Math.random();
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg?t='+t).then(function (res) {
+        getSignatureImg(accountCode,authorizerCode,t).then(res=> {
           this.canvasTest =  res.bodyText
           //   console.log(res.bodyText)
           if(res.bodyText != '') {
@@ -382,11 +377,11 @@
           }
           setTimeout(() => {
             if(this.canvasTest!=''){
-
               clearInterval(this.timer)
-
             }
           },1000)
+        }).catch(error=>{
+
         })
       }
     },
@@ -399,10 +394,8 @@
       if(accountStatus==1){
         this.$router('/Home');
       }
-
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
-
       //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {

@@ -140,7 +140,9 @@ export default {
             this.invoiceList = res.data;
             //发票信息赋值
 			this.tableData = rechargeList;
-		})
+		}).catch(error=>{
+
+    })
 	}
 }
 </script>
@@ -191,7 +193,7 @@ export default {
                 margin: 40px auto;
                 .invoice-img {
                     margin: 20px auto;
-                    font-size: 14px;	
+                    font-size: 14px;
                     height: 538px;
                     width: 812px;
                     background: url('../../../../../static/images/Account/invoice-img.png') no-repeat;
@@ -204,8 +206,8 @@ export default {
                         height: 18px;
                         left: 134px;
                         top: 135px;
-                        word-wrap: break-word; 
-                        word-break: break-all; 
+                        word-wrap: break-word;
+                        word-break: break-all;
                         // background-color: red;
                     }
                     .invoice-commom {
@@ -214,7 +216,7 @@ export default {
                         top: 6px;
                     }
                     .invoice-code {
-                        
+
                     }
                     .invoice-number {
                         top: 26px;
@@ -244,7 +246,7 @@ export default {
                         top: 92px;
                     }
                     .shop-common {
-                        top: 202px; 
+                        top: 202px;
                         height: 112px;
                     }
                     .shop-name {

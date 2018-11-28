@@ -35,9 +35,8 @@
 
 <script>
   import Draw from '@/common/js/draw';
-
   import {GetQueryString} from '@/common/js/InterceptUrl'
-
+  import {saveSignatureImg } from '@/api/mobile'
   export default {
     name: 'canvas',
     data() {
@@ -128,9 +127,11 @@
 
           return false
         }
-        var signToken = GetQueryString("signToken")
-        this.$http.post(process.env.API_HOST+'/v1.4/signToken/'+ signToken +'/saveSignatureImg',{signatureImg: this.signImage},{emulateJSON:true}).then(function(res){
+        let signToken = GetQueryString("signToken")
+        saveSignatureImg(signToken,params,{emulateJSON:true}).then(res=>{
           this.$router.push('/MobileSuccess')
+        }).catch(error=>{
+
         })
       },
       upload() {
