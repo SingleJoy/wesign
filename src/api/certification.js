@@ -1,6 +1,6 @@
 import request from '../utils/fetch'
 const service = {
-  
+
     //营业执照上传
     license(param) {
         return request({
@@ -66,9 +66,9 @@ const service = {
         })
     },
       //登录接口
-      login(param, urlParam) {
+      login(param) {
         return request({
-        url: '/api/v1.4/tenant/' + urlParam + '/homePage',
+        url: '/api/v1/tenant/login',
         method: 'get',
         params: param
         })

@@ -159,6 +159,9 @@
 <script>
   import {validateMoblie,validateCard,TrimAll} from '../../../common/js/validate'
   import cookie from '@/common/js/getTenant'
+  import { backContractTempSigner,getTemplateImags,contractTemp} from '@/api/template'
+  import qs from 'qs';
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'batchSettings',
     data() {
@@ -172,7 +175,7 @@
         }
       }
       var validateIdCard = (rule,value,callback) => {
-        if( this.$store.state.templateGenre == 'fillidcardreference' && value == ''){
+        if( this.templateGenre == 'fillidcardreference' && value == ''){
           callback(new Error('身份证信息为必填项'))
         }else if (value !== '' && !validateCard(value)){
           callback(new Error('身份证格式错误'))
@@ -242,8 +245,13 @@
             return  time.getTime() < Date.now();
           }
         },
-        templateName:sessionStorage.getItem('templateName'),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        templateNo:sessionStorage.getItem('templateNo'),
+        contractNo:sessionStorage.getItem('contractNo'),
+        templateName:sessionStorage.getItem('templateName'),
+        templateGenre:sessionStorage.getItem('templateGenre'),
+        accountCode:sessionStorage.getItem('accountCode'),
+        type:sessionStorage.getItem('type'),
         b2cNum:sessionStorage.getItem("b2cNum"),
         b2bNum:sessionStorage.getItem("b2bNum"),
       }
@@ -309,24 +317,25 @@
           });
           return false
         }
-        this.$store.dispatch('template',{templateName:batchText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', batchText)
-        sessionStorage.setItem('templateNo', this.$store.state.templateNo)
+
       },
       showBatchTemplate () {
         this.$loading.show(); //显示
-        var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags',{params: {"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+       let data =[];
+       let params={
+       "templateSpecificType":this.templateGenre
+       }
+        getTemplateImags(this.interfaceCode,this.templateNo,params).then(res=> {
+
             for (let i = 0; i < res.data.list.length;i++) {
               let contractUrl = res.data.list[i]
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+
+        }).catch(error=>{
+
         })
         this.dialVisible= true
       },
@@ -346,13 +355,13 @@
         this.editSign = true
       },
       confirmEdit(row){     //完成修改
-        var mobileArr = []
+        let mobileArr = []
         if(this.tableDate3 != ''){
           for(var i=0;i<this.tableDate3.length;i++){
             mobileArr.push(this.tableDate3[i].mobile)
           }
         }
-        var index = mobileArr.indexOf(row.mobile)
+       let index = mobileArr.indexOf(row.mobile)
         mobileArr.splice(index, 1)
 
         if(TrimAll(row.signUserName) == ''){
@@ -383,7 +392,7 @@
           this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
-        }else if( this.$store.state.templateGenre == 'fillidcardreference' && row.idCard == ''){
+        }else if( this.templateGenre == 'fillidcardreference' && row.idCard == ''){
           this.$alert('身份证信息为必填项!','修改签署人', {
             confirmButtonText: '确定'
           })
@@ -444,14 +453,13 @@
         })
       },
       nextStepFit () { //下一步
-        var batchText = document.getElementById('batchText').value
+        let batchText = document.getElementById('batchText').value
         if(batchText == ''){
-          if(batchText == ''){
-            this.$alert('您还没有填写合同名称!','提示', {
+          this.$alert('您还没有填写合同名称!','提示', {
               confirmButtonText: '确定'
-            });
+          });
             return false
-          }
+
         }
         if(this.checked == false && this.value8 == ''){
           this.$alert('您还没有选择签署时间!','提示', {
@@ -477,7 +485,7 @@
           var emails = ''
           var perpetualValid = ''
 
-          for(var i = 0; i < this.tableDate3.length;i++ ){
+          for(let i = 0; i < this.tableDate3.length;i++ ){
             var name = this.tableDate3[i].signUserName
             var mobile = this.tableDate3[i].mobile
             var idCard = this.tableDate3[i].idCard
@@ -497,53 +505,48 @@
           } else {
             perpetualValid = ''
           }
-          if ( this.operateType !='' ){
-            var zqUserContractTempVo = {
-              "creater":cookie.getJSON('tenant')[1].interfaceCode,
+          if (this.operateType !='' ){
+            var  zqUserContractTempVo = {
+              "creater":this.interfaceCode,
               "operateType":this.operateType,
-              "contractTempNo":this.$store.state.contractNo1,
+              "contractTempNo":this.contractNo,
               "contractName":TrimAll(this.templateName),
-              "templateNo":this.$store.state.templateNo,
-              "validTime":this.value8,
-              "perpetualValid":perpetualValid,
-              "names":names,
-              "idCards":id_nums,
-              "mobiles":mobiles, 
-              "templateSpecificType":this.$store.state.templateGenre,
-              "accountCode":sessionStorage.getItem('accountCode')
-            }
-          } else {
-            var zqUserContractTempVo = {
-              "creater":cookie.getJSON('tenant')[1].interfaceCode,
-              "contractName":TrimAll(this.templateName),
-              "templateNo":this.$store.state.templateNo,
+              "templateNo":this.templateNo,
               "validTime":this.value8,
               "perpetualValid":perpetualValid,
               "names":names,
               "idCards":id_nums,
               "mobiles":mobiles,
-              "templateSpecificType":this.$store.state.templateGenre,
-              "accountCode":sessionStorage.getItem('accountCode')
+              "templateSpecificType":this.templateGenre,
+              "accountCode":this.accountCode
+            }
+          } else {
+            var  zqUserContractTempVo = {
+              "creater":this.interfaceCode,
+              "contractName":TrimAll(this.templateName),
+              "templateNo":this.templateNo,
+              "validTime":this.value8,
+              "perpetualValid":perpetualValid,
+              "names":names,
+              "idCards":id_nums,
+              "mobiles":mobiles,
+              "templateSpecificType":this.templateGenre,
+              "accountCode":this.accountCode
             }
           }
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractTemp',zqUserContractTempVo,{emulateJSON:true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-              this.$router.push('/Server')
-            } else {
-              var contractNo = res.data.data
-              if ( res.data.resultCode == 0) {
+          contractTemp(this.interfaceCode,zqUserContractTempVo).then(res=> {
+
+               let contractNo = res.data.data
+               this.contractNo=contractNo;
+            sessionStorage.setItem('contractNo',contractNo)
+            if ( res.data.resultCode == 0) {
                 this.$message({
                   showClose: true,
                   message: res.data.resultMessage,
                   type: 'success'
                 })
-                this.$store.dispatch('template',{templateName:this.templateName,templateNo:this.$store.state.templateNo})
-                this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
-                this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-                sessionStorage.setItem('templateName',this.templateName)
-                sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-                sessionStorage.setItem('contractNo', contractNo)
-                sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
+                //用户可能会修改模板名称  需要重新存templateName
+                sessionStorage.setItem("templateName",TrimAll(this.templateName))
                 this.$router.push('/batchInfo')
               } else {
                 this.$alert('您还没有选择签署时间!','提示', {
@@ -551,7 +554,9 @@
                 })
                 this.load = false
               }
-            }
+
+          }).catch(error=>{
+
           })
 
         }
@@ -579,47 +584,18 @@
     },
     created() {
 
-      var templateName = sessionStorage.getItem('templateName');
-      var templateNo = sessionStorage.getItem('templateNo');
-      var contractNo = sessionStorage.getItem('contractNo');
-      var templateGenre = sessionStorage.getItem('templateGenre')
-      var type = sessionStorage.getItem('type')
-      if (templateName) {
 
-        if ( this.$store.state.templateName == ''){
-          this.$store.state.templateName = templateName
+      if (this.type == 'back'){
+        this.operate = true;
+        let params={
+          "contractTempNo":this.contractNo,
+          "operateType":this.type,
+          "accountCode":this.accountCode
         }
-      }
-      if (templateNo) {
-        //   templateNo = JSON.parse(templateNo)
-        if ( this.$store.state.templateNo == ''){
-          this.$store.state.templateNo = templateNo
-        }
-      }
-      if (templateGenre) {
-        //   templateGenre = JSON.parse(templateGenre)
-        if ( this.$store.state.templateGenre == ''){
-          this.$store.state.templateGenre = templateGenre
-        }
-      }
-      if (contractNo) {
-        //   contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-      if (type) {
-        //   type = JSON.parse(type)
-        if ( this.$store.state.type == ''){
-          this.$store.state.type = type
-        }
-      }
-      if ( type == 'back'){
-        this.operate = true
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type,"accountCode":sessionStorage.getItem('accountCode')}}).then(function (res) {
-          var perpetualValid = res.data.perpetualValid;
-          var validTime = res.data.validTime;
-          var list = res.data.list!=null?res.data.list:[];
+        backContractTempSigner(this.interfaceCode,params).then(res=> {
+          let perpetualValid = res.data.perpetualValid;
+          let validTime = res.data.validTime;
+          let list = res.data.list!=null?res.data.list:[];
           this.operateType = res.data.operateType
           if(perpetualValid =="1"){
             this.checked = true
@@ -630,6 +606,8 @@
             this.value8 = validTime
           }
           this.tableDate3 = list
+        }).catch(error=>{
+
         })
       }
     }

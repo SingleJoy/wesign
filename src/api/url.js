@@ -8,14 +8,20 @@ const service = {
       params: param
     });
   },
-
+  sendCode(param){
+    return request({
+      url: "/api/v1.4/sms/sendCode",
+      method: "post",
+      params: param
+    });
+  },
   //图形验证码获取token
   getImgToken(param){
     return request({
-        url: "/api/v1.6/sms/sendToken",
-        method: "get",
-        params: param
-      });
+      url: "/api/v1.6/sms/sendToken",
+      method: "get",
+      params: param
+    });
   },
   //登录接口
   login(param, urlParam) {
@@ -37,11 +43,11 @@ const service = {
   contractInfo(param, interfaceCode) {
     return request({
       url:
-        "/api/v1/tenant/" +
-        interfaceCode +
-        "/contract/" +
-        param.contractNo +
-        "/contractimgs",
+      "/api/v1/tenant/" +
+      interfaceCode +
+      "/contract/" +
+      param.contractNo +
+      "/contractimgs",
       method: "get",
       params: ""
     });
@@ -84,34 +90,34 @@ const service = {
     });
   },
   //小B
-    waitForMeSign(param,interfaceCode){
-        return request({
-            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
-            method: "get",
-            params: param
-        })
-    },
-    waitForOtherSign(param,interfaceCode){
-        return request({
-            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
-            method: "get",
-            params: param
-        })
-    },
-    takeEffect(param,interfaceCode){
-        return request({
-            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
-            method: "get",
-            params: param
-        })
-    },
-    deadline(param,interfaceCode){
-        return request({
-            url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
-            method: "get",
-            params: param
-        })
-    },
+  waitForMeSign(param,interfaceCode){
+    return request({
+      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      method: "get",
+      params: param
+    })
+  },
+  waitForOtherSign(param,interfaceCode){
+    return request({
+      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      method: "get",
+      params: param
+    })
+  },
+  takeEffect(param,interfaceCode){
+    return request({
+      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      method: "get",
+      params: param
+    })
+  },
+  deadline(param,interfaceCode){
+    return request({
+      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      method: "get",
+      params: param
+    })
+  },
   //首页合同列表
   contractLists(param, interfaceCode) {
     return request({
@@ -160,11 +166,19 @@ const service = {
       params: param
     });
   },
-  
+
   //验证码
   smsCode(param) {
     return request({
       url: "/api/v1.6/sms/sendCode",
+      method: "post",
+      params: param
+    });
+  },
+  //验证码 微签1.6之前老接口使用
+  smsCodeOld(param) {
+    return request({
+      url: "/api/v1.4/sms/sendCode",
       method: "post",
       params: param
     });
@@ -279,29 +293,29 @@ const service = {
   queryStatementDetail(interfaceCode, billTitle) {
     return request({
       url:
-        "/api/v1.6/tenant/" +
-        interfaceCode +
-        "/" +
-        billTitle +
-        "/getWesignBillDetail",
+      "/api/v1.6/tenant/" +
+      interfaceCode +
+      "/" +
+      billTitle +
+      "/getWesignBillDetail",
       method: "get"
     });
   },
   //个人账户 -> 费用中心 -> 查询发票列表
   queryinvoiceList(param,interfaceCode) {
-		return request({
-			url: "/api/v1.6/tenant/" + interfaceCode + "/getInvoiceList",
-			method: "get",
-			params: param
-		});
-	},
-	queryinvoiceDetail(param,interfaceCode) {
-		return request({
-			url: "/api/v1.6/tenant/" + interfaceCode + "/getInvoice",
-			method: "get",
-			params: param
-		});
-  	}
+    return request({
+      url: "/api/v1.6/tenant/" + interfaceCode + "/getInvoiceList",
+      method: "get",
+      params: param
+    });
+  },
+  queryinvoiceDetail(param,interfaceCode) {
+    return request({
+      url: "/api/v1.6/tenant/" + interfaceCode + "/getInvoice",
+      method: "get",
+      params: param
+    });
+  }
 
 };
 export default service;

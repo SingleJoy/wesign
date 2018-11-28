@@ -28,8 +28,6 @@
                     <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11></el-input>
                   </el-form-item>
 
-
-
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
                     <el-input v-model="ruleForm.password" type="password" auto-complete="off" placeholder="请输入密码" :minlength= 8 :maxlength= 16 :disabled="dis" id="password"></el-input>
 
@@ -73,10 +71,7 @@
 
                   </template>
 
-
                 </div>
-
-
 
                 <div class="batch-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
                   <h3>批量发起模板</h3>
@@ -85,12 +80,9 @@
                       <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
 
-
                   </template>
-
-
-
                 </div>
+
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
                   <img src="../../../../static/images/Account/no-template.png">
                   <p style="color: #999;">暂无模板</p>
@@ -98,10 +90,6 @@
 
                 <div class="fill-background"></div>
 
-                <!--<div class="empty-template" >-->
-                <!--<img src="../../../../../static/images/Confirmation/Account/default-template.png">-->
-                <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
-                <!--</div>-->
               </div>
 
 
@@ -171,16 +159,16 @@
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
-  import EditChildNoActive from "../EditChildNoActive/EditChildNoActive" //添加失敗跳转到编辑二级账号页面
+  import {addAccount,templateList} from '@/api/account'
+
   export default {
     name: 'AddChildAccounts',
     component:{
       Account,
-      EditChildNoActive
     },
     data() {
       // 校验二级账户名称姓名
-      var validateAccountName = (rule,value,callback) => {
+      let validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入账户名称'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -190,7 +178,7 @@
         }
       }
       // 校验二级账号管理员账户
-      var validateUserName = (rule,value,callback) => {
+      let validateUserName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入管理员姓名'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -200,7 +188,7 @@
         }
       }
       //校验身份证号
-      var validateIdCard = (rule,value,callback) => {
+      let validateIdCard = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入身份证号'))
         } else if (value !== '' && !validateCard(value)){
@@ -210,7 +198,7 @@
         }
       }
       // 校验密码
-      var validateChildPassWord = (rule, value, callback) => {
+      let validateChildPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else if (value.length < 8 || value.length > 16) {
@@ -222,7 +210,7 @@
         }
       }
       // 校验手机号
-      var validateChildMobile = (rule,value,callback) => {
+      let validateChildMobile = (rule,value,callback) => {
 
         if(value === ''){
           callback(new Error('请输入手机号'))
@@ -236,30 +224,27 @@
           let params = {
             username: this.ruleForm.mobile
           };
+          server.verficate(params).then(res => {
+            if (res.data === 0) {
+              document.getElementById('password').focus()
+              this.ruleForm.password="test111111";
+              this.dis=true;
+              this.showToolTip=true;
 
-            server.verficate(params).then(res => {
-              if (res.data === 0) {
+            } else {
+              this.showToolTip=false;
+              this.dis=false;
+              this.ruleForm.password='';
+            }
+          }).catch(error => {
 
-                document.getElementById('password').focus()
-                this.ruleForm.password="test111111";
-                this.dis=true;
-                this.showToolTip=true;
-
-              } else {
-                this.showToolTip=false;
-                this.dis=false;
-                this.ruleForm.password='';
-
-              }
-            }).catch(error => {
-
-            })
+          })
 
           callback()
         }
       }
       //校验邮箱
-      var validateChildEmail=(rule,value,callback)=>{
+      let validateChildEmail=(rule,value,callback)=>{
         if (value === '') {
           callback(new Error('请输入邮箱'));
         }else if (value !== '' && !validateEmail(value)){
@@ -321,11 +306,11 @@
 
       }
     },
-    methods: {
-        //获取服务器时间
+    methods:{
+      //获取服务器时间
       changEvent(){
         this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-        //   console.log(res.bodyText)
+
           this.date=res.bodyText;
         });
       },
@@ -343,7 +328,6 @@
         if(this.agree){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-
               this.$nextTick(function () {
                 this.$loading.show();
               });
@@ -352,7 +336,6 @@
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
 
-              // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let templates=(batchTemplate1+singleTemplate1).substr(1);
@@ -362,9 +345,8 @@
               }
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
-
               }
-              this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/addAccount',{
+              addAccount(this.interfaceCode,{
                 accountName:this.ruleForm.accountName ,  //  账户姓名
                 userName:this.ruleForm.userName,            //管理员名称
                 idCard:this.ruleForm.idCode,                  //省份证号
@@ -374,116 +356,115 @@
                 templates:templates,                                //分配模板
                 company_name:enterpriseName,             //企业名称
                 manageName:manageName,
-              },{emulateJSON: true}).then(res =>{
+              },{emulateJSON: true}).then(res => {
                 let accountCode=res.data.accountCode;  //存储accountCode
                 this.fullscreenLoading = true;
                 setTimeout(() => {
                   this.fullscreenLoading = false;
-                }, 2000);
+                }, 1000);
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
-
                   this.$message({
                     showClose: true,
                     message:res.data.resultMessage,
                     type: 'success'
                   })
-                    this.$nextTick(function () {
-                        this.$loading.hide();
-                    });
-                    this.$router.push("/Account");
-                }else if(res.data.resultCode=='0'){
+                  this.$nextTick(function () {
+                    this.$loading.hide();
+                  });
+                  this.$router.push("/Account");
+                }
+                else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
                   sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
+                  this.$nextTick(function () {
+                    this.$loading.hide();
+                  });
 
-                    this.$nextTick(function () {
-                        this.$loading.hide();
-                    });
-                    // this.$message({
-                    //     showClose: true,
-                    //     message:res.data.resultMessage,
-                    //     type: 'error'
-                    // });
                   let num = 3;
                   if(res.data.data){
                     num = num-res.data.data.authNum;
                     if(num>='1'){
                       this.$alert(<div style="textAlign:center">
                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
-                       <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                        <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
                         <p class="vertifiId-warn">您还剩余{num}次机会</p> </div>, '警告',{confirmButtonText: '确定',});
-
-                    }else{
+                    }
+                    else{
                       this.$alert(<div style="textAlign:center">
-                        <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
-                      <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
-                        </div>, '警告',{confirmButtonText: '确定',});}
+                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                         <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                        </div>, '警告',{confirmButtonText: '确定',});
                     }
                     this.$router.push('/EditChildNoActive')
-                  }else if(res.data.resultCode=='2'){
-                   this.once=false;
-                  //二级账号已存在
+                  }
+                  else if(res.data.resultCode=='2'){
+                    this.once=false;
+                    //二级账号已存在
                     this.$nextTick(function () {
-                        this.$loading.hide();
+                      this.$loading.hide();
                     });
                     this.$message({
-                        showClose: true,
-                        message:res.data.resultMessage,
-                        type: 'error'
+                      showClose: true,
+                      message:res.data.resultMessage,
+                      type: 'error'
                     })
 
+                  }
+                  else{
+                    this.$message({
+                      showClose: true,
+                      message: '您未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
+                      type: 'error'
+                    })
+                  }
+
                 }
-              })
-            }else{
-              this.$message({
-                showClose: true,
-                message: '您未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
-                type: 'error'
+              }).catch(error=>{
+
               })
             }
-
           })
 
-        }else{
+        } else{
           this.$alert('您还未确认签署《电子合同子账号管理认证授权书》!', '确认签署',{
             confirmButtonText: '确定'
           });
           return false
         }
 
-      },
-
-    },
+      }
+    }
+    ,
     created() {
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+this.interfaceCode + "/templateList").then(function(res) {
+      templateList(this.interfaceCode).then(res=> {
         let data=res.data;
         let batchArray=[];
         let singleArray=[];
-         if(data){
-           for(let i=0;i<data.length;i++){
+        if(data){
+          for(let i=0;i<data.length;i++){
+            if(data[i].templateSpecies=='single'){
+              singleArray.push(data[i]);
+            }else {
+              batchArray.push(data[i]);
+            }
+          }
+          this.single=singleArray;
+          this.batch=batchArray;
+          if(this.single.length==0){
+            this.singleTemplateLength=false
+          }else{
+            this.singleTemplateLength=true
+          }
+          if(this.batch.length==0){
+            this.batchTemplateLength=false
+          }else{
+            this.batchTemplateLength=true
+          }
+        }
+      }).catch(error=>{
 
-             if(data[i].templateSpecies=='single'){
-               singleArray.push(data[i]);
-             }else {
-               batchArray.push(data[i]);
-             }
-           }
-           this.single=singleArray;
-           this.batch=batchArray;
-           if(this.single.length==0){
-             this.singleTemplateLength=false
-           }else{
-             this.singleTemplateLength=true
-           }
-           if(this.batch.length==0){
-             this.batchTemplateLength=false
-           }else{
-             this.batchTemplateLength=true
-           }
-         }
-
-
-      });
+      })
     }
   }
 </script>
@@ -502,10 +483,10 @@
     margin: 20px 0 10px 20px;
   }
   .vertifiId-warn{
-      color:red
+    color:red
   }
   .warn-first{
-      margin-top:25px!important;
+    margin-top:25px!important;
   }
 
   .el-checkbox-group>.el-checkbox{
@@ -525,7 +506,7 @@
   }
   .account-ruleForm>.el-form-item{
     width: 525px;
-     display: inline-block;
+    display: inline-block;
   }
 
 

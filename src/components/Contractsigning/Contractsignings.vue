@@ -639,7 +639,7 @@
             this.isNext = true;
             var contractNo = sessionStorage.getItem('contractNo');
             perfectContract(contractVo,this.interfaceCode,contractNo).then(res=>{
-                if ( res.data.resultCode == '0') {
+                if (res.data.resultCode == '0') {
                   this.isNext = false;
                   this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
                   this.$store.dispatch('needSign',{needSign:needSign})
@@ -722,7 +722,7 @@
                 }
                     this.tableData5 = list
             }).catch(error=>{
-                
+
             })
         }
     }

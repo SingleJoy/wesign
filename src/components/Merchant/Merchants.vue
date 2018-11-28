@@ -308,7 +308,7 @@
             }
             this.tableData = data
             this.loading = false
-            
+
         }).catch(error=>{
 
         })

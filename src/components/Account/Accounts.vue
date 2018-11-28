@@ -383,6 +383,8 @@
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
+  import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation} from '@/api/account'
+  import server from '@/api/url'
 
   export default {
     name: 'Accounts',
@@ -391,22 +393,24 @@
     },
     data() {
 
-      var validateOldPassWord = (rule, value, callback) => {
+      let validateOldPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入原密码'));
         } else {
-          this.$http.get(process.env.API_HOST+'v1/tenant/login',{params:{"username":cookie.getJSON('tenant')[0].mobile,"password":md5(this.ruleForm.oldPassWord)}}).then(function (res) {
-            var backCode = res.data.resultCode
+          server.login({params:{"username":this.mobile,"password":md5(this.ruleForm.oldPassWord)}}).then(res=> {
+            let backCode = res.data.resultCode
             if( backCode === '0'){
               callback(new Error('原密码输入错误!'));
             } else {
               callback();
             }
+          }).catch(error=>{
+
           })
         }
       };
 
-      var validateNewPassWord = (rule, value, callback) => {
+      let validateNewPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入新密码'));
         } else if (value.length < 8 || value.length > 16) {
@@ -418,7 +422,7 @@
         }
       }
 
-      var validateCheckPassWord = (rule, value, callback) => {
+      let validateCheckPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
         } else if (value !== this.ruleForm.newPassWord) {
@@ -432,7 +436,7 @@
         ContractAllowance: '',
         baseURL:this.baseURL.BASE_URL,
         Jurisdiction:true,
-        mobile:'',
+        mobile:sessionStorage.getItem("mobile"),
         Email:'',
         authName:'',
         enterpriseName:'',
@@ -446,8 +450,6 @@
         createSeal:'',//生成公章
         contractSign:'',
         centerDialogVisible: false,
-        authStatus:false,
-        auditStatus:false,
         personalRealName:'',
         enterpriseRealName:'',
         identifier: false,
@@ -524,39 +526,27 @@
       },
       // 显示生成公章案例
       showTipsImg(){
-
         this.dialogVisible=true;
-
-      },
-      realName() {
-        if(this.personalRealName == '1' || this.personalRealName == '2'||this.personalRealName == '3' ){
-          sessionStorage.setItem('userCode',cookie.getJSON('tenant')[0].userCode);
-          sessionStorage.setItem('interfaceCode',cookie.getJSON('tenant')[1].interfaceCode);
-
-          this.$router.push('/Pupload')
-        }else if (this.personalRealName == '4'){
-
-          this.$router.push('/ErrorPupload')
-
-        }
       },
 
       // 修改密码
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$http.post(process.env.API_HOST+'v1.4/tenant/modifyPassword',{"mobile":this.mobile,"oldPassword":md5(this.ruleForm.oldPassWord),"newPassword":md5(this.ruleForm.newPassWord)},{emulateJSON: true}).then(function (res) {
-              if(res.data.sessionStatus == '0'){
-                this.$router.push('/Server')
-              } else {
-                var resultCode = res.data.resultCode
+            let params={
+              "mobile":this.mobile,
+              "oldPassword":md5(this.ruleForm.oldPassWord),
+              "newPassword":md5(this.ruleForm.newPassWord)
+            }
+            modifyPassword(params,{emulateJSON:true}).then(res=> {
+                let resultCode = res.data.resultCode;
                 if ( resultCode === '1') {
                   this.$message({
                     showClose: true,
                     message: '修改密码成功!',
                     type: 'success'
                   });
-                  this.centerDialogVisible = false
+                  this.centerDialogVisible = false;
                   this.$router.push('/')
                 } else {
                   this.$message({
@@ -566,7 +556,8 @@
                   });
                   this.resetForm (formName)
                 }
-              }
+            }).catch(error=>{
+
             })
           } else {
 
@@ -577,7 +568,7 @@
 
       edit(accountCode,accountStatus){
 
-        var accountCode1=accountCode;
+        let accountCode1=accountCode;
         sessionStorage.setItem("subAccountCode",accountCode1);
         if(accountStatus=='3'||accountStatus=='2'){
           this.$router.push('EditChildAccount');
@@ -589,29 +580,25 @@
 
       // 查询二级账号(数量)
       searchSecondAccounts(){
-        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/secondAccounts').then(function (res) {
+        secondAccounts(this.interfaceCode).then(res=> {
           //查询成功
           if(res.data.resultCode=='1'){
-
             this.accountList = res.data.dataList;
             let num=res.data.dataList.length;
             let maxNum=res.data.data.accountNumMax;
-
-
             if(num<maxNum){
               this.addOperate=true;
             }else{
               this.addOperate=false;
             }
-
           }if(res.data.resultCode=='0'){
             this.accountDefault=true;
             this.showSecondList=false;
             this.addOperate=true;
-
           }
+        }).catch(error=>{
 
-        });
+        })
 
       },
       // 冻结，解冻二级账户
@@ -622,12 +609,12 @@
           this.accountStatusNumber='3'
         }
         let accountCode1=accountCode;
-        // 查询二级账号
-
-        this.$http.post(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/updateAccountStatus',{
+        // 更新二级账号状态
+        let params={
           accountCode:accountCode1 ,  //账户编号
           accountStatus:this.accountStatusNumber,            //账户状态
-        },{emulateJSON: true}).then(function (res) {
+        }
+        updateAccountStatus(this.interfaceCode,params).then(res=> {
           if((res.data.resultCode == '0')&&(accountStatus=='6')){
             this.$alert(res.data.resultMessage, '提示',{
               confirmButtonText: '确定'
@@ -658,6 +645,8 @@
               confirmButtonText: '确定'
             });
           }
+        }).catch(error=>{
+
         })
       },
       // 生成签章
@@ -674,10 +663,16 @@
               confirmButtonText: '确定'
             })
           }else if(validateSeal(this.createSeal)){
-            this.$http.get(process.env.API_HOST+'v1.5/tenant/createSignature', {params:{'interfaceCode':this.interfaceCode,'securityCode':this.createSeal}}).then(function (res) {
+            let params={
+              "interfaceCode":this.interfaceCode,
+              "securityCode":this.createSeal   //13位用户输入码
+            }
+            createSignature(params).then(res=> {
               if(res.data.resultCode == '1'){
                 this.searchSeal();
               }
+            }).catch(error=>{
+
             })
 
           }
@@ -687,15 +682,13 @@
 
       // 查询签章
       searchSeal(){
-        this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+'/getSignatures').then(function (res) {
-
+        getSignatures(this.interfaceCode).then(res=> {
           let data=res.data;
           let sealArray=[];
          if(data.resultCode=='1'){
         //   console.log(data.dataList);
           for(let i=0;i<data.dataList.length;i++){
             sealArray.push(data.dataList[i])
-
           };
           if(data.dataList.length>1){
             this.officeSeal=true;
@@ -706,8 +699,9 @@
          }else{
 
          }
+        }).catch(error=>{
 
-        });
+        })
       },
 
       // 修改默认签章
@@ -722,7 +716,7 @@
             }).then(() => {
 
               let sealNo_ = sealNo;
-              this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/signature/' +sealNo_+ '/UpdateAccountSignature').then(function (res) {
+              UpdateAccountSignature(this.interfaceCode,sealNo_).then(res=>{
                 if (res.data.resultCode == '1') {
                   this.$alert(res.data.resultMessage, '提示', {
                     confirmButtonText: '确定'
@@ -733,15 +727,15 @@
                     confirmButtonText: '确定'
                   });
                 }
-
               });
-
             }).catch(() => {
               this.$message({
                 type: 'info',
                 message: '已取消修改默认签章'
               });
-            });
+            }).catch(error=>{
+
+            })
 
           }
         }
@@ -789,100 +783,24 @@
       }
 
     },
-    mounted() {
-      this.mobile = cookie.getJSON('tenant')[0].mobile
-      this.companyName = cookie.getJSON('tenant')[1].companyName
-
-      var authStatus = cookie.getJSON('tenant')[0].authStatus     //是否通过状态  个人状态
-      var auditSteps = cookie.getJSON('tenant')[0].auditSteps     //个人认证步骤
-      var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //企业通过状态
-      var companySteps = cookie.getJSON('tenant')[1].auditSteps  //企业认证步骤
-      var status = cookie.getJSON('tenant')[2].status            // 打款状态
-
-      // 是否判断
-      if(authStatus == '1') {
-        this.authStatus = true
-      }else if(authStatus == '-1' && auditSteps == '1'){
-        this.personalRealName = '1'
-        this.chapter = '暂无签章'
-        this.modalTips = true
-      }else if(authStatus == '-1' && auditSteps == '2'){
-        this.personalRealName = '2'
-        this.chapter = '暂无签章'
-        this.modalTips = true
-      }else if(authStatus == '0' && auditSteps == '1'){
-        this.personalRealName = '3'
-        this.chapter = '暂无签章'
-      }else if(authStatus == '0' && auditSteps == '2'){
-        this.personalRealName = '4'
-        this.chapter = '暂无签章'
-      }
-      if(this.authStatus == false){
-        this.auditStatus = true
-        this.identifier = true
-      }else {
-        if (auditStatus == '2') {
-          this.auditStatus = true
-          this.identifier = true
-        }else if (auditStatus == '-1' && companySteps == '1') {//填写企业信息
-          this.enterpriseRealName = '0'
-          this.chapter = '暂无签章'
-          this.auditStatus = true
-        } else if (auditStatus == '0' && companySteps == '1') { //填写企业信息
-          this.enterpriseRealName = '1'
-          this.chapter = '暂无签章'
-          this.identifier = true
-        }  else if (auditStatus == '1' && companySteps == '1') { //银行信息
-          this.enterpriseRealName = '2'
-          this.chapter = '暂无签章'
-          this.identifier = true
-        } else if (auditStatus == '1' && companySteps == '2') { //小额打款
-          if(status == '0' || status == '1'){
-            this.enterpriseRealName = '3'
-            this.chapter = '暂无签章'
-            this.identifier = true
-          } else if(status == '3'){ //银行信息
-            this.enterpriseRealName = '4'
-            this.chapter = '暂无签章'
-            this.identifier = true
-          }else{
-            this.enterpriseRealName = '3'
-            this.identifier = true;
-          }
-        }
-      }
-
-
-      // 意见  待定
-      this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/auditStatus').then(function (res) {
-
-        if(res.data.resultCode=='1'){
-          // this.toEnterprise = res.data.data.verifyMoneyNum
-          this.realNameState=true;
-        }else{
-          this.realNameState=false;
-        }
-
-        // this.toEnterprise = res.data.data.verifyMoneyNum
-      })
-      //  // 查询证书
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+this.interfaceCode+ '/getCertificate').then(function (res) {
+    created() {
+      // 查询证书
+      getCertificate(this.interfaceCode).then(res=> {
         if(res.data.resultCode=='1'){
           this.serialNumber=res.data.data.userCode;
           this.issuedNumber=res.data.data.certificateNo;
-        //   this.enterpriseName=res.data.data.companyName;
-            this.companyName=res.data.data.companyName;
-          // this.authName=res.data.data.userName;
+          this.companyName=res.data.data.companyName;
           this.cardNumber=res.data.data.mobile;
           this.effectiveStartTime=res.data.data.certificateStartTime;
           this.effectiveEndTime=res.data.data.certificateDueTime;
         }
-      });
+      }).catch(error=>{
+
+      })
       //  账户信息
       let accountCode=sessionStorage.getItem("accountCode");
 
-
-      this.$http.get(process.env.API_HOST+'v1.5/tenant/'+accountCode+'/getAccountInformation').then(function (res) {
+      getAccountInformation(accountCode).then(res=> {
         if(res.data.resultCode=='1'){
 
           this.mobile=res.data.data.mobile;
@@ -896,6 +814,8 @@
           this.b2cNum = res.data.data.b2cNum;
           this.ContractAllowance = Number(this.b2bNum) + Number(this.b2cNum);
         }
+      }).catch(error=>{
+
       })
 
 

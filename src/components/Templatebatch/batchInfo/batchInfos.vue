@@ -1,55 +1,55 @@
 <template>
   <div>
-   <div class="Tops">
-    <nav class='nav'>
-      <p class='logo'>
-        <img src="../../../../static/images/logo2.png" alt="">
-      </p>
-      <div class='buttons'>
-        <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="batchTempInfoCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#4091fb' @click="lastStepFit">上一步</el-button>
-        <el-button style='color:#4091fb' @click="nextStepFit">下一步</el-button>
-      </div>
-      <!-- <el-dialog
-        title="提示"
-        :visible.sync="centerDialogVisible"
-        width="25%"
-        top='35vh'
-        center>
-        <span style="margin-left: 111px;">3秒后跳转回首页</span>
-      </el-dialog> -->
-    </nav>
-  </div>
-  <div class='batchInfos' style="margin-top: 100px;">
-    <div class='step' style="width:720px;">
-      <ul>
-        <li class="active"><i class='el-icon-document'></i><b>选择模板</b></li>
-        <p></p>
-        <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
-        <p></p>
-        <li class="active"><i class='el-icon-edit'></i><b>填充信息</b></li>
-        <p></p>
-        <li><i class='el-icon-menu'></i><b>合同签署</b></li>
-        <p></p>
-        <li><i class='el-icon-check'></i><b>完成</b></li>
-      </ul>
+    <div class="Tops">
+      <nav class='nav'>
+        <p class='logo'>
+          <img src="../../../../static/images/logo2.png" alt="">
+        </p>
+        <div class='buttons'>
+          <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="batchTempInfoCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+          <el-button style='color:#4091fb' @click="lastStepFit">上一步</el-button>
+          <el-button style='color:#4091fb' @click="nextStepFit">下一步</el-button>
+        </div>
+        <!-- <el-dialog
+		  title="提示"
+		  :visible.sync="centerDialogVisible"
+		  width="25%"
+		  top='35vh'
+		  center>
+		  <span style="margin-left: 111px;">3秒后跳转回首页</span>
+		</el-dialog> -->
+      </nav>
     </div>
+    <div class='batchInfos' style="margin-top: 100px;">
+      <div class='step' style="width:720px;">
+        <ul>
+          <li class="active"><i class='el-icon-document'></i><b>选择模板</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-goods'></i><b>签署设置</b></li>
+          <p></p>
+          <li class="active"><i class='el-icon-edit'></i><b>填充信息</b></li>
+          <p></p>
+          <li><i class='el-icon-menu'></i><b>合同签署</b></li>
+          <p></p>
+          <li><i class='el-icon-check'></i><b>完成</b></li>
+        </ul>
+      </div>
       <div class='signing'>   <!--签署合同开始-->
         <div class='sign_left' ref="leftWrapper">
           <ul class="pagination">
             <p  id='top' v-show="currentIndex != 0" @click="goto(currentIndex)" ><a class='el-icon-arrow-up' href="javascript:void(0);"></a></p>
-             <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index"  @click="clickNav(index)">
+            <li v-for="index in pages" :class="{'active':currentIndex === (index - 1)}" :key="index"  @click="clickNav(index)">
               <a href="javascript:void(0);" >{{index}}</a>
             </li>
             <p id='bottom' v-show="allpage != currentIndex + 1 && allpage != 0 " @click="goto2(currentIndex+1)"><a class='el-icon-arrow-down'  href="javascript:void(0);" ></a></p>
           </ul>
         </div>
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
-        <ul class='content contractImg' id="contractImg">
-          <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
-            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id="imgSign"  style='width:100%;width: 639px;'>
-          </li>
-         </ul>
+          <ul class='content contractImg' id="contractImg">
+            <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id="imgSign"  style='width:100%;width: 639px;'>
+            </li>
+          </ul>
         </div>
         <div class='sign_right'>
           <div class="right_title" style='font-size:12px' v-show="batchMessage != ''">
@@ -87,299 +87,278 @@
   </div>
 </template>
 <script>
-import BScroll from 'better-scroll'
-import cookie from '@/common/js/getTenant'
-import {prohibit} from '@/common/js/prohibitBrowser'
-export default {
-  name: 'batchInfos',
-  data () {
-    return {
-      baseURL:this.baseURL.BASE_URL,
-      //初始化左侧页码，并使第一个高亮
-      current:1,
-      // 左侧页码显示的个数
-      showItem:0,
+  import BScroll from 'better-scroll'
+  import cookie from '@/common/js/getTenant'
+  import {prohibit} from '@/common/js/prohibitBrowser'
+  import {getTemplateImags,templateVal,userInfo,templateBatchSign} from '@/api/template'
+  export default {
+    name: 'batchInfos',
+    data () {
+      return {
+        baseURL:this.baseURL.BASE_URL,
+        //初始化左侧页码，并使第一个高亮
+        current:1,
+        // 左侧页码显示的个数
+        showItem:0,
 
-      // 左侧页码的总数
-      allpage:1,
-      imgList:[],
-      fillMessage:[],
-      imgHeight: [],
-      templateName:'',
-     // centerDialogVisible:false,
-      scrollY: 0,
-      batchMessage:[],
-      batchSignName:'',
-      batchSignMobile:'',
-      batchSignIdCard:'',
-      operateType:'', //数据回显标示
-      flag:true,
-      hasClick:false
-    }
-  },
-  computed:{
-    currentIndex() {
-      for (let i = 0; i < this.imgHeight.length; i++) {
-        /*当前本身的高度*/
-        let height1 = this.imgHeight[i]
-        /*下一个的高度*/
-        let height2 = this.imgHeight[i + 1]
-        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-          return i
-        }
+        // 左侧页码的总数
+        allpage:1,
+        imgList:[],
+        fillMessage:[],
+        imgHeight: [],
+        // centerDialogVisible:false,
+        scrollY: 0,
+        batchMessage:[],
+        batchSignName:'',
+        batchSignMobile:'',
+        batchSignIdCard:'',
+        operateType:'', //数据回显标示
+        flag:true,
+        hasClick:false,
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        templateNo:sessionStorage.getItem('templateNo'),
+        contractNo:sessionStorage.getItem('contractNo'),
+        templateName:sessionStorage.getItem('templateName'),
+        templateGenre:sessionStorage.getItem('templateGenre'),
+        accountCode:sessionStorage.getItem('accountCode'),
+        type:sessionStorage.getItem('type'),
       }
-      return 0
     },
-    pages:function(){
+    computed:{
+      currentIndex() {
+        for (let i = 0; i < this.imgHeight.length; i++) {
+          /*当前本身的高度*/
+          let height1 = this.imgHeight[i]
+          /*下一个的高度*/
+          let height2 = this.imgHeight[i + 1]
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            return i
+          }
+        }
+        return 0
+      },
+      pages:function(){
         var pag = [];
         this.showItem = 10;
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
-            //总页数和要显示的条数那个大就显示多少条
-            var i = Math.min(this.showItem,this.allpage);
-            while(i){
-                pag.unshift(i--);
-            }
+          //总页数和要显示的条数那个大就显示多少条
+          var i = Math.min(this.showItem,this.allpage);
+          while(i){
+            pag.unshift(i--);
+          }
         }else{ //当前页数大于显示页数了
-            var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-                i = this.showItem;
-            if( middle >  (this.allpage - this.showItem)  ){
-                middle = (this.allpage - this.showItem) + 1
-            }
-            while(i--){
-                pag.push( middle++ );
-            }
+          var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
+            i = this.showItem;
+          if( middle >  (this.allpage - this.showItem)  ){
+            middle = (this.allpage - this.showItem) + 1
+          }
+          while(i--){
+            pag.push( middle++ );
+          }
         }
         return pag
-    }
-  },
+      }
+    },
     mounted() {
-        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-            probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-        })
+      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+        probeType: 3,
+        preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+      })
 
     },
-  created() {
-    var templateName = sessionStorage.getItem('templateName');
-    var templateNo = sessionStorage.getItem('templateNo');
-    var contractNo = sessionStorage.getItem('contractNo');
-    var templateGenre = sessionStorage.getItem('templateGenre');
-    if (templateName) {
+    created() {
 
-      if ( this.$store.state.templateName == ''){
-        this.$store.state.templateName = templateName
-      }
-    }
-    if (templateNo) {
-    //   templateNo = JSON.parse(templateNo)
-      if ( this.$store.state.templateNo == ''){
-        this.$store.state.templateNo = templateNo
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
-    if (templateGenre) {
-    //   templateGenre = JSON.parse(templateGenre)
-      if ( this.$store.state.templateGenre == ''){
-        this.$store.state.templateGenre = templateGenre
-      }
-    }
-    this.$loading.show(); //显示
-    var data =[];
-    this.templateName = this.$store.state.templateName
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags';
-    let urls = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/templateVal';
-    let urlFill = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/batchSign/'+this.$store.state.contractNo1+'/userInfo';
-
-    this.$http.get(url,{params:{"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) { //获取批量模板图片信息
-        if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-        } else {
-            this.allpage = res.data.list.length
-            for (let i = 0; i < res.data.list.length;i++) {
-                let templateUrl = res.data.list[i]
-                data[i] = templateUrl
-                this.$loading.hide(); //隐藏
-            }
-            this.imgList = data
+      this.$loading.show(); //显示
+      let data =[];
+      getTemplateImags(this.interfaceCode,this.templateNo,{params:{"templateSpecificType":this.templateGenre}}).then(res=> {
+        //获取批量模板图片信息
+        this.allpage = res.data.list.length;
+        for (let i = 0; i < res.data.list.length;i++) {
+          let templateUrl = res.data.list[i]
+          data[i] = templateUrl
+          this.$loading.hide(); //隐藏
         }
+        this.imgList = data
         this.$nextTick(() => {
-             this._initScroll()
-            this._calculateHeight()
-            
+          this._initScroll()
+          this._calculateHeight()
         })
-       
-    })
+      }).
+      catch(error=>{
 
-    this.$http.get(urls,{params:{"contractTempNo":this.$store.state.contractNo1}}).then(function (res) { //获取批量模板jsonVal list信息
-     this.batchMessage = res.data.lists
-    })
-    var names="";
-		var mobiles ="";
-		var idCards ="";
-    this.$http.get(urlFill).then(function (res) { //获取批量模板对手方信息
-     if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-     for (let i =0;i< res.data.length; i++){
-       var name = res.data[i].name
-       var mobile = res.data[i].mobile
-       var idCard = res.data[i].idCard
-        if ( i == res.data.length -1){
-          names += name
-          mobiles += mobile
-          idCards += idCard
-        }else{
-          names += name+","
-          mobiles += mobile+","
-          idCards += idCard+","
-        }
-     }
-      this.batchSignName = names
-      this.batchSignMobile = mobiles
-      this.batchSignIdCard = idCards
-        }
-    })
+      })
+      templateVal(this.interfaceCode,this.templateNo,{params:{"contractTempNo":this.contractNo}}).then(res=> {
+        //获取批量模板jsonVal list信息
+        this.batchMessage = res.data.lists
+      }).catch(error=>{
 
-  },
-  methods:{
-    goto (currentIndex){
-      this.clickNav(currentIndex)
+      })
+      let names="";
+      let mobiles ="";
+      let idCards ="";
+
+      userInfo(this.interfaceCode,this.contractNo).then(res=> { //获取批量模板对手方信息
+
+        for (let i =0;i< res.data.length; i++){
+          var name = res.data[i].name
+          var mobile = res.data[i].mobile
+          var idCard = res.data[i].idCard
+          if ( i == res.data.length -1){
+            names += name
+            mobiles += mobile
+            idCards += idCard
+          }else{
+            names += name+","
+            mobiles += mobile+","
+            idCards += idCard+","
+          }
+        }
+        this.batchSignName = names
+        this.batchSignMobile = mobiles
+        this.batchSignIdCard = idCards
+
+      }).catch(error=>{
+
+      })
+
     },
-    goto2 (currentIndex){
-      currentIndex++
-      this.clickNav(currentIndex)
-    },
-    clickNav(index) {
+    methods:{
+      goto (currentIndex){
+        this.clickNav(currentIndex)
+      },
+      goto2 (currentIndex){
+        currentIndex++
+        this.clickNav(currentIndex)
+      },
+      clickNav(index) {
         let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
         let el = imgList[index - 1]
         this.rightScroll.scrollToElement(el, 300)
-    },
-    _initScroll(){
+      },
+      _initScroll(){
         // if(this.allpage<10){
-            // console.log(23)
-           
+        // console.log(23)
+
 
         // }
         let that =this;
         setTimeout(function(){
-            that.leftScroll = new BScroll(that.$refs.leftWrapper, {
-                click: true,
-                probeType: 3,
-                // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-            })
-             that.rightScroll = new BScroll(that.$refs.rightWrapper, {
-                probeType: 3,
-                preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-            })
-            // console.log(that.rightScroll)
+          that.leftScroll = new BScroll(that.$refs.leftWrapper, {
+            click: true,
+            probeType: 3,
+            // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+          })
+          that.rightScroll = new BScroll(that.$refs.rightWrapper, {
+            probeType: 3,
+            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+          })
+          // console.log(that.rightScroll)
         },3000)
 
         this.rightScroll.on('scroll', (pos) => {
-            this.scrollY = Math.abs(Math.round(pos.y))
+          this.scrollY = Math.abs(Math.round(pos.y))
         })
-    },
-    _calculateHeight(){
-      let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-      let height = 0
-      this.imgHeight.push(height)
-      for (let i = 1; i < imgList.length; i++) {
-        let item = imgList[i]
-        height += item.clientHeight
+      },
+      _calculateHeight(){
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+        let height = 0
         this.imgHeight.push(height)
-      }
-    },
-    batchTempInfoCancel() {    //取消操作
-      const h = this.$createElement;
-      this.hasClick = true;
-      this.$msgbox({
-        title: '提示',
-        message: h('p', null, [
-          h('span', null, ' 确定将返回首页'),
-          h('i', { style: 'color: teal' }, '')
-        ]),
-        showCancelButton: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            instance.confirmButtonLoading = true;
-            instance.confirmButtonText = '执行中...';
-            setTimeout(() => {
-              done();
-              this.$store.dispatch('tabIndex',{tabIndex:0});
-              this.$router.push('/Home')
+        for (let i = 1; i < imgList.length; i++) {
+          let item = imgList[i]
+          height += item.clientHeight
+          this.imgHeight.push(height)
+        }
+      },
+      batchTempInfoCancel() {    //取消操作
+        const h = this.$createElement;
+        this.hasClick = true;
+        this.$msgbox({
+          title: '提示',
+          message: h('p', null, [
+            h('span', null, ' 确定将返回首页'),
+            h('i', { style: 'color: teal' }, '')
+          ]),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
               setTimeout(() => {
-                instance.confirmButtonLoading = false;
-              }, 50);
-            }, 100);
-          } else {
-            this.hasClick = false;
-            done();
-          }
-        }
-      })
-    },
-    lastStepFit () {
-      this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
-      this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-      this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-      this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('templateName', this.$store.state.templateName)
-      sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-      sessionStorage.setItem('contractNo',this.$store.state.contractNo1)
-      sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
-      sessionStorage.setItem('type','back')
-      this.$router.push('/batchSetting')
-    },
-    nextStepFit () {
-      if(this.flag == true){
-        this.flag = false
-        var jsonVal =''
-        var controls = document.getElementsByTagName('input');
-        this.$loading.show(); //显示
-        for(var i=0; i<controls.length; i++){
-          if(controls[i].type=='text'){
-            var json =controls[i].value
-            jsonVal += (this.batchMessage[i]+'='+json +'&')
-          }
-        }
-        jsonVal = jsonVal.substring(0,jsonVal.length-1)
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/templateBatchSign',
-        {"contractName":this.$store.state.templateName,"templateNum":this.$store.state.templateNo,"jsonVal":jsonVal,"contractTempNo":this.$store.state.contractNo1,"templateSpecificType":this.$store.state.templateGenre,"operateType":'','accountCode':sessionStorage.getItem('accountCode')},{emulateJSON:true}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-          if(res.data.resultCode == 0){
-            this.$message({
-              showClose: true,
-              message: '模板填充信息完成!',
-              type: 'success'
-            })
-              this.$loading.hide(); //隐藏
-              this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.$store.state.templateNo})
-              this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-              sessionStorage.setItem('templateName',this.$store.state.templateName)
-              sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-              sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-              this.$router.push('/batchsign')
-          } else {
-            this.$message({
-              showClose: true,
-              message: '此模板已填充完毕,无法再次填充!!',
-              type: 'error'
-            })
-          }
+                done();
+                this.$store.dispatch('tabIndex',{tabIndex:0});
+                this.$router.push('/Home')
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 50);
+              }, 100);
+            } else {
+              this.hasClick = false;
+              done();
+            }
           }
         })
+      },
+      lastStepFit () {
+        // this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.templateNo})
+        // this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
+        // this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
+        // this.$store.dispatch('type',{type:'back'})
+
+        sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
+        sessionStorage.setItem('type','back')
+        this.$router.push('/batchSetting')
+      },
+      nextStepFit () {
+        if(this.flag == true){
+          this.flag = false
+          var jsonVal =''
+          var controls = document.getElementsByTagName('input');
+          this.$loading.show(); //显示
+          for(let i=0; i<controls.length; i++){
+            if(controls[i].type=='text'){
+              var json =controls[i].value
+              jsonVal += (this.batchMessage[i]+'='+json +'&')
+            }
+          }
+          jsonVal = jsonVal.substring(0,jsonVal.length-1)
+          let params=
+            {"contractName":this.templateName,
+              "templateNum":this.templateNo,
+              "jsonVal":jsonVal,
+              "contractTempNo":this.contractNo,
+              "templateSpecificType":this.templateGenre,
+              "operateType":'',
+              'accountCode':this.accountCode
+            };
+          templateBatchSign(this.interfaceCode,params,{emulateJSON:true}).then(res=> {
+
+              if(res.data.resultCode == 0){
+                this.$message({
+                  showClose: true,
+                  message: '模板填充信息完成!',
+                  type: 'success'
+                })
+                this.$loading.hide(); //隐藏
+
+
+                this.$router.push('/batchsign')
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: '此模板已填充完毕,无法再次填充!!',
+                  type: 'error'
+                })
+              }
+
+          }).catch(error=>{
+
+          })
+        }
       }
-    }
-  },
-}
+    },
+  }
 </script>
 <style lang="scss" scoped>
   @import "../../../styles/batchInfo/batchInfo.scss";
