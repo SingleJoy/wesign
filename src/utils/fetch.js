@@ -8,13 +8,12 @@ import axios from 'axios';
 
 
 const Axios = axios.create({
-  // baseURL: process.env.BASE_API,    // api的base_url
-  timeout: 5000,                    // request timeout
-  responseType: "json",
-//   withCredentials: true,            // 是否允许带cookie这些
+     // baseURL: process.env.BASE_API,    // api的base_url
+    timeout: 5000,                    // request timeout
+    responseType: "json",
+    //   withCredentials: true,            // 是否允许带cookie这些
+   
 })
-
-
 // 请求拦截
 Axios.interceptors.request.use((config)=>{
     //做点什么
@@ -27,6 +26,9 @@ Axios.interceptors.request.use((config)=>{
 // 响应时拦截
 Axios.interceptors.response.use((response)=> {
     //做点什么
+    if(response.status==200){
+      
+    }
 
     return response;
   },(error)=> {

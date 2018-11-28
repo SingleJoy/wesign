@@ -655,9 +655,6 @@
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
       server.contractLists(requestVo,interfaceCode).then(res=>{
-        if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
           for (let i = 0; i < res.data.content.length; i++) {
             if (res.data.content[i].creater == interfaceCode) {  //发起方
               flag = true;
@@ -696,10 +693,9 @@
             }
             data[i] = obj;
           }
-          // console.log(data[1],typeof sessionStorage.getItem('accountCode'))
           this.tableData = data;
           this.loading = false;
-        }
+        
       })
 
       //合同概括请求
@@ -721,13 +717,8 @@
       };
       // 首页模板列表
         templateList(resParam,interfaceCode).then(res=>{
-          console.log(res)
-            if (res.data.sessionStatus == "0") {
-                this.$router.push("/Server");
-            } else {
-                this.arr = res.data.slice(0, 3);
-                this.count = res.data.length;
-            }
+            this.arr = res.data.slice(0, 3);
+            this.count = res.data.length;
         }).catch(error=>{
 
         })

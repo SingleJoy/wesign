@@ -95,10 +95,12 @@ import {prohibit} from '@/common/js/prohibitBrowser'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
+import {contractDetail,signLink,contractImg} from '@/api/personal'
 export default {
   data () {
     return {
       baseURL:this.baseURL.BASE_URL,
+      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
       signUser:[],
       validTime:'',
       dialogTableVisible:false,
@@ -120,17 +122,15 @@ export default {
       var contractNo = sessionStorage.getItem('contractNo')
       this.$loading.show(); //显示
       var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/contractimgs').then(function (res) {
-        if(res.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        for (let i = 0; i < res.data.length;i++) {
-        let contractUrl = res.data[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-        }
-        this.imgList = data
-        }
+      contractImg(this.interfaceCode,contractNo).then(res=>{
+            for (let i = 0; i < res.data.length;i++) {
+                let contractUrl = res.data[i].contractUrl
+                data[i] = contractUrl
+                this.$loading.hide(); //隐藏
+            }
+            this.imgList = data
+      }).catch(error=>{
+
       })
       this.dialogTableVisible = true
     },
@@ -162,24 +162,19 @@ export default {
         this.$store.state.contractNo1 = contractNo
       }
     }
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/getContractDetails/'+ contractNo;
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+contractNo+'/getContractDetails').then(function (res) {
-     if(res.sessionStatus == '0'){
-        this.$router.push('/Server')
-      } else {
-      this.signUser = res.data.signUserVo
-      var contractVo = res.data.contractVo
-      this.validTime = contractVo.validTime
-      this.getContractName = contractVo.contractName
-      }
+    contractDetail(this.interfaceCode,contractNo).then(res=>{
+        this.signUser = res.data.signUserVo
+        var contractVo = res.data.contractVo
+        this.validTime = contractVo.validTime
+        this.getContractName = contractVo.contractName
+    }).catch(error=>{
+
     })
     //获取签署链接
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+contractNo+'/getSignLink').then(function (res) {
-      if(res.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        this.contractlink = res.bodyText
-        }
+    signLink(this.interfaceCode,contractNo).then(res=>{
+          this.contractlink = res.bodyText
+    }).catch(error=>{
+
     })
   },
   mounted() {

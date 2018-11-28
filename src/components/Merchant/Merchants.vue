@@ -326,18 +326,6 @@
 
             })
         }
-        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForMeSign').then(function (res) {
-        //     this.waitMe = res.data.count
-        // })
-        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForOtherSign').then(function (res) {
-        //     this.waitOther = res.data.count
-        // })
-        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/takeEffect').then(function (res) {
-        //     this.takeEffect = res.data.count
-        // })
-        // this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/deadline').then(function (res) {
-        //     this.deadline = res.data.count
-        // })
         this.count = 0
     },
     mounted() {

@@ -68,11 +68,13 @@ import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
+import {contractImg,b2cSignPosition,b2cSubmitSign} from '@/api/personal.js'
 export default {
   name: 'Contents',
   data () {
     return {
       baseURL:this.baseURL.BASE_URL,
+      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
       current: 0,
       showItem:0,
       allpage: 0,
@@ -131,54 +133,41 @@ export default {
 
     var contractName = sessionStorage.getItem('contractName')
     var contractNo = sessionStorage.getItem('contractNo')
-    if (contractName) {
-        //  contractName = JSON.parse(contractName)
-    //   if ( this.$store.state.contractName1 == ''){
-    //     this.$store.state.contractName1 = contractName
-    //   }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-    //   if ( this.$store.state.contractNo1 == ''){
-    //     this.$store.state.contractNo1 = contractNo
-    //   }
-    }
     this.$loading.show(); //显示
     var data =[]
     let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+contractNo+'/contractimgs'
     let urlPic = process.env.API_HOST+'v1/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signature'
-    this.$http.get(url).then(function (res) {
-      if(res.data.sessionStatus == '0'){
+    contractImg(this.interfaceCode,contractNo).then(res=>{
+        if(res.data.sessionStatus == '0'){
           this.$router.push('/Server')
         } else {
 
       /*获取后台数据，并使用imgArray*/
-      for(var i=0;i<res.data.length;i++){
-        var contractUrl = res.data[i].contractUrl
-        data[i] = contractUrl
-        this.$loading.hide(); //隐藏
-      }
-      this.imgArray = data
-      /*获取总的页码*/
-      this.allpage = res.data.length
+        for(var i=0;i<res.data.length;i++){
+            var contractUrl = res.data[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
+        }
+        this.imgArray = data
+        /*获取总的页码*/
+        this.allpage = res.data.length
 
-      this.$nextTick(() => {
-        this._initScroll()
-        this._calculateHeight()
-      })
-      this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-				probeType: 3,
-				scrollY: true,
-				preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
-			});
-      }
-    }).catch(function (error) {
-      this.$message.error('请求失败！请刷新再试！')
+        this.$nextTick(() => {
+            this._initScroll()
+            this._calculateHeight()
+        })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+                    probeType: 3,
+                    scrollY: true,
+                    preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
+                });
+        }
+    }).catch(error=>{
+
     })
-
-     this.$http.get(urlPic).then(function (res) {
+    this.$http.get(urlPic).then(function (res) {
       this.contractSignImg = res.bodyText
-     })
+    })
   },
   methods:{
     goto (currentIndex){
@@ -247,51 +236,44 @@ export default {
         })
       },
     gainPosition () { //点击签署
-      var contractNo = sessionStorage.getItem('contractNo');
-      if (contractNo) {
-        //   contractNo = JSON.parse(contractNo)
-      }
-      this.contSignImg = true
-      if (this.flag == true){
-      this.flag = false
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+ contractNo +'/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signerpositions').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-       var array = res.data.list
-       var signPositionStr = ''
-       for (var i =0 ; i<array.length; i++){
-        var pageNum = array[i].pageNum;
-				var offsetX = array[i].offsetX;
-        var offsetY = array[i].offsetY;
-        var parentBox = document.getElementById('contractImg')
-        var firstImg =parentBox.getElementsByTagName('img')[1]
-        var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-        var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-        // console.log(imgHeight)
-        var hidden = document.getElementById('hidden');
-        var leftX = offsetX * imgWight;
-				var topY = (pageNum - 1 + offsetY) * imgHeight;
-        var signPic = document.getElementById('signImg').cloneNode(true)
-        parentBox.appendChild(signPic);
-        signPic.style.position= 'absolute';
-        signPic.style.top= topY + 'px'
-        signPic.style.left = leftX + 'px'
-        hidden.style.display='none'
-        var windowScrollTop = document.documentElement.scrollTop
-				if(i == array.length-1){
-					signPositionStr += pageNum+","+leftX+","+offsetY * (imgHeight);
-				}else{
-					signPositionStr += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+        var contractNo = sessionStorage.getItem('contractNo');
+        this.contSignImg = true
+        if (this.flag == true){
+        this.flag = false
+        b2cSignPosition(this.interfaceCode,contractNo).then(res=>{
+            var array = res.data.list
+            var signPositionStr = ''
+            for (var i =0 ; i<array.length; i++){
+                var pageNum = array[i].pageNum;
+                        var offsetX = array[i].offsetX;
+                var offsetY = array[i].offsetY;
+                var parentBox = document.getElementById('contractImg')
+                var firstImg =parentBox.getElementsByTagName('img')[1]
+                var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+                var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
+                var hidden = document.getElementById('hidden');
+                var leftX = offsetX * imgWight;
+                        var topY = (pageNum - 1 + offsetY) * imgHeight;
+                var signPic = document.getElementById('signImg').cloneNode(true)
+                parentBox.appendChild(signPic);
+                signPic.style.position= 'absolute';
+                signPic.style.top= topY + 'px'
+                signPic.style.left = leftX + 'px'
+                hidden.style.display='none'
+                var windowScrollTop = document.documentElement.scrollTop
+                        if(i == array.length-1){
+                            signPositionStr += pageNum+","+leftX+","+offsetY * (imgHeight);
+                        }else{
+                            signPositionStr += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+                }
+            }
+            this.signPosition = signPositionStr
+        }).catch(error=>{
+
+        })
+        this.flag = false
+        this.clickSign = true
         }
-        }
-        this.signPosition = signPositionStr
-        // console.log(this.signPosition)
-        }
-      })
-       this.flag = false
-       this.clickSign = true
-      }
     },
     submitBtn() {
       if(this.resubmit == true){
@@ -331,49 +313,44 @@ export default {
       }
     },
     submitContract () { //确认签署
-     this.$loading.show(); //显示
-     var contractNo = sessionStorage.getItem('contractNo')
-        //   contractNo = JSON.parse(contractNo);
-     var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-     var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
-     var base64Img = this.contractSignImg.split(",")[1]
-     var signH = parseInt(document.getElementById('signImg').style.height)
-     var signW =  parseInt(document.getElementById('signImg').style.width)
-     var signContractVo = {
-       'contractNum':this.$store.state.contractNo1,
-       'phoneHeight':imgHeight,
-       'phoneWidth': imgWight,
-       'signatureImg': base64Img,
-       'signH':signH,
-       'signW':signW,
-       'signPositionStr':this.signPosition
-     }
-     let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractmoresign/'+ contractNo
-     this.$http.post(url,signContractVo,{emulateJSON: true}).then(function (res) {
-       if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-       if (res.data.responseCode == 0){
-          this.centerDialogVisible = false
-          this.$message({
-            showClose: true,
-            message: '合同签署成功！',
-            type: 'success'
-          })
-          this.$loading.hide(); //隐藏
-          this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-          sessionStorage.setItem('contractName',this.$store.state.contractName1)
-          sessionStorage.setItem('contractNo', contractNo)
-          this.$router.push('/Complete')
-       }else{
-           this.$message({
-            showClose: true,
-            message: res.data.responseMsg,
-            type: 'warning'
-          })
-       }
-      }
-     })
+        this.$loading.show(); //显示
+        var contractNo = sessionStorage.getItem('contractNo')
+        var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+        var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
+        var base64Img = this.contractSignImg.split(",")[1]
+        var signH = parseInt(document.getElementById('signImg').style.height)
+        var signW =  parseInt(document.getElementById('signImg').style.width)
+        var signContractVo = {
+            'contractNum':this.$store.state.contractNo1,
+            'phoneHeight':imgHeight,
+            'phoneWidth': imgWight,
+            'signatureImg': base64Img,
+            'signH':signH,
+            'signW':signW,
+            'signPositionStr':this.signPosition
+        }
+        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractmoresign/'+ contractNo
+        b2cSubmitSign(this.interfaceCode,contractNo).then(res=>{
+            if (res.data.responseCode == 0){
+                this.centerDialogVisible = false
+                this.$message({
+                    showClose: true,
+                    message: '合同签署成功！',
+                    type: 'success'
+                })
+                this.$loading.hide(); //隐藏
+                this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
+                sessionStorage.setItem('contractName',this.$store.state.contractName1)
+                sessionStorage.setItem('contractNo', contractNo)
+                this.$router.push('/Complete')
+            }else{
+                this.$message({
+                    showClose: true,
+                    message: res.data.responseMsg,
+                    type: 'warning'
+                })
+            }
+        })
     }
   },
   mounted() {

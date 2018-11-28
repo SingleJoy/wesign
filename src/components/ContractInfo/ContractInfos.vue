@@ -413,23 +413,12 @@
             contractSignUserInfo(param,this.contractNo).then(res=>{
                 this.History = res.data.dataList
             }).catch(error=>{
-                
+
             })
         }).catch(error=>{
 
         })
-        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
-        this.$http.get(url).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-            
-            this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.contractNo+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-              this.History = res.data.dataList
-            })
-          }
-
-        })
+        // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))

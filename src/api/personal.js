@@ -28,7 +28,6 @@ export function echoContractInfo(interfaceCode,contractNo){
     })
 }
 /* 指定位置 */
-
 export function signerpositions (param,interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/signerpositions",
@@ -36,9 +35,7 @@ export function signerpositions (param,interfaceCode,contractNo){
         params: param
     })
 }
-
 /* 签署人列表 */
-
 export function signUser(interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contractSignUser/"+contractNo,
@@ -46,8 +43,6 @@ export function signUser(interfaceCode,contractNo){
         params: ''
     })
 }
-
-
 /* 获取合同详情 */
 export function contractDetail(interfaceCode,contractNo){
     return request({
@@ -57,11 +52,26 @@ export function contractDetail(interfaceCode,contractNo){
     })
 }
 /* 签署链接 */
-
 export function signLink(interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getSignLink",
         method: "get",
+        params: ''
+    })
+}
+/* b2c签署页面get请求 */
+export function b2cSignPosition(interfaceCode,contractNo){
+    return request({
+        url: "/api/v1/tenant/"+ interfaceCode + "/contract/"+ contractNo +"/user/"+ interfaceCode + "/signerpositions",
+        method: "get",
+        params: ''
+    })
+}
+/* b2c提交签署 */
+export function b2cSubmitSign(interfaceCode,contractNo){
+    return request({
+        url: '/api/v1/tenant/'+ interfaceCode + '/user/'+ interfaceCode + '/contractmoresign/'+ contractNo,
+        method: "post",
         params: ''
     })
 }

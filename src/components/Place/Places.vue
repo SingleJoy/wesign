@@ -275,7 +275,6 @@
           }
 
           signerpositions(this.interfaceCode,this.contractNo,{"signerpositions":param}).then(res=>{
-            console.log(res)
               if(res.data.resultCode == '1') {
                 this.$message({
                   showClose: true,
