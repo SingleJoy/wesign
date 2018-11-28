@@ -330,7 +330,7 @@
 
     })
 
-    var data =[];
+    let data =[];
     contractimgs(this.interfaceCode,this.contractNo).then(res=> {
 
         this.allpage = res.data.dataList.length
