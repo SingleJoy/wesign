@@ -175,6 +175,14 @@ const service = {
       params: param
     });
   },
+  //验证码 微签1.6之前老接口使用
+  smsCodeOld(param) {
+    return request({
+      url: "/api/v1.4/sms/sendCode",
+      method: "post",
+      params: param
+    });
+  },
   //查询企业注册
   getCompanyRegister(interfaceCode) {
     return request({

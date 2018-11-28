@@ -122,15 +122,15 @@ export function getAccountInfo(interfaceCode,param) {
 export function SignAuthbook(param) {
   return request({
     url: "api/v1.5/user/SignAuthbook",
-    method: "get",
-    params:param
+    method: "post",
+    data:JSON.stringify(param)
   })
 }
 
 //authorizerCode
 export function getSignatureImg(accountCode,authorizerCode,t) {
   return request({
-    url: "api/v1.4/contract"+accountCode+'/user/'+authorizerCode+'/getSignatureImg/'+t,
+    url: "api/v1.4/contract/"+accountCode+'/user/'+authorizerCode+'/getSignatureImg/?=t'+t,
     method: "get",
     params:''
   })

@@ -52,5 +52,21 @@ export function templateBatchSign(interfaceCode,param) {
     method: "post",
     params:param
   })
+}
 
+// getTemplateValAndImgs
+export function getTemplateValAndImgs(interfaceCode,templateNo,accountCode) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/template/'+templateNo+'/getTemplateValAndImgs/?accountCode='+accountCode,
+    method: "get",
+    params:''
+  })
+}
+// template
+export function template(interfaceCode,param) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/template/',
+    method: "post",
+    params:param
+  })
 }

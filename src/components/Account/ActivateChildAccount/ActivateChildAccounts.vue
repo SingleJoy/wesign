@@ -98,14 +98,11 @@
 
 <script>
   import cookie from '@/common/js/getTenant'
-  import Accounts from '../Accounts'
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
   import {SignAuthbook,getSignatureImg} from '@/api/account'
+  import qs from 'qs';
   export default {
-    component:{
-      Accounts
-    },
 
     data() {
       // 校验验证码
@@ -175,16 +172,15 @@
       sendCode(){
         if(this.repeat == false){
           this.repeat = true;
-          var codeType = '0';
-          var count = 60;
-          var curCount = count;
-          var timer = null;
+          let codeType = '0';
+          let count = 60;
+          let curCount = count;
+          let timer = null;
 
-          let mobile=this.mobile;
           this.sms = true;
-          let params={'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode};
-          server.smsCode(params, {emulateJSON: true}).then(res=> {
-            // this.smsCode=res.data.smsCode
+          let params={'mobile': this.mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode};
+          server.smsCodeOld(params).then(res=> {
+
             this.smsNoVer=res.data.smsNo   //短信编号
             this.appId=res.data.appId     //appId
             let resultCode = res.data.resultCode;
@@ -272,7 +268,7 @@
         let accountCode = sessionStorage.getItem("accountCode");
         let authorizerCode = sessionStorage.getItem("authorizerCode");
         let signatureImg = this.canvasTest;
-        this.$nextTick(function () {
+        this.$nextTick(()=> {
           this.$loading.show("正在提交数据，请等待...");
         });
         this.$refs[formName].validate((valid) => {
@@ -287,7 +283,7 @@
             setTimeout(() => {
               this.fullscreenLoading = false;
             }, 2000);
-            this.$nextTick(function () {
+            this.$nextTick(()=> {
               this.$loading.hide();
             });
             if (res.data.resultCode != 1) {
@@ -297,7 +293,7 @@
                 type: 'error'
               })
             } else {
-              this.$nextTick(function () {
+              this.$nextTick(()=> {
                 this.$loading.show("数据提交成功，正在校验...");
               });
               let params={
@@ -309,12 +305,12 @@
                   'signatureImg': signatureImg,
                   'accountCode': accountCode,
                 };
-                SignAuthbook(params,{emulateJSON: true}).then(res=> {
+                SignAuthbook(params).then(res=> {
                  this.fullscreenLoading = true;
                  setTimeout(() => {
                   this.fullscreenLoading = false;
                 }, 3000);
-                this.$nextTick(function () {
+                this.$nextTick(()=> {
                   this.$loading.hide();
                 });
                 if(res.data.resultCode == '1'){
@@ -322,7 +318,7 @@
                     mobile:sessionStorage.getItem("mobile"),
                   };
                   let urlParam=sessionStorage.getItem("interfaceCode");
-                  this.$nextTick(function () {
+                  this.$nextTick(()=> {
                     this.$loading.show("激活成功，正在初始化数据，请等待...");
                   });
                   this.fullscreenLoading = true;
@@ -332,14 +328,15 @@
                   server.login(param,urlParam).then(res => {
                     cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
                     this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                    this.$nextTick(function () {
+                    this.$nextTick(()=> {
                       this.$loading.hide();
                     });
                     sessionStorage.setItem('accountStatus','1')
                     this.$router.push("/Home");
                   })
                 }else {
-                  this.$nextTick(function () {
+
+                  this.$nextTick(()=>{
                     this.$loading.show("激活失败，请刷新页面重新激活...");
                     this.$router.push("/ActivateChildAccount");
                   });
@@ -365,9 +362,9 @@
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let t = Math.random();
-        getSignatureImg(accountCode,authorizerCode,t).then(res=> {
+        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg?t='+t).then(function (res) {
           this.canvasTest =  res.bodyText
-          //   console.log(res.bodyText)
+
           if(res.bodyText != '') {
             let smCode = document.getElementById('smCode')
             smCode.style.display ='none';
@@ -380,13 +377,12 @@
               clearInterval(this.timer)
             }
           },1000)
-        }).catch(error=>{
-
         })
+
       }
     },
     created(){
-
+      this.$loading.show();
       this.mobileShowFirst=this.mobile.substring(0,3);
       this.mobileShowLast=this.mobile.substring(7,11);
 
@@ -400,13 +396,14 @@
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
       this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
         this.authorizationImg=res.bodyText;
+
       })
 
       let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
       this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
         this.qrSignImg=res.bodyText;
       });
-
+      this.$loading.hide(); //隐藏
       let that = this
       let timer = null
       this.timer = setInterval(function () {
