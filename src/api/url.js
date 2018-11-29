@@ -90,30 +90,30 @@ const service = {
     });
   },
   //小B
-  waitForMeSign(param,interfaceCode){
+  bwaitForMeSign(param,interfaceCode){
     return request({
       url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
       method: "get",
       params: param
     })
   },
-  waitForOtherSign(param,interfaceCode){
+  bwaitForOtherSign(param,interfaceCode){
     return request({
-      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForOtherSign",
       method: "get",
       params: param
     })
   },
-  takeEffect(param,interfaceCode){
+  btakeEffect(param,interfaceCode){
     return request({
-      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      url: "/api/v1.4/tenant/" + interfaceCode + "/takeEffect",
       method: "get",
       params: param
     })
   },
-  deadline(param,interfaceCode){
+  bdeadline(param,interfaceCode){
     return request({
-      url: "/api/v1.4/tenant/" + interfaceCode + "/waitForMeSign",
+      url: "/api/v1.4/tenant/" + interfaceCode + "/deadline",
       method: "get",
       params: param
     })

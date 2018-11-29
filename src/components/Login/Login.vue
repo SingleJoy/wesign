@@ -174,7 +174,7 @@
       //登录
         Login(){
             let bindParams={
-                mobile: this.ruleForm.usernam
+                mobile: this.ruleForm.username
             }
             bindEnterprises(bindParams).then(response=>{
                 var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
