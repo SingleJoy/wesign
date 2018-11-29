@@ -89,3 +89,26 @@ export  function contractkeywordsign(interfaceCode,contractNo) {
   })
 }
 
+//signerpositions
+export  function signerpositions(interfaceCode,contractNo,param) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/signerpositions',
+    method: "post",
+    data: param
+  })
+}
+// getContractDetails
+export function getContractDetails(interfaceCode,contractNo) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/getContractDetails',
+    method: "get",
+    params:''
+  })
+}
+export function contractimgs(interfaceCode,contractNo) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/contractimgs',
+    method: "get",
+    params:''
+  })
+}

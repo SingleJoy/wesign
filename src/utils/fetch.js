@@ -11,7 +11,7 @@ import qs from 'qs';
 const Axios = axios.create({
 
   timeout: 5000,                    // request timeout
-  responseType: "text/json",
+  responseType: "text",
 
   transformRequest: [function (data) {
     // 将数据转换为表单数据
