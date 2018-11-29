@@ -55,6 +55,7 @@
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
+  import {contracttempimgs,contractkeywordsign} from '@/api/template'
   export default {
     name: 'Contractsigns',
     data () {
@@ -75,7 +76,11 @@
         contractSignImg:'',
         flag: true,
         // centerDialog:false,
-        signPosition:''
+        signPosition:'',
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        templateNo:sessionStorage.getItem('templateNo'),
+        contractNo:sessionStorage.getItem('contractNo'),
+        templateName:sessionStorage.getItem('templateName'),
       }
     },
     computed:{
@@ -93,7 +98,7 @@
       },
       pages:function(){
         this.showItem = 10;
-        var pag = [];
+        let pag = [];
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
           //总页数和要显示的条数那个大就显示多少条
           var i = Math.min(this.showItem,this.allpage);
@@ -101,7 +106,7 @@
             pag.unshift(i--);
           }
         }else{ //当前页数大于显示页数了
-          var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
+          let middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
             i = this.showItem;
           if( middle >  (this.allpage - this.showItem)  ){
             middle = (this.allpage - this.showItem) + 1
@@ -114,43 +119,28 @@
       }
     },
     created() {
-      var contractName = sessionStorage.getItem('templateName')
-      var contractNo = sessionStorage.getItem('contractNo')
-      if (contractName) {
-        // contractName = JSON.parse(contractName)
-        if ( this.$store.state.templateName == ''){
-          this.$store.state.templateName = contractName
-        }
-      }
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-      this.$loading.show(); //显示
-      var data =[]
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contracttempimgs'
-      this.$http.get(url).then(function (res) {
-        /*获取后台数据，并使用imgArray*/
 
-        for(var i=0;i<res.data.length;i++){
-          var contractUrl = res.data[i].contractUrl
-          data[i] = contractUrl
-          this.$loading.hide(); //隐藏
+      this.$loading.show(); //显示
+      let data =[]
+
+      contracttempimgs(this.interfaceCode,this.contractNo).then(res=> {
+        /*获取后台数据，并使用imgArray*/
+        for(let i=0;i<res.data.length;i++){
+          let contractUrl = res.data[i].contractUrl
+            data[i] = contractUrl
+
         }
         this.imgArray = data
         /*获取总的页码*/
         this.allpage = res.data.length
-
         this.$nextTick(() => {
           this._initScroll()
           this._calculateHeight()
         })
-      }).catch(function (error) {
-        this.$message.error('请求失败！请刷新再试！')
-      })
+      }).catch(error=> {
 
+      })
+      this.$loading.hide(); //隐藏
     },
     methods:{
       goto (currentIndex){
@@ -253,12 +243,10 @@
         })
       },
       gainPosition () { //点击签署
-        this.$loading.show(); //显示
+
         if (this.flag == true){
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractkeywordsign/'+this.$store.state.contractNo1,{emulateJSON: true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-              this.$router.push('/Server')
-            } else {
+          this.$loading.show(); //显示
+          contractkeywordsign(this.interfaceCode,this.contractNo).then(res=> {
               if (res.data.responseCode == 0){
                 this.$message({
                   showClose: true,
@@ -266,9 +254,6 @@
                   type: 'success'
                 })
                 this.$loading.hide(); //隐藏
-                this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-                sessionStorage.setItem('contractName', this.$store.state.templateName)
-                sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
                 this.$router.push('/Templatecomplete')
               }else if(res.data.responseCode==1){
                     this.$loading.hide(); //显示
@@ -283,9 +268,10 @@
                 }).then(() => {
                     this.$router.push('/Home')
                 }).catch(() => {
-                    
+
                 });
-              }else{
+              }
+              else{
                     this.$loading.hide(); //显示
                     this.$message({
                         showClose: true,
@@ -293,7 +279,9 @@
                         type: 'success'
                     })
                 }
-            }
+
+          }).catch(error=>{
+
           })
           this.flag = false
         }

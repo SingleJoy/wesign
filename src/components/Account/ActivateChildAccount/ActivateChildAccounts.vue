@@ -100,7 +100,7 @@
   import cookie from '@/common/js/getTenant'
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
-  import {SignAuthbook,getSignatureImg} from '@/api/account'
+  import {SignAuthbook,getSignatureImg,getAuthBookImg,qRCode} from '@/api/account'
   export default {
 
     data() {
@@ -361,10 +361,10 @@
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let t = Math.random();
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg?t='+t).then(function (res) {
-          this.canvasTest =  res.bodyText
+        getSignatureImg(accountCode,authorizerCode,t).then(res=> {
+          this.canvasTest =  res.data
 
-          if(res.bodyText != '') {
+          if(this.canvasTest!= '') {
             let smCode = document.getElementById('smCode')
             smCode.style.display ='none';
             let  signCanvas= document.getElementById('signCanvas')
@@ -376,6 +376,8 @@
               clearInterval(this.timer)
             }
           },1000)
+        }).catch(error=>{
+
         })
 
       }
@@ -393,14 +395,16 @@
       let authorizerCode=sessionStorage.getItem("authorizerCode");
       //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
-      this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
-        this.authorizationImg=res.bodyText;
-
+      getAuthBookImg(params).then(res=>{
+        this.authorizationImg=res.data;
       })
 
-      let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
-      this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
-        this.qrSignImg=res.bodyText;
+
+      let params={
+        'contractNo':accountCode
+      }
+      qRCode(authorizerCode,params).then(function (res) {
+        this.qrSignImg=res.data;
       });
       this.$loading.hide(); //隐藏
       let that = this

@@ -105,16 +105,16 @@ export default {
     },
     pages:function(){
     this.showItem = 10;
-    var pag = [];
+    let pag = [];
       if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条
-            var i = Math.min(this.showItem,this.allpage);
+            let i = Math.min(this.showItem,this.allpage);
             while(i){
                 pag.unshift(i--);
             }
         }else{ //当前页数大于显示页数了
             //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-            var middle = this.currentIndex + 1
+            let middle = this.currentIndex + 1
                 i = this.showItem;
             if( middle >  (this.allpage - this.showItem)  ){
                 middle = (this.allpage - this.showItem) + 1
@@ -257,7 +257,7 @@ export default {
                 }).then(() => {
                     // this.$router.push('/Home')
                 }).catch(() => {
-                    
+
                 });
 
           }else{
@@ -390,7 +390,7 @@ export default {
             //         if(this.parentNode.parentNode){
             //             this.parentNode.parentNode.removeChild(this.parentNode)
             //         }
-                    
+
             //         n--
             //         el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
             //     }

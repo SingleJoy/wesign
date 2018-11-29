@@ -160,7 +160,6 @@
   import {validateMoblie,validateCard,TrimAll} from '../../../common/js/validate'
   import cookie from '@/common/js/getTenant'
   import { backContractTempSigner,getTemplateImags,contractTemp} from '@/api/template'
-  import qs from 'qs';
   import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: 'batchSettings',

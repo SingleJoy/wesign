@@ -69,12 +69,15 @@ import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import {contractImg,b2cSignPosition,b2cSubmitSign} from '@/api/personal.js'
+import { contractmoresign} from '@/api/business.js'
 export default {
   name: 'Contents',
   data () {
     return {
       baseURL:this.baseURL.BASE_URL,
       interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+      contractName:sessionStorage.getItem('contractName'),
+      contractNo:sessionStorage.getItem('contractNo'),
       current: 0,
       showItem:0,
       allpage: 0,
@@ -107,17 +110,17 @@ export default {
     },
     pages:function(){
         this.showItem = 10;
-        var pag = [];
+        let pag = [];
         // console.log(this.currentIndex)
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
                 //总页数和要显示的条数那个大就显示多少条
-                var i = Math.min(this.showItem,this.allpage);
+                let i = Math.min(this.showItem,this.allpage);
                 while(i){
                     pag.unshift(i--);
                 }
             }else{ //当前页数大于显示页数了
                 //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-                var middle = this.currentIndex + 1
+                let middle = this.currentIndex + 1
                 i = this.showItem;
                 if( middle >  (this.allpage - this.showItem)  ){
                     middle = (this.allpage - this.showItem) + 1
@@ -131,20 +134,15 @@ export default {
   },
   created() {
 
-    var contractName = sessionStorage.getItem('contractName')
-    var contractNo = sessionStorage.getItem('contractNo')
+
     this.$loading.show(); //显示
-    var data =[]
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+contractNo+'/contractimgs'
-    let urlPic = process.env.API_HOST+'v1/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/signature'
-    contractImg(this.interfaceCode,contractNo).then(res=>{
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+    let data =[]
+
+    contractImg(this.interfaceCode,this.contractNo).then(res=>{
 
       /*获取后台数据，并使用imgArray*/
-        for(var i=0;i<res.data.length;i++){
-            var contractUrl = res.data[i].contractUrl
+        for(let i=0;i<res.data.length;i++){
+            let contractUrl = res.data[i].contractUrl
             data[i] = contractUrl
             this.$loading.hide(); //隐藏
         }
@@ -157,15 +155,17 @@ export default {
             this._calculateHeight()
         })
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-                    probeType: 3,
-                    scrollY: true,
-                    preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
-                });
-        }
+          probeType: 3,
+           scrollY: true,
+           preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
+        });
+
     }).catch(error=>{
 
     })
-    this.$http.get(urlPic).then(function (res) {
+
+    let urlPic = process.env.API_HOST+'v1/user/'+ this.interfaceCode + '/signature';
+    this.$http.get(urlPic).then(res=> {
       this.contractSignImg = res.bodyText
     })
   },
@@ -236,31 +236,31 @@ export default {
         })
       },
     gainPosition () { //点击签署
-        var contractNo = sessionStorage.getItem('contractNo');
+
         this.contSignImg = true
         if (this.flag == true){
         this.flag = false
-        b2cSignPosition(this.interfaceCode,contractNo).then(res=>{
-            var array = res.data.list
-            var signPositionStr = ''
-            for (var i =0 ; i<array.length; i++){
-                var pageNum = array[i].pageNum;
-                        var offsetX = array[i].offsetX;
-                var offsetY = array[i].offsetY;
-                var parentBox = document.getElementById('contractImg')
-                var firstImg =parentBox.getElementsByTagName('img')[1]
-                var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-                var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-                var hidden = document.getElementById('hidden');
-                var leftX = offsetX * imgWight;
-                        var topY = (pageNum - 1 + offsetY) * imgHeight;
-                var signPic = document.getElementById('signImg').cloneNode(true)
+        b2cSignPosition(this.interfaceCode,this.contractNo).then(res=>{
+            let array = res.data.list
+            let signPositionStr = ''
+            for (let i =0 ; i<array.length; i++){
+                 let pageNum = array[i].pageNum;
+                 let offsetX = array[i].offsetX;
+                 let offsetY = array[i].offsetY;
+              let parentBox = document.getElementById('contractImg')
+              let firstImg =parentBox.getElementsByTagName('img')[1]
+              let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+              let imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
+              let hidden = document.getElementById('hidden');
+              let leftX = offsetX * imgWight;
+              let topY = (pageNum - 1 + offsetY) * imgHeight;
+              let signPic = document.getElementById('signImg').cloneNode(true)
                 parentBox.appendChild(signPic);
                 signPic.style.position= 'absolute';
                 signPic.style.top= topY + 'px'
                 signPic.style.left = leftX + 'px'
                 hidden.style.display='none'
-                var windowScrollTop = document.documentElement.scrollTop
+                let windowScrollTop = document.documentElement.scrollTop
                         if(i == array.length-1){
                             signPositionStr += pageNum+","+leftX+","+offsetY * (imgHeight);
                         }else{
@@ -313,24 +313,22 @@ export default {
       }
     },
     submitContract () { //确认签署
-        this.$loading.show(); //显示
-        var contractNo = sessionStorage.getItem('contractNo')
-        var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-        var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
-        var base64Img = this.contractSignImg.split(",")[1]
-        var signH = parseInt(document.getElementById('signImg').style.height)
-        var signW =  parseInt(document.getElementById('signImg').style.width)
-        var signContractVo = {
-            'contractNum':this.$store.state.contractNo1,
+      this.$loading.show(); //显示
+      let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+      let imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
+      let base64Img = this.contractSignImg.split(",")[1]
+      let signH = parseInt(document.getElementById('signImg').style.height)
+      let signW =  parseInt(document.getElementById('signImg').style.width)
+      let signContractVo = {
+            'contractNum':this.contractNo,
             'phoneHeight':imgHeight,
             'phoneWidth': imgWight,
             'signatureImg': base64Img,
             'signH':signH,
             'signW':signW,
             'signPositionStr':this.signPosition
-        }
-        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractmoresign/'+ contractNo
-        b2cSubmitSign(this.interfaceCode,contractNo).then(res=>{
+        };
+        b2cSubmitSign(this.interfaceCode,this.contractNo,signContractVo).then(res=>{
             if (res.data.responseCode == 0){
                 this.centerDialogVisible = false
                 this.$message({
@@ -339,9 +337,6 @@ export default {
                     type: 'success'
                 })
                 this.$loading.hide(); //隐藏
-                this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-                sessionStorage.setItem('contractName',this.$store.state.contractName1)
-                sessionStorage.setItem('contractNo', contractNo)
                 this.$router.push('/Complete')
             }else{
                 this.$message({

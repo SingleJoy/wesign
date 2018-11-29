@@ -70,3 +70,22 @@ export function template(interfaceCode,param) {
     data:param
   })
 }
+
+// contracttempimgs
+export  function contracttempimgs(interfaceCode,contractNo) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/contracttempimgs',
+    method: "get",
+    params: ''
+  })
+}
+
+// contractkeywordsign
+export  function contractkeywordsign(interfaceCode,contractNo) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/user/'+interfaceCode+'/contractkeywordsign/'+contractNo,
+    method: "post",
+    data: ''
+  })
+}
+

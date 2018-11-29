@@ -695,19 +695,19 @@
           }
           this.tableData = data;
           this.loading = false;
-        
+
       })
 
       //合同概括请求
       //在读取属性[]和.注意！  server.requestType[i]报错
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
-        
+
       let param={
         accountCode:this.accountCode
       }
-      console.log(requestType)
-      for(var i=0;i< requestType.length;i++){
-          console.log(requestType[i])
+
+      for(let i=0;i< requestType.length;i++){
+
         let type =  requestType[i];
         server[requestType[i]](param,interfaceCode).then(res=>{
           this[type] = res.data.count

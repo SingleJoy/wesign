@@ -101,8 +101,8 @@ export function contractmoresign(interfaceCode,userCode,contractNo,param) {
     data: param
   })
 }
-//签署成功
 
+//签署成功
 export function signFinish(contractNo) {
   return request({
     url: "api/v1.4/contract/"+contractNo+'/signFinish',
@@ -110,3 +110,4 @@ export function signFinish(contractNo) {
     params: ''
   })
 }
+

@@ -5,7 +5,7 @@ export function getDate(){
     return request({
         url: "/api/v1.5/user/getDate",
         method: "get",
-        params: '' 
+        params: ''
     })
 }
 //modifyPassword 修改密码
@@ -139,5 +139,22 @@ export function getSignatureImg(accountCode,authorizerCode,t) {
     url: "api/v1.4/contract/"+accountCode+'/user/'+authorizerCode+'/getSignatureImg/?=t'+t,
     method: "get",
     params:''
+  })
+}
+
+//getAuthBookImg
+export function getAuthBookImg(param) {
+  return request({
+    url:"1.5/user/getAuthBookImg",
+    method: "get",
+    params:param
+  })
+}
+// qRCode 移动端签署图片二维码数据回显
+export function qRCode(authorizerCode,param) {
+  return request({
+    url: "api/v1.4/user/"+authorizerCode+'/qRCode',
+    method: "get",
+    params: param
   })
 }
