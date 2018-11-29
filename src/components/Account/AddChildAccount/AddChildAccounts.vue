@@ -159,7 +159,7 @@
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
-  import {addAccount,templateList} from '@/api/account'
+  import {addAccount,templateList,getDate} from '@/api/account'
 
   export default {
     name: 'AddChildAccounts',
@@ -309,10 +309,11 @@
     methods:{
       //获取服务器时间
       changEvent(){
-        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
+        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(res=> {
+          this.date=res.data;
+        }).catch(error=>{
 
-          this.date=res.bodyText;
-        });
+        })
       },
 
       // 取消

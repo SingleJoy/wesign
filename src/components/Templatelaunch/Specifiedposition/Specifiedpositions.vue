@@ -158,7 +158,6 @@
           },
           preventDefault:false,
           probeType: 3,
-          probeType: 3,
           preventDefaultException:{className:/(^|\s)sign_left(\s|$)/}
         })
 
@@ -259,7 +258,7 @@
                 }).then(() => {
                     // this.$router.push('/Home')
                 }).catch(() => {
-                    
+
                 });
 
             }else{
@@ -333,7 +332,7 @@
         }
         this.isAction = false;
       })
-
+      this.$loading.hide(); //显示
     },
     directives: {
       drag: {
