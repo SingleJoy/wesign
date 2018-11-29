@@ -89,7 +89,7 @@
           label="操作"
 
           >
-            <template slot-scope="scope">                         
+            <template slot-scope="scope">
             <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button> -->
             <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
             <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
@@ -116,6 +116,7 @@ import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import moment  from 'moment'
 import server from "@/api/url";
+import {b2bContrants} from "@/api/detail";
 export default {
   data() {
     return {
@@ -128,8 +129,8 @@ export default {
         tableData2: [],
         num: '',
         value:'',
-        options:[],
         queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
+        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode,
         options:[],
         loading: true,
         inputVal:'',
@@ -169,18 +170,15 @@ export default {
       }
     },
     getData (requestVo) {
-    var data =[];
-    var isCreater = '';
+    let data =[];
+    let isCreater = '';
     let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-    // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
-    let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/b2bContrants';
-      this.$http.get(url, {params: requestVo}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-        } else {
+
+      b2bContrants(requestVo,this.interfaceCode).then(res=> {
+
         for (let i = 0; i < res.data.content.length;i++) {
             var obj = {}
-            if (res.data.content[i].creater == currentFaceCode) {
+            if (res.data.content[i].creater == this.interfaceCode) {
                 isCreater = true;
             } else {
                 isCreater = false;
@@ -218,7 +216,9 @@ export default {
         this.tableData2 = data
         this.num = res.data.totalItemNumber
         this.loading = false
-        }
+
+      }).catch(error=>{
+
       })
     },
     handleCurrentChange(val) {
@@ -230,11 +230,11 @@ export default {
             var perpetualValid = ''
             }
             if(this.inquiry == true){
-            var start = this.filters.column.create_start_date
-            var end =   this.filters.column.create_end_date
+            let start = this.filters.column.create_start_date
+            let end =   this.filters.column.create_end_date
             if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
             if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-            var requestVo ={
+            let requestVo ={
                 "contractName":this.inputVal,
                 "queryTimeStart":start,
                 "queryTimeEnd":  end,
@@ -246,11 +246,11 @@ export default {
             };
             this.getData (requestVo)
             }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+            let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getData (requestVo)
             }
         } else {
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+            let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getData (requestVo)
         }
     },
@@ -267,13 +267,20 @@ export default {
         } else {
             var perpetualValid = ''
         }
-        var start = this.filters.column.create_start_date
-        var end =   this.filters.column.create_end_date
+        let start = this.filters.column.create_start_date
+        let end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={
+        let requestVo ={
             'accountCode':this.queryAccountCode,
-            "contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+            "contractName":this.inputVal,
+          "queryTimeStart":start,
+          "queryTimeEnd":  end,
+          'perpetualValid':perpetualValid,
+          'pageNo':'1',
+          'pageSize':'10',
+          'contractStatus':'0'
+        };
         this.getData (requestVo)
         this.currentPage = 1
         this.$message({
@@ -308,8 +315,8 @@ export default {
         }
     },
     downloadClick (row) { //下载
-      var url = process.env.API_HOST+'/contract/'+ cookie.getJSON('tenant')[1].interfaceCode + '/'+ row.contractNum;
-      var up = document.createElement('a');
+      let url = process.env.API_HOST+'/contract/'+ this.interfaceCode + '/'+ row.contractNum;
+      let up = document.createElement('a');
       document.body.appendChild(up)
       up.setAttribute('href',url);
       up.click()
@@ -326,7 +333,7 @@ export default {
   },
    created() {
     this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
+    let requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
     this.getData (requestVo);
   }
 }

@@ -68,7 +68,7 @@
   import cookie from '@/common/js/getTenant'
   import {validatePassWord} from '@/common/js/validate'
   import server from "@/api/certification";
-  import {modifyPassword,auditStatus} from '@/api/account'
+  import {modifyPassword,auditStatus_,getSignature} from '@/api/account'
 
   export default {
     name: 'NoReal',
@@ -214,19 +214,15 @@
         var status = cookie.getJSON('tenant')[2].status            // 打款状态
 
         var auditSteps = cookie.getJSON('tenant')[1].auditSteps;    //企业认证步骤
-        // console.log(auditSteps)
-        // if(auditSteps == 3){  //2 跳打款 其余跳企业认证
-        //     this.identifier = true
-        // }else{
-        //         this.identifier = true
-        // }
 
-      let url = process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/getSignature'
-      this.$http.get(url).then(function (res) {
-        this.contractSign = res.bodyText
+
+      getSignature(this.interfaceCode).then(res=> {
+        this.contractSign = res.data
+      }).catch(error=>{
+
       })
       //意见（待定
-      auditStatus(this.interfaceCode + '/auditStatus').then(res=>{
+      auditStatus_(this.interfaceCode).then(res=>{
         this.auditOpinion=res.data.data;
       }).catch(error=>{
 

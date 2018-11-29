@@ -47,7 +47,7 @@
                         <span>现委托</span>
                         <span class="add-info">{{IdInfo.userName}}</span>
                         <span style="line-height:18px;">作为我单位合法代理人，授权其代表我单位使用贵司微签平台。该委托代理人使用微签平台的授权范围为：代表我单位发出签约请求、签署电子合同在内的各类文件、对已签约的文件进行存证等。在与贵司的微签服务
-                            的有效期内，该代理人的一切行为，均代表本单位，与本单位的行为具有同等法律效力。本单位将承担该代理人行为的全部法律后果和法律责任。 
+                            的有效期内，该代理人的一切行为，均代表本单位，与本单位的行为具有同等法律效力。本单位将承担该代理人行为的全部法律后果和法律责任。
                         </span>
                     </p>
                     <p>
@@ -75,10 +75,10 @@
                             <span>{{IdInfo.date}}</span>
                         </p>
                     </div>
-                    
-                   
+
+
               </div>
-              
+
             </el-dialog>
              <el-dialog
                 :visible.sync="attorney"
@@ -88,9 +88,9 @@
               <div class="enterprise-attorney-synopsis">
                     <h2>企业法人说明函</h2>
                     <p class="attorney-text">
-                            <span> 姓名：</span> <span class="add-info">{{IdInfo.userName}}</span><span>，身份证号：</span> <span class="add-info">{{IdInfo.idCard}}</span><span>，系</span> 
+                            <span> 姓名：</span> <span class="add-info">{{IdInfo.userName}}</span><span>，身份证号：</span> <span class="add-info">{{IdInfo.idCard}}</span><span>，系</span>
                             <span class="add-info">{{licenseInfo.tenantName}}</span><span>的法定代表人。</span>
-                        
+
                     </p>
                     <p style="margin-bottom:160px;margin-top:20px;">特此声明！</p>
                     <p  style="margin-bottom:50px;text-align:right;padding-right:100px;">
@@ -131,7 +131,7 @@
                                                 <img  v-if="licenseInfo.creditPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+licenseInfo.creditPhoto" class="avatar">
                                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                             </div>
-                                           
+
                                         </el-upload>
                                     </div>
                                     <div class="upload_warp_text" v-if="showData">
@@ -277,7 +277,7 @@
                                             placeholder=""
                                             v-model="IdInfo.email"
                                             @blur='validateIdInfo("email")'
-                                            
+
                                         >
                                         </el-input>
                                         <span v-if="emailTip" class="validate-tip">{{emailText}}</span>
@@ -339,7 +339,7 @@
                                 <el-form-item  label="银行名称"  prop="to_bank_name" label-width="473px">
                                     <el-input   v-model="bankInfo.to_bank_name" placeholder="请输入"></el-input>
                                 </el-form-item>
-                                
+
                                 <el-form-item label="开户行所在省／市"  label-width="473px">
                                     <el-cascader
                                         :options="options"
@@ -369,6 +369,8 @@
 import server from "@/api/certification";
 import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode,specialCharacter} from '../../common/js/validate.js';
 import cookie from "@/common/js/getTenant";
+import {getDate} from "@/api/account";
+
 export default {
     name:'',
     data() {
@@ -2115,7 +2117,7 @@ export default {
                 bankInfo.to_acc_dept = data.to_acc_dept
                 options.push(data.to_pro_name,data.to_city_name)
                 this.selectedOptions = options
-                
+
                 this.auditStatus = data.auditStatus;
                 this.authStatus = data.authStatus;
                 if(this.auditStatus==2){
@@ -2132,7 +2134,6 @@ export default {
 
     },
     methods:{
-
         //查看示例
         viewExample(type){
             if(type == 'license'){
@@ -2185,7 +2186,7 @@ export default {
                 return false
             } else {
                 this.$loading.show(
-                    '图片上传中...',  
+                    '图片上传中...',
                 );
             }
 
@@ -2216,7 +2217,7 @@ export default {
                     type: 'error'
                 })
             }
-            
+
         },
 
         //身份证正面上传成功
@@ -2229,7 +2230,7 @@ export default {
                             message: '当前身份信息与企业法人信息不一致',
                             type: 'error'
                         })
-                        return 
+                        return
                     }
                     this.IdCardFrontSize = file.size;
                     this.IdInfo.frontPhoto = name.data.frontPhoto;
@@ -2242,13 +2243,13 @@ export default {
                     // }
                     this.$loading.hide();
                     this.getAuthDate()
-                    
+
                     this.$message({
                         showClose: true,
                         message: '上传成功',
                         type: 'success'
                     })
-               
+
              }else{
                 this.$loading.hide();
                 this.$message({
@@ -2265,8 +2266,8 @@ export default {
             // }).catch(error=>{
 
             // })
-            this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-                this.IdInfo.date=res.bodyText;
+              getDate().then(res=> {
+                this.IdInfo.date=res.data;
             });
         },
 
@@ -2329,7 +2330,7 @@ export default {
                 }else{
                     this.emailTip = false
                     this.emailText = '';
-                    return true 
+                    return true
                 }
             }
         },
@@ -2490,7 +2491,7 @@ export default {
                     message: '当前身份信息与企业法人信息不一致',
                     type: 'error'
                 })
-                return 
+                return
             }
             if(!this.IdInfo.email){
                 this.$message({
@@ -2542,15 +2543,15 @@ export default {
             }
             if(!this.bankInfo.to_pro_name){
                     this.cityTip = true;
-                    return 
+                    return
                 }else{
                     this.cityTip = false;
             }
             this.$refs[bankInfo].validate((valid) => {
                 if(valid){
-                    
+
                     this.$loading.show(
-                        '信息提交中...',  
+                        '信息提交中...',
                     );
                     this.sublicenseInfo()
                     // this.sigleClick = true;
@@ -2570,9 +2571,9 @@ export default {
                 }
             })
 
-           
-				
-           
+
+
+
         },
         //营业执照信息提交
         sublicenseInfo(){
@@ -2673,7 +2674,7 @@ export default {
                     })
                 }
             }).catch(error=>{
-                   
+
             })
         },
         //更新cookie
@@ -2685,7 +2686,7 @@ export default {
         //     let that=this
         //     server.login(param,urlParam).then(res => {
         //         cookie.set("tenant", res.data.dataList);  //更新cookie
-              
+
         //     })
         // },
         //请求成功跳转
@@ -2694,7 +2695,7 @@ export default {
         //         if(this.licenseStatus&&this.IdStatus){
         //         this.updateCookie();
         //         }
-               
+
         //     }
         // }
     },
@@ -2723,8 +2724,8 @@ export default {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    appearance: none; 
-    margin: 0; 
+    appearance: none;
+    margin: 0;
 }
 input{
     -moz-appearance:textfield;

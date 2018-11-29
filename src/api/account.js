@@ -52,6 +52,14 @@ export function getSignatures(interfaceCode) {
     params:''
   })
 }
+//getSignatures 查询签章 老接口  暂时留着
+export function getSignature(interfaceCode) {
+  return request({
+    url: "api/v1.4/tenant/"+interfaceCode+"/getSignature",
+    method: "get",
+    params:''
+  })
+}
 
 // UpdateAccountSignature 修改签章
 export function UpdateAccountSignature(interfaceCode,sealNo) {
@@ -81,7 +89,7 @@ export function getAccountInformation(accountCode) {
   })
 }
 // auditStatus  未实名查询认证状态
-export function auditStatus(interfaceCode) {
+export function auditStatus_(interfaceCode) {
   return request({
     url: "api/v1.4/tenant/"+interfaceCode+"/auditStatus",
     method: "get",
@@ -156,5 +164,22 @@ export function qRCode(authorizerCode,param) {
     url: "api/v1.4/user/"+authorizerCode+'/qRCode',
     method: "get",
     params: param
+  })
+}
+// showSignRoomInfo
+export  function showSignRoomInfo(interfaceCode) {
+  return request({
+    url:"api/v1/tenant/"+interfaceCode+'signRoom/showSignRoomInfo',
+    method:"post",
+    data:""
+  })
+}
+
+//saveSignRoomName
+export  function saveSignRoomName(interfaceCode,param) {
+  return request({
+    url:"api/v1/tenant/"+interfaceCode+'signRoom/saveSignRoomName',
+    method:"get",
+    params:param
   })
 }
