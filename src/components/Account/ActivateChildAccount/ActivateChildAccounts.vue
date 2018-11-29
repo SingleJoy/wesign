@@ -101,7 +101,6 @@
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
   import {SignAuthbook,getSignatureImg} from '@/api/account'
-  import qs from 'qs';
   export default {
 
     data() {

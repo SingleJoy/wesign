@@ -26,7 +26,7 @@ export function updateAccountStatus(interfaceCode,param) {
   return request({
     url: "api/v1.5/tenant/"+interfaceCode+"/updateAccountStatus",
     method: "post",
-    params:param
+    data:param
   })
 }
 //createSignature创建新签章
@@ -98,7 +98,7 @@ export function addAccount(interfaceCode,param) {
   return request({
     url: "api/v1.5/tenant/"+interfaceCode+"/addAccount",
     method: "post",
-    params:param
+    data:param
   })
 }
 
@@ -107,7 +107,7 @@ export function updateAccount(interfaceCode,param) {
   return request({
     url: "api/v1.5/tenant/"+interfaceCode+"/updateAccount",
     method: "post",
-    params:param
+    data:param
   })
 }
 // getAccountInfo  查询二级账户信息
@@ -123,7 +123,7 @@ export function SignAuthbook(param) {
   return request({
     url: "api/v1.5/user/SignAuthbook",
     method: "post",
-    data:JSON.stringify(param)
+    data:param
   })
 }
 

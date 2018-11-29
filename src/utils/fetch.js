@@ -5,13 +5,26 @@
 
 import Vue from 'vue'
 import axios from 'axios';
+import qs from 'qs';
 
 
 const Axios = axios.create({
   // baseURL: process.env.BASE_API,    // api的base_url
   timeout: 5000,                    // request timeout
   responseType: "json",
-//   withCredentials: true,            // 是否允许带cookie这些
+  // transformRequest: [function (data) {
+  //   // 将数据转换为表单数据
+  //   let ret = ''
+  //   for (let it in data) {
+  //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+  //   }
+  //   return ret
+  // }],
+  transformRequest: [function (data) {
+    // 将数据转换为表单数据
+    data=qs.stringify(data)
+    return data
+  }],
 })
 
 

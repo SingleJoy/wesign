@@ -33,7 +33,7 @@ export function signerpositions (param,interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/signerpositions",
         method: "post",
-        params: param
+        data: param
     })
 }
 

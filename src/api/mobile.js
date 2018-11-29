@@ -7,6 +7,6 @@ export function saveSignatureImg(signToken,param) {
   return request({
     url: "api/v1.4/signToken/"+signToken+'/saveSignatureImg',
     method: "post",
-    params: param
+    data: param
   })
 }

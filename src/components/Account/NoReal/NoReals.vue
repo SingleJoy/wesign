@@ -174,8 +174,7 @@
               "oldPassword":md5(this.ruleForm.oldPassWord),
               "newPassword":md5(this.ruleForm.newPassWord)
             }
-            modifyPassword(params,{emulateJSON: true}).then(res=> {
-
+            modifyPassword(params).then(res=> {
                 let resultCode = res.data.resultCode
                 if ( resultCode === '1') {
                   this.$message({

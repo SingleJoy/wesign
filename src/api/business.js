@@ -25,7 +25,7 @@ export function setting(interfaceCode,contractNo,params){
   return request({
     url: "api/v1.4/tenant/" + interfaceCode + "/contract/"+contractNo+'/setting',
     method: "post",
-    params: params
+    data: params
   })
 }
 
@@ -43,7 +43,7 @@ export function signerpositions(interfaceCode,contractNo,param){
   return request({
     url: "api/v1.4/tenant/" +interfaceCode + "/contract/"+contractNo+'/signerpositions',
     method: "post",
-    params: param
+    data: param
   })
 }
 
@@ -94,7 +94,7 @@ export function callSignerpositions(interfaceCode,contractNo,userCode) {
 }
 
 //contractmoresign
-export function contractmoresign(interfaceCode,userCode,contractNo,param,) {
+export function contractmoresign(interfaceCode,userCode,contractNo,param) {
   return request({
     url: "api/v1.4/tenant/" +interfaceCode + "/user/"+userCode+'/contractmoresign/'+contractNo,
     method: "post",

@@ -12,7 +12,7 @@ const service = {
     return request({
       url: "/api/v1.4/sms/sendCode",
       method: "post",
-      params: param
+      data: param
     });
   },
   //图形验证码获取token
@@ -155,7 +155,7 @@ const service = {
     return request({
       url: "/api/v1.6/tenant/register",
       method: "post",
-      params: param
+      data: param
     });
   },
   //企业注册
@@ -163,7 +163,7 @@ const service = {
     return request({
       url: "/api/v1.4/tenant/register",
       method: "post",
-      params: param
+      data: param
     });
   },
 
@@ -172,7 +172,7 @@ const service = {
     return request({
       url: "/api/v1.6/sms/sendCode",
       method: "post",
-      params: param
+      data: param
     });
   },
   //验证码 微签1.6之前老接口使用
@@ -180,7 +180,7 @@ const service = {
     return request({
       url: "/api/v1.4/sms/sendCode",
       method: "post",
-      params: param
+      data: param
     });
   },
   //查询企业注册
@@ -212,7 +212,7 @@ const service = {
     return request({
       url: "/api/v1.6/tenant/" + interfaceCode + "/verifyRemittance",
       method: "post",
-      params: param
+      data: param
     });
   },
   // 查询认证完成商户信息
@@ -229,7 +229,7 @@ const service = {
     return request({
       url: "/api/v1.6/tenant/unfreezeRemittance",
       method: "post",
-      params: param
+      data: param
     });
   },
   //10次发起验证
@@ -254,7 +254,7 @@ const service = {
     return request({
       url: "/api/v1.4/tenant/register",
       method: "post",
-      params: mobile
+      data: mobile
     });
   },
 

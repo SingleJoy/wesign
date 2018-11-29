@@ -25,7 +25,7 @@ export function contractTemp(interfaceCode,param) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/contractTemp/',
     method: "post",
-    params:param
+    data:param
   })
 }
 // userInfo  模板填充信息
@@ -50,7 +50,7 @@ export function templateBatchSign(interfaceCode,param) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/templateBatchSign',
     method: "post",
-    params:param
+    data:param
   })
 }
 
@@ -67,6 +67,6 @@ export function template(interfaceCode,param) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/template/',
     method: "post",
-    params:param
+    data:param
   })
 }

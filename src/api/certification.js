@@ -6,7 +6,7 @@ const service = {
         return request({
             url: '/api/v1.6/tenant/creditPhotoOcr',
             method: 'post',
-            params:param
+            data:param
         })
     },
     //验证手机号
@@ -22,7 +22,7 @@ const service = {
         return request({
             url: '/api/v1.4/sms/sendCode',
             method: 'post',
-            params:param
+            data:param
         })
     },
     //验证码校验
@@ -38,7 +38,7 @@ const service = {
         return request({
             url: '/api/v1.6/tenant/authentication',
             method: 'post',
-            params:param
+            data:param
         })
     },
      //身份证提交
@@ -46,7 +46,7 @@ const service = {
         return request({
             url: '/api/v1.6/user/authentication',
             method: 'post',
-            params:param
+            data:param
         })
     },
     //银行信息
@@ -54,7 +54,7 @@ const service = {
         return request({
             url: '/api/v1.4/tenant/'+interfaceCode+'/bank',
             method: 'post',
-            params:param
+            data:param
         })
     },
     //信息回显v1.6/tenant/{interfaceCode}/tenantDetails

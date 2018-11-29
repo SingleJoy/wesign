@@ -385,7 +385,7 @@
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
   import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation} from '@/api/account'
   import server from '@/api/url'
-
+  import qs from 'qs';
   export default {
     name: 'Accounts',
     components:{
@@ -397,7 +397,11 @@
         if (value === '') {
           callback(new Error('请输入原密码'));
         } else {
-          server.login({params:{"username":this.mobile,"password":md5(this.ruleForm.oldPassWord)}}).then(res=> {
+          let params={
+            "username":this.mobile,
+            "password":md5(this.ruleForm.oldPassWord)
+          }
+          server.verficate(params).then(res=>{
             let backCode = res.data.resultCode
             if( backCode === '0'){
               callback(new Error('原密码输入错误!'));
@@ -538,7 +542,7 @@
               "oldPassword":md5(this.ruleForm.oldPassWord),
               "newPassword":md5(this.ruleForm.newPassWord)
             }
-            modifyPassword(params,{emulateJSON:true}).then(res=> {
+            modifyPassword(params).then(res=> {
                 let resultCode = res.data.resultCode;
                 if ( resultCode === '1') {
                   this.$message({

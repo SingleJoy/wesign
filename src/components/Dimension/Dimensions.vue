@@ -82,7 +82,7 @@ import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import { getSignatureImg,contractimgs,getSignature,callSignerpositions,contractmoresign,qRCode} from '@/api/business'
-import qs from 'qs';
+
 export default {
   name: 'Dimensions',
   data () {
@@ -421,7 +421,7 @@ export default {
         'enterprisePositionStr':this.signPosition,
         'personalPositionStr':this.signPosit
       }
-      contractmoresign(this.interfaceCode,this.userCode,this.contractNo,qs.stringify(params)).then(res=> {
+      contractmoresign(this.interfaceCode,this.userCode,this.contractNo,params).then(res=> {
 
         if (res.data.responseCode == 1) {
           this.centerDialogVisible = false
@@ -440,10 +440,11 @@ export default {
     pollingPanel(timer) { //轮询手写面板
       // var userCode = cookie.getJSON('tenant')[0].userCode
       // var contractNo = sessionStorage.getItem('contractNo')
-      var t = Math.random()
+      let t = Math.random()
       //   contractNo = JSON.parse(contractNo)
-      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ this.contractNo +'/user/'+this.userCode+'/getSignatureImg?t='+t).then(function (res) {
+      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ this.contractNo +'/user/'+this.userCode+'/getSignatureImg?t='+t).then(res=> {
         this.canvasTest =  res.bodyText
+        console.log(res)
         if(res.bodyText != '') {
           var smCode = document.getElementById('smCode')
           smCode.style.display ='none';
