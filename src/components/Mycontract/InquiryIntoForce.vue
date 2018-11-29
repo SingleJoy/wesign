@@ -238,7 +238,7 @@ export default {
             var requestVo ={"contractName":this.inputVal3,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'3','accountCode':this.queryAccountCode};
             this.getData (requestVo)
         }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'3','accountCode':queryAccountCode};
+            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'3','accountCode':this.queryAccountCode};
             this.getData (requestVo)
         }
         } else {
