@@ -2260,14 +2260,12 @@ export default {
         },
         //获取授权日期
         getAuthDate(){
-            // getDate().then(res=>{
-            //     this.IdInfo.date=res.bodyText;
-            // }).catch(error=>{
+            getDate().then(res=>{
+                this.IdInfo.date=res.data;
+            }).catch(error=>{
 
-            // })
-            this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-                this.IdInfo.date=res.bodyText;
-            });
+            })
+            
         },
 
         //背面上传成功

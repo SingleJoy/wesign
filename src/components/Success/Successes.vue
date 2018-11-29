@@ -165,27 +165,12 @@
         }).catch(error=>{
 
         })
-        // this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-        //     if(res.sessionStatus == '0'){
-        //     this.$router.push('/Server')
-        //     } else {
-        //     this.signUser = res.data.signUserVo
-        //     var contractVo = res.data.contractVo
-        //     this.validTime = contractVo.validTime
-        //     }
-        // })
         signLink(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
-            this.contractLink = res.bodyText
+            this.contractLink = res.data
         }).catch(error=>{
 
         })
-        // this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
-        //     if(res.sessionStatus == '0'){
-        //     this.$router.push('/Server')
-        //     } else {
-        //     this.contractLink = res.bodyText
-        //     }
-        // })
+        
     },
     mounted() {
         

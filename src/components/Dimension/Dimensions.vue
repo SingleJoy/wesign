@@ -186,13 +186,18 @@ export default {
     }).catch(error=>{
 
     })
+    getSignature(this.interfaceCode).then(res=>{
+        this.contractSignImg = res.data
+    }).catch(error=>{
 
-    this.$http.get(urlPic).then(function (res) {
-      this.contractSignImg = res.bodyText
     })
-
-    this.$http.get(qrUrl,{params:{'contractNo':this.contractNo}}).then(function (res) {
-      this.qrSignImg = res.bodyText
+    let param={
+        'contractNo':this.contractNo
+    }
+    qRCode(this.userCode,param).then(res=>{
+        console.log(res)
+          this.qrSignImg = res.data
+    }).catch(error=>{
 
     })
 
@@ -438,14 +443,10 @@ export default {
       })
     },
     pollingPanel(timer) { //轮询手写面板
-      // var userCode = cookie.getJSON('tenant')[0].userCode
-      // var contractNo = sessionStorage.getItem('contractNo')
       let t = Math.random()
-      //   contractNo = JSON.parse(contractNo)
-      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ this.contractNo +'/user/'+this.userCode+'/getSignatureImg?t='+t).then(res=> {
-        this.canvasTest =  res.bodyText
-        console.log(res)
-        if(res.bodyText != '') {
+      getSignatureImg(this.contractNo,this.userCode,t).then(res=>{
+          this.canvasTest =  res.data
+        if(res.data != '') {
           var smCode = document.getElementById('smCode')
           smCode.style.display ='none';
         }
@@ -483,6 +484,8 @@ export default {
             this.recapture = true
           }
         },1000)
+      }).catch(error=>{
+
       })
     }
   },

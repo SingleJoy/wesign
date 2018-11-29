@@ -57,16 +57,16 @@ export function contractSignUser(contractNo) {
 }
 
 
-// getSignatureImg
+/* 轮询手写面板 */
 export function getSignatureImg(contractNo,userCode,t) {
   return request({
-    url: "api/v1.4/contract/" + contractNo + '/user/'+userCode+'/getSignatureImg',
+    url: "api/v1.4/contract/" + contractNo + '/user/'+userCode+'/getSignatureImg?t='+t,
     method: "get",
     params: ''
   })
 }
 
-// getSignature
+/* b2b获取签章 */
 export function getSignature(interfaceCode) {
   return request({
     url: "api/v1.4/tenant/" + interfaceCode +'/getSignature',
@@ -102,7 +102,6 @@ export function contractmoresign(interfaceCode,userCode,contractNo,param) {
   })
 }
 //签署成功
-
 export function signFinish(contractNo) {
   return request({
     url: "api/v1.4/contract/"+contractNo+'/signFinish',

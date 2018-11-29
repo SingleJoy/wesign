@@ -11,7 +11,6 @@ export function login(param){
 }
 /* 获取绑定企业 */
 export function bindEnterprises(param){
-    console.log(param)
     return request({
         url: "/api/v1.4/user/bindEnterprises",
         method: "get",
