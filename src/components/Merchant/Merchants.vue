@@ -313,7 +313,7 @@
 
         })
 
-        let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
+        let requestType=['bwaitForMeSign','bwaitForOtherSign','btakeEffect','bdeadline'];
         let responseType=['waitMe','waitOther','takeEffect','deadline']
         let param={
             accountCode:this.accountCode
@@ -326,7 +326,6 @@
 
             })
         }
-
         this.count = 0
     },
     mounted() {

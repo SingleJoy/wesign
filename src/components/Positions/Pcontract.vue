@@ -283,13 +283,6 @@ export default {
             }).catch(error=>{
 
             })
-            // this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-            //     if(res.data.sessionStatus == '0'){
-            //         this.$router.push('/Server')
-            //         } else {
-                    
-            //     }
-            // })
         } else {
             this.$alert('未指定完位置!','指定位置', {
                 confirmButtonText: '确定'
@@ -321,10 +314,6 @@ export default {
     }).catch(error=>{
 
     })
-	// this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractSignUser/'+this.$store.state.contractNo1).then(function (res) {
-    //   var signUserVo = res.data.dataList
-    //   this.signUserList = signUserVo
-    // })
     var data =[];
     contractImg(interfaceCode,this.$store.state.contractNo1).then(res=>{
         this.allpage = res.data.length
@@ -347,29 +336,6 @@ export default {
     }).catch(error=>{
 
     })
-    // this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-    //     if(res.data.sessionStatus == '0'){
-    //         this.$router.push('/Server')
-    //     }else{
-    //         this.allpage = res.data.length
-    //         this.$nextTick(() => {
-    //         this.initScroll()
-    //         this.calculateHeight()
-    //         })
-    //         for (let i = 0; i < res.data.length;i++) {
-    //         let contractUrl = res.data[i].contractUrl
-    //         data[i] = contractUrl
-    //         this.$loading.hide(); //隐藏
-    //         }
-    //         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-    //         probeType: 3,
-    //         scrollY: true,
-    //         preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
-    //         });
-    //         this.imgList = data
-    //     }
-    //     this.isAction = false;
-    // })
   },
   directives: {
     drag: {

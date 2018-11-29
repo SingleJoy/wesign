@@ -9,22 +9,16 @@ import qs from 'qs';
 
 
 const Axios = axios.create({
-  // baseURL: process.env.BASE_API,    // api的base_url
+
   timeout: 5000,                    // request timeout
   responseType: "json",
-  // transformRequest: [function (data) {
-  //   // 将数据转换为表单数据
-  //   let ret = ''
-  //   for (let it in data) {
-  //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-  //   }
-  //   return ret
-  // }],
+
   transformRequest: [function (data) {
     // 将数据转换为表单数据
-    data=qs.stringify(data)
+    data = qs.stringify(data)
     return data
   }],
+
 })
 
 
@@ -40,6 +34,9 @@ Axios.interceptors.request.use((config)=>{
 // 响应时拦截
 Axios.interceptors.response.use((response)=> {
     //做点什么
+    if(response.status==200){
+
+    }
 
     return response;
   },(error)=> {

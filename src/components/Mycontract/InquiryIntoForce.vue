@@ -220,13 +220,6 @@ export default {
         }).catch(error=>{
 
         })
-        // this.$http.get(url, {params: requestVo}).then(function (res) {
-        //     if(res.data.sessionStatus == '0'){
-        //     this.$router.push('/Server')
-        //     } else {
-        
-        //     }
-        // })
     },
     handleCurrentChange4(val) {
         this.currentPage3 = val

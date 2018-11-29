@@ -1,7 +1,13 @@
-/* 模板发起接口 */
-import request from "../utils/fetch";
+/* 我的账户、实名认证相关组件 */
+import request from '../utils/fetch'
 
-
+export function getDate(){
+    return request({
+        url: "/api/v1.5/user/getDate",
+        method: "get",
+        params: '' 
+    })
+}
 //modifyPassword 修改密码
 export function modifyPassword(param) {
   return request({
