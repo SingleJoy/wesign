@@ -6,19 +6,17 @@
 import Vue from 'vue'
 import axios from 'axios';
 import qs from 'qs';
+import {router} from '../router'
 
 
 const Axios = axios.create({
-
-  timeout: 5000,                    // request timeout
-  responseType: "text",
-
-  transformRequest: [function (data) {
-    // 将数据转换为表单数据
-    data = qs.stringify(data)
-    return data
-  }],
-
+    timeout: 5000,                    // request timeout
+    responseType: "text",
+    // ContentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+    transformRequest: [function (data) {  // 将数据转换为表单数据
+        data = qs.stringify(data)
+        return data
+    }], 
 })
 
 
@@ -27,15 +25,17 @@ Axios.interceptors.request.use((config)=>{
     //做点什么
     return config;
   },(error)=>{
-      //做点什么
+    //做点什么
     return Promise.reject(error);
   });
 
 // 响应时拦截
 Axios.interceptors.response.use((response)=> {
     //做点什么
-    if(response.status==200){
-
+    if(response.sessionStatus=='000000'){
+        router.replace({
+            path: '/',
+        })
     }
 
     return response;

@@ -705,9 +705,7 @@
       let param={
         accountCode:this.accountCode
       }
-
-      for(let i=0;i< requestType.length;i++){
-
+      for(var i=0;i< requestType.length;i++){
         let type =  requestType[i];
         server[requestType[i]](param,interfaceCode).then(res=>{
           this[type] = res.data.count

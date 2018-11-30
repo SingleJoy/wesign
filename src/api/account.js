@@ -13,7 +13,7 @@ export function modifyPassword(param) {
   return request({
     url: "api/v1.4/tenant/modifyPassword",
     method: "post",
-    params: param
+    data: param
   })
 }
 

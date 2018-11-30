@@ -438,7 +438,7 @@ export default {
   }
 }
 </script>
-<style lang="css" scoped>
+<style lang="css">
   @import "../../styles/TemplatePos/TemplatePoses.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";

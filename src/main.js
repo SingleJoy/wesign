@@ -14,7 +14,6 @@ import 'wc-loading/style.css'
 import moment  from 'moment'
 import BASE_URL from '../config/global'
 import { Message } from 'element-ui';
-import Axios from './utils/fetch'
 
 Es6Promise.polyfill()
 Vue.use(ElementUI)
@@ -34,9 +33,7 @@ new Vue({
   store,
   components: { App },
   created(){
-    // Axios.interceptors.response.use((response)=> {
-    //     console.log(response)
-    // })
+   
   },
   template: '<App/>'
 })
