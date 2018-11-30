@@ -306,6 +306,7 @@
       seeContractDetails () {
         var data =[];
         let url = process.env.API_HOST+'v1.4/contract/'+this.$store.state.rowNumber+'/signFinish';
+        
         b2bDetail(this.ContractCode).then(res=>{
             var contractType = res.data.data.contractType
             if(contractType == '0'){
