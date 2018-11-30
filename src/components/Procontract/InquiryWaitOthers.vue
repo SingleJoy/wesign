@@ -259,7 +259,7 @@ export default {
             this.getData(requestVo);
             }
         } else {
-            var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this,queryAccountCode};
+            var requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
             this.getData(requestVo);
         }
     },
