@@ -168,7 +168,7 @@
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
 
   import server from "@/api/url";
-  import {updateAccount,templateList,getAccountInfo} from '@/api/account'
+  import {updateAccount,templateList,getAccountInfo,getDate} from '@/api/account'
   export default {
     name: 'EditChildNoActives',
     component:{
@@ -315,8 +315,8 @@
     },
     methods: {
       changEvent(){
-        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-          this.date=res.bodyText;
+        getDate().then(res=> {
+          this.date=res.data;
         });
       },
       // 取消

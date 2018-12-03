@@ -19,3 +19,11 @@ export function sendSmsCodefourth(param){
     })
 }
 
+// exitAndDeleteSession 退出
+export function exitAndDeleteSession(param){
+  return request({
+    url:"api/v1/tenant/exitAndDeleteSession",
+    method:"get",
+    params:param
+  })
+}

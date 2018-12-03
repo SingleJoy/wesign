@@ -122,8 +122,7 @@
   import Account from "../Account"
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
-
-  import {updateAccount, getAccountInfo} from '@/api/account'
+  import {updateAccount, getAccountInfo,getDate} from '@/api/account'
 
   export default {
     name: 'AddChildAccounts',
@@ -244,18 +243,17 @@
     },
     methods: {
       changEvent(){
-        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
+       getDate().then(res=> {
+          this.date=res.data
+        }).catch(error=>{
 
-          this.date=res.bodyText;
-
-        });
+       })
       },
       // 取消
       quit(formName){
         this.$refs[formName].resetFields();
         this.$router.push('/Account');
       },
-
       //提交事件
       submitBtn(formName){
 

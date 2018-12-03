@@ -24,6 +24,7 @@
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
+import {exitAndDeleteSession} from '@/api/common'
 export default {
   name: 'Top',
       data() {
@@ -73,17 +74,16 @@ export default {
         })
       },
       signOut () {
-        this.$http.get(process.env.API_HOST+'v1/tenant/exitAndDeleteSession').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/')
-          } else {
+        exitAndDeleteSession().then(res=> {
             this.$message({
               showClose: true,
               message: res.body.message,
               type: 'success'
             })
             this.$router.push('/')
-          }
+
+        }).catch(error=>{
+
         })
       },
        tabActive(value){

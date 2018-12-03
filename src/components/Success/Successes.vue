@@ -165,15 +165,15 @@
         }).catch(error=>{
 
         })
-        signLink(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+       getSignLink(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
             this.contractLink = res.data
         }).catch(error=>{
 
         })
-        
+
     },
     mounted() {
-        
+
       sessionStorage.removeItem("type");
       sessionStorage.removeItem("needSign");
     }

@@ -9,26 +9,26 @@
             <span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
       </p> -->
       <div class='first' style="display: inherit;">
-            <p style="line-height: 60px;float: left;">
-                <span>我的合同</span>
-                <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-                <span style="color:#4091fb" v-else> >合同详情</span>
-            </p>
+        <p style="line-height: 60px;float: left;">
+          <span>我的合同</span>
+          <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+          <span style="color:#4091fb" v-else> >合同详情</span>
+        </p>
 
-            <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
-                <span class="department">{{accountName}}</span>
-                <!-- <span>张丽华</span> -->
-            </p>
+        <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
+          <span class="department">{{accountName}}</span>
+          <!-- <span>张丽华</span> -->
+        </p>
 
-            <p>
-                <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
-            </p>
+        <p>
+          <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+          <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
+        </p>
 
-        </div>
+      </div>
       <p class='second'>
       <div class="title">签署文件</div>
-        <span class='text'>
+      <span class='text'>
           <strong>当前状态：</strong>
           <span>{{status}}</span>
         </span>
@@ -114,19 +114,19 @@
         </el-table>
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
-        <div style="margin-top: 30px;margin-left: 70px;">
-            <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
-            <el-steps direction="vertical" :active=0>
-            <el-step :title=item.signUserName+item.logInfo
-                :description=item.signTime
-                v-for="(item,index) in History"
-                :key="index" icon="el-icon-location"
-                :class="{'currentStep':index == 0}"
-                style="font-size: 40px;height:100px;flex-basis: auto;">
-            </el-step>
-            </el-steps>
+      <div style="margin-top: 30px;margin-left: 70px;">
+        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+        <el-steps direction="vertical" :active=0>
+          <el-step :title=item.signUserName+item.logInfo
+                   :description=item.signTime
+                   v-for="(item,index) in History"
+                   :key="index" icon="el-icon-location"
+                   :class="{'currentStep':index == 0}"
+                   style="font-size: 40px;height:100px;flex-basis: auto;">
+          </el-step>
+        </el-steps>
 
-        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -153,29 +153,29 @@
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
   .main .first #sign-icon{
-        background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
-        height: 60px;
-        position: absolute;
-        text-align: center;
-        display: inline-block;
-        margin-left: 20px;
-        background-size: cover;
-        line-height: 44px;
-        padding-left: 35px;
-        padding-right: 15px;
-        span{
-            color:#fff;
-            font-size: 12px;
-            padding-left: 0;
-        }
-        .department{
-            font-size: 14px;
-            display: block;
-            font-weight: 500;
-            margin-top: 10px;
-        }
+    background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+    height: 60px;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    margin-left: 20px;
+    background-size: cover;
+    line-height: 44px;
+    padding-left: 35px;
+    padding-right: 15px;
+  span{
+    color:#fff;
+    font-size: 12px;
+    padding-left: 0;
+  }
+  .department{
+    font-size: 14px;
+    display: block;
+    font-weight: 500;
+    margin-top: 10px;
+  }
 
-    }
+  }
   .el-table--scrollable-x .el-table__body-wrapper{
     overflow: hidden;
   }
@@ -202,7 +202,7 @@
 
   .showDialogs{
     height: 700px;
-    // overflow-y: scroll;
+  // overflow-y: scroll;
     overflow: hidden;
   }
   .backHome{
@@ -217,43 +217,44 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
+  import {updateContractTime,b2bImgs,contractSignUserInfo} from '@/api/detail';
   export default {
     name: 'CompanyExcm',
     data() {
-        return {
-            baseURL:this.baseURL.BASE_URL,
-            tableData2: [],
-            contractNo:'',
-            contractName:'',
-            validTime:'',
-            status:'',
-            accountLevel:'',
-            createType:'',
-            dialogTableVisible: false,
-            imgList:[],
-            signMobile:'',
-            History:[],
-            businessScenario:'',
-            rowNumber:'',
-            hasClick:true,
-            pickerOptions0: {
-            disabledDate(time) {
-                return time.getTime() < Date.now() - 8.64e7;
-            }
-            },
-            checked3:false,
-            interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-            accountName:'',
-            accountCode :sessionStorage.getItem('accountCode'),
-            operator:'',
-            sponsorInterfaceCode:''//合同发起人的interfaceCode
-        };
+      return {
+        baseURL:this.baseURL.BASE_URL,
+        tableData2: [],
+        contractName:'',
+        validTime:'',
+        status:'',
+        accountLevel:'',
+        createType:'',
+        dialogTableVisible: false,
+        imgList:[],
+        signMobile:'',
+        History:[],
+        businessScenario:'',
+        rowNumber:'',
+        hasClick:true,
+        pickerOptions0: {
+          disabledDate(time) {
+            return time.getTime() < Date.now() - 8.64e7;
+          }
+        },
+        checked3:false,
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        accountName:'',
+        accountCode :sessionStorage.getItem('accountCode'),
+        operator:'',
+        sponsorInterfaceCode:'',//合同发起人的interfaceCode
+        contractNo:sessionStorage.getItem('contractNo'),
+      };
     },
     methods: {
       seeContractImg (){
         this.$loading.show(); //显示
-        var data =[];
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.rowNumber+'/contractimgs').then(function (res) {
+        let data =[];
+        b2bImgs(this.interfaceCode ,this.rowNumber).then(res=> {
           if(res.data.sessionStatus == '0'){
             this.$router.push('/Server')
           } else {
@@ -268,74 +269,78 @@
         this.dialogTableVisible = true
       },
       downloadClick () {
-        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.rowNumber;
-        var download = document.createElement('a');
+        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+ this.contractNo;
+        let download = document.createElement('a');
         document.body.appendChild(download)
         download.setAttribute('href',url);
         download.click()
       },
       seeContractDetails () {
-        var data =[];
+        let data =[];
         let url = process.env.API_HOST+'v1.4/contract/'+this.rowNumber+'/signFinish';
-        this.$http.get(url).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-            var contractType = res.data.data.contractType
-            if(contractType == '0'){
-              this.businessScenario = '企业对企业'
-            }
-            var contractNoZq = res.data.data.contractNoZq
-            this.contractName = res.data.data.contractName
-            var type = res.data.data.contractType
-            this.operator = res.data.data.operator
-            this.sponsorInterfaceCode = res.data.data.interfaceCode
-            switch (type) {
-              case '1':
-                this.createType = '模板发起'
+        b2bDetail(this.contractNo).then(res=> {
+
+          let contractType = res.data.data.contractType
+          if(contractType == '0'){
+            this.businessScenario = '企业对企业'
+          }
+          let contractNoZq = res.data.data.contractNoZq
+          this.contractName = res.data.data.contractName
+          let type = res.data.data.contractType
+          this.operator = res.data.data.operator
+          this.sponsorInterfaceCode = res.data.data.interfaceCode
+          switch (type) {
+            case '1':
+              this.createType = '模板发起'
+              break;
+            default:
+              this.createType = '上传发起'
+              break;
+          }
+          this.status = res.data.data.status
+          if(res.data.data.perpetualValid == '1'){
+            this.checked3 = true
+            this.validTime = ''
+          }else{
+            this.checked3 = false
+            this.validTime = res.data.data.validTime
+          }
+
+          let signUserVo = res.data.dataList
+          for (let i = 0; i < signUserVo.length;i++) {
+            let obj = {}
+            obj.signUserName = signUserVo[i].signUserName
+            obj.email = signUserVo[i].email
+            obj.userName = signUserVo[i].userName
+            obj.mobile = signUserVo[i].mobile
+            obj.idCard = signUserVo[i].idCard
+            obj.signStatus = signUserVo[i].signStatus
+            obj.userCode = signUserVo[i].userCode
+            switch ( obj.signStatus ){
+              case "0":
+                obj.signStatus = 0
                 break;
               default:
-                this.createType = '上传发起'
+                obj.signStatus = 1
                 break;
             }
-            this.status = res.data.data.status
-             if(res.data.data.perpetualValid == '1'){
-               this.checked3 = true
-                 this.validTime = ''
-             }else{
-               this.checked3 = false
-                this.validTime = res.data.data.validTime
-             }
-             
-            var signUserVo = res.data.dataList
-            for (let i = 0; i < signUserVo.length;i++) {
-              var obj = {}
-              obj.signUserName = signUserVo[i].signUserName
-              obj.email = signUserVo[i].email
-              obj.userName = signUserVo[i].userName
-              obj.mobile = signUserVo[i].mobile
-              obj.idCard = signUserVo[i].idCard
-              obj.signStatus = signUserVo[i].signStatus
-              obj.userCode = signUserVo[i].userCode
-              switch ( obj.signStatus ){
-                case "0":
-                  obj.signStatus = 0
-                  break;
-                default:
-                  obj.signStatus = 1
-                  break;
-              }
-              if (obj.idCard === null || obj.idCard === 'undefined') {
-                obj.idCard = ''
-              }
-              data[i] = obj
+            if (obj.idCard === null || obj.idCard === 'undefined') {
+              obj.idCard = ''
             }
-            this.tableData2 = data
-
-            this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.rowNumber+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-              this.History = res.data.dataList
-            })
+            data[i] = obj
           }
+          this.tableData2 = data
+          let params={
+            'contractNoZq':contractNoZq
+          }
+          contractSignUserInfo(params,this.contractNo).then(res=> {
+            this.History = res.data.dataList
+          }).catch(error=>{
+
+          })
+
+        }).catch(error=>{
+
         })
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
@@ -366,90 +371,91 @@
           this.validTime = ''
           this.hasClick = false
         }else{
-            this.hasClick = true 
+          this.hasClick = true
         }
       },
       dateModified () {  // 修改日期
         var perpetualValid = ''
-          if (this.checked3 == true){
-            perpetualValid = '1'
-            this.hasClick = false
-          } else {
-            perpetualValid = '0'
-             this.hasClick = true
+        if (this.checked3 == true){
+          perpetualValid = '1'
+          this.hasClick = false
+        } else {
+          perpetualValid = '0'
+          this.hasClick = true
+        }
+        if(this.validTime =='' && this.checked3 == false){
+          this.$message({
+            showClose: true,
+            message: '请选择时间选项!',
+            type: 'error'
+          })
+          return  false
+        } else {
+          this.hasClick = true;
+          let params={
+            'validTime':this.validTime,
+            'perpetualValid':perpetualValid
           }
-          if(this.validTime =='' && this.checked3 == false){
-            this.$message({
-              showClose: true,
-              message: '请选择时间选项!',
-              type: 'error'
-            })
-            return  false
-          } else {
-              this.hasClick = true;
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.rowNumber+'/updateContractTime',{'validTime':this.validTime,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
-              if(res.data.sessionStatus == '0'){
-                this.$router.push('/Server')
-              } else {
-                if( res.data.resultCode == 0){
-                  this.$message({
-                    showClose: true,
-                    message: res.data.resultMessage,
-                    type: 'success'
-                  });
-                  this.seeContractDetails()
-                }
-              }
-            })
-          }
+          updateContractTime(this.interfaceCode ,this.contractNo).then(res=> {
+
+            if( res.data.resultCode == 0){
+              this.$message({
+                showClose: true,
+                message: res.data.resultMessage,
+                type: 'success'
+              });
+              this.seeContractDetails()
+            }
+
+          }).catch(error=>{
+
+          })
+        }
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
-            // if(cookie.getJSON('state') == 'List'){
-            //     this.$router.push("/Home")
-            // }else{
-            //     this.$router.push("/Mycontract")
+        // if(cookie.getJSON('state') == 'List'){
+        //     this.$router.push("/Home")
+        // }else{
+        //     this.$router.push("/Mycontract")
 
-            if(cookie.getJSON('state')=='list'){
-                this.$router.push("/Procontract")
-                this.$store.dispatch('tabIndex',{tabIndex:1});
-            }else if(cookie.getJSON('state')=='home'){
-                this.$router.push("/Merchant")
-                this.$store.dispatch('tabIndex',{tabIndex:0});
-            }else if(cookie.getJSON('state')== 'Home'){
-                this.$router.push("/Home")
-                this.$store.dispatch('tabIndex',{tabIndex:0});
-            }else if(cookie.getJSON('state') == 'List'){
-                this.$router.push("/Mycontract")
-                this.$store.dispatch('tabIndex',{tabIndex:1});
-            }
+        if(cookie.getJSON('state')=='list'){
+          this.$router.push("/Procontract")
+          this.$store.dispatch('tabIndex',{tabIndex:1});
+        }else if(cookie.getJSON('state')=='home'){
+          this.$router.push("/Merchant")
+          this.$store.dispatch('tabIndex',{tabIndex:0});
+        }else if(cookie.getJSON('state')== 'Home'){
+          this.$router.push("/Home")
+          this.$store.dispatch('tabIndex',{tabIndex:0});
+        }else if(cookie.getJSON('state') == 'List'){
+          this.$router.push("/Mycontract")
+          this.$store.dispatch('tabIndex',{tabIndex:1});
+        }
 
       }
     },
     created() {
-        this.signMobile = cookie.getJSON('tenant')[0].mobile
-        var contractNo = sessionStorage.getItem('contractNo');
-        var accountLevel = sessionStorage.getItem('accountLevel');
-        var accountCode = sessionStorage.getItem('accountCode');
-        var detailAccountCode = sessionStorage.getItem('detailAccountCode');
-        if (contractNo) {
-            // contractNo = JSON.parse(contractNo)
-            this.rowNumber = contractNo
-        }
-        this.seeContractDetails ()
-        //判断是不是二级账户如果是不请求顶部显示部门姓名
-        if(accountLevel != 2){
-            let param={
-                accountCode:detailAccountCode
-            }
-            server.getAccountName(param,this.interfaceCode).then(res=>{
-                if(res.data.resultCode == 1){
-                    this.accountName = res.data.data
-                }
-            }).catch({
+      this.signMobile = cookie.getJSON('tenant')[0].mobile
 
-            })
+      var accountLevel = sessionStorage.getItem('accountLevel');
+      var accountCode = sessionStorage.getItem('accountCode');
+      var detailAccountCode = sessionStorage.getItem('detailAccountCode');
+
+      this.seeContractDetails ()
+      //判断是不是二级账户如果是不请求顶部显示部门姓名
+      if(accountLevel != 2){
+        let param={
+          accountCode:detailAccountCode
         }
+        server.getAccountName(param,this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.accountName = res.data.data
+          }
+        }).catch(error=>{
+
+        })
+      }
     }
   }
 </script>

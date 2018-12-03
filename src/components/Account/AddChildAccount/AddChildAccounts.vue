@@ -309,7 +309,7 @@
     methods:{
       //获取服务器时间
       changEvent(){
-        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(res=> {
+        getDate().then(res=> {
           this.date=res.data;
         }).catch(error=>{
 

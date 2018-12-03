@@ -180,6 +180,7 @@ import cookie from '@/common/js/getTenant'
                             message: "登录成功",
                             type: "success"
                         });
+                        console.log(res.data.dataList)
                         cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
                         this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
                         this.$router.push("/Merchant");
@@ -194,7 +195,7 @@ import cookie from '@/common/js/getTenant'
                         this.$store.dispatch("tabIndex", { tabIndex: 0 });
                         this.$router.push("/Home");
                     }
-                       
+
 				}).catch(error=>{
 					this.$message({
 						showClose: true,

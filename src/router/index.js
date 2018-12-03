@@ -40,7 +40,7 @@ import Success from '../components/Success/Success.vue' //平台方是否签署(
 import TemplatePos from '../components/TemplatePos/TemplatePos.vue' //平台方是否签署    (模板)
 import TemplateInfo from '../components/TemplateInfo/TemplateInfo.vue' //平台方是否签署(模板成功)
 //b2b
-import Company from '../components/Company/Company.vue'                                           //b2b 首页
+// import Company from '../components/Company/Company.vue'                                           //b2b 首页
 import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
 import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
 import EnterprisePayment from '../components/EnterpriseCertificate/EnterprisePayment/EnterprisePayment.vue'                              //企业打款
@@ -161,7 +161,7 @@ export const router = new Router({
             auth:true
         }
     },
-    
+
     {
       path: '/Forget',
       name: 'Forget',
@@ -412,14 +412,14 @@ export const router = new Router({
         auth: true
       }
     },
-    {
-      path: '/Company',
-      name: 'Company',
-      component: Company,
-      meta: {
-        auth: true
-      }
-    },
+    // {
+    //   path: '/Company',
+    //   name: 'Company',
+    //   component: Company,
+    //   meta: {
+    //     auth: true
+    //   }
+    // },
     {
       path: '/Enterprise',
       name: 'Enterprise',

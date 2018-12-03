@@ -7,23 +7,23 @@ export function b2bContrants(param,interfaceCode){
     return request({
         url: "/api/v1.4/tenant/" + interfaceCode +"/b2bContrants",
         method: "get",
-        params: param 
+        params: param
     })
 }
 /* b2b详情 */
-export function b2bDetail(contractNum){
+export function b2bDetail(contractNo){
     return request({
-        url: "/api/v1.4/contract/" + contractNum +"/signFinish",
+        url: "/api/v1.4/contract/" + contractNo +"/signFinish",
         method: "get",
-        params: '' 
+        params: ''
     })
 }
 /* b2b合同图片 */
-export function b2bImgs(interfaceCode,contractNum){
+export function b2bImgs(interfaceCode,contractNo){
     return request({
-        url: "/api/v1.4/tenant/" + interfaceCode +'/contract/' + contractNum +"/contractimgs",
+        url: "/api/v1.4/tenant/" + interfaceCode +'/contract/' + contractNo +"/contractimgs",
         method: "get",
-        params: '' 
+        params: ''
     })
 }
 
@@ -33,36 +33,43 @@ export function b2cContrantsDetail(interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode +'/contract/'+ contractNo+"/getContractDetails",
         method: "get",
-        params: '' 
+        params: ''
     })
 }
 /* b2c合同图片 */
-export function b2cImgs(interfaceCode,contractNum){
+export function b2cImgs(interfaceCode,contractNo){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode + '/contract/' + contractNum +"/contractimgs",
+        url: "/api/v1/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs",
         method: "get",
-        params: '' 
+        params: ''
     })
 }
 
 
 /* 签署历史 */
-export function contractSignUserInfo(param,contractNum){
+export function contractSignUserInfo(param,contractNo){
     return request({
-        url: "/api/v1.4/contract/" + contractNum +"/contractSignUserInfo",
+        url: "/api/v1.4/contract/" + contractNo +"/contractSignUserInfo",
         method: "get",
         params: param
     })
 }
 
 /* 提醒 */
-export function remind(param,interfaceCode,contractNum){
+export function remind(param,interfaceCode,contractNo){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode + "/contract/" + contractNum +"/remind",
+        url: "/api/v1/tenant/" + interfaceCode + "/contract/" + contractNo +"/remind",
         method: "get",
         params: param
     })
 }
 
-
+// updateContractTime  修改签署日期
+export function updateContractTime(param,interfaceCode,contractNo){
+  return request({
+    url: "/api/v1/tenant/" + interfaceCode + "/contract/" + contractNo +"/updateContractTime",
+    method: "post",
+    data: param
+  })
+}
 

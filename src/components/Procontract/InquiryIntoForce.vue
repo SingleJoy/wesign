@@ -112,10 +112,13 @@
 import cookie from "@/common/js/getTenant";
 import moment from "moment";
 import server from "@/api/url";
+import {b2bContrants} from "@/api/detail";
 export default {
   name: "InquiryWaitMe",
   data() {
     return {
+      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+      contractNo:sessionStorage.getItem("contractNo"),
         queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
@@ -157,22 +160,12 @@ export default {
   },
   methods: {
     getData(requestVo) {
-        var data = [];
-        var isCreater = '';
-        let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-      // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
-      let url =
-        process.env.API_HOST +
-        "v1.4/tenant/" +
-        cookie.getJSON("tenant")[1].interfaceCode +
-        "/b2bContrants";
-      this.$http.get(url, { params: requestVo }).then(function(res) {
-        if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
+        let data = [];
+        let isCreater = '';
+      b2bContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length; i++) {
-            var obj = {};
-             if (res.data.content[i].creater == currentFaceCode) {
+            let obj = {};
+             if (res.data.content[i].creater == this.interfaceCode) {
                 isCreater = true;
             } else {
                 isCreater = false;
@@ -210,8 +203,9 @@ export default {
           this.tableData2 = data;
           this.num = res.data.totalItemNumber;
           this.loading = false;
-        }
-      });
+      }).catch(error=>{
+
+      })
     },
     handleCurrentChange4(val) {
       if (
@@ -242,7 +236,7 @@ export default {
               .format()
               .slice(0, 10);
           }
-          var requestVo = {
+          let requestVo = {
             contractName: this.inputVal3,
             queryTimeStart: start,
             queryTimeEnd: end,
@@ -254,11 +248,11 @@ export default {
           };
           this.getData(requestVo);
         } else {
-          var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
+          let requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
           this.getData(requestVo);
         }
       } else {
-        var requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
+        let requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
         this.getData(requestVo);
       }
     },
@@ -270,12 +264,12 @@ export default {
     },
     contractInquiryIntoForce() {
       if (this.checked == true) {
-        var perpetualValid = "1";
+        let perpetualValid = "1";
       } else {
-        var perpetualValid = "";
+        let perpetualValid = "";
       }
-      var start = this.filters.column.create_start_date;
-      var end = this.filters.column.create_end_date;
+      let start = this.filters.column.create_start_date;
+      let end = this.filters.column.create_end_date;
       if (start == null) {
         start = null;
       } else {
@@ -290,7 +284,7 @@ export default {
           .format()
           .slice(0, 10);
       }
-      var requestVo = {
+      let requestVo = {
         contractName: this.inputVal3,
         queryTimeStart: start,
         queryTimeEnd: end,
@@ -335,13 +329,8 @@ export default {
     },
     downloadClick(row) {
       //下载
-      var url =
-        process.env.API_HOST +
-        "v1/contract/" +
-        cookie.getJSON("tenant")[1].interfaceCode +
-        "/" +
-        row.contractNum;
-      var up = document.createElement("a");
+      let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNum;
+      let up = document.createElement("a");
       document.body.appendChild(up);
       up.setAttribute("href", url);
       up.click();
@@ -357,7 +346,7 @@ export default {
     // }
   },
   created() {
-    var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3"};
+    let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3"};
     this.getData(requestVo);
   }
 };

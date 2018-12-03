@@ -113,30 +113,28 @@ export default {
     //   console.log(name,file,fileList)
     // },
     showImg () {
-      this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/signRoom/showSignRoomInfo',{emulateJSON:true}).then(function (res) {
+      showSignRoomInfo(this.interfaceCode).then(res=> {
 
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+
         this.inputData = res.data.data.signRoomLink;
         this.signRoomLogo = res.data.data.signRoomLogo;
         if(res.data.data.signRoomName){
             this.message = res.data.data.signRoomName;
         }
-          if(this.signRoomLogo==null ||this.signRoomLogo=='null'){
+        if(this.signRoomLogo==null ||this.signRoomLogo=='null'){
             this.showImage=false
-
           }else{
             this.showImage=true
-          }
         }
       })
     },
     saveImg () {
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/signRoom/saveSignRoomName',{params:{'signRoomName':this.message,'saveState':'1'}}).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+      let params={
+        'signRoomName':this.message,
+        'saveState':'1'
+      }
+      saveSignRoomName(this.interfaceCode,params).then(res=> {
+
         var infoStatus = res.data.status      //签约室后台返回状态
         var infomessage = res.data.message    //签约室后台返回正确值
         if(infoStatus == true) {
@@ -144,8 +142,10 @@ export default {
           message: infomessage,
           type: 'success'
           });
+
         }
-        }
+      }).catch(error=>{
+
       })
     }
   },

@@ -69,7 +69,7 @@ import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import {contractImg,b2cSignPosition,b2cSubmitSign} from '@/api/personal.js'
-import { contractmoresign} from '@/api/business.js'
+import { contractmoresign,signature} from '@/api/business.js'
 export default {
   name: 'Contents',
   data () {
@@ -134,7 +134,6 @@ export default {
   },
   created() {
 
-
     this.$loading.show(); //显示
     let data =[]
 
@@ -164,9 +163,11 @@ export default {
 
     })
 
-    let urlPic = process.env.API_HOST+'v1/user/'+ this.interfaceCode + '/signature';
-    this.$http.get(urlPic).then(res=> {
-      this.contractSignImg = res.bodyText
+
+    signature(this.interfaceCode).then(res=> {
+      this.contractSignImg = res.data
+    }).catch(error=>{
+
     })
   },
   methods:{

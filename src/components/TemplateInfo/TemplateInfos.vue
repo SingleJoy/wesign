@@ -93,13 +93,18 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import cookie from '@/common/js/getTenant'
+
 import clip from '@/common/js/clipboard.js' // use clipboard directly
-import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
+import clipboard from '@/common/directive/clipboard/index' // use clipboard by v-directive
+import {contractimgs,getContractDetails} from "@/api/template"
+import {getSignLink} from "@/api/personal"
 export default {
   data () {
     return {
       baseURL:this.baseURL.BASE_URL,
+      interfaceCode:sessionStorage.getItem("interfaceCode"),
+      contractNo:sessionStorage.getItem("contractNo"),
+      contractName:sessionStorage.getItem("contractName"),
       signUser:[],
       validTime:'',
       dialogTableVisible:false,
@@ -110,24 +115,22 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-      this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
       this.$router.push('/ContractInfo')
       this.$store.dispatch('tabIndex',{tabIndex:1});
 
     },
     seeContractImg (){
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+      let data =[];
+      contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
 
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
         for (let i = 0; i < res.data.length;i++) {
         let contractUrl = res.data[i].contractUrl
         data[i] = contractUrl
         }
         this.imgList = data
-        }
+
+      }).catch(error=>{
+
       })
       this.dialogTableVisible = true
     },
@@ -144,34 +147,19 @@ export default {
   },
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
-    var contractName = sessionStorage.getItem('contractName')
-    var contractNo = sessionStorage.getItem('contractNo')
 
-    if (contractName) {
-    //   contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
-
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+    getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
      this.signUser = res.data.signUserVo
-     var contractVo = res.data.contractVo
+     let  contractVo = res.data.contractVo
      this.validTime = contractVo.validTime
-        }
-    })
+    }).catch(error=>{
 
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
+    });
+
+    getSignLink(this.interfaceCode ,this.contractNo).then(res=> {
       this.contractlink = res.bodyText
+    }).catch(error=>{
+
     })
   },
   mounted() {

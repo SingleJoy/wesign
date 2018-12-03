@@ -62,6 +62,7 @@ export function getTemplateValAndImgs(interfaceCode,templateNo,accountCode) {
     params:''
   })
 }
+
 // template
 export function template(interfaceCode,param) {
   return request({
@@ -105,10 +106,19 @@ export function getContractDetails(interfaceCode,contractNo) {
     params:''
   })
 }
+
 export function contractimgs(interfaceCode,contractNo) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/contractimgs',
     method: "get",
     params:''
+  })
+}
+
+export function contractmoresign(interfaceCode,contractNo,param) {
+  return request({
+    url: "api/v1/tenant/"+interfaceCode+'/user/'+interfaceCode+'/contractmoresign/'+contractNo,
+    method: "post",
+    data: param
   })
 }

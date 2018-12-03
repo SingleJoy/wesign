@@ -52,7 +52,7 @@ export function contractDetail(interfaceCode,contractNo){
     })
 }
 /* 签署链接 */
-export function signLink(interfaceCode,contractNo){
+export function getSignLink(interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getSignLink",
         method: "get",

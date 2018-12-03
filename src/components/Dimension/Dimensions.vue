@@ -155,8 +155,6 @@ export default {
   created() {
 
     this.$loading.show(); //显示
-
-
     let urlPic = process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/getSignature'
     let qrUrl =  process.env.API_HOST+'v1.4/user/'+ this.userCode + '/qRCode'
 
