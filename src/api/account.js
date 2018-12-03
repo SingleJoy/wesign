@@ -169,7 +169,7 @@ export function qRCode(authorizerCode,param) {
 // showSignRoomInfo
 export  function showSignRoomInfo(interfaceCode) {
   return request({
-    url:"api/v1/tenant/"+interfaceCode+'signRoom/showSignRoomInfo',
+    url:"api/v1/tenant/"+interfaceCode+'/signRoom/showSignRoomInfo',
     method:"post",
     data:""
   })
@@ -178,7 +178,7 @@ export  function showSignRoomInfo(interfaceCode) {
 //saveSignRoomName
 export  function saveSignRoomName(interfaceCode,param) {
   return request({
-    url:"api/v1/tenant/"+interfaceCode+'signRoom/saveSignRoomName',
+    url:"api/v1/tenant/"+interfaceCode+'/signRoom/saveSignRoomName',
     method:"get",
     params:param
   })

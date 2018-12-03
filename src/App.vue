@@ -21,6 +21,9 @@ background: #f5f5f5;
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
+.el-table__row td{
+  text-align: center;
+}
 .el-button--primary{
     color: #fff;
     background-color: #4091fb;

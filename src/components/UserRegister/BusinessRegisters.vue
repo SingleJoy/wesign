@@ -74,6 +74,7 @@
 	import {GetQueryString} from '@/common/js/InterceptUrl';
 	import md5 from "js-md5";
 	import server from "@/api/url";
+	import certification from "@/api/certification";
 	export default {
 		name: "BusinessRegisters",
 		data() {
@@ -214,11 +215,13 @@
             },
 
             sendInfo(){
-                this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-                    params: {
-                        'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-                    }
-                }).then(res => {
+			       let params={
+               'mobile': this.ruleForm.mobile,
+               'smsNo': this.smsNo,
+               'smsCode': this.ruleForm.code,
+               'appId': this.appId
+            }
+              certification.smsValite(params).then(res => {
                     if(res.body.resultCode == 1) {
                         //验证码有效提交注册信息
                         this.compangSave();
@@ -279,8 +282,12 @@
 							//console.log('已存在');
 						} else {
 							//获取验证码
-							this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.ruleForm.mobile,'interfaceCode': this.num}, {emulateJSON: true}).then(function (res) {
-								// console.log(res);
+              let params= {
+                'mobile': this.ruleForm.mobile,
+                'interfaceCode': this.num
+              }
+             server.smsCode(params).then(res=> {
+
 								if(res.body.resultCode == 1) {
 									this.smsNo = res.body.smsNo;
 									this.appId= res.body.appId

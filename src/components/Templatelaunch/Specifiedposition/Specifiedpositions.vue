@@ -76,11 +76,16 @@
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
+  import {contractDetail,contractImg,signerpositions} from '@/api/personal'
   export default {
     name: 'Specifiedpositions',
     data () {
       return {
         baseURL:this.baseURL.BASE_URL,
+        contractNo:sessionStorage.getItem('contractNo'),
+        templateNo:sessionStorage.getItem('templateNo'),
+        templateName:sessionStorage.getItem('templateName'),
+        interfaceCode:sessionStorage.getItem('interfaceCode'),
         current:0,
         showItem:0,
         allpage:0,
@@ -107,16 +112,16 @@
       },
       pages:function(){
         this.showItem = 10;
-        var pag = [];
+        let pag = [];
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
           //总页数和要显示的条数那个大就显示多少条
-          var i = Math.min(this.showItem,this.allpage);
+          let i = Math.min(this.showItem,this.allpage);
           while(i){
             pag.unshift(i--);
           }
         }else{ //当前页数大于显示页数了
-          //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-          var middle = this.currentIndex + 1
+
+          let middle = this.currentIndex + 1
           i = this.showItem;
           if( middle >  (this.allpage - this.showItem)  ){
             middle = (this.allpage - this.showItem) + 1
@@ -214,25 +219,25 @@
 
       },
       nextStepFit(){
-        var imgHeight = document.getElementById('signImg').clientHeight
-        var imgWidth = document.getElementById('signImg').clientWidth
-        var signBox = document.getElementsByClassName('signBox')
-        var len = document.getElementById('more').getElementsByTagName('dl').length           //获取签署人个数
-        var arr =[]
-        var param = ""
-        var sign_length = document.getElementById('more').childNodes
-        for (var i=0;i<sign_length.length;i++){
-          var elementNum = sign_length[i].childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join('')
+        let imgHeight = document.getElementById('signImg').clientHeight
+        let imgWidth = document.getElementById('signImg').clientWidth
+        let signBox = document.getElementsByClassName('signBox')
+        let len = document.getElementById('more').getElementsByTagName('dl').length           //获取签署人个数
+        let arr =[]
+        let param = ""
+        let sign_length = document.getElementById('more').childNodes
+        for (let i=0;i<sign_length.length;i++){
+          let elementNum = sign_length[i].childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join('')
           arr.push(elementNum)
         }
         if( arr.indexOf("0") == -1){
-          for (var i = 0; i<signBox.length; i++ ) {
-            var userId = signBox[i].childNodes[2].value                                         //获取签署人的标示id
-            var topY = parseInt(signBox[i].style.top)                                           //获取用户签章的top值
-            var leftX = parseInt(signBox[i].style.left)                                         //获取用户签章的left值
-            var  pageNo = parseInt(topY/imgHeight)                                              //获取页数
-            var offsetY = (topY-(imgHeight)*pageNo)/imgHeight                                   //获取签章相对于合同的偏移量
-            var offsetX  = leftX/imgWidth;                                                      //获取签章相对于合同的偏移量
+          for (let i = 0; i<signBox.length; i++ ) {
+            let userId = signBox[i].childNodes[2].value                                         //获取签署人的标示id
+            let topY = parseInt(signBox[i].style.top)                                           //获取用户签章的top值
+            let leftX = parseInt(signBox[i].style.left)                                         //获取用户签章的left值
+            let  pageNo = parseInt(topY/imgHeight)                                              //获取页数
+            let offsetY = (topY-(imgHeight)*pageNo)/imgHeight                                   //获取签章相对于合同的偏移量
+            let offsetX  = leftX/imgWidth;                                                      //获取签章相对于合同的偏移量
             if(i == len-1){
               param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
 
@@ -240,11 +245,10 @@
               param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
             }
           }
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
+
+          signerpositions(param,this.interfaceCode ,this.contractNo).then(res=> {
             if(res.data.resultCode == '0') {
-              this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-              sessionStorage.setItem('contractName',this.$store.state.templateName)
-              sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+
               this.$router.push('/Contractsign')
             }else if(res.data.resultCode==1){
                 this.$confirm(
@@ -268,6 +272,8 @@
                 type: 'error'
               })
             }
+          }).catch(error=>{
+
           })
         } else {
           this.$alert('位置未指定完成!','指定位置', {
@@ -277,42 +283,21 @@
       }
     },
     created () {
-      var templateName = sessionStorage.getItem('templateName')
-      var templateNo = sessionStorage.getItem('templateNo')
-      var contractNo = sessionStorage.getItem('contractNo')
 
-      if (templateName) {
 
-        if ( this.$store.state.templateName == ''){
-          this.$store.state.templateName = templateName
-        }
-      }
-      if (contractNo) {
-        // contractNo = contractNo
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-      if (templateNo) {
-        // templateNo = templateNo
-        if ( this.$store.state.templateNo == ''){
-          this.$store.state.templateNo = templateNo
-        }
-      }
       this.$loading.show(); //显示
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+contractNo+ '/getContractDetails').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          var signUserVo = res.data.signUserVo
+      contractDetail(this.interfaceCode,this.contractNo).then(res=>{
+
+          let signUserVo = res.data.signUserVo
           this.signUserList = signUserVo
-        }
-      })
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+contractNo+'/contractimgs').then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+
+      }).catch(error=>{
+
+      });
+
+      let data =[];
+      contractImg(this.interfaceCode ,this.contractNo).then(res=> {
+
           this.allpage = res.data.length
           this.$nextTick(() => {
             this._initScroll()
@@ -329,8 +314,7 @@
             preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
           });
           this.imgList = data
-        }
-        this.isAction = false;
+          this.isAction = false;
       })
       this.$loading.hide(); //显示
     },

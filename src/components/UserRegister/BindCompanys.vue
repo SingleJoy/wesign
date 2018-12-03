@@ -100,6 +100,7 @@ import md5 from "js-md5";
 //import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 import {GetQueryString} from '@/common/js/InterceptUrl'
+import certification from '@/api/certification'
 export default {
 	name: "IndividualRegisters",
 	data() {
@@ -207,12 +208,12 @@ export default {
         if(getinterfaceCode){
             this.interfaceCode = getinterfaceCode
             server.getUrlMobile(getinterfaceCode).then(res=>{
-               
+
                     this.ruleForm.tenantName = res.data.data.tenantName;
                     this.ruleForm.userName = res.data.data.userName;
                     this.ruleForm.mobile = res.data.data.mobile;
-               
-                
+
+
             }).catch(error=>{
 
             })
@@ -242,7 +243,7 @@ export default {
     },
 	methods: {
           mouseoverFn(e){
-            
+
             this.slideShow=true
         },
         mouseoutFn(e){
@@ -275,7 +276,7 @@ export default {
                     e.stopPropagation();
                 };
                 l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left;  //移动距离
-                maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离  
+                maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离
                 // console.log(l,maxWin,that.$refs.handle.getBoundingClientRect().width)
                 if(l < 0){
                     l = 0
@@ -326,7 +327,7 @@ export default {
                 }else{                         //滑动失败
                     that.slideFaild(l);
                 }
-            } 
+            }
         },
 
         //切换图片
@@ -362,7 +363,7 @@ export default {
                     that.slideText="向右拖动滑块拼图验证"
                 },500)
             }
-            
+
         },
         //滑动成功但未输入手机号或手机号输入格式不正确
         slideSuccessNoName(l){
@@ -501,11 +502,14 @@ export default {
 		submitForm(formName) {
                 if(this.codeSure) {
                     //验证码是否正确
-                    this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-                        params: {
-                            'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-                        }
-                    }).then(res => {
+                  let params={
+                     'mobile': this.ruleForm.mobile,
+                    'smsNo': this.smsNo,
+                    'smsCode': this.ruleForm.code,
+                    'appId': this.appId
+
+                  }
+                  certification.smsValite(params).then(res => {
                         if(res.data.resultCode == 1) {
                             //个人绑定企业提交
                             server.bindEnterpress({
@@ -531,7 +535,7 @@ export default {
                                         });
                                     }
                                 }).catch(error => {
-                                    
+
                             });
                         } else {
                             this.$message({
@@ -542,7 +546,7 @@ export default {
                         }
 
                     }).catch(error => {
-                      
+
                     })
                 } else {
                     this.$message({
@@ -551,8 +555,8 @@ export default {
                         type: 'error'
                     });
                 }
-				
-		
+
+
 		}
 	}
 }

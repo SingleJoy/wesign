@@ -1,7 +1,7 @@
 <template>
-  <div class='ContractInfos' style="margin-top: 20px;">
-    <div class='main'>
-      <div class='first' style="display: inherit;">
+  <div class="ContractInfos"style="margin-top: 20px;">
+    <div class="main">
+      <div class="first" style="display: inherit;">
         <p style="line-height: 60px;float: left;">
           <span>我的合同</span>
           <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
@@ -17,14 +17,14 @@
         </p>
 
       </div>
-    
+
       <div class="title">签署文件</div>
        <div class="line"></div>
       <span class="text">
         <strong>当前状态：</strong>
         <span>{{status}}</span>
        </span>
-  
+
       <div class="three" style="text-align: left;">
         <p class="details">
           <strong style="line-height: 20px;">合同文件：</strong><span class="contract_Name" :title="contractName">{{contractName}}</span>
@@ -44,7 +44,7 @@
       <div class="table" style="width: 1200px;padding: 15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
-          style="width: 100%;text-align:center"
+          style="width: 100%;text-align:center;"
           :header-cell-style="getRowClass"
         >
           <el-table-column
@@ -106,7 +106,6 @@
 @import "../../common/styles/content.scss";
   .ContractInfos .main .title{
     height: 46px;
-    // margin: -65px 0 0 15px;
     line-height: 46px;
     padding-left: 40px;
     color: #fff;
@@ -183,6 +182,7 @@
   .el-table th>.cell{
     text-align: center;
   }
+
 
   .showDialogs{
     height: 700px;

@@ -15,8 +15,8 @@ export function contractImg(interfaceCode,contractNo){
 export function perfectContract(param,interfaceCode,contractNo){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/perfectContract",
-        method: "get",
-        params: param
+        method: "post",
+        data: param
     })
 }
 /* 数据回显 */

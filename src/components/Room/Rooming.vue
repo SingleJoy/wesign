@@ -64,6 +64,7 @@
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
 import cookie from '@/common/js/getTenant'
+import {showSignRoomInfo} from '@/api/account'
 export default {
   name: 'Rooming',
   data () {

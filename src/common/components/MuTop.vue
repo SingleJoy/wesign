@@ -106,6 +106,7 @@
   import {validatePassWord} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import Version from '@/common/components/Version.vue'
+  import {exitAndDeleteSession} from '@/api/common'
   export default {
     name: 'MuTop',
     components:{
@@ -132,7 +133,7 @@
       this.tabIndex = this.$store.state.tabIndex;
       this.auditStatus=sessionStorage.getItem("auditStatus");
 
-      var Status = cookie.getJSON('tenant')[1].isBusiness
+      let Status = cookie.getJSON('tenant')[1].isBusiness
       if(Status == '0'){
         this.Jurisdiction = false
       }else {
@@ -157,9 +158,9 @@
         return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
       },
       handleChange (name, file, fileList) {
-        var max_size = 5;// 5M
-        var fileContName = name.name.replace(/\s+/g, "")
-        var reg= /[.](docx|pdf|doc|txt)$/
+        let max_size = 5;// 5M
+        let fileContName = name.name.replace(/\s+/g, "")
+        let reg= /[.](docx|pdf|doc|txt)$/
         if(!reg.test(fileContName)){
           this.$message({
             showClose: true,
@@ -190,17 +191,17 @@
 
       // },
       fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-        var contractName = file.name.replace(/\s+/g, "")
-        var contractNo = file.response.contractNo
-        var resultCode = file.response.resultCode
+        let contractName = file.name.replace(/\s+/g, "")
+        let contractNo = file.response.contractNo
+        let resultCode = file.response.resultCode
         if(  this.uploadFile == true ){
           this.$message({
             showClose: true,
             message: '上传成功',
             type: 'success'
           });
-          var index1=contractName.lastIndexOf(".");
-          var suffix=contractName.slice(0,index1);
+          let index1=contractName.lastIndexOf(".");
+          let suffix=contractName.slice(0,index1);
           this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
           sessionStorage.setItem('contractName', suffix)
           sessionStorage.setItem('contractNo', contractNo)
@@ -208,17 +209,17 @@
         }
       },
       fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-        var contractName = file.name.replace(/\s+/g, "")
-        var contractNo = file.response.contractNo
-        var resultCode = file.response.resultCode
+        let contractName = file.name.replace(/\s+/g, "")
+        let contractNo = file.response.contractNo
+        let resultCode = file.response.resultCode
         if(  this.uploadFile == true ){
           this.$message({
             showClose: true,
             message: '上传成功',
             type: 'success'
           });
-          var index1=contractName.lastIndexOf(".");
-          var suffix=contractName.slice(0,index1);
+          let index1=contractName.lastIndexOf(".");
+          let suffix=contractName.slice(0,index1);
           this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
           sessionStorage.setItem('contractName', suffix)
           sessionStorage.setItem('contractNo', contractNo)
@@ -270,17 +271,15 @@
         })
       },
       signOut () {
-        this.$http.get(process.env.API_HOST+'v1/tenant/exitAndDeleteSession').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/')
-          } else {
-            this.$message({
+        exitAndDeleteSession().then(res=> {
+          this.$message({
               showClose: true,
               message: res.body.message,
               type: 'success'
             })
             this.$router.push('/')
-          }
+        }).catch(error=>{
+
         })
       }
     }

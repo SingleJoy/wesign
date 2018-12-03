@@ -39,13 +39,14 @@ import Whether from '../components/Whether/Whether.vue' //平台方是否签署
 import Success from '../components/Success/Success.vue' //平台方是否签署(成功)
 import TemplatePos from '../components/TemplatePos/TemplatePos.vue' //平台方是否签署    (模板)
 import TemplateInfo from '../components/TemplateInfo/TemplateInfo.vue' //平台方是否签署(模板成功)
+
 //b2b
 // import Company from '../components/Company/Company.vue'                                           //b2b 首页
-import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
+// import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
 import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
 import EnterprisePayment from '../components/EnterpriseCertificate/EnterprisePayment/EnterprisePayment.vue'                              //企业打款
 import EnterpriseRegisterSucc from '../components/EnterpriseCertificate/EnterpriseRegisterSucc/EnterpriseRegisterSucc.vue'                              //企业打款
-import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
+// import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
 import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
 
 import Account from '../components/Account/Account.vue'                              //个人账户(签章，账号管理)
@@ -420,22 +421,22 @@ export const router = new Router({
     //     auth: true
     //   }
     // },
-    {
-      path: '/Enterprise',
-      name: 'Enterprise',
-      component: Enterprise,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/Payment',
-      name: 'Payment',
-      component: Payment,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/Enterprise',
+    //   name: 'Enterprise',
+    //   component: Enterprise,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/Payment',
+    //   name: 'Payment',
+    //   component: Payment,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
         path: '/EnterprisePayment',
         name: 'EnterprisePayment',
@@ -449,14 +450,14 @@ export const router = new Router({
       name: 'EnterpriseRegisterSucc',
       component: EnterpriseRegisterSucc,
     },
-    {
-      path: '/WaitReply',
-      name: 'WaitReply',
-      component: WaitReply,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/WaitReply',
+    //   name: 'WaitReply',
+    //   component: WaitReply,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
       path: '/Completion',
       name: 'Completion',
