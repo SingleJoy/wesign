@@ -13,6 +13,7 @@ const glob = require('glob');
 const PurifyCSSPlugin = require('purifycss-webpack');
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+// const ImageminPlugin = require('imagemin-webpack-plugin').default
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -69,7 +70,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new PurifyCSSPlugin({
       // Give paths to parse for rules. These should be absolute!
       paths: glob.sync(path.join(__dirname, './src/*.html')),
-    }) //src目录下的所有html模板都会被影响
+    }), 
+    // new ImageminPlugin({
+    //     disable: process.env.NODE_ENV !== 'production', // Disable during development
+    //     pngquant: {
+    //       quality: '95-100'
+    //     }
+    // }),
+    // new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
+
   ]
 })
 

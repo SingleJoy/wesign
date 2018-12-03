@@ -306,8 +306,9 @@
       seeContractDetails () {
         var data =[];
         // let url = process.env.API_HOST+'v1.4/contract/'+this.$store.state.rowNumber+'/signFinish';
-        b2bDetail(this.contractNo).then(res=>{
-            let contractType = res.data.data.contractType
+        
+        b2bDetail(this.ContractCode).then(res=>{
+            var contractType = res.data.data.contractType
             if(contractType == '0'){
               this.businessScenario = '企业对企业'
             }

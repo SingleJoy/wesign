@@ -193,7 +193,6 @@ export default {
         'contractNo':this.contractNo
     }
     qRCode(this.userCode,param).then(res=>{
-        console.log(res)
           this.qrSignImg = res.data
     }).catch(error=>{
 
