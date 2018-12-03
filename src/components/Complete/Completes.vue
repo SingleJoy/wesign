@@ -171,7 +171,7 @@ export default {
 
     })
     //获取签署链接
-    signLink(this.interfaceCode,contractNo).then(res=>{
+   getSignLink(this.interfaceCode,contractNo).then(res=>{
           this.contractlink = res.data
     }).catch(error=>{
 

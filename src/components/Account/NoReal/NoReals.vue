@@ -157,7 +157,9 @@
         this.centerDialogVisible = false
       },
       realName() {
+        console.log("111"+cookie.getJSON('tenant'))
         var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+
         this.$store.dispatch('tabIndex',{tabIndex:5});
         if(auditSteps==2){
             this.$router.push('/EnterprisePayment');

@@ -120,6 +120,8 @@ import {b2bContrants} from "@/api/detail";
 export default {
   data() {
     return {
+      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+      contractNo:sessionStorage.getItem("contractNo"),
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
@@ -130,7 +132,6 @@ export default {
         num: '',
         value:'',
         queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
-        interfaceCode:cookie.getJSON("tenant")[1].interfaceCode,
         options:[],
         loading: true,
         inputVal:'',
@@ -172,12 +173,11 @@ export default {
     getData (requestVo) {
     let data =[];
     let isCreater = '';
-    let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
 
       b2bContrants(requestVo,this.interfaceCode).then(res=> {
 
         for (let i = 0; i < res.data.content.length;i++) {
-            var obj = {}
+            let obj = {}
             if (res.data.content[i].creater == this.interfaceCode) {
                 isCreater = true;
             } else {
@@ -321,15 +321,7 @@ export default {
       up.setAttribute('href',url);
       up.click()
     }
-    // getStartTime(){ //日期
-    //   var d = this.value8;
-    //   this.formStartTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'00:00:00';
-    // },
-    // /*得到搜索条件的结束时间*/
-    // getEndTime(){
-    //   var d = this.value9;
-    //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
-    // }
+
   },
    created() {
     this.auditStatus = cookie.getJSON('tenant')[1].auditStatus

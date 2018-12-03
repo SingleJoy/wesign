@@ -66,9 +66,9 @@ const service = {
         })
     },
       //登录接口
-      login(param) {
+      login(param,interfaceCode) {
         return request({
-        url: '/api/v1/tenant/login',
+        url: '/api/v1.4/tenant/'+ interfaceCode+'/homePage',
         method: 'get',
         params: param
         })

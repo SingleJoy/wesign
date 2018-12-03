@@ -223,7 +223,6 @@
         this.province=val[0]
         this.city=val[1]
       },
-
     sendCode(){
         let mobile=this.legalForm.legalMobile;
         if(!mobile){
@@ -263,23 +262,22 @@
                 codeInfo.innerText =  curCount + '秒'
                 this.smsNum = smsNo
                 codeInfo.setAttribute('disabled', 'true')
-                let that = this
-                timer = setInterval(function () {
+
+                timer = setInterval(()=> {
                     codeInfo.innerText =  (curCount - 1) + '秒'
                     if (curCount === 0) {
                     codeInfo.innerText = '获取'
                     clearInterval(timer)
                     codeInfo.removeAttribute('disabled')
-                    that.repeat = false
+                    this.repeat = false
                     } else {
                     curCount--
                     }
                 }, 1000)
                 }else{
-                let that =this;
 
-                that.smsNo = false
-                that.repeat = false
+                this.smsNo = false
+                this.repeat = false
 
                 this.$alert(res.data.resultMessage,'提示', {
                     confirmButtonText: '确定'
@@ -298,8 +296,8 @@
             this.verifySub = true;
             if(valid){
                 let param={
-                    'mobile': this.legalForm.legalMobile, 
-                    'smsNo': this.smsNoVer, 
+                    'mobile': this.legalForm.legalMobile,
+                    'smsNo': this.smsNoVer,
                     'smsCode': this.legalForm.phoneCode,
                     'appId': this.appId
                 }
@@ -321,27 +319,27 @@
                             'mobile':this.legalForm.legalMobile,
                             'interfaceCode':this.interfaceCode,
                         };
-                        let that=this;
-                        server.unfreezeRemittance(params).then(function (res) {
+
+                        server.unfreezeRemittance(params).then(res=> {
                             if (res.data.resultCode == '1') {
-                                that.verifySub = false
-                                that.$message({
+                                this.verifySub = false
+                                this.$message({
                                     showClose: true,
                                     message: res.data.resultMessage,
                                     type: 'success'
                                 })
-                                that.dialogAgreement=false;
-                                that.ruleForm.paymentNum='';
-                                that.legalForm.IDcard='';
-                                that.legalForm.legalMobile='';
-                                that.legalForm.phoneCode='';
+                                this.dialogAgreement=false;
+                                this.ruleForm.paymentNum='';
+                                this.legalForm.IDcard='';
+                                this.legalForm.legalMobile='';
+                                this.legalForm.phoneCode='';
                             } else {
-                                that.$message({
+                                this.$message({
                                     showClose: true,
                                     message: res.data.resultMessage,
                                     type: 'error'
                                 })
-                                that.dialogAgreement=false;
+                                this.dialogAgreement=false;
                             }
                         })
                     }
@@ -409,25 +407,27 @@
 
       //轮询
       pollingPanel(timer){ //轮询打款状态
-        let that = this;
-        server.moneyStatus(this.interfaceCode).then(function (res) {
+
+        server.moneyStatus(this.interfaceCode).then(res=> {
           if(res.data.resultCode=='1') {
-            clearInterval(that.timer);
-            that.timer = null;
+            clearInterval(this.timer);
+            this.timer = null;
           }else if(res.data.resultCode=='-4'){
-            if(that.time>(1000*60*60)){
-              clearInterval(that.timer);
-              that.timer = null;
+            if(this.time>(1000*60*60)){
+              clearInterval(this.timer);
+              this.timer = null;
             }
           }else if(res.data.resultCode=='-1'){
-            clearInterval(that.timer);
-            that.timer = null;
-            that.$alert(res.data.resultMessage, '提示',{
+            clearInterval(this.timer);
+            this.timer = null;
+            this.$alert(res.data.resultMessage, '提示',{
                 confirmButtonText: '确定'
               }).then(()=>{
-                   that.$router.push('/EnterpriseCertificate')
+                   this.$router.push('/EnterpriseCertificate')
               });
           }
+
+        }).catch(error=>{
 
         })
       },
@@ -459,17 +459,14 @@
       })
 
       // 轮询查找打款进度信息
-      let that = this;
+
       let timer = null;
-    //   setTimeout(function(){
-        this.timer = setInterval(function () {
-            that.pollingPanel(this.timer)
+        this.timer = setInterval(()=> {
+            this.pollingPanel(this.timer)
         }, 3000);
-    //   },3000)
-      
 
       setInterval(function () {
-        that.time=that.time+1;
+        this.time=this.time+1;
       },1000)
 
     }

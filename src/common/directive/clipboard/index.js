@@ -10,4 +10,5 @@ if (window.Vue) {
 }
 
 Clipboard.install = install
+
 export default Clipboard

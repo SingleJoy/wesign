@@ -219,15 +219,9 @@ export default {
             this.num = res.data.totalItemNumber;
             this.loading = false;
         }).catch(error=>{
-            
+
         })
-        // this.$http.get(url, { params: requestVo }).then(function(res) {
-        //     if (res.data.sessionStatus == "0") {
-        //     this.$router.push("/Server");
-        //     } else {
-            
-        //     }
-        // });
+
     },
     handleCurrentChange4(val) {
           this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;

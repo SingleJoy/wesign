@@ -110,3 +110,11 @@ export function signFinish(contractNo) {
   })
 }
 
+// signature
+export function signature(interfaceCode) {
+  return request({
+    url: "api/v1.4/user/"+interfaceCode+'/signature',
+    method: "get",
+    params: ''
+  })
+}
