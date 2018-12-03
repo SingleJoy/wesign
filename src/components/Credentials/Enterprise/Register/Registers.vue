@@ -143,6 +143,7 @@
   </div>
 </template>
 <script>
+  import cookie from '@/common/js/getTenant'
   import { Message } from 'element-ui';
   import {validateMoblie,validatePassWord} from '../../../../common/js/validate.js'
   import {GetQueryString} from '@/common/js/InterceptUrl'
@@ -438,7 +439,10 @@
               var auditSteps = res.data.dataList[0].auditSteps //个人认证步数
               var auditStatus = res.data.dataList[1].auditStatus   //企业通过状态
               var companySteps = res.data.dataList[1].auditSteps  //企业认证步骤
-              sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
+              var enterpriseName=res.data.dataList[1].companyName
+              sessionStorage.setItem('enterpriseName',enterpriseName)
+              cookie.set('enterpriseName',enterpriseName)
+              console.log(enterpriseName)
               if(authStatus == '1' && auditStatus == '2'){
                 this.$message({
                   showClose: true,
