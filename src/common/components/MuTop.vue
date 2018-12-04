@@ -274,7 +274,7 @@
         exitAndDeleteSession().then(res=> {
           this.$message({
               showClose: true,
-              message: res.body.message,
+              message: res.data.message,
               type: 'success'
             })
             this.$router.push('/')
