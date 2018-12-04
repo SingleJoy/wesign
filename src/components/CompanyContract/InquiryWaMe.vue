@@ -173,10 +173,10 @@ export default {
       }
     },
     getRecord (requestVo) {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-        let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/b2bContrants';
+
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
                 if(res.data.content[i].creater == currentFaceCode){
@@ -184,7 +184,7 @@ export default {
                 }else{
                     isCreater = false;
                 }
-                var obj = {}
+                let obj = {}
                 obj.contractName = res.data.content[i].contractName;
                 obj.contractNum = res.data.content[i].contractNum;
                 obj.createTime = res.data.content[i].createTime;
@@ -232,11 +232,11 @@ export default {
           var perpetualValid = ''
         }
         if(this.inquiry == true){
-          var start = this.filters.column.create_start_date
-          var end =   this.filters.column.create_end_date
+          let start = this.filters.column.create_start_date
+          let end =   this.filters.column.create_end_date
           if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
           if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-          var requestVo ={
+          let requestVo ={
                 "contractName":this.inputVal1,
                 "queryTimeStart":start,
                 "queryTimeEnd":end,
@@ -249,11 +249,11 @@ export default {
             };
           this.getRecord (requestVo)
         }else{
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.queryAccountCode};
+          let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.queryAccountCode};
           this.getRecord (requestVo)
         }
       } else {
-        var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.queryAccountCode};
+        let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.queryAccountCode};
         this.getRecord (requestVo)
       }
     },
@@ -270,11 +270,11 @@ export default {
       } else {
         var perpetualValid = ''
       }
-      var start = this.filters.column.create_start_date
-      var end =   this.filters.column.create_end_date
+      let start = this.filters.column.create_start_date
+      let end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
+      let requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
       this.getRecord (requestVo)
       this.currentPage1 = 1;
       this.$message({
@@ -316,8 +316,8 @@ export default {
             remindType:0
         }
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
-            var resultCode = res.data.resultCode
-            var resultMessage = res.data.resultMessage
+            let resultCode = res.data.resultCode
+            let resultMessage = res.data.resultMessage
             if ( resultCode === '0') {
                 this.$message({
                     showClose: true,
@@ -336,8 +336,8 @@ export default {
         })
     },
     downloadClick (row) { //下载
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode + '/'+ row.contractNum;
-      var up = document.createElement('a');
+      let url = process.env.API_HOST+'v1/contract/'+this.interfaceCode + '/'+ row.contractNum;
+      let up = document.createElement('a');
       document.body.appendChild(up)
       up.setAttribute('href',url);
       up.click()
@@ -367,7 +367,7 @@ export default {
     }
   },
    created() {
-    var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
+    let requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
     this.getRecord (requestVo);
   }
 }

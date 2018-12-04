@@ -100,7 +100,6 @@
         current:1,
         // 左侧页码显示的个数
         showItem:0,
-
         // 左侧页码的总数
         allpage:1,
         imgList:[],
@@ -170,7 +169,10 @@
 
       this.$loading.show(); //显示
       let data =[];
-      getTemplateImags(this.interfaceCode,this.templateNo,{params:{"templateSpecificType":this.templateGenre}}).then(res=> {
+      let params={
+        "templateSpecificType":this.templateGenre
+      }
+      getTemplateImags(this.interfaceCode,this.templateNo,params).then(res=> {
         //获取批量模板图片信息
         this.allpage = res.data.list.length;
         for (let i = 0; i < res.data.list.length;i++) {
@@ -183,11 +185,13 @@
           this._initScroll()
           this._calculateHeight()
         })
-      }).
-      catch(error=>{
+      }).catch(error=>{
 
       })
-      templateVal(this.interfaceCode,this.templateNo,{params:{"contractTempNo":this.contractNo}}).then(res=> {
+      let templateVal_params={
+        "contractTempNo":this.contractNo
+      };
+      templateVal(this.interfaceCode,this.templateNo,templateVal_params).then(res=> {
         //获取批量模板jsonVal list信息
         this.batchMessage = res.data.lists
       }).catch(error=>{
@@ -200,9 +204,9 @@
       userInfo(this.interfaceCode,this.contractNo).then(res=> { //获取批量模板对手方信息
 
         for (let i =0;i< res.data.length; i++){
-          var name = res.data[i].name
-          var mobile = res.data[i].mobile
-          var idCard = res.data[i].idCard
+          let name = res.data[i].name
+          let mobile = res.data[i].mobile
+          let idCard = res.data[i].idCard
           if ( i == res.data.length -1){
             names += name
             mobiles += mobile
@@ -323,7 +327,7 @@
             }
           }
           jsonVal = jsonVal.substring(0,jsonVal.length-1)
-          let params=
+          var params=
             {"contractName":this.templateName,
               "templateNum":this.templateNo,
               "jsonVal":jsonVal,
@@ -332,7 +336,7 @@
               "operateType":'',
               'accountCode':this.accountCode
             };
-          templateBatchSign(this.interfaceCode,params,{emulateJSON:true}).then(res=> {
+          templateBatchSign(this.interfaceCode,params).then(res=> {
 
               if(res.data.resultCode == 0){
                 this.$message({

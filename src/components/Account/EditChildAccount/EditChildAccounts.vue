@@ -276,7 +276,7 @@
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
               }
-              updateAccount(this.interfaceCode,{
+              let params={
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCard,                  //省份证号
@@ -288,7 +288,8 @@
                 company_name: this.enterpriseName,
                 manageName:manageName,
 
-              }, {emulateJSON: true}).then(res => {
+              };
+              updateAccount(this.interfaceCode,params).then(res => {
                 this.fullscreenLoading = true;
                 setTimeout(() => {
                   this.fullscreenLoading = false;
@@ -334,9 +335,7 @@
       let params={
         accountCode: accountCode,        //账户编号
       }
-      getAccountInfo(this.interfaceCode,
-        params
-      ).then(res => {
+      getAccountInfo(this.interfaceCode, params).then(res => {
         //
         if (res.data.resultCode == '1'){
             this.ruleForm.accountName = res.data.data.accountName;            //账户名称

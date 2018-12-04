@@ -155,9 +155,6 @@ export default {
   created() {
 
     this.$loading.show(); //显示
-    let urlPic = process.env.API_HOST+'v1.4/tenant/'+ this.interfaceCode + '/getSignature'
-    let qrUrl =  process.env.API_HOST+'v1.4/user/'+ this.userCode + '/qRCode'
-
 
     //合同图片
     let data =[]
@@ -208,7 +205,7 @@ export default {
 
           var array = res.data.list
           for (let i =0 ; i<array.length; i++){
-            var userCode = array[i].userCode;
+            let userCode = array[i].userCode;
             if(userCode == this.interfaceCode){
               this.arr.push(array[i])
             }
@@ -226,11 +223,10 @@ export default {
       let smCode = document.getElementById('smCode')
       smCode.style.display ='block'
       this.recapture = false
-
       let t = Math.random()
       getSignatureImg(this.contractNo ,this.userCode,t).then(res=> {
         if(res.data == '1'){
-          for(var i = 0;i<this.arrow.length;i++){
+          for(let i = 0;i<this.arrow.length;i++){
             let signCanvas = document.getElementById("div-" + i)
             let parentBox = document.getElementById('contractImg')
              if(signCanvas&&parentBox){
@@ -259,8 +255,6 @@ export default {
       this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-
-
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         mouseWheel: {
 					speed: 1200,

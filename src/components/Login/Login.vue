@@ -80,7 +80,7 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
   </div>
 </template>
 
@@ -95,7 +95,7 @@
   export default {
     name: "Login",
     data() {
-      var checkName = (rule, value, callback) => {
+      let checkName = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入手机号"));
         } else if (!validateMoblie(value)) {
@@ -110,10 +110,12 @@
                 } else {
                     callback(new Error("此用户不存在"));
                 }
-            }).catch(error => {});
+            }).catch(error => {
+
+            });
         }
       };
-      var checkPassWord = (rule, value, callback) => {
+      let checkPassWord = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入密码"));
         } else {
@@ -145,7 +147,7 @@
       submitForm(formName) {
         this.$refs[formName].validate(valid => {
             if (valid) {
-                var pass = md5(this.ruleForm.password);
+                let pass = md5(this.ruleForm.password);
                 let verfiedParam={
                     username: this.ruleForm.username,
                     password: pass
@@ -177,7 +179,7 @@
                 mobile: this.ruleForm.username
             }
             bindEnterprises(bindParams).then(response=>{
-                var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
+                let stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
                 let loginParam={
                     mobile:this.ruleForm.username,
                 };

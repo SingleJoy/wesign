@@ -164,7 +164,7 @@
   export default {
     name: 'batchSettings',
     data() {
-      var validateName = (rule,value,callback) => {
+      let validateName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
         } else if (TrimAll(value).length<2 || TrimAll(value).length > 15 ) {
@@ -173,7 +173,7 @@
           callback()
         }
       }
-      var validateIdCard = (rule,value,callback) => {
+      let validateIdCard = (rule,value,callback) => {
         if( this.templateGenre == 'fillidcardreference' && value == ''){
           callback(new Error('身份证信息为必填项'))
         }else if (value !== '' && !validateCard(value)){
@@ -182,10 +182,10 @@
           callback()
         }
       }
-      var validatePhone = (rule,value,callback) => {
+      let validatePhone = (rule,value,callback) => {
         var mobileArray = []
         if(this.tableDate3 != ''){
-          for(var i=0;i<this.tableDate3.length;i++){
+          for(let i=0;i<this.tableDate3.length;i++){
             mobileArray.push(this.tableDate3[i].mobile)
           }
         }
@@ -279,7 +279,7 @@
           if (valid) {
 
             if (this.tableDate3 == '' || this.tableDate3.length < 51){
-              var obj = {}
+              let obj = {}
               obj.signUserName = TrimAll(this.ruleForm.signUserName)
               obj.mobile = this.ruleForm.mobile
               obj.idCard = this.ruleForm.idCard
@@ -308,16 +308,7 @@
       closeDialog(formName){
         this.$refs[formName].resetFields()
       },
-      changeContName (){
-        var batchText = document.getElementById('batchText').value
-        if(batchText == ''){
-          this.$alert('您还没有填写合同名称!','签署', {
-            confirmButtonText: '确定'
-          });
-          return false
-        }
 
-      },
       showBatchTemplate () {
         this.$loading.show(); //显示
        let data =[];
@@ -453,7 +444,7 @@
       },
       nextStepFit () { //下一步
         let batchText = document.getElementById('batchText').value
-        if(batchText == ''){
+        if(this.templateName == ''){
           this.$alert('您还没有填写合同名称!','提示', {
               confirmButtonText: '确定'
           });
@@ -582,7 +573,6 @@
       }
     },
     created() {
-
 
       if (this.type == 'back'){
         this.operate = true;

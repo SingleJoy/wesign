@@ -115,7 +115,7 @@
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
       <div style="margin-top: 30px;margin-left: 70px;">
-        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="/static/images/ContractInfo/sign_step.png" alt="">
         <el-steps direction="vertical" :active=0>
           <el-step :title=item.signUserName+item.logInfo
                    :description=item.signTime
@@ -265,6 +265,8 @@
             }
             this.imgList = data
           }
+        }).catch(error=>{
+
         })
         this.dialogTableVisible = true
       },
@@ -375,7 +377,7 @@
         }
       },
       dateModified () {  // 修改日期
-        var perpetualValid = ''
+        let perpetualValid = ''
         if (this.checked3 == true){
           perpetualValid = '1'
           this.hasClick = false
@@ -438,9 +440,9 @@
     created() {
       this.signMobile = cookie.getJSON('tenant')[0].mobile
 
-      var accountLevel = sessionStorage.getItem('accountLevel');
-      var accountCode = sessionStorage.getItem('accountCode');
-      var detailAccountCode = sessionStorage.getItem('detailAccountCode');
+      let accountLevel = sessionStorage.getItem('accountLevel');
+      let accountCode = sessionStorage.getItem('accountCode');
+      let detailAccountCode = sessionStorage.getItem('detailAccountCode');
 
       this.seeContractDetails ()
       //判断是不是二级账户如果是不请求顶部显示部门姓名

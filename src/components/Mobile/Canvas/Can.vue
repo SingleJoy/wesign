@@ -8,9 +8,6 @@
     <br>
     <p style='color:#fff;width:60px;height:60px;text-align:center;line-height:60px;background:#0e6eb8;border-radius:50%;font-size:12px;position:fixed;right:3%;bottom:15%; transform: rotate(90deg);' v-on:click="clear">清除</p>
 
-
-
-
     <div class='bg'>
       <div class='center_cen'>
         <p>您还没有完成签署！</p>
@@ -172,7 +169,7 @@
 
         })
         let params={signatureImg:png }
-        saveSignatureImg(signToken,params,{emulateJSON:true}).then(res=>{
+        saveSignatureImg(signToken,params).then(res=>{
           that.$router.push('/MobileSuccess')
         }).catch(error=>{
 

@@ -110,7 +110,7 @@
       </el-pagination>
     </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -176,7 +176,7 @@ export default {
         var data =[];
         var isCreater='';
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
+        let url = process.env.API_HOST+'v1/tenant/'+ this.interfaceCode + '/contracts';
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == currentFaceCode) {
@@ -312,8 +312,8 @@ export default {
         })
     },
     downloadClick (row) { //下载
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode + '/'+ row.contractNum;
-      var up = document.createElement('a');
+      let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
+      let up = document.createElement('a');
       document.body.appendChild(up)
       up.setAttribute('href',url);
       up.click()

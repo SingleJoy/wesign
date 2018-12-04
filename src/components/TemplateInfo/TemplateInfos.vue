@@ -157,7 +157,8 @@ export default {
     });
 
     getSignLink(this.interfaceCode ,this.contractNo).then(res=> {
-      this.contractlink = res.bodyText
+      this.contractlink = res.data
+
     }).catch(error=>{
 
     })

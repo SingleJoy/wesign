@@ -81,6 +81,8 @@ export default {
         //centerDialogVisible:false,
         baseURL:this.baseURL.BASE_URL,
         current:0,
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        contractNo:sessionStorage.getItem("contractNo"),
         showItem:0,
         allpage:0,
         signUserList:[],
@@ -216,10 +218,7 @@ export default {
         })
       },
     lastStepFit(){  //上一步
-      this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-      this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', this.$store.state.contractName1)
-      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+
       sessionStorage.setItem('type','back')
       this.$router.push('/Contractsigning')
     },
@@ -252,12 +251,11 @@ export default {
             }
             let requestParam={
                 signerpositions:param
-            }; 
-            signerpositions(requestParam,this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+            };
+            signerpositions(requestParam,this.interfaceCode,this.contractNo).then(res=>{
                 if(res.data.resultCode == 0) {
-                        this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-                        sessionStorage.setItem('contractName', this.$store.state.contractName1)
-                        sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+
+
                         this.$router.push('/Contract')
                     }else if(res.data.resultCode==1){
                         this.$confirm(
@@ -271,8 +269,8 @@ export default {
                             }).then(() => {
                             //    this.$router.push('/Home')
                             }).catch(() => {
-                                
-                            });  
+
+                            });
                     }else{
                         this.$message({
                             showClose: true,
@@ -291,31 +289,16 @@ export default {
     }
   },
   created () {
-    var contractName = sessionStorage.getItem('contractName')
-    var contractNo = sessionStorage.getItem('contractNo')
-    var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
 
-    if (contractName) {
-    //   contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
     this.$loading.show(); //显示
-    signUser(interfaceCode,this.$store.state.contractNo1).then(res=>{
+    signUser(this.interfaceCode,this.contractNo).then(res=>{
         var signUserVo = res.data.dataList
         this.signUserList = signUserVo
     }).catch(error=>{
 
     })
     var data =[];
-    contractImg(interfaceCode,this.$store.state.contractNo1).then(res=>{
+    contractImg(this.interfaceCode,this.contractNo).then(res=>{
         this.allpage = res.data.length
         this.$nextTick(() => {
           this.initScroll()

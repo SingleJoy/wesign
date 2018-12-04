@@ -301,13 +301,12 @@
       },
       remindClick(row) {
         //提醒
-        var remindParam={
+        let remindParam={
           contractType:row.contractType==0?0:1
         };
-        let interfaceCode = this.interfaceCode;
-        remind(remindParam,interfaceCode,row.contractNum).then(res=>{
-             var resultCode = res.data.resultCode;
-            var resultMessage = res.data.resultMessage;
+        remind(remindParam,this.interfaceCode,row.contractNum).then(res=>{
+             let resultCode = res.data.resultCode;
+            let resultMessage = res.data.resultMessage;
             if (resultCode === "0") {
                 this.$message({
                 showClose: true,
@@ -353,13 +352,8 @@
       },
       downloadClick(row) {
         //下载
-        var url =
-          process.env.API_HOST +
-          "v1/contract/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/" +
-          row.contractNum;
-        var up = document.createElement("a");
+        let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNum;
+        let up = document.createElement("a");
         document.body.appendChild(up);
         up.setAttribute("href", url);
         up.click();
@@ -632,14 +626,14 @@
     },
 
     created() {
-        
+
 
       var data = [];
       var flag = "";
       var isCreater = "";
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
-      let interfaceCode = this.interfaceCode;
+
       if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
         this.welcomeMessage = false;
       }
@@ -655,9 +649,9 @@
 
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
-      server.contractLists(requestVo,interfaceCode).then(res=>{
+      server.contractLists(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length; i++) {
-            if (res.data.content[i].creater == interfaceCode) {  //发起方
+            if (res.data.content[i].creater == this.interfaceCode) {  //发起方
               flag = true;
             } else {
               flag = false;
@@ -706,9 +700,9 @@
       let param={
         accountCode:this.accountCode
       }
-      for(var i=0;i< requestType.length;i++){
+      for(let i=0;i< requestType.length;i++){
         let type =  requestType[i];
-        server[requestType[i]](param,interfaceCode).then(res=>{
+        server[requestType[i]](param,this.interfaceCode).then(res=>{
           this[type] = res.data.count
         }).catch(error=>{
 
@@ -718,7 +712,7 @@
         accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
       };
       // 首页模板列表
-        templateList(resParam,interfaceCode).then(res=>{
+        templateList(resParam,this.interfaceCode).then(res=>{
             this.arr = res.data.slice(0, 3);
             this.count = res.data.length;
         }).catch(error=>{

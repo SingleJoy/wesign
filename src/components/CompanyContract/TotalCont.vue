@@ -112,7 +112,7 @@
       </el-pagination>
     </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -124,7 +124,7 @@ import server from "@/api/url"
 import {b2bContrants,remind} from '@/api/list'
 export default {
   data() {
-    return { 
+    return {
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
@@ -178,7 +178,7 @@ export default {
         var data =[];
         var isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-        let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/b2bContrants';
+
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
             if(res.data.content[i].creater == currentFaceCode){
@@ -186,7 +186,7 @@ export default {
             }else{
                 isCreater = false;
             }
-            var obj = {}
+            let obj = {}
             obj.contractName = res.data.content[i].contractName;
             obj.contractNum = res.data.content[i].contractNum;
             obj.createTime = res.data.content[i].createTime;
@@ -256,13 +256,13 @@ export default {
             };
             this.getRecord (requestVo)
         }else{
-            // var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+
+            let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getRecord (requestVo)
         }
       } else {
-            // var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+
+            let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
             this.getRecord (requestVo)
       }
     },
@@ -279,11 +279,11 @@ export default {
       } else {
         var perpetualValid = ''
       }
-      var start = this.filters.column.create_start_date
-      var end =   this.filters.column.create_end_date
+      let start = this.filters.column.create_start_date
+      let end =   this.filters.column.create_end_date
       if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
       if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-      var requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
+      let requestVo ={"accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),"contractName":this.inputVal,"queryTimeStart":start,"queryTimeEnd":  end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'0'};
       this.getRecord (requestVo)
       this.currentPage = 1
       this.$message({
@@ -326,8 +326,8 @@ export default {
             remindType:0
         }
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
-            var resultCode = res.data.resultCode
-            var resultMessage = res.data.resultMessage
+            let resultCode = res.data.resultCode
+            let resultMessage = res.data.resultMessage
             if ( resultCode === '0') {
                 this.$message({
                     showClose: true,
@@ -346,8 +346,8 @@ export default {
         })
     },
     downloadClick (row) { //下载
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode + '/'+ row.contractNum;
-      var up = document.createElement('a');
+      let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
+      let up = document.createElement('a');
       document.body.appendChild(up)
       up.setAttribute('href',url);
       up.click()

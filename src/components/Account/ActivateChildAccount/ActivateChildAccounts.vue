@@ -105,7 +105,7 @@
 
     data() {
       // 校验验证码
-      var validateCode = (rule, value, callback) => {
+      let validateCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else if (value!== ''&&!validateSmsCode(value)) {
@@ -220,6 +220,8 @@
               })
 
             }
+          }).catch(error=>{
+
           })
         }
       },
@@ -395,16 +397,19 @@
       let authorizerCode=sessionStorage.getItem("authorizerCode");
       //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
-      getAuthBookImg(params).then(res=>{
+      getAuthBookImg(requestNo).then(res=>{
         this.authorizationImg=res.data;
-      })
+      }).catch(error=>{
 
+      });
 
       let params={
         'contractNo':accountCode
       }
-      qRCode(authorizerCode,params).then(function (res) {
+      qRCode(authorizerCode,params).then(res=> {
         this.qrSignImg=res.data;
+      }).catch(error=>{
+
       });
       this.$loading.hide(); //隐藏
       let that = this

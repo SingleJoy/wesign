@@ -46,7 +46,7 @@ export default {
 	name: "BillLists",
 	data() {
         return {
-			interfaceCode: '',
+			interfaceCode: sessionStorage.getItem("interfaceCode"),
 			totalItemNumber: 0,
           	tableData: [
 
@@ -86,7 +86,7 @@ export default {
 		}
 	},
 	created() {
-		this.interfaceCode = sessionStorage.getItem("interfaceCode");
+
 		this.getList(1,1)
 	}
 }

@@ -317,8 +317,7 @@
 					'appId':this.appId
 				};
 				//企业商户注册提交
-				server.companyRegister(params,{emulateJSON: true})
-				.then(res => {
+				server.companyRegister(params).then(res => {
 					if (res.data.resultCode == '1') {
 						this.$message({
 							showClose: true,
@@ -365,7 +364,7 @@
 			this.interfaceCode = GetQueryString("appId");
 			sessionStorage.setItem('interfaceCode', this.interfaceCode);
 			//获取企业信息
-			server.getCompanyRegister(this.interfaceCode,{emulateJSON: true}).then(res => {
+			server.getCompanyRegister(this.interfaceCode).then(res => {
 				if (res.data.resultCode == '1') {
 					this.$message({
 						showClose: true,

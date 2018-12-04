@@ -37,11 +37,11 @@ export function userInfo(interfaceCode,contractNo) {
   })
 }
 // templateVal
-export function templateVal(interfaceCode,templateNo) {
+export function templateVal(interfaceCode,templateNo,param) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/template/'+templateNo+'/templateVal',
     method: "get",
-    params:''
+    params:param
   })
 }
 

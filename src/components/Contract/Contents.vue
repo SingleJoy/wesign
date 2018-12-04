@@ -346,6 +346,8 @@ export default {
                     type: 'warning'
                 })
             }
+        }).catch(error=>{
+
         })
     }
   },

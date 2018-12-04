@@ -115,8 +115,6 @@ export default {
     // },
     showImg () {
       showSignRoomInfo(this.interfaceCode).then(res=> {
-
-
         this.inputData = res.data.data.signRoomLink;
         this.signRoomLogo = res.data.data.signRoomLogo;
         if(res.data.data.signRoomName){
@@ -136,8 +134,8 @@ export default {
       }
       saveSignRoomName(this.interfaceCode,params).then(res=> {
 
-        var infoStatus = res.data.status      //签约室后台返回状态
-        var infomessage = res.data.message    //签约室后台返回正确值
+        let infoStatus = res.data.status      //签约室后台返回状态
+        let infomessage = res.data.message    //签约室后台返回正确值
         if(infoStatus == true) {
           this.$message({
           message: infomessage,

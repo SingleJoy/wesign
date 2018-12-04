@@ -107,22 +107,23 @@ export default {
       imgList:[],
       contractlink:'',
       roomlink:'',
-      getContractName:'' //显示的合同名称
+      getContractName:'', //显示的合同名称
+      contractNo:sessionStorage.getItem('contractNo'), //合同编号
+      contractName:sessionStorage.getItem('contractName'), //合同编号
     }
   },
   methods: {
     lookDetails () { //查看详情
-        var contractNo = sessionStorage.getItem('contractNo')
-        this.$store.dispatch('contractsInfo',{contractNo:contractNo})
+
         this.$store.dispatch('tabIndex',{tabIndex:1});
         cookie.set("state", "Home");
         this.$router.push('/ContractInfo')
     },
     seeContractImg (){
-      var contractNo = sessionStorage.getItem('contractNo')
+
       this.$loading.show(); //显示
       var data =[];
-      contractImg(this.interfaceCode,contractNo).then(res=>{
+      contractImg(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
                 let contractUrl = res.data[i].contractUrl
                 data[i] = contractUrl
@@ -147,24 +148,10 @@ export default {
   },
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
-    var contractName = sessionStorage.getItem('contractName')
-    var contractNo = sessionStorage.getItem('contractNo')
 
-    if (contractName) {
-    //   contractName = contractName
-      if (this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
-    contractDetail(this.interfaceCode,contractNo).then(res=>{
+    contractDetail(this.interfaceCode,this.contractNo).then(res=>{
         this.signUser = res.data.signUserVo
-        var contractVo = res.data.contractVo
+        let contractVo = res.data.contractVo
         this.validTime = contractVo.validTime
         this.getContractName = contractVo.contractName
     }).catch(error=>{
