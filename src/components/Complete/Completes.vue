@@ -95,7 +95,7 @@ import {prohibit} from '@/common/js/prohibitBrowser'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
-import {contractDetail,signLink,contractImg} from '@/api/personal'
+import {contractDetail,signLink,contractImg,getSignLink} from '@/api/personal'
 export default {
   data () {
     return {

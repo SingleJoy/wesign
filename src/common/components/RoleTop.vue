@@ -77,7 +77,7 @@ export default {
         exitAndDeleteSession().then(res=> {
             this.$message({
               showClose: true,
-              message: res.body.message,
+              message: res.data.message,
               type: 'success'
             })
             this.$router.push('/')
@@ -85,11 +85,6 @@ export default {
         }).catch(error=>{
 
         })
-      },
-       tabActive(value){
-        this.$store.dispatch('tabIndex',{tabIndex:value});
-        this.tabIndex = this.$store.state.tabIndex;
-
       },
     }
 

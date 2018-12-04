@@ -68,10 +68,18 @@ export function b2cSignPosition(interfaceCode,contractNo){
     })
 }
 /* b2c提交签署 */
-export function b2cSubmitSign(interfaceCode,params){
+export function b2cSubmitSign(interfaceCode,contractNo,param){
     return request({
         url: '/api/v1/tenant/'+ interfaceCode + '/user/'+ interfaceCode + '/contractmoresign/'+ contractNo,
         method: "post",
-        params: ''
+        data: param
     })
 }
+/* b2c获取签章 */
+export function signature(interfaceCode) {
+    return request({
+      url: "api/v1/user/"+interfaceCode+'/signature',
+      method: "get",
+      params: ''
+    })
+  }

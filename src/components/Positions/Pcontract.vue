@@ -73,7 +73,7 @@ import BScroll from 'better-scroll'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import { mapActions, mapState } from 'vuex'
-import {signerpositions,signUser} from '@/api/personal.js'
+import {signerpositions,signUser,contractImg} from '@/api/personal.js'
 export default {
   name: 'Pcontract',
     data () {

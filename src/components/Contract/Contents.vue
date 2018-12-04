@@ -68,8 +68,7 @@ import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
-import {contractImg,b2cSignPosition,b2cSubmitSign} from '@/api/personal.js'
-import { contractmoresign,signature} from '@/api/business.js'
+import {contractImg,b2cSignPosition,b2cSubmitSign,signature} from '@/api/personal.js'
 export default {
   name: 'Contents',
   data () {

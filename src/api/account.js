@@ -175,7 +175,7 @@ export  function showSignRoomInfo(interfaceCode) {
   })
 }
 
-//saveSignRoomName
+/* 签约室保存logo */
 export  function saveSignRoomName(interfaceCode,param) {
   return request({
     url:"api/v1/tenant/"+interfaceCode+'/signRoom/saveSignRoomName',
