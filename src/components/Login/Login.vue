@@ -155,6 +155,7 @@
                 let that = this;
                 login(verfiedParam).then(res=>{
                     if (res.data.resultCode === "1") {
+                        sessionStorage.setItem("mobile",this.ruleForm.username)
                         this.Login();
                     } else {
                         this.$message({
