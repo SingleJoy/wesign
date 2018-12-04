@@ -288,7 +288,7 @@
       // }
     },
     created() {
-      var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4'};
+      let requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4'};
       this.getData (requestVo);
     }
   }

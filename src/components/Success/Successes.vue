@@ -107,19 +107,21 @@
         imgList:[],
         contractLink:'',
         roomLink:'',
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        contractNo:sessionStorage.getItem("contractNo"),
+        contractName:sessionStorage.getItem("contractName"),
       }
     },
     methods: {
       lookDetails () { //查看详情
-        this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
+
         this.$router.push('/ContractInfo')
         this.$store.dispatch('tabIndex',{tabIndex:1});
       },
       seeContractImg (){
         this.$loading.show(); //显示
-        var data =[];
-        contractImg(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+        let data =[];
+        contractImg(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
                 let contractUrl = res.data[i].contractUrl
                 data[i] = contractUrl
@@ -143,29 +145,18 @@
       }
     },
     created() {
-      var contractName = sessionStorage.getItem('contractName')
-      var contractNo = sessionStorage.getItem('contractNo')
+
       this.roomLink = cookie.getJSON('tenant')[1].signRoomLink
-      if (contractName) {
-        // contractName = JSON.parse(contractName)
-        if ( this.$store.state.contractName1 == ''){
-          this.$store.state.contractName1 = contractName
-        }
-      }
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-       contractDetail(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+
+
+       contractDetail(this.interfaceCode,this.contractNo).then(res=>{
             this.signUser = res.data.signUserVo
-            var contractVo = res.data.contractVo
+            let contractVo = res.data.contractVo
             this.validTime = contractVo.validTime
         }).catch(error=>{
 
         })
-       getSignLink(this.interfaceCode,this.$store.state.contractNo1).then(res=>{
+       getSignLink(this.interfaceCode,this.contractNo).then(res=>{
             this.contractLink = res.data
         }).catch(error=>{
 

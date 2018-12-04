@@ -137,7 +137,7 @@
         this.$router.push('/CompanyExa')
       },
       back(){
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps;  //企业认证状态
+
         this.$router.push('/Home')
       }
     }

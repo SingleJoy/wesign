@@ -693,7 +693,7 @@
         //   console.log(data.dataList);
           for(let i=0;i<data.dataList.length;i++){
             sealArray.push(data.dataList[i])
-          };
+          }
           if(data.dataList.length>1){
             this.officeSeal=true;
           }else {
@@ -836,9 +836,8 @@
 
       //获取合同章
       this.searchSeal();
-
       //是否付费 0未付费 1付费
-      var Status = cookie.getJSON('tenant')[1].isBusiness;
+      let Status = cookie.getJSON('tenant')[1].isBusiness;
       // console.log("Status"+Status)
       if(Status == '0'){
         this.Jurisdiction = false

@@ -54,10 +54,10 @@ export default {
 	name: "charges",
 	data() {
         return {
-			interfaceCode: '',
+			interfaceCode: sessionStorage.getItem("interfaceCode"),
 			totalItemNumber: 0,
           	tableData: [
-				
+
 			],
 		}
 	},
@@ -73,7 +73,7 @@ export default {
 			}
 		},
 		handleSizeChange(val) {
-			
+
         },
         //点击切换列表数据
 		handleCurrentChange(val) {
@@ -100,9 +100,8 @@ export default {
 		}
 	},
 	created() {
-        //获取interfaceCode
-        this.interfaceCode = sessionStorage.getItem("interfaceCode");
-        //第一次进去页面获取列表
+
+  //第一次进去页面获取列表
 		this.getList(1,10);
 	}
 }

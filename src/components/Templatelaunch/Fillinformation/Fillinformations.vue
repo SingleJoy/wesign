@@ -251,8 +251,7 @@
           "jsonVal":jsonVal,
           "accountCode":this.accountCode
         }
-        template(this.interfaceCode ,params,
-          {emulateJSON:true}).then(res=> {
+        template(this.interfaceCode ,params).then(res=> {
             let contractNo = res.data.contractNo;
             sessionStorage.setItem('contractNo',contractNo);
             if(res.data.resultCode == 0){

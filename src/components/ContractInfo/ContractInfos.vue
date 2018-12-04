@@ -224,7 +224,6 @@
         baseURL:this.baseURL.BASE_URL,
         tableData2: [],
         accountLevel:'',
-        contractNo:'',
         contractName:'',
         validTime:'',
         status:'',
@@ -239,18 +238,19 @@
         accountName:'',
         operator:'',
         accountCode:sessionStorage.getItem('accountCode'),
+        contractNo:sessionStorage.getItem('contractNo'),
         sponsorInterfaceCode:''
       };
     },
     methods: {
       remindSignClick (row) {
         //  var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
-        var remindParam = {
+        let remindParam = {
           userCode:row.userCode,
           contractType:1
         }
-        remind(remindParam,this.interfaceCode,this.$store.state.rowNumber).then(res=>{
-            var resultCode = res.data.resultCode
+        remind(remindParam,this.interfaceCode,this.contractNo).then(res=>{
+            let resultCode = res.data.resultCode
             if ( resultCode === '0') {
                 this.$message({
                     message: '短信通知成功',
@@ -317,8 +317,8 @@
       seeContractImg (){
         this.imgList =[];
         this.$loading.show(); //显示
-        var data =[];
-        b2cImgs(this.interfaceCode,this.$store.state.rowNumber).then(res=>{
+        let data =[];
+        b2cImgs(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl
               data[i] = contractUrl
@@ -331,15 +331,15 @@
         this.dialogTableVisible = true
       },
       downloadClick () {
-        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.$store.state.rowNumber;
-        var download = document.createElement('a');
+        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+ this.contractNo
+        let download = document.createElement('a');
         document.body.appendChild(download)
         download.setAttribute('href',url);
         download.click()
       },
       seeContractDetails () {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
         // 从合同列表页面进入
         if(this.$store.state.rowNumber){
@@ -350,10 +350,10 @@
           this.contractNo=contractNo;
         }
         b2cContrantsDetail(this.interfaceCode,this.contractNo).then(res=>{
-            var contractNoZq = res.data.contractVo.contractNoZq
-            var contractVo = res.data.contractVo
-            var signUserVo = res.data.signUserVo
-            var type = contractVo.createType
+            let contractNoZq = res.data.contractVo.contractNoZq
+            let contractVo = res.data.contractVo
+            let signUserVo = res.data.signUserVo
+            let type = contractVo.createType
             this.contractNo = contractVo.contractNo
             this.contractType = contractVo.contractType
             this.contractName = contractVo.contractName
@@ -386,7 +386,7 @@
               isCreater = false
             }
             for (let i = 0; i < signUserVo.length;i++) {
-              var obj = {}
+              let obj = {}
               obj.signUserName = signUserVo[i].signUserName
               obj.mobile = signUserVo[i].mobile
               obj.idCard = signUserVo[i].idCard
@@ -461,17 +461,11 @@
 
     created() {
       this.signMobile = cookie.getJSON('tenant')[0].mobile
-      var contractNo = sessionStorage.getItem('contractNo');
-      var accountLevel = sessionStorage.getItem('accountLevel');
-      var accountCode = sessionStorage.getItem('accountCode');
-      var detailAccountCode = sessionStorage.getItem('detailAccountCode');
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.rowNumber == ''){
-          this.contractNo = contractNo;
-          this.$store.state.rowNumber = contractNo
-        }
-      }
+
+      let accountLevel = sessionStorage.getItem('accountLevel');
+      let accountCode = sessionStorage.getItem('accountCode');
+      let detailAccountCode = sessionStorage.getItem('detailAccountCode');
+
       this.seeContractDetails()
       //判断是不是二级账户如果是不请求顶部显示部门姓名
       if(accountLevel != 2){
@@ -482,7 +476,7 @@
           if(res.data.resultCode == 1){
             this.accountName = res.data.data
           }
-        }).catch({
+        }).catch(error=>{
 
         })
       }

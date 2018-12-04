@@ -372,14 +372,14 @@
   export default {
     name:'',
     data() {
-      var checkName= (rule,value,callback)=>{
+      let checkName= (rule,value,callback)=>{
         if(!value){
           callback(new Error('企业名称不为空'))
         }else{
           callback()
         }
       }
-      var checkBankNum = (rule,value,callback)=>{
+      let checkBankNum = (rule,value,callback)=>{
         if(!value){
           callback(new Error('请输入企业银行账号'))
         }else if(!validateBankNum(value)){
@@ -388,7 +388,7 @@
           callback()
         }
       }
-      var checkBankName = (rule,value,callback)=>{
+      let checkBankName = (rule,value,callback)=>{
         if(!value){
           callback(new Error('请输入企业银行名称'))
         }else if(!specialCharacter(TrimAll(value))){
@@ -397,7 +397,7 @@
           callback()
         }
       }
-      var checkBank =  (rule,value,callback)=>{
+      let checkBank =  (rule,value,callback)=>{
         if(!value){
           callback(new Error('请输入开户行行名称'))
         }else if(!specialCharacter(TrimAll(value))){

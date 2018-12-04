@@ -147,11 +147,8 @@ export default {
             let list=[];
             this.contractList=[];
             server.templateList(params).then(res=>{
-                if(res.data.sessionStatus == '0'){
-                    this.$router.push('/Server')
-                } else {
-                    for (let i = 0; i < res.data.contents.length;i++) {
-                        var obj = {}
+              for (let i = 0; i < res.data.contents.length;i++) {
+                     var obj = {}
                         obj.templateNo = res.data.contents[i][1]
                         obj.templateName = res.data.contents[i][3]
                         obj.tempalateDate = res.data.contents[i][7]
@@ -161,13 +158,13 @@ export default {
                         } else {
                             obj.signatory += '方'
                         }
-                        list.push(obj)
+                      list.push(obj)
                     }
-                    this.contractList = list;
-                    this.total = res.data.totalItemNumber
-                    this.loading = false;
-                    // console.log(this.contractList);
-                }
+               this.contractList = list;
+               this.total = res.data.totalItemNumber
+                this.loading = false;
+
+
             }).catch(erro=>{
 
             })

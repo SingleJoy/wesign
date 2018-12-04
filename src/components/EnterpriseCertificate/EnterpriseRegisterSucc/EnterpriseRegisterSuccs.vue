@@ -122,9 +122,9 @@
     },
     methods:{
       download(){
-        var way = this.downloadUrl;
-        var url = process.env.API_HOST+'v1.4/tenant/downloadFile?fileType='+way;
-        var up = document.createElement('a');
+        let way = this.downloadUrl;
+        let url = process.env.API_HOST+'v1.4/tenant/downloadFile?fileType='+way;
+        let up = document.createElement('a');
         document.body.appendChild(up)
         up.setAttribute('href',url);
         up.click()

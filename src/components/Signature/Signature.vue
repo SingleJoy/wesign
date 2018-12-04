@@ -250,7 +250,6 @@
       Bottom
     },
     data () {
-
       return {
         baseURL:this.baseURL.BASE_URL,
         date:'',
@@ -279,6 +278,7 @@
         ContractNumber:'',
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
+        contractNo:sessionStorage.getItem('contractNo'),
         operateType:'',
         pickerOptions0: {
           disabledDate(time) {
@@ -292,9 +292,9 @@
     },
     methods:{
       urlloadUrl(){
-        var contractNo = sessionStorage.getItem('contractNo');
-        // contractNo = JSON.parse(contractNo)
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?=accountCode=${this.accountCode}`
+
+
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${this.contractNo}/changeContract?=accountCode=${this.accountCode}`
       },
       handleChange (name,file) {
         this.nextBtn = true;
@@ -464,7 +464,7 @@
         })
       },
       nextFit() {
-        sessionStorage.setItem('contractName', TrimAll(this.input))
+
         if(TrimAll(this.input) == ''){
           this.$alert('您还没有填写合同名称!','签署', {
             confirmButtonText: '确定'
@@ -565,8 +565,9 @@
         validTime:this.date //签署截止时间
       }
         // 对手方企业信息设置
-        setting(interfaceCode,contractNo,param,{emulateJSON: true}).then(res =>{
+        setting(this.interfaceCode,this.contractNo,param).then(res =>{
           if(res.data.resultCode == '1'){
+            sessionStorage.setItem('contractName', TrimAll(this.input))
             this.$router.push('/Place')
           }else if(res.data.resultCode == '-1'){
             this.$alert(res.data.resultMessage,'提示', {
@@ -586,13 +587,11 @@
       lookContractImg (){
         this.imgList=[];
         this.$loading.show(); //显示
-        var data =[];
-        var contractNo = sessionStorage.getItem('contractNo');
-        var interfaceCode = sessionStorage.getItem('interfaceCode');
+        let data =[];
 
         //合同图片查看
 
-        contractimgs(interfaceCode ,contractNo).then(res=> {
+        contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
 
           for (let i = 0; i < res.data.dataList.length;i++) {
             let contractUrl = res.data.dataList[i].contractUrl
@@ -608,27 +607,12 @@
       },
     },
     created() {
-      var contractName = sessionStorage.getItem('contractName');
-      var contractNo = sessionStorage.getItem('contractNo');
-      var type = sessionStorage.getItem('type');
-      var interfaceCode = sessionStorage.getItem('interfaceCode');
+
+      let type = sessionStorage.getItem('type');
+
 
       //   type = JSON.parse(type)
       this.operateType = type
-      if (contractName) {
-        // contractName = JSON.parse(contractName)
-        if ( this.$store.state.contractName1 == ''){
-          this.$store.state.contractName1 = contractName
-        }
-        this.input = contractName
-      }
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        this.ContractNumber = contractNo
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
       this.companyName = cookie.getJSON('tenant')[1].companyName
       this.username = cookie.getJSON('tenant')[0].userName
       this.mobile = cookie.getJSON('tenant')[0].mobile
@@ -637,7 +621,7 @@
         var Jurisdiction = sessionStorage.getItem('Jurisdiction');
         //页面回退  数据回显
 
-        echoContractSetting(interfaceCode,contractNo).then(res=> {
+        echoContractSetting(this.interfaceCode,this.contractNo).then(res=> {
 
           this.input = res.data.data.contractName;
           this.date = res.data.data.validTime

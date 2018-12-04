@@ -292,12 +292,12 @@ export default {
     },
     rowLockClick (row) {//详情
       if(row.contractType == '0'){
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+
         sessionStorage.setItem('contractNo', row.contractNum)
         cookie.set('state','list')
         this.$router.push('/CompanyExb')
       }else{
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+
         sessionStorage.setItem('contractNo', row.contractNum)
         cookie.set('state','list')
         this.$router.push('/ContractInfo')
@@ -305,11 +305,11 @@ export default {
     },
     signClick (row) { //签署
       if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+
           sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Dimension')
         }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+
           sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Contract')
         }

@@ -111,7 +111,7 @@
       </el-pagination>
     </div>
      </div>
-    
+
   </div>
 </template>
 
@@ -177,11 +177,10 @@ export default {
     getData (requestVo) {
     var data =[];
     var isCreater='';
-    let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contracts';
+
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
-                if (res.data.content[i].creater == currentFaceCode) {
+                if (res.data.content[i].creater == this.interfaceCode) {
                     isCreater = true;
                 } else {
                     isCreater = false;
@@ -226,7 +225,7 @@ export default {
         //     if(res.data.sessionStatus == '0'){
         //     this.$router.push('/Server')
         //     } else {
-            
+
         //     }
         // })
     },
@@ -324,11 +323,11 @@ export default {
         }).catch(error=>{
 
         })
-       
+
     },
     downloadClick (row) { //下载
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode + '/'+ row.contractNum;
-      var up = document.createElement('a');
+      let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
+      let up = document.createElement('a');
       document.body.appendChild(up)
       up.setAttribute('href',url);
       up.click()
@@ -344,10 +343,10 @@ export default {
     // },
     getAccount(){
         if(!this.hasQuery){
-            let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+
             let accountCode = sessionStorage.getItem('accountCode');
             let enterpriseName = sessionStorage.getItem('enterpriseName');
-            server.queryContractLists(interfaceCode).then(res=>{
+            server.queryContractLists(this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 1){
                     this.options=res.data.dataList;
                     this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})

@@ -122,7 +122,6 @@
 
       this.$loading.show(); //显示
       let data =[]
-
       contracttempimgs(this.interfaceCode,this.contractNo).then(res=> {
         /*获取后台数据，并使用imgArray*/
         for(let i=0;i<res.data.length;i++){

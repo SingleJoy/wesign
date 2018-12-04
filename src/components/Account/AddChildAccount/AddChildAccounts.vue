@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="../../../../static/images/Account/no-template.png">
+                  <img src="/static/images/Account/no-template.png">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 
@@ -154,18 +154,13 @@
 </template>
 <script>
 
-  import Account from "../Account"    //返回或者编辑成功跳转到我的账户页面
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
   import {addAccount,templateList,getDate} from '@/api/account'
-
   export default {
     name: 'AddChildAccounts',
-    component:{
-      Account,
-    },
     data() {
       // 校验二级账户名称姓名
       let validateAccountName = (rule,value,callback) => {
@@ -347,7 +342,7 @@
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
               }
-              addAccount(this.interfaceCode,{
+              let params={
                 accountName:this.ruleForm.accountName ,  //  账户姓名
                 userName:this.ruleForm.userName,            //管理员名称
                 idCard:this.ruleForm.idCode,                  //省份证号
@@ -357,7 +352,8 @@
                 templates:templates,                                //分配模板
                 company_name:enterpriseName,             //企业名称
                 manageName:manageName,
-              },{emulateJSON: true}).then(res => {
+              };
+              addAccount(this.interfaceCode,params).then(res => {
                 let accountCode=res.data.accountCode;  //存储accountCode
                 this.fullscreenLoading = true;
                 setTimeout(() => {

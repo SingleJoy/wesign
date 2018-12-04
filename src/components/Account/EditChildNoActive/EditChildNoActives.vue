@@ -348,7 +348,7 @@
                 templates='';
               }
               this.$loading.show();
-              updateAccount(this.interfaceCode ,{
+              let params={
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCode,                  //省份证号
@@ -359,8 +359,8 @@
                 templates: templates,                                //分配模板
                 company_name: this.enterpriseName,
                 manageName:manageName,    //一级账号名称
-              }, {emulateJSON: true}).then(res =>
-              {
+              };
+              updateAccount(this.interfaceCode,params).then(res => {
                 this.$nextTick(function () {
                   this.$loading.hide();
                 })

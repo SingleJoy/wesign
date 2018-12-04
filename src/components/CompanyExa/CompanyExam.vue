@@ -109,7 +109,7 @@
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
       <div style="margin-top: 30px;margin-left: 70px;">
-        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="/static/images/ContractInfo/sign_step.png" alt="">
         <el-steps direction="vertical" :active=0>
           <el-step :title=item.signUserName+item.logInfo
                    :description=item.signTime
@@ -256,7 +256,7 @@
           contractType:0
         }
         remind(remindParam,this.interfaceCode,this.contractNo).then(res=>{
-          var resultCode = res.data.resultCode
+          let resultCode = res.data.resultCode
           if ( resultCode === '0') {
             this.$message({
               message: '短信通知成功',
@@ -291,8 +291,8 @@
         this.dialogTableVisible = true
       },
       downloadClick () {
-        var url = process.env.API_HOST+'v1/contract/'+this.interfaceCode +'/'+ this.contractNo;
-        var download = document.createElement('a');
+        let url = process.env.API_HOST+'v1/contract/'+this.interfaceCode +'/'+ this.contractNo;
+        let download = document.createElement('a');
         document.body.appendChild(download)
         download.setAttribute('href',url);
         download.click()
@@ -434,9 +434,9 @@
     created() {
       this.signMobile = cookie.getJSON('tenant')[0].mobile;
 
-      var accountLevel = sessionStorage.getItem('accountLevel');
+      let accountLevel = sessionStorage.getItem('accountLevel');
 
-      var detailAccountCode = sessionStorage.getItem('detailAccountCode');
+      let detailAccountCode = sessionStorage.getItem('detailAccountCode');
 
       this.seeContractDetails ()
 

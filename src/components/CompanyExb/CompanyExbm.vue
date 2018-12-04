@@ -101,7 +101,7 @@
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
         <div style="margin-top: 30px;margin-left: 70px;">
-            <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+            <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;"  src="/static/images/ContractInfo/sign_step.png" alt="">
             <el-steps direction="vertical" :active=0>
                 <el-step :title=item.signUserName+item.logInfo
                     :description=item.signTime
@@ -231,13 +231,13 @@
     },
     methods: {
       remindSignClick (row) {
-        // var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
-        var remindParam = {
+
+        let remindParam = {
           userCode:row.userCode,
           contractType:0
         }
-        remind(remindParam,this.interfaceCode,this.$store.state.rowNumber).then(res=>{
-            var resultCode = res.data.resultCode
+        remind(remindParam,this.interfaceCode,this.contractNo).then(res=>{
+            let resultCode = res.data.resultCode
             if ( resultCode === '0') {
                 this.$message({
                 message: '短信通知成功',
@@ -258,7 +258,7 @@
       },
       seeContractImg (){
         this.$loading.show(); //显示
-        var data =[];
+        let data =[];
         b2bImgs(this.interfaceCode,this.$store.state.rowNumber).then(res=>{
             for (let i = 0; i < res.data.dataList.length;i++) {
               let contractUrl = res.data.dataList[i].contractUrl
@@ -304,11 +304,11 @@
         }
     },
       seeContractDetails () {
-        var data =[];
+        let data =[];
         // let url = process.env.API_HOST+'v1.4/contract/'+this.$store.state.rowNumber+'/signFinish';
-        
+
         b2bDetail(this.ContractCode).then(res=>{
-            var contractType = res.data.data.contractType
+            let contractType = res.data.data.contractType
             if(contractType == '0'){
               this.businessScenario = '企业对企业'
             }
@@ -393,9 +393,9 @@
     created() {
         this.signMobile = cookie.getJSON('tenant')[0].mobile;
 
-        var accountLevel = sessionStorage.getItem('accountLevel');
-        var accountCode = sessionStorage.getItem('accountCode');
-        var detailAccountCode = sessionStorage.getItem('detailAccountCode');
+        let accountLevel = sessionStorage.getItem('accountLevel');
+        let accountCode = sessionStorage.getItem('accountCode');
+        let detailAccountCode = sessionStorage.getItem('detailAccountCode');
 
         this.seeContractDetails ();
       //判断是不是二级账户如果是不请求顶部显示部门姓名

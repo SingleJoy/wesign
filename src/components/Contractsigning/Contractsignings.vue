@@ -47,7 +47,7 @@
               :action='urlloadUrl()'
               :before-upload="handleChange"
               :on-success="fileSuccess"
-              :on-error="fileErron"
+              :on-error="fileError"
               :show-file-list= false
               accept='.docx,.pdf,.doc,.txt'
             >
@@ -179,7 +179,7 @@
   export default {
     name: 'Contractsignings',
     data() {
-      var validateName = (rule,value,callback) => {
+      let validateName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -187,18 +187,20 @@
         } else {
           callback()
         }
-      }
-      var validateIdCard = (rule,value,callback) => {
+      };
+
+      let validateIdCard = (rule,value,callback) => {
         if (value !== '' && !validateCard(value)){
           callback(new Error('身份证格式错误'))
         } else {
           callback()
         }
-      }
-      var validatePhone = (rule,value,callback) => {
-        var mobileArray = []
+      };
+
+      let validatePhone = (rule,value,callback) => {
+        let mobileArray = []
         if(this.tableData5 != ''){
-          for(var i=0;i<this.tableData5.length;i++){
+          for(let i=0;i<this.tableData5.length;i++){
             mobileArray.push(this.tableData5[i].mobile)
           }
         }
@@ -215,7 +217,7 @@
         } else {
           callback()
         }
-      }
+      };
       return {
         baseURL:this.baseURL.BASE_URL,
         value8: '',
@@ -238,6 +240,7 @@
         hasClick:false,
         formLabelWidth: '70px',
         contractName:sessionStorage.getItem('contractName'),
+        contractNo:sessionStorage.getItem('contractNo'),
         rules: {
           signUserName: [
             { required: true, validator: validateName, trigger: 'blur' }
@@ -254,7 +257,7 @@
             return time.getTime() < Date.now();
           }
         },
-        falg:true,       //重复提交标示
+        flag:true,       //重复提交标示
         operateType:'',  //数据回显标示
         operate:false,  // 添加签署人标示
         editSigner:true,
@@ -273,9 +276,9 @@
       },
       handleChange (name,file) {
         this.isNext = true;
-        var max_size = 5;// 5M
-        var fileNameCont = name.name.replace(/\s+/g, "")
-        var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
+        let max_size = 5;// 5M
+        let fileNameCont = name.name.replace(/\s+/g, "")
+        let reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
         if(!reg.test(fileNameCont)){
           this.$alert('只能传pdf,doc,txt,docx格式的文件!','上传文件', {
             confirmButtonText: '确定'
@@ -303,18 +306,18 @@
       },
       fileSuccess(name, file, fileList){ //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
         this.isNext = false;
-        var contractName = file.name.replace(/\s+/g, "")
-        var contractNo = file.response.contractNo
-        var resultCode = file.response.resultCode
+        let contractName = file.name.replace(/\s+/g, "")
+        let contractNo = file.response.contractNo
+        let resultCode = file.response.resultCode
         this.$loading.hide(); //隐藏
-        var index1=contractName.lastIndexOf(".");
-        var suffix=contractName.slice(0,index1);
+        let index1=contractName.lastIndexOf(".");
+        let suffix=contractName.slice(0,index1);
         this.contractName = suffix
-        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
         sessionStorage.setItem('contractName', suffix)
         sessionStorage.setItem('contractNo', contractNo)
+        this.contractNo=contractNo;
       },
-      fileErron(){
+      fileError(){
         this.nextBtn = false;
         this.$message({
           showClose: true,
@@ -333,10 +336,9 @@
       lookContractImg (){
         this.$loading.show(); //显示
         this.imgList=[];
-        var data =[];
-        var contractNo = sessionStorage.getItem('contractNo');
+        let data =[];
         // contractNo = JSON.parse(contractNo)
-        contractImg(this.interfaceCode,contractNo).then(res=>{
+        contractImg(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl
               data[i] = contractUrl
@@ -352,7 +354,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.checked1 == true && this.tableData5.length < 4 ||this.checked1 == false && this.tableData5.length < 5){
-              var obj = {}
+              let obj = {}
               obj.signUserName = TrimAll(this.ruleForm.signUserName)
               obj.mobile = this.ruleForm.mobile
               obj.idCard = this.ruleForm.idCard
@@ -380,18 +382,7 @@
       closeDialog(formName){
         this.$refs[formName].resetFields()
       },
-      changeContName (){
-        var firstText = document.getElementById('firstText').value
-        if(firstText == ''){
-          this.$alert('您还没有填写合同名称!','签署', {
-            confirmButtonText: '确定'
-          });
-          return false
-        }
-        this.$store.dispatch('fileSuccess1',{contractName:firstText,contractNo:this.$store.state.contractNo1})
-        sessionStorage.setItem('contractName', firstText)
-        sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-      },
+
       checkedBox () {
         if(this.checked == true){
           this.value8 = ''
@@ -408,13 +399,13 @@
         this.editSign = true
       },
       confirmEdit(row){     //完成修改
-        var mobileArr = []
+        let mobileArr = []
         if(this.tableData5 != ''){
-          for(var i=0;i<this.tableData5.length;i++){
+          for(let i=0;i<this.tableData5.length;i++){
             mobileArr.push(this.tableData5[i].mobile)
           }
         }
-        var index = mobileArr.indexOf(row.mobile)
+        let index = mobileArr.indexOf(row.mobile)
         mobileArr.splice(index, 1)
 
         if(TrimAll(row.signUserName) == ''){
@@ -504,17 +495,15 @@
         })
       },
       urlloadUrl(){
-        //更换合同时传旧合同编号从session里取
-        var contractNo = sessionStorage.getItem('contractNo');
-        // contractNo = JSON.parse(contractNo)
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${contractNo}/changeContract?accountCode=${this.accountCode}`
+
+        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${this.contractNo}/changeContract?accountCode=${this.accountCode}`
       },
       nextStepFit () { //下一步
-        var firstText = document.getElementById('firstText').value
+
         if( this.checked1 == true ){
           this.operate = true
         }
-        if(TrimAll(firstText) == ''){
+        if(TrimAll(this.contractName) == ''){
           this.$alert('合同名称不能为空!','签署', {
             confirmButtonText: '确定'
           })
@@ -547,8 +536,8 @@
             confirmButtonText: '确定'
           });
         } else {
-          if (this.falg == true){
-            this.falg = false
+          if (this.flag == true){
+            this.flag = false
             var names = ''
             var mobiles = ''
             var id_nums = ''
@@ -595,9 +584,9 @@
             }
             if( this.operateType !='' ){
               if(this.contractNumn != this.$store.state.contractNo1){
-                var contractVo = {
+                contractVo = {
                   "needSign":needSign,
-                  "contractName":TrimAll(this.$store.state.contractName1),
+                  "contractName":TrimAll(this.contractName),
                   "validTime":this.value8,
                   "perpetualValid":perpetualValid,
                   "sms_notice":'0',
@@ -608,10 +597,10 @@
                   "emails":emails
                 }
               }else{
-                var contractVo = {
+                 contractVo = {
                   "needSign":needSign,
                   "operateType":this.operateType,
-                  "contractName":TrimAll(this.$store.state.contractName1),
+                  "contractName":TrimAll(this.contractName),
                   "validTime":this.value8,
                   "perpetualValid":perpetualValid,
                   "sms_notice":'0',
@@ -623,7 +612,7 @@
                 }
               }
             } else {
-              var contractVo = {
+               contractVo = {
                 "needSign":needSign,
                 "contractName":TrimAll(this.contractName),
                 "validTime":this.value8,
@@ -637,14 +626,15 @@
               }
             }
             this.isNext = true;
-            var contractNo = sessionStorage.getItem('contractNo');
-            perfectContract(contractVo,this.interfaceCode,contractNo).then(res=>{
+
+            perfectContract(contractVo,this.interfaceCode,this.contractNo).then(res=>{
+
                 if (res.data.resultCode == '0') {
-                  this.isNext = false;
-                  this.$store.dispatch('fileSuccess1',{contractName:TrimAll(this.contractName),contractNo:this.$store.state.contractNo1})
-                  this.$store.dispatch('needSign',{needSign:needSign})
                   sessionStorage.setItem('contractName', TrimAll(this.contractName))
-                  sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+                  this.isNext = false;
+
+                  sessionStorage.setItem('contractName', TrimAll(this.contractName))
+
                   sessionStorage.setItem('needSign',needSign)
                   if(needSign == '1'){
                     this.$router.push('/Positions')
@@ -655,7 +645,7 @@
                   this.$alert(res.data.resultMessage,'提示', {
                     confirmButtonText: '确定'
                   })
-                  this.falg = true;
+                  this.flag = true;
                   this.isNext = false;
                 }
             }).catch(error=>{
@@ -675,32 +665,11 @@
       }
     },
     created() {
-      var contractName = sessionStorage.getItem('contractName');
-      var contractNo = sessionStorage.getItem('contractNo');
-      var type = sessionStorage.getItem('type');
-      if (contractName) {
-        // contractName = JSON.parse(contractName)
-        if ( this.$store.state.contractName1 == ''){
-          this.$store.state.contractName1 = contractName
-        }
-      }
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        this.contractNumn = contractNo
-        if (this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-      if (type) {
-        // type = JSON.parse(type)
-        if ( this.$store.state.type == ''){
-          this.$store.state.type = type
-        }
-      }
+      let type = sessionStorage.getItem('type');
         if( type == 'back' ){
             this.isNext = true;
             this.operate = true;
-            echoContractInfo(this.interfaceCode,contractNo).then(res=>{
+            echoContractInfo(this.interfaceCode,this.contractNo).then(res=>{
                 this.isNext = false;
                 var needSign = res.data.needSign;
                 var perpetualValid = res.data.perpetualValid;

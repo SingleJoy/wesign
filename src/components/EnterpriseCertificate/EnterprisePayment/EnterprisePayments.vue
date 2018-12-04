@@ -120,7 +120,7 @@
 
     data () {
       //校验打款金额
-        var validatePaymentNum=(rule,value,callback)=>{
+        let validatePaymentNum=(rule,value,callback)=>{
             if (value === '') {
             callback(new Error('请输入打款金额'));
             }else if(TrimAll(value).length>4||TrimAll(value)<0.01||TrimAll(value)>0.99){
@@ -129,7 +129,7 @@
         }
 
       // 法人身份证号校验
-        var validateIDcard=(rule,value,callback)=>{
+        let validateIDcard=(rule,value,callback)=>{
             if(value===''){
             callback(new Error('法人身份证号不可为空'))
             }else if(value!==''&&!(validateCard(TrimAll(value)))){
@@ -139,7 +139,7 @@
             }
         }
       //手机号码
-        var validateLegalMobile=(rule,value,callback)=>{
+        let validateLegalMobile=(rule,value,callback)=>{
             if(value===''){
             callback(new Error('法人手机号不可为空'))
             }else if(value!==''&&!(validateMoblie(TrimAll(value)))){
@@ -150,7 +150,7 @@
         }
 
       //校验6位手机验证码
-        var validatePhoneCode=(rule,value,callback)=>{
+        let validatePhoneCode=(rule,value,callback)=>{
             if(value===''){
             callback(new Error('验证码不为空'))
             }else if(value!==''&&!(validateSmsCode(value))){
