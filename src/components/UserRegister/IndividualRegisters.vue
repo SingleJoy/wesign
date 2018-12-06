@@ -3,7 +3,7 @@
     <div class="layer" v-show="isShow">
       <div class="reminder" v-show="isShowSkip">
         <div class="reminder_img">
-          <img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+          <img src="/static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
         </div>
         <div class="reminder_text">
           <span>{{successText}}&nbsp;&nbsp;</span>
@@ -16,12 +16,12 @@
           <span class="layer_close_right" @click="close()">X</span>
         </div>
         <div class="layer_character">
-          <img src="../../../static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
+          <img src="/static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
         </div>
       </div>
     </div>
     <div class="login-nav">
-      <div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+      <div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
       <div class="logo-content">
         <span>已有账号，</span>
         <span @click="login()" class="simulation">
@@ -746,7 +746,7 @@
     width: 100%;
     height: 40rem;
     overflow:hidden;
-    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
   }
   .center {
@@ -850,7 +850,7 @@
     margin-top: -150px;
     z-index: 999;
     border-radius: 5px;
-    background: url("../../../static/images/Login/context.png") no-repeat;
+    background: url("/static/images/Login/context.png") no-repeat;
     display: none;
   .login-cancel {
     font-size: 24px;

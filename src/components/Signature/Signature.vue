@@ -4,7 +4,7 @@
       <div class="Tops">
         <nav class='nav'>
           <p class='logo'>
-            <img src="../../../static/images/logo2.png" alt="">
+            <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
           </p>
           <div class='buttons'>
             <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -241,7 +241,7 @@
 
 </template>
 <script>
-  import Bottom from '../../common/components/Bottom'
+  import Bottom from '@/common/components/Bottom'
   import cookie from '@/common/js/getTenant'
   import {validateMoblie,validateEmail,TrimAll} from '@/common/js/validate'
   import {echoContractSetting,contractimgs,setting,getTenantByName} from '@/api/business'
@@ -673,7 +673,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
 </style>

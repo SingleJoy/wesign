@@ -3,7 +3,7 @@
 		<div class="layer" v-show="isShow">
 			<div class="reminder" v-show="isShowSkip">
 				<div class="reminder_img">
-					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
 					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
@@ -16,14 +16,14 @@
 					<span class="layer_close_rigth">X</span>
 				</div>
 				<div class="layer_character">
-					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
 				</div>
 			</div>
 		</div>
 		<div class="Topes">
 			<nav class='nav'>
 				<p class='logo'>
-				<img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+				<img src="/static/images/Top/v1.6-logo.png" alt="logo图">
 				</p>
 			</nav>
 		</div>

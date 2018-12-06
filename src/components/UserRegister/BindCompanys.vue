@@ -3,7 +3,7 @@
 		<div class="layer" v-show="isShow">
 			<div class="reminder" v-show="isShowSkip">
 				<div class="reminder_img">
-					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
 					<span>您已完成企业绑定，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>

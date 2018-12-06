@@ -2,7 +2,7 @@
   <div class='BuyProducts'>
     <div class='products'>
       <div class='main'>
-        <img src="../../../static/images/Container/product-new1.png" alt="" style='padding-top:140px;'>
+        <img src="/static/images/Container/product-new1.png" alt="" style='padding-top:140px;'>
         <br>
         <br>
         <br>

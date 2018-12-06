@@ -2,10 +2,10 @@
 <template>
   <div class='Contract Demo'>
     <div class="login-nav">
-      <div class="logo-zq"><img src="../../static/images/Login/modification-logo.png" alt=""></div>
+      <div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
       <div class="logo-content simulation" @click="abandon()">
         <span class="register">放弃体验</span>
-        <img src="../../static/images/Login/goback-right.png" alt="">
+        <img src="/static/images/Login/goback-right.png" alt="">
       </div>
     </div>
     <div class="Login">
@@ -498,7 +498,7 @@
     width: 100%;
     height: 40rem;
     overflow:hidden;
-    background: url('../../static/images/Login/new-login.png') no-repeat;
+    background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
   }
   .center-user {

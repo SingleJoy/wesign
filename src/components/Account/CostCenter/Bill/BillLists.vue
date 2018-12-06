@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
 	name: "BillLists",
 	data() {

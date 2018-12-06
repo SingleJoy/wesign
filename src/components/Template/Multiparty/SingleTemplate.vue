@@ -50,12 +50,12 @@
                         </p>
                         <p>
                             <span  @click="previewContract(item)" class="item-option">
-                                <img src="../../../../static/images/Multiparty/see.png" alt="">
+                                <img src="/static/images/Multiparty/see.png" alt="">
                             <span>在线预览</span>
                         </span>
 
                         <span  @click="generateClick(item)" class="item-option">
-                            <img src="../../../../static/images/Multiparty/creater.png" alt="">
+                            <img src="/static/images/Multiparty/creater.png" alt="">
                             <span>立即发起</span>
                         </span>
                         </p>

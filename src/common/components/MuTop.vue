@@ -2,7 +2,7 @@
   <div class="MuTop">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
         <!-- <router-link to='/Merchant' @click.native="tabActive(0)"><li :class="{'active-tab':tabIndex==0}"><a href="javascript:void(0);">首页</a></li></router-link>
@@ -17,9 +17,9 @@
         <li @click="dialogVisible"><a >版本</a></li>
         <li class="contract-add no-border"><router-link  to='/BuyProductTemplate'>模板发起</router-link></li>
         <li class="contract-add no-border"><router-link  to='/BuyProductUp'>上传发起</router-link></li>
-        <li v-if="Jurisdiction"><router-link to='/Account'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
-        <li v-else><router-link to='/NoReal'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
-        <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="../../../static/images/back.png" alt="">退出</a></li>
+        <li v-if="Jurisdiction"><router-link to='/Account'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
+        <li v-else><router-link to='/NoReal'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
+        <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="/static/images/back.png" alt="">退出</a></li>
 
       </ul>
       <!-- <ol class='btns'>
@@ -82,7 +82,7 @@
     margin:auto;
     z-index:1000;
     border-radius:10px;
-    background:url('../../../static/images/Login/context.png');
+    background:url('/static/images/Login/context.png');
     background-size:100% 100%;
   }
   .dilog .left{
@@ -92,7 +92,7 @@
     background:#fff;
     margin-left:63px;
     margin-top:50px;
-    background:url('../../../static/images/Login/b2b.png');
+    background:url('/static/images/Login/b2b.png');
     background-size:100% 100%;
   }
   .active-tab{

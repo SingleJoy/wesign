@@ -7,10 +7,10 @@
   </div>
 </template>
 <script>
-  import Top from '../../common/components/Top.vue'
-  import MuTop from '../../common/components/MuTop.vue'
+  import Top from '@/common/components/Top.vue'
+  import MuTop from '@/common/components/MuTop.vue'
   import SignSucces from './SignSucces'
-  import Bottom from '../../common/components/Bottom'
+  import Bottom from '@/common/components/Bottom'
   import cookie from '@/common/js/getTenant'
   export default {
     name: 'SignSuccess',

@@ -141,7 +141,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
   .CompanyExbm .main .text{
     margin-top: -30px;
@@ -149,11 +149,11 @@
     padding-right: 50px;
   }
   .back-home{
-    background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
   .main .first #sign-icon{
-    background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+    background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
     height: 60px;
     position: absolute;
     text-align: center;

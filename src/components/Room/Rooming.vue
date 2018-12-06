@@ -15,7 +15,7 @@
       <div class='cleft'>
         <b v-if="showImage==true"><img :src="baseURL+'/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo" alt=""></b>
 
-        <b v-if="showImage==false"><img  src="../../../static/images/Room/room-logo.png"></b>
+        <b v-if="showImage==false"><img  src="/static/images/Room/room-logo.png"></b>
 
         <p class='inputInfo' style='text-align: center;width: 220px;font-weight:bolder'>{{message}}</p>
         <!-- <h6 id='text' style="position:absolute;left:100px;">欢迎来到众签签约室</h6> -->
@@ -49,7 +49,7 @@
         <dt>
           <div style="margin-top:27px">
              <img :src="baseURL+'/restapi/wesign/v1/showSignRoomLogo?fileId='+signRoomLogo"  style="max-height:150px;max-width:150px"  id="id" v-if="showImage==true">
-             <img src="../../../static/images/Room/room-logo.png" style="max-height:150px;max-width:150px" v-else-if="showImage==false">
+             <img src="/static/images/Room/room-logo.png" style="max-height:150px;max-width:150px" v-else-if="showImage==false">
           </div>
         </dt>
         <dd><a href="javascript:void(0);">* 支持jpg、png等格式，最佳尺寸是430X320， 建议使用矢量图</a>
@@ -174,7 +174,7 @@ export default {
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 </style>
 

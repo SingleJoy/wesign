@@ -2,7 +2,7 @@
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul' style="display: inline-block;">
         <li :class="{'active-tab':tabIndex==1}"><a href="javascript:void(0);">首页</a></li></router-link>
@@ -16,11 +16,11 @@
          color: #4091fb;font-weight: 500;margin-right: 16px;">上传发起</a></li>
         <li :class="{'active-tab':tabIndex==5}" >
           <router-link  @click.native="tabActive(5)" to='/Account'>
-            <img src="../../../static/images/setup.png" alt="">
+            <img src="/static/images/setup.png" alt="">
             <a href="javascript:void(0);">我的账户</a>
           </router-link>
         </li>
-        <li ><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
+        <li ><img src="/static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
 
 
       </ul>

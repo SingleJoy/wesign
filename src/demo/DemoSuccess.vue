@@ -3,8 +3,8 @@
     <div class="Top">
       <nav class='nav'>
         <p class='logo'>
-          <!--<img src="../../../../../static/images/Top/v1.6-logo.png" alt="logo图">-->
-          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
+
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
 
       </nav>
@@ -35,7 +35,7 @@
       <div class="sign-success-tips">
         <p>  https://www.zqsign.com/h5/#/DemoLogin</p>
         <div class="scan-code">
-          <img src="../../static/images/Demo/demo-scan.png">
+          <img src="/static/images/Demo/demo-scan.png">
         </div>
       </div>
 
@@ -89,15 +89,14 @@
     margin: 20px auto;
     position: relative;
     height: 1100px;
-    /*background-color: #fff;*/
-    background: url("../../static/images/Demo/demo-succ.png") no-repeat;
+    background: url("/static/images/Demo/demo-succ.png") no-repeat;
   }
   .demoSuccess-content>.step-modal> .expression{
     width: 110px;
     height: 120px;
     z-index: 1004;
     position: absolute;
-    background: url("../../static/images/Demo/expression.png") no-repeat;
+    background: url("/static/images/Demo/expression.png") no-repeat;
     left: 1100px;
     top:420px
   }
@@ -123,7 +122,7 @@
     position: absolute;
     left: 530px;
     top: 235px;
-    background: url("../../static/images/Demo/nextStep.png") no-repeat;
+    background: url("/static/images/Demo/nextStep.png") no-repeat;
   }
 
   .demoSuccess-img{
@@ -133,7 +132,7 @@
     position: absolute;
     left: 100px;
     top: 180px;
-    background: url("../../static/images/Demo/demo-sign-success02.png") no-repeat;
+    background: url("/static/images/Demo/demo-sign-success02.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog{
     width: 335px;
@@ -143,7 +142,7 @@
     left: 790px;
     top: 320px;
 
-    background: url("../../static/images/Demo/dialog-big.png") no-repeat;
+    background: url("/static/images/Demo/dialog-big.png") no-repeat;
   }
   .demoSuccess-content>.step-modal>.dialog>p{
 

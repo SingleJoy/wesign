@@ -519,7 +519,7 @@
     margin-left: 20px;
   }
   .content-body>p.title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
   b.agreement-sign{

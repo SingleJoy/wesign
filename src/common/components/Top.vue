@@ -2,7 +2,7 @@
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <ul id='ul'>
         <li><router-link to='/Home'>首页</router-link></li>
@@ -12,9 +12,9 @@
         <li @click="dialogVisible"><a href="javascript:void(0);">版本</a></li>
         <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
-        <li v-if="Jurisdiction"><router-link to='/Account'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
-        <li v-else><router-link to='/NoReal'><img src="../../../static/images/setup.png" alt="">我的账户</router-link></li>
-        <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="../../../static/images/back.png" alt="">退出</a></li>
+        <li v-if="Jurisdiction"><router-link to='/Account'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
+        <li v-else><router-link to='/NoReal'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
+        <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="/static/images/back.png" alt="">退出</a></li>
       </ul>
       <div id='update'></div>
     </nav>
@@ -36,7 +36,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/v1.6-geren.png" alt="">
+            <img src="/static/images/Login/v1.6-geren.png" alt="">
           </el-upload>
         </div>
         <div class='rightDilog'>
@@ -53,7 +53,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
+            <img src="/static/images/Login/v1.6-qiye.png" alt="">
           </el-upload>
           <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
         </div>
@@ -121,7 +121,7 @@
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

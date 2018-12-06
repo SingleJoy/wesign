@@ -3,7 +3,7 @@
   <div class="Topes">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../../../static/images/logo2.png" alt="">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <div class='buttons'>
 
@@ -30,7 +30,7 @@
           <div class="header-title-5">
             <div class="title-content">
               <p class="content-img">
-                <img src="../../../../../static/images/Credentials/Personal/Authentication/authentication.png" height="100" width="100"/>
+                <img src="/static/images/Credentials/Personal/Authentication/authentication.png" height="100" width="100"/>
               </p>
               <p class="content-info" >
                 <b>恭喜，您已完成实名认证</b>

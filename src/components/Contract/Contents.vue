@@ -3,7 +3,7 @@
    <div class="Tops">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="contractCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -55,7 +55,7 @@
       <!-- 右侧签署按钮开始 -->
       <div class='sign_right' v-show="contSignImg == false">
         <a href="javascript:void(0);" @click="gainPosition">
-          <img src="../../../static/images/Contract/submit.png" alt="" >
+          <img src="/static/images/Contract/submit.png" alt="" >
         </a>
       </div>
     </div>

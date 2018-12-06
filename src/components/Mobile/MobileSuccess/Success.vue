@@ -37,7 +37,7 @@
     bottom: 0;
     right: 0;
     margin: auto;
-    background: url('../../../../static/images/success.gif');
+    background: url('/static/images/success.gif');
     background-size:100% 100%;
   }
   .first{

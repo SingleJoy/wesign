@@ -28,7 +28,7 @@
             <div  class='single' v-if='count>0'>
               <div v-for="(item,index) in arr" :key="index" >
                 <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;margin-left: 5px;'>
-                  <img src="../../../static/images/Container/home-icon-v1.6.png" alt="">
+                  <img src="/static/images/Container/home-icon-v1.6.png" alt="">
                   <span style='color:#4091fb'>{{item.name}}</span>
                 </div>
               </div>
@@ -38,7 +38,7 @@
             </div>
             <div class='more' v-else>
               <div class='more1'>
-                <h3><img src="../../../static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
+                <h3><img src="/static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
               </div>
             </div>
           </div>
@@ -88,8 +88,8 @@
               :show-overflow-tooltip='true'
             >
               <template slot-scope="scope">
-                <img  class="contract-sign" v-if="scope.row.contractType==0" src="../../../static/images/Login/tocompany.png"/>
-                <img  class="contract-sign" v-else src="../../../static/images/Login/topersonal.png" />
+                <img  class="contract-sign" v-if="scope.row.contractType==0" src="/static/images/Login/tocompany.png"/>
+                <img  class="contract-sign" v-else src="/static/images/Login/topersonal.png" />
                 <span>{{ scope.row.contractName }}</span>
               </template>
             </el-table-column>
@@ -152,7 +152,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/v1.6-geren.png" alt="">
+            <img src="/static/images/Login/v1.6-geren.png" alt="">
           </el-upload>
         </div>
         <div class='rightDilog'>
@@ -169,7 +169,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
+            <img src="/static/images/Login/v1.6-qiye.png" alt="">
           </el-upload>
           <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
         </div>
@@ -886,12 +886,12 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

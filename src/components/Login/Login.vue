@@ -1,18 +1,12 @@
-/*
-* @Author: wangjia
-* @Date: 2018-06-06 17:38:37
-* @Last Modified by: wangjia
-* @Last Modified time: 2018-06-27 18:44:05
-*/
 <template>
   <div class="Login">
     <div class="login-nav">
-		<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+		<div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
 		<div class="logo-content">
 			<span>还没账号？</span>
       <span @click="toRegister" class="simulation">
         <span class="register">立即注册</span>
-			  <img src="../../../static/images/Login/goback-right.png" alt="">
+			  <img src="/static/images/Login/goback-right.png" alt="">
       </span>
 		</div>
 	</div>
@@ -442,7 +436,7 @@
     margin-top: -150px;
     z-index: 999;
     border-radius: 5px;
-    background: url("../../../static/images/Login/context.png") no-repeat;
+    background: url("/static/images/Login/context.png") no-repeat;
     display: none;
   .login-cancel {
     font-size: 24px;
@@ -529,7 +523,7 @@
     width: 100%;
     height: 40rem;
     overflow:hidden;
-    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
 }
 .contain-login {

@@ -3,7 +3,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
         <div class='buttons' v-show="delSigner == true">
           <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="batchTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -157,7 +157,7 @@
   </div>
 </template>
 <script>
-  import {validateMoblie,validateCard,TrimAll} from '../../../common/js/validate'
+  import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
   import { backContractTempSigner,getTemplateImags,contractTemp} from '@/api/template'
   import {prohibit} from '@/common/js/prohibitBrowser'
@@ -618,7 +618,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
     font-weight: normal;
   }
   .first #batchText{
@@ -671,7 +671,7 @@
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

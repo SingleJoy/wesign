@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="login-nav">
-      <div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+      <div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
       <div class="logo-content">
         <span>已有账号，</span>
         <span class="simulation" @click="register()">
           <span class="register">立即登录</span>
-          <img src="../../../static/images/Login/goback-right.png" alt="">
+          <img src="/static/images/Login/goback-right.png" alt="">
         </span>
       </div>
     </div>
@@ -278,7 +278,7 @@
     width: 100%;
     height: 40rem;
     overflow:hidden;
-    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
   }
   /* .water-qrurl-code{

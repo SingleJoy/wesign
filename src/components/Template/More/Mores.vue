@@ -5,12 +5,12 @@
                 <el-tabs class="multi-tab" v-model="activeName">
                     <el-tab-pane label="单次发起合同" name="first">
                         <div class='one'>
-                            <img src="../../../../static/images/Multiparty/multiparties.png" alt="">
+                            <img src="/static/images/Multiparty/multiparties.png" alt="">
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="批量发起合同" name="second">
                         <div class='two' style='width:540px'>
-                            <img src="../../../../static/images/Multiparty/multiparties1.png" alt="">
+                            <img src="/static/images/Multiparty/multiparties1.png" alt="">
                         </div>
                     </el-tab-pane>
                 </el-tabs>

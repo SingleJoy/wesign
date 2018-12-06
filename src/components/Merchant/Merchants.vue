@@ -8,9 +8,7 @@
     <div class="main" style="background-color: #fff;padding-top: 10px;">
 
       <div class='main_left'>
-        <!--<div class='upload' style='cursor:point'>-->
-        <!--<div style='cursor:pointer;'  @click='choice' class="el-upload__text"><img src="../../../static/images/add1.png" alt="" style='width:679px;'></div>-->
-        <!--</div>-->
+
         <div class='merchant-upload' style='border:none;'>
           <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
             <div class="content-upload">
@@ -36,7 +34,7 @@
           <div  class='single' v-if='count>0'>
             <div v-for="(item,index) in arr" :key="index">
               <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>
-                <img src="../../../static/images/Container/home-icon-v1.6.png" alt="">
+                <img src="/static/images/Container/home-icon-v1.6.png" alt="">
                 <span style='color:#4091fb'>{{item.name}}</span>
               </div>
             </div>
@@ -46,7 +44,7 @@
           </div>
           <div class='more' v-else>
             <div class='more1'>
-              <h3><img src="../../../static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
+              <h3><img src="/static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
             </div>
           </div>
         </div>
@@ -456,6 +454,6 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 </style>

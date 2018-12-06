@@ -89,7 +89,7 @@
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="../../../../static/images/Account/no-template.png">
+                  <img src="/static/images/Account/no-template.png">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 
@@ -409,7 +409,7 @@
     margin-left: 20px;
   }
   .content-body>p.title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
   b.agreement-sign{

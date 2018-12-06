@@ -4,7 +4,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -14,7 +14,7 @@
       </nav>
     </div>
     <div class='Pcontract Place'>
-      <!-- <div class='loading' ><img src="../../../static/images/timg.gif" alt=""></div> -->
+
       <div class="step" style="width: 720px;">
         <ul>
           <li class="active"><i class='el-icon-document'></i><b>上传文件</b></li>
@@ -534,7 +534,7 @@
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

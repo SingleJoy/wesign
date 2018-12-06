@@ -46,7 +46,7 @@
   .box{
       width:529px;
       height: 417px;
-      background:url('../../../static/images/Top/version-info1.6.2.png') no-repeat;
+      background:url('/static/images/Top/version-info1.6.2.png') no-repeat;
       background-size: 100% 100%;
       position: absolute;
       left:0;

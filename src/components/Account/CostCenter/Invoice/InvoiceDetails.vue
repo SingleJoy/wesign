@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
 	name: "InvoiceDetails",
 	components:{
@@ -178,7 +178,7 @@ export default {
 				color: #fff;
 				line-height: 46px;
 				text-align: center;
-				background: url('../../../../../static/images/Common/title.png') no-repeat;
+				background: url('/static/images/Common/title.png') no-repeat;
 				.invoice-title-detail {
 					margin-left: -40px;
 				}
@@ -196,7 +196,7 @@ export default {
                     font-size: 14px;
                     height: 538px;
                     width: 812px;
-                    background: url('../../../../../static/images/Account/invoice-img.png') no-repeat;
+                    background: url('/static/images/Account/invoice-img.png') no-repeat;
                     background-size: 100%;
                     position: relative;
                     .buy-common {

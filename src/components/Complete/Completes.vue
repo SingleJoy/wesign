@@ -23,7 +23,7 @@
     <div class="state">
     <div class="stateInfo">
       <div>
-        <img src="../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
+        <img src="/static/images/contract-success.png" alt="" style="margin-top: 40px;">
       </div>
       <div style="margin-left: 30px;">
         <span>恭喜,合同签署成功！</span>
@@ -61,7 +61,7 @@
         <dl class="second">
           <dd><h3>合同分享</h3></dd>
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{contractlink}}</span></p></dd>  <!--加查看对应合同地址-->
-          <dt id='roomInfo'><img src="../../../static/images/Room/hand.png" alt=""></dt>
+          <dt id='roomInfo'><img src="/static/images/Room/hand.png" alt=""></dt>
           <dd clas='adressInfo'>
             <a href="javascript:void(0);" @click='handleCopy(contractlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
             color: #4091fb;'>复制链接</a>
@@ -70,7 +70,7 @@
         <dl class='third'>
           <dd><h3>签约室分享</h3></dd>
           <dd><p><span>签约室链接：</span><span id='contractAddress1'>{{roomlink}}</span></p></dd>  <!--签约室链接：-->
-          <dt id='roomInfo'><img src="../../../static/images/Room/room.png" alt=""></dt>
+          <dt id='roomInfo'><img src="/static/images/Room/room.png" alt=""></dt>
           <dd clas='adressInfo'>
             <a href="javascript:void(0);" @click='handleCopy(roomlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
             color: #4091fb;'>复制链接</a>

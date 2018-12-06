@@ -88,14 +88,14 @@
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="../../../../static/images/Account/no-template.png">
+                  <img src="/static/images/Account/no-template.png">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 
                 <div class="fill-background"></div>
 
                 <!--<div class="empty-template" >-->
-                <!--<img src="../../../../../static/images/Confirmation/Account/default-template.png">-->
+                <!--<img src="/static/images/Confirmation/Account/default-template.png">-->
                 <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
                 <!--</div>-->
               </div>
@@ -501,7 +501,7 @@
     margin-left: 20px;
   }
   .content-body>p.title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
 

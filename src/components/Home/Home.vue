@@ -9,9 +9,9 @@
     </div>
 </template>
 <script>
-import Top from '../../common/components/Top'
+import Top from '@/common/components/Top'
 import Container from './Container'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Home',
   components: {

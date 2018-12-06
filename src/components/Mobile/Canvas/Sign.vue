@@ -344,7 +344,7 @@
   .modal-body{
     width:200px;
     height:200px;
-    background: url('../../../../static/images/Canvas/canvas-tips.png') no-repeat;
+    background: url('/static/images/Canvas/canvas-tips.png') no-repeat;
   }
   .modal-footer{padding: 10px;height:30px;}
   .modal-footer a{display: inline-block;border-radius: 4px; }

@@ -8,7 +8,7 @@
 <script>
 // import Tops from '../../common/components/Tops'
 import Whethers from './Whethers'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Whether',
     components: {

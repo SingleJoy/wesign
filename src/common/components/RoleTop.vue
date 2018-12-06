@@ -2,9 +2,9 @@
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
-      <p  class="signout-btn" @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></p>
+      <p  class="signout-btn" @click="amendPassWord"><img src="/static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></p>
     </nav>
   </div>
 

@@ -2,7 +2,7 @@
   <div class='Server'>
       <Top></Top>
       <div class='error' style="margin-top: 20px;">
-          <p class='animated fadeInUp'><img src="../../../static/images/Error/rock.png" alt=""></p>
+          <p class='animated fadeInUp'><img src="/static/images/Error/rock.png" alt=""></p>
           <h3>sorry</h3>
           <h4>您访问的页面已离开地球</h4>
           <h5>因长时间未操作，本次登录已失效，请重新登录</h5>

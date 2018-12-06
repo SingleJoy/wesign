@@ -6,7 +6,7 @@
 </template>
 <script>
   import Registers from './Registers.vue'
-  import Bottom from '../../../../common/components/Bottom.vue'
+  import Bottom from '@/common/components/Bottom.vue'
   export default {
     name: 'Completion',
      components: {

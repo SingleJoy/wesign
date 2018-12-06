@@ -50,12 +50,12 @@
                                         </p>
                                         <p >
                                             <span class="item-option">
-                                                <img src="../../../static/images/Multiparty/see.png" alt="">
+                                                <img src="/static/images/Multiparty/see.png" alt="">
                                                 <span>在线预览</span>
                                             </span>
 
                                             <span class="item-option">
-                                                <img src="../../../static/images/Multiparty/creater.png" alt="">
+                                                <img src="/static/images/Multiparty/creater.png" alt="">
                                                 <span>立即发起</span>
                                             </span>
 
@@ -192,7 +192,7 @@ export default {
         .template-title{
              padding:20px 15px 0 15px;
             .title-bg{
-                background: url('../../../static/images/Common/title.png') no-repeat;
+                background: url('/static/images/Common/title.png') no-repeat;
                 height:46px;
             }
             .title-name{
@@ -238,7 +238,6 @@ export default {
                         width:180px;
                         background: #ddd;
                         position: relative;
-                        // background: url("../../")
                         p{
                             text-align: center;
                             word-wrap: break-word;

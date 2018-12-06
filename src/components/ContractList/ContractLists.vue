@@ -69,7 +69,7 @@
        <el-button type="primary" @click='contractInquiry' style="margin-left:20px;letter-spacing:5px;">搜索</el-button>
         <div class="list-body">
             <div class="totalImg" v-if="num === 0">
-                <img src="../../../static/images/notavailable.png" alt="">
+                <img src="/static/images/notavailable.png" alt="">
             </div>
             <el-table :header-cell-style="getRowClass" :data="tableInformation"  style="width: 100%;text-align:center"  v-loading="loading" element-loading-text="拼命加载中" >
                 <el-table-column prop="contractName" label="合同名称" style="text-align:center"  width="250" :show-overflow-tooltip= true ></el-table-column>
@@ -94,8 +94,8 @@
 
 
 </div>
-	
-   
+
+
 </template>
 <style lang="scss" scoped>
 @import "../../common/styles/content.scss";
@@ -111,7 +111,7 @@ export default {
       activeTab:1,
       activeName:'first',
       isActive:true,
-      contractListType:1,              //合同列表类型：1: B2C  2:B2B ;   0: 小b  
+      contractListType:1,              //合同列表类型：1: B2C  2:B2B ;   0: 小b
       inputVal:'',
       filters: {
             column: {

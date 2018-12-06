@@ -55,7 +55,7 @@
 <script>
 import Charge from '../Charge/Charge'
 import Invoice from '../Invoice/Invoice'
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
     name: 'BillDetails',
     data() {

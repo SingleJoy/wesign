@@ -125,7 +125,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
   .CompanyExbm .main .text{
     margin-top: -30px;
@@ -163,7 +163,7 @@
     height: 700px;
   }
   .main .first #sign-icon{
-        background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+        background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
         height: 60px;
         position: absolute;
         text-align: center;
