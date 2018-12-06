@@ -149,7 +149,7 @@
       let data =[];
 
       getTemplateValAndImgs(this.interfaceCode,this.templateNo,this.accountCode).then(res=> {
-
+        this.$loading.hide(); //隐藏
         if(res.data.list)
           this.allpage = res.data.list.length
         this.$nextTick(() => {
@@ -159,7 +159,6 @@
         for (let i = 0; i < res.data.list.length;i++) {
           let templateUrl = res.data.list[i]
           data[i] = templateUrl
-          this.$loading.hide(); //隐藏
         }
         this.imgList = data
         this.fillMessage = res.data.lists

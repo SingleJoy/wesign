@@ -71,7 +71,6 @@
               </div>
             </div>
 
-
           </div>
           <!--企业证书-->
           <div class="content-body">
@@ -82,7 +81,7 @@
               <div class="card right-card" style="margin-top: 20px;margin-left: 20px;">
                 <div class="right-card-content">
                   <div class="right-line">
-                    <span style="display: inline-block;width: 60px;vertical-align: top;">序列号:</span>
+                    <span style="display: inline-block;width: 60px;vertical-align: top;">识别码:</span>
                     <b style="display: inline-block;width: 180px;word-wrap:break-word;vertical-align: top;">{{issuedNumber}}</b>
                   </div>
                   <div class="right-line">

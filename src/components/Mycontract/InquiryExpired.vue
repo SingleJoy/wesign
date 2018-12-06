@@ -169,7 +169,7 @@ export default {
 
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
             for (let i = 0; i < res.data.content.length;i++) {
-                if (res.data.content[i].creater == currentFaceCode) {
+                if (res.data.content[i].creater == this.interfaceCode) {
                     isCreater = true;
                 } else {
                     isCreater = false;

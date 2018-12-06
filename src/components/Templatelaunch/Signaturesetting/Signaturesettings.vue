@@ -519,7 +519,7 @@
             id_nums = id_nums.substring(0,id_nums.length-1)
             emails = emails.substring(0,emails.length-1)
             if(this.operateType !='' ){
-              params={
+            var  params={
                 "needSign":needSign,
                 "operateType":this.operateType,
                 "contractName":TrimAll(this.templateName),
@@ -533,7 +533,7 @@
                 "emails":emails
               }
             } else {
-              params={
+             var  params={
                 "needSign":needSign,
                 "contractName":TrimAll(this.templateName),
                 "validTime":this.value8,

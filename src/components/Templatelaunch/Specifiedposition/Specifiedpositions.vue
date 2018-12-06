@@ -246,7 +246,7 @@
             }
           }
 
-          signerpositions(param,this.interfaceCode ,this.contractNo).then(res=> {
+          signerpositions({"signerpositions":param},this.interfaceCode ,this.contractNo).then(res=> {
             if(res.data.resultCode == '0') {
 
               this.$router.push('/Contractsign')

@@ -153,7 +153,7 @@ export function getSignatureImg(accountCode,authorizerCode,t) {
 //getAuthBookImg
 export function getAuthBookImg(param) {
   return request({
-    url:"1.5/user/getAuthBookImg",
+    url:"/api/v1.5/user/getAuthBookImg",
     method: "get",
     params:param
   })
