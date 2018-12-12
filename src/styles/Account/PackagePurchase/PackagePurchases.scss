@@ -1,0 +1,223 @@
+.PackagePurchases{
+  position: relative;
+  .PackagePurchases-main{
+    background-color: #fff;
+    width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    min-height: 600px;
+    padding-top: 5px;
+    .main-header{
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+      .title{
+        height: 46px;
+        margin: 20px 0 0 15px;
+        line-height: 46px;
+        padding-left: 40px;
+        color: #fff;
+        font-size: 20px;
+        padding-top: 0 !important;
+        border-top: none !important;
+        background: url('/static/images/Common/title.png') no-repeat;
+      }
+      .right{
+        float: right;
+        margin-top: -55px;
+        margin-right: 20px;
+        p{
+          float: right;
+          .back-home{
+            height: 30px;
+            padding-left: 35px;
+            font-size: 16px;
+            text-align: right;
+            color: #4091fb;
+            display: block;
+            span.back-png{
+              display: inline-block;
+              width: 30px;
+              height: 18px;
+              background: url('/static/images/Common/back-home.png') no-repeat;
+            }
+          }
+          b.accountBalance{
+            font-size: 16px;
+            color: #4091fb;
+            display: block;
+            line-height: 35px;
+          }
+        }
+
+      }
+    }
+    .main-body{
+      position: relative;
+      background-color: #f5f5f5;
+      margin: 20px;
+      overflow: auto;
+      .list-common{
+        position: relative;
+        width: 1160px;
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        overflow: auto;
+        .b2c-list-title{
+          position:relative;
+          margin-left: 20px;
+          top: 20px;
+          width: 127px;
+          height: 75px;
+          line-height: 75px;
+          background: url('/static/images/Common/rectangle.png') no-repeat;
+          float: left;
+        }
+        .list-content{
+          margin-left: 148px;
+          width: 1000px;
+          position: relative;
+          top:20px;
+          overflow: auto;
+
+        }
+        .clear{
+          clear: both;
+          padding-top: 20px;
+        }
+      ;
+      }
+      .b2c-list{
+         ul{
+           li{
+             width: 248px;
+             height: 73px;
+             border: 1px dashed #4091fb;
+             border-left:1px dashed transparent;
+             display: inline-block;
+             float: left;
+             background-color: #fff;
+             cursor: pointer;
+             a{
+               display: inline-block;
+               box-sizing: border-box;
+               width: 82px;
+               height: 49px;
+               float: right;
+               right: 0;
+               top:0;
+               color: #fff;
+               font-size: 14px;
+               line-height: 18px;
+               text-align: right;
+               padding-right: 3px;
+             }
+             div{
+               padding-top: 10px;
+               p{
+                 display:block;
+                 text-align: center;
+                 line-height: 25px;
+                 color: #333;
+                 font-size: 14px;
+                 span{
+                   color:#4091fb;
+                   font-size: 14px;
+                 }
+               }
+             }
+           }
+           li:nth-child(4n+5){
+             border-left:1px dashed #4091fb;
+           }
+           li:nth-child(n+5){
+             border-top:none;
+           }
+           li:nth-child(4n+1) a{
+             background: url("/static/images/Account/PackagePurchase/b2c-typeA.png") no-repeat;
+           }
+           li:nth-child(4n+2) a{
+             background: url("/static/images/Account/PackagePurchase/b2c-typeB.png") no-repeat;
+           }
+           li:nth-child(4n+3) a{
+             background: url("/static/images/Account/PackagePurchase/b2c-typeC.png") no-repeat;
+           }
+           li:nth-child(4n+4) a{
+             background: url("/static/images/Account/PackagePurchase/b2c-typeD.png") no-repeat;
+           }
+         }
+      }
+      .b2b-list{
+        border-top: 1px dashed #ddd;
+        clear: both;
+        ul{
+          li{
+            width: 248px;
+            height: 73px;
+            border: 1px dashed #4091fb;
+            border-left:1px dashed transparent;
+            display: inline-block;
+            float: left;
+            background-color: #fff;
+            a{
+              display: inline-block;
+              box-sizing: border-box;
+              width: 82px;
+              height: 49px;
+              float: right;
+              right: 0;
+              top:0;
+              color: #fff;
+              font-size: 14px;
+              line-height: 18px;
+              text-align: right;
+              padding-right: 3px;
+            }
+            div{
+              padding-top: 10px;
+              p{
+                display:block;
+                text-align: center;
+                line-height: 25px;
+                color: #333;
+                font-size: 14px;
+                span{
+                  color:#4091fb;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+          li:nth-child(4n+5){
+            border-left:1px dashed #4091fb;
+          }
+          li:nth-child(n+5){
+            border-top:none;
+          }
+          li:nth-child(4n+1) a{
+            background: url("/static/images/Account/PackagePurchase/b2b-typeA.png") no-repeat;
+          }
+          li:nth-child(4n+2) a{
+            background: url("/static/images/Account/PackagePurchase/b2b-typeB.png") no-repeat;
+          }
+          li:nth-child(4n+3) a{
+            background: url("/static/images/Account/PackagePurchase/b2b-typeC.png") no-repeat;
+          }
+          li:nth-child(4n+4) a{
+            background: url("/static/images/Account/PackagePurchase/b2b-typeD.png") no-repeat;
+          }
+        }
+      }
+    }
+    .package-table{
+      padding: 20px;
+      .block{
+        text-align: center;
+        margin-top: 40px;
+      }
+    }
+
+
+
+  }
+}

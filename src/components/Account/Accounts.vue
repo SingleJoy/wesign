@@ -42,15 +42,24 @@
                 </div>
                 <div class="card-line">
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
-                  <b>{{Email}}</b>
+                  <b v-if="Email">{{Email}}</b>
+                  <b v-else>暂未绑定</b>
+                  <a v-if="!Email" href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmail">绑定邮箱</a>
                 </div>
                 <div class="card-line" v-if="accountLevel=='1'">
                   <span>被授权人姓名:</span>
                   <b>{{authName}}</b>
                 </div>
                 <div class="card-line">
+                  <span>账&nbsp;&nbsp;户&nbsp;&nbsp;余&nbsp;&nbsp;额</span>
+                  <span>{{accountBalance}}&nbsp;元</span>
+                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packageBuy">立即充值</a>
+                </div>
+
+                <div class="card-line">
                     <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
                     <span>{{ContractAllowance}}&nbsp;份</span>
+                    <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packagePurchase">立即购买</a>
                 </div>
                 <div class="card-line">
                   <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同:&nbsp;{{b2bNum}}&nbsp;份</span>
@@ -127,10 +136,8 @@
 
             </div>
 
-
-
             <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
-            <!--<div class="create-seal" >-->
+
               <!--生成公章-->
               <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
               <span>录入公章防伪码在线生成</span>
@@ -142,7 +149,6 @@
             <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showSealDemo" >    <!-- :lock-scroll= false有问题！！！！ -->
 
               <img src="/static/images/Account/create-seal-demo.jpg"  style='width:100%;'>
-
 
             </el-dialog>
           </div>
@@ -374,13 +380,37 @@
           <el-button type="primary"  @click="submitForm('ruleForm')" size="medium">确 定</el-button>
         </span>
     </el-dialog>
+    <!--绑定邮箱-->
+    <el-dialog :visible.sync="bindEmailDialog" width="450px" custom-class="bindEmail" center>
+      <div class="tips">请输入想要绑定的邮箱账号</div>
+
+      <el-form :model="bindEmailForm" :rules="EmailRules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+        <el-form-item prop="email" label="邮箱账号" >
+          <el-input type="text" placeholder="邮箱账号" class="forget-messageInput" v-model="bindEmailForm.email" style="width: 200px;">
+        </el-input>
+
+      </el-form-item>
+
+        <el-form-item prop="smsCode" label="验证码">
+          <el-input type="text" placeholder="请输入6位数字验证码" class="forget-messageInput" v-model="bindEmailForm.smsCode" style="width: 150px;">
+
+          </el-input>
+          <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left:10px;">获取验证码</el-button>
+        </el-form-item>
+
+        <div class="forget-btn" style="text-align: center;">
+          <el-button type="primary" @click="submitForm('ruleForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
   import md5 from 'js-md5'
   import {validateSeal,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
-  import {validatePassWord} from '@/common/js/validate'
+  import {validatePassWord,validateEmail,validateSmsCode} from '@/common/js/validate'
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
   import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation} from '@/api/account'
   import server from '@/api/url'
@@ -434,8 +464,27 @@
           callback();
         }
       }
+
+      let validateBindEmail = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('邮箱不可为空'));
+        } else if(value &&validateEmail(TrimAll(value))) {
+          callback(new Error('邮箱输入格式不正确'));
+        } else {
+          callback();
+        }
+      }
+      let validateBindSmsCode= (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('验证码不可为空'));
+        } else if(value &&validateSmsCode(TrimAll(value))) {
+          callback(new Error('验证码只能是6位数字'));
+        } else {
+          callback();
+        }
+      }
       return{
-          isShow: true,
+        isShow: true,
         ContractAllowance: '',
         baseURL:this.baseURL.BASE_URL,
         Jurisdiction:true,
@@ -463,17 +512,29 @@
         officeSealUrl:'',
         b2bNum: '',
         b2cNum: '',
-
         auditCode:'',
         auditOpinion:'',
         modalTips:false,
-        ruleForm: {
+        ruleForm: {      //更改密码弹窗校验
           oldPassWord: '',
           newPassWord: '',
           checkPassWord:''
         },
         realNameState:true,
-        rules:{
+        bindEmailDialog:false,  //绑定邮箱弹窗
+        bindEmailForm:{    //绑定邮箱数据
+            email:'',
+           smsCode:''
+        },
+        EmailRules:{    //邮箱输入校验规则
+            email:[
+            { validator: validateBindEmail, trigger: 'blur' }
+            ],
+            smsCode:[
+              { validator: validateBindSmsCode, trigger: 'blur' }
+            ]
+        },
+        rules:{   //修改密码输入校验规则
           oldPassWord: [
             { validator: validateOldPassWord, trigger: 'blur' }
           ],
@@ -509,10 +570,83 @@
         SealList:[],  //合同章图片
         accountName:'',   //账户名称
         dialogVisible:false,  //默认不显示签章提示图片
+        once:false, //绑定邮箱单次点击
+        accountBalance:'11111',   //账户余额
 
       }
     },
     methods: {
+      packageBuy(){
+        this.$router.push('/PackageBuy')
+      },
+      packagePurchase(){
+        this.$router.push('/PackagePurchase')
+      },
+      bindEmail(){
+         this.bindEmailDialog=true
+      },
+      sendCode(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+
+              let codeType = '0';
+              let count = 60;
+              let curCount = count;
+              let timer = null;
+
+              this.sms = true;
+              let params={'mobile': this.mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode};
+              server.smsCodeOld(params).then(res=> {
+
+                this.smsNoVer=res.data.smsNo   //短信编号
+                this.appId=res.data.appId     //appId
+                let resultCode = res.data.resultCode;
+                let smsNo = res.data.smsNo;
+                let smsCode = res.data.smsCode;
+                let message = res.data.resultMessage;
+                if (resultCode === '1') {
+                  this.smsNo = true;
+                  this.smsCodeNum +=1;
+                  if(this.smsCodeNum == 3){
+                    this.isDisabled = true
+                  } else{
+                    this.isDisabled = false
+                  }
+                  let codeInfo = document.getElementById('code')
+                  codeInfo.innerText =  curCount + '秒'
+                  this.smsNum = smsNo
+
+                  codeInfo.setAttribute('disabled', 'true')
+                  let that = this
+                  timer = setInterval(function () {
+                    codeInfo.innerText =  (curCount - 1) + '秒'
+                    if (curCount === 0) {
+                      codeInfo.innerText = '获取'
+                      clearInterval(timer)
+                      codeInfo.removeAttribute('disabled')
+                      that.repeat = false
+                    } else {
+                      curCount--
+                    }
+                  }, 1000)
+                }else{
+                  let that =this;
+                  that.smsNo = false
+                  that.repeat = false
+                  this.$alert(res.data.resultMessage,'提示', {
+                    confirmButtonText: '确定'
+                  })
+
+                }
+              }).catch(error=>{
+
+              })
+
+            }else {
+
+          }
+          })
+      },
       AccoutCenter(){
         this.$router.push('/Account')
       },
@@ -896,4 +1030,11 @@
     margin-top:25px!important;
   }
 
+  .bindEmail .tips{
+    font-size: 14px;
+    color: #333;
+    margin: 20px auto;
+    text-align: center;
+  }
 </style>
+

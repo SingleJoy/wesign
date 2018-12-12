@@ -63,6 +63,8 @@ import BillList from "../components/Account/CostCenter/Bill/BillList.vue";      
 import BillDetail from "../components/Account/CostCenter/Bill/BillDetail.vue";                //我的账户->账户中心->账单列表详情
 import Invoice from '../components/Account/CostCenter/Invoice/Invoices.vue'                //我的账户->账户中心->发票
 import InvoiceDetail from '../components/Account/CostCenter/Invoice/InvoiceDetail.vue'                //我的账户->账户中心->发票
+import PackagePurchase from '../components/Account/PackagePurchase/PackagePurchase.vue'                //我的账户->套餐购买
+import PackageBuy from '../components/Account/PackageBuy/PackageBuy.vue'                //我的账户->充值
 
 
 
@@ -512,6 +514,25 @@ export const router = new Router({
         auth: false
       }
     },
+    //套餐购买
+    {
+      path: '/PackagePurchase',
+      name: 'PackagePurchase',
+      component: PackagePurchase,
+      meta: {
+        auth: false
+      }
+    },
+    //充值
+    {
+      path: '/PackageBuy',
+      name: 'PackageBuy',
+      component: PackageBuy,
+      meta: {
+        auth: false
+      }
+    },
+
     {
       path: '/PersonWait',
       name: 'PersonWait',
