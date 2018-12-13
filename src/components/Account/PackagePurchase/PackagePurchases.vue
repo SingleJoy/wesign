@@ -19,11 +19,11 @@
           <div class="b2c-list-title">对个人合同</div>
           <div class="list-content">
             <ul>
-              <li v-for="(item,index) in B2cListArray" :key="index">
-                <a href="javascript:void(0);">{{item.name}}</a>
+              <li v-for="(item,index) in B2cListArray" :key="index" @click="buyGoods(item)">
+                <a href="javascript:void(0);">{{item.goodsName}}</a>
                 <div>
-                  <p><span>{{item.price}}元</span></p>
-                  <p>份数 : <span>{{item.num}}份</span></p>
+                  <p><span>{{item.goodsPrice}}元</span></p>
+                  <p>份数 : <span>{{item.goodsNum}}份</span></p>
                 </div>
               </li>
             </ul>
@@ -34,11 +34,11 @@
           <div class="b2c-list-title">对企业合同</div>
           <div class="list-content">
             <ul>
-              <li v-for="(item,index) in B2bListArray" :key="index">
-                <a href="javascript:void(0);">{{item.name}}</a>
+              <li v-for="(item,index) in B2bListArray" :key="index" @click="buyGoods(item)">
+                <a href="javascript:void(0);">{{item.goodsName}}</a>
                 <div>
-                  <p><span>{{item.price}}元</span></p>
-                  <p>份数 : <span>{{item.num}}份</span></p>
+                  <p><span>{{item.goodsPrice}}元</span></p>
+                  <p>份数 : <span>{{item.goodsNum}}份</span></p>
                 </div>
               </li>
             </ul>
@@ -59,25 +59,25 @@
           :row-style="tableRowStyle"
           :header-cell-style="tableHeaderColor">
           <el-table-column
-            prop="packageName"
+            prop="goodsName"
             label="套餐名称"
             width="300"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="contractNum"
+            prop="goodsNum"
             label="合同份数"
             width="300"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="amountNum"
+            prop="orderMoney"
             label="扣款金额"
             width="300"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="transactionTime"
+            prop="payTimeStr"
             label="购买时间"
             align="center">
           </el-table-column>
@@ -87,7 +87,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-size="1"
+            :page-size="7"
             layout="prev, pager, next, total, jumper"
             :total="totalItemNumber">
           </el-pagination>
@@ -96,40 +96,46 @@
 
     </div>
 
+    <el-dialog :visible.sync="PurchaseDialog" width="450px" custom-class="PurchaseDialog" center>
+      <div class="dialog-content">
+        <div class="header">是否确认购买<span>【{{goodsName}}】</span></div>
+        <div class="body">
+          <p>扣款金额:<span>{{goodsPrice}}元</span></p>
+          <p>支付方式 : 账户余额</p>
+          <b>购买套餐前请确保账户余额充足，账户余额不足可能导致此次交易失败</b>
+
+        </div>
+        <div class="footer">
+          <el-button @click="packageBuy(item)" :disabled="once" style="margin: 0 auto;background-color: #4091fb;width: 120px;color: #fff;">购买合同套餐</el-button>
+        </div>
+      </div>
+
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
+  import {getGoods,getOrderList,buyGoods} from '@/api/purchase'
   export default {
     name: "PackagePurchases",
     data() {
       return {
         interfaceCode:sessionStorage.getItem("interfaceCode"),
-        accountBalance:'20000',  //账户余额
-        B2cListArray:         //b2c列表数据
-          [
-            {name:'套餐A',price:'2000',num:'1000'},
-            {name:'套餐B',price:'3000',num:'1600'},
-            {name:'套餐C',price:'5000',num:'2800'},
-            {name:'套餐D',price:'10000',num:'6000'},
-            {name:'套餐E',price:'15000',num:'12000'},
-            {name:'套餐F',price:'15000',num:'12000'},
-            {name:'套餐G',price:'15000',num:'12000'},
-            {name:'套餐H',price:'15000',num:'12000'},
-          ],
-        B2bListArray:   //b2b列表数据
-          [
-            {name:'套餐A',price:'2000',num:'1000'},
-            {name:'套餐B',price:'3000',num:'1600'},
-            {name:'套餐C',price:'5000',num:'2800'},
-            {name:'套餐D',price:'10000',num:'5000'},
-            {name:'套餐D',price:'20000',num:'12000'},
-          ],
+        accountCode:sessionStorage.getItem("accountCode"),
+        accountBalance:sessionStorage.getItem("accountBalance"),  //账户余额
+        B2cListArray: [],        //b2c列表数据
+        B2bListArray:[],   //b2b列表数据
         totalItemNumber: 0,
-        tableData: [
-
-        ],
-        currentPage: 4,
+        tableData: [],
+        currentPage: 1,
+        PurchaseDialog:false,
+        b2bNum:sessionStorage.getItem("b2bNum"),   //我的账户页面存储b2b剩余合同数量
+        b2cNum:sessionStorage.getItem("b2cNum"),  //我的账户页面存储b2c剩余合同数量,
+        goodsPrice:'',
+        goodsName:'',
+        params:'',
+        once:false,
       }
     },
     methods:{
@@ -145,20 +151,154 @@
         // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        this.getList(val,1);
+        console.log(val)
+        this.getOrderListSearch(val);
+        this.getGoods()
       },
       backLast(){
-       this.$router.push('/Account')
+        this.$router.push('/Account')
+      },
+      getGoods(){
+        getGoods().then(res=>{
+          if(res.data.resultCode==1){
+            let B2bListArray=[];
+            let B2cListArray=[];
+            if(res.data.dataList){
+              for(let i=0;i<res.data.dataList.length;i++){
+                if(res.data.dataList[i].goodsType==0){
+                  B2bListArray.push(res.data.dataList[i])
+                }else {
+                  B2cListArray.push(res.data.dataList[i])
+                }
+              }
+              this.B2bListArray=B2bListArray;
+              this.B2cListArray=B2cListArray;
+            }
+
+          }else {
+            this.$alert(res.data.resultMessage, '提示',{
+              confirmButtonText: '确定'
+            });
+          }
+
+        }).catch(error=>{
+
+        })
+      },
+
+      getOrderListSearch(val){
+        if(!val){
+          val=1;       // 默认为1
+        }
+        let pageParams={
+          pageNum:val,
+          pageSize:'7'
+        };
+        getOrderList(this.interfaceCode,pageParams).then(res=>{
+          if(res.data.resultCode==1){
+            this.tableData=res.data.data.contents
+            this.totalItemNumber=res.data.data.totalItemNumber
+
+          }else {
+            this.$alert(res.data.resultMessage, '提示',{
+              confirmButtonText: '确定'
+            });
+          }
+        }).catch(error=>{
+
+        })
+      },
+      buyGoods(item){
+
+        this.goodsName=item.goodsName;
+        this.goodsPrice=item.goodsPrice;
+        let params={
+          'interfaceCode':this.interfaceCode,
+          'accountCode':this.accountCode,
+          'goodsName':item.goodsName,
+          'goodsNo': item.goodsNo,
+          'goodsNum': item.goodsNum,
+          'goodsPrice': item.goodsPrice,
+          'goodsStatus': item.goodsStatus,
+          'goodsType':item.goodsType,
+          'conSurlplusNum':(item.goodsType=='0')?this.b2bNum:this.b2cNum,
+        };
+        this.params=params;
+        if(item.goodsPrice>this.accountBalance){
+
+          this.$confirm(
+            '对不起，您的账户余额不足以支持本次套餐购买服务请充值后再试','提示',
+            {confirmButtonText: '确定',
+              showCancelButton:false}).then(() => {
+            this.router.push('/PackageBuy')
+          }).catch(() => {
+
+          });
+        }else{
+          this.PurchaseDialog=true;
+        }
+
+      },
+
+      packageBuy(){
+        this.PurchaseDialog=false;
+        this.once=true;
+        this.$loading.show();
+        buyGoods(this.interfaceCode,this.params).then(res=>{
+          this.once=false;
+          if(res.data.resultCode==1){
+            this.$loading.hide();
+            setTimeout(()=>{
+              this.$alert(res.data.resultMessage, '提示',{
+                confirmButtonText: '确定'
+              });
+            },1500)
+
+            this.PurchaseDialog=false;
+            // this.accountBalance=res.data.accountMoney;
+
+          }else if(res.data.resultCode==0){
+            this.$loading.hide();
+              this.$confirm(
+                <div class="warn-num">
+                  <p class="title" style="font-size:16px;text-align:center;">
+                    {res.data.resultMessage}
+                  </p>
+                </div>,'提示',
+                {confirmButtonText: '确定',
+                  showCancelButton:false}).then(() => {
+                this.router.push('/PackageBuy')
+              }).catch(() => {
+                this.$message({
+                  type: 'error',
+                  message: '取消购买'
+                });
+              });
+
+          }
+        }).catch(error=>{
+
+        })
       }
     },
     created() {
-
+      this.getGoods();//套餐列表数据
+      this.getOrderListSearch();   //购买记录数据
     },
-
 
   }
 </script>
 
 <style lang="scss" scoped>
   @import "../../../styles/Account/PackagePurchase/PackagePurchases.scss";
+  .warn-num{
+   text-align:center;
+     p{
+       font-size:16px;
+       text-align:center;
+      }
+     .title {
+       font-size: 18px;
+     }
+  }
 </style>

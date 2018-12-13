@@ -80,7 +80,13 @@
             style="width: 100%;text-align:center"
             :row-class-name="tableRowClassName"
             v-cloak
+            @selection-change="handleSelectionChange"
+            ref="multipleTable"
           >
+            <el-table-column
+              type="selection"
+              width="55">
+            </el-table-column>
             <el-table-column
               label="合同名称"
               width="250"
@@ -103,12 +109,12 @@
             <el-table-column
               prop="createTime"
               label="发起时间"
-              width="170">
+              width="160">
             </el-table-column>
             <el-table-column
               prop="validTime"
               label="截止时间"
-              width="170">
+              width="160">
             </el-table-column>
             <el-table-column
               prop="contractStatus"
@@ -118,7 +124,7 @@
             <el-table-column
               prop="operation"
               label="操作"
-              width="200"
+              width="180"
             >
               <template slot-scope="scope">
                 <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
@@ -131,6 +137,10 @@
               </template>
             </el-table-column>
           </el-table>
+          <!-- 数据表格 end -->
+          <div style="position: absolute;bottom: 0;">
+            <el-button type="primary" @click="batchDownload">批量下载</el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -219,9 +229,39 @@
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
         b2bNum:'0',
         b2cNum:'0',
+        multipleSelection: [],    //全选按钮的数组
+        downloadList:[],  //要下载的数组
       };
     },
     methods: {
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      //批量下载请求
+      batchDownload(){
+       let length = this.multipleSelection.length;
+        let str = '';
+        this.downloadList = this.downloadList.concat(this.multipleSelection);
+        if(length < 1){
+
+          this.$alert('请选择要下载的合同','提示', {
+            confirmButtonText: '确定'
+          })
+        }else{
+          for (let i = 0; i < length; i++) {
+            str += this.multipleSelection[i].contractNum + ',';
+          }
+          console.log(str)
+          // let url = process.env.API_HOST+'contract/manage/download/'+str;
+          // let up = document.createElement('a');
+          // document.body.appendChild(up)
+          // up.setAttribute('href', url);
+          // up.click();
+          // self.multipleSelection = [];
+          // this.$refs.multipleTable.clearSelection();
+        }
+      },
+
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return "background:#f5f5f5;text-align:center;font-weight:bold;";
@@ -349,6 +389,7 @@
           this.$router.push("/ContractDelay");
         }
       },
+      //单次下载
       downloadClick(row) {
         //下载
         let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNum;

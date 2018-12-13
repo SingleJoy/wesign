@@ -16,7 +16,7 @@ const Axios = axios.create({
     transformRequest: [function (data) {  // 将数据转换为表单数据
         data = qs.stringify(data)
         return data
-    }], 
+    }],
 })
 
 

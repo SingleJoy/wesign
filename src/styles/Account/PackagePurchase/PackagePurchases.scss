@@ -220,4 +220,51 @@
 
 
   }
+  .PurchaseDialog{
+    border-radius: 5px;
+    .dialog-content{
+      padding:10px;
+      .header{
+        font-size: 16px;
+        text-align: center;
+        span{
+          color: #4091fb;
+        }
+      }
+      .body{
+        font-size: 18px;
+        margin: 20px auto;
+        p{
+          margin: 20px 0;
+          text-align: center;
+          span{
+            padding: 0 15px;
+            color: #4091fb;
+          }
+        }
+        b{
+          text-align: center;
+          font-size: 12px;
+          color: red;
+        }
+      }
+      .footer{
+        font-size: 16px;
+        margin: 0 auto;
+        text-align: center;
+        a{
+          margin: 0 auto;
+          display: block;
+          width: 200px;
+          height: 40px;
+          line-height: 40px;
+          background: #4091fb;
+          color: #fff;
+          font-size: 16px;
+          text-align: center;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
 }

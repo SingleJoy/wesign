@@ -571,7 +571,7 @@
         accountName:'',   //账户名称
         dialogVisible:false,  //默认不显示签章提示图片
         once:false, //绑定邮箱单次点击
-        accountBalance:'11111',   //账户余额
+        accountBalance:'1111',   //账户余额
 
       }
     },
@@ -581,6 +581,9 @@
       },
       packagePurchase(){
         this.$router.push('/PackagePurchase')
+        sessionStorage.setItem('b2bNum',this.b2bNum);
+        sessionStorage.setItem('b2cNum',this.b2cNum);
+        sessionStorage.setItem('accountBalance',this.accountBalance);
       },
       bindEmail(){
          this.bindEmailDialog=true
@@ -958,11 +961,9 @@
 
       if(this.accountLevel=='1'){
         this.oneLever=true;    //一级账号才去请求查询一级账号关联的所有二级账户信息
-
         this.searchSecondAccounts();
       }else {
-
-          this.isShow = false;
+        this.isShow = false;
         this.oneLever=false;      //二级账号不查询，并且不显示账号管理模块
       }
       // 子账户信息

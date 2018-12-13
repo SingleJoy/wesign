@@ -111,24 +111,22 @@
       </div>
 
     </el-dialog>
+
+
   </div>
 </template>
 
 <script>
+  import {buyGoods} from '@/api/purchase'
   export default {
     name: "PackageBuys",
     data(){
       return{
         accountBalance:'2000',  //账户余额
         amountList:[
-          {num:'2000'},
-          {num:'5000'},
-          {num:'10000'},
-          {num:'20000'},
-          {num:'30000'},
-          {num:'40000'},
-          {num:'50000'},
-          {num:'60000'},
+          {num:'399'},
+          {num:'499'},
+          {num:'599'},
         ],
         amountPayList:[
           {name:'支付宝',index:'0'},
@@ -138,7 +136,7 @@
         isActive:'0',  //默认第一个套餐
         isPayActive:'0',  //默认支付宝支付
         qrcodeUrl:'',
-        payNum:'2000',
+        payNum:'399',
         bugSuccessDialog:true,
       }
     },

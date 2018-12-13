@@ -51,7 +51,13 @@
         element-loading-text="拼命加载中"
         v-cloak
         v-else
+        @selection-change="handleSelectionChange"
+        ref="multipleTable"
         >
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column
         prop="contractName"
         label="合同名称"
@@ -98,6 +104,10 @@
         </template>
       </el-table-column>
     </el-table>
+        <!-- 数据表格 end -->
+        <div style="position: absolute;bottom: 0;" v-if="num">
+          <el-button type="primary" @click="batchDownload">批量下载</el-button>
+        </div>
     </div>
     <div class='pagetion'>
       <el-pagination
@@ -140,6 +150,8 @@ export default {
         inputVal3:'',
         checked:false,
         inquiry:false,
+         multipleSelection: [],    //全选按钮的数组
+          downloadList:[],  //要下载的数组
         filters: {
             column: {
                 create_start_date: null,
@@ -165,6 +177,33 @@ export default {
         }
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    //批量下载请求
+    batchDownload(){
+      let length = this.multipleSelection.length;
+      let str = '';
+      this.downloadList = this.downloadList.concat(this.multipleSelection);
+      if(length < 1){
+
+        this.$alert('请选择要下载的合同','提示', {
+          confirmButtonText: '确定'
+        })
+      }else{
+        for (let i = 0; i < length; i++) {
+          str += this.multipleSelection[i].contractNum + ',';
+        }
+        console.log(str)
+        // let url = process.env.API_HOST+'contract/manage/download/'+str;
+        // let up = document.createElement('a');
+        // document.body.appendChild(up)
+        // up.setAttribute('href', url);
+        // up.click();
+        // self.multipleSelection = [];
+        // this.$refs.multipleTable.clearSelection();
+      }
+    },
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
         return 'background:#f5f5f5;font-weight:bold;'

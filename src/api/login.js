@@ -61,3 +61,20 @@ export function sendSmsCode(param){
         params:param
     })
 }
+
+// //校验验证码是否输入正确
+// export function checkVerifyCode(param) {
+//   return request({
+//     url:"api/v1.7/user/checkVerifyCode",
+//     method:"post",
+//     data:param
+//   })
+// }
+// //密码输错五次  获取验证码
+// export function getVerifyCodeImg(param) {
+//   return request({
+//     url:"api/v1.7/user/getVerifyCodeImg",
+//     method:"get",
+//     params:param
+//   })
+// }
