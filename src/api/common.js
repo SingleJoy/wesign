@@ -27,3 +27,12 @@ export function exitAndDeleteSession(param){
     params:param
   })
 }
+
+ //批量下载合同
+export function downloadContracts(interfaceCode,param) {
+  return request({
+    url:"api/v1.7/contract/"+interfaceCode+"/downloadContracts",
+    method:"post",
+    data:param
+  })
+}

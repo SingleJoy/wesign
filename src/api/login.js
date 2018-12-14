@@ -62,19 +62,29 @@ export function sendSmsCode(param){
     })
 }
 
-// //校验验证码是否输入正确
-// export function checkVerifyCode(param) {
-//   return request({
-//     url:"api/v1.7/user/checkVerifyCode",
-//     method:"post",
-//     data:param
-//   })
-// }
-// //密码输错五次  获取验证码
-// export function getVerifyCodeImg(param) {
-//   return request({
-//     url:"api/v1.7/user/getVerifyCodeImg",
-//     method:"get",
-//     params:param
-//   })
-// }
+//密码输错五次  获取验证码
+export function getVerifyCodeImg(param) {
+  return request({
+    url:"api/getVerifyCodeImg",
+    method:"get",
+    params:param
+  })
+}
+
+//校验验证码是否输入正确
+export function checkVerifyCode(param) {
+  return request({
+    url:"api/v1.7/user/checkVerifyCode",
+    method:"post",
+    data:param
+  })
+}
+
+//用户账号存在库中 校验用户当天是否输错五次密码  输错五次密码  判断是否需要获取验证码
+export function phoneStatus(param) {
+  return request({
+    url:"api/phoneStatus",
+    method:'get',
+    params:param
+  })
+}

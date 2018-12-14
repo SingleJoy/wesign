@@ -130,8 +130,8 @@
           </el-table-column>
         </el-table>
         <!-- 数据表格 end -->
-        <div style="position: absolute;bottom: 0;" v-if="num">
-          <el-button type="primary" @click="batchDownload">批量下载</el-button>
+        <div style="position: absolute;margin-top:50px;" v-if="num">
+          <el-button type="primary" @click="batchDownload" v-loading.fullscreen.lock="fullscreenLoading">批量下载</el-button>
         </div>
       </div>
     </div>
@@ -162,6 +162,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
+        fullscreenLoading: false,
       }
     },
     methods:{
@@ -174,22 +175,27 @@
         let str = '';
         this.downloadList = this.downloadList.concat(this.multipleSelection);
         if(length < 1){
+          this.$message({
+            showClose: true,
+            message: '请选择要下载的合同',
+            type: "error"
+          });
 
-          this.$alert('请选择要下载的合同','提示', {
-            confirmButtonText: '确定'
-          })
         }else{
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].contractNum + ',';
           }
-          console.log(str)
-          // let url = process.env.API_HOST+'contract/manage/download/'+str;
-          // let up = document.createElement('a');
-          // document.body.appendChild(up)
-          // up.setAttribute('href', url);
-          // up.click();
-          // self.multipleSelection = [];
-          // this.$refs.multipleTable.clearSelection();
+          this.fullscreenLoading=true;
+          let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
+          let up = document.createElement('a');
+          document.body.appendChild(up);
+          up.setAttribute('href', url);
+          up.click();
+          setTimeout(() => {
+            this.fullscreenLoading = false;
+          }, 1500);
+          self.multipleSelection = [];
+          this.$refs.multipleTable.clearSelection();
         }
       },
       EnterPer:function () {
