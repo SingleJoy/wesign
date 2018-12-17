@@ -223,14 +223,14 @@
 
           if (stateCode == "1") {
             if(response.data.dataList[0].length>0){
-              var urlParam =  response.data.dataList[0][0].interfaceCode;
-              var accountMoney =  response.data.dataList[0][0].accountMoney;
-              var enterpriseName = response.data.dataList[0][0].enterpriseName;
-              var mobile = response.data.dataList[0][0].mobile;
-              var auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
-              var accountCode = response.data.dataList[0][0].accountCode;
-              var accountLevel = response.data.dataList[0][0].accountLevel;
-              var accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
+              let urlParam =  response.data.dataList[0][0].interfaceCode;
+              let accountMoney =  response.data.dataList[0][0].accountMoney;
+              let enterpriseName = response.data.dataList[0][0].enterpriseName;
+              let mobile = response.data.dataList[0][0].mobile;
+              let auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
+              let accountCode = response.data.dataList[0][0].accountCode;
+              let accountLevel = response.data.dataList[0][0].accountLevel;
+              let accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
               sessionStorage.setItem("enterpriseName", enterpriseName);
               sessionStorage.setItem('accountCode',accountCode);
               sessionStorage.setItem('accountLevel',accountLevel);
@@ -239,17 +239,16 @@
               sessionStorage.setItem('mobile',mobile);
               sessionStorage.setItem('accountMoney',accountMoney);
             }else{
-              var urlParam =  response.data.dataList[1][0].interfaceCode;
-              var interfaceCode =  response.data.dataList[1][0].interfaceCode;
-              var accountMoney =  response.data.dataList[1][0].accountMoney;
-              var enterpriseName = response.data.dataList[1][0].enterpriseName;
-              var mobile = response.data.dataList[1][0].mobile;
-              var accountCode = response.data.dataList[1][0].accountCode;
-              var accountLevel = response.data.dataList[1][0].accountLevel;
-              var accountStatus = response.data.dataList[1][0].accountStatus;
-              var authorizerCode = response.data.dataList[1][0].authorizerCode;
-              var auditStatus = response.data.dataList[1][0].auditStatus;
-              var mobile = response.data.dataList[1][0].mobile;
+              let urlParam =  response.data.dataList[1][0].interfaceCode;
+              let interfaceCode =  response.data.dataList[1][0].interfaceCode;
+              let accountMoney =  response.data.dataList[1][0].accountMoney;
+              let enterpriseName = response.data.dataList[1][0].enterpriseName;
+              let mobile = response.data.dataList[1][0].mobile;
+              let accountCode = response.data.dataList[1][0].accountCode;
+              let accountLevel = response.data.dataList[1][0].accountLevel;
+              let accountStatus = response.data.dataList[1][0].accountStatus;
+              let authorizerCode = response.data.dataList[1][0].authorizerCode;
+              let auditStatus = response.data.dataList[1][0].auditStatus;
               sessionStorage.setItem("enterpriseName", enterpriseName);
               sessionStorage.setItem("interfaceCode", interfaceCode);
               sessionStorage.setItem('accountCode',accountCode);

@@ -27,3 +27,30 @@ export function getOrderList(interfaceCode,param){
     params: param
   })
 }
+
+// 支付宝
+export function aliPay(param) {
+  return request({
+    url: "api/aliPay/pcPay",
+    method: "post",
+    data: param
+  })
+}
+// 微信
+export function wxpay(param) {
+  return request({
+    url: "api/wxpay/scanCode",
+    method: "post",
+    data: param
+  })
+}
+
+//轮询微信支付成功状态
+
+export function getWxpayStatus(param) {
+  return request({
+    url: "api/getWxpayStatus",
+    method: "post",
+    data: param
+  })
+}

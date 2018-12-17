@@ -58,8 +58,8 @@
           </div>
           <div class="pay-operate">
             <div class="qrcode">
-              <!--<img :src="[qrcodeUrl]" >-->
-              <img src="/static/images/Account/PackageBuy/default-qrcode.png" >
+              <img :src="[qrcodeUrl]" v-if="qrcodeUrl">
+              <!--<img src="/static/images/Account/PackageBuy/default-qrcode.png" >-->
             </div>
             <div class="show-pay-num">
 
@@ -72,7 +72,7 @@
         </div>
 
         <div class="goToPay">
-          <a class="payNow" href="javascript:void(0);">立即支付</a>
+          <a class="payNow" href="javascript:void(0);" @click="payNow">立即支付</a>
         </div>
 
         <div class="warn-content">
@@ -117,12 +117,14 @@
 </template>
 
 <script>
-  import {buyGoods} from '@/api/purchase'
+  import {buyGoods,aliPay,wxpay,getWxpayStatus} from '@/api/purchase'
   export default {
     name: "PackageBuys",
     data(){
       return{
         accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        accountCode:sessionStorage.getItem("accountCode"),
         amountList:[
           {num:'399'},
           {num:'499'},
@@ -138,7 +140,12 @@
         qrcodeUrl:'',
         payNum:'399',
         bugSuccessDialog:false,
+        htmls:''
       }
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+      this.timer = null;
     },
     methods:{
       backHome(){
@@ -153,6 +160,80 @@
       },
       packageBuy(){
         this.$router.push('/PackagePurchase')
+      },
+      //立即支付
+      payNow(){
+        if(this.isPayActive==0){
+          this.aliPay();
+        }else{
+          this.wxpay();
+        }
+
+      },
+      //阿里支付
+      aliPay(){
+        let params={
+          'interfaceCode':this.interfaceCode,
+          'accountCode':this.accountCode,
+          'totalAmount':this.payNum,
+        };
+        aliPay(params).then(res=>{
+          console.log(res.data)
+
+          //返回参数 
+
+          this.htmls = res.data;
+
+          //打开新页面
+        const div = document.createElement('div');
+            div.innerHTML = this.htmls;
+            document.body.appendChild(div);
+
+            // document.getElementsByTagName("form")[0].setAttribute("target","_blank");
+            // console.log(document.getElementsByTagName("form")[0].getAttribute("target"));
+            document.forms[0].submit();
+
+
+        }).catch(error=>{
+
+        })
+      },
+      //微信支付
+      wxpay(){
+
+        let params={
+          'interfaceCode':this.interfaceCode,
+          'accountCode':this.accountCode,
+          'totalAmount':this.payNum,
+        };
+        wxpay(params).then(res=>{
+          this.qrcodeUrl=res.data.data.payQRCodeImg;
+          this.outTradeNo=res.data.data.outTradeNo;
+          let timer = null
+          this.timer = setInterval(function () {
+            this.pollingPanel(this.timer)
+          }, 3000)
+
+        }).catch(error=>{
+
+        })
+      },
+
+      pollingPanel(timer){ //轮询手写面板
+
+        getWxpayStatus().then(res=> {
+          console.log(res)
+
+          // if() {
+		  //
+          // }else{
+		  //
+          // }
+
+        }).catch(error=>{
+
+        })
+
       }
     },
     created(){
