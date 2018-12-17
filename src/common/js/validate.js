@@ -16,7 +16,7 @@ export function validateMoblie(str) {
  * @param {*email} str
  */
 export function validateEmail(str) {
-    // const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+
     const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
     return reg.test(str)
 }

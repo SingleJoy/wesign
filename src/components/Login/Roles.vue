@@ -152,7 +152,6 @@ import cookie from '@/common/js/getTenant'
 	},
     methods: {
 		loginEnter(item){
-
 			sessionStorage.setItem('accountCode',item.accountCode);      //账户编号
 			sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
 			sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
@@ -162,6 +161,7 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('enterpriseName',item.enterpriseName);
 			// console.log(item.enterpriseName)
 			sessionStorage.setItem('userCode',item.userCode);
+			sessionStorage.setItem('accountMoney',item.accountMoney);
 
 			let params = {
 				mobile:item.mobile,

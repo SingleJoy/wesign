@@ -44,7 +44,8 @@
                   <span>绑&nbsp;&nbsp;定&nbsp;&nbsp;邮&nbsp;&nbsp;箱:</span>
                   <b v-if="Email">{{Email}}</b>
                   <b v-else>暂未绑定</b>
-                  <a v-if="!Email" href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmail">绑定邮箱</a>
+                  <!--<a v-if="!Email" href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmailShow">绑定邮箱</a>-->
+                  <a  href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmailShow">绑定邮箱</a>
                 </div>
                 <div class="card-line" v-if="accountLevel=='1'">
                   <span>被授权人姓名:</span>
@@ -57,9 +58,9 @@
                 </div>
 
                 <div class="card-line">
-                    <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
-                    <span>{{ContractAllowance}}&nbsp;份</span>
-                    <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packagePurchase">立即购买</a>
+                  <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
+                  <span>{{ContractAllowance}}&nbsp;份</span>
+                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packagePurchase">立即购买</a>
                 </div>
                 <div class="card-line">
                   <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同:&nbsp;{{b2bNum}}&nbsp;份</span>
@@ -122,10 +123,10 @@
           <div class="border-bottom"></div>
           <div class="sign-content">
             <!--签章管理显示逻辑：-->
-             <!--一级账号：始终会有一个默认签章，可以再添加一个签章并且签章可以进行切换选择一个默认合同签章；-->
-             <!--二级账号：二级账号激活后，进入我的账户页面，签章只显示一级账号选择的默认签章，无法进行签章切换操作-->
-              <!--渲染签章列表逻辑-->
-             <!--只有一级账号才会全部渲染，二级账号只显示默认签章-->
+            <!--一级账号：始终会有一个默认签章，可以再添加一个签章并且签章可以进行切换选择一个默认合同签章；-->
+            <!--二级账号：二级账号激活后，进入我的账户页面，签章只显示一级账号选择的默认签章，无法进行签章切换操作-->
+            <!--渲染签章列表逻辑-->
+            <!--只有一级账号才会全部渲染，二级账号只显示默认签章-->
             <!--accountLevel  1为一级账号  2为二级账号  item.defultCode 0为默认签章 1为非默认签章->
             <!--item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
             <!--chooseDefaultSeal  -->
@@ -384,23 +385,23 @@
     <el-dialog :visible.sync="bindEmailDialog" width="450px" custom-class="bindEmail" center>
       <div class="tips">请输入想要绑定的邮箱账号</div>
 
-      <el-form :model="bindEmailForm" :rules="EmailRules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="bindEmailForm" :rules="EmailRules" ref="EmailRules" label-width="100px" class="demo-ruleForm">
 
         <el-form-item prop="email" label="邮箱账号" >
           <el-input type="text" placeholder="邮箱账号" class="forget-messageInput" v-model="bindEmailForm.email" style="width: 200px;">
-        </el-input>
+          </el-input>
 
-      </el-form-item>
+        </el-form-item>
 
         <el-form-item prop="smsCode" label="验证码">
           <el-input type="text" placeholder="请输入6位数字验证码" class="forget-messageInput" v-model="bindEmailForm.smsCode" style="width: 150px;">
 
           </el-input>
-          <el-button type="primary" class="forget-messageButton" @click="sendCode" id="code" style="margin-left:10px;">获取验证码</el-button>
+          <el-button type="primary" class="forget-messageButton" @click="sendCode('EmailRules')" style="margin-left:10px;" id="codeInfo">获取验证码</el-button>
         </el-form-item>
 
         <div class="forget-btn" style="text-align: center;">
-          <el-button type="primary" @click="submitForm('ruleForm')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
+          <el-button type="primary" @click="bindEmailSubmit('EmailRules')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -412,9 +413,10 @@
   import cookie from '@/common/js/getTenant'
   import {validatePassWord,validateEmail,validateSmsCode} from '@/common/js/validate'
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
-  import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation} from '@/api/account'
+  import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation,bindEmail} from '@/api/account'
   import server from '@/api/url'
   import qs from 'qs';
+
   export default {
     name: 'Accounts',
     components:{
@@ -466,9 +468,10 @@
       }
 
       let validateBindEmail = (rule, value, callback) => {
-        if (value === '') {
+        if (value == '') {
           callback(new Error('邮箱不可为空'));
-        } else if(value &&validateEmail(TrimAll(value))) {
+        }else if (value !== '' && !validateEmail(value)){
+          console.log(value)
           callback(new Error('邮箱输入格式不正确'));
         } else {
           callback();
@@ -477,7 +480,7 @@
       let validateBindSmsCode= (rule, value, callback) => {
         if (value === '') {
           callback(new Error('验证码不可为空'));
-        } else if(value &&validateSmsCode(TrimAll(value))) {
+        } else if(!validateSmsCode(TrimAll(value))) {
           callback(new Error('验证码只能是6位数字'));
         } else {
           callback();
@@ -523,16 +526,16 @@
         realNameState:true,
         bindEmailDialog:false,  //绑定邮箱弹窗
         bindEmailForm:{    //绑定邮箱数据
-            email:'',
-           smsCode:''
+          email:'',
+          smsCode:''
         },
         EmailRules:{    //邮箱输入校验规则
-            email:[
+          email:[
             { validator: validateBindEmail, trigger: 'blur' }
-            ],
-            smsCode:[
-              { validator: validateBindSmsCode, trigger: 'blur' }
-            ]
+          ],
+          smsCode:[
+            { validator: validateBindSmsCode, trigger: 'blur' }
+          ]
         },
         rules:{   //修改密码输入校验规则
           oldPassWord: [
@@ -571,8 +574,12 @@
         accountName:'',   //账户名称
         dialogVisible:false,  //默认不显示签章提示图片
         once:false, //绑定邮箱单次点击
-        accountBalance:'1111',   //账户余额
-
+        accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
+        smsNo: '',
+        smsCode: '',
+        appId:'',  //验证码返回appId
+        smsNoVer:'',
+        smsCodeNum:0,
       }
     },
     methods: {
@@ -583,72 +590,133 @@
         this.$router.push('/PackagePurchase')
         sessionStorage.setItem('b2bNum',this.b2bNum);
         sessionStorage.setItem('b2cNum',this.b2cNum);
-        sessionStorage.setItem('accountBalance',this.accountBalance);
+
       },
-      bindEmail(){
-         this.bindEmailDialog=true
+      bindEmailShow(){
+        this.bindEmailDialog=true
       },
-      sendCode(formName){
-        this.$refs[formName].validate((valid) => {
+      bindEmailSubmit(ruleName){
+        this.$refs[ruleName].validate((valid) => {
           if (valid) {
+            let params={
+              'mobile': this.mobile,
+              'smsNo': this.smsNo,
+              'smsCode': this.bindEmailForm.smsCode,
+              'appId': this.appId
+            }
+           server.valiteSmsCode(params).then(res=>{
+             if (res.data.resultCode != 1) {
+               this.$message({
+                 showClose: true,
+                 message: res.data.resultMessage,
+                 type: 'error'
+               })
+             }else{
+               let params={
+                 email:this.bindEmailForm.email
+               };
+               bindEmail(this.interfaceCode,params).then(res=>{
+                 if (res.data.resultCode= 1) {
 
-              let codeType = '0';
-              let count = 60;
-              let curCount = count;
-              let timer = null;
+                   this.$message({
+                     showClose: true,
+                     message: '邮箱绑定成功',
+                     type: "success"
+                   });
+                   this.bindEmailDialog=false
+                   this.getAccountInformation();
+                 }else{
 
-              this.sms = true;
-              let params={'mobile': this.mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode};
-              server.smsCodeOld(params).then(res=> {
+                   this.$message({
+                     showClose: true,
+                     message: res.data.resultMessage,
+                     type: "success"
+                   });
+                 }
+               }).catch(error=>{
 
-                this.smsNoVer=res.data.smsNo   //短信编号
-                this.appId=res.data.appId     //appId
-                let resultCode = res.data.resultCode;
-                let smsNo = res.data.smsNo;
-                let smsCode = res.data.smsCode;
-                let message = res.data.resultMessage;
-                if (resultCode === '1') {
-                  this.smsNo = true;
-                  this.smsCodeNum +=1;
-                  if(this.smsCodeNum == 3){
-                    this.isDisabled = true
-                  } else{
-                    this.isDisabled = false
-                  }
-                  let codeInfo = document.getElementById('code')
-                  codeInfo.innerText =  curCount + '秒'
-                  this.smsNum = smsNo
+               })
+             }
+           }).catch(error=>{
 
-                  codeInfo.setAttribute('disabled', 'true')
-                  let that = this
-                  timer = setInterval(function () {
-                    codeInfo.innerText =  (curCount - 1) + '秒'
-                    if (curCount === 0) {
-                      codeInfo.innerText = '获取'
-                      clearInterval(timer)
-                      codeInfo.removeAttribute('disabled')
-                      that.repeat = false
-                    } else {
-                      curCount--
-                    }
-                  }, 1000)
-                }else{
-                  let that =this;
-                  that.smsNo = false
-                  that.repeat = false
-                  this.$alert(res.data.resultMessage,'提示', {
-                    confirmButtonText: '确定'
-                  })
+           })
 
-                }
-              }).catch(error=>{
 
-              })
-
-            }else {
+          }else {
 
           }
-          })
+        })
+      },
+
+      sendCode(ruleName){
+
+      if(!this.bindEmailForm.email){
+        this.$message({
+          showClose: true,
+          message: "绑定邮箱不可为空",
+          type: "success"
+        });
+
+        return false
+      }else if(!validateEmail(this.bindEmailForm.email)){
+
+        this.$message({
+          showClose: true,
+          message: "绑定邮箱格式输入不正确",
+          type: "success"
+        });
+        return false
+      }else{
+        let codeType = '0';
+        let count = 60;
+        let curCount = count;
+        let timer = null;
+
+        this.sms = true;
+        let params={'mobile': this.mobile,'interfaceCode':this.interfaceCode};
+        server.smsCodeOld(params).then(res=> {
+          this.smsNoVer=res.data.smsNo;   //短信编号
+          this.appId=res.data.appId;   //appId
+          let resultCode = res.data.resultCode;
+          this.smsNo = res.data.smsNo;
+          let smsCode = res.data.smsCode;
+
+          if (resultCode == '1') {
+            this.smsCodeNum +=1;
+            if(this.smsCodeNum == 3){
+              this.isDisabled = true
+            } else{
+              this.isDisabled = false
+            }
+            let codeInfo = document.getElementById('codeInfo')
+            codeInfo.innerText =  curCount + '秒'
+            this.smsNum = smsNo
+            codeInfo.setAttribute('disabled', 'true')
+            timer = setInterval( ()=> {
+              codeInfo.innerText =  (curCount - 1) + '秒'
+              if (curCount === 0) {
+                codeInfo.innerText = '获取'
+                clearInterval(timer)
+                codeInfo.removeAttribute('disabled')
+                this.repeat = false
+              } else {
+                curCount--
+              }
+            }, 1000)
+          }else{
+
+            this.repeat = false;
+            this.$alert(res.data.resultMessage,'提示', {
+              confirmButtonText: '确定'
+            })
+
+          }
+        }).catch(error=>{
+
+        })
+      }
+
+
       },
       AccoutCenter(){
         this.$router.push('/Account')
@@ -679,23 +747,23 @@
               "newPassword":md5(this.ruleForm.newPassWord)
             }
             modifyPassword(params).then(res=> {
-                let resultCode = res.data.resultCode;
-                if ( resultCode === '1') {
-                  this.$message({
-                    showClose: true,
-                    message: '修改密码成功!',
-                    type: 'success'
-                  });
-                  this.centerDialogVisible = false;
-                  this.$router.push('/')
-                } else {
-                  this.$message({
-                    showClose: true,
-                    message: '修改密码失败!',
-                    type: 'error'
-                  });
-                  this.resetForm (formName)
-                }
+              let resultCode = res.data.resultCode;
+              if ( resultCode === '1') {
+                this.$message({
+                  showClose: true,
+                  message: '修改密码成功!',
+                  type: 'success'
+                });
+                this.centerDialogVisible = false;
+                this.$router.push('/')
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: '修改密码失败!',
+                  type: 'error'
+                });
+                this.resetForm (formName)
+              }
             }).catch(error=>{
 
             })
@@ -777,7 +845,7 @@
 
           }else if((res.data.resultCode == '1')&&(accountStatus=='3')){
             //冻结成功重新查询二级账号
-             this.$loading.show(); //显示
+            this.$loading.show(); //显示
             this.accountList=[];
             this.searchSecondAccounts();
             this.$loading.hide(); //loading隐藏
@@ -825,20 +893,20 @@
         getSignatures(this.interfaceCode).then(res=> {
           let data=res.data;
           let sealArray=[];
-         if(data.resultCode=='1'){
-        //   console.log(data.dataList);
-          for(let i=0;i<data.dataList.length;i++){
-            sealArray.push(data.dataList[i])
-          }
-          if(data.dataList.length>1){
-            this.officeSeal=true;
-          }else {
-            this.officeSeal=false;
-          }
-           this.SealList=sealArray;
-         }else{
+          if(data.resultCode=='1'){
+            //   console.log(data.dataList);
+            for(let i=0;i<data.dataList.length;i++){
+              sealArray.push(data.dataList[i])
+            }
+            if(data.dataList.length>1){
+              this.officeSeal=true;
+            }else {
+              this.officeSeal=false;
+            }
+            this.SealList=sealArray;
+          }else{
 
-         }
+          }
         }).catch(error=>{
 
         })
@@ -909,19 +977,37 @@
           this.$alert(<div style="textAlign:center">
             <p>对不起，您还未获得正式授权，暂不支持开通子账号</p>
             <p class="vertifiId-warn warn-first">客服电话:400-0000-6923</p>
-           </div>, '警告',{confirmButtonText: '确定',});
+          </div>, '警告',{confirmButtonText: '确定',});
 
         }
       },
-      // 完善子账号
-      finish(){
 
-      },
       //解冻子账号
       thaw(){
         this.thawDialogVisible=true
-      }
+      },
+      getAccountInformation(){
 
+        let accountCode=sessionStorage.getItem("accountCode");
+
+        getAccountInformation(accountCode).then(res=> {
+          if(res.data.resultCode=='1'){
+
+            this.mobile=res.data.data.mobile;
+            this.accountName=res.data.data.accountName;
+            this.Email=res.data.data.email;
+            this.account=res.data.data.enterpriseName;
+            this.authName=res.data.data.authorizerName;
+            this.enterpriseName=res.data.data.enterpriseName;
+            sessionStorage.setItem("authName",this.authName);
+            this.b2bNum = res.data.data.b2bNum;
+            this.b2cNum = res.data.data.b2cNum;
+            this.ContractAllowance = Number(this.b2bNum) + Number(this.b2cNum);
+          }
+        }).catch(error=>{
+
+        })
+      }
     },
     created() {
       // 查询证书
@@ -937,26 +1023,8 @@
       }).catch(error=>{
 
       })
-      //  账户信息
-      let accountCode=sessionStorage.getItem("accountCode");
 
-      getAccountInformation(accountCode).then(res=> {
-        if(res.data.resultCode=='1'){
-
-          this.mobile=res.data.data.mobile;
-          this.accountName=res.data.data.accountName;
-          this.Email=res.data.data.email;
-          this.account=res.data.data.enterpriseName;
-          this.authName=res.data.data.authorizerName;
-          this.enterpriseName=res.data.data.enterpriseName;
-          sessionStorage.setItem("authName",this.authName);
-          this.b2bNum = res.data.data.b2bNum;
-          this.b2cNum = res.data.data.b2cNum;
-          this.ContractAllowance = Number(this.b2bNum) + Number(this.b2cNum);
-        }
-      }).catch(error=>{
-
-      })
+      this.getAccountInformation();
 
 
       if(this.accountLevel=='1'){
@@ -1008,8 +1076,8 @@
   .chooseDefaultSeal{
     background: url("/static/images/Account/default-seal.png")no-repeat;
   }
- .visibility{
-   visibility:hidden;
+  .visibility{
+    visibility:hidden;
   }
   .create-seal>.tips-img{
     position: absolute;

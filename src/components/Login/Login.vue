@@ -98,6 +98,7 @@
                       message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
                       type: "error"
                     });
+                    return false
                   }else{
 
                   }
@@ -219,9 +220,11 @@
           let loginParam={
             mobile:this.ruleForm.username,
           };
+
           if (stateCode == "1") {
             if(response.data.dataList[0].length>0){
               var urlParam =  response.data.dataList[0][0].interfaceCode;
+              var accountMoney =  response.data.dataList[0][0].accountMoney;
               var enterpriseName = response.data.dataList[0][0].enterpriseName;
               var mobile = response.data.dataList[0][0].mobile;
               var auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
@@ -234,9 +237,11 @@
               sessionStorage.setItem("interfaceCode", urlParam);
               sessionStorage.setItem('auditStatus',auditStatus);
               sessionStorage.setItem('mobile',mobile);
+              sessionStorage.setItem('accountMoney',accountMoney);
             }else{
               var urlParam =  response.data.dataList[1][0].interfaceCode;
               var interfaceCode =  response.data.dataList[1][0].interfaceCode;
+              var accountMoney =  response.data.dataList[1][0].accountMoney;
               var enterpriseName = response.data.dataList[1][0].enterpriseName;
               var mobile = response.data.dataList[1][0].mobile;
               var accountCode = response.data.dataList[1][0].accountCode;
@@ -252,6 +257,7 @@
               sessionStorage.setItem('authorizerCode',authorizerCode);
               sessionStorage.setItem('mobile',mobile);
               sessionStorage.setItem('auditStatus',auditStatus);
+              sessionStorage.setItem('accountMoney',accountMoney);
             }
             if(accountStatus==2){
               this.$router.push('/ActivateChildAccount');

@@ -123,7 +123,7 @@
       return {
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
-        accountBalance:sessionStorage.getItem("accountBalance"),  //账户余额
+        accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
         B2cListArray: [],        //b2c列表数据
         B2bListArray:[],   //b2b列表数据
         totalItemNumber: 0,

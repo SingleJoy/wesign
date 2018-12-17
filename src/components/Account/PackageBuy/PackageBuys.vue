@@ -122,7 +122,7 @@
     name: "PackageBuys",
     data(){
       return{
-        accountBalance:'2000',  //账户余额
+        accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
         amountList:[
           {num:'399'},
           {num:'499'},
@@ -137,7 +137,7 @@
         isPayActive:'0',  //默认支付宝支付
         qrcodeUrl:'',
         payNum:'399',
-        bugSuccessDialog:true,
+        bugSuccessDialog:false,
       }
     },
     methods:{

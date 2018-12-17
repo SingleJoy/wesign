@@ -52,9 +52,7 @@
                     方二维码完成签署
                   </div>
 
-
                 </div>
-
 
                 <el-dialog
                   :visible.sync="dialogAgreement"

@@ -183,3 +183,12 @@ export  function saveSignRoomName(interfaceCode,param) {
     params:param
   })
 }
+
+//bindEmail 绑定邮箱
+export  function bindEmail(interfaceCode,param) {
+  return request({
+    url:"api/v1.4/tenant/"+interfaceCode+'/bindEmail',
+    method:"post",
+    data:param
+  })
+}

@@ -233,6 +233,7 @@
         b2cNum:'0',
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
+        fullscreenLoading: false,
       };
     },
     methods: {
