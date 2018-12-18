@@ -69,14 +69,14 @@
           <el-table-column
             prop="signers"
             label="签署人"
-            width="240"
+            width="250"
             :show-overflow-tooltip= true
           >
           </el-table-column>
           <el-table-column
             prop="createTime"
             label="发起时间"
-            width="190">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="validTime"

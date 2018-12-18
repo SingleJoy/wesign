@@ -78,7 +78,7 @@
             prop="createTime"
             clearable=true
             label="发起时间"
-            width="190">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="validTime"
@@ -88,12 +88,11 @@
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="140">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="operation"
             label="操作"
-            width="190"
           >
             <template slot-scope="scope">
               <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>

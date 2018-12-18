@@ -5,7 +5,7 @@
         <p class="title">选择金额</p>
         <div class="right">
           <p>
-            <a class="backHome back-home" @click="backHome" href="javascript:void(0);">
+            <a class="back-account" @click="backHome" href="javascript:void(0);">
               <span class="back-png"></span>返回</a>
             <b class="accountBalance"   style="font-size: 20px">账户余额 : <span style="font-size: 30px">{{accountBalance}}元</span></b>
           </p>
@@ -59,7 +59,6 @@
           <div class="pay-operate">
             <div class="qrcode">
               <img :src="[qrcodeUrl]" v-if="qrcodeUrl">
-              <!--<img src="/static/images/Account/PackageBuy/default-qrcode.png" >-->
             </div>
             <div class="show-pay-num">
 
@@ -175,7 +174,7 @@
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
-          'totalAmount':this.payNum,
+          'totalAmount':'0.01',
         };
         aliPay(params).then(res=>{
           console.log(res.data)
@@ -204,7 +203,7 @@
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
-          'totalAmount':this.payNum,
+          'totalAmount':'0.01',
         };
         wxpay(params).then(res=>{
           this.qrcodeUrl=res.data.data.payQRCodeImg;

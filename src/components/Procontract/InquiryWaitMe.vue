@@ -75,7 +75,7 @@
           <el-table-column
             prop="createTime"
             label="发起时间"
-            width="200">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="validTime"

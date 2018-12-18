@@ -57,12 +57,12 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="240">
+            width="250">
           </el-table-column>
           <el-table-column
             prop="signers"
             label="签署人"
-            width="240">
+            width="250">
           </el-table-column>
           <el-table-column
             prop="createTime"

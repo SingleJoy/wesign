@@ -63,14 +63,14 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="240"
+            width="250"
             :show-overflow-tooltip= true
           >
           </el-table-column>
           <el-table-column
             prop="signers"
             label="签署人"
-            width="240"
+            width="250"
             :show-overflow-tooltip= true
           >
           </el-table-column>
@@ -78,7 +78,7 @@
             prop="createTime"
             clearable=true
             label="发起时间"
-            width="160">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="validTime"

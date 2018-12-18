@@ -102,29 +102,29 @@
             <el-table-column
               prop="signers"
               label="签署人"
-              width="210"
+              width="250"
               :show-overflow-tooltip='true'
             >
             </el-table-column>
             <el-table-column
               prop="createTime"
               label="发起时间"
-              width="160">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="validTime"
               label="截止时间"
-              width="160">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="contractStatus"
               label="当前状态"
-              width="160">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="operation"
               label="操作"
-              width="180"
+              width="150"
             >
               <template slot-scope="scope">
                 <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>

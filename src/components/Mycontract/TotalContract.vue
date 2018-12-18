@@ -68,7 +68,7 @@
           <el-table-column
             prop="signers"
             label="签署人"
-            width="230"
+            width="250"
             :show-overflow-tooltip= true
           >
           </el-table-column>
@@ -86,7 +86,7 @@
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="140">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="operation"

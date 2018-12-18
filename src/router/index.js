@@ -65,8 +65,6 @@ import Invoice from '../components/Account/CostCenter/Invoice/Invoices.vue'     
 import InvoiceDetail from '../components/Account/CostCenter/Invoice/InvoiceDetail.vue'                //我的账户->账户中心->发票
 import PackagePurchase from '../components/Account/PackagePurchase/PackagePurchase.vue'                //我的账户->套餐购买
 import PackageBuy from '../components/Account/PackageBuy/PackageBuy.vue'                //我的账户->充值
-import ApplyText from '../components/Account/PackageBuy/ApplyText.vue'                //我的账户->充值
-
 
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
@@ -529,15 +527,6 @@ export const router = new Router({
       path: '/PackageBuy',
       name: 'PackageBuy',
       component: PackageBuy,
-      meta: {
-        auth: false
-      }
-    },
-    //充值
-    {
-      path: '/ApplyText',
-      name: 'ApplyText',
-      component: ApplyText,
       meta: {
         auth: false
       }

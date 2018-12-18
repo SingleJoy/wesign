@@ -27,7 +27,7 @@
         margin-right: 20px;
         p{
           float: right;
-          .back-home{
+          .back-account{
             height: 30px;
             padding-left: 35px;
             font-size: 16px;
@@ -78,8 +78,7 @@
           width: 1000px;
           position: relative;
           top:20px;
-          overflow: auto;
-
+          //overflow: auto;
         }
         .clear{
           clear: both;
@@ -216,7 +215,7 @@
         margin-top: 40px;
       }
     }
-    
+
   }
   .PurchaseDialog{
     border-radius: 5px;

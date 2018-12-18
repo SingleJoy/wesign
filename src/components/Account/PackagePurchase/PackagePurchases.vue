@@ -5,7 +5,7 @@
         <p class="title">套餐列表</p>
         <div class="right">
           <p>
-            <a class="backHome back-home" @click="backLast" href="javascript:void(0);">
+            <a class="back-account" @click="backLast" href="javascript:void(0);">
               <span class="back-png"></span>返回
             </a>
             <b class="accountBalance"  id="accountBalance" style="font-size: 20px;">账户余额 : <span style="font-size: 30px">{{accountBalance}}元</span></b>
