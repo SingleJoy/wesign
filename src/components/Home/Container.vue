@@ -414,6 +414,8 @@
           if(res.data.resultCode == 1){
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
+            sessionStorage.setItem("b2cNum",this.b2cNum);
+            sessionStorage.setItem("b2bNum",this.b2bNum);
             if(this.clickup){
               this.popupContainer = !this.popupContainer;
             }
@@ -673,7 +675,6 @@
 
     created() {
 
-
       var data = [];
       var flag = "";
       var isCreater = "";
@@ -684,7 +685,7 @@
         this.welcomeMessage = false;
       }
 
-      this.getContractNum()
+
 
       var requestVo = {
         pageNo: "1",
@@ -764,6 +765,9 @@
         }).catch(error=>{
 
         })
+
+      //查询合同剩余次数
+      this.getContractNum()
     },
     mounted() {
       sessionStorage.removeItem("type");

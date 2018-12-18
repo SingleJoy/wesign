@@ -169,7 +169,7 @@ import cookie from '@/common/js/getTenant'
 			}
 			let urlParam = item.interfaceCode;
 			if(item.accountStatus==2){
-                sessionStorage.setItem('accountStatus',2)
+             sessionStorage.setItem('accountStatus',2)
 				this.$router.push('/ActivateChildAccount')
 			}else{
 				server.login(params,urlParam).then(res=>{

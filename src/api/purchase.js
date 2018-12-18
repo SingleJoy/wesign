@@ -36,6 +36,17 @@ export function aliPay(param) {
     data: param
   })
 }
+
+//支付宝回调
+export function aliPayReturn(param) {
+  return request({
+    url: "api/alipay/returnUrl",
+    method: "get",
+    params: param
+  })
+}
+
+
 // 微信
 export function wxpay(param) {
   return request({

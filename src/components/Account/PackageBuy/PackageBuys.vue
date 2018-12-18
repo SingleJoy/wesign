@@ -59,6 +59,7 @@
           <div class="pay-operate">
             <div class="qrcode">
               <img :src="[qrcodeUrl]" v-if="qrcodeUrl">
+
             </div>
             <div class="show-pay-num">
 
@@ -139,7 +140,8 @@
         qrcodeUrl:'',
         payNum:'399',
         bugSuccessDialog:false,
-        htmls:''
+        htmls:'',//支付宝返回form表单
+        tabPay:false,
       }
     },
     beforeDestroy() {
@@ -151,6 +153,23 @@
         this.$router.push('/Account')
       },
       tabList(index,payNum){
+        if(index==0&&(this.tabPay=true)){
+          this.$alert('是否取消支付宝支付', '提示',{
+            confirmButtonText: '确定'
+          }).then(()=>{
+            clearInterval(this.timer);
+            this.timer = null;
+            return
+          })
+        }else if(index==1&&(this.tabPay=true)){
+          this.$alert('是否取消微信支付', '提示',{
+            confirmButtonText: '确定'
+          }).then(()=>{
+            clearInterval(this.timer);
+            this.timer = null;
+            return
+          })
+        }
         this.isActive=index;
         this.payNum=payNum;
       },
@@ -174,13 +193,12 @@
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
+          // 'totalAmount':this.payNum,
           'totalAmount':'0.01',
         };
         aliPay(params).then(res=>{
-          console.log(res.data)
-
+          this.tabPay=true
           //返回参数 
-
           this.htmls = res.data;
 
           //打开新页面
@@ -199,13 +217,15 @@
       },
       //微信支付
       wxpay(){
-
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
+          // 'totalAmount':this.payNum,
           'totalAmount':'0.01',
         };
+
         wxpay(params).then(res=>{
+          this.tabPay=true;
           this.qrcodeUrl=res.data.data.payQRCodeImg;
           this.outTradeNo=res.data.data.outTradeNo;
           let timer = null
@@ -219,9 +239,11 @@
       },
 
       pollingPanel(timer){ //轮询手写面板
+        let params={
+          'outTradeNo':this.outTradeNo
+        }
+        getWxpayStatus(params).then(res=> {
 
-        getWxpayStatus().then(res=> {
-          console.log(res)
 
           // if() {
 		  //

@@ -45,7 +45,7 @@
                   <b v-if="Email">{{Email}}</b>
                   <b v-else>暂未绑定</b>
                   <!--<a v-if="!Email" href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmailShow">绑定邮箱</a>-->
-                  <a  href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmailShow">绑定邮箱</a>
+                  <a  href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="bindEmailShow" v-if="!Email">绑定邮箱</a>
                 </div>
                 <div class="card-line" v-if="accountLevel=='1'">
                   <span>被授权人姓名:</span>
@@ -382,13 +382,13 @@
         </span>
     </el-dialog>
     <!--绑定邮箱-->
-    <el-dialog :visible.sync="bindEmailDialog" width="450px" custom-class="bindEmail" center>
+    <el-dialog :visible.sync="bindEmailDialog" width="420px" custom-class="bindEmail" center>
       <div class="tips">请输入想要绑定的邮箱账号</div>
 
       <el-form :model="bindEmailForm" :rules="EmailRules" ref="EmailRules" label-width="100px" class="demo-ruleForm">
 
         <el-form-item prop="email" label="邮箱账号" >
-          <el-input type="text" placeholder="邮箱账号" class="forget-messageInput" v-model="bindEmailForm.email" style="width: 200px;">
+          <el-input type="text" placeholder="邮箱账号" class="forget-messageInput" v-model="bindEmailForm.email" style="width: 234px;">
           </el-input>
 
         </el-form-item>
@@ -397,10 +397,10 @@
           <el-input type="text" placeholder="请输入6位数字验证码" class="forget-messageInput" v-model="bindEmailForm.smsCode" style="width: 150px;">
 
           </el-input>
-          <el-button type="primary" class="forget-messageButton" @click="sendCode('EmailRules')" style="margin-left:10px;" id="codeInfo">获取验证码</el-button>
+          <el-button type="primary" class="forget-messageButton" @click="sendCode('EmailRules')" style="margin-left:10px;" id="codeInfo" :disabled="onceCode">获取验证码</el-button>
         </el-form-item>
 
-        <div class="forget-btn" style="text-align: center;">
+        <div class="forget-btn" style="text-align: center;margin-top: 15px;">
           <el-button type="primary" @click="bindEmailSubmit('EmailRules')" style="width: 295px;" :disabled="once">提&nbsp;&nbsp;交</el-button>
         </div>
       </el-form>
@@ -580,6 +580,7 @@
         appId:'',  //验证码返回appId
         smsNoVer:'',
         smsCodeNum:0,
+        onceCode:false //验证码单机操作
       }
     },
     methods: {
@@ -667,13 +668,14 @@
         });
         return false
       }else{
-        let codeType = '0';
-        let count = 60;
-        let curCount = count;
-        let timer = null;
+        var codeType = '0';
+        var count = 60;
+        var curCount = count;
+        var timer = null;
 
         this.sms = true;
         let params={'mobile': this.mobile,'interfaceCode':this.interfaceCode};
+        this.onceCode=true
         server.smsCodeOld(params).then(res=> {
           this.smsNoVer=res.data.smsNo;   //短信编号
           this.appId=res.data.appId;   //appId
@@ -689,22 +691,21 @@
               this.isDisabled = false
             }
             let codeInfo = document.getElementById('codeInfo')
-            codeInfo.innerText =  curCount + '秒'
-            this.smsNum = smsNo
-            codeInfo.setAttribute('disabled', 'true')
+            codeInfo.innerText =  curCount + '秒';
+
             timer = setInterval( ()=> {
-              codeInfo.innerText =  (curCount - 1) + '秒'
-              if (curCount === 0) {
-                codeInfo.innerText = '获取'
-                clearInterval(timer)
-                codeInfo.removeAttribute('disabled')
-                this.repeat = false
+              codeInfo.innerText = (curCount - 1) + '秒';
+              if (curCount== 0) {
+                codeInfo.innerText = '获取';
+                this.onceCode=false;
+                clearInterval(timer);
+
+
               } else {
                 curCount--
               }
             }, 1000)
           }else{
-
             this.repeat = false;
             this.$alert(res.data.resultMessage,'提示', {
               confirmButtonText: '确定'
@@ -1068,13 +1069,13 @@
     background: url("/static/images/Account/defalut-seal.png")no-repeat;
   }
   .seal-management .left-plus,.child-account>.account-list>.list-content{
-    background: url("/static/images/Account/addSeal.png")no-repeat;
+    background: url("/static/images/Account/addSeal.png") no-repeat;
   }
   .border-bottom{
     width:100%;height: 1px;border-bottom: 1px solid #ddd;margin-top: 20px
   }
   .chooseDefaultSeal{
-    background: url("/static/images/Account/default-seal.png")no-repeat;
+    background: url("/static/images/Account/default-seal.png") no-repeat;
   }
   .visibility{
     visibility:hidden;
@@ -1086,7 +1087,7 @@
     right: 5px;
     top:5px;
     cursor: pointer;
-    background: url("/static/images/Account/seal-tips.png")no-repeat;
+    background: url("/static/images/Account/seal-tips.png") no-repeat;
   }
   .showSealDemo{
     overflow-y: scroll;
