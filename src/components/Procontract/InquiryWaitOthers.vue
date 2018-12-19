@@ -183,7 +183,7 @@
         if(length < 1){
           this.$message({
             showClose: true,
-            message: '请选择要下载的合同',
+            message: '请先勾选想要下载的合同文件',
             type: "error"
           });
 

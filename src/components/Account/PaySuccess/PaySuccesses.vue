@@ -22,8 +22,8 @@
          </div>
       </div>
       <div class="PaySuccesses-operate" v-if="show">
-        <el-button type="info" style="background:#ccc;width: 150px;" @click="packagePurchase">继续充值</el-button>
-        <el-button style="background:#4091fb;width: 150px;color: #fff;" @click="packageBuy">购买套餐</el-button>
+        <el-button type="info" style="background:#ccc;width: 150px;" @click="packageBuy">继续充值</el-button>
+        <el-button style="background:#4091fb;width: 150px;color: #fff;" @click="packagePurchase">购买套餐</el-button>
       </div>
     </div>
   </div>
@@ -34,6 +34,7 @@
   import {prohibit} from '@/common/js/prohibitBrowser'
   import {aliPayReturn} from '@/api/purchase'
   import server from '@/api/url'
+  import {bindEnterprises} from '@/api/login'
   export default {
     name: "PaySuccesses",
     data(){
@@ -74,32 +75,54 @@
             this.accountCode=res.data.data.accountCode;
             this.tradeMoney=res.data.data.tradeMoney;
             this.mobile=res.data.data.mobile;
-
             let params = {
               mobile:this.mobile,
             };
             server.login(params,this.interfaceCode).then(res=>{
-
               sessionStorage.setItem('interfaceCode',this.interfaceCode);
               sessionStorage.setItem('accountCode',this.accountCode);
               sessionStorage.setItem('mobile',this.mobile);
-               sessionStorage.setItem("enterpriseName", res.data.dataList[1].companyName);
-               sessionStorage.setItem("email", res.data.dataList[0].email);
-               // sessionStorage.setItem("accountLevel", res.dataList[1].accountLevel);
-               // sessionStorage.setItem("accountMoney", res.dataList[1].accountMoney);
-               // sessionStorage.setItem("auditStatus", res.dataList[1].auditStatus);
-               // sessionStorage.setItem("authorizerCode", res.dataList[1].authorizerCode);
-
+              sessionStorage.setItem("enterpriseName", res.data.dataList[1].companyName);
+              sessionStorage.setItem("email", res.data.dataList[0].email);
 
             }).catch(error=>{
 
             })
+
+            bindEnterprises(params).then(res=>{
+
+              let item=[];
+              console.log(res.data.dataList);
+             for(let i=0;i<res.data.dataList[0].length;i++){
+               if(this.interfaceCode==res.data.dataList[0][i].interfaceCode){
+                 item=res.data.dataList[0][i];
+               }
+             }
+             console.log("111"+item)
+              sessionStorage.setItem('accountCode',item.accountCode);      //账户编号
+              sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
+              sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
+              sessionStorage.setItem('mobile',item.mobile);      				  //手机号
+              sessionStorage.setItem('interfaceCode',item.interfaceCode);
+              sessionStorage.setItem('auditStatus',item.auditStatus);
+              sessionStorage.setItem('enterpriseName',item.enterpriseName);
+              // console.log(item.enterpriseName)
+              sessionStorage.setItem('userCode',item.userCode);
+              sessionStorage.setItem('accountMoney',item.accountMoney);
+
+              sessionStorage.setItem("companyList",JSON.stringify(res.data.dataList)); //角色列表
+
+
+            }).catch(error=>{  })
             this.show=true;
           }else{
             this.$alert(res.data.resultMessage, '提示',{
-              confirmButtonText: '确定'
+              confirmButtonText: '购买合同套餐',
+              cancelButtonText: '继续充值',
             }).then(()=>{
               this.$router.push('/')
+            }).catch(()=>{
+
             })
 
           }

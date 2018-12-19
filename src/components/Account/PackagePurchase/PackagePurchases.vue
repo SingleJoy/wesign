@@ -241,21 +241,26 @@
       },
 
       packageBuy(){
-        this.PurchaseDialog=false;
+
         this.once=true;
         this.$loading.show();
         buyGoods(this.interfaceCode,this.params).then(res=>{
           this.once=false;
           if(res.data.resultCode==1){
             this.$loading.hide();
-            setTimeout(()=>{
-              this.$alert(res.data.resultMessage, '提示',{
-                confirmButtonText: '确定'
+            this.PurchaseDialog=false;
+              // this.$alert(res.data.resultMessage, '提示',{
+              //   confirmButtonText: '确定'
+              // });
+              this.$message({
+                message: res.data.resultMessage,
+                type: 'success'
               });
-            },1500)
+
+
 
             this.PurchaseDialog=false;
-            // this.accountBalance=res.data.accountMoney;
+            this.accountBalance=res.data.data.accountMoney;
 
           }else if(res.data.resultCode==0){
             this.$loading.hide();

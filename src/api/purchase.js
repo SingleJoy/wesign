@@ -58,9 +58,9 @@ export function wxpay(param) {
 
 //轮询微信支付成功状态
 
-export function getWxpayStatus(param) {
+export function getWxpayStatus(param,t) {
   return request({
-    url: "api/getWxpayStatus",
+    url: "api/getWxpayStatus?t="+t,
     method: "post",
     data: param
   })

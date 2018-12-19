@@ -66,7 +66,7 @@ export function getTemplateValAndImgs(interfaceCode,templateNo,accountCode) {
 // template
 export function template(interfaceCode,param) {
   return request({
-    url: "api/v1/tenant/"+interfaceCode+'/template/',
+    url: "api/v1/tenant/"+interfaceCode+'/template',
     method: "post",
     data:param
   })

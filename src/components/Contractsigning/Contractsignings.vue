@@ -263,7 +263,8 @@
         editSigner:true,
         delSigner:true,      //删除联系人标示
         editSign:false,
-        contractNumn:''
+        contractNumn:'',
+        contractVo:''
       }
     },
     methods: {
@@ -584,7 +585,7 @@
             }
             if( this.operateType !='' ){
               if(this.contractNumn != this.$store.state.contractNo1){
-                contractVo = {
+                this.contractVo = {
                   "needSign":needSign,
                   "contractName":TrimAll(this.contractName),
                   "validTime":this.value8,
@@ -597,7 +598,7 @@
                   "emails":emails
                 }
               }else{
-                 contractVo = {
+                 this.contractVo = {
                   "needSign":needSign,
                   "operateType":this.operateType,
                   "contractName":TrimAll(this.contractName),
@@ -612,7 +613,7 @@
                 }
               }
             } else {
-               contractVo = {
+               this.contractVo = {
                 "needSign":needSign,
                 "contractName":TrimAll(this.contractName),
                 "validTime":this.value8,
@@ -627,7 +628,7 @@
             }
             this.isNext = true;
 
-            perfectContract(contractVo,this.interfaceCode,this.contractNo).then(res=>{
+            perfectContract(this.contractVo,this.interfaceCode,this.contractNo).then(res=>{
 
                 if (res.data.resultCode == '0') {
                   sessionStorage.setItem('contractName', TrimAll(this.contractName))

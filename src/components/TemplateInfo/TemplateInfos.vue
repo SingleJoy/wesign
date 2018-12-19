@@ -93,7 +93,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-
+import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index' // use clipboard by v-directive
 import {contractimgs,getContractDetails} from "@/api/template"

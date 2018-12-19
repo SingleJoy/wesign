@@ -161,6 +161,7 @@
   import cookie from '@/common/js/getTenant'
   import { backContractTempSigner,getTemplateImags,contractTemp} from '@/api/template'
   import {prohibit} from '@/common/js/prohibitBrowser'
+  import server from "@/api/url";
   export default {
     name: 'batchSettings',
     data() {
@@ -251,8 +252,8 @@
         templateGenre:sessionStorage.getItem('templateGenre'),
         accountCode:sessionStorage.getItem('accountCode'),
         type:sessionStorage.getItem('type'),
-        b2cNum:sessionStorage.getItem("b2cNum"),
-        b2bNum:sessionStorage.getItem("b2bNum"),
+        b2cNum:sessionStorage.getItem("b2cNum")?sessionStorage.getItem('b2cNum'):0,
+        b2bNum:sessionStorage.getItem("b2bNum")?sessionStorage.getItem('b2bNum'):0,
       }
     },
     methods: {
@@ -570,7 +571,30 @@
         } else {
           this.modifyPassword = true
         }
-      }
+      },
+      //合同剩余发起次数
+      getContractNum(){
+        let param={
+          t:Math.random()
+        }
+        server.authorityUpload(param,this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.b2bNum = res.data.data.b2bNum;
+            this.b2cNum = res.data.data.b2cNum;
+            sessionStorage.setItem("b2cNum",this.b2cNum);
+            sessionStorage.setItem("b2bNum",this.b2bNum);
+
+          }else{
+            this.$message({
+              showClose: true,
+              message: res.data.resultMessage,
+              type: "error"
+            });
+          }
+        }).catch(error=>{
+
+        })
+      },
     },
     created() {
 
@@ -598,7 +622,8 @@
         }).catch(error=>{
 
         })
-      }
+      };
+       this.getContractNum()
     }
   }
 </script>

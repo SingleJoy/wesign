@@ -26,7 +26,7 @@
         <span>已有账号，</span>
         <span @click="login()" class="simulation">
 					<span class="register">立即登录</span>
-					<img src="../../../static/images/Login/goback-right.png" alt="">
+					<img src="/static/images/Login/goback-right.png" alt="">
 				</span>
       </div>
     </div>
@@ -750,14 +750,6 @@
     background-size: 100% 100%;
   }
   .center {
-  // width: 77.5rem;
-  // height: 34rem;
-  // background:url('../../../static/images/Login/try.png') no-repeat;
-  // position: absolute;
-  // background-size: 100%;
-  // top: 315px;
-  // left: 266px;
-
     width: 75rem;
     height: auto;
     margin: 0 auto;

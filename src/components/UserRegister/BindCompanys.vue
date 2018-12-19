@@ -16,17 +16,17 @@
 					<span class="layer_close_right" @click="close()">X</span>
 				</div>
 				<div class="layer_character">
-					<img src="../../../static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
 				</div>
 			</div>
 		</div>
 		<div class="login-nav">
-			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+			<div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
 			<div class="logo-content">
 				<span>已有账号，</span>
 				<span @click="login()" class="simulation">
 					<span class="register" >立即登录</span>
-					<img src="../../../static/images/Login/goback-right.png" alt="">
+					<img src="/static/images/Login/goback-right.png" alt="">
 				</span>
 			</div>
 		</div>
@@ -661,17 +661,10 @@ export default {
 	width: 100%;
     height: 40rem;
     overflow:hidden;
-    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
 	}
 	.center {
-	// width: 77.5rem;
-	// height: 34rem;
-	// background:url('../../../static/images/Login/try.png') no-repeat;
-	// position: absolute;
-	// background-size: 100%;
-	// top: 315px;
-	// left: 266px;
 
 		width: 75rem;
 		height: auto;

@@ -248,7 +248,7 @@
         if(length < 1){
           this.$message({
             showClose: true,
-            message: '请选择要下载的合同',
+            message: '请先勾选想要下载的合同文件',
             type: "error"
           });
 
@@ -525,7 +525,9 @@
             <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
             <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
             <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false}).then(()=>{
+            this.$router.push('/PackagePurchase');
+          });
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -536,11 +538,13 @@
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
 
           this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+            <div class="warn-num">
+              <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+              <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
+              <div class="customer-service"></div>
+            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false}).then(()=>{
+            this.$router.push('/PackagePurchase');
+          });
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;

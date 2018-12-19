@@ -47,7 +47,7 @@
                   </p>
                   <p>
 										<span  @click="previewContract(item)" class="item-option">
-											<img src="../../../../static/images/Multiparty/see.png" alt="">
+											<img src="/static/images/Multiparty/see.png" alt="">
                                             <span>在线预览</span>
 										</span>
 
@@ -69,7 +69,7 @@
         </ul>
         <ul v-else style="text-align: center;margin-top: 100px;">
           <li class="no-data">
-            <img src="../../../../static/images/blank.png" alt="">
+            <img src="/static/images/blank.png" alt="">
             <p>{{textTip}}</p>
           </li>
         </ul>
@@ -92,7 +92,7 @@
   @import "../../../styles/Multiparty/Multiparties.scss";
   @import "../../../common/styles/content.scss";
   .BatchTemplate .title-bg{
-    background: url('../../../../static/images/Common/title.png') no-repeat !important;
+    background: url('/static/images/Common/title.png') no-repeat !important;
     height:46px;
   }
   .beacthImg{

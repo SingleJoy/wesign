@@ -3,7 +3,7 @@
     <div class="Topes">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/logo2.png" alt="">
         </p>
 
       </nav>

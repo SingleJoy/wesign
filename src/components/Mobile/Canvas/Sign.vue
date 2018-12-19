@@ -127,7 +127,8 @@
 
           return false
         }
-        let signToken = GetQueryString("signToken")
+        let signToken = GetQueryString("signToken");
+        let params={'signatureImg': this.signImage};
         saveSignatureImg(signToken,params).then(res=>{
           this.$router.push('/MobileSuccess')
         }).catch(error=>{

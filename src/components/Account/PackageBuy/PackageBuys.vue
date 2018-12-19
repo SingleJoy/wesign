@@ -72,7 +72,7 @@
         </div>
 
         <div class="goToPay">
-          <a class="payNow" href="javascript:void(0);" @click="payNow">立即支付</a>
+          <a class="payNow" href="javascript:void(0);" @click="payNow" v-show="payShow">立即支付</a>
         </div>
 
         <div class="warn-content">
@@ -126,6 +126,7 @@
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
         amountList:[
+          {num:'0.01'},
           {num:'399'},
           {num:'499'},
           {num:'599'},
@@ -138,10 +139,12 @@
         isActive:'0',  //默认第一个套餐
         isPayActive:'0',  //默认支付宝支付
         qrcodeUrl:'',
-        payNum:'399',
+        payNum:'0.01',
         bugSuccessDialog:false,
         htmls:'',//支付宝返回form表单
         tabPay:false,
+        time:0,
+        payShow:true
       }
     },
     beforeDestroy() {
@@ -153,28 +156,49 @@
         this.$router.push('/Account')
       },
       tabList(index,payNum){
-        if(index==0&&(this.tabPay=true)){
-          this.$alert('是否取消支付宝支付', '提示',{
-            confirmButtonText: '确定'
-          }).then(()=>{
-            clearInterval(this.timer);
-            this.timer = null;
-            return
-          })
-        }else if(index==1&&(this.tabPay=true)){
-          this.$alert('是否取消微信支付', '提示',{
-            confirmButtonText: '确定'
-          }).then(()=>{
-            clearInterval(this.timer);
-            this.timer = null;
-            return
-          })
-        }
+
         this.isActive=index;
         this.payNum=payNum;
       },
-      tabPayList(index){
-        this.isPayActive=index;
+      tabPayList(index){   //index为0 是支付宝  index为1是微信
+        if((index==0)&&(this.tabPay==true)){
+          this.$alert('是否取消微信支付', '提示',{
+            confirmButtonText: '确定'
+          }).then(()=>{
+            this.qrcodeUrl=null;
+            this.isPayActive=index;
+            this.tabPay=false;
+            this.payShow=true;
+            clearInterval(this.timer);
+            this.timer = null;
+            this.time = 0;
+            return
+          })
+        }else if((index==1)&&(this.tabPay==true)){
+          this.$alert('是否取消支付宝支付', '提示',{
+            confirmButtonText: '确定'
+          }).then(()=>{
+            this.qrcodeUrl=null;
+            this.isPayActive=index;
+            this.tabPay=false;
+            this.payShow=false;
+            clearInterval(this.timer);
+            this.timer = null;
+            this.time = 0;
+
+            return
+          })
+        }else if((index==0)&&(this.tabPay==false)){
+          this.isPayActive=index;
+          this.tabPay=false;
+          this.payShow=true;
+        }else if((index==1)&&(this.tabPay==false)){
+          this.payShow=false
+          this.isPayActive=index;
+          this.tabPay=false;
+          this.wxpay();
+        }
+
       },
       packageBuy(){
         this.$router.push('/PackagePurchase')
@@ -200,16 +224,11 @@
           this.tabPay=true
           //返回参数 
           this.htmls = res.data;
-
           //打开新页面
         const div = document.createElement('div');
             div.innerHTML = this.htmls;
             document.body.appendChild(div);
-
-            // document.getElementsByTagName("form")[0].setAttribute("target","_blank");
-            // console.log(document.getElementsByTagName("form")[0].getAttribute("target"));
             document.forms[0].submit();
-
 
         }).catch(error=>{
 
@@ -225,31 +244,63 @@
         };
 
         wxpay(params).then(res=>{
-          this.tabPay=true;
-          this.qrcodeUrl=res.data.data.payQRCodeImg;
-          this.outTradeNo=res.data.data.outTradeNo;
-          let timer = null
-          this.timer = setInterval(function () {
-            this.pollingPanel(this.timer)
-          }, 3000)
+          if(res.data.resultCode==1){
+            this.tabPay=true;
+            this.qrcodeUrl=res.data.data.payQRCodeImg;
+            this.outTradeNo=res.data.data.outTradeNo;
+            setInterval(()=> {
+              this.time=this.time+1;
+            },1000);
+            let timer = null
+            this.timer = setInterval(()=> {
+              this.pollingPanel(this.timer)
+            }, 3000)
+          }else{
+            this.$message(res.data.resultMessage, '提示',{
+              confirmButtonText: '确定'
+            })
+          }
+
 
         }).catch(error=>{
 
         })
       },
 
-      pollingPanel(timer){ //轮询手写面板
+      pollingPanel(timer){    //轮询手写面板
         let params={
           'outTradeNo':this.outTradeNo
-        }
-        getWxpayStatus(params).then(res=> {
+        };
+        let t = Math.random();
+        // if(this.time>120){
+        //   console.log(this.time)
+        //   this.$message({
+        //     showClose: true,
+        //     message: '对不起，支付超时，请选择金额重新支付！',
+        //     type: 'error'
+        //   })
+        //   clearInterval(this.timer);
+        //   this.timer = null;
+        //   return
+        // }
+        getWxpayStatus(params,t).then(res=> {
 
-
-          // if() {
-		  //
-          // }else{
-		  //
-          // }
+          if(res.data==1) {
+            //轮询查询订单状态  支付成功
+            this.$alert('账户余额充值成功！', '提示',{
+              confirmButtonText: '确定'
+            }).then(()=>{
+              clearInterval(this.timer);
+              this.timer = null;
+              this.time = 0;
+              this.$router.push('/PackagePurchase')
+            }).catch(()=>{
+              this.qrcodeUrl=null;
+              this.tabPay=false;
+            })
+          }else{
+           //继续轮询查询订单状态  未支付
+          }
 
         }).catch(error=>{
 

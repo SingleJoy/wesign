@@ -55,7 +55,6 @@
             </div>
           </div>
 
-
         </div>
       </div>
     </div>
@@ -83,32 +82,30 @@
             username: this.ruleForm.username
           };
           server.verficate(params).then(res => {
-            if (res.data == 0) {
+            if (res.data === 0) {
              //用户手机号数据库存在
+              console.log(this.showGraphic)
+              if(!this.showGraphic){
                 let params={
                   phone:this.ruleForm.username
                 }
                 phoneStatus(params).then(res=>{
                   //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
                   if(res.data.resultCode==1){
+                    this.showGraphic=true
+                    this.$message({
+                      showClose: true,
+                      message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
+                      type: "error"
+                    });
+                    return false
+                  }else{
 
-                    if(!this.showGraphic){
-                      this.$message({
-                        showClose: true,
-                        message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
-                        type: "error"
-                      });
-                      this.showGraphic=true;
-                      return ;
-                    }
-
-                  }
-                  else{
-                     this.showGraphic=false;
                   }
                 }).catch(error=>{
 
                 })
+              }
 
               callback();
             } else {
@@ -167,7 +164,7 @@
                   message: "请输入验证码",
                   type: "error"
                 });
-                return
+                return false
               }else{
                 this.verfiedParam={
                   username: this.ruleForm.username,
@@ -193,7 +190,6 @@
                   type: "error"
                 });
                 this.t=Math.random();
-                return
               }
             }).catch(error=>{
 
@@ -219,23 +215,22 @@
         let bindParams={
           mobile: this.ruleForm.username
         }
-
         bindEnterprises(bindParams).then(response=>{
           let stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
-          let loginParam={
+          var loginParam={
             mobile:this.ruleForm.username,
           };
 
-          if (stateCode == 1) {
+          if (stateCode == "1") {
             if(response.data.dataList[0].length>0){
-              let urlParam =  response.data.dataList[0][0].interfaceCode;
+              var urlParam =  response.data.dataList[0][0].interfaceCode;
               let accountMoney =  response.data.dataList[0][0].accountMoney;
               let enterpriseName = response.data.dataList[0][0].enterpriseName;
               let mobile = response.data.dataList[0][0].mobile;
               let auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
               let accountCode = response.data.dataList[0][0].accountCode;
               let accountLevel = response.data.dataList[0][0].accountLevel;
-              let accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
+              var accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
               sessionStorage.setItem("enterpriseName", enterpriseName);
               sessionStorage.setItem('accountCode',accountCode);
               sessionStorage.setItem('accountLevel',accountLevel);
@@ -243,9 +238,8 @@
               sessionStorage.setItem('auditStatus',auditStatus);
               sessionStorage.setItem('mobile',mobile);
               sessionStorage.setItem('accountMoney',accountMoney);
-              sessionStorage.setItem('accountStatus',accountStatus);
             }else{
-              let urlParam =  response.data.dataList[1][0].interfaceCode;
+              var urlParam =  response.data.dataList[1][0].interfaceCode;
               let interfaceCode =  response.data.dataList[1][0].interfaceCode;
               let accountMoney =  response.data.dataList[1][0].accountMoney;
               let enterpriseName = response.data.dataList[1][0].enterpriseName;
@@ -254,7 +248,7 @@
               let accountLevel = response.data.dataList[1][0].accountLevel;
               let accountStatus = response.data.dataList[1][0].accountStatus;
               let authorizerCode = response.data.dataList[1][0].authorizerCode;
-              let auditStatus = response.data.dataList[1][0].auditStatus;
+               var auditStatus = response.data.dataList[1][0].auditStatus;
               sessionStorage.setItem("enterpriseName", enterpriseName);
               sessionStorage.setItem("interfaceCode", interfaceCode);
               sessionStorage.setItem('accountCode',accountCode);
@@ -274,6 +268,7 @@
                 type: "warning"
               });
             }else{
+
               server.login(loginParam,urlParam).then(res => {
                 //先判断是否为实名用户，再根据isBusiness 判断是否有发起合同10次限制
                 //判断是否为实名用户 auditSteps=3 已实名
@@ -318,6 +313,40 @@
         this.selectedEnterprise = el;
       },
 
+      changeClick() {
+        if (this.selectedEnterprise == "" || this.selectedEnterprise == null) {
+          this.selectedEnterprise = this.tenantNum[0];
+        }
+        let param={
+          mobile: this.selectedEnterprise.mobile,
+          interfaceCode: this.selectedEnterprise.interfaceCode
+        }
+        homePage(param,this.selectedEnterprise.interfaceCode).then(res=>{
+          if (res.data.dataList[1].isBusiness == "0") {
+            this.$message({
+              showClose: true,
+              duration: 1000,
+              message: "登录成功",
+              type: "success"
+            });
+            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+            this.$router.push("/Merchant");
+          } else {
+            this.$message({
+              showClose: true,
+              duration: 1000,
+              message: "登录成功",
+              type: "success"
+            });
+            cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+            this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+            this.$router.push("/Home");
+          }
+        }).catch(error=>{
+
+        })
+      }
     },
     mounted() {
       sessionStorage.clear();

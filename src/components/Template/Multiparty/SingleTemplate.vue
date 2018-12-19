@@ -72,7 +72,7 @@
             </ul>
             <ul v-else style="text-align: center;margin-top: 100px;">
                     <li class="no-data">
-                        <img src="../../../../static/images/blank.png" alt="">
+                        <img src="/static/images/blank.png" alt="">
                         <p>{{textTip}}</p>
                     </li>
             </ul>
