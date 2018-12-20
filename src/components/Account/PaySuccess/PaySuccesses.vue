@@ -91,7 +91,7 @@
 
             bindEnterprises(params).then(res=>{
               cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-              let item=[];
+              let item={};
              for(let i=0;i<res.data.dataList[0].length;i++){
                if(this.interfaceCode==res.data.dataList[0][i].interfaceCode){
                  item=res.data.dataList[0][i];

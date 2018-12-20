@@ -490,8 +490,6 @@
     font-size: 16px !important;
   }
 
-
-
   .login-nav {
     background-color: #fff;
     height: 80px;
