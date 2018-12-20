@@ -29,15 +29,15 @@
                   <h2 class='userInfo'>用户登录</h2>
                   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
                     <el-form-item prop="username">
-                      <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11"></el-input><i class="icon-user"></i>
+                      <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11" ></el-input><i class="icon-user"></i>
                     </el-form-item>
                     <el-form-item prop="password" style="margin-bottom: 1.25rem;">
                       <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
                     </el-form-item>
 
-                    <el-form-item prop="graphic" v-if="showGraphic">
+                    <el-form-item  v-if="showGraphic">
 
-                      <el-input :maxlength=4 placeholder="请输入验证码" class="messageInput"  v-model="ruleForm.graphic" @keyup.enter.native="submitForm('ruleForm')" style="width: 70%;"></el-input>
+                      <el-input :maxlength=4 placeholder="请输入验证码" class="messageInput"  v-model="graphic" @keyup.enter.native="submitForm('ruleForm')" style="width: 70%;"></el-input>
 
                       <img :src="baseURL+'/restapi/wesign/getVerifyCodeImg?phone='+ruleForm.username+'&t='+t"  @click="getVerifyCode('ruleForm')"  class="verifyCode">
                     </el-form-item>
@@ -81,15 +81,17 @@
           let params = {
             username: this.ruleForm.username
           };
+
           server.verficate(params).then(res => {
             if (res.data === 0) {
              //用户手机号数据库存在
-              console.log(this.showGraphic)
+
               if(!this.showGraphic){
                 let params={
                   phone:this.ruleForm.username
                 }
                 phoneStatus(params).then(res=>{
+                this.t=Math.random();
                   //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
                   if(res.data.resultCode==1){
                     this.showGraphic=true
@@ -128,8 +130,8 @@
         ruleForm: {
           username: "",
           password: "",
-          graphic:''
         },
+        graphic:'',
         rules: {
           username: [{ validator: checkName, trigger: "blur" }],
           password: [{ validator: checkPassWord, trigger: "blur" }]
@@ -141,8 +143,16 @@
         verifyCodeImg:'',   //图形验证码
         verfiedParam:'',
         showGraphic:false,
-        t:Math.random(),
+        t:'',
       };
+    },
+    watch:{
+    ruleForm:{
+      handler(curVal,oldVal){
+        this.showGraphic=false;
+      },
+      deep:true
+      }
     },
     methods: {
 
@@ -157,19 +167,19 @@
           if (valid) {
             let pass = md5(this.ruleForm.password);
             if(this.showGraphic){
-              if(!this.ruleForm.graphic){
-                console.log(this.ruleForm.graphic)
+
+              if(!this.graphic){
                 this.$message({
                   showClose: true,
                   message: "请输入验证码",
                   type: "error"
                 });
-                return false
+
               }else{
                 this.verfiedParam={
                   username: this.ruleForm.username,
                   password: pass,
-                  verifyCode:this.ruleForm.graphic
+                  verifyCode:this.graphic
                 }
               }
             }else {
@@ -178,7 +188,8 @@
                 password: pass,
               }
             }
-
+            // console.log("his.graphic:"+this.graphic);
+            // console.log("this.showGraphic:"+this.showGraphic);
             login(this.verfiedParam).then(res=>{
               if (res.data.resultCode === "1") {
                 sessionStorage.setItem("mobile",this.ruleForm.username)
@@ -189,7 +200,7 @@
                   message: res.data.resultMessage,
                   type: "error"
                 });
-                this.t=Math.random();
+
               }
             }).catch(error=>{
 
