@@ -29,10 +29,10 @@
                   <h2 class='userInfo'>用户登录</h2>
                   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
                     <el-form-item prop="username">
-                      <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11" ></el-input><i class="icon-user"></i>
+                      <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11" @focus="focus1"></el-input><i class="icon-user"></i>
                     </el-form-item>
                     <el-form-item prop="password" style="margin-bottom: 1.25rem;">
-                      <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
+                      <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @change="focus2" @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
                     </el-form-item>
 
                     <el-form-item  v-if="showGraphic">
@@ -83,7 +83,7 @@
           };
 
           server.verficate(params).then(res => {
-            if (res.data === 0) {
+            if (res.data == 0) {
              //用户手机号数据库存在
 
               if(!this.showGraphic){
@@ -94,7 +94,7 @@
                 this.t=Math.random();
                   //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
                   if(res.data.resultCode==1){
-                    this.showGraphic=true
+                    this.showGraphic=true;
                     this.$message({
                       showClose: true,
                       message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
@@ -146,16 +146,27 @@
         t:'',
       };
     },
-    watch:{
-    ruleForm:{
-      handler(curVal,oldVal){
-        this.showGraphic=false;
-      },
-      deep:true
-      }
-    },
+    // watch:{
+    // ruleForm:{
+    //   handler(curVal,oldVal){
+    //     this.showGraphic=false;
+    //   },
+    //   deep:true
+    //   }
+    // },
     methods: {
+      focus1(){
+        this.showGraphic=false;
+        console.log(this.showGraphic)
+      },
+      focus2(){
+        if((this.graphic)&&this.showGraphic){
+          this.showGraphic=true;
+        }else {
+          this.showGraphic=false;
+        }
 
+      },
       toRegister(){
         this.$router.push('/Register')
       },

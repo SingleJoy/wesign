@@ -54,13 +54,13 @@
                 <div class="card-line">
                   <span>账&nbsp;&nbsp;户&nbsp;&nbsp;余&nbsp;&nbsp;额</span>
                   <span>{{accountMoney}}&nbsp;元</span>
-                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packageBuy">立即充值</a>
+                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packageBuy" v-if="oneLever">立即充值</a>
                 </div>
 
                 <div class="card-line">
                   <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
                   <span>{{ContractAllowance}}&nbsp;份</span>
-                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packagePurchase">立即购买</a>
+                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packagePurchase" v-if="oneLever">立即购买</a>
                 </div>
                 <div class="card-line">
                   <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同:&nbsp;{{b2bNum}}&nbsp;份</span>
@@ -382,7 +382,7 @@
         </span>
     </el-dialog>
     <!--绑定邮箱-->
-    <el-dialog :visible.sync="bindEmailDialog" width="420px" custom-class="bindEmail" center>
+    <el-dialog :visible.sync="bindEmailDialog" width="430px" custom-class="bindEmail" center>
       <div class="tips">请输入想要绑定的邮箱账号</div>
 
       <el-form :model="bindEmailForm" :rules="EmailRules" ref="EmailRules" label-width="100px" class="demo-ruleForm">
@@ -415,6 +415,7 @@
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
   import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation,bindEmail} from '@/api/account'
   import server from '@/api/url'
+  import {login} from '@/api/login'
   import qs from 'qs';
 
   export default {
@@ -574,7 +575,7 @@
         accountName:'',   //账户名称
         dialogVisible:false,  //默认不显示签章提示图片
         once:false, //绑定邮箱单次点击
-        accountMoney:sessionStorage.getItem("accountMoney"),   //账户余额
+        accountMoney:'',   //账户余额
         smsNo: '',
         smsCode: '',
         appId:'',  //验证码返回appId
@@ -737,7 +738,6 @@
       showTipsImg(){
         this.dialogVisible=true;
       },
-
       // 修改密码
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -774,7 +774,6 @@
           }
         });
       },
-
       edit(accountCode,accountStatus){
 
         let accountCode1=accountCode;
@@ -786,7 +785,6 @@
           this.$router.push('EditChildNoActive');
         }
       },
-
       // 查询二级账号(数量)
       searchSecondAccounts(){
         secondAccounts(this.interfaceCode).then(res=> {
@@ -996,6 +994,7 @@
 
             this.mobile=res.data.data.mobile;
             this.accountName=res.data.data.accountName;
+            this.accountMoney=res.data.data.accountMoney;
             this.Email=res.data.data.email;
             this.account=res.data.data.enterpriseName;
             this.authName=res.data.data.authorizerName;

@@ -7,7 +7,7 @@
           <p>
             <a class="back-account" @click="backHome" href="javascript:void(0);">
               <span class="back-png"></span>返回</a>
-            <b class="accountBalance"   style="font-size: 20px">账户余额 : <span style="font-size: 30px">{{accountBalance}}元</span></b>
+            <b class="accountBalance"   style="font-size: 20px">账户余额 : <span style="font-size: 30px">{{accountMoney}}元</span></b>
           </p>
 
         </div>
@@ -26,10 +26,10 @@
             <div class="tip-header">温馨提示:</div>
             <div class="tip-body">
               <h4>
-                1.充值成功后您的充值额将会存储到余额中，您可在【我的账户】-【账户信息】中查看
+                1.充值成功后您的充值额将会存储到余额中。
               </h4>
               <h4>
-                2.您可以使用您账户中的余额购买合同套餐（余额不足将会导致购买失败）
+                2.您可以使用您账户中的余额购买合同套餐(余额不足将会导致购买失败)。
               </h4>
             </div>
           </div>
@@ -77,11 +77,11 @@
 
         <div class="warn-content">
           <div class="warn-tips" style="width: 50%;">
-            <div class="tip-header">对公账户到账时间比较慢，建议使用支付宝和微信支付！:</div>
+            <div class="tip-header">对公账户到账时间比较慢，建议使用支付宝和微信支付</div>
             <div class="tip-body">
               <h4>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：0200095709200070521</h4>
               <h4>开  户  行：中国工商银行股份有限公司北京成府路支行</h4>
-              <h4>开  户  行：中国工商银行股份有限公司北京成府路支行</h4>
+              <h4>单 位 名称：北京众签科技有限公司</h4>
             </div>
           </div>
           <div class="warn-tips">
@@ -102,7 +102,7 @@
       <div class="dialog-content">
         <div class="header">账户余额充值成功</div>
         <div class="body">
-          <p>当前账户余额为<span>{{accountBalance}}元</span></p>
+          <p>当前账户余额为<span>{{accountMoney}}元</span></p>
           <p style="font-size: 14px;">您现在可以去购买合同套餐啦！！！</p>
         </div>
         <div class="footer">
@@ -118,11 +118,13 @@
 
 <script>
   import {buyGoods,aliPay,wxpay,getWxpayStatus} from '@/api/purchase'
+  import {getAccountInformation} from '@/api/account'
+
   export default {
     name: "PackageBuys",
     data(){
       return{
-        accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
+        accountMoney:'',   //账户余额
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
         amountList:[
@@ -266,7 +268,17 @@
 
         })
       },
+      getAccountInformation(){
 
+        getAccountInformation(this.accountCode).then(res=> {
+          if(res.data.resultCode=='1'){
+            this.accountMoney=res.data.data.accountMoney;
+
+          }
+        }).catch(error=>{
+
+        })
+      },
       pollingPanel(timer){    //轮询手写面板
         let params={
           'outTradeNo':this.outTradeNo
@@ -285,7 +297,7 @@
         // }
         getWxpayStatus(params,t).then(res=> {
 
-          if(res.data==1) {
+          if(res.data.data==1) {
             //轮询查询订单状态  支付成功
             this.$alert('账户余额充值成功！', '提示',{
               confirmButtonText: '确定'
@@ -309,7 +321,7 @@
       }
     },
     created(){
-
+      this.getAccountInformation()
     }
 
   }

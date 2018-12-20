@@ -68,8 +68,8 @@
           let param ={
             'username':this.ruleForm.username
           }
-          valitedUser(param).then(response=>{
-            if (response.body === 0) {
+          valitedUser(param).then(res=>{
+            if (res.data === 0) {
               this.disCode = false
               callback()
             } else {

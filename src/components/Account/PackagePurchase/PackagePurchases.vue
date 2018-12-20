@@ -227,7 +227,7 @@
         if(item.goodsPrice>this.accountMoney){
 
           this.$confirm(
-            '对不起，您的账户余额不足以支持本次套餐购买服务请充值后再试','提示',
+            '对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试','提示',
             {confirmButtonText: '确定',
               showCancelButton:false}).then(() => {
             this.router.push('/PackageBuy')

@@ -40,7 +40,7 @@ export function aliPay(param) {
 //支付宝回调
 export function aliPayReturn(param) {
   return request({
-    url: "api/alipay/returnUrl",
+    url: "api/aliPay/returnUrl",
     method: "get",
     params: param
   })

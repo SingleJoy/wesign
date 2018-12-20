@@ -138,7 +138,7 @@
             </el-table-column>
           </el-table>
           <!-- 数据表格 end -->
-          <div style="position: absolute;margin-top:50px;" >
+          <div style="position: absolute;margin-top:50px;" v-if="num">
             <el-button type="primary" @click="batchDownload" v-loading.fullscreen.lock="fullscreenLoading">批量下载</el-button>
           </div>
         </div>
@@ -202,7 +202,7 @@
   import { mapActions, mapState } from "vuex";
   import cookie from "@/common/js/getTenant";
   import server from "@/api/url";
-  import {templateList,remind} from "@/api/home"
+  import {templateList,remind,homePageContractLists} from "@/api/home"
   import {downloadContracts} from "@/api/common"
 
   export default {
@@ -234,6 +234,7 @@
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
         fullscreenLoading: false,
+        num:''
       };
     },
     methods: {
@@ -703,7 +704,7 @@
 
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
-      server.contractLists(requestVo,this.interfaceCode).then(res=>{
+      homePageContractLists(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length; i++) {
             if (res.data.content[i].creater == this.interfaceCode) {  //发起方
               flag = true;
@@ -711,6 +712,8 @@
               flag = false;
             }
             res.data.content[i].flag = flag;
+            this.num=res.data.content.length;
+
             var obj = {};
             obj.contractName = res.data.content[i].contractName;
             obj.contractNum = res.data.content[i].contractNum;

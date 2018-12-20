@@ -5,11 +5,11 @@
         <div class="box-container">
           <a href="javascript:void(0);" id='close' @click='closes'>X</a>
         </div>
-        <div class="box-text">
-          <h4>1.全新定义计费方式，完成实名即送十份合同</h4>
-          <h4>2.账单自动生成，对账更方便</h4>
-          <h4>3.新增在线电子发票，开票更快捷</h4>
-        </div>
+        <!--<div class="box-text">-->
+          <!--<h4>1.全新定义计费方式，完成实名即送十份合同</h4>-->
+          <!--<h4>2.账单自动生成，对账更方便</h4>-->
+          <!--<h4>3.新增在线电子发票，开票更快捷</h4>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@
   .box{
       width:529px;
       height: 417px;
-      background:url('/static/images/Top/version-info1.6.2.png') no-repeat;
+      background:url('/static/images/Top/version-info1.7.png') no-repeat;
       background-size: 100% 100%;
       position: absolute;
       left:0;

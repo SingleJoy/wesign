@@ -133,7 +133,7 @@
             </el-table-column>
           </el-table>
           <!-- 数据表格 end -->
-          <div style="position: absolute;margin-top:50px;" >
+          <div style="position: absolute;margin-top:50px;" v-if="num" >
             <el-button type="primary" @click="batchDownload" v-loading.fullscreen.lock="fullscreenLoading">批量下载</el-button>
           </div>
         </div>
@@ -169,6 +169,7 @@
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
         fullscreenLoading: false,
+        num:''
       }
     },
     methods: {
@@ -319,6 +320,7 @@
       var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
       // let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
+        this.num=res.data.content.length;
         for (let i = 0; i < res.data.content.length;i++) {
           var obj = {}
           obj.contractName = res.data.content[i].contractName;
