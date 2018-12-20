@@ -90,9 +90,8 @@
             })
 
             bindEnterprises(params).then(res=>{
-
+              cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
               let item=[];
-              console.log(res.data.dataList);
              for(let i=0;i<res.data.dataList[0].length;i++){
                if(this.interfaceCode==res.data.dataList[0][i].interfaceCode){
                  item=res.data.dataList[0][i];
@@ -106,12 +105,9 @@
               sessionStorage.setItem('interfaceCode',item.interfaceCode);
               sessionStorage.setItem('auditStatus',item.auditStatus);
               sessionStorage.setItem('enterpriseName',item.enterpriseName);
-              // console.log(item.enterpriseName)
               sessionStorage.setItem('userCode',item.userCode);
               sessionStorage.setItem('accountMoney',item.accountMoney);
-
               sessionStorage.setItem("companyList",JSON.stringify(res.data.dataList)); //角色列表
-
 
             }).catch(error=>{  })
             this.show=true;
