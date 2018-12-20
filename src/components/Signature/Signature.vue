@@ -612,11 +612,11 @@
 
 
       //   type = JSON.parse(type)
-      this.operateType = type
-      this.companyName = cookie.getJSON('tenant')[1].companyName
-      this.username = cookie.getJSON('tenant')[0].userName
-      this.mobile = cookie.getJSON('tenant')[0].mobile
-      this.email = cookie.getJSON('tenant')[1].email
+      this.operateType = type;
+      this.companyName = cookie.getJSON('tenant')[1].companyName;
+      this.username = cookie.getJSON('tenant')[0].userName;
+      this.mobile = cookie.getJSON('tenant')[0].mobile;
+      this.email = cookie.getJSON('tenant')[1].email;
       if(type == 'back'){
         var Jurisdiction = sessionStorage.getItem('Jurisdiction');
         //页面回退  数据回显

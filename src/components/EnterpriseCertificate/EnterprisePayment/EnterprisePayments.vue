@@ -177,7 +177,7 @@
             once:false, //提交按钮单次点击,
             verifySub:false, //五次打款验证提交
             // showAlert:true,  //轮询查询打款失败  第一次弹窗
-            time:1,
+            time:0,
             // allowInput:false,//打款失败 禁止输入
             rules:{
                 paymentNum: [
@@ -413,7 +413,7 @@
             clearInterval(this.timer);
             this.timer = null;
           }else if(res.data.resultCode=='-4'){
-            if(this.time>(1000*60*60)){
+            if(this.time>(60*60)){
               clearInterval(this.timer);
               this.timer = null;
             }
@@ -439,7 +439,7 @@
         return
       }
       this.enterpriseName = sessionStorage.getItem("companyName");
-      //   console.log(this.interfaceCode);
+
       // 查询企业银行信息
       server.getBank(this.interfaceCode).then(response => {
         if (response.data.resultCode == '1') {
@@ -463,11 +463,11 @@
       let timer = null;
         this.timer = setInterval(()=> {
             this.pollingPanel(this.timer)
-        }, 3000);
+        }, 5000);
 
       setInterval(()=> {
-        this.time=this.time+1;
-      },1000)
+        this.time=this.time+2;
+      },2000)
 
     }
 
