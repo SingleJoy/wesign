@@ -287,7 +287,6 @@
                 this.$confirm(
                 <div class="warn-num">
                   <p class="title" style="font-size:16px;text-align:center;">对不起，您的对企业签约次数已用尽!</p>
-                   <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
                   <div class="customer-service"></div>
                   </div>,'提示', {
                    confirmButtonText: '去购买', cancelButtonText: '取消'}).then(()=>{
