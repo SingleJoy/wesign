@@ -260,7 +260,7 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(() => {
-                    // this.$router.push('/Home')
+                  this.$router.push('/PackagePurchase')
                 }).catch(() => {
 
                 });

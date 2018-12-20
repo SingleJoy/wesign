@@ -53,7 +53,7 @@
                 </div>
                 <div class="card-line">
                   <span>账&nbsp;&nbsp;户&nbsp;&nbsp;余&nbsp;&nbsp;额</span>
-                  <span>{{accountBalance}}&nbsp;元</span>
+                  <span>{{accountMoney}}&nbsp;元</span>
                   <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packageBuy">立即充值</a>
                 </div>
 
@@ -574,7 +574,7 @@
         accountName:'',   //账户名称
         dialogVisible:false,  //默认不显示签章提示图片
         once:false, //绑定邮箱单次点击
-        accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
+        accountMoney:sessionStorage.getItem("accountMoney"),   //账户余额
         smsNo: '',
         smsCode: '',
         appId:'',  //验证码返回appId

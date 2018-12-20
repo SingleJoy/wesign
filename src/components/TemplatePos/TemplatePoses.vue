@@ -258,10 +258,8 @@ export default {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(() => {
-                    // this.$router.push('/Home')
-                }).catch(() => {
-
-                });
+                  this.$router.push('/PackagePurchase')
+                })
 
           }else{
             this.$message({

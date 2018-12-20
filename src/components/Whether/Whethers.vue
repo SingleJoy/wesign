@@ -254,12 +254,11 @@ export default {
                         <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
                         <div class="customer-service"></div>
                     </div>,'提示', {
-                    confirmButtonText: '确定',
+                    confirmButtonText: '去购买',
                     cancelButtonText: '取消'
                 }).then(() => {
-                }).catch(() => {
-
-                });
+                 this.$router.push('/PackagePurchase')
+                })
             }else{
                 this.$message({
                 showClose: true,

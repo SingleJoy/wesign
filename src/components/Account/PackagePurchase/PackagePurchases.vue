@@ -8,7 +8,7 @@
             <a class="back-account" @click="backLast" href="javascript:void(0);">
               <span class="back-png"></span>返回
             </a>
-            <b class="accountBalance"  id="accountBalance" style="font-size: 20px;">账户余额 : <span style="font-size: 30px">{{accountBalance}}元</span></b>
+            <b class="accountBalance"  id="accountBalance" style="font-size: 20px;">账户余额 : <span style="font-size: 30px">{{accountMoney}}元</span></b>
           </p>
 
         </div>
@@ -123,7 +123,7 @@
       return {
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
-        accountBalance:sessionStorage.getItem("accountMoney"),   //账户余额
+        accountMoney:sessionStorage.getItem("accountMoney"),   //账户余额
         B2cListArray: [],        //b2c列表数据
         B2bListArray:[],   //b2b列表数据
         totalItemNumber: 0,
@@ -218,13 +218,13 @@
           'goodsName':item.goodsName,
           'goodsNo': item.goodsNo,
           'goodsNum': item.goodsNum,
-          'goodsPrice': item.goodsPrice,
+          'goodsPrice': this.goodsPrice,
           'goodsStatus': item.goodsStatus,
           'goodsType':item.goodsType,
           'conSurlplusNum':(item.goodsType=='0')?this.b2bNum:this.b2cNum,
         };
         this.params=params;
-        if(item.goodsPrice>this.accountBalance){
+        if(item.goodsPrice>this.accountMoney){
 
           this.$confirm(
             '对不起，您的账户余额不足以支持本次套餐购买服务请充值后再试','提示',
@@ -245,8 +245,9 @@
         this.once=true;
         this.$loading.show();
         buyGoods(this.interfaceCode,this.params).then(res=>{
-          this.once=false;
+
           if(res.data.resultCode==1){
+            this.once=false;
             this.$loading.hide();
             this.PurchaseDialog=false;
               // this.$alert(res.data.resultMessage, '提示',{
@@ -257,28 +258,23 @@
                 type: 'success'
               });
 
-
-
             this.PurchaseDialog=false;
-            this.accountBalance=res.data.data.accountMoney;
+            this.accountMoney=res.data.data.accountMoney;
+            sessionStorage.setItem("accountMoney",this.accountMoney);
 
           }else if(res.data.resultCode==0){
+            this.once=false;
             this.$loading.hide();
-              this.$confirm(
-                <div class="warn-num">
-                  <p class="title" style="font-size:16px;text-align:center;">
-                    {res.data.resultMessage}
-                  </p>
-                </div>,'提示',
-                {confirmButtonText: '确定',
-                  showCancelButton:false}).then(() => {
-                this.router.push('/PackageBuy')
-              }).catch(() => {
-                this.$message({
-                  type: 'error',
-                  message: '取消购买'
-                });
-              });
+            this.$message({
+              type: 'error',
+              message: res.data.resultMessage,
+              confirmButtonText: '确定',
+              showCancelButton:'取消'}
+            ).then(()=>{
+              this.router.push('/PackageBuy');
+            }).catch(()=>{
+
+            })
 
           }
         }).catch(error=>{
