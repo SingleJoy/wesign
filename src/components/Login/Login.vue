@@ -39,7 +39,7 @@
 
                       <el-input :maxlength=4 placeholder="请输入验证码" class="messageInput"  v-model="graphic" @keyup.enter.native="submitForm('ruleForm')" style="width: 70%;"></el-input>
 
-                      <img :src="baseURL+'/restapi/wesign/getVerifyCodeImg?phone='+ruleForm.username+'&t='+t"  @click="getVerifyCode('ruleForm')"  class="verifyCode">
+                      <img :src="base64"  @click="getVerifyCode('ruleForm')"  class="verifyCode">
                     </el-form-item>
                     <p style="font-size:12px;color:#999;margin-bottom: 1.375rem;">
                       <a class='submit' href="javascript:void(0)" @click="forgetPassWord">忘记密码?</a>
@@ -91,7 +91,7 @@
                   phone:this.ruleForm.username
                 }
                 phoneStatus(params).then(res=>{
-                this.t=Math.random();
+
                   //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
                   if(res.data.resultCode==1){
                     this.showGraphic=true;
@@ -100,7 +100,11 @@
                       message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
                       type: "error"
                     });
-                    return false
+                    getVerifyCodeImg(this.ruleForm.username).then(res=>{
+                      this.base64=res.data;
+                    }).catch(error=>{
+
+                    })
                   }else{
 
                   }
@@ -144,6 +148,7 @@
         verfiedParam:'',
         showGraphic:false,
         t:'',
+        base64:''
       };
     },
     // watch:{
@@ -157,7 +162,7 @@
     methods: {
       focus1(){
         this.showGraphic=false;
-        console.log(this.showGraphic)
+
       },
       focus2(){
         if((this.graphic)&&this.showGraphic){
@@ -225,7 +230,11 @@
       getVerifyCode(formName){
         this.$refs[formName].validate(valid => {
           if (valid){
-            this.t=Math.random();
+            getVerifyCodeImg(this.ruleForm.username).then(res=>{
+              this.base64=res.data;
+            }).catch(error=>{
+
+            })
           }else{
 
           }

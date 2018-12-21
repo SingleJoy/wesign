@@ -692,9 +692,6 @@
       if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
         this.welcomeMessage = false;
       }
-
-
-
       var requestVo = {
         pageNo: "1",
         pageSize: "7",
@@ -705,6 +702,7 @@
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
+        this.num=res.data.content.length;
           for (let i = 0; i < res.data.content.length; i++) {
             if (res.data.content[i].creater == this.interfaceCode) {  //发起方
               flag = true;
@@ -712,7 +710,7 @@
               flag = false;
             }
             res.data.content[i].flag = flag;
-            this.num=res.data.content.length;
+
 
             var obj = {};
             obj.contractName = res.data.content[i].contractName;

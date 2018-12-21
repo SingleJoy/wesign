@@ -65,9 +65,9 @@ export function sendSmsCode(param){
 //密码输错五次  获取验证码
 export function getVerifyCodeImg(param) {
   return request({
-    url:"api/getVerifyCodeImg",
+    url:"api/getVerifyCodeImg?phone="+param,
     method:"get",
-    params:param
+    params:''
   })
 }
 
