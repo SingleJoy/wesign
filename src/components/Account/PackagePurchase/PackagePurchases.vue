@@ -118,6 +118,7 @@
 <script>
   import {getGoods,getOrderList,buyGoods} from '@/api/purchase'
   import {getAccountInformation} from '@/api/account'
+  import server from "@/api/url";
   export default {
     name: "PackagePurchases",
     data() {
@@ -131,8 +132,8 @@
         tableData: [],
         currentPage: 1,
         PurchaseDialog:false,
-        b2bNum:sessionStorage.getItem("b2bNum"),   //我的账户页面存储b2b剩余合同数量
-        b2cNum:sessionStorage.getItem("b2cNum"),  //我的账户页面存储b2c剩余合同数量,
+        b2bNum:'',   //我的账户页面存储b2b剩余合同数量
+        b2cNum:'',  //我的账户页面存储b2c剩余合同数量,
         goodsPrice:'',
         goodsName:'',
         params:'',
@@ -225,16 +226,37 @@
           'conSurlplusNum':(item.goodsType=='0')?this.b2bNum:this.b2cNum,
         };
         this.params=params;
-        if(item.goodsPrice>this.accountMoney){
+        if(this.goodsPrice>this.accountMoney){
 
-          this.$confirm(
-            '对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试','提示',
-            {confirmButtonText: '确定',
-              showCancelButton:false}).then(() => {
-            this.router.push('/PackageBuy')
+          // this.$confirm('对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试', '提示',{
+          //   confirmButtonText: '立即充值',
+          //   cancelButtonText: '取消',
+          // }).then(()=>{
+          //   this.router.push('/PackageBuy')
+          // }).catch(()=>{
+		  //
+          // })
+
+          // this.$alert('对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试', '提示',{
+          //   confirmButtonText: '确定',
+          //   cancelButtonText: '取消',
+          // }).then(()=>{
+          //   this.router.push('/PackageBuy');
+          // }).catch(()=>{
+		  //
+          // })
+
+          this.$confirm('对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试', '提示', {
+            cancelButtonText: '取消',
+            confirmButtonText: '确定',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push('/PackageBuy');
           }).catch(() => {
 
           });
+
+
         }else{
           this.PurchaseDialog=true;
         }
@@ -259,8 +281,9 @@
 
             this.PurchaseDialog=false;
             this.accountMoney=res.data.data.accountMoney;
-            sessionStorage.setItem("accountMoney",this.accountMoney);
+
             this.getOrderListSearch();   //购买记录数据
+            this.getContractNum(); //重新查询记录b2b b2c合同数量
           }else if(res.data.resultCode==0){
             this.once=false;
             this.$loading.hide();
@@ -270,7 +293,7 @@
               confirmButtonText: '确定',
               showCancelButton:'取消'}
             ).then(()=>{
-              this.router.push('/PackageBuy');
+              this.$router.push('/PackageBuy');
             }).catch(()=>{
 
             })
@@ -291,11 +314,37 @@
 
         })
       },
+      //合同剩余发起次数
+      getContractNum(){
+        let param={
+          t:Math.random()
+        }
+        server.authorityUpload(param,this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.b2bNum = res.data.data.b2bNum;
+            this.b2cNum = res.data.data.b2cNum;
+
+            if(this.clickup){
+              this.popupContainer = !this.popupContainer;
+            }
+
+          }else{
+            this.$message({
+              showClose: true,
+              message: res.data.resultMessage,
+              type: "error"
+            });
+          }
+        }).catch(error=>{
+
+        })
+      },
     },
     created() {
       this.getGoods();//套餐列表数据
       this.getOrderListSearch();   //购买记录数据
       this.getAccountInformation();
+      this.getContractNum();
     },
 
   }

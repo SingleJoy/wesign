@@ -52,7 +52,7 @@
                   <b>{{authName}}</b>
                 </div>
                 <div class="card-line">
-                  <span>账&nbsp;&nbsp;户&nbsp;&nbsp;余&nbsp;&nbsp;额</span>
+                  <span>账&nbsp;&nbsp;户&nbsp;&nbsp;余&nbsp;&nbsp;额:</span>
                   <span>{{accountMoney}}&nbsp;元</span>
                   <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packageBuy" v-if="oneLever">立即充值</a>
                 </div>

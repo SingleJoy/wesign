@@ -367,8 +367,9 @@
 
 <script>
   import server from "@/api/certification";
-  import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode,specialCharacter} from '../../common/js/validate.js';
+  import {validateMoblie,validatePassWord,validateBankNum,TrimAll,validateEmail,validateSmsCode,specialCharacter} from '@/common/js/validate.js';
   import cookie from "@/common/js/getTenant";
+  import {getDate} from '@/api/account'
   export default {
     name:'',
     data() {

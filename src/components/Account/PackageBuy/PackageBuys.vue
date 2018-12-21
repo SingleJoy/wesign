@@ -299,12 +299,11 @@
 
           if(res.data.data==1) {
             //轮询查询订单状态  支付成功
-            clearInterval(this.timer);
-            this.timer = null;
-            this.time = 0;
+
             this.$alert('账户余额充值成功！', '提示',{
               confirmButtonText: '确定'
             }).then(()=>{
+
               this.$router.push('/PackagePurchase')
             }).catch(()=>{
               this.qrcodeUrl=null;

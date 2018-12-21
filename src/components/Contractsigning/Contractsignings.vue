@@ -338,10 +338,10 @@
         this.$loading.show(); //显示
         this.imgList=[];
         let data =[];
-        // contractNo = JSON.parse(contractNo)
+
         contractImg(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
-              let contractUrl = res.data[i].contractUrl
+              let contractUrl = res.data[i].contractUrl;
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
@@ -584,7 +584,7 @@
               perpetualValid = '0'
             }
             if( this.operateType !='' ){
-              if(this.contractNumn != this.$store.state.contractNo1){
+              if(this.contractNumn != this.contractNo){
                 this.contractVo = {
                   "needSign":needSign,
                   "contractName":TrimAll(this.contractName),
@@ -667,7 +667,7 @@
     },
     created() {
       let type = sessionStorage.getItem('type');
-        if( type == 'back' ){
+        if(type== 'back' ){
             this.isNext = true;
             this.operate = true;
             echoContractInfo(this.interfaceCode,this.contractNo).then(res=>{
@@ -695,6 +695,9 @@
 
             })
         }
+    },
+    mounted() {
+      sessionStorage.removeItem("type");
     }
   }
 </script>
