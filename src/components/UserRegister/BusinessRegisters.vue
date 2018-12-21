@@ -29,7 +29,7 @@
 		</div>
 		<section class="contain">
 			<div class="image_register">
-				<img src="../../../static/images/Common/title.png" alt="">
+				<img src="/static/images/Common/title.png" alt="">
 				<div class="register">注&nbsp;&nbsp;&nbsp;&nbsp;册</div>
 			</div>
 			<div class="shadow">

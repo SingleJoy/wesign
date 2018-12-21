@@ -26,7 +26,7 @@
           <div class="payment-success">
 
             <div class="image">
-              <img src="../../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
+              <img src="/static/images/Common/contract-sign-success.png" alt="" style="margin-top: 10px;">
             </div>
 
             <div  class="success-tips">

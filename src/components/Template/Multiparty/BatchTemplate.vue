@@ -52,7 +52,7 @@
 										</span>
 
                     <span @click="generateClick(item)" class="item-option">
-											<img src="../../../../static/images/Multiparty/creater.png" alt="">
+											<img src="/static/images/Multiparty/creater.png" alt="">
 											<span >立即发起</span>
 										</span>
                   </p>
@@ -108,7 +108,7 @@
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

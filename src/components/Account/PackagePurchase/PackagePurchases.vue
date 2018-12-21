@@ -117,13 +117,14 @@
 
 <script>
   import {getGoods,getOrderList,buyGoods} from '@/api/purchase'
+  import {getAccountInformation} from '@/api/account'
   export default {
     name: "PackagePurchases",
     data() {
       return {
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
-        accountMoney:sessionStorage.getItem("accountMoney"),   //账户余额
+        accountMoney:'',   //账户余额
         B2cListArray: [],        //b2c列表数据
         B2bListArray:[],   //b2b列表数据
         totalItemNumber: 0,
@@ -239,9 +240,7 @@
         }
 
       },
-
       packageBuy(){
-
         this.once=true;
         this.$loading.show();
         buyGoods(this.interfaceCode,this.params).then(res=>{
@@ -261,7 +260,7 @@
             this.PurchaseDialog=false;
             this.accountMoney=res.data.data.accountMoney;
             sessionStorage.setItem("accountMoney",this.accountMoney);
-
+            this.getOrderListSearch();   //购买记录数据
           }else if(res.data.resultCode==0){
             this.once=false;
             this.$loading.hide();
@@ -280,11 +279,23 @@
         }).catch(error=>{
 
         })
-      }
+      },
+      getAccountInformation(){
+
+        getAccountInformation(this.accountCode).then(res=> {
+          if(res.data.resultCode=='1'){
+            this.accountMoney=res.data.data.accountMoney;
+
+          }
+        }).catch(error=>{
+
+        })
+      },
     },
     created() {
       this.getGoods();//套餐列表数据
       this.getOrderListSearch();   //购买记录数据
+      this.getAccountInformation();
     },
 
   }

@@ -2,10 +2,6 @@
   <div class='Multiparties'>
     <div class='main'>
       	<div class="">
-			<!-- <div class="common-top-tab">
-				<div :class="[activeTab?'btn-active':'btn-default']" @click="signCreate">单次发起合同</div>
-				<div :class="[activeTab?'btn-default':'btn-active']" style="margin-left: -5px;" @click="batchCreate">批量发起合同</div>
-			</div> -->
 
 				<el-tabs class="multi-tab" v-model="activeName">
 					<el-tab-pane label="单次发起合同" name="first">

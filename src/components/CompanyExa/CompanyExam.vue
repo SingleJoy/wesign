@@ -143,7 +143,7 @@
   }
 
   .back-home{
-    background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
   .el-step__main{

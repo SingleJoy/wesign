@@ -9,7 +9,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
         <div class='buttons' v-show="delSigner == true">
           <el-button type="info" style='background:#ccc' :disabled="hasClick"  @click="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -711,7 +711,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
   .upload-demo .el-upload .el-upload--text{

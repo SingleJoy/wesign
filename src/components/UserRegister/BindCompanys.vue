@@ -757,7 +757,7 @@ export default {
 	margin-top: -150px;
 	z-index: 999;
 	border-radius: 5px;
-	background: url("../../../static/images/Login/context.png") no-repeat;
+	background: url("/static/images/Login/context.png") no-repeat;
 	display: none;
 	.login-cancel {
 	font-size: 24px;

@@ -321,7 +321,7 @@
       }
     },
     created(){
-      this.getAccountInformation()
+      this.getAccountInformation();
     }
 
   }

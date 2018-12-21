@@ -19,7 +19,7 @@
     <div class="state">
       <div class="stateInfo">
         <div>
-          <img src="/static/images/contract-success.png" alt="" style="margin-top: 40px;">
+          <img src="/static/images/Common/contract-sign-success.png" alt="" style="margin-top: 10px;">
         </div>
         <div style="margin-left: 30px;">
           <span>恭喜,合同签署成功！</span>
@@ -59,7 +59,7 @@
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{contractlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dd>
             <dl>
-              <dt><img src="../../../static/images/Room/hand.png" alt=""></dt>
+              <dt><img src="/static/images/Room/hand.png" alt=""></dt>
               <dd>
                 <p><a href="javascript:void(0);" @click='handleCopy(contractlink,$event)'>复制链接</a></p>
               </dd>

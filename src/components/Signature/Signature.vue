@@ -255,7 +255,7 @@
         date:'',
         checked:true,
         nextBtn:false,
-        input:'',
+        input:sessionStorage.getItem("contractName"),
         companyName:'',
         email:'',
         username:'',
@@ -292,7 +292,6 @@
     },
     methods:{
       urlloadUrl(){
-
 
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contract/${this.contractNo}/changeContract?=accountCode=${this.accountCode}`
       },
@@ -609,7 +608,6 @@
     created() {
 
       let type = sessionStorage.getItem('type');
-
 
       //   type = JSON.parse(type)
       this.operateType = type;

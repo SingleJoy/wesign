@@ -132,10 +132,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <!-- 数据表格 end -->
-          <div style="position: absolute;margin-top:50px;" v-if="num" >
-            <el-button type="primary" @click="batchDownload" v-loading.fullscreen.lock="fullscreenLoading">批量下载</el-button>
-          </div>
+
         </div>
       </div>
     </div>
@@ -166,9 +163,7 @@
         uploadFile:true,
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         auditStatus:'',
-        multipleSelection: [],    //全选按钮的数组
-        downloadList:[],  //要下载的数组
-        fullscreenLoading: false,
+
         num:''
       }
     },
@@ -176,35 +171,7 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      //批量下载请求
-      batchDownload(){
-        let length = this.multipleSelection.length;
-        let str = '';
-        this.downloadList = this.downloadList.concat(this.multipleSelection);
-        if(length < 1){
-          this.$message({
-            showClose: true,
-            message: '请先勾选想要下载的合同文件',
-            type: "error"
-          });
 
-        }else{
-          for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
-          }
-          this.fullscreenLoading=true
-          let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
-          let up = document.createElement('a');
-          document.body.appendChild(up);
-          up.setAttribute('href', url);
-          up.click();
-          setTimeout(() => {
-            this.fullscreenLoading = false;
-          }, 1500);
-          self.multipleSelection = [];
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return 'background:#f5f5f5;font-weight:bold;'
