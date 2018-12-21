@@ -16,19 +16,19 @@
         :visible.sync="licenseExample"
         width="500px"
       >
-        <img src="../../../static/images/case.png" alt="" style="width:100%;height:100%;">
+        <img src="/static/images/case.png" alt="" style="width:100%;height:100%;">
       </el-dialog>
       <el-dialog
         :visible.sync="frontIdExample"
         width="300px"
       >
-        <img src="../../../static/images/frontPhoto.png" alt="" style="width:100%;height:100%;">
+        <img src="/static/images/frontPhoto.png" alt="" style="width:100%;height:100%;">
       </el-dialog>
       <el-dialog
         :visible.sync="backIdExample"
         width="300px"
       >
-        <img src="../../../static/images/backPhoto.png" alt="" style="width:100%;height:100%;">
+        <img src="/static/images/backPhoto.png" alt="" style="width:100%;height:100%;">
       </el-dialog>
       <el-dialog
         :visible.sync="synopsis"
@@ -212,7 +212,7 @@
                     >
                       <div class="upload_warp">
                         <img  v-if="IdInfo.frontPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdInfo.frontPhoto" class="avatar">
-                        <img v-else src="../../../static/images/Credentials/Personal/Pupload/left-card.png" alt="">
+                        <img v-else src="/static/images/Credentials/Personal/Pupload/left-card.png" alt="">
                       </div>
                     </el-upload>
                     <div class="upload_warp_text"  v-if="showData">
@@ -233,7 +233,7 @@
                     >
                       <div class="upload_warp">
                         <img  v-if="IdInfo.backPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdInfo.backPhoto" class="avatar">
-                        <img v-else src="../../../static/images/Credentials/Personal/Pupload/right-card.png" alt="">
+                        <img v-else src="/static/images/Credentials/Personal/Pupload/right-card.png" alt="">
                       </div>
                     </el-upload>
                     <div class="upload_warp_text"  v-if="showData">

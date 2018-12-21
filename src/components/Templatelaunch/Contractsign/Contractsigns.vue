@@ -54,7 +54,7 @@
           </ul>
         </div>
         <div class='sign_right' v-show="signTempImg == false">
-          <a href="javascript:void(0);" @click="gainPosition"><img src="../../../../static/images/Contract/submit.png" alt=""></a>
+          <a href="javascript:void(0);" @click="gainPosition"><img src="/static/images/Contract/submit.png" alt=""></a>
           <br>
         </div>
 

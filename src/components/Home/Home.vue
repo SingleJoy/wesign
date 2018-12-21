@@ -4,7 +4,6 @@
          <keep-alive>
            <Container></Container>
         </keep-alive>
-
         <Bottom></Bottom>
     </div>
 </template>

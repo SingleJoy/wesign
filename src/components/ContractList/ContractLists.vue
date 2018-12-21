@@ -54,7 +54,6 @@
         height='height:40px'
         v-model="filters.column.create_end_date"
         type="date"
-
         placeholder="结束时间"
         format="yyyy-MM-dd"
         :picker-options="pickerBeginDateAfter"

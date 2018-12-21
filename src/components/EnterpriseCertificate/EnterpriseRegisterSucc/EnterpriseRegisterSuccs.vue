@@ -180,12 +180,12 @@
   @import "../../../styles/EnterpriseCertificate/EnterprisePayment.styl";
   @import "../../../../static/icon/iconfont.css";
   .enterprise-certification{
-    background: url('/../../../../static/images/Common/numberCertificate.png') no-repeat 4px 4px;
+    background: url('/static/images/Common/numberCertificate.png') no-repeat 4px 4px;
   }
   .certification-bg{
-    background: url('/../../../../static/images/EnterpriseRegister/certification1.png') no-repeat;
+    background: url('/static/images/EnterpriseRegister/certification1.png') no-repeat;
   }
   .certification-book>.bg-png{
-    background: url('/../../../../static/images/EnterpriseRegister/certification-book.png') no-repeat;
+    background: url('/static/images/EnterpriseRegister/certification-book.png') no-repeat;
   }
 </style>

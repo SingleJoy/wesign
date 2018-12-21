@@ -229,7 +229,7 @@
 
 }
 .stateCentral{
-    background: url('../../../static/images/SignSuccess/SignSuccess.png');
+    background: url('/static/images/SignSuccess/SignSuccess.png');
     height: 280px;
     width: 466px;
     background-size:100% 100%;

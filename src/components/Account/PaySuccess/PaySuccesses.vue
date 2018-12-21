@@ -97,7 +97,7 @@
                  item=res.data.dataList[0][i];
                }
              }
-             console.log("111"+item)
+
               sessionStorage.setItem('accountCode',item.accountCode);      //账户编号
               sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
               sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
@@ -113,8 +113,7 @@
             this.show=true;
           }else{
             this.$alert(res.data.resultMessage, '提示',{
-              confirmButtonText: '购买合同套餐',
-              cancelButtonText: '继续充值',
+              confirmButtonText: '确定',
             }).then(()=>{
               this.$router.push('/')
             }).catch(()=>{

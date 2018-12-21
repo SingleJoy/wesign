@@ -504,7 +504,7 @@
    .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

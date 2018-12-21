@@ -84,12 +84,8 @@
             ref="multipleTable"
           >
             <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
               label="合同名称"
-              width="250"
+              width="260"
               style="text-align:center"
               :show-overflow-tooltip='true'
             >
@@ -124,7 +120,7 @@
             <el-table-column
               prop="operation"
               label="操作"
-              width="150"
+              width="200"
             >
               <template slot-scope="scope">
                 <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>

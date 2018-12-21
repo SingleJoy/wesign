@@ -42,7 +42,7 @@
           </ul>
         </div>
         <div class='sign_right'>
-          <a href="javascript:void(0);" @click="batchSign"><img src="../../../../static/images/Contract/submit.png" alt=""></a>
+          <a href="javascript:void(0);" @click="batchSign"><img src="/static/images/Contract/submit.png" alt=""></a>
           <br>
         </div>
         <!-- 右侧签署按钮结束 -->
@@ -297,7 +297,7 @@
    .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

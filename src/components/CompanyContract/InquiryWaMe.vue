@@ -41,7 +41,7 @@
     <div class="list-body">
       <div class='table'>
         <div class="waitMeImg" v-if="num === 0">
-          <img src="../../../static/images/notavailable.png" alt="">
+          <img src="/static/images/notavailable.png" alt="">
         </div>
         <el-table
           :header-cell-style="getRowClass"
