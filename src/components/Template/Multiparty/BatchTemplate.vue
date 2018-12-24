@@ -67,7 +67,7 @@
             <div class="line"></div>
           </li>
         </ul>
-        <ul v-else style="text-align: center;margin-top: 100px;">
+        <ul v-show="tableDataShow" style="text-align: center;margin-top: 100px;">
           <li class="no-data">
             <img src="/static/images/blank.png" alt="">
             <p>{{textTip}}</p>
@@ -131,6 +131,7 @@
         dialogTableVisible:false,
         accountLevel:sessionStorage.getItem("accountLevel"),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        tableDataShow:false
       };
     },
     methods: {
@@ -224,7 +225,12 @@
                 }
                 data[i] = obj
               }
-              this.tableData = data
+              this.tableData = data;
+              if(this.tableData.length>0){
+                this.tableDataShow=false
+              }else{
+                this.tableDataShow=true
+              }
               this.num = res.data.totalItemNumber
               this.loading = false
             }

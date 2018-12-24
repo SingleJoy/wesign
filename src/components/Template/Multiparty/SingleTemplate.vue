@@ -70,7 +70,7 @@
             <div class="line" v-if="index+1<tableData.length"></div>
           </li>
         </ul>
-        <ul v-else style="text-align: center;margin-top: 100px;">
+        <ul v-show="tableDataShow" style="text-align: center;margin-top: 100px;">
           <li class="no-data">
             <img src="/static/images/blank.png" alt="" >
             <p>{{textTip}}</p>
@@ -139,7 +139,7 @@
         textTip:'暂无模板',
         accountLevel:sessionStorage.getItem("accountLevel"),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-
+        tableDataShow:false
       };
     },
     methods: {
@@ -189,6 +189,11 @@
             this.tableData = data
             this.num = res.data.totalItemNumber
             this.loading = false
+            if(this.tableData.length>0){
+              this.tableDataShow=false
+            }else{
+              this.tableDataShow=true
+            }
           }else{
             this.tableData=[];
             this.num='';
