@@ -110,7 +110,9 @@
         scrollY: 0,  //batterScroll 滚动的Y轴距离
         rightScroll:'',
         interfaceCode:sessionStorage.getItem("interfaceCode"),
-        contractNo:sessionStorage.getItem("contractNo")
+        contractNo:sessionStorage.getItem("contractNo"),
+        contractName:sessionStorage.getItem("contractName"),
+
       }
     },
     mounted() {
@@ -232,10 +234,10 @@
         })
       },
       lastStepFit(){  //上一步
-        this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.contractNo})
+
         this.$store.dispatch('type',{type:'back'})
-        sessionStorage.setItem('contractName', this.$store.state.contractName1)
-        sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+        sessionStorage.setItem('contractName', this.contractName)
+        sessionStorage.setItem('contractNo', this.contractNo)
         sessionStorage.setItem('type','back')
         this.$router.push('/Signature')
       },

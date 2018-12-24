@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="/static/images/Account/no-template.png">
+                  <img src="/static/images/blank.png" alt="">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 

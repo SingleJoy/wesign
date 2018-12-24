@@ -1,7 +1,9 @@
 <template>
   <div class="Login">
     <div class="login-nav">
-      <div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
+      <div class="logo-zq">
+        <img src="/static/images/Login/modification-logo.png" alt="">
+      </div>
       <div class="logo-content">
         <span>还没账号？</span>
         <span @click="toRegister" class="simulation">
@@ -32,7 +34,7 @@
                       <el-input v-model="ruleForm.username" placeholder="请输入手机号" class="login-input" :maxlength="11" @focus="focus1"></el-input><i class="icon-user"></i>
                     </el-form-item>
                     <el-form-item prop="password" style="margin-bottom: 1.25rem;">
-                      <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @change="focus2" @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
+                      <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
                     </el-form-item>
 
                     <el-form-item  v-if="showGraphic">
@@ -72,13 +74,13 @@
   export default {
     name: "Login",
     data() {
-      let checkName = (rule, value, callback) => {
+     var checkName = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入手机号"));
         } else if (!validateMoblie(value)) {
           callback(new Error("手机号输入错误"));
         } else {
-          let params = {
+         var params = {
             username: this.ruleForm.username
           };
 
@@ -87,7 +89,7 @@
              //用户手机号数据库存在
 
               if(!this.showGraphic){
-                let params={
+               var params={
                   phone:this.ruleForm.username
                 }
                 phoneStatus(params).then(res=>{
@@ -122,7 +124,7 @@
           });
         }
       };
-      let checkPassWord = (rule, value, callback) => {
+     var checkPassWord = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入密码"));
         } else {
@@ -164,14 +166,6 @@
         this.showGraphic=false;
 
       },
-      focus2(){
-        if((this.graphic)&&this.showGraphic){
-          this.showGraphic=true;
-        }else {
-          this.showGraphic=false;
-        }
-
-      },
       toRegister(){
         this.$router.push('/Register')
       },
@@ -181,7 +175,7 @@
       submitForm(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            let pass = md5(this.ruleForm.password);
+           var pass = md5(this.ruleForm.password);
             if(this.showGraphic){
 
               if(!this.graphic){
@@ -243,11 +237,12 @@
       },
       //登录
       Login(){
-        let bindParams={
+       var bindParams={
           mobile: this.ruleForm.username
         }
         bindEnterprises(bindParams).then(response=>{
-          let stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
+         var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
+
           var loginParam={
             mobile:this.ruleForm.username,
           };
@@ -255,12 +250,12 @@
           if (stateCode == "1") {
             if(response.data.dataList[0].length>0){
               var urlParam =  response.data.dataList[0][0].interfaceCode;
-              let accountMoney =  response.data.dataList[0][0].accountMoney;
-              let enterpriseName = response.data.dataList[0][0].enterpriseName;
-              let mobile = response.data.dataList[0][0].mobile;
-              let auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
-              let accountCode = response.data.dataList[0][0].accountCode;
-              let accountLevel = response.data.dataList[0][0].accountLevel;
+             var accountMoney =  response.data.dataList[0][0].accountMoney;
+             var enterpriseName = response.data.dataList[0][0].enterpriseName;
+             var mobile = response.data.dataList[0][0].mobile;
+             var auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
+             var accountCode = response.data.dataList[0][0].accountCode;
+             var accountLevel = response.data.dataList[0][0].accountLevel;
               var accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
               sessionStorage.setItem("enterpriseName", enterpriseName);
               sessionStorage.setItem('accountCode',accountCode);
@@ -271,15 +266,15 @@
               sessionStorage.setItem('accountMoney',accountMoney);
             }else{
               var urlParam =  response.data.dataList[1][0].interfaceCode;
-              let interfaceCode =  response.data.dataList[1][0].interfaceCode;
-              let accountMoney =  response.data.dataList[1][0].accountMoney;
-              let enterpriseName = response.data.dataList[1][0].enterpriseName;
-              let mobile = response.data.dataList[1][0].mobile;
-              let accountCode = response.data.dataList[1][0].accountCode;
-              let accountLevel = response.data.dataList[1][0].accountLevel;
-              let accountStatus = response.data.dataList[1][0].accountStatus;
-              let authorizerCode = response.data.dataList[1][0].authorizerCode;
-               var auditStatus = response.data.dataList[1][0].auditStatus;
+             var interfaceCode =  response.data.dataList[1][0].interfaceCode;
+             var accountMoney =  response.data.dataList[1][0].accountMoney;
+             var enterpriseName = response.data.dataList[1][0].enterpriseName;
+             var mobile = response.data.dataList[1][0].mobile;
+             var accountCode = response.data.dataList[1][0].accountCode;
+             var accountLevel = response.data.dataList[1][0].accountLevel;
+             var accountStatus = response.data.dataList[1][0].accountStatus;
+             var authorizerCode = response.data.dataList[1][0].authorizerCode;
+             var auditStatus = response.data.dataList[1][0].auditStatus;
               sessionStorage.setItem("enterpriseName", enterpriseName);
               sessionStorage.setItem("interfaceCode", interfaceCode);
               sessionStorage.setItem('accountCode',accountCode);
@@ -348,7 +343,7 @@
         if (this.selectedEnterprise == "" || this.selectedEnterprise == null) {
           this.selectedEnterprise = this.tenantNum[0];
         }
-        let param={
+       var param={
           mobile: this.selectedEnterprise.mobile,
           interfaceCode: this.selectedEnterprise.interfaceCode
         }

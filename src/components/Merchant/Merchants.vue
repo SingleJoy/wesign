@@ -282,7 +282,7 @@
       }
       var data =[];
       var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-      // let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
+
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
         this.num=res.data.content.length;
         for (let i = 0; i < res.data.content.length;i++) {

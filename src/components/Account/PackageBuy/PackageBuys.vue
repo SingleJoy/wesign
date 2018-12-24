@@ -284,22 +284,13 @@
           'outTradeNo':this.outTradeNo
         };
         let t = Math.random();
-        // if(this.time>120){
-        //   console.log(this.time)
-        //   this.$message({
-        //     showClose: true,
-        //     message: '对不起，支付超时，请选择金额重新支付！',
-        //     type: 'error'
-        //   })
-        //   clearInterval(this.timer);
-        //   this.timer = null;
-        //   return
-        // }
+
         getWxpayStatus(params,t).then(res=> {
 
           if(res.data.data==1) {
             //轮询查询订单状态  支付成功
-
+            clearInterval(this.timer);
+            this.timer = null;
             this.$alert('账户余额充值成功！', '提示',{
               confirmButtonText: '确定'
             }).then(()=>{
@@ -311,6 +302,7 @@
             })
           }else{
            //继续轮询查询订单状态  未支付
+
           }
 
         }).catch(error=>{

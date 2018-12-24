@@ -617,9 +617,7 @@
       if(type == 'back'){
         let Jurisdiction = sessionStorage.getItem('Jurisdiction');
         //页面回退  数据回显
-
         echoContractSetting(this.interfaceCode,this.contractNo).then(res=> {
-
           this.input = res.data.data.contractName;
           this.date = res.data.data.validTime
           if(res.data.data.perpetualValid == 1){

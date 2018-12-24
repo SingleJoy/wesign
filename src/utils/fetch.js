@@ -34,10 +34,9 @@ Axios.interceptors.response.use((response)=> {
     //做点什么
     if(response.sessionStatus=='000000'){
         router.replace({
-            path: '/',
+            path: '/error',
         })
     }
-
     return response;
   },(error)=> {
     if (error && error.response) {
@@ -87,7 +86,7 @@ Axios.interceptors.response.use((response)=> {
     Vue.prototype.$message({
       showClose: true,
       duration:1000,
-      message: error.message,
+      message: '连接超时',
       type: 'warning'
     })
     return Promise.reject(error);

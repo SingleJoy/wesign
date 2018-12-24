@@ -512,7 +512,7 @@
         }
 
         if(!!this.tableData5){
-          if((this.checked1 == true && this.tableData5.length > 4) || (this.checked1 == false && this.tableData5.length > 5)){
+          if((this.checked1 == true && this.tableData5.length>4)||(this.checked1 == false&&this.tableData5.length > 5)){
             this.$alert('上传发起合同签署人数不能超过5人!','添加签署人', {
               confirmButtonText: '确定'
             })
@@ -666,7 +666,7 @@
       }
     },
     created() {
-      let type = sessionStorage.getItem('type');
+        let type = sessionStorage.getItem('type');
         if(type== 'back' ){
             this.isNext = true;
             this.operate = true;
@@ -696,7 +696,7 @@
             })
         }
     },
-    mounted() {
+    beforeDestroy() {
       sessionStorage.removeItem("type");
     }
   }
@@ -747,11 +747,7 @@
     font-size:12px;
     margin-right:20px;
   }
-  .addperson{
-    width:400px  !important;
-    height: 380px !important;
-    overflow: hidden !important;
-  }
+
   .el-table__row .cell {
     overflow: hidden !important;
     text-overflow: ellipsis !important;

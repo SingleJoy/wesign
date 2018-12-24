@@ -77,10 +77,10 @@ import MobileSuccess from '../components/Mobile/MobileSuccess/Success.vue'      
 import SignSuccess from '../components/SignSuccess/SignSuccess.vue'                               //b2b 签署成功
 import CompanyExa from '../components/CompanyExa/CompanyExa.vue'                                  //b2b 合同详情
 //import Register from '../components/Credentials/Enterprise/Register/Register.vue'                 //b2b 注册企业
-import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue'                 //b2b 个人认证（OCR）
-import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue'       //b2b 手持证件照
-import Information from '../components/Credentials/Personal/Information/Information.vue'     //b2b 个人认证（三要素）
-import Authentication from '../components/Credentials/Personal/Authentication/Authentication.vue'  //b2b 个人认证（三要素认证成功）
+// import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue'                 //b2b 个人认证（OCR）
+// import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue'       //b2b 手持证件照
+// import Information from '../components/Credentials/Personal/Information/Information.vue'     //b2b 个人认证（三要素）
+// import Authentication from '../components/Credentials/Personal/Authentication/Authentication.vue'  //b2b 个人认证（三要素认证成功）
 import BuyProduct from '../components/BuyProduct/BuyProduct.vue'                                   //B2B 无权限
 import Merchant from '../components/Merchant/Merchant.vue'                                         //b2b 无权限首页
 import Procontract from '../components/Procontract/Procontract.vue'                                //b2b 合同列表 (小b)
@@ -612,38 +612,38 @@ export const router = new Router({
     //     auth: false
     //   }
     // },
-    {
-      path: '/Pupload',
-      name: 'Pupload',
-      component: Pupload,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/ErrorPupload',
-      name: 'ErrorPupload',
-      component: ErrorPupload,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/Information',
-      name: 'Information',
-      component: Information,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/Authentication',
-      name: 'Authentication',
-      component: Authentication,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/Pupload',
+    //   name: 'Pupload',
+    //   component: Pupload,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/ErrorPupload',
+    //   name: 'ErrorPupload',
+    //   component: ErrorPupload,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/Information',
+    //   name: 'Information',
+    //   component: Information,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/Authentication',
+    //   name: 'Authentication',
+    //   component: Authentication,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
       path: '/BuyProduct',
       name: 'BuyProduct',

@@ -17,6 +17,13 @@ export default {
   components: {
     Top,
     Bottom
+  },
+  created(){
+    this.$nextTick(() => {
+     setTimeout(()=>{
+       this.$router.push('/')
+     },3000)
+    })
   }
 }
 </script>
