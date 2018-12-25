@@ -169,10 +169,10 @@
 
         })
         let params={signatureImg:png }
-        saveSignatureImg(signToken,params).then(res=>{
-          that.$router.push('/MobileSuccess')
-        }).catch(error=>{
 
+        saveSignatureImg(signToken,params).then(res=>{
+
+          that.$router.push('/MobileSuccess')
         })
       },
       closeBtn () {

@@ -67,7 +67,7 @@ export function remind(param,interfaceCode,contractNo){
 // updateContractTime  修改签署日期
 export function updateContractTime(param,interfaceCode,contractNo){
   return request({
-    url: "/api/v1/tenant/" + interfaceCode + "/contract/" + contractNo +"/updateContractTime",
+    url: "/api/v1/tenant/"+interfaceCode+"/contract/"+contractNo+"/updateContractTime",
     method: "post",
     data: param
   })

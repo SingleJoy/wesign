@@ -398,7 +398,7 @@
             'validTime':this.validTime,
             'perpetualValid':perpetualValid
           }
-          updateContractTime(this.interfaceCode ,this.contractNo).then(res=> {
+          updateContractTime(params,this.interfaceCode ,this.contractNo).then(res=> {
 
             if( res.data.resultCode == 0){
               this.$message({
