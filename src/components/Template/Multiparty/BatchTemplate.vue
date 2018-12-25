@@ -131,6 +131,7 @@
         dialogTableVisible:false,
         accountLevel:sessionStorage.getItem("accountLevel"),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        b2cNum:''
       };
     },
     methods: {
@@ -177,7 +178,6 @@
           if(res.data.resultCode == 1){
 
             this.b2cNum = res.data.data.b2cNum;
-            sessionStorage.setItem("b2cNum",this.b2cNum)
             if(this.b2cNum<=0){
               this.$confirm(
               <div class="warn-num">

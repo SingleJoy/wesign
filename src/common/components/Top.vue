@@ -458,7 +458,7 @@
       },
     },
     created(){
-
+      this.getContractNum();
       let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       if(auditSteps == 3){
         this.Jurisdiction = true

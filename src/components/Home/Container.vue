@@ -222,8 +222,8 @@
         Type: { contractType: "0" },
         welcomeMessage:true, //欢迎信息
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
-        b2bNum:'0',
-        b2cNum:'0',
+        b2bNum:'',
+        b2cNum:'',
         num:''
       };
     },
@@ -378,8 +378,7 @@
           if(res.data.resultCode == 1){
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
-            sessionStorage.setItem("b2cNum",this.b2cNum);
-            sessionStorage.setItem("b2bNum",this.b2bNum);
+
             if(this.clickup){
               this.popupContainer = !this.popupContainer;
             }

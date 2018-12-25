@@ -590,9 +590,6 @@
       },
       packagePurchase(){
         this.$router.push('/PackagePurchase')
-        sessionStorage.setItem('b2bNum',this.b2bNum);
-        sessionStorage.setItem('b2cNum',this.b2cNum);
-
       },
       bindEmailShow(){
         this.bindEmailDialog=true

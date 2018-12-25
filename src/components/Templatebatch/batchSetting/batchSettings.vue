@@ -252,8 +252,8 @@
         templateGenre:sessionStorage.getItem('templateGenre'),
         accountCode:sessionStorage.getItem('accountCode'),
         type:sessionStorage.getItem('type'),
-        b2cNum:sessionStorage.getItem("b2cNum")?sessionStorage.getItem('b2cNum'):0,
-        b2bNum:sessionStorage.getItem("b2bNum")?sessionStorage.getItem('b2bNum'):0,
+        b2cNum:'',
+        b2bNum:'',
       }
     },
     methods: {
@@ -582,8 +582,7 @@
           if(res.data.resultCode == 1){
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
-            sessionStorage.setItem("b2cNum",this.b2cNum);
-            sessionStorage.setItem("b2bNum",this.b2bNum);
+
 
           }else{
             this.$message({
@@ -598,7 +597,7 @@
       },
     },
     created() {
-
+      this.getContractNum();
       if (this.type == 'back'){
         this.operate = true;
         let params={
@@ -623,8 +622,8 @@
         }).catch(error=>{
 
         })
-      };
-       this.getContractNum()
+      }
+
     }
   }
 </script>
