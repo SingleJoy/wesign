@@ -10,6 +10,7 @@
           <span class="count_down">{{count}}</span>
         </div>
       </div>
+
       <div class="layer_content" v-show="isShowClose">
         <div class="layer_close">
           <span class="layer_close_left"></span>
@@ -19,7 +20,26 @@
           <img src="/static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
         </div>
       </div>
+      <div class="layer_content" v-show="CDNisShowClose">
+        <div class="layer_close">
+          <span class="layer_close_left"></span>
+          <span class="layer_close_right" @click="close()">X</span>
+        </div>
+        <div class="layer_character">
+          <img src="/static/images/Credentials/Enterprise/Register/CDN-agreement.jpg" alt="">
+        </div>
+      </div>
+      <div class="layer_content" v-show="ClundisShowClose">
+        <div class="layer_close">
+          <span class="layer_close_left"></span>
+          <span class="layer_close_right" @click="close()">X</span>
+        </div>
+        <div class="layer_character">
+          <img src="/static/images/Credentials/Enterprise/Register/Clund-agreement.jpg" alt="">
+        </div>
+      </div>
     </div>
+
     <div class="login-nav">
       <div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
       <div class="logo-content">
@@ -75,9 +95,17 @@
               <el-form-item prop="newPassword">
                 <el-input type="password" v-model="ruleForm.newPassword" :disabled="passwordDisabled"  placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
               </el-form-item>
-              <el-form-item>
-                <el-checkbox v-model="checked" @change="iAgreen()" class="iagree">我同意</el-checkbox>
-                <a href="javascript:void(0);" @click="protocol()" class="agreement">《微签注册使用协议》</a>
+              <el-form-item style="margin-bottom: 5px;" class="agree-style">
+                <el-checkbox v-model="checked" @change="iAgreen" class="iagree">我同意</el-checkbox>
+                <a href="javascript:void(0);" @click="protocol" class="agreement">《微签注册使用协议》</a>
+              </el-form-item>
+              <el-form-item style="margin-bottom: 5px;" class="agree-style">
+                <el-checkbox v-model="CDNchecked" @change="iAgreen" class="iagree">我同意</el-checkbox>
+                <a href="javascript:void(0);" @click="CDNprotocol" class="agreement">《CDN服务协议》</a>
+              </el-form-item>
+              <el-form-item style="margin-bottom: 5px;" class="agree-style">
+                <el-checkbox v-model="Clundchecked" @change="iAgreen" class="iagree">我同意</el-checkbox>
+                <a href="javascript:void(0);" @click="Clundprotocol" class="agreement">《云平台协议》</a>
               </el-form-item>
               <div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
                 <el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
@@ -93,7 +121,7 @@
 
 <script>
   import { validateMoblie, validatePassWord, validateSmsCode } from "@/common/js/validate";
-  // import SlideBar from '@/common/js/slideBar';
+
   import md5 from "js-md5";
   import server from "@/api/url";
   import {GetQueryString} from '@/common/js/InterceptUrl'
@@ -159,6 +187,8 @@
         slideStatue:'>>',
         token:'',
         checked: false,
+        CDNchecked: false,
+        Clundchecked:false,
         interfaceCode:'',
         userDisabled:false,
         passwordDisabled:false,
@@ -171,7 +201,9 @@
         isShow: false,
         isShowSkip: false,
         successText:'您已完成注册，请使用账号密码进行登录，即将跳转至登录页面',
-        isShowClose: false,
+        isShowClose:false,
+        CDNisShowClose:false,
+        ClundisShowClose:false,
         count: 3,
         ruleForm: {
           username: "",
@@ -242,6 +274,7 @@
       }
 
     },
+
     mounted(){
       var imgIndex = Math.round(Math.random() * 2);
       this.number = imgIndex+''+imgIndex;
@@ -483,8 +516,23 @@
         })
       },
       iAgreen() {
-        this.isClick = !this.isClick;
+
+        if((this.CDNchecked)&&(this.checked)&&(this.Clundchecked)){
+          this.isClick =false;
+        }else {
+          this.isClick =true;
+        }
         return false;
+      },
+      CDNprotocol(){
+        this.isShow = true;
+        this.CDNisShowClose=true;
+
+      },
+      Clundprotocol(){
+        this.isShow = true;
+        this.ClundisShowClose=true;
+
       },
       //微签注册协议查看
       protocol() {
@@ -494,6 +542,8 @@
       //关闭注册协议
       close() {
         this.isShow = false;
+        this.CDNisShowClose=false;
+        this.ClundisShowClose=false;
         this.isShowClose = false;
       },
       //点击获取验证码
@@ -652,7 +702,7 @@
   @import "../../common/styles/slideBar.scss";
   .el-input-group__append button.el-button, .el-input-group__append div.el-select .el-input__inner, .el-input-group__append div.el-select:hover .el-input__inner, .el-input-group__prepend button.el-button, .el-input-group__prepend div.el-select .el-input__inner, .el-input-group__prepend div.el-select:hover .el-input__inner{
     background-color: #4091fb;
-    color: #ffffff;
+    color: #fff;
   }
   .el-button--primary {
     background-color: #4091fb;
@@ -676,7 +726,7 @@
     top: 0;
   }
   .reminder {
-    background-color: #ffffff;
+    background-color: #fff;
     position: absolute;
     top: 30%;
     left: 0;
@@ -708,7 +758,7 @@
   }
   .layer_content {
     width: 40%;
-    background-color: #ffffff;
+    background-color: #fff;
     position: relative;
     top: 5%;
     left: 30%;
@@ -745,7 +795,6 @@
   .login-wrap {
     width: 100%;
     height: 40rem;
-    overflow:hidden;
     background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
   }
@@ -757,13 +806,12 @@
     position: relative;
   }
   .userInfo {
-    color: #333333;
+    color: #333;
     text-align: center;
     font-size: 1.5rem;
   }
 
   .user {
-  // width: 24.5rem;
     width: 360px;
     position: absolute;
     background: #fff;
@@ -771,9 +819,8 @@
     border-radius: 15px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    position: absolute;
     right: 0;
-    top: 3.75rem;
+    top: 2.5rem;
   }
   .login-logo {
     width: 100px;
@@ -806,6 +853,7 @@
     margin-top: 30px;
   }
   .login-btn {
+    margin-top: 15px;
     text-align: center;
   }
   .login-btn button {
@@ -930,5 +978,10 @@
   }
   .simulation {
     cursor: pointer;
+  }
+</style>
+<style>
+  .el-form-item__content{
+    line-height: 25px;
   }
 </style>

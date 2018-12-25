@@ -105,8 +105,10 @@
           </el-table-column>
         </el-table>
         <!-- 数据表格 end -->
-        <div style="position: absolute;bottom: 0;" v-if="num">
-          <el-button type="primary" @click="batchDownload">批量下载</el-button>
+        <div class="batch-download-btn-area" v-if="num">
+          <button  @click="batchDownload"  class="batch-download-btn">
+            <span>批量下载</span>
+          </button>
         </div>
       </div>
       <div class='pagetion'>
@@ -174,7 +176,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-        fullscreenLoading: false,
+
       };
     },
     methods: {
@@ -197,16 +199,13 @@
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].contractNum + ',';
           }
-          this.fullscreenLoading=true
 
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
           let up = document.createElement('a');
           document.body.appendChild(up);
           up.setAttribute('href', url);
           up.click();
-          setTimeout(() => {
-            this.fullscreenLoading = false;
-          }, 1500);
+
           self.multipleSelection = [];
           this.$refs.multipleTable.clearSelection();
         }
@@ -475,6 +474,7 @@
 
 <style lange='css' scoped>
   @import "../../styles/Multiparty/Multiparties.scss";
+  @import "../../common/styles/BatchDownLoad.scss";
 </style>
 
 <style>

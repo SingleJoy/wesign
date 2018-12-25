@@ -158,11 +158,11 @@
         this.$router.push('/Account')
       },
       tabList(index,payNum){
-
         this.isActive=index;
         this.payNum=payNum;
       },
-      tabPayList(index){   //index为0 是支付宝  index为1是微信
+      tabPayList(index){
+        //index为0 是支付宝  index为1是微信
         if((index==0)&&(this.tabPay==true)){
           this.$alert('是否取消微信支付', '提示',{
             confirmButtonText: '确定'
@@ -187,7 +187,6 @@
             clearInterval(this.timer);
             this.timer = null;
             this.time = 0;
-
             return
           })
         }else if((index==0)&&(this.tabPay==false)){
@@ -219,8 +218,8 @@
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
-          // 'totalAmount':this.payNum,
-          'totalAmount':'0.01',
+          'totalAmount':this.payNum,
+          // 'totalAmount':'0.01',
         };
         aliPay(params).then(res=>{
           this.tabPay=true
@@ -241,8 +240,8 @@
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
-          // 'totalAmount':this.payNum,
-          'totalAmount':'0.01',
+          'totalAmount':this.payNum,
+          // 'totalAmount':'0.01',
         };
 
         wxpay(params).then(res=>{

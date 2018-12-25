@@ -67,7 +67,7 @@
             <div class="line"></div>
           </li>
         </ul>
-        <ul v-show="tableDataShow" style="text-align: center;margin-top: 100px;">
+        <ul v-else style="text-align: center;margin-top: 100px;">
           <li class="no-data">
             <img src="/static/images/blank.png" alt="">
             <p>{{textTip}}</p>
@@ -131,7 +131,6 @@
         dialogTableVisible:false,
         accountLevel:sessionStorage.getItem("accountLevel"),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-        tableDataShow:false
       };
     },
     methods: {
@@ -205,10 +204,8 @@
         var data =[];
         let accountCode=sessionStorage.getItem('accountCode')
         server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-            if(res.data.contents){
+
+          if(res.data.contents&&res.data.contents.length>0){
               for (let i = 0; i < res.data.contents.length;i++) {
                 var obj = {}
                 obj.templateNo = res.data.contents[i].templateCode;         //模板号
@@ -225,17 +222,13 @@
                 }
                 data[i] = obj
               }
-              this.tableData = data;
-              if(this.tableData.length>0){
-                this.tableDataShow=false
-              }else{
-                this.tableDataShow=true
-              }
+              this.tableData = data
               this.num = res.data.totalItemNumber
               this.loading = false
             }
-          }
-        }).catch({
+
+        }).catch(error=>
+        {
 
         })
       },

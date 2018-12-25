@@ -90,10 +90,12 @@
           </el-table-column>
         </el-table>
         <!-- 数据表格 end -->
-        <div style="position: absolute;margin-top:50px;" v-if="num">
-          <el-button type="primary" @click="batchDownload" v-loading.fullscreen.lock="fullscreenLoading">批量下载</el-button>
+        <div class="batch-download-btn-area" v-if="num">
+          <button  @click="batchDownload"  class="batch-download-btn">
+            <span>批量下载11111</span>
+          </button>
         </div>
-
+      </div>
       </div>
       <div class='pagetion'>
         <el-pagination
@@ -134,7 +136,7 @@
         inquiry:false,
         loading: true,
         inputVal4:'',
-        fullscreenLoading: false,
+
         filters: {
           column: {
             create_start_date: null,
@@ -181,16 +183,13 @@
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].contractNum + ',';
           }
-          this.fullscreenLoading=true
 
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
           let up = document.createElement('a');
           document.body.appendChild(up);
           up.setAttribute('href', url);
           up.click();
-          setTimeout(() => {
-            this.fullscreenLoading = false;
-          }, 1500);
+
           self.multipleSelection = [];
           this.$refs.multipleTable.clearSelection();
         }
@@ -340,8 +339,9 @@
   }
 </script>
 
-<style lange='css' scoped>
+<style lang='scss' scoped>
   @import '../../styles/Multiparty/Multiparties.scss';
+  @import "../../common/styles/BatchDownLoad.scss";
 </style>
 
 <style>

@@ -315,27 +315,27 @@
           contractType:row.contractType==0?0:1
         };
         remind(remindParam,this.interfaceCode,row.contractNum).then(res=>{
-             let resultCode = res.data.resultCode;
-            let resultMessage = res.data.resultMessage;
-            if (resultCode === "0") {
-                this.$message({
-                showClose: true,
-                message: resultMessage,
-                type: "success"
-                });
-            } else if (resultCode === "2") {
-                this.$message({
-                showClose: true,
-                message: resultMessage,
-                type: "success"
-                });
-            } else {
-                this.$message({
-                showClose: true,
-                message: resultMessage,
-                type: "error"
-                });
-            }
+          let resultCode = res.data.resultCode;
+          let resultMessage = res.data.resultMessage;
+          if (resultCode === "0") {
+            this.$message({
+              showClose: true,
+              message: resultMessage,
+              type: "success"
+            });
+          } else if (resultCode === "2") {
+            this.$message({
+              showClose: true,
+              message: resultMessage,
+              type: "success"
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: resultMessage,
+              type: "error"
+            });
+          }
         }).catch(error=>{
 
         })
@@ -372,7 +372,7 @@
       //合同剩余发起次数
       getContractNum(){
         let param={
-            t:Math.random()
+          t:Math.random()
         }
         server.authorityUpload(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
@@ -398,9 +398,9 @@
       choice() {
         this.clickup = true;
         if(this.isBusiness==0){         //先判断是否为大B（付费用户）
-          // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-          //     this.welcomeMessage = true;
-          // }else{
+                                        // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+                                        //     this.welcomeMessage = true;
+                                        // }else{
           this.getContractNum();
           // }
         }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
@@ -485,9 +485,9 @@
         else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
 
           this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-            <div class="customer-service"></div>
+            <div class="warn-num">
+              <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+              <div class="customer-service"></div>
             </div>,'提示', {confirmButtonText: '去购买',showCancelButton:false}).then(()=>{
             this.$router.push('/PackagePurchase');
           });
@@ -507,11 +507,9 @@
             </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
             this.$router.push('/PackagePurchase');
           })
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else {
@@ -559,28 +557,26 @@
         }
         else if((this.b2bNum<=0)&&(this.b2cNum>=0)){
           this.$confirm(
-          <div class="warn-num ">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
-          <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
-            <div class="customer-service"></div>
+            <div class="warn-num ">
+              <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
+              <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
+              <div class="customer-service"></div>
             </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-              this.$router.push('/PackagePurchase')
+            this.$router.push('/PackagePurchase')
           }).catch(()=>{
 
           })
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
 
           this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-            <div class="customer-service"></div>
+            <div class="warn-num">
+              <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+              <div class="customer-service"></div>
             </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
             this.$router.push('/PackagePurchase')
           })
@@ -665,49 +661,49 @@
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
-        this.num=res.data.content.length;
-          for (let i = 0; i < res.data.content.length; i++) {
-            if (res.data.content[i].creater == this.interfaceCode) {  //发起方
-              flag = true;
-            } else {
-              flag = false;
-            }
-            res.data.content[i].flag = flag;
-
-
-            var obj = {};
-            obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
-            obj.createTime = res.data.content[i].createTime;
-            obj.signers = res.data.content[i].signers;
-            obj.contractStatus = res.data.content[i].contractStatus;
-            obj.validTime = res.data.content[i].validTime;
-            obj.contractType = res.data.content[i].contractType;
-            obj.flag = res.data.content[i].flag;
-            obj.operator = res.data.content[i].operator
-            obj.operation = "";
-            // obj.creater = res.data.content[i].creater
-            switch (obj.contractStatus) {
-              case "1":
-                obj.contractStatus = "待我签署";
-                obj.operation = 1;
-                break;
-              case "2":
-                obj.contractStatus = "待他人签署";
-                obj.operation = 2;
-                break;
-              case "3":
-                obj.contractStatus = "已生效";
-                obj.operation = 3;
-                break;
-              default:
-                obj.contractStatus = "已截止";
-                obj.operation = 4;
-            }
-            data[i] = obj;
+        if(res.data.content.length){
+          this.num=res.data.content.length;
+        }
+        for (let i = 0; i < res.data.content.length; i++) {
+          if (res.data.content[i].creater == this.interfaceCode) {  //发起方
+            flag = true;
+          } else {
+            flag = false;
           }
-          this.tableData = data;
-          this.loading = false;
+          res.data.content[i].flag = flag;
+          var obj = {};
+          obj.contractName = res.data.content[i].contractName;
+          obj.contractNum = res.data.content[i].contractNum;
+          obj.createTime = res.data.content[i].createTime;
+          obj.signers = res.data.content[i].signers;
+          obj.contractStatus = res.data.content[i].contractStatus;
+          obj.validTime = res.data.content[i].validTime;
+          obj.contractType = res.data.content[i].contractType;
+          obj.flag = res.data.content[i].flag;
+          obj.operator = res.data.content[i].operator
+          obj.operation = "";
+          // obj.creater = res.data.content[i].creater
+          switch (obj.contractStatus) {
+            case "1":
+              obj.contractStatus = "待我签署";
+              obj.operation = 1;
+              break;
+            case "2":
+              obj.contractStatus = "待他人签署";
+              obj.operation = 2;
+              break;
+            case "3":
+              obj.contractStatus = "已生效";
+              obj.operation = 3;
+              break;
+            default:
+              obj.contractStatus = "已截止";
+              obj.operation = 4;
+          }
+          data[i] = obj;
+        }
+        this.tableData = data;
+        this.loading = false;
 
       })
 
@@ -730,12 +726,12 @@
         accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
       };
       // 首页模板列表
-        templateList(resParam,this.interfaceCode).then(res=>{
-            this.arr = res.data.slice(0, 3);
-            this.count = res.data.length;
-        }).catch(error=>{
+      templateList(resParam,this.interfaceCode).then(res=>{
+        this.arr = res.data.slice(0, 3);
+        this.count = res.data.length;
+      }).catch(error=>{
 
-        })
+      })
 
       //查询合同剩余次数
       this.getContractNum()

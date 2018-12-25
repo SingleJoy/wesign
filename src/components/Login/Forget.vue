@@ -170,12 +170,12 @@
               'appId': this.appId
             }
             valitedSmsCode(param).then(res=>{
-              if(res.body.resultCode == 1) {
+              if(res.data.resultCode == 1) {
                 var pass = md5(this.ruleForm.password);
                 var user = {'mobile':this.ruleForm.username,'newPassword':pass};
                 changePassword(user).then(res=>{
-                  var resultCode = response.data.resultCode
-                  if (resultCode === '1') {
+                  var resultCode = res.data.resultCode
+                  if (resultCode == '1') {
                     this.$message({
                       message: '修改密码成功',
                       type: 'success'

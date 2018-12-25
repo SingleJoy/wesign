@@ -103,8 +103,10 @@
           </el-table-column>
         </el-table>
         <!-- 数据表格 end -->
-        <div style="position: absolute;margin-top:50px;" v-if="num">
-          <el-button type="primary" @click="batchDownload" v-loading.fullscreen.lock="fullscreenLoading">批量下载</el-button>
+        <div class="batch-download-btn-area" v-if="num">
+          <button  @click="batchDownload"  class="batch-download-btn">
+            <span>批量下载</span>
+          </button>
         </div>
       </div>
       <div class='pagetion'>
@@ -172,7 +174,6 @@
         accountLevel:sessionStorage.getItem('accountLevel'),
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-        fullscreenLoading: false,
       }
     },
     methods: {
@@ -194,16 +195,13 @@
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].contractNum + ',';
           }
-          this.fullscreenLoading=true
 
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
           let up = document.createElement('a');
           document.body.appendChild(up);
           up.setAttribute('href', url);
           up.click();
-          setTimeout(() => {
-            this.fullscreenLoading = false;
-          }, 1500);
+
           self.multipleSelection = [];
           this.$refs.multipleTable.clearSelection();
         }
@@ -361,7 +359,7 @@
       },
       remindClick (row) { //提醒
         let param={
-          remindType:1
+          'contractType':1,
         }
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
           var resultCode = res.data.resultCode
@@ -434,9 +432,10 @@
   }
 </script>
 
-<style lange='scss' scoped>
+<style lang='scss' scoped>
   @import '../../styles/Multiparty/Multiparties.scss';
-
+  @import "../../common/styles/BatchDownLoad.scss";
+  </style>
   .totalImg{
     width: 153px;
     margin: 300px auto;
@@ -455,4 +454,6 @@
   .height-color{
     background: #f5f5f5
   }
+
 </style>
+

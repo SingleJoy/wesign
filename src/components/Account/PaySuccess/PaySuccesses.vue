@@ -87,7 +87,7 @@
 
             }).catch(error=>{
 
-            })
+            });
 
             bindEnterprises(params).then(res=>{
               cookie.set("tenant", res.data.dataList); //存入cookie 所需信息

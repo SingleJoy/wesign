@@ -42,9 +42,7 @@
   .el-table th>.cell{
     text-align: center;
   }
-  #app{
-    overflow: hidden;
-  }
+
   .el-table__row .cell{
     overflow: hidden;
     text-overflow: ellipsis;

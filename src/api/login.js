@@ -48,8 +48,8 @@ export function valitedSmsCode(param){
 export function changePassword(param){
     return request({
         url: "/api/v1.4/tenant/changePassword",
-        method: "get",
-        params: param
+        method: "post",
+       data: param
     })
 }
 

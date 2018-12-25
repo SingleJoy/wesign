@@ -33,9 +33,8 @@ Axios.interceptors.request.use((config)=>{
 Axios.interceptors.response.use((response)=> {
     //做点什么
     if(response.sessionStatus=='000000'){
-        router.replace({
-            path: '/error',
-        })
+      let errorUrl ='/Error';
+      window.location.hash=errorUrl;
     }
     return response;
   },(error)=> {

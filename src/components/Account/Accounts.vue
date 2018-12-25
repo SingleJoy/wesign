@@ -415,7 +415,7 @@
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
   import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation,bindEmail} from '@/api/account'
   import server from '@/api/url'
-  import {login} from '@/api/login'
+  import {login,bindEnterprises} from '@/api/login'
   import qs from 'qs';
 
   export default {
@@ -1025,7 +1025,24 @@
       })
 
       this.getAccountInformation();
+      let param={
+        mobile:this.mobile
+      }
+      server.login(param,this.interfaceCode).then(res => {
+        //先判断是否为实名用户，再根据isBusiness 判断是否有发起合同10次限制
+        //判断是否为实名用户 auditSteps=3 已实名
+        if(res.data.dataList[1].auditSteps!=3){
 
+          cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+
+        }else{
+
+          cookie.set("tenant", res.data.dataList);
+
+        }
+      }).catch(error => {
+
+      });
 
       if(this.accountLevel=='1'){
         this.oneLever=true;    //一级账号才去请求查询一级账号关联的所有二级账户信息

@@ -115,7 +115,7 @@
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
       <div style="margin-top: 30px;margin-left: 70px;">
-        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="/static/images/Contractinfo/sign_step.png" alt="">
+        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;" src="/static/images/ContractInfo/sign_step.png" alt="">
         <el-steps direction="vertical" :active=0>
           <el-step :title=item.signUserName+item.logInfo
                    :description=item.signTime
@@ -149,11 +149,11 @@
     padding-right: 50px;
   }
   .back-home{
-    background: url("/static/images/Contractinfo/back-home.png") no-repeat 10px 10px;
+    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
   .main .first #sign-icon{
-    background: url("/static/images/Contractinfo/detail_sign.png") no-repeat;
+    background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
     height: 60px;
     position: absolute;
     text-align: center;
