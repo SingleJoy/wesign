@@ -32,9 +32,14 @@ Axios.interceptors.request.use((config)=>{
 // 响应时拦截
 Axios.interceptors.response.use((response)=> {
     //做点什么
-    if(response.sessionStatus=='000000'){
-      let errorUrl ='/Error';
-      window.location.hash=errorUrl;
+
+    if(response.data.sessionStatus=='000000'){
+
+      setTimeout(()=>{
+        let errorUrl ='/Error';
+        window.location.hash=errorUrl;
+      },1500)
+     return
     }
     return response;
   },(error)=> {
@@ -85,7 +90,7 @@ Axios.interceptors.response.use((response)=> {
     Vue.prototype.$message({
       showClose: true,
       duration:1000,
-      message: '连接超时',
+      message: error.message,
       type: 'warning'
     })
     return Promise.reject(error);

@@ -29,13 +29,13 @@
           <img src="/static/images/Credentials/Enterprise/Register/CDN-agreement.jpg" alt="">
         </div>
       </div>
-      <div class="layer_content" v-show="ClundisShowClose">
+      <div class="layer_content" v-show="CouldisShowClose">
         <div class="layer_close">
           <span class="layer_close_left"></span>
           <span class="layer_close_right" @click="close()">X</span>
         </div>
         <div class="layer_character">
-          <img src="/static/images/Credentials/Enterprise/Register/Clund-agreement.jpg" alt="">
+          <img src="/static/images/Credentials/Enterprise/Register/Could-agreement.jpg" alt="">
         </div>
       </div>
     </div>
@@ -98,15 +98,10 @@
               <el-form-item style="margin-bottom: 5px;" class="agree-style">
                 <el-checkbox v-model="checked" @change="iAgreen" class="iagree">我同意</el-checkbox>
                 <a href="javascript:void(0);" @click="protocol" class="agreement">《微签注册使用协议》</a>
+                <a href="javascript:void(0);" @click="CDNprotocol" class="agreement">《SLA》</a>
+                <a href="javascript:void(0);" @click="Couldprotocol" class="agreement">《云平台协议》</a>
               </el-form-item>
-              <el-form-item style="margin-bottom: 5px;" class="agree-style">
-                <el-checkbox v-model="CDNchecked" @change="iAgreen" class="iagree">我同意</el-checkbox>
-                <a href="javascript:void(0);" @click="CDNprotocol" class="agreement">《CDN服务协议》</a>
-              </el-form-item>
-              <el-form-item style="margin-bottom: 5px;" class="agree-style">
-                <el-checkbox v-model="Clundchecked" @change="iAgreen" class="iagree">我同意</el-checkbox>
-                <a href="javascript:void(0);" @click="Clundprotocol" class="agreement">《云平台协议》</a>
-              </el-form-item>
+
               <div class="login-btn" @keyup.enter.native="submitForm('ruleForm')">
                 <el-button type="primary"  @click="submitForm('ruleForm')" :disabled="isClick">注册</el-button>
               </div>
@@ -187,8 +182,6 @@
         slideStatue:'>>',
         token:'',
         checked: false,
-        CDNchecked: false,
-        Clundchecked:false,
         interfaceCode:'',
         userDisabled:false,
         passwordDisabled:false,
@@ -203,7 +196,7 @@
         successText:'您已完成注册，请使用账号密码进行登录，即将跳转至登录页面',
         isShowClose:false,
         CDNisShowClose:false,
-        ClundisShowClose:false,
+        CouldisShowClose:false,
         count: 3,
         ruleForm: {
           username: "",
@@ -516,12 +509,7 @@
         })
       },
       iAgreen() {
-
-        if((this.CDNchecked)&&(this.checked)&&(this.Clundchecked)){
-          this.isClick =false;
-        }else {
-          this.isClick =true;
-        }
+       this.isClick =!this.isClick;
         return false;
       },
       CDNprotocol(){
@@ -529,9 +517,9 @@
         this.CDNisShowClose=true;
 
       },
-      Clundprotocol(){
+      Couldprotocol(){
         this.isShow = true;
-        this.ClundisShowClose=true;
+        this.CouldisShowClose=true;
 
       },
       //微签注册协议查看
@@ -543,7 +531,7 @@
       close() {
         this.isShow = false;
         this.CDNisShowClose=false;
-        this.ClundisShowClose=false;
+        this.CouldisShowClose=false;
         this.isShowClose = false;
       },
       //点击获取验证码
@@ -712,6 +700,7 @@
   }
   .agreement {
     color: #4091fb;
+    font-size: 12px;
   }
 
   .Login {
@@ -810,9 +799,8 @@
     text-align: center;
     font-size: 1.5rem;
   }
-
   .user {
-    width: 360px;
+    width: 384px;
     position: absolute;
     background: #fff;
     padding: 1.875rem;
@@ -820,7 +808,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     right: 0;
-    top: 2.5rem;
+    top: 4.5rem;
   }
   .login-logo {
     width: 100px;
@@ -981,7 +969,10 @@
   }
 </style>
 <style>
-  .el-form-item__content{
+  .agree-style .el-form-item__content{
     line-height: 25px;
+  }
+  .agree-style .el-checkbox__label{
+    font-size: 12px;
   }
 </style>

@@ -223,6 +223,7 @@
         var isCreater='';
 
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
+          console.log(res)
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == this.interfaceCode) {
               isCreater = true;

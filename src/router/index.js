@@ -10,7 +10,6 @@ import Role from '../components/Login/Role.vue' //登录角色选择
 import TemplateCreate from '../components/Template/TemplateCreate.vue' //模板发起合同列表(测试合并)
 import ContractList from '../components/ContractList/ContractList.vue' //合同列表（合并组件）
 
-
 import Home from '../components/Home/Home.vue' //主页
 import Contract from '../components/Contract/Contract.vue' //点击签署
 import Contractsigning from '../components/Contractsigning/Contractsigning.vue' //签署设置页面
