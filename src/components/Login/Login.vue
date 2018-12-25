@@ -532,7 +532,7 @@
   }
   .user-login{
     width: 100%;
-    height: 40rem;
+    height: 44rem;
     overflow:hidden;
     background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;

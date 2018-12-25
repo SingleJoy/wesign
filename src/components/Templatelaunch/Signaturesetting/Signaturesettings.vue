@@ -343,6 +343,7 @@
         }
       },
       confirmEdit(row){     //perfect完成修改
+        console.log(row)
         let mobileArr = []
         if(this.tableData2 != ''){
           for(let i=0;i<this.tableData2.length;i++){
@@ -376,7 +377,7 @@
           this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
-        } else if(row.mobile == this.primaryMobile){
+        } else if(row.mobile==this.primaryMobile){
           this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
@@ -552,9 +553,11 @@
 
                 sessionStorage.setItem('needSign',needSign)
                 if(needSign == 1){
-                  this.$router.push('/Specifiedposition')
+                  this.$router.push('/Specifiedposition');
+                  sessionStorage.setItem('contractNo',this.contractNo);
                 } else {
-                  this.$router.push('/TemplatePos')
+                  this.$router.push('/TemplatePos');
+                  sessionStorage.setItem('contractNo',this.contractNo);
                 }
 
               } else {
@@ -573,7 +576,7 @@
       }
     },
     created() {
-
+    // alert(this.primaryMobile)
 
       if ( this.type == 'back'){
         this.isNext = true;

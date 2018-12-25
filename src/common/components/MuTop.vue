@@ -202,7 +202,7 @@
           });
           let index1=contractName.lastIndexOf(".");
           let suffix=contractName.slice(0,index1);
-          this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+
           sessionStorage.setItem('contractName', suffix)
           sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Contractsigning')
@@ -220,7 +220,7 @@
           });
           let index1=contractName.lastIndexOf(".");
           let suffix=contractName.slice(0,index1);
-          this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
+
           sessionStorage.setItem('contractName', suffix)
           sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Signature')

@@ -534,8 +534,8 @@
           });
           return false
         }
-        var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode
-        var contractNo = this.$store.state.contractNo1
+        var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
+        var contractNo = sessionStorage.getItem('contractNo');
         var perpetualValid = ''
         if(this.checked == true){
           perpetualValid = '1'

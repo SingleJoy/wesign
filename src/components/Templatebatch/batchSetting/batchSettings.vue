@@ -252,8 +252,8 @@
         templateGenre:sessionStorage.getItem('templateGenre'),
         accountCode:sessionStorage.getItem('accountCode'),
         type:sessionStorage.getItem('type'),
-        b2cNum:'',
-        b2bNum:'',
+        b2cNum:sessionStorage.getItem("b2cNum")?sessionStorage.getItem('b2cNum'):0,
+        b2bNum:sessionStorage.getItem("b2bNum")?sessionStorage.getItem('b2bNum'):0,
       }
     },
     methods: {
@@ -315,7 +315,7 @@
        let data =[];
        let params={
        "templateSpecificType":this.templateGenre
-       }
+       };
         getTemplateImags(this.interfaceCode,this.templateNo,params).then(res=> {
 
             for (let i = 0; i < res.data.list.length;i++) {
@@ -379,7 +379,7 @@
           this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
-        } else if(this.primaryMobile = row.mobile){
+        } else if(this.primaryMobile ==row.mobile){
           this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
@@ -402,14 +402,14 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          rows.splice(index, 1)
-          this.delSigner = true
+          rows.splice(index, 1);
+          this.delSigner = true;
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });
-          this.delSigner = true
+          this.delSigner = true;
         })
       },
       batchTempCancel() {    //取消操作
@@ -526,9 +526,8 @@
             }
           }
           contractTemp(this.interfaceCode,zqUserContractTempVo).then(res=> {
-
-               let contractNo = res.data.data
-               this.contractNo=contractNo;
+            let contractNo = res.data.data;
+           this.contractNo=contractNo;
             sessionStorage.setItem('contractNo',contractNo)
             if ( res.data.resultCode == 0) {
                 this.$message({

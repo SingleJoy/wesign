@@ -660,7 +660,7 @@
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
-        if(res.data.content.length){
+        if(res&&res.data&&res.data.content&&res.data.content.length){
           this.num=res.data.content.length;
         }
         for (let i = 0; i < res.data.content.length; i++) {

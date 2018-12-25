@@ -36,7 +36,7 @@ Axios.interceptors.response.use((response)=> {
     if(response.data.sessionStatus=='000000'){
 
       setTimeout(()=>{
-        let errorUrl ='/Error';
+        let errorUrl ='/Server';
         window.location.hash=errorUrl;
       },1500)
      return

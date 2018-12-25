@@ -80,22 +80,19 @@
         current:1,
         // 左侧页码显示的个数
         showItem:0,
-
         // 左侧页码的总数
         allpage:10,
         imgList:[],
         fillMessage:[],
         imgHeight: [],
-
-        // centerDialogVisible:false,
         scrollY: 0,
         load:false,
         hasClick:false,
         templateName:sessionStorage.getItem('templateName'),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         accountCode:sessionStorage.getItem('accountCode'),
-        templateNo:sessionStorage.getItem('templateNo')
-
+        templateNo:sessionStorage.getItem('templateNo'),
+        contractNo:sessionStorage.getItem("contractNo"),
       }
     },
     computed:{
@@ -157,10 +154,10 @@
           this._calculateHeight()
         })
         for (let i = 0; i < res.data.list.length;i++) {
-          let templateUrl = res.data.list[i]
-          data[i] = templateUrl
+          let templateUrl = res.data.list[i];
+          data[i] = templateUrl;
         }
-        this.imgList = data
+        this.imgList = data;
         this.fillMessage = res.data.lists
 
       }).catch(error=>{

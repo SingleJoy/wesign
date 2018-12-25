@@ -210,10 +210,8 @@
         })
       },
       lastStepFit (){ //上一步
-        this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
+
         this.$store.dispatch('type',{type:'back'})
-        sessionStorage.setItem('contractName', this.$store.state.templateName)
-        sessionStorage.setItem('contractNo', this.$store.state.contractNo1);
         sessionStorage.setItem('type','back')
         this.$router.push('/Signaturesetting')
 
