@@ -153,7 +153,7 @@
         // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-
+        console.log(val)
         this.getOrderListSearch(val);
         this.getGoods()
       },
@@ -214,6 +214,7 @@
 
         this.goodsName=item.goodsName;
         this.goodsPrice=item.goodsPrice;
+        this.getContractNum();
         let params={
           'interfaceCode':this.interfaceCode,
           'accountCode':this.accountCode,
@@ -227,25 +228,6 @@
         };
         this.params=params;
         if(this.goodsPrice>this.accountMoney){
-
-          // this.$confirm('对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试', '提示',{
-          //   confirmButtonText: '立即充值',
-          //   cancelButtonText: '取消',
-          // }).then(()=>{
-          //   this.router.push('/PackageBuy')
-          // }).catch(()=>{
-		  //
-          // })
-
-          // this.$alert('对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试', '提示',{
-          //   confirmButtonText: '确定',
-          //   cancelButtonText: '取消',
-          // }).then(()=>{
-          //   this.router.push('/PackageBuy');
-          // }).catch(()=>{
-		  //
-          // })
-
           this.$confirm('对不起，您的账户余额不足以支持本次套餐购买服务,请充值后再试', '提示', {
             cancelButtonText: '取消',
             confirmButtonText: '确定',
@@ -255,7 +237,6 @@
           }).catch(() => {
 
           });
-
 
         }else{
           this.PurchaseDialog=true;
@@ -344,7 +325,7 @@
       this.getGoods();//套餐列表数据
       this.getOrderListSearch();   //购买记录数据
       this.getAccountInformation();
-      this.getContractNum();
+
     },
 
   }

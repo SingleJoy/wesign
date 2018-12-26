@@ -472,7 +472,7 @@
   };
 </script>
 
-<style lange='css' scoped>
+<style lang='scss' scoped>
   @import "../../styles/Multiparty/Multiparties.scss";
   @import "../../common/styles/BatchDownLoad.scss";
 </style>

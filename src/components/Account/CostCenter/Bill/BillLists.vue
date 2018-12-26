@@ -45,7 +45,7 @@ import server from '@/api/url.js'
 export default {
 	name: "BillLists",
 	data() {
-        return {
+    return {
 			interfaceCode: sessionStorage.getItem("interfaceCode"),
 			totalItemNumber: 0,
       tableData: [

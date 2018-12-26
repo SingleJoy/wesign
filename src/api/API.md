@@ -32,4 +32,15 @@ if(res.data.sessionStatus == '0'){
 }
 ```
  ###不必再写 会统一处理
-                  
+    
+    
+ ###接口名和暴露名尽可能保持一致   
+ ```
+export function apiName(){
+    return({
+        url:'/apiName',
+        method: "get",
+        params: param
+    })
+}
+```               

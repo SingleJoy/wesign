@@ -153,14 +153,7 @@
         base64:''
       };
     },
-    // watch:{
-    // ruleForm:{
-    //   handler(curVal,oldVal){
-    //     this.showGraphic=false;
-    //   },
-    //   deep:true
-    //   }
-    // },
+
     methods: {
       focus1(){
         this.showGraphic=false;
@@ -198,8 +191,7 @@
                 password: pass,
               }
             }
-            // console.log("his.graphic:"+this.graphic);
-            // console.log("this.showGraphic:"+this.showGraphic);
+
             login(this.verfiedParam).then(res=>{
               if (res.data.resultCode === "1") {
                 sessionStorage.setItem("mobile",this.ruleForm.username)
@@ -246,7 +238,6 @@
           var loginParam={
             mobile:this.ruleForm.username,
           };
-
           if (stateCode == "1") {
             if(response.data.dataList[0].length>0){
               var urlParam =  response.data.dataList[0][0].interfaceCode;

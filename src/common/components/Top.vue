@@ -143,7 +143,7 @@
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         accountLevel:sessionStorage.getItem("accountLevel"),
         tabIndex:'',

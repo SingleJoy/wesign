@@ -30,12 +30,13 @@
 </template>
 
 <script>
+  import cookie from "@/common/js/getTenant";
   import {GetQueryString} from '@/common/js/InterceptUrl'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import {aliPayReturn} from '@/api/purchase'
   import server from '@/api/url'
-  import {bindEnterprises} from '@/api/login'
-  import cookie from '@/common/js/getTenant'
+  import {bindEnterprises,homePage} from '@/api/login'
+
   export default {
     name: "PaySuccesses",
     data(){
@@ -79,26 +80,24 @@
             let params = {
               mobile:this.mobile,
             };
-            server.login(params,this.interfaceCode).then(res=>{
+            homePage(params,this.interfaceCode).then(res=>{
               sessionStorage.setItem('interfaceCode',this.interfaceCode);
               sessionStorage.setItem('accountCode',this.accountCode);
               sessionStorage.setItem('mobile',this.mobile);
               sessionStorage.setItem("enterpriseName", res.data.dataList[1].companyName);
               sessionStorage.setItem("email", res.data.dataList[0].email);
-
+              cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
             }).catch(error=>{
 
             });
 
             bindEnterprises(params).then(res=>{
-              cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
               let item={};
              for(let i=0;i<res.data.dataList[0].length;i++){
                if(this.interfaceCode==res.data.dataList[0][i].interfaceCode){
                  item=res.data.dataList[0][i];
                }
              }
-
               sessionStorage.setItem('accountCode',item.accountCode);      //账户编号
               sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
               sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
@@ -109,8 +108,10 @@
               sessionStorage.setItem('userCode',item.userCode);
               sessionStorage.setItem('accountMoney',item.accountMoney);
               sessionStorage.setItem("companyList",JSON.stringify(res.data.dataList)); //角色列表
+            }).catch(error=>{
 
-            }).catch(error=>{  })
+            })
+
             this.show=true;
           }else{
             this.$alert(res.data.resultMessage, '提示',{
@@ -122,14 +123,6 @@
             })
 
           }
-      }).catch(error=>{
-
-      })
-      let homePage={
-        'mobile':this.mobile
-      };
-      server.login(homePage,this.interfaceCode).then(res=>{
-          cookie.set("tenant", res.data.dataList);
       }).catch(error=>{
 
       })

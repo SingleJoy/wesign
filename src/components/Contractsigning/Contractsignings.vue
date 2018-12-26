@@ -264,7 +264,7 @@
         delSigner:true,      //删除联系人标示
         editSign:false,
         contractNumn:'',
-        contractVo:''
+        contractVo:'',
       }
     },
     methods: {
@@ -383,7 +383,6 @@
       closeDialog(formName){
         this.$refs[formName].resetFields()
       },
-
       checkedBox () {
         if(this.checked == true){
           this.value8 = ''
@@ -663,7 +662,7 @@
         } else {
           this.dialogFormVisible = true   //当前的dialogFormVisible 找不到值
         }
-      }
+      },
     },
     created() {
         let type = sessionStorage.getItem('type');

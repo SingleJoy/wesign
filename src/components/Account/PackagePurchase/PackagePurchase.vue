@@ -8,7 +8,6 @@
 
 <script>
   import Top from '@/common/components/Top.vue'
-
   import Bottom from '@/common/components/Bottom.vue'
   import PackagePurchases from './PackagePurchases'
 	export default {

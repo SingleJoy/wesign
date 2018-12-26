@@ -252,36 +252,20 @@
         this.$router.push("/Multiparty");
       },
       jumper(item, index) {
-
-       if((this.b2bNum<=0)&&(this.b2cNum<=0)){
+        //查询合同剩余次数
+        this.getContractNum();
+         if(this.b2cNum<=0){
           this.$confirm(
             <div class="warn-num">
-              <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+              <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
               <div class="customer-service"></div>
             </div>,'提示', {showCancelButton:'取消'})
-         return false
-        }
-        else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
-         this.$confirm(
-           <div class="warn-num">
-             <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-             <div class="customer-service"></div>
-           </div>,'提示', {showCancelButton:'取消'})
-         return false
-       }
-        else if((this.b2bNum<=0)&&(this.b2cNum>=0)){
-         this.$confirm(
-           <div class="warn-num">
-             <p class="title" style="font-size:16px;text-align:center;">对不起，您的对企业签约次数已用尽!</p>
-             <div class="customer-service"></div>
-           </div>,'提示', {showCancelButton:'取消'})
-         return false
-       }
-        else{
-         if(item.templateSpecies == "batch") {
-           this.$store.dispatch("template", {
-             templateName: item.name,
-             templateNo: item.templateNo
+             return false
+          } else{
+            if(item.templateSpecies == "batch") {
+               this.$store.dispatch("template", {
+                 templateName: item.name,
+                 templateNo: item.templateNo
            });
            this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
            sessionStorage.setItem("templateName",item.name);
