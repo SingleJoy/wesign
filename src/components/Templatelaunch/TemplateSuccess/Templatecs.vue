@@ -37,8 +37,8 @@
             <ul id='twoInfos' style="text-align: left;">
                 <li><p><span>合同名称：</span>
                 <el-tooltip placement="top">
-                    <div slot="content">{{contractName}}</div>
-                    <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{contractName}}</span>
+                    <div slot="content">{{templateName}}</div>
+                    <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{templateName}}</span>
                 </el-tooltip>
                 <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
                 </p></li>
@@ -110,6 +110,7 @@
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         contractNo:sessionStorage.getItem("contractNo"),
         contractName:sessionStorage.getItem("contractName"),
+        templateName:sessionStorage.getItem("templateName"),
         signUser:[],
         validTime:'',
         dialogTableVisible:false,

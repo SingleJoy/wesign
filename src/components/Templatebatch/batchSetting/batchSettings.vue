@@ -150,11 +150,9 @@
     </el-dialog>
 
 
-
-
-    </div>
-
   </div>
+
+
 </template>
 <script>
   import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
@@ -334,8 +332,8 @@
         this.checked = false
       },
       checkedBox () {
-        if(this.checked == true){
-          this.value8 = ''
+        if(this.checked==true){
+          this.value8 =null;
         }
       },
       modifyClick (row) {
@@ -551,7 +549,7 @@
         }
       },
       addSigner(){
-
+        this.getContractNum();
         if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
           this.$confirm(
           <div class="warn-num">
@@ -573,13 +571,11 @@
       getContractNum(){
         let param={
           t:Math.random()
-        }
+        };
         server.authorityUpload(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
-
-
           }else{
             this.$message({
               showClose: true,

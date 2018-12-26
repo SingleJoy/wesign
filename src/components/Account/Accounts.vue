@@ -54,13 +54,13 @@
                 <div class="card-line">
                   <span>账&nbsp;&nbsp;户&nbsp;&nbsp;余&nbsp;&nbsp;额:</span>
                   <span>{{accountMoney}}&nbsp;元</span>
-                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packageBuy" v-if="oneLever">立即充值</a>
+                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;font-size: 14px;" @click="packageBuy" v-if="oneLever">立即充值</a>
                 </div>
 
                 <div class="card-line">
                   <span>合&nbsp;&nbsp;同&nbsp;&nbsp;余&nbsp;&nbsp;量:</span>
                   <span>{{ContractAllowance}}&nbsp;份</span>
-                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;" @click="packagePurchase" v-if="oneLever">立即购买</a>
+                  <a href="javascript:void(0);" style="float: right;color: #4091fb;padding-right: 10px;font-size: 14px;" @click="packagePurchase" v-if="oneLever">立即购买</a>
                 </div>
                 <div class="card-line">
                   <span>对&nbsp;企&nbsp;业&nbsp;合&nbsp;同:&nbsp;{{b2bNum}}&nbsp;份</span>
@@ -1051,7 +1051,7 @@
       this.searchSeal();
       //是否付费 0未付费 1付费
       let Status = cookie.getJSON('tenant')[1].isBusiness;
-      // console.log("Status"+Status)
+
       if(Status == '0'){
         this.Jurisdiction = false
 

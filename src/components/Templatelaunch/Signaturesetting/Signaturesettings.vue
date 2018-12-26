@@ -163,6 +163,7 @@
   import {prohibit} from '@/common/js/prohibitBrowser'
   import {contractimgs,getContractDetails} from "@/api/template"
   import {getSignLink,echoContractInfo,perfectContract} from "@/api/personal"
+  import server from "@/api/url";
   export default {
     name: 'Signaturesettings',
     data() {
@@ -249,6 +250,8 @@
         templateNo:sessionStorage.getItem("templateNo"),
         contractName:sessionStorage.getItem("contractName"),
         type:sessionStorage.getItem("type"),
+        b2bNum:'',
+        b2cNum:''
       }
     },
     methods: {
@@ -330,6 +333,7 @@
         this.editSign = true
       },
       addSign(){
+        this.getContractNum();
         if(this.editSigner == false){
           this.$alert('您还没有完成添加签署人操作','添加签署人',{
             confirmButtonText: '确定'
@@ -569,11 +573,31 @@
             })
           }
         }
-      }
+      },
+      //合同剩余发起次数
+      getContractNum(){
+        let param={
+          t:Math.random()
+        };
+        server.authorityUpload(param,this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.b2bNum = res.data.data.b2bNum;
+            this.b2cNum = res.data.data.b2cNum;
+          }else{
+            this.$message({
+              showClose: true,
+              message: res.data.resultMessage,
+              type: "error"
+            });
+          }
+        }).catch(error=>{
+
+        })
+      },
     },
     created() {
-    // alert(this.primaryMobile)
 
+      this.getContractNum();
       if ( this.type == 'back'){
         this.isNext = true;
         this.operate = true

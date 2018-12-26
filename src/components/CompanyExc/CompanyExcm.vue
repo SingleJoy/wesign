@@ -217,7 +217,7 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {updateContractTime,b2bImgs,contractSignUserInfo} from '@/api/detail';
+  import {updateContractTime,b2bImgs,contractSignUserInfo,b2bDetail} from '@/api/detail';
   export default {
     name: 'CompanyExcm',
     data() {
@@ -277,18 +277,16 @@
       },
       seeContractDetails () {
         let data =[];
-
         b2bDetail(this.contractNo).then(res=> {
-
-          let contractType = res.data.data.contractType
+          let contractType = res.data.data.contractType;
           if(contractType == '0'){
             this.businessScenario = '企业对企业'
           }
-          let contractNoZq = res.data.data.contractNoZq
-          this.contractName = res.data.data.contractName
-          let type = res.data.data.contractType
-          this.operator = res.data.data.operator
-          this.sponsorInterfaceCode = res.data.data.interfaceCode
+          let contractNoZq = res.data.data.contractNoZq;
+          this.contractName = res.data.data.contractName;
+          let type = res.data.data.contractType;
+          this.operator = res.data.data.operator;
+          this.sponsorInterfaceCode = res.data.data.interfaceCode;
           switch (type) {
             case '1':
               this.createType = '模板发起'
@@ -442,7 +440,7 @@
       let accountCode = sessionStorage.getItem('accountCode');
       let detailAccountCode = sessionStorage.getItem('detailAccountCode');
 
-      this.seeContractDetails ()
+      this.seeContractDetails()
       //判断是不是二级账户如果是不请求顶部显示部门姓名
       if(accountLevel != 2){
         let param={

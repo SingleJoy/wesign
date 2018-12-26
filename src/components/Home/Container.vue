@@ -224,7 +224,8 @@
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
         b2bNum:'',
         b2cNum:'',
-        num:''
+        num:'',
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
       };
     },
     methods: {
@@ -254,13 +255,30 @@
       jumper(item, index) {
         //查询合同剩余次数
         this.getContractNum();
+
          if(this.b2cNum<=0){
-          this.$confirm(
-            <div class="warn-num">
-              <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-              <div class="customer-service"></div>
-            </div>,'提示', {showCancelButton:'取消'})
-             return false
+           if(this.accountLevel==1){
+             this.$confirm(
+               <div class="warn-num ">
+                 <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
+                 <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
+                 <div class="customer-service"></div>
+               </div>,'提示', { confirmButtonText: '确定',showCancelButton:'取消'}).then(()=>{
+                 this.$router.push('/PackagePurchase')
+             })
+           }else{
+             this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+               confirmButtonText: '取消',
+               callback: action => {
+                 this.$message({
+                   type: 'info',
+                   message: `action: ${ action }`
+                 });
+               }
+             });
+
+           }
+
           } else{
             if(item.templateSpecies == "batch") {
                this.$store.dispatch("template", {
@@ -408,10 +426,11 @@
       },
       choice() {
         this.clickup = true;
-        if(this.isBusiness==0){         //先判断是否为大B（付费用户）
-                                        // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-                                        //     this.welcomeMessage = true;
-                                        // }else{
+        if(this.isBusiness==0){
+          //先判断是否为大B（付费用户）
+              // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
+                //     this.welcomeMessage = true;
+                 // }else{
           this.getContractNum();
           // }
         }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
@@ -499,7 +518,8 @@
             <div class="warn-num">
               <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
               <div class="customer-service"></div>
-            </div>,'提示', {showCancelButton:'取消'})
+            </div>,'提示', {showCancelButton:'取消'}
+            )
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;

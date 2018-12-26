@@ -69,7 +69,7 @@
   import {validatePassWord} from '@/common/js/validate'
   import server from "@/api/certification";
   import {modifyPassword,auditStatus_,getSignature} from '@/api/account'
-
+  import serverA from '@/api/url'
   export default {
     name: 'NoReal',
     data() {
@@ -81,8 +81,8 @@
             "username":this.mobile,
             "password":md5(this.ruleForm.oldPassWord)
           }
-          server.login(params).then(res=> {
-           let backCode = res.data.resultCode;
+          serverA.verficate(params).then(res=>{
+            let backCode = res.data.resultCode
             if( backCode === '0'){
               callback(new Error('原密码输入错误!'));
             } else {

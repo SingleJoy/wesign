@@ -253,7 +253,8 @@
       },
       more (){
         this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push('/BuyProduct')
+        this.$router.push('/More')
+        // this.$router.push('/BuyProduct')
       },
       rowLockClick (row) { //查看
         if(row.contractType == '0'){
