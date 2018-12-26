@@ -112,7 +112,7 @@
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         contractNo:sessionStorage.getItem("contractNo"),
         contractName:sessionStorage.getItem("contractName"),
-
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
       }
     },
     mounted() {
@@ -285,12 +285,23 @@
                 this.$router.push('/Dimension')
               }
               else if(res.data.resultCode==0){
-                this.$confirm(
-                <div class="warn-num">
-                  <p class="title" style="font-size:16px;text-align:center;">对不起，您的对企业签约次数已用尽!</p>
-                  <div class="customer-service"></div>
-                  </div>,'提示', {
-                  cancelButtonText: '取消'})
+
+
+                if(this.accountLevel == 1) {
+                  this.$confirm(
+                    <div class="warn-num ">
+                      <p class="title" style="font-size:16px;text-align:center;">对不起，您的对企业签约次数已用尽!</p>
+                      <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
+                      <div class="customer-service"></div>
+                    </div>, '提示', {confirmButtonText: '确定', showCancelButton: '取消'}).then(() => {
+                    this.$router.push('/PackagePurchase')
+                  })
+                }else{
+                  this.$alert('对不起，您的签约次数已用尽!', '提示', {
+                    confirmButtonText: '取消',
+                  });
+                }
+
               }else{
                 this.$message({
                   showClose: true,

@@ -243,6 +243,7 @@
             return  time.getTime() < Date.now();
           }
         },
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
         templateNo:sessionStorage.getItem('templateNo'),
         contractNo:sessionStorage.getItem('contractNo'),
@@ -551,11 +552,22 @@
       addSigner(){
         this.getContractNum();
         if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
-          this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽，若想添加更多签署人</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {showCancelButton:'取消'})
+
+
+          if (this.accountLevel == 1) {
+            this.$confirm(
+              <div class="warn-num ">
+                <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽，若想添加更多签署人!</p>
+                <p style="font-size:16px;text-align:center;">请您先购买对个人合同套餐</p>
+                <div class="customer-service"></div>
+              </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+              this.$router.push('/PackagePurchase')
+            })
+          }else{
+            this.$alert('对个人合同份数已用尽，若想添加更多签署人!', '提示', {
+              confirmButtonText: '取消',
+            });
+          }
           return false
         }
         if(this.editSigner == false){
