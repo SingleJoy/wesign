@@ -183,9 +183,7 @@
               <div class="warn-num">
                 <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽</p>
                 <div class="customer-service"></div>
-                </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-                this.$router.push('/PackagePurchase')
-              })
+                </div>,'提示', {showCancelButton:'取消'})
             }else {
               this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
               this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
@@ -246,9 +244,7 @@
         var data =[];
         let accountCode=sessionStorage.getItem('accountCode')
         server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+
             if(res.data.contents&&res.data.contents.length>0){
               for (let i = 0; i < res.data.contents.length;i++) {
                 var obj = {}
@@ -274,7 +270,7 @@
               this.num='';
               this.textTip = "无匹配模板"
             }
-          }
+
         }).catch({
 
         })

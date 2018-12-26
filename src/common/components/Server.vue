@@ -26,11 +26,7 @@ export default {
     }
   },
   created(){
-    this.$message({
-      showClose: true,
-      message: 'session失效',
-      type: 'error'
-    })
+
     this.$nextTick(() => {
       setTimeout(()=>{
         this.$router.push('/')

@@ -37,8 +37,8 @@
             <ul id='twoInfos' style="text-align: left;">
                 <li><p><span>合同名称：</span>
                 <el-tooltip placement="top">
-                    <div slot="content">{{this.$store.state.contractName1}}</div>
-                    <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{this.$store.state.contractName1}}</span>
+                    <div slot="content">{{contractName}}</div>
+                    <span id='textInfonfo' style="width:150px;overflow:ellipsis;">{{contractName}}</span>
                 </el-tooltip>
                 <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
                 </p></li>

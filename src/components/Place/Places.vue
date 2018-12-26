@@ -290,10 +290,7 @@
                   <p class="title" style="font-size:16px;text-align:center;">对不起，您的对企业签约次数已用尽!</p>
                   <div class="customer-service"></div>
                   </div>,'提示', {
-                   confirmButtonText: '去购买', cancelButtonText: '取消'}).then(()=>{
-                  this.$router.push('/PackagePurchase')
-                })
-
+                  cancelButtonText: '取消'})
               }else{
                 this.$message({
                   showClose: true,

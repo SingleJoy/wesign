@@ -33,8 +33,7 @@
         <h3 class='proper'>
           <p class='first'><b>合同名称：</b><input type="text" v-model="templateName" id='inputText' :maxlength= 50 >
             <a class='select' @click="seeTemplate" style="padding-left:0">查看</a>
-            <!--<a class='replace' @click="changeTemlplate" style="cursor: pointer;">更换</a>-->
-            <!-- <router-link to='/Multiparty'><a  class='replace'>更换</a></router-link></p> -->
+
           <p class='second'><span>签署截止日期：</span>
             <el-date-picker
               style='width:138px;margin-right:20px'
@@ -253,10 +252,7 @@
       }
     },
     methods: {
-      changeTemlplate(){
 
-        this.$router.push('/Multiparty')
-      },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return "background:#f5f5f5;text-align:center;font-weight:bold;";

@@ -153,7 +153,7 @@
         // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-        console.log(val)
+
         this.getOrderListSearch(val);
         this.getGoods()
       },

@@ -247,10 +247,7 @@
           <div class="warn-num">
             <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
             <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-            this.$router.push('/PackagePurchase')
-          })
-
+            </div>,'提示', {showCancelButton:'取消'})
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
@@ -263,9 +260,7 @@
           <div class="warn-num">
             <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
             <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-            this.$router.push('/PackagePurchase')
-          })
+            </div>,'提示', {showCancelButton:'取消'})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -321,9 +316,7 @@
           <div class="warn-num ">
             <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
             <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-            this.$router.push('/PackagePurchase')
-          })
+            </div>,'提示', {showCancelButton:'取消'})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -337,9 +330,7 @@
           <div class="warn-num">
             <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
             <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-            this.$router.push('/PackagePurchase')
-          })
+            </div>,'提示', {showCancelButton:'取消'})
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;

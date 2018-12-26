@@ -169,32 +169,31 @@ import cookie from '@/common/js/getTenant'
 			}
 			let urlParam = item.interfaceCode;
 			if(item.accountStatus==2){
-                sessionStorage.setItem('accountStatus',2)
-				this.$router.push('/ActivateChildAccount')
+        sessionStorage.setItem('accountStatus','2');
+				this.$router.push('/ActivateChildAccount');
 			}else{
 				server.login(params,urlParam).then(res=>{
-                    if(res.data.dataList[1].auditSteps!=3){
-                        this.$message({
-                        showClose: true,
-                            duration: 1000,
-                            message: "登录成功",
-                            type: "success"
-                        });
-                        console.log(res.data.dataList)
-                        cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                        this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                        this.$router.push("/Merchant");
-                    }else{
-                            this.$message({
-                            showClose: true,
-                            duration: 1000,
-                            message: "登录成功",
-                            type: "success"
-                        });
-                        cookie.set("tenant", res.data.dataList);
-                        this.$store.dispatch("tabIndex", { tabIndex: 0 });
-                        this.$router.push("/Home");
-                    }
+         if(res.data.dataList[1].auditSteps!=3){
+          this.$message({
+            showClose: true,
+            duration: 1000,
+            message: "登录成功",
+            type: "success"
+           });
+           cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+               this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+               this.$router.push("/Merchant");
+               }else{
+                  this.$message({
+                  showClose: true,
+                  duration: 1000,
+                  message: "登录成功",
+                  type: "success"
+                   });
+                cookie.set("tenant", res.data.dataList);
+                this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                 this.$router.push("/Home");
+              }
 
 				}).catch(error=>{
 					this.$message({

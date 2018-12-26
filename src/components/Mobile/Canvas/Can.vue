@@ -169,7 +169,6 @@
 
         })
         let params={signatureImg:png }
-
         saveSignatureImg(signToken,params).then(res=>{
 
           that.$router.push('/MobileSuccess')

@@ -977,15 +977,12 @@
 
         }
       },
-
       //解冻子账号
       thaw(){
         this.thawDialogVisible=true
       },
       getAccountInformation(){
-
         let accountCode=sessionStorage.getItem("accountCode");
-
         getAccountInformation(accountCode).then(res=> {
           if(res.data.resultCode=='1'){
 

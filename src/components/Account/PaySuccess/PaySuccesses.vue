@@ -35,6 +35,7 @@
   import {aliPayReturn} from '@/api/purchase'
   import server from '@/api/url'
   import {bindEnterprises} from '@/api/login'
+  import cookie from '@/common/js/getTenant'
   export default {
     name: "PaySuccesses",
     data(){
@@ -121,6 +122,14 @@
             })
 
           }
+      }).catch(error=>{
+
+      })
+      let homePage={
+        'mobile':this.mobile
+      };
+      server.login(homePage,this.interfaceCode).then(res=>{
+          cookie.set("tenant", res.data.dataList);
       }).catch(error=>{
 
       })

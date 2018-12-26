@@ -242,11 +242,12 @@
         }
         jsonVal = jsonVal.substring(0,jsonVal.length-1);
         let params={
-        "contractName":this.templateName,
+          "contractName":this.templateName,
           "templateNum":this.templateNo,
           "jsonVal":jsonVal,
           "accountCode":this.accountCode
-        }
+        };
+        //模板填充结束之后 返回合同编号
         template(this.interfaceCode ,params).then(res=> {
             let contractNo = res.data.contractNo;
             sessionStorage.setItem('contractNo',contractNo);

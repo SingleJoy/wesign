@@ -486,7 +486,6 @@
             id_nums += idCard + ','
             emails += email + ','
           }
-
           names = names.substring(0, names.length-1)
           mobiles = mobiles.substring(0,mobiles.length-1)
           id_nums = id_nums.substring(0,id_nums.length-1)
@@ -527,8 +526,8 @@
           }
           contractTemp(this.interfaceCode,zqUserContractTempVo).then(res=> {
             let contractNo = res.data.data;
-           this.contractNo=contractNo;
-            sessionStorage.setItem('contractNo',contractNo)
+             this.contractNo=contractNo;
+            sessionStorage.setItem('contractNo',this.contractNo)
             if ( res.data.resultCode == 0) {
                 this.$message({
                   showClose: true,
@@ -558,9 +557,7 @@
           <div class="warn-num">
             <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽，若想添加更多签署人</p>
             <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-            this.$router.push('/PackagePurchase')
-          })
+            </div>,'提示', {showCancelButton:'取消'})
           return false
         }
         if(this.editSigner == false){

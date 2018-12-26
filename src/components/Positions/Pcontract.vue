@@ -263,10 +263,7 @@ export default {
                                 <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
                                 <div class="customer-service"></div>
                             </div>,'提示', {
-                                confirmButtonText: '去购买',
                                 cancelButtonText: '取消'
-                            }).then(() => {
-                             this.$router.push('/PackagePurchase')
                             })
                     }else{
                         this.$message({

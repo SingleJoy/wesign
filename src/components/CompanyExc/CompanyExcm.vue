@@ -255,16 +255,14 @@
         this.$loading.show(); //显示
         let data =[];
         b2bImgs(this.interfaceCode ,this.rowNumber).then(res=> {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+
             for (let i = 0; i < res.data.dataList.length;i++) {
               let contractUrl = res.data.dataList[i].contractUrl
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+
         }).catch(error=>{
 
         })

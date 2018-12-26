@@ -139,7 +139,7 @@ export default {
         textTip:'暂无模板',
         accountLevel:sessionStorage.getItem("accountLevel"),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-        b2cNum:'',
+          b2cNum:'',
         };
     },
     methods: {
@@ -217,20 +217,16 @@ export default {
         generateClick(row){
             let param={
                 t:Math.random()
-            }
+            };
             server.authorityUpload(param,this.interfaceCode).then(res=>{
              if(res.data.resultCode == 1){
-
               this.b2cNum = res.data.data.b2cNum;
-
               if(this.b2cNum<=0){
                 this.$confirm(
                 <div class="warn-num ">
                   <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽</p>
                   <div class="customer-service"></div>
-                </div>,'提示', {confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-                  this.$router.push('/PackagePurchase')
-                })
+                </div>,'提示', {showCancelButton:'取消'})
               }else {
                 var templateName = ''
                 var templateNo = ''
@@ -247,10 +243,8 @@ export default {
             var data =[];
             let accountCode=sessionStorage.getItem('accountCode')
             server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
-                if(res.data.sessionStatus == '0'){
-                    this.$router.push('/Server')
-                } else {
-                    if(res.data.contents){
+
+             if(res.data.contents){
                         for (let i = 0; i < res.data.contents.length;i++) {
                             var obj = {}
                             obj.templateNo = res.data.contents[i].templateCode;         //模板号
@@ -270,8 +264,8 @@ export default {
                         this.num = res.data.totalItemNumber
                         this.loading = false
                     }
-                }
-            }).catch({
+
+            }).catch(error=>{
 
             })
         },

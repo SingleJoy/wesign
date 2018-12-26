@@ -120,11 +120,10 @@
         let params={'signatureImg': this.signImage};
         this.once=true;
         saveSignatureImg(signToken,params).then(res=>{
+
           this.once=false;
           this.signImage=null;
           this.$router.push('/MobileSuccess')
-        }).catch(error=>{
-
         })
       },
       upload() {
