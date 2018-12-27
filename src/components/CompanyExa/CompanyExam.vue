@@ -433,12 +433,9 @@
     },
     created() {
       this.signMobile = cookie.getJSON('tenant')[0].mobile;
-
       let accountLevel = sessionStorage.getItem('accountLevel');
-
       let detailAccountCode = sessionStorage.getItem('detailAccountCode');
-
-      this.seeContractDetails ()
+      this.seeContractDetails();
 
       //判断是不是二级账户如果是不请求顶部显示部门姓名
       if(accountLevel != 2){

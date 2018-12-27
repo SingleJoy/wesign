@@ -143,7 +143,7 @@
         popup:false,
         Type:{contractType:'0'},
         uploadFile:true,
-        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'',
         accountLevel:sessionStorage.getItem("accountLevel"),
         tabIndex:'',
@@ -378,11 +378,9 @@
             });
           }
 
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else {
@@ -435,13 +433,11 @@
         this.fullscreenLoading = true
       },
       dialogVisible (value) {
-
         this.showVersion=true;
       },
       closeVersion(){
         this.showVersion=false;
       },
-
       amendPassWord() {
         const h = this.$createElement;
         this.$msgbox({
@@ -468,10 +464,10 @@
             } else {
               done();
               this.resubmit = true
-              this.$message({
-                type: 'info',
-                message: '取消退出操作'
-              });
+              // this.$message({
+              //   type: 'info',
+              //   message: '取消退出操作'
+              // });
             }
           }
         })

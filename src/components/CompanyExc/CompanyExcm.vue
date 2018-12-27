@@ -17,7 +17,7 @@
 
         <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
           <span class="department">{{accountName}}</span>
-          <!-- <span>张丽华</span> -->
+
         </p>
 
         <p>

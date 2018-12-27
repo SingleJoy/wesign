@@ -22,27 +22,8 @@
         <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="/static/images/back.png" alt="">退出</a></li>
 
       </ul>
-      <!-- <ol class='btns'>
-        <li><router-link to='/BuyProduct'><a href="javascript:void(0);">模板发起</a></router-link></li>
-        <li>
-          <a href="javascript:void(0);" @click='choice'>上传发起</a>
-        </li>
-        <li @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></li>
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-if="(Jurisdiction)">
-          <router-link to='/Account'  @click.native="tabActive(5)">
-            <img src="../../../static/images/setup.png" alt="">
-            <a href="javascript:void(0);">我的账户</a>
-          </router-link>
-        </li>
-        <li :class="{'active-tab':tabIndex==5}" style="margin-left:20px;" v-else>
-          <router-link to='/NoReal'  @click.native="tabActive(5)">
-            <img src="../../../static/images/setup.png" alt="">
-            <a href="javascript:void(0);">我的账户</a>
-          </router-link>
-        </li>
-      </ol> -->
-      <div id='update'>
-      </div>
+
+      <div id='update'></div>
     </nav>
 
     <template>
@@ -262,10 +243,10 @@
             } else {
               done();
               this.resubmit = true
-              this.$message({
-                type: 'info',
-                message: '取消退出操作'
-              });
+              // this.$message({
+              //   type: 'info',
+              //   message: '取消退出操作'
+              // });
             }
           }
         })

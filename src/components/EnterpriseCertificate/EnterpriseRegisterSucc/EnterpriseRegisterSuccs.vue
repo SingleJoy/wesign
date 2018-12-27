@@ -102,6 +102,7 @@
 </template>
 <script>
   import server from '@/api/url.js'
+  import {homePage} from '@/api/login.js'
    import cookie from '@/common/js/getTenant'
   export default {
     name: 'EnterpriseRegisterSuccs',
@@ -166,8 +167,10 @@
             mobile:sessionStorage.getItem('mobile')
         };
         let urlParam = sessionStorage.getItem('interfaceCode')
-        server.login(param,urlParam).then(res => {
-        cookie.set("tenant", res.data.dataList);  //更新cookie
+         homePage(param,urlParam).then(res => {
+          cookie.set("tenant", res.data.dataList);  //更新cookie
+           sessionStorage.setItem("auditSteps",res.data.dataList.auditSteps)
+        }).catch(error=>{
 
         })
     }

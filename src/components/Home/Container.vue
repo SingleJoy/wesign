@@ -261,18 +261,17 @@
            if(this.accountLevel==1){
              this.$confirm(
                <div class="warn-num ">
-                 <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽!</p>
-                 <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
+                 <p class="title" style="font-size:16px;text-align:center;">对不起，对个人合同份数已用尽!</p>
+                 <p style="font-size:16px;text-align:center;">请您先购买对个人合同套餐</p>
                  <div class="customer-service"></div>
                </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
                  this.$router.push('/PackagePurchase')
              })
            }else{
-             this.$alert('对不起，对企业合同份数已用尽!', '提示', {
+             this.$alert('对不起，对个人合同份数已用尽!', '提示', {
                confirmButtonText: '取消',
              });
            }
-
 
           } else{
             if(item.templateSpecies == "batch") {
@@ -404,10 +403,6 @@
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
 
-            if(this.clickup){
-              this.popupContainer = !this.popupContainer;
-            }
-
           }else{
             this.$message({
               showClose: true,
@@ -420,21 +415,34 @@
         })
       },
       choice() {
-        this.clickup = true;
-        if(this.isBusiness==0){
-          //先判断是否为大B（付费用户）
-              // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-                //     this.welcomeMessage = true;
-                 // }else{
-          this.getContractNum();
-          // }
-        }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
+
+        if(cookie.getJSON('tenant')[1].createContractRole== 1){
           this.$alert('您暂无上传发起权限','提示', {
             confirmButtonText: '确定'
           })
         }else{
-          // this.popupContainer = !this.popupContainer;
+
           this.getContractNum();
+          if((this.b2cNum<=0)&&(this.b2bNum<=0)){
+
+            if(this.accountLevel==1){
+              this.$confirm(
+                <div class="warn-num ">
+                  <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+                  <p style="font-size:16px;text-align:center;">请您先购买对合同套餐</p>
+                  <div class="customer-service"></div>
+                </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
+                this.$router.push('/PackagePurchase')
+              })
+            }else{
+              this.$alert('对不起，您的签约次数已用尽!', '提示', {
+                confirmButtonText: '取消',
+              });
+            }
+          }else{
+            this.popupContainer = !this.popupContainer;
+          }
+
         }
       },
       shut() {
@@ -521,11 +529,8 @@
             }else{
               this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
                 confirmButtonText: '取消',
-
               });
             }
-
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
@@ -707,6 +712,7 @@
 
       if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
         this.welcomeMessage = false;
+        sessionStorage.setItem('welcomePage',false)
       }
       var requestVo = {
         pageNo: "1",
@@ -828,15 +834,7 @@
   }
 
   .upload-warn{
-  // width: 68.1rem;
-  // height: 32rem;
-  // position: absolute;
-  // left: 50%;
-  // top: 50%;
-  // margin-left: -34.05rem;
-  // margin-top: -20rem;
-  // background: url('/static/images/Login/up-warn.png') no-repeat ;
-  // background-size:100% 100%;
+
     width: 47.1rem;
     height: 23rem;
     position: absolute;
@@ -844,7 +842,7 @@
     top: 50%;
     margin-left: -25.05rem;
     margin-top: -20rem;
-    background: url(/static/images/Login/up-warn.png) no-repeat;
+    background: url(/static/images/Home/up-warn.png) no-repeat;
     background-size: 100% 100%;
   div.contract-num{
     position: relative;

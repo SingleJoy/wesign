@@ -60,7 +60,6 @@
                   <b style="color: #cc4056;" v-else>未签署</b>
                 </li>
 
-                <!-- <li><span id='second'>asdsadsa</span><b style='padding-left:70px;color: #df3540;'>待签署</b></li> -->
               </ul>
             </div>
           </div>
@@ -98,7 +97,7 @@
         contractName:'',
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         contractNo:sessionStorage.getItem("contractNo"),
-        userCode:cookie.getJSON('tenant')[0].userCode
+        userCode:cookie.getJSON('tenant')[0].userCode,
       }
     },
     created() {
@@ -137,7 +136,6 @@
         this.$router.push('/CompanyExa')
       },
       back(){
-
         this.$router.push('/Home')
       }
     }

@@ -749,7 +749,7 @@
               if ( resultCode === '1') {
                 this.$message({
                   showClose: true,
-                  message: '修改密码成功!',
+                  message: res.data.resultMessage,
                   type: 'success'
                 });
                 this.centerDialogVisible = false;
@@ -757,7 +757,7 @@
               } else {
                 this.$message({
                   showClose: true,
-                  message: '修改密码失败!',
+                  message: res.data.resultMessage,
                   type: 'error'
                 });
                 this.resetForm (formName)

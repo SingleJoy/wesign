@@ -41,7 +41,7 @@
         <p class="title">支付方式</p>
         <div class="right">
           <p>
-            <b class="accountBalance" style="margin-top: 15px;">客服电话 : 400-0000-6923</b>
+            <b class="accountBalance" style="margin-top: 15px;">客服电话 : 400-000-6923</b>
           </p>
 
         </div>
@@ -88,7 +88,7 @@
             <div class="tip-header">温馨提示:</div>
             <div class="tip-body">
               <h4>1.建议打款金额为整数</h4>
-              <h4>2.对公账户打款成功后，请联系众签客服（确认是否到账）</h4>
+              <h4>2.请在备注一栏填写"微签服务费"，打款成功后，请联系众签客服</h4>
               <h4>3.因银行业务原因，对公账户打款到账可能会有2~24小时等待时间</h4>
             </div>
           </div>

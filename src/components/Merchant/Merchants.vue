@@ -246,6 +246,7 @@
       },
       choice(){
         this.$router.push('/BuyProduct')
+
       },
       jump () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮

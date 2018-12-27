@@ -108,6 +108,7 @@
         this.draw.downloadPNGImage(this.draw.getPNGImage());
       },
       savePNG() {
+        this.once=true;
         this.signImage = this.draw.getPNGImage();
         var blank = document.createElement('canvas');
         blank.width = document.querySelector('canvas').width;
@@ -118,7 +119,7 @@
         }
         let signToken = GetQueryString("signToken");
         let params={'signatureImg': this.signImage};
-        this.once=true;
+
         saveSignatureImg(signToken,params).then(res=>{
 
           this.once=false;

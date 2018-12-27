@@ -6,7 +6,7 @@
         <br>
         <br>
         <br>
-        <!-- <el-button type="primary" @click='back' style="width: 330px;height: 40px;">返回主页</el-button> -->
+
       </div>
     </div>
   </div>

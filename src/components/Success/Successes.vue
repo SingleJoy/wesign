@@ -36,7 +36,7 @@
               <div slot="content">{{contractName}}</div>
               <span class='contractTextInfo'>{{contractName}}</span>
             </el-tooltip>
-            <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
+            <a href="javascript:void(0);" @click="seeContractImg" style="color:#4091fb;">查看合同</a>
           </p></li>
           <li><p><span>截至时间：</span><span>{{validTime}}</span></p></li>
           <li>签署人员：</li>
@@ -95,7 +95,7 @@
   import {mapActions, mapState} from 'vuex'
   import clip from '@/common/js/clipboard.js' // use clipboard directly
   import cookie from '@/common/js/getTenant'
-  import {contractImg,contractDetail,signLink} from '@/api/personal.js'
+  import {contractImg,contractDetail,getSignLink} from '@/api/personal'
 
   export default {
     data () {
@@ -114,7 +114,8 @@
     },
     methods: {
       lookDetails () { //查看详情
-
+        //存入cookie 所需信息
+        cookie.set("state", 'Home');
         this.$router.push('/ContractInfo')
         this.$store.dispatch('tabIndex',{tabIndex:1});
       },
@@ -146,9 +147,7 @@
     },
     created() {
 
-      this.roomLink = cookie.getJSON('tenant')[1].signRoomLink
-
-
+      this.roomLink = cookie.getJSON('tenant')[1].signRoomLink;
        contractDetail(this.interfaceCode,this.contractNo).then(res=>{
             this.signUser = res.data.signUserVo
             let contractVo = res.data.contractVo
@@ -156,7 +155,7 @@
         }).catch(error=>{
 
         })
-       getSignLink(this.interfaceCode,this.contractNo).then(res=>{
+      getSignLink(this.interfaceCode,this.contractNo).then(res=>{
             this.contractLink = res.data
         }).catch(error=>{
 
