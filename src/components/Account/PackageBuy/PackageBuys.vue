@@ -18,7 +18,7 @@
           <div class="amount-list">
             <ul>
               <li v-for="(item,index)  in amountList" :key="index" :class="{'active':(isActive==index)}" @click="tabList(index,item.num)"  ref="index">
-                {{item.num}}元
+                {{item}}元
               </li>
             </ul>
           </div>
@@ -127,26 +127,22 @@
         accountMoney:'',   //账户余额
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
-        amountList:[
-          {num:'0.01'},
-          {num:'399'},
-          {num:'499'},
-          {num:'599'},
-        ],
+        amountList:[2000,3000,5000,10000],
         amountPayList:[
           {name:'支付宝',index:'0'},
           {name:'微信',index:'1'}
         ]
         ,
-        isActive:'0',  //默认第一个套餐
+        isActive:sessionStorage.getItem('payItem'),  //默认第一个套餐
         isPayActive:'0',  //默认支付宝支付
         qrcodeUrl:'',
-        payNum:'0.01',
+        payNum:'2000',
         bugSuccessDialog:false,
         htmls:'',//支付宝返回form表单
         tabPay:false,
         time:0,
-        payShow:true
+        payShow:true,
+        weChatPay:false
       }
     },
     beforeDestroy() {
@@ -158,11 +154,13 @@
         this.$router.push('/Account')
       },
       tabList(index,payNum){
-        this.isActive=index;
-        this.payNum=payNum;
+
+          sessionStorage.setItem("payItem",index)
+          this.$router.go(0);
+
       },
       tabPayList(index){
-        //index为0 是支付宝  index为1是微信
+        //index为0 是微信   index为1是支付宝
         if((index==0)&&(this.tabPay==true)){
           this.$alert('是否取消微信支付', '提示',{
             confirmButtonText: '确定'
@@ -172,19 +170,7 @@
             this.tabPay=false;
             this.payShow=true;
             clearInterval(this.timer);
-            this.timer = null;
-            this.time = 0;
-            return
-          })
-        }else if((index==1)&&(this.tabPay==true)){
-          this.$alert('是否取消支付宝支付', '提示',{
-            confirmButtonText: '确定'
-          }).then(()=>{
-            this.qrcodeUrl=null;
-            this.isPayActive=index;
-            this.tabPay=false;
-            this.payShow=false;
-            clearInterval(this.timer);
+            this.weChatPay=false;
             this.timer = null;
             this.time = 0;
             return
@@ -243,10 +229,11 @@
           'totalAmount':this.payNum,
           // 'totalAmount':'0.01',
         };
-
+      if(!this.weChatPay){
         wxpay(params).then(res=>{
           if(res.data.resultCode==1){
             this.tabPay=true;
+            this.weChatPay=true;
             this.qrcodeUrl=res.data.data.payQRCodeImg;
             this.outTradeNo=res.data.data.outTradeNo;
             setInterval(()=> {
@@ -266,6 +253,8 @@
         }).catch(error=>{
 
         })
+      }
+
       },
       getAccountInformation(){
 
@@ -311,6 +300,7 @@
       }
     },
     created(){
+      this.payNum=this.amountList[sessionStorage.getItem("payItem")];
       this.getAccountInformation();
     }
 

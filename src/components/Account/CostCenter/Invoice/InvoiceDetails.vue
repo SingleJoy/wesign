@@ -28,7 +28,7 @@
                         <div class="shop-total-small buy-common">{{invoiceList.totalMoney}}</div>
                         <div class="market-name buy-common market-common">北京众签科技有限公司</div>
                         <div class="market-identify buy-common market-common">91110108085515424L</div>
-                        <div class="market-location buy-common market-common">北京市海淀区海淀大街3号1幢400-0000-6923</div>
+                        <div class="market-location buy-common market-common">北京市海淀区海淀大街3号1幢400-000-6923</div>
                         <div class="market-bank buy-common market-common">中国工商银行股份有限公司北京成府路支行0200095709200070521</div>
                         <!-- <div>备注备注</div>
                         <div>收款人</div>

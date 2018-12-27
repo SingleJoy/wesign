@@ -34,6 +34,7 @@
           <span>企业logo：
           <!-- <el-button type="primary" style='margin-left:13px;' size="small">立即上传</el-button> -->
           <el-upload
+            ref='upload'
             class="upload-demo"
             :action='urlloadUrl()'
             :data="uploadData"
@@ -81,7 +82,8 @@ export default {
       value1:'',
       value2:'',
       file:'',
-      showImage:true
+      showImage:true,
+
     }
   },
   methods: {
@@ -99,7 +101,24 @@ export default {
       })
     },
     handleChange(file, fileList) {
+
+      this.$loading.show();
+      var max_size = 10; // 10M
+      var fileContName = file.name.replace(/\s+/g, "");
+      if (file.size > max_size * 1024 * 1024) {
+        this.$message({
+          showClose: true,
+          message: "图片大小超过10M限制",
+          type: "error"
+        });
+        this.$refs.upload.clearFiles();
+
+        this.$loading.hide();
+        return false;
+      }
+
       this.file = file
+      this.$loading.hide();
     },
     fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
       this.signRoomLogo = file.name

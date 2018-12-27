@@ -271,6 +271,7 @@
              this.$alert('对不起，对个人合同份数已用尽!', '提示', {
                confirmButtonText: '取消',
              });
+             return false
            }
 
           } else{
@@ -283,15 +284,20 @@
            sessionStorage.setItem("templateName",item.name);
            sessionStorage.setItem("templateNo", item.templateNo);
            sessionStorage.setItem( "templateGenre", item.templateSpecificType);
+           if(this.b2cNum<=0){
+             return false
+           }
            this.$router.push("/batchSetting");
-         }
-         else {
-           this.$store.dispatch("template", {
-             templateName: item.name,
-             templateNo: item.templateNo
-           });
+         } else {
+              this.$store.dispatch("template", {
+                templateName: item.name,
+                templateNo: item.templateNo
+              });
            sessionStorage.setItem("templateName", item.name);
            sessionStorage.setItem("templateNo", item.templateNo);
+              if(this.b2cNum<=0){
+                return false
+              }
            this.$router.push("/Fillinformation");
          }
        }
