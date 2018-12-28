@@ -133,8 +133,8 @@
           {name:'微信',index:'1'}
         ]
         ,
-        isActive:sessionStorage.getItem('payItem'),  //默认第一个套餐
-        isPayActive:'0',  //默认支付宝支付
+        isActive:sessionStorage.getItem('payItem')?sessionStorage.getItem('payItem'):0,  //默认第一个套餐
+        isPayActive:0,  //默认支付宝支付
         qrcodeUrl:'',
         payNum:'2000',
         bugSuccessDialog:false,
@@ -300,7 +300,13 @@
       }
     },
     created(){
-      this.payNum=this.amountList[sessionStorage.getItem("payItem")];
+      let payItem=sessionStorage.getItem("payItem");
+      if(payItem==null){
+        this.payNum=this.amountList[0];
+      }else{
+        this.payNum=this.amountList[sessionStorage.getItem("payItem")];
+      }
+
       this.getAccountInformation();
     }
 
