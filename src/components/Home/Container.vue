@@ -262,7 +262,6 @@
              this.$confirm(
                <div class="warn-num ">
                  <p class="title" style="font-size:16px;text-align:center;">对不起，对个人合同份数已用尽!</p>
-                 <p style="font-size:16px;text-align:center;">请您先购买对个人合同套餐</p>
                  <div class="customer-service"></div>
                </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
                  this.$router.push('/PackagePurchase')
@@ -427,27 +426,7 @@
             confirmButtonText: '确定'
           })
         }else{
-
-          this.getContractNum();
-          if((this.b2cNum<=0)&&(this.b2bNum<=0)){
-
-            if(this.accountLevel==1){
-              this.$confirm(
-                <div class="warn-num ">
-                  <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-                  <p style="font-size:16px;text-align:center;">请您先购买对合同套餐</p>
-                  <div class="customer-service"></div>
-                </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
-                this.$router.push('/PackagePurchase')
-              })
-            }else{
-              this.$alert('对不起，您的签约次数已用尽!', '提示', {
-                confirmButtonText: '取消',
-              });
-            }
-          }else{
-            this.popupContainer = !this.popupContainer;
-          }
+          this.popupContainer = !this.popupContainer;
 
         }
       },
@@ -485,6 +464,7 @@
       },
       handleChange(name) {
         this.$loading.show();
+        this.getContractNum();
         var max_size = 5; // 5M
         var fileContName = name.name.replace(/\s+/g, "");
         var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -522,12 +502,10 @@
           return false;
         }
         else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
-
             if (this.accountLevel == 1) {
               this.$confirm(
                 <div class="warn-num ">
                   <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-                  <p style="font-size:16px;text-align:center;">请您先购买对个人合同套餐</p>
                   <div class="customer-service"></div>
                 </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
                 this.$router.push('/PackagePurchase')
@@ -537,19 +515,16 @@
                 confirmButtonText: '取消',
               });
             }
-          this.$refs.upload.clearFiles();
-          this.uploadFile = false;
-          this.$loading.hide();
-
-          return false
+            this.$refs.upload.clearFiles();
+            this.uploadFile = false;
+            this.$loading.hide();
+            return false
         }
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
-
           if (this.accountLevel == 1) {
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-                <p style="font-size:16px;text-align:center;">请您先购买合同套餐</p>
                 <div class="customer-service"></div>
               </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
               this.$router.push('/PackagePurchase')
@@ -557,7 +532,6 @@
           }else{
             this.$alert('对不起，您的签约次数已用尽!', '提示', {
               confirmButtonText: '取消',
-
             });
           }
           this.$refs.upload.clearFiles();
@@ -569,9 +543,11 @@
           this.loading2 = true;
           this.uploadFile = true;
         }
+        this.$loading.hide();
       },
       handleChange1(name) {
         this.$loading.show();
+        this.getContractNum();
         var max_size = 5; // 5M
         var fileContName = name.name.replace(/\s+/g, "");
         var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -613,7 +589,6 @@
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
-                <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
                 <div class="customer-service"></div>
               </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
               this.$router.push('/PackagePurchase')
@@ -637,7 +612,6 @@
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-                <p style="font-size:16px;text-align:center;">请您先购买合同套餐</p>
                 <div class="customer-service"></div>
               </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
               this.$router.push('/PackagePurchase')

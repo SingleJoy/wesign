@@ -158,29 +158,24 @@
       }
     },
     methods: {
-        loginOut(){
-            this.$router.push('/')
-        },
-      choice(){
+      loginOut(){
+        this.$router.push('/')
+      },
+      choice() {
 
-        if(this.isBusiness==0){
-            this.popup =!this.popup;
-            this.getContractNum();
-        }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
+        if(cookie.getJSON('tenant')[1].createContractRole== 1){
           this.$alert('您暂无上传发起权限','提示', {
             confirmButtonText: '确定'
           })
         }else{
-             this.popup =!this.popup;
-             this.getContractNum();
-
+          this.popup = !this.popup;
         }
       },
       //合同剩余发起次数
       getContractNum(){
         let param={
-            t:Math.random()
-        }
+          t:Math.random()
+        };
         server.authorityUpload(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
             this.contractNum = res.data.data;
@@ -206,6 +201,7 @@
       },
       handleChange(name) {
         this.$loading.show();
+        this.getContractNum();
         let max_size = 5; // 5M
         let fileContName = name.name.replace(/\s+/g, "");
         let reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -243,12 +239,10 @@
           return false;
         }
         else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
-
           if (this.accountLevel == 1) {
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，对个人合同份数已用尽</p>
-                <p style="font-size:16px;text-align:center;">请您先购买对个人合同套餐</p>
                 <div class="customer-service"></div>
               </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
               this.$router.push('/PackagePurchase')
@@ -256,26 +250,18 @@
           }else{
             this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
               confirmButtonText: '取消',
-
             });
           }
-
-
-
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
-
           if (this.accountLevel == 1) {
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-                <p style="font-size:16px;text-align:center;">请您先购买合同套餐</p>
                 <div class="customer-service"></div>
               </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
               this.$router.push('/PackagePurchase')
@@ -283,23 +269,23 @@
           }else{
             this.$alert('对不起，您的签约次数已用尽!', '提示', {
               confirmButtonText: '取消',
-
             });
           }
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else {
           this.loading2 = true;
           this.uploadFile = true;
         }
+        this.$loading.hide();
       },
       handleChange1(name) {
         this.$loading.show();
+        this.getContractNum();
         let max_size = 5; // 5M
         let fileContName = name.name.replace(/\s+/g, "");
         let reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -342,7 +328,6 @@
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
-                <p style="font-size:16px;text-align:center;">请您先购买对企业合同套餐</p>
                 <div class="customer-service"></div>
               </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
               this.$router.push('/PackagePurchase')
@@ -352,9 +337,7 @@
             this.$alert('对不起，对企业合同份数已用尽!', '提示', {
               confirmButtonText: '取消',
             });
-
           }
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
@@ -367,7 +350,6 @@
             this.$confirm(
               <div class="warn-num ">
                 <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-                <p style="font-size:16px;text-align:center;">请您先购买合同套餐</p>
                 <div class="customer-service"></div>
               </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
               this.$router.push('/PackagePurchase')
@@ -387,9 +369,10 @@
           this.loading2 = true;
           this.uploadFile = true;
         }
+        this.$loading.hide();
       },
       shut() {
-        this.popup=!this.popup
+        this.popup = !this.popup;
       },
       fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
         this.$loading.hide();
@@ -474,12 +457,12 @@
       },
       signOut () {
         exitAndDeleteSession().then(res=> {
-            this.$message({
-              showClose: true,
-              message: res.data.message,
-              type: 'success'
-            })
-            this.$router.push('/')
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'success'
+          })
+          this.$router.push('/')
 
         }).catch(error=>{
 

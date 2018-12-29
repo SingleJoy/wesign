@@ -119,7 +119,7 @@
 <script>
   import {buyGoods,aliPay,wxpay,getWxpayStatus} from '@/api/purchase'
   import {getAccountInformation} from '@/api/account'
-
+  import {prohibit} from '@/common/js/prohibitBrowser'
   export default {
     name: "PackageBuys",
     data(){
@@ -149,15 +149,17 @@
       clearInterval(this.timer);
       this.timer = null;
     },
+    mounted() {
+      prohibit()
+    },
     methods:{
       backHome(){
+        sessionStorage.removeItem("payItem");
         this.$router.push('/Account')
       },
       tabList(index,payNum){
-
-          sessionStorage.setItem("payItem",index)
+          sessionStorage.setItem("payItem",index);
           this.$router.go(0);
-
       },
       tabPayList(index){
         //index为0 是微信   index为1是支付宝
@@ -261,7 +263,6 @@
         getAccountInformation(this.accountCode).then(res=> {
           if(res.data.resultCode=='1'){
             this.accountMoney=res.data.data.accountMoney;
-
           }
         }).catch(error=>{
 
@@ -290,7 +291,6 @@
             })
           }else{
            //继续轮询查询订单状态  未支付
-
           }
 
         }).catch(error=>{
@@ -306,9 +306,8 @@
       }else{
         this.payNum=this.amountList[sessionStorage.getItem("payItem")];
       }
-
       this.getAccountInformation();
-    }
+    },
 
   }
 </script>

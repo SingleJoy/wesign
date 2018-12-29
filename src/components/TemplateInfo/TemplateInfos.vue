@@ -115,6 +115,8 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
+
+      cookie.set("state", "Home");
       this.$router.push('/ContractInfo')
       this.$store.dispatch('tabIndex',{tabIndex:1});
 

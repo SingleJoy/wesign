@@ -244,45 +244,47 @@
 
       },
       packageBuy(){
-        this.once=true;
-        this.$loading.show();
-        buyGoods(this.interfaceCode,this.params).then(res=>{
+        this.once=!this.once;
+        if(this.once){
+          this.PurchaseDialog=false;
+          this.$loading.show();
+          buyGoods(this.interfaceCode,this.params).then(res=>{
 
-          if(res.data.resultCode==1){
-            this.once=false;
-            this.$loading.hide();
-            this.PurchaseDialog=false;
-              // this.$alert(res.data.resultMessage, '提示',{
-              //   confirmButtonText: '确定'
-              // });
+            if(res.data.resultCode==1){
+              this.$loading.hide();
+              this.PurchaseDialog=false;
               this.$message({
                 message: res.data.resultMessage,
                 type: 'success'
               });
+              this.accountMoney=res.data.data.accountMoney;
+              this.getOrderListSearch();   //购买记录数据
+              this.getContractNum(); //重新查询记录b2b b2c合同数量
 
-            this.PurchaseDialog=false;
-            this.accountMoney=res.data.data.accountMoney;
+            }else if(res.data.resultCode==0){
+              this.$loading.hide();
+              this.$message({
+                type: 'error',
+                message: res.data.resultMessage,
+                confirmButtonText: '确定',
+                showCancelButton:'取消'}
+              ).then(()=>{
+                this.$router.push('/PackageBuy');
+              }).catch(()=>{
 
-            this.getOrderListSearch();   //购买记录数据
-            this.getContractNum(); //重新查询记录b2b b2c合同数量
-          }else if(res.data.resultCode==0){
-            this.once=false;
-            this.$loading.hide();
-            this.$message({
-              type: 'error',
-              message: res.data.resultMessage,
-              confirmButtonText: '确定',
-              showCancelButton:'取消'}
-            ).then(()=>{
-              this.$router.push('/PackageBuy');
-            }).catch(()=>{
+              })
+            }
+            setTimeout(()=>{
+              this.once=!this.once;
+            },500)
 
-            })
+          }).catch(error=>{
 
-          }
-        }).catch(error=>{
+          })
+        }
 
-        })
+
+
       },
       getAccountInformation(){
 
