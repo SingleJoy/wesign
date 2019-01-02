@@ -169,6 +169,7 @@
           })
         }else{
           this.popup = !this.popup;
+          this.getContractNum();
         }
       },
       //合同剩余发起次数
@@ -201,7 +202,7 @@
       },
       handleChange(name) {
         this.$loading.show();
-        this.getContractNum();
+
         let max_size = 5; // 5M
         let fileContName = name.name.replace(/\s+/g, "");
         let reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -285,7 +286,7 @@
       },
       handleChange1(name) {
         this.$loading.show();
-        this.getContractNum();
+
         let max_size = 5; // 5M
         let fileContName = name.name.replace(/\s+/g, "");
         let reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -341,11 +342,9 @@
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
-
           if(this.accountLevel==1){
             this.$confirm(
               <div class="warn-num ">
@@ -359,7 +358,6 @@
               confirmButtonText: '取消',
             });
           }
-
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
@@ -475,7 +473,7 @@
       },
     },
     created(){
-      this.getContractNum();
+
       let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       if(auditSteps == 3){
         this.Jurisdiction = true

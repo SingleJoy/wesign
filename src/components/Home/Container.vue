@@ -254,7 +254,6 @@
       },
       jumper(item, index) {
         //查询合同剩余次数
-        this.getContractNum();
 
          if(this.b2cNum<=0){
 
@@ -427,7 +426,7 @@
           })
         }else{
           this.popupContainer = !this.popupContainer;
-
+          this.getContractNum();
         }
       },
       shut() {
@@ -464,7 +463,6 @@
       },
       handleChange(name) {
         this.$loading.show();
-        this.getContractNum();
         var max_size = 5; // 5M
         var fileContName = name.name.replace(/\s+/g, "");
         var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -547,7 +545,6 @@
       },
       handleChange1(name) {
         this.$loading.show();
-        this.getContractNum();
         var max_size = 5; // 5M
         var fileContName = name.name.replace(/\s+/g, "");
         var reg = /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/;
@@ -775,9 +772,8 @@
       }).catch(error=>{
 
       })
-
       //查询合同剩余次数
-      this.getContractNum()
+
     },
     mounted() {
       sessionStorage.removeItem("type");

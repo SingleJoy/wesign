@@ -133,7 +133,7 @@ export default {
 
       }).catch(error=>{
 
-      })
+      });
       this.dialogTableVisible = true
     },
     handleCopy(text, event) {
