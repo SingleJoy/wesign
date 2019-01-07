@@ -418,7 +418,7 @@
 
         })
       },
-      choice() {
+      choice(){
 
         if(cookie.getJSON('tenant')[1].createContractRole== 1){
           this.$alert('您暂无上传发起权限','提示', {
@@ -773,7 +773,7 @@
 
       })
       //查询合同剩余次数
-
+      this.getContractNum();
     },
     mounted() {
       sessionStorage.removeItem("type");

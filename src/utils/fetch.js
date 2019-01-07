@@ -10,7 +10,7 @@ import {router} from '../router'
 
 
 const Axios = axios.create({
-    timeout: 5000,                    // request timeout
+    timeout: 30000,                    // request timeout
     responseType: "text",
     // ContentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     transformRequest: [function (data) {  // 将数据转换为表单数据
