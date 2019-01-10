@@ -94,6 +94,9 @@ import BindCompany from "../components/UserRegister/BindCompany.vue"
 
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
 
+// 1.8新增
+import Tree from '../components/Tree/Tree.vue'   //
+
 // demo 演示
 import DemoRegister from "../demo/DemoRegister.vue";   //demo注册/登录
 import DemoHome from '../demo/DemoHome.vue'   //demo首页
@@ -818,6 +821,14 @@ export const router = new Router({
         keepAlive: true
       }
     },
+    {
+      path:'/Tree',
+      name:'Tree',
+      component:Tree,
+      meta:{
+        auth:true,
+      }
+    }
 
   ],
   scrollBehavior(to, from, savedPosition) {

@@ -1,8 +1,3 @@
-/**
- * Author:WANGJIA
- * Date：2018/2/7
- */
-
 
 /**
  * @param {*moblie} str
@@ -45,15 +40,6 @@ export function validateCredit(str){
     return reg.test(str)
 }
 
-
-
-// /**
-//  *  @param {*Name-Chinese} str
-//  */
-// export function validateCredit(str){
-//     const reg =  /\u4e00-\u9fa5/
-//     return reg.test(str)
-// }
 
 /**
  *  @param {*nonnumeric} str
@@ -156,12 +142,3 @@ export  function onlyChinese(str){
  * @param {*} str 目标字符串
  * @param {*} is_global 是否检查整个字符串
  */
-// export function TrimAll(str,is_global){
-//     var result;
-//     _is_global = (typeof(is_global) !== 'undefined')? is_global: 'n';
-//     result = str.replace(/(^\s+)|(\s+$)/g, "");
-//     if(_is_global.toLowerCase() == 'g'){
-//         result = result.replace(/\s/g, "");
-//     }
-//     return result
-// }
