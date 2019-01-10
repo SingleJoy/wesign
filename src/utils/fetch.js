@@ -1,7 +1,3 @@
-/**
- * auth:nwang
- * date:2018-8-22
- */
 
 import Vue from 'vue'
 import axios from 'axios';
