@@ -368,7 +368,6 @@
     mounted() {
       sessionStorage.clear();
       cookie.remove('tenant');
-
       document.documentElement.style.fontSize = document.documentElement.clientWidth / 120 + "px";
       window.onresize = function temp() {
         document.documentElement.style.fontSize =
