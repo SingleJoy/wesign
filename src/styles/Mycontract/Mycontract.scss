@@ -76,14 +76,12 @@
                 width:40px;
                 height: 40px;
                 padding-top: 5px;
-                background: url("/static/images/Folder/folder-normal.png") no-repeat;
-                background-position: center;
+                background: url("/static/images/Folder/folder-normal.png") center no-repeat;
               }
               .folder-num{
                 width:54px;
                 height: 20px;
-                background: url("/static/images/Folder/folder-number.png") no-repeat;
-                background-position: center;
+                background: url("/static/images/Folder/folder-number.png") center no-repeat;
                 position: absolute;
                 left:60px;
                 top:-4px;
@@ -96,13 +94,18 @@
                 font-size:12px;
               }
               .folder-setting{
-                width:15px;
-                height: 15px;
-                background: url("/static/images/Folder/setting.png") no-repeat;
                 position: absolute;
-                left:70px;
+                left:56px;
                 top:32px;
-
+                .el-dropdown-link{
+                  b.setting-img{
+                    display: block;
+                    position: absolute;
+                    width:15px;
+                    height: 15px;
+                    background: url("/static/images/Folder/setting.png") no-repeat;
+                  }
+                }
               }
               .folder-name{
                 display: block;
@@ -113,12 +116,7 @@
                 text-overflow:ellipsis;
                 white-space: nowrap;
               }
-              .folder-dotted{
-                color: #4091fb;
-                font-size:20px;
-                line-height: 30px;
-                padding-left: 5px;
-              }
+
               .folder-img:hover{
                 transform:rotate(0) scale(1.5);
                 -webkit-transform:rotate(0) scale(1.5);
@@ -132,8 +130,17 @@
               }
             }
             li.add-folder{
-              background: url("/static/images/Folder/add-folder.png") no-repeat;
-              background-position: center;
+              background: url("/static/images/Folder/add-folder.png") center no-repeat;
+            }
+            li.add-folder:hover{
+              transform:rotate(0) scale(1.5);
+              -webkit-transform:rotate(0) scale(1.5);
+              -moz-transform:rotate(0) scale(1.5);
+              -o-transform:rotate(0) scale(1.5);
+              /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
+              -ms-transform:rotate(0) scale(1.5);
+              -webkit-transition: all .15s ease-in .1s;
+              transition: all .15s ease-in .1s;
             }
             li.active{
               .folder-img{

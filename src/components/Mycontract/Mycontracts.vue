@@ -10,10 +10,22 @@
               <li v-for="(item ,index) in folderList" :key="index" >
                 <p class="folder-img"></p>
                 <p class="folder-num">{{item.num}}</p>
-                <p class="folder-setting"></p>
+                <p class="folder-setting"  >
+                <el-dropdown style="position: absolute;left: 10px;top:10px" placement="bottom" @command="handleCommand">
+                  <span class="el-dropdown-link">
+                      <b class="setting-img"></b>
+                 </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="(item.no,name)">重命名</el-dropdown-item>
+                    <el-dropdown-item command="(item.no,delete)">删除</el-dropdown-item>
+
+                  </el-dropdown-menu>
+                </el-dropdown>
+                </p>
                 <p class="folder-name" :title=item.name>{{item.name}}</p>
+
               </li>
-              <li class="add-folder" >
+              <li class="add-folder" @click="addFolder()">
 
               </li>
             </ul>
@@ -110,6 +122,74 @@
       },
       EnterEnter:function () {
         this.$router.push("/CompanyContract")
+      },
+
+      reNameFolder(no){
+
+        this.$prompt('请输入新的文件名称', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: '邮箱格式不正确'
+        }).then(({ value }) => {
+
+          this.$message({
+            type: 'success',
+            message: '文件夹名称是: ' + value
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消修改'
+          });
+        });
+      },
+      deleteFolder(no){
+        this.$confirm('您确定删除该文件夹？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+      },
+      handleCommand(no,type) {
+
+        if(type=='name'){
+          this.reNameFolder(no);
+        }else{
+          this.deleteFolder(no);
+        }
+
+      },
+      addFolder(){
+        this.$prompt('请输入文件夹名称', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /![@#\$%\^&\*]\d{0,30}/,
+          inputErrorMessage: '文件夹长度最多30位'
+        }).then(({ value }) => {
+
+          this.$message({
+            type: 'success',
+            message: '文件夹名称是: ' + value
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消修改'
+          });
+        });
       }
     }
 

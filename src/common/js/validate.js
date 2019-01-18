@@ -136,7 +136,7 @@ export  function onlyChinese(str){
   return reg.test(str)
 }
 
-
+// /[@#\$%\^&\*]+/g 特殊字符
 /**
  * 加 g 去除全部空格 不加去除前后空格
  * @param {*} str 目标字符串
