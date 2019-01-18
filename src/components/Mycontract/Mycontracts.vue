@@ -1,12 +1,35 @@
 <template>
   <div class="Mycontracts">
     <div class="main">
+
+      <div class="folder-content">
+        <div class="left-arrow"><p></p></div>
+        <div class="folder-list">
+          <div class="list-item">
+            <ul >
+              <li v-for="(item ,index) in folderList" :key="index" >
+                <p class="folder-img"></p>
+                <p class="folder-num">{{item.num}}</p>
+                <p class="folder-setting"></p>
+                <p class="folder-name" :title=item.name>{{item.name}}</p>
+              </li>
+              <li class="add-folder" >
+
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="right-arrow"><p></p></div>
+      </div>
+
       <div class="common-top">
         <div class="common-top-tab">
           <div class="btn-active" @click="EnterPer">企业对个人</div>
           <div class="btn-default" style="margin-left: -5px;" @click="EnterEnter">企业对企业</div>
         </div>
+
       </div>
+
       <div class='contract-type'>
         <el-tabs v-model="activeName" tab-position="40px">
           <el-tab-pane label="全部文件" name="first">
@@ -32,6 +55,7 @@
 <style lang="scss">
 
   @import "../../common/styles/content.scss";
+  @import "../../styles/Mycontract/Mycontract";
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -48,27 +72,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .Mycontracts{
-  .contract-type{
-  .el-tabs__header{
-    background: #fff;
-    margin: 0 auto;
-  }
-  .el-tabs__nav-scroll{
-    line-height: 58px;
-    padding:0 25px;
-  }
-  .el-tabs__item{
-    height:58px;
-    line-height: 58px;
-  }
-  .el-tabs__item.is-active {
-    color: #4091fb;
-    border-bottom: 2px solid #4091fb;
-  }
 
-  }
-  }
 
 
 </style>
@@ -86,7 +90,18 @@
       return {
         // activeName:sessionStorage.getItem('second')
         activeName:'first',
-        //   isActive:true
+        folderList:[
+          {name:'第一个文件夹12221213123',no:'11111',num:'10'},
+          {name:'第二个文件夹',no:'222222',num:'12'},
+          {name:'第三个文件夹',no:'33333',num:'20'},
+          {name:'第四个文件夹',no:'444444',num:'35'},
+          {name:'第五个文件夹',no:'444444',num:'70'},
+          {name:'第六个文件夹',no:'444444',num:'36'},
+          {name:'第七个文件夹',no:'444444',num:'26'},
+          {name:'第八个文件夹',no:'444444',num:'15'},
+          {name:'第九个文件夹',no:'444444',num:'26'},
+          {name:'第十个文件夹',no:'444444',num:'10'},
+        ]
       }
     },
     methods:{
@@ -100,7 +115,7 @@
 
   }
 </script>
-<style lange='css' scoped>
+<style lang='css' scoped>
   @import '../../styles/Multiparty/Multiparties.scss';
   .el-button--primary:focus{
     background: #eee;

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
-      <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
+      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50 >
+      <el-select v-model="value"  clearable v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择角色" >
 
         <el-option
           v-for="item in options"
@@ -11,9 +11,10 @@
           :value="item.accountCode">
         </el-option>
       </el-select>
+
       <span id='text'>发起时间：</span>
       <el-date-picker
-        style='width:140px;margin-right:20px'
+        style='width:150px;margin-right:15px'
         height='height:40px'
         v-model="filters.column.create_start_date"
         type="date"
@@ -23,7 +24,7 @@
       >
       </el-date-picker>
       <el-date-picker
-        style='width:140px;margin-right:20px'
+        style='width:150px;margin-right:15px'
         height='height:40px'
         v-model="filters.column.create_end_date"
         type="date"
@@ -34,7 +35,7 @@
       </el-date-picker>
       <el-checkbox style='padding-right:20px' v-model="checked"></el-checkbox>
       <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
-      <el-button type="primary"  @click='contractInquiry' style='margin-left:20px;letter-spacing:5px;'>搜索</el-button>
+      <el-button type="primary"  @click='contractInquiry' style='margin-left:10px;letter-spacing:5px;'>搜索</el-button>
     </div>
     <div class="list-body">
       <div class='table'>
@@ -76,29 +77,31 @@
             prop="createTime"
             clearable=true
             label="发起时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="validTime"
             label="截止时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="150">
+            width="130">
           </el-table-column>
           <el-table-column
             prop="operation"
             label="操作">
             <template slot-scope="scope">
+
               <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
               <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
-                <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+                <el-button @click="remindClick(scope.row)" type="primary" size="small">提&nbsp;&nbsp;醒</el-button>
               </el-tooltip>
-              <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-              <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
-              <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
+              <el-button @click="downloadClick(scope.row)" type="primary" size="small" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
+              <el-button @click="seeClick(scope.row)" type="text" size="small" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
+              <el-button @click="rowLockClick(scope.row)" type="text" size="small">详&nbsp;&nbsp;情</el-button>
+              <el-button  type="text" size="small">归档</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -174,6 +177,8 @@
         accountLevel:sessionStorage.getItem('accountLevel'),
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
+
+
       }
     },
     methods: {

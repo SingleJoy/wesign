@@ -12,7 +12,7 @@
       </el-select>
       <span id='text'>发起时间：</span>
       <el-date-picker
-        style='width:140px;margin-right:20px'
+        style='width:120px;margin-right:20px'
         height='height:40px'
         v-model="filters.column.create_start_date"
         type="date"
@@ -22,11 +22,10 @@
       >
       </el-date-picker>
       <el-date-picker
-        style='width:140px;margin-right:20px'
+        style='width:120px;margin-right:20px'
         height='height:40px'
         v-model="filters.column.create_end_date"
         type="date"
-
         placeholder="结束时间"
         format="yyyy-MM-dd"
         :picker-options="pickerBeginDateAfter"

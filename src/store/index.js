@@ -16,7 +16,8 @@ const state = {
   signatory:'',  // 批量模板几方签署
   type:'',        // 数据回显类型
   needSign:'',    //平台方是否签署
-  tabIndex:''     //当前活动tab
+  tabIndex:'',     //当前活动tab
+  folderValue:'',     //当前默认folder
 }
 const actions = {
     fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
@@ -25,21 +26,22 @@ const actions = {
     templateType:({ commit },obj) => commit('templateType',obj),
     type:({ commit },obj) => commit('type',obj),
     needSign:({ commit },obj) => commit('needSign',obj),
-    tabIndex:({commit},obj) => commit('tabIndex',obj)
+    tabIndex:({commit},obj) => commit('tabIndex',obj),
+    folderValue:({commit},obj) => commit('folderValue',obj),
 }
 const mutations = {
   tabIndex (state,res) {
     state.tabIndex = res.tabIndex
   },
   fileSuccess1 (state,res) {
-    state.contractName1 = res.contractName,
+    state.contractName1 = res.contractName
     state.contractNo1 = res.contractNo
   },
   contractsInfo (state,row) {
     state.rowNumber = row.contractNo
   },
   template (state,res){
-    state.templateName = res.templateName,
+    state.templateName = res.templateName
     state.templateNo = res.templateNo
   },
   templateType(state,res){
@@ -51,6 +53,9 @@ const mutations = {
   },
   needSign(state,res){
     state.needSign = res.needSign
+  },
+  folderValue(state,res){
+    state.folderValue=res.folderValue
   },
   headclick (state) {
     // state.flag = 'true'
