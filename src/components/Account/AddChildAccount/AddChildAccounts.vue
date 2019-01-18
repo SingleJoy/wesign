@@ -219,8 +219,7 @@
           let params = {
             username: this.ruleForm.mobile
           };
-
-
+          
           server.verficate(params).then(res => {
             if (res.data === 0) {
               document.getElementById('password').focus()
