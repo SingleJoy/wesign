@@ -3,7 +3,7 @@ import request from '../utils/fetch'
 
 
 
-/* 合同归档-新增   addContractFiling*/
+/* 合同归档-新增   addContractFiling */
 export  function addContractFiling(interfaceCode,accountCode) {
   return request({
     url:"api/restapi/wesign/v1.7.2/tenant/"+interfaceCode+'/contract/'+accountCode+'/addContractFiling',
@@ -13,7 +13,7 @@ export  function addContractFiling(interfaceCode,accountCode) {
 }
 
 
-/* 合同归档-新增   合同归档-重命名*/
+/* 合同归档-新增   合同归档-重命名 */
 export  function updateContractFiling(interfaceCode,accountCode,params) {
   return request({
     url:"api/restapi/wesign/v1.7.2/tenant/"+interfaceCode+'/contract/'+accountCode+'/updateContractFiling',
@@ -22,7 +22,7 @@ export  function updateContractFiling(interfaceCode,accountCode,params) {
   })
 }
 
-/* 合同归档-新增   合同归档-删除*/
+/* 合同归档-新增   合同归档-删除 */
 export  function deleteContractFiling(interfaceCode,accountCode,params) {
   return request({
     url:"api/restapi/wesign/v1.7.2/tenant/"+interfaceCode+'/contract/'+accountCode+'/deleteContractFiling',
