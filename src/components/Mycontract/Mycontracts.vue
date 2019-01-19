@@ -50,20 +50,8 @@
     data() {
       return {
         interfaceCode:sessionStorage.getItem('interfaceCode'),
-        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'first',
-        activeName:sessionStorage.getItem('panelActiveName'),
-        folderList:[
-          {name:'第一个文件夹12221213123',no:'11111',num:'10'},
-          {name:'第二个文件夹',no:'222222',num:'12'},
-          {name:'第三个文件夹',no:'33333',num:'20'},
-          {name:'第四个文件夹',no:'444444',num:'35'},
-          {name:'第五个文件夹',no:'444444',num:'70'},
-          {name:'第六个文件夹',no:'444444',num:'36'},
-          {name:'第七个文件夹',no:'444444',num:'26'},
-          {name:'第八个文件夹',no:'444444',num:'15'},
-          {name:'第九个文件夹',no:'444444',num:'26'},
-          {name:'第十个文件夹',no:'444444',num:'10'},
-        ]
+        accountCode:sessionStorage.getItem('accountCode'),
+        activeName:sessionStorage.getItem('B2CpanelActiveName')?sessionStorage.getItem('B2CpanelActiveName'):'first',
       }
     },
     methods:{
@@ -75,21 +63,26 @@
       },
       handleClick(tab, event) {
        let name=tab.paneName;
-       // console.log(this.$refs[name])
-        sessionStorage.setItem("panelActiveName",name);
-         this.$refs[name].getData()
+
+        sessionStorage.setItem("B2CpanelActiveName",name);
+         this.getChildData(name);
       },
       getChildData(name){
+        console.log(name)
+        console.log(this.$refs[name])
         this.$refs[name].getData()
       }
     },
+    update(){
+      let name=this.activeName;
+      console.log(this.$refs[name])
+      this.getChildData(name)
+    },
+    mounted(){
+
+
+    },
     created(){
-
-      this.$nextTick(() => {
-        let name=this.activeName;
-        this.getChildData(name)
-      })
-
 
     }
 

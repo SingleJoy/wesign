@@ -206,7 +206,7 @@
       }
     },
     created(){
-      this.contractFilings();
+      // this.contractFilings();
     }
 
   }

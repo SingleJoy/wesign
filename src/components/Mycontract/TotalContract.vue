@@ -223,15 +223,17 @@
           return 'height-color'
         }
       },
-      getData () {
+      getData (requestVo) {
         var data =[];
         var isCreater='';
-         let  requestVo ={
-          'pageNo':'1',
-          'pageSize':'10',
-          'contractStatus':'0',
-          'accountCode':this.accountLevel==2?this.accountCode:''
-        };
+        if(!requestVo){
+          return requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'0',
+            'accountCode':this.accountLevel==2?this.accountCode:''
+          };
+        }
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == this.interfaceCode) {
@@ -430,12 +432,12 @@
       }
     },
     created() {
-      var requestVo ={
-        'pageNo':'1',
-        'pageSize':'10',
-        'contractStatus':'0',
-        'accountCode':this.accountLevel==2?this.accountCode:''
-      };
+      // var requestVo ={
+      //   'pageNo':'1',
+      //   'pageSize':'10',
+      //   'contractStatus':'0',
+      //   'accountCode':this.accountLevel==2?this.accountCode:''
+      // };
       // this.getData (requestVo)
 
     }
