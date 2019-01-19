@@ -7,7 +7,7 @@ import request from '../utils/fetch'
 export  function addContractFiling(interfaceCode,accountCode) {
   return request({
     url:"api/restapi/wesign/v1.7.2/tenant/"+interfaceCode+'/contract/'+accountCode+'/addContractFiling',
-    method:"get",
+    method:"post",
     data:''
   })
 }
@@ -17,7 +17,7 @@ export  function addContractFiling(interfaceCode,accountCode) {
 export  function updateContractFiling(interfaceCode,accountCode,params) {
   return request({
     url:"api/restapi/wesign/v1.7.2/tenant/"+interfaceCode+'/contract/'+accountCode+'/updateContractFiling',
-    method:"get",
+    method:"post",
     data:params
   })
 }
@@ -26,8 +26,27 @@ export  function updateContractFiling(interfaceCode,accountCode,params) {
 export  function deleteContractFiling(interfaceCode,accountCode,params) {
   return request({
     url:"api/restapi/wesign/v1.7.2/tenant/"+interfaceCode+'/contract/'+accountCode+'/deleteContractFiling',
-    method:"get",
+    method:"post",
     data:params
   })
 }
+
+/* 合同归档- 归档分页查询 */
+export function contractFilings(interfaceCode,accountCode,param) {
+  return request({
+    url:'api/restapi/wesign/v1.7.2/tenant/'+interfaceCode+'/contract/'+accountCode+'/contractFilings',
+    method:'get',
+    params:param
+  })
+}
+
+/* 合同归档-归档合同 */
+export function contractFiling(interfaceCode,accountCode,param) {
+  return request({
+    url:'api/restapi/wesign/v1.7.2/tenant/'+interfaceCode+'/contract/'+accountCode+'/contractFiling',
+    method:'post',
+    data:param
+  })
+}
+
 
