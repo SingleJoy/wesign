@@ -73,8 +73,8 @@
       EnterEnter:function () {
         this.$router.push("/CompanyContract")
       },
-
-      reNameFolder(no){
+      //重命名归档文件夹名称
+      reNameFolder(filingNo){
 
         this.$prompt('请输入新的文件名称', '提示', {
           confirmButtonText: '确定',
@@ -94,17 +94,16 @@
           });
         });
       },
-      deleteFolder(no){
+      //删除归档文件
+      deleteFolder(filingNo){
         this.$confirm('您确定删除该文件夹？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
           center: true
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          this.deleteContractFiling(filingNo);
+
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -172,6 +171,30 @@
           }else{
 
           }
+        }).catch(error=>{
+
+        })
+      },
+
+      deleteContractFiling(filingNo){
+        let params={
+          'filingNo':filingNo
+        }
+        deleteContractFiling(params).then(res=>{
+          console.log(res);
+
+          if(res.data.resultCode=='0'){
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }else{
+            this.$message({
+              type: 'error',
+              message: res.data.resultMessage
+            });
+          }
+
         }).catch(error=>{
 
         })

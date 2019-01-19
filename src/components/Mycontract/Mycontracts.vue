@@ -12,7 +12,7 @@
 
       </div>
 
-      <div class='contract-type'>
+      <div class="contract-type">
         <el-tabs v-model="activeName" tab-position="40px">
           <el-tab-pane label="全部文件" name="first">
             <total-contract ></total-contract>
@@ -43,7 +43,7 @@
   import InquiryIntoForce from './InquiryIntoForce'
   import InquiryExpired from './InquiryExpired'
   import Folder from '../../common/components/Folder'
-  import {addContractFiling,updateContractFiling,deleteContractFiling,contractFilings,contractFiling} from '@/api/folder'
+
   export default {
     name: 'Mycontracts',
     components: { TotalContract,InquiryWaitMe,InquiryWaitOthers,InquiryIntoForce,InquiryExpired ,Folder},
