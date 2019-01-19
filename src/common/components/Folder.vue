@@ -9,13 +9,13 @@
               <p class="folder-img"></p>
               <p class="folder-num">{{item.num}}</p>
               <p class="folder-setting"  >
-                <el-dropdown style="position: absolute;left: 10px;top:10px" placement="bottom" @command="handleCommand">
+                <el-dropdown style="position: absolute;left: 10px;top:10px"  trigger="click" placement="bottom" >
                   <span class="el-dropdown-link">
                       <b class="setting-img"></b>
                  </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="(item.no,name)">重命名</el-dropdown-item>
-                    <el-dropdown-item command="(item.no,delete)">删除</el-dropdown-item>
+                    <el-dropdown-item @click.native="reNameFolder(item.filingNo)">重命名</el-dropdown-item>
+                    <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
 
                   </el-dropdown-menu>
                 </el-dropdown>
@@ -34,59 +34,41 @@
   </div>
 </template>
 
-
 <script>
-  import {
-    addContractFiling,
-    contractFiling,
-    contractFilings,
-    deleteContractFiling,
-    updateContractFiling
-  } from '@/api/folder'
-
+  import {addContractFiling, contractFiling, contractFilings, deleteContractFiling, updateContractFiling} from '@/api/folder'
   export default {
     name: 'Folder',
-
     data() {
       return {
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
-
         folderList:[
-          {name:'第一个文件夹12221213123',no:'11111',num:'10'},
-          {name:'第二个文件夹',no:'222222',num:'12'},
-          {name:'第三个文件夹',no:'33333',num:'20'},
-          {name:'第四个文件夹',no:'444444',num:'35'},
-          {name:'第五个文件夹',no:'444444',num:'70'},
-          {name:'第六个文件夹',no:'444444',num:'36'},
-          {name:'第七个文件夹',no:'444444',num:'26'},
-          {name:'第八个文件夹',no:'444444',num:'15'},
-          {name:'第九个文件夹',no:'444444',num:'26'},
-          {name:'第十个文件夹',no:'444444',num:'10'},
+          {name:'第一个文件夹12221213123',filingNo:'11111',num:'10'},
+          {name:'第二个文件夹',filingNo:'222222',num:'12'},
+          {name:'第三个文件夹',filingNo:'33333',num:'20'},
+          {name:'第四个文件夹',filingNo:'444444',num:'35'},
+          {name:'第五个文件夹',filingNo:'555555',num:'70'},
+          {name:'第六个文件夹',filingNo:'666666',num:'36'},
+          {name:'第七个文件夹',filingNo:'777777',num:'26'},
+          {name:'第八个文件夹',filingNo:'888888',num:'15'},
+          {name:'第九个文件夹',filingNo:'9699999',num:'26'},
+          {name:'第十个文件夹',filingNo:'444444',num:'10'},
         ]
       }
     },
     methods:{
-      EnterPer:function () {
-        this.$router.push("/Mycontract")
-      },
-      EnterEnter:function () {
-        this.$router.push("/CompanyContract")
-      },
+
       //重命名归档文件夹名称
       reNameFolder(filingNo){
-
+        console.log(filingNo)
         this.$prompt('请输入新的文件名称', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
           inputErrorMessage: '文件夹名称不能包含非法符号且30位以内！'
-        }).then(({ value }) => {
+        }).then(({ filingName }) => {
+           this.updateContractFiling(filingNo,filingName);
 
-          this.$message({
-            type: 'success',
-            message: '文件夹名称是: ' + value
-          });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -94,8 +76,10 @@
           });
         });
       },
+
       //删除归档文件
       deleteFolder(filingNo){
+        console.log(filingNo)
         this.$confirm('您确定删除该文件夹？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -112,15 +96,9 @@
         });
 
       },
-      handleCommand(no,type) {
 
-        if(type=='name'){
-          this.reNameFolder(no);
-        }else{
-          this.deleteFolder(no);
-        }
+      // 删除文档，数据更新  调用兄弟组件方法
 
-      },
       addFolder(){
         this.$prompt('请输入文件夹名称', '提示', {
           confirmButtonText: '确定',
@@ -156,7 +134,33 @@
         })
       },
 
-      // 查询所有归档文件夹
+      //重命名件夹接口
+      updateContractFiling(filingNo,filingName){
+        let params={
+          'filingNo':filingNo,
+          'filingName':filingName,
+        };
+        updateContractFiling(params).then(res=>{
+          console.log(res);
+
+          if(res.data.resultCode=='0'){
+            this.$message({
+              type: 'success',
+              message: '修改文件夹名称成功!'
+            });
+          }else{
+            this.$message({
+              type: 'error',
+              message: res.data.resultMessage
+            });
+          }
+
+        }).catch(error=>{
+
+        })
+      },
+
+      // 查询所有归档文件夹接口
       contractFilings(){
 
         let params={
@@ -176,10 +180,11 @@
         })
       },
 
+      // 删除归档文件夹接口
       deleteContractFiling(filingNo){
         let params={
           'filingNo':filingNo
-        }
+        };
         deleteContractFiling(params).then(res=>{
           console.log(res);
 

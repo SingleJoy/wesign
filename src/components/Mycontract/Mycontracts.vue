@@ -2,7 +2,7 @@
   <div class="Mycontracts">
     <div class="main">
 
-      <Folder></Folder>
+      <Folder ></Folder>
 
       <div class="common-top">
         <div class="common-top-tab">
@@ -13,21 +13,21 @@
       </div>
 
       <div class="contract-type">
-        <el-tabs v-model="activeName" tab-position="40px">
+        <el-tabs v-model="activeName" tab-position="40px" @tab-click="handleClick">
           <el-tab-pane label="全部文件" name="first">
-            <total-contract ></total-contract>
+            <total-contract ref="first" ></total-contract>
           </el-tab-pane>
           <el-tab-pane label="待我签署" name="second">
-            <inquiry-wait-me></inquiry-wait-me>
+            <inquiry-wait-me ref="second"></inquiry-wait-me>
           </el-tab-pane>
           <el-tab-pane label="待他人签署" name="third">
-            <inquiry-wait-others></inquiry-wait-others>
+            <inquiry-wait-others ref="second"></inquiry-wait-others>
           </el-tab-pane>
           <el-tab-pane label="已生效" name="fourth">
-            <inquiry-into-force></inquiry-into-force>
+            <inquiry-into-force ref="fourth"></inquiry-into-force>
           </el-tab-pane>
           <el-tab-pane label="已截止" name="five">
-            <inquiry-expired></inquiry-expired>
+            <inquiry-expired ref="five"></inquiry-expired>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -50,8 +50,8 @@
     data() {
       return {
         interfaceCode:sessionStorage.getItem('interfaceCode'),
-        accountCode:sessionStorage.getItem('accountCode'),
-        activeName:'first',
+        accountCode:sessionStorage.getItem('accountCode')?sessionStorage.getItem('accountCode'):'first',
+        activeName:sessionStorage.getItem('panelActiveName'),
         folderList:[
           {name:'第一个文件夹12221213123',no:'11111',num:'10'},
           {name:'第二个文件夹',no:'222222',num:'12'},
@@ -73,13 +73,30 @@
       EnterEnter:function () {
         this.$router.push("/CompanyContract")
       },
-
+      handleClick(tab, event) {
+       let name=tab.paneName;
+       // console.log(this.$refs[name])
+        sessionStorage.setItem("panelActiveName",name);
+         this.$refs[name].getData()
+      },
+      getChildData(name){
+        this.$refs[name].getData()
+      }
     },
+    created(){
+
+      this.$nextTick(() => {
+        let name=this.activeName;
+        this.getChildData(name)
+      })
+
+
+    }
 
 
   }
 </script>
-<style lang='css' scoped>
+<style lang='css'>
   @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../common/styles/content.scss";
   @import "../../styles/Mycontract/Mycontract.scss";

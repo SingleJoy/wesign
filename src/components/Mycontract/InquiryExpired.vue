@@ -209,7 +209,14 @@
       getData (requestVo) {
         var data =[];
         var isCreater='';
-
+        if(!requestVo){
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'4',
+            'accountCode':this.accountLevel==2?this.accountCode:''
+          };
+        }
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == this.interfaceCode) {
@@ -366,8 +373,8 @@
       }
     },
     created() {
-      var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
-      this.getData (requestVo);
+       // var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
+      // this.getData (requestVo);
     }
   }
 </script>

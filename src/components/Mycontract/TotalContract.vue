@@ -223,10 +223,15 @@
           return 'height-color'
         }
       },
-      getData (requestVo) {
+      getData () {
         var data =[];
         var isCreater='';
-
+         let  requestVo ={
+          'pageNo':'1',
+          'pageSize':'10',
+          'contractStatus':'0',
+          'accountCode':this.accountLevel==2?this.accountCode:''
+        };
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == this.interfaceCode) {
@@ -329,7 +334,7 @@
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={
+        let requestVo ={
           // "accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),
           "accountCode":this.queryAccountCode,
           "contractName":this.inputVal,
@@ -431,7 +436,7 @@
         'contractStatus':'0',
         'accountCode':this.accountLevel==2?this.accountCode:''
       };
-      this.getData (requestVo)
+      // this.getData (requestVo)
 
     }
   }
@@ -440,7 +445,7 @@
 <style lang='scss' scoped>
   @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../common/styles/BatchDownLoad.scss";
-  </style>
+
   .totalImg{
     width: 153px;
     margin: 300px auto;

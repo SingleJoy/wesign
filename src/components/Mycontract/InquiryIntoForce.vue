@@ -221,6 +221,14 @@
         var isCreater='';
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
         let url = process.env.API_HOST+'v1/tenant/'+ this.interfaceCode + '/contracts';
+        if(!requestVo){
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'3',
+            'accountCode':this.accountLevel==2?this.accountCode:''
+          };
+        }
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == currentFaceCode) {
@@ -387,8 +395,8 @@
       }
     },
     created() {
-      var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'3','accountCode':this.accountLevel==2?this.accountCode:''};
-      this.getData (requestVo);
+      // var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'3','accountCode':this.accountLevel==2?this.accountCode:''};
+      // this.getData (requestVo);
     }
   }
 </script>
