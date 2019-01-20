@@ -1,7 +1,7 @@
 <template>
   <div class="InquiryWaitOthers">
-    <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
+    <div class="contractTitle" style="text-align: left;">
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
@@ -130,6 +130,7 @@
   import moment  from 'moment'
   import server from "@/api/url";
   import {b2cContrants,remind} from '@/api/list'
+  import {state, actions,mutations} from '@/store/index';
 
   export default {
     name:'InquiryWaitMe',
@@ -176,7 +177,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods: {
@@ -225,7 +226,8 @@
             'pageNo':'1',
             'pageSize':'10',
             'contractStatus':'2',
-            'accountCode':this.accountLevel==2?this.accountCode:''
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+            'filingNo':this.$store.state.showFilingNo,
           };
         }
 
@@ -272,13 +274,7 @@
         }).catch(error=>{
 
         })
-        // this.$http.get(url, {params: requestVo}).then(function (res) {
-        //     if(res.data.sessionStatus == '0'){
-        //     this.$router.push('/Server')
-        //     } else {
 
-        //     }
-        // })
       },
       handleCurrentChange3(val) {
         this.currentPage2 = val
@@ -294,14 +290,36 @@
             var end =   this.filters.column.create_end_date
             if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
             if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-            var requestVo ={"contractName":this.inputVal2,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':val,'pageSize':'10','contractStatus':'2','accountCode':this.queryAccountCode};
+            var requestVo ={
+              "contractName":this.inputVal2,
+              "queryTimeStart":start,
+              "queryTimeEnd":end,
+              'perpetualValid':perpetualValid,
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'2',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData (requestVo)
           }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'2','accountCode':this.queryAccountCode};
+            var requestVo ={
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'2',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData (requestVo)
           }
         } else {
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'2','accountCode':this.queryAccountCode};
+          var requestVo ={
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'2',
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData (requestVo)
         }
       },
@@ -322,7 +340,17 @@
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal2,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'2'};
+        var requestVo ={
+          "accountCode":this.queryAccountCode,
+          "contractName":this.inputVal2,
+          "queryTimeStart":start,
+          "queryTimeEnd":end,
+          'perpetualValid':perpetualValid,
+          'pageNo':'1',
+          'pageSize':'10',
+          'contractStatus':'2',
+          'filingNo':this.$store.state.showFilingNo,
+        };
         this.getData (requestVo)
         this.currentPage2 = 1;
         this.$message({
@@ -409,8 +437,7 @@
       }
     },
     created() {
-       // var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'2','accountCode':this.accountLevel==2?this.accountCode:''};
-      // this.getData (requestVo);
+
     }
   }
 </script>

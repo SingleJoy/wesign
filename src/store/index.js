@@ -17,7 +17,7 @@ const state = {
   type:'',        // 数据回显类型
   needSign:'',    //平台方是否签署
   tabIndex:'',     //当前活动tab
-  folderValue:'',     //当前默认folder
+  showFilingNo:11111111,     //当前默认folder编号
 }
 const actions = {
     fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
@@ -27,7 +27,7 @@ const actions = {
     type:({ commit },obj) => commit('type',obj),
     needSign:({ commit },obj) => commit('needSign',obj),
     tabIndex:({commit},obj) => commit('tabIndex',obj),
-    folderValue:({commit},obj) => commit('folderValue',obj),
+     showFilingNo:({commit},obj) => commit('showFilingNo',obj),
 }
 const mutations = {
   tabIndex (state,res) {
@@ -54,8 +54,9 @@ const mutations = {
   needSign(state,res){
     state.needSign = res.needSign
   },
-  folderValue(state,res){
-    state.folderValue=res.folderValue
+  showFilingNo(state,res){
+    state.showFilingNo=res.showFilingNo
+
   },
   headclick (state) {
     // state.flag = 'true'

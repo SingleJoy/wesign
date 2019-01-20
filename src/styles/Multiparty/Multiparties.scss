@@ -5,11 +5,9 @@
   text-align: center;
 }
 .main{
-  /* width: 1200px;
+ width: 1200px;
   margin: 0 auto;
   background: #fff;
-  padding-left: 5px;
-  padding-right: 5px; */
 
 }
 .main h2{
@@ -58,7 +56,17 @@
   padding-top: 50px;
   text-align: center;
 }
-
+.signer-name{
+  display: inline-block;
+  width: 190px;
+  height: 38px;
+  padding-left: 5px;
+  padding-right: 5px;
+  outline: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  margin-right:20px;
+}
 #textInfoModel{
   display: inline-block;
   width: 237px;
@@ -81,7 +89,6 @@
   background: #fff;
   height: 80px;
   box-sizing: border-box;
-  margin-bottom: 20px;
 }
 #text{
   padding-left: 30px;

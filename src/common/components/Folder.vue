@@ -5,8 +5,8 @@
       <div class="folder-list">
         <div class="list-item">
           <ul >
-            <li v-for="(item ,index) in folderList" :key="index" @click="searchFolderData(item.filingNo)">
-              <p class="folder-img"></p>
+            <li v-for="(item ,index) in folderList" :key="index" >
+              <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
               <p class="folder-num">{{item.num}}</p>
               <p class="folder-setting"  >
                 <el-dropdown style="position: absolute;left: 10px;top:10px"  trigger="click" placement="bottom" >
@@ -31,11 +31,23 @@
       </div>
       <div class="right-arrow"><p></p></div>
     </div>
+    <div class="common-top">
+      <div class="common-top-tab">
+        <div class="btn-active" @click="EnterPer(showFilingNo)">企业对个人</div>
+        <div class="btn-default" style="margin-left: -5px;" @click="EnterEnter(showFilingNo)">企业对企业</div>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
-  import {addContractFiling, contractFiling, contractFilings, deleteContractFiling, updateContractFiling} from '@/api/folder'
+  import {addContractFiling,
+    contractFiling,
+    contractFilings,
+    deleteContractFiling,
+    updateContractFiling} from '@/api/folder'
+    import {state, actions,mutations} from '@/store/index';
   export default {
     name: 'Folder',
     data() {
@@ -53,11 +65,19 @@
           {name:'第八个文件夹',filingNo:'888888',num:'15'},
           {name:'第九个文件夹',filingNo:'9699999',num:'26'},
           {name:'第十个文件夹',filingNo:'444444',num:'10'},
-        ]
+        ],
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods:{
-
+      EnterPer(showFilingNo) {
+        this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+        this.$router.push("/Mycontract")
+      },
+      EnterEnter(showFilingNo) {
+        this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+        this.$router.push("/CompanyContract")
+      },
       //重命名归档文件夹名称
       reNameFolder(filingNo){
         console.log(filingNo)
@@ -186,7 +206,7 @@
           'filingNo':filingNo
         };
         deleteContractFiling(params).then(res=>{
-          console.log(res);
+          // console.log(res);
 
           if(res.data.resultCode=='0'){
             this.$message({
@@ -206,7 +226,9 @@
       },
 
       searchFolderData(filingNo){
-         
+         console.log(filingNo);
+         this.$store.dispatch('showFilingNo',{showFilingNo:filingNo})
+        this.$emit('FolderSearchData')
       }
     },
     created(){
@@ -218,6 +240,7 @@
 
 
 <style lang="scss" scoped>
+  @import "../../common/styles/content.scss";
   .folder-content{
   position: relative;
   margin-top: 20px;

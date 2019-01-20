@@ -1,6 +1,9 @@
 .Mycontracts {
   position: relative;
   .main {
+    position: relative;
+    width: 1200px;
+    margin: 20px auto;
     .contract-type {
       .el-tabs__header {
         background: #fff;

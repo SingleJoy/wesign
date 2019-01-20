@@ -2,15 +2,8 @@
   <div class="Mycontracts">
     <div class="main">
 
-      <Folder ></Folder>
+      <Folder @FolderSearchData="FolderSearchData"></Folder>
 
-      <div class="common-top">
-        <div class="common-top-tab">
-          <div class="btn-active" @click="EnterPer">企业对个人</div>
-          <div class="btn-default" style="margin-left: -5px;" @click="EnterEnter">企业对企业</div>
-        </div>
-
-      </div>
 
       <div class="contract-type">
         <el-tabs v-model="activeName" tab-position="40px" @tab-click="handleClick">
@@ -52,24 +45,24 @@
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
         activeName:sessionStorage.getItem('B2CPanelActiveName')?sessionStorage.getItem('B2CPanelActiveName'):'first',
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods:{
-      EnterPer:function () {
-        this.$router.push("/Mycontract")
-      },
-      EnterEnter:function () {
-        this.$router.push("/CompanyContract")
-      },
+
       handleClick(tab, event) {
        let name=tab.paneName;
         sessionStorage.setItem("B2CPanelActiveName",name);
          this.getChildData(name);
       },
       getChildData(name){
-        console.log(name)
-        console.log(this.$refs[name])
+
         this.$refs[name].getData()
+      },
+      //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
+      FolderSearchData(){
+        let name=this.activeName;
+        this.getChildData(name)
       }
     },
     update(){
@@ -77,7 +70,7 @@
     },
     mounted(){
       let name=this.activeName;
-      // console.log(this.$refs[name])
+
       this.getChildData(name)
 
     },
@@ -88,9 +81,8 @@
 
   }
 </script>
-<style lang='css'>
-  @import '../../styles/Multiparty/Multiparties.scss';
-  @import "../../common/styles/content.scss";
+<style lang='scss'>
+
   @import "../../styles/Mycontract/Mycontract.scss";
   .el-button--primary:focus{
     background: #eee;
@@ -115,7 +107,12 @@
     white-space: nowrap;
   }
 
-
+  .el-table tr:nth-child(odd) {
+    background: #fff;
+  }
+  .el-table tr:nth-child(even) {
+    background: #f5f5f5;
+  }
 
 </style>
 
