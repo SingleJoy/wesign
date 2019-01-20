@@ -5,9 +5,9 @@
       <div class="folder-list">
         <div class="list-item">
           <ul >
-            <li v-for="(item ,index) in folderList" :key="index" >
+            <li v-for="(item ,index) in folderList" :key="index" :class="{'active':(item.filingNo==showFilingNo)}">
               <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
-              <p class="folder-num">{{item.num}}</p>
+              <p class="folder-num" >{{item.num}}</p>
               <p class="folder-setting"  >
                 <el-dropdown style="position: absolute;left: 10px;top:10px"  trigger="click" placement="bottom" >
                   <span class="el-dropdown-link">
@@ -47,7 +47,7 @@
     contractFilings,
     deleteContractFiling,
     updateContractFiling} from '@/api/folder'
-    import {state, actions,mutations} from '@/store/index';
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name: 'Folder',
     data() {
@@ -66,7 +66,7 @@
           {name:'第九个文件夹',filingNo:'9699999',num:'26'},
           {name:'第十个文件夹',filingNo:'444444',num:'10'},
         ],
-        showFilingNo:this.$store.state.showFilingNo,
+        showFilingNo:this.$store.state.showFilingNo?this.$store.state.showFilingNo:folderList[0].filingNo,
       }
     },
     methods:{
@@ -80,14 +80,14 @@
       },
       //重命名归档文件夹名称
       reNameFolder(filingNo){
-        console.log(filingNo)
+
         this.$prompt('请输入新的文件名称', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
           inputErrorMessage: '文件夹名称不能包含非法符号且30位以内！'
         }).then(({ filingName }) => {
-           this.updateContractFiling(filingNo,filingName);
+          this.updateContractFiling(filingNo,filingName);
 
         }).catch(() => {
           this.$message({
@@ -118,7 +118,6 @@
       },
 
       // 删除文档，数据更新  调用兄弟组件方法
-
       addFolder(){
         this.$prompt('请输入文件夹名称', '提示', {
           confirmButtonText: '确定',
@@ -182,7 +181,6 @@
 
       // 查询所有归档文件夹接口
       contractFilings(){
-
         let params={
           'pageNo':1,
           'pageSize':10,
@@ -209,6 +207,7 @@
           // console.log(res);
 
           if(res.data.resultCode=='0'){
+            this.$store.dispatch('showFilingNo',{showFilingNo:''})
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -226,8 +225,8 @@
       },
 
       searchFolderData(filingNo){
-         console.log(filingNo);
-         this.$store.dispatch('showFilingNo',{showFilingNo:filingNo})
+        console.log(filingNo);
+        this.$store.dispatch('showFilingNo',{showFilingNo:filingNo})
         this.$emit('FolderSearchData')
       }
     },
@@ -242,155 +241,155 @@
 <style lang="scss" scoped>
   @import "../../common/styles/content.scss";
   .folder-content{
-  position: relative;
-  margin-top: 20px;
-  background: #fff;
-  padding: 20px;
-  height: 80px;
-  div{
-  display: inline-block;
-}
-  .left-arrow{
-  width:35px;
-  height: 86px;
-  cursor: pointer;
-  p{
-  width: 16px;
-  height: 60px;
-  background: url("/static/images/Folder/left-arrow.png") center center no-repeat;
-}
-  p:hover{
-  transform:rotate(0) scale(1.5);
-  -webkit-transform:rotate(0) scale(1.5);
-  -moz-transform:rotate(0) scale(1.5);
-  -o-transform:rotate(0) scale(1.5);
-  /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-  -ms-transform:rotate(0) scale(1.5);
-  -webkit-transition: all .20s ease-in .1s;
-  transition: all .20s ease-in .1s;
-}
-}
-  .right-arrow{
-  width:35px;
-  height: 86px;
-  cursor: pointer;
-  text-align: center;
-  p{
-  width: 16px;
-  height: 60px;
-  background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
-}
-  p:hover{
-  transform:rotate(0) scale(1.5);
-  -webkit-transform:rotate(0) scale(1.5);
-  -moz-transform:rotate(0) scale(1.5);
-  -o-transform:rotate(0) scale(1.5);
-  /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-  -ms-transform:rotate(0) scale(1.5);
-  -webkit-transition: all .15s ease-in .1s;
-  transition: all .15s ease-in .1s;
-}
-}
-  .folder-list{
-  position: relative;
-  margin: 0 15px 0 15px;
-  box-sizing: border-box;
-  .list-item{
-  overflow: hidden;
-  height: 86px;
-  ul{
-  li{
-  position: relative;
-  width: 94px;
-  display: inline-block;
-  height:60px;
-  float: left;
-  text-align: center;
-  cursor: pointer;
-  padding-top: 5px;
-  p{
-  display: inline-block;
-  vertical-align: middle;
-}
-  .folder-img{
-  width:40px;
-  height: 40px;
-  padding-top: 5px;
-  background: url("/static/images/Folder/folder-normal.png") center no-repeat;
-}
-  .folder-num{
-  width:54px;
-  height: 20px;
-  background: url("/static/images/Folder/folder-number.png") center no-repeat;
-  position: absolute;
-  left:60px;
-  top:-4px;
-  transform:rotate(0) scale(0.8);
-  -webkit-transform:rotate(0) scale(0.8);
-  -moz-transform:rotate(0) scale(0.8);
-  -o-transform:rotate(0) scale(0.8);
-  color: #fff;
-  line-height: 20px;
-  font-size:12px;
-}
-  .folder-setting{
-  position: absolute;
-  left:56px;
-  top:32px;
-  .el-dropdown-link{
-  b.setting-img{
-  display: block;
-  position: absolute;
-  width:15px;
-  height: 15px;
-  background: url("/static/images/Folder/setting.png") no-repeat;
-}
-}
-}
-  .folder-name{
-  display: block;
-  font-size:12px;
-  color: #333;
-  padding-top: 20px;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-}
+    position: relative;
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    height: 80px;
+    div{
+      display: inline-block;
+    }
+    .left-arrow{
+      width:35px;
+      height: 86px;
+      cursor: pointer;
+      p{
+        width: 16px;
+        height: 60px;
+        background: url("/static/images/Folder/left-arrow.png") center center no-repeat;
+      }
+      p:hover{
+        transform:rotate(0) scale(1.5);
+        -webkit-transform:rotate(0) scale(1.5);
+        -moz-transform:rotate(0) scale(1.5);
+        -o-transform:rotate(0) scale(1.5);
+        /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
+        -ms-transform:rotate(0) scale(1.5);
+        -webkit-transition: all .20s ease-in .1s;
+        transition: all .20s ease-in .1s;
+      }
+    }
+    .right-arrow{
+      width:35px;
+      height: 86px;
+      cursor: pointer;
+      text-align: center;
+      p{
+        width: 16px;
+        height: 60px;
+        background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
+      }
+      p:hover{
+        transform:rotate(0) scale(1.5);
+        -webkit-transform:rotate(0) scale(1.5);
+        -moz-transform:rotate(0) scale(1.5);
+        -o-transform:rotate(0) scale(1.5);
+        /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
+        -ms-transform:rotate(0) scale(1.5);
+        -webkit-transition: all .15s ease-in .1s;
+        transition: all .15s ease-in .1s;
+      }
+    }
+    .folder-list{
+      position: relative;
+      margin: 0 15px 0 15px;
+      box-sizing: border-box;
+      .list-item{
+        overflow: hidden;
+        height: 86px;
+        ul{
+          li{
+            position: relative;
+            width: 94px;
+            display: inline-block;
+            height:60px;
+            float: left;
+            text-align: center;
+            cursor: pointer;
+            padding-top: 5px;
+            p{
+              display: inline-block;
+              vertical-align: middle;
+            }
+            .folder-img{
+              width:40px;
+              height: 40px;
+              padding-top: 5px;
+              background: url("/static/images/Folder/folder-normal.png") center no-repeat;
+            }
+            .folder-num{
+              width:54px;
+              height: 20px;
+              background: url("/static/images/Folder/folder-number.png") center no-repeat;
+              position: absolute;
+              left:60px;
+              top:-4px;
+              transform:rotate(0) scale(0.8);
+              -webkit-transform:rotate(0) scale(0.8);
+              -moz-transform:rotate(0) scale(0.8);
+              -o-transform:rotate(0) scale(0.8);
+              color: #fff;
+              line-height: 20px;
+              font-size:12px;
+            }
+            .folder-setting{
+              position: absolute;
+              left:56px;
+              top:32px;
+              .el-dropdown-link{
+                b.setting-img{
+                  display: block;
+                  position: absolute;
+                  width:15px;
+                  height: 15px;
+                  background: url("/static/images/Folder/setting.png") no-repeat;
+                }
+              }
+            }
+            .folder-name{
+              display: block;
+              font-size:12px;
+              color: #333;
+              padding-top: 20px;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
+            }
+            .folder-img:hover{
+              transform:rotate(0) scale(1.5);
+              -webkit-transform:rotate(0) scale(1.5);
+              -moz-transform:rotate(0) scale(1.5);
+              -o-transform:rotate(0) scale(1.5);
+              /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
+              -ms-transform:rotate(0) scale(1.5);
+              -webkit-transition: all .15s ease-in .1s;
+              transition: all .15s ease-in .1s;
 
-  .folder-img:hover{
-  transform:rotate(0) scale(1.5);
-  -webkit-transform:rotate(0) scale(1.5);
-  -moz-transform:rotate(0) scale(1.5);
-  -o-transform:rotate(0) scale(1.5);
-  /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-  -ms-transform:rotate(0) scale(1.5);
-  -webkit-transition: all .15s ease-in .1s;
-  transition: all .15s ease-in .1s;
+            }
+          }
+          li.add-folder{
+            background: url("/static/images/Folder/add-folder.png") center no-repeat;
+          }
+          li.add-folder:hover{
+            transform:rotate(0) scale(1.5);
+            -webkit-transform:rotate(0) scale(1.5);
+            -moz-transform:rotate(0) scale(1.5);
+            -o-transform:rotate(0) scale(1.5);
+            /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
+            -ms-transform:rotate(0) scale(1.5);
+            -webkit-transition: all .15s ease-in .1s;
+            transition: all .15s ease-in .1s;
+          }
+          li.active{
+            .folder-img{
 
-}
-}
-  li.add-folder{
-  background: url("/static/images/Folder/add-folder.png") center no-repeat;
-}
-  li.add-folder:hover{
-  transform:rotate(0) scale(1.5);
-  -webkit-transform:rotate(0) scale(1.5);
-  -moz-transform:rotate(0) scale(1.5);
-  -o-transform:rotate(0) scale(1.5);
-  /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-  -ms-transform:rotate(0) scale(1.5);
-  -webkit-transition: all .15s ease-in .1s;
-  transition: all .15s ease-in .1s;
-}
-  li.active{
-  .folder-img{
-  background: url("/static/images/Folder/folder-open.png") no-repeat;
-}
-}
+              background: url("/static/images/Folder/folder-open.png") no-repeat;
+            }
+          }
 
-}
-}
+        }
+      }
 
-}
-}
+    }
+  }
 </style>
