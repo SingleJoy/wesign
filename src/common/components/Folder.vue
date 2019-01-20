@@ -5,7 +5,7 @@
       <div class="folder-list">
         <div class="list-item">
           <ul >
-            <li v-for="(item ,index) in folderList" :key="index" >
+            <li v-for="(item ,index) in folderList" :key="index" @click="searchFolderData(item.filingNo)">
               <p class="folder-img"></p>
               <p class="folder-num">{{item.num}}</p>
               <p class="folder-setting"  >
@@ -203,6 +203,10 @@
         }).catch(error=>{
 
         })
+      },
+
+      searchFolderData(filingNo){
+         
       }
     },
     created(){

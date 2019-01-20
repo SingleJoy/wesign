@@ -21,7 +21,7 @@
             <inquiry-wait-me ref="second"></inquiry-wait-me>
           </el-tab-pane>
           <el-tab-pane label="待他人签署" name="third">
-            <inquiry-wait-others ref="second"></inquiry-wait-others>
+            <inquiry-wait-others ref="third"></inquiry-wait-others>
           </el-tab-pane>
           <el-tab-pane label="已生效" name="fourth">
             <inquiry-into-force ref="fourth"></inquiry-into-force>
@@ -51,7 +51,7 @@
       return {
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
-        activeName:sessionStorage.getItem('B2CpanelActiveName')?sessionStorage.getItem('B2CpanelActiveName'):'first',
+        activeName:sessionStorage.getItem('B2CPanelActiveName')?sessionStorage.getItem('B2CPanelActiveName'):'first',
       }
     },
     methods:{
@@ -63,8 +63,7 @@
       },
       handleClick(tab, event) {
        let name=tab.paneName;
-
-        sessionStorage.setItem("B2CpanelActiveName",name);
+        sessionStorage.setItem("B2CPanelActiveName",name);
          this.getChildData(name);
       },
       getChildData(name){
@@ -74,12 +73,12 @@
       }
     },
     update(){
-      let name=this.activeName;
-      console.log(this.$refs[name])
-      this.getChildData(name)
+
     },
     mounted(){
-
+      let name=this.activeName;
+      // console.log(this.$refs[name])
+      this.getChildData(name)
 
     },
     created(){

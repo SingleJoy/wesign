@@ -224,13 +224,14 @@
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
 
         if(!requestVo){
-         return requestVo ={
+           requestVo ={
             'pageNo':'1',
             'pageSize':'10',
             'contractStatus':'1',
             'accountCode':this.accountLevel==2?this.accountCode:''
           };
         }
+        console.log(22222)
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == currentFaceCode) {

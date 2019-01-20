@@ -224,16 +224,18 @@
         }
       },
       getData (requestVo) {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         if(!requestVo){
-          return requestVo ={
+
+           requestVo ={
             'pageNo':'1',
             'pageSize':'10',
             'contractStatus':'0',
             'accountCode':this.accountLevel==2?this.accountCode:''
           };
         }
+
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == this.interfaceCode) {

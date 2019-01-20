@@ -217,10 +217,10 @@
         }
       },
       getData (requestVo) {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-        let url = process.env.API_HOST+'v1/tenant/'+ this.interfaceCode + '/contracts';
+
         if(!requestVo){
           requestVo ={
             'pageNo':'1',

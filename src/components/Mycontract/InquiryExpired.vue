@@ -207,8 +207,8 @@
         }
       },
       getData (requestVo) {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         if(!requestVo){
           requestVo ={
             'pageNo':'1',
