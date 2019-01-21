@@ -101,7 +101,7 @@
               <el-button @click="downloadClick(scope.row)" type="primary" size="small" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
               <el-button @click="seeClick(scope.row)" type="text" size="small" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
               <el-button @click="rowLockClick(scope.row)" type="text" size="small">详&nbsp;&nbsp;情</el-button>
-              <el-button  type="text" size="small">归档</el-button>
+              <el-button  type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -109,6 +109,11 @@
         <div class="batch-download-btn-area" v-if="num">
           <button  @click="batchDownload"  class="batch-download-btn">
             <span>批量下载</span>
+          </button>
+        </div>
+        <div class="batch-download-btn-area" v-if="num" style="margin-top: 50px;">
+          <button  @click="batchFolder"  class="batch-download-btn">
+            <span>批量归档</span>
           </button>
         </div>
       </div>
@@ -124,6 +129,40 @@
       </div>
     </div>
 
+    <el-dialog title="批量合同归档" :visible.sync="batchDialogChooseFolder"  custom-class="dialogChooseFolder">
+
+      <template>
+        <el-checkbox-group v-model="batchFolderListNo" >
+          <el-checkbox v-for="item in folderList" :label="item.filingName" :key="item.filingNo" class="folderListCheck" >
+            {{item.filingName}}
+          </el-checkbox>
+
+        </el-checkbox-group>
+
+        <div class="operate">
+          <el-button type="primary"  @click="batchFolderSure" style='margin-left:10px;letter-spacing:5px;'>确定</el-button>
+          <el-button type="primary"  @click="quit" style='margin-left:10px;letter-spacing:5px;'>取消</el-button>
+        </div>
+
+      </template>
+
+
+    </el-dialog>
+
+    <el-dialog title="单次合同归档" :visible.sync="singleDialogChooseFolder"  custom-class="dialogChooseFolder">
+
+      <template>
+        <el-checkbox-group v-model="singleFolderListNo" @change="getRadioValue($event)" >
+          <el-radio v-for="item in folderList" :label="item.filingName" name="item.filingName" :key="item.filingNo" :disabled="(item.filingNo==showFilingNo)" class="folderListCheck" >
+
+          </el-radio>
+
+        </el-checkbox-group>
+      </template>
+
+
+    </el-dialog>
+
   </div>
 </template>
 
@@ -134,6 +173,9 @@
   import {b2cContrants,remind} from '@/api/list';
   import {downloadContracts} from "@/api/common";
   import {state, actions,mutations} from '@/store/index';
+  import {addContractFiling, contractFiling, contractFilings,
+    deleteContractFiling, updateContractFiling}
+    from '@/api/folder'
   export default {
     name:'totalContranct',
     data() {
@@ -178,10 +220,18 @@
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
         showFilingNo:this.$store.state.showFilingNo,
-
+        singleDialogChooseFolder:false,
+        batchDialogChooseFolder:false,
+        folderList:[],
+        singleFolderListNo:'',
+        batchFolderListNo:[],
+        defaultContractNum:''
       }
     },
     methods: {
+      getRadioValue(val){
+        console.log(val)
+      },
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
@@ -227,7 +277,6 @@
         let data =[];
         let isCreater='';
         if(!requestVo){
-
            requestVo ={
             'pageNo':'1',
             'pageSize':'10',
@@ -441,10 +490,76 @@
             }
           })
         }
+      },
+      // 查询所有归档文件夹接口
+
+      folderClick(row){
+        console.log(row)
+       this.defaultContractNum=row.contractNum;
+          contractFilings(this.interfaceCode,this.accountCode).then(res=>{
+            if(res.data.resultCode=='1'){
+              this.folderList=res.data.data;
+              this.singleDialogChooseFolder=true;
+            }
+          }).catch(error=>{
+
+          })
+      },
+      contractFiling(filingNo){
+        let params={
+          filingNo:filingNo,
+          contractNo: this.defaultContractNum
+        };
+        contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
+          console.log(res)
+          if(res.data.resultCode=='1'){
+           console.log(res)
+          }
+        }).catch(error=>{
+
+        })
+      },
+      batchFolder(){
+        let length = this.multipleSelection.length;
+        let str = '';
+        this.downloadList = this.downloadList.concat(this.multipleSelection);
+        if(length < 1){
+          this.$message({
+            showClose: true,
+            message: '请先勾选想要下载的合同文件',
+            type: "error"
+          });
+
+        }else {
+          for (let i = 0; i < length; i++) {
+            str += this.multipleSelection[i].contractNum + ',';
+          }
+          console.log(str)
+
+        }
+        contractFilings(this.interfaceCode,this.accountCode).then(res=>{
+          let resultCode = res.data.resultCode;
+          if(resultCode=='1'){
+            this.folderList=res.data.data;
+          }else{
+          }
+        }).catch(error=>{
+
+        })
+        this.batchDialogChooseFolder=true;
+      },
+      batchFolderSure(){
+        let fillingNo=this.singleFolderListNo;
+         this.contractFiling(fillingNo);
+      },
+
+      quit(){
+        this.singleDialogChooseFolder=false;
+        this.batchDialogChooseFolder=false;
       }
     },
     created() {
-      console.log(this.$store.state.showFilingNo)
+
 
     }
   }
@@ -453,7 +568,9 @@
 <style lang='scss' scoped>
   @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../common/styles/BatchDownLoad.scss";
-
+  .contract-type{
+    background: #fff;
+  }
   .totalImg{
     width: 153px;
     margin: 300px auto;
@@ -473,5 +590,19 @@
     background: #f5f5f5
   }
 
+</style>
+<style>
+  .dialogChooseFolder{
+    width: 600px;
+    min-height: 400px;
+    overflow-y: auto;
+  }
+  .folderListCheck{
+    display: inline-block!important;
+    float: left;
+    width: 50%;
+    height: 40px!important;
+    margin: 0!important;
+  }
 </style>
 

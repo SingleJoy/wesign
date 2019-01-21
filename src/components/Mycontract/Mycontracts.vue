@@ -36,7 +36,7 @@
   import InquiryIntoForce from './InquiryIntoForce'
   import InquiryExpired from './InquiryExpired'
   import Folder from '../../common/components/Folder'
-
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name: 'Mycontracts',
     components: { TotalContract,InquiryWaitMe,InquiryWaitOthers,InquiryIntoForce,InquiryExpired ,Folder},
@@ -56,7 +56,6 @@
          this.getChildData(name);
       },
       getChildData(name){
-
         this.$refs[name].getData()
       },
       //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
@@ -65,19 +64,10 @@
         this.getChildData(name)
       }
     },
-    update(){
-
-    },
     mounted(){
       let name=this.activeName;
-
       this.getChildData(name)
-
     },
-    created(){
-
-    }
-
 
   }
 </script>

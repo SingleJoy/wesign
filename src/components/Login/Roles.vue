@@ -134,7 +134,6 @@ import cookie from '@/common/js/getTenant'
   export default {
     name:'Role',
     data () {
-
       return {
 			companyList:[],
 			subCompanyList:[],

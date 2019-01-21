@@ -1,7 +1,7 @@
 <template>
   <div class="InquiryExpired">
     <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1 && accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
         <el-option
           v-for="item in options"
@@ -122,6 +122,7 @@
   import moment  from 'moment'
   import server from "@/api/url";
   import {b2bContrants,remind} from '@/api/list'
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name:'InquiryExpired',
     data() {
@@ -166,6 +167,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods: {
@@ -206,11 +208,20 @@
           return ''
         }
       },
-      getRecord (requestVo) {
+      getData (requestVo) {
         let data =[];
         let isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
 
+        if(!requestVo){
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'4',
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+            'filingNo':this.$store.state.showFilingNo,
+          };
+        }
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if(res.data.content[i].creater == currentFaceCode){
@@ -275,15 +286,28 @@
               'contractStatus':'4',
               // 'accountCode':this.accountLevel==2?this.accountCode:''
               "accountCode":this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
-            this.getRecord (requestVo)
+            this.getData (requestVo)
           }else{
-            let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
-            this.getRecord (requestVo)
+            let requestVo ={
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'4',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
+            this.getData (requestVo)
           }
         } else {
-          let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':queryAccountCode};
-          this.getRecord (requestVo)
+          let requestVo ={
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'4',
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
+          this.getData (requestVo)
         }
       },
       handleSizeChange(val) {
@@ -306,9 +330,10 @@
           "queryTimeEnd":end,
           'pageNo':'1',
           'pageSize':'10',
-          'contractStatus':'4'
+          'contractStatus':'4',
+          'filingNo':this.$store.state.showFilingNo,
         };
-        this.getRecord (requestVo)
+        this.getData (requestVo)
         this.currentPage4 = 1;
         this.inquiry = true
       },
@@ -407,8 +432,8 @@
       }
     },
     created() {
-      let requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
-      this.getRecord (requestVo);
+      // let requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
+      // this.getData (requestVo);
     }
   }
 </script>

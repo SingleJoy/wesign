@@ -10,6 +10,9 @@
   background: #fff;
 
 }
+.main .contract-type{
+  background-color: #fff;
+}
 .main h2{
   font-weight: normal;
   font-size: 18px;
@@ -95,6 +98,7 @@
 }
 .el-table th>.cell{
   text-align: center;
+  font-size: 14px;
 }
 
 .common-top{
@@ -226,3 +230,14 @@
   }
 }
 
+.signer-name{
+  display: inline-block;
+  width: 190px;
+  height: 38px;
+  padding-left: 5px;
+  padding-right: 5px;
+  outline: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  margin-right:20px;
+}
