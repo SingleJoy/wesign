@@ -432,8 +432,8 @@
       }
     },
     created() {
-      // var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
-      // this.getRecord (requestVo)
+      var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0','accountCode':this.accountLevel==2?this.accountCode:''};
+      this.getRecord (requestVo)
     }
   }
 </script>
