@@ -9,7 +9,7 @@
               <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
               <p class="folder-num" >{{item.num}}</p>
               <p class="folder-setting"  >
-                <el-dropdown style="position: absolute;left: 10px;top:10px"  trigger="click" placement="bottom" >
+                <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
                   <span class="el-dropdown-link">
                       <b class="setting-img"></b>
                  </span>
@@ -33,8 +33,8 @@
     </div>
     <div class="common-top">
       <div class="common-top-tab">
-        <div class="btn-active" @click="EnterPer(showFilingNo)">企业对个人</div>
-        <div class="btn-default" style="margin-left: -5px;" @click="EnterEnter(showFilingNo)">企业对企业</div>
+        <div @click="EnterPer(showFilingNo)" :class="{'btn-active':isBtnActive,'btn-default':!isBtnActive}">企业对个人</div>
+        <div style="margin-left: -5px;" @click="EnterEnter(showFilingNo)" :class="{'btn-active':!isBtnActive,'btn-default':isBtnActive}">企业对企业</div>
       </div>
 
     </div>
@@ -67,15 +67,18 @@
           {name:'第十个文件夹',filingNo:'444444',num:'10'},
         ],
         showFilingNo:this.$store.state.showFilingNo?this.$store.state.showFilingNo:folderList[0].filingNo,
+        isBtnActive:this.$store.state.isBtnActive?this.$store.state.isBtnActive:true,
       }
     },
     methods:{
       EnterPer(showFilingNo) {
         this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+        this.$store.dispatch('isBtnActive',{isBtnActive:true});
         this.$router.push("/Mycontract")
       },
       EnterEnter(showFilingNo) {
         this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+        this.$store.dispatch('isBtnActive',{isBtnActive:false});
         this.$router.push("/CompanyContract")
       },
       //重命名归档文件夹名称

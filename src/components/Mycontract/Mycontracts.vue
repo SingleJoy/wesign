@@ -36,7 +36,7 @@
   import InquiryIntoForce from './InquiryIntoForce'
   import InquiryExpired from './InquiryExpired'
   import Folder from '../../common/components/Folder'
-
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name: 'Mycontracts',
     components: { TotalContract,InquiryWaitMe,InquiryWaitOthers,InquiryIntoForce,InquiryExpired ,Folder},
@@ -65,18 +65,10 @@
         this.getChildData(name)
       }
     },
-    update(){
-
-    },
     mounted(){
       let name=this.activeName;
-
       this.getChildData(name)
-
     },
-    created(){
-
-    }
 
 
   }

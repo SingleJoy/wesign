@@ -217,11 +217,22 @@
           return "";
         }
       },
-      getRecord(requestVo) {
+      getData(requestVo) {
         let data = [];
         let isCreater = "";
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-        let url =process.env.API_HOST + "v1.4/tenant/" +cookie.getJSON("tenant")[1].interfaceCode +"/b2bContrants";
+
+
+        if(!requestVo){
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'3',
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+            'filingNo':this.$store.state.showFilingNo,
+          };
+        }
+
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length; i++) {
             if (res.data.content[i].creater == currentFaceCode) {
@@ -300,24 +311,24 @@
                 .slice(0, 10);
             }
             let requestVo = {
-              contractName: this.inputVal3,
-              queryTimeStart: start,
-              queryTimeEnd: end,
-              perpetualValid: perpetualValid,
-              pageNo: val,
-              pageSize: "10",
-              contractStatus: "3",
-              // accountCode:this.accountLevel==2?this.accountCode:''
-              accountCode:this.queryAccountCode
+              'contractName': this.inputVal3,
+             'queryTimeStart': start,
+              'queryTimeEnd': end,
+             'perpetualValid': perpetualValid,
+            'pageNo': val,
+            'pageSize': "10",
+              'contractStatus': "3",
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
-            this.getRecord(requestVo);
+            this.getData(requestVo);
           } else {
-            let requestVo = { pageNo: val, pageSize: "10", contractStatus: "3",accountCode:this.queryAccountCode};
-            this.getRecord(requestVo);
+            let requestVo = { 'pageNo': val, 'pageSize': "10", 'contractStatus': "3",'accountCode':this.queryAccountCode,'filingNo':this.$store.state.showFilingNo,};
+            this.getData(requestVo);
           }
         } else {
-          let requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
-          this.getRecord(requestVo);
+          let requestVo = { 'pageNo': val, 'pageSize': "10", 'contractStatus': "3" ,'accountCode':this.queryAccountCode,'filingNo':this.$store.state.showFilingNo,};
+          this.getData(requestVo);
         }
       },
       handleSizeChange(val) {
@@ -351,16 +362,17 @@
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         let requestVo = {
           // accountCode:this.queryAccountCode?this.queryAccountCode:this.accountCode,
-          accountCode:this.queryAccountCode,
-          contractName: this.inputVal3,
-          queryTimeStart: start,
-          queryTimeEnd: end,
-          perpetualValid: perpetualValid,
-          pageNo: "1",
-          pageSize: "10",
-          contractStatus: "3",
+          'accountCode':this.queryAccountCode,
+          'contractName': this.inputVal3,
+          'queryTimeStart': start,
+          'queryTimeEnd': end,
+          'perpetualValid': perpetualValid,
+          'pageNo': "1",
+          'pageSize': "10",
+          'contractStatus': "3",
+          'filingNo':this.$store.state.showFilingNo,
         };
-        this.getRecord(requestVo);
+        this.getData(requestVo);
         this.currentPage3 = 1;
         this.$message({
           showClose: true,
@@ -457,8 +469,8 @@
       }
     },
     created() {
-      let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3",accountCode:this.accountLevel==2?this.accountCode:''};
-      this.getRecord(requestVo);
+      // let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3",accountCode:this.accountLevel==2?this.accountCode:''};
+      // this.getData(requestVo);
     }
   };
 </script>

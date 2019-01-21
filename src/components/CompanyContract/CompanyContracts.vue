@@ -1,28 +1,23 @@
 <template>
 	<div class="CompanyContracts">
 		<div class="main">
-			<div class="common-top">
-			<div class="common-top-tab">
-				<div class="btn-default" @click="EnterPer">企业对个人</div>
-				<div class="btn-active" style="margin-left: -5px;" @click="EnterEnter">企业对企业</div>
-			</div>
-		</div>
+      <Folder @FolderSearchData="FolderSearchData"></Folder>
 		<div class='contract-type'>
 			<el-tabs v-model="activeName" tab-position="40px">
 			<el-tab-pane label="全部文件" name="first">
-				<total-cont></total-cont>
+				<total-cont ref="first"></total-cont>
 			</el-tab-pane>
 			<el-tab-pane label="待我签署" name="second">
-				<inquiry-wa-me></inquiry-wa-me>
+				<inquiry-wa-me ref="second"></inquiry-wa-me>
 			</el-tab-pane>
 			<el-tab-pane label="待他人签署" name="third">
-				<inquiry-wa-other></inquiry-wa-other>
+				<inquiry-wa-other ref="third"></inquiry-wa-other>
 			</el-tab-pane>
 			<el-tab-pane label="已生效" name="fourth">
-				<inquiry-into></inquiry-into>
+				<inquiry-into ref="fourth"></inquiry-into>
 			</el-tab-pane>
 			<el-tab-pane label="已截止" name="five">
-				<inquiry-exp></inquiry-exp>
+				<inquiry-exp ref="five"></inquiry-exp>
 			</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -114,24 +109,41 @@
   import InquiryWaOther from './InquiryWaOther'
   import InquiryInto from './InquiryInto'
   import InquiryExp from './InquiryExp'
+  import Folder from '../../common/components/Folder'
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name: 'Mycontracts',
-    components: { TotalCont,InquiryWaMe,InquiryWaOther,InquiryInto,InquiryExp },
+    components: { TotalCont,InquiryWaMe,InquiryWaOther,InquiryInto,InquiryExp,Folder },
     data() {
       return {
-        // activeName:sessionStorage.getItem('second')
-        activeName:'first',
-        isActive:true
+        interfaceCode:sessionStorage.getItem('interfaceCode'),
+        accountCode:sessionStorage.getItem('accountCode'),
+        activeName:sessionStorage.getItem('B2BPanelActiveName')?sessionStorage.getItem('B2BPanelActiveName'):'first',
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods:{
-      EnterPer:function () {
-        this.$router.push("/Mycontract")
+
+      handleClick(tab, event) {
+        let name=tab.paneName;
+        sessionStorage.setItem("B2BPanelActiveName",name);
+        this.getChildData(name);
       },
-      EnterEnter:function () {
-        this.$router.push("/CompanyContract")
+      getChildData(name){
+        console.log(name)
+        console.log(this.$refs[name])
+        this.$refs[name].getData()
+      },
+      //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
+      FolderSearchData(){
+        let name=this.activeName;
+        this.getChildData(name)
       }
-    }
+    },
+    mounted(){
+      let name=this.activeName;
+      this.getChildData(name)
+    },
 
   }
 </script>

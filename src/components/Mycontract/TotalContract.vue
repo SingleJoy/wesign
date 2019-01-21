@@ -227,7 +227,6 @@
         let data =[];
         let isCreater='';
         if(!requestVo){
-
            requestVo ={
             'pageNo':'1',
             'pageSize':'10',
