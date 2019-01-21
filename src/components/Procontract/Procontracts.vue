@@ -1,27 +1,90 @@
 <template>
   <div class="Procontracts">
+    <Folder @FolderSearchData="FolderSearchData"></Folder>
     <div class='main'>
-      <el-tabs v-model="activeName" tab-position="40px" style="margin-top:20px;">
+      <el-tabs v-model="activeName" tab-position="40px" style="margin-top:20px;" @tab-click="handleClick">
         <el-tab-pane label="全部文件" name="first">
-          <total-contract></total-contract>
+          <total-contract ref="first" ></total-contract>
         </el-tab-pane>
         <el-tab-pane label="待我签署" name="second">
-          <inquiry-wait-me></inquiry-wait-me>
+          <inquiry-wait-me ref="second"></inquiry-wait-me>
         </el-tab-pane>
         <el-tab-pane label="待他人签署" name="third">
-          <inquiry-wait-others></inquiry-wait-others>
+          <inquiry-wait-others ref="third"></inquiry-wait-others>
         </el-tab-pane>
         <el-tab-pane label="已生效" name="fourth">
-          <inquiry-into-force></inquiry-into-force>
+          <inquiry-into-force ref="fourth"></inquiry-into-force>
         </el-tab-pane>
         <el-tab-pane label="已截止" name="five">
-          <inquiry-expired></inquiry-expired>
+          <inquiry-expired ref="five"></inquiry-expired>
         </el-tab-pane>
       </el-tabs>
     </div>
 
   </div>
 </template>
+
+
+<script>
+  import TotalContract from './TotalContract';
+  import InquiryWaitMe from './InquiryWaitMe';
+  import InquiryWaitOthers from './InquiryWaitOthers';
+  import InquiryIntoForce from './InquiryIntoForce';
+  import InquiryExpired from './InquiryExpired';
+  import Folder from '@/common/components/Folder';
+  export default {
+    name: 'Procontracts',
+    components: {
+      TotalContract,
+      InquiryWaitMe,
+      InquiryWaitOthers,
+      InquiryIntoForce,
+      InquiryExpired ,
+      Folder
+    },
+    data() {
+      return {
+        interfaceCode:sessionStorage.getItem('interfaceCode'),
+        accountCode:sessionStorage.getItem('accountCode'),
+        activeName:sessionStorage.getItem('B2CPanelActiveName')?sessionStorage.getItem('B2CPanelActiveName'):'first',
+        showFilingNo:this.$store.state.showFilingNo,
+      }
+    },
+    methods:{
+
+      handleClick(tab, event) {
+        let name=tab.paneName;
+        sessionStorage.setItem("B2CPanelActiveName",name);
+        this.getChildData(name);
+      },
+      getChildData(name){
+
+        this.$refs[name].getData()
+      },
+      //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
+      FolderSearchData(){
+        let name=this.activeName;
+        this.getChildData(name)
+      }
+    },
+    update(){
+
+    },
+    mounted(){
+      let name=this.activeName;
+
+      this.getChildData(name)
+
+    },
+    created(){
+
+    }
+  }
+</script>
+<style lange='scss' scoped>
+  @import '../../styles/Multiparty/Multiparties.scss';
+
+</style>
 <style lang="scss" scoped>
   @import "../../common/styles/content.scss";
 
@@ -44,50 +107,27 @@
     white-space: nowrap;
   }
   .Procontracts{
-  .contract-type{
-  .el-tabs__header{
-    background: #fff;
-    margin: 0 auto;
-  }
-  .el-tabs__nav-scroll{
-    line-height: 58px;
-    padding:0 25px;
-  }
-  .el-tabs__item{
-    height:58px;
-    line-height: 58px;
-  }
-  .el-tabs__item.is-active {
-    color: #4091fb;
-    border-bottom: 2px solid #4091fb;
-  }
-  }
-
-
-  }
-
-</style>
-
-<script>
-  import TotalContract from './TotalContract'
-  import InquiryWaitMe from './InquiryWaitMe'
-  import InquiryWaitOthers from './InquiryWaitOthers'
-  import InquiryIntoForce from './InquiryIntoForce'
-  import InquiryExpired from './InquiryExpired'
-  export default {
-    name: 'Procontracts',
-    components: { TotalContract,InquiryWaitMe,InquiryWaitOthers,InquiryIntoForce,InquiryExpired },
-    data() {
-      return {
-        // activeName:sessionStorage.getItem('second')
-        activeName:'first'
+    .contract-type{
+      .el-tabs__header{
+        background: #fff;
+        margin: 0 auto;
+      }
+      .el-tabs__nav-scroll{
+        line-height: 58px;
+        padding:0 25px;
+      }
+      .el-tabs__item{
+        height:58px;
+        line-height: 58px;
+      }
+      .el-tabs__item.is-active {
+        color: #4091fb;
+        border-bottom: 2px solid #4091fb;
       }
     }
+
+
   }
-</script>
-<style lange='scss' scoped>
-  @import '../../styles/Multiparty/Multiparties.scss';
 
 </style>
-
 

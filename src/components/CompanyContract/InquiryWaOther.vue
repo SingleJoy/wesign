@@ -465,8 +465,8 @@
       }
     },
     created() {
-      let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2" ,accountCode:this.accountLevel==2?this.accountCode:''};
-      this.getRecord(requestVo);
+      // let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2" ,accountCode:this.accountLevel==2?this.accountCode:''};
+      // this.getRecord(requestVo);
 
     }
   };
