@@ -17,7 +17,7 @@ const state = {
   type:'',        // 数据回显类型
   needSign:'',    //平台方是否签署
   tabIndex:'',     //当前活动tab
-  showFilingNo:'',     //当前默认folder编号
+  showFilingNo:null,     //当前默认folder编号
   isBtnActive:true
 }
 const actions = {
@@ -62,7 +62,6 @@ const mutations = {
   },
   isBtnActive(state,res){
     state.isBtnActive=res.isBtnActive
-
   },
 
   headclick (state) {

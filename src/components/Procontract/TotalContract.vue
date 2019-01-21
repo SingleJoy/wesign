@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
@@ -94,7 +95,7 @@
             label="操作"
           >
             <template slot-scope="scope">
-              <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button> -->
+               <!--<el-button @click="signClick(scope.row)" type="primary" size="mini" v-if='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>-->
               <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
               <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
             </template>

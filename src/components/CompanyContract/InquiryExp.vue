@@ -1,7 +1,7 @@
 <template>
   <div class="InquiryExpired">
     <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1 && accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
         <el-option
           v-for="item in options"
