@@ -10,6 +10,7 @@ export function b2bContrants(param,interfaceCode){
         params: param
     })
 }
+
 /* b2c合同 */
 export function b2cContrants(param,interfaceCode){
     return request({

@@ -128,7 +128,7 @@
             <!--渲染签章列表逻辑-->
             <!--只有一级账号才会全部渲染，二级账号只显示默认签章-->
             <!--accountLevel  1为一级账号  2为二级账号  item.defultCode 0为默认签章 1为非默认签章->
-            <!--item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
+               item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
             <!--chooseDefaultSeal  -->
             <div class="sign-picture" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))"  v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
               <!--合同章-->

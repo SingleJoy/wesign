@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50 >
+    <div class="contractTitle" style="text-align: left;">
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50 >
       <el-select v-model="value"  clearable v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择角色" >
 
         <el-option
@@ -128,12 +128,12 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex';
   import cookie from '@/common/js/getTenant';
   import moment  from 'moment';
   import server from "@/api/url";
   import {b2cContrants,remind} from '@/api/list';
-  import {downloadContracts} from "@/api/common"
+  import {downloadContracts} from "@/api/common";
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name:'totalContranct',
     data() {
@@ -177,7 +177,7 @@
         accountLevel:sessionStorage.getItem('accountLevel'),
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
 
       }
     },
@@ -224,8 +224,18 @@
         }
       },
       getData (requestVo) {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
+        if(!requestVo){
+
+           requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'0',
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+             'filingNo':this.$store.state.showFilingNo,
+          };
+        }
 
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
@@ -293,22 +303,30 @@
               'pageNo':val,
               'pageSize':'10',
               'contractStatus':'0',
-              'accountCode':this.queryAccountCode
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
 
             this.getData (requestVo)
           }else{
-            console.log(this)
-            var requestVo ={
+
+            let requestVo ={
               'pageNo':val,
               'pageSize':'10',
               'contractStatus':'0',
-              'accountCode':this.queryAccountCode
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
             this.getData (requestVo)
           }
         } else {
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+          let requestVo ={
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'0',
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData (requestVo)
         }
       },
@@ -329,7 +347,7 @@
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={
+        let requestVo ={
           // "accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),
           "accountCode":this.queryAccountCode,
           "contractName":this.inputVal,
@@ -338,7 +356,8 @@
           'perpetualValid':perpetualValid,
           'pageNo':'1',
           'pageSize':'10',
-          'contractStatus':'0'
+          'contractStatus':'0',
+          'filingNo':this.$store.state.showFilingNo,
         };
         this.getData (requestVo)
         this.currentPage = 1
@@ -425,13 +444,7 @@
       }
     },
     created() {
-      var requestVo ={
-        'pageNo':'1',
-        'pageSize':'10',
-        'contractStatus':'0',
-        'accountCode':this.accountLevel==2?this.accountCode:''
-      };
-      this.getData (requestVo)
+      console.log(this.$store.state.showFilingNo)
 
     }
   }
@@ -440,7 +453,7 @@
 <style lang='scss' scoped>
   @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../common/styles/BatchDownLoad.scss";
-  </style>
+
   .totalImg{
     width: 153px;
     margin: 300px auto;

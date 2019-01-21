@@ -1,176 +1,26 @@
-.Mycontracts{
+.Mycontracts {
   position: relative;
-  .main{
-    .folder-content{
-      position: relative;
-      margin-top: 20px;
-      background: #fff;
-      padding: 20px;
-      height: 80px;
-      div{
-        display: inline-block;
+  .main {
+    position: relative;
+    width: 1200px;
+    margin: 20px auto;
+    .contract-type {
+      .el-tabs__header {
+        background: #fff;
+        margin: 0 auto;
       }
-      .left-arrow{
-        width:35px;
-        height: 86px;
-        cursor: pointer;
-        p{
-          width: 16px;
-          height: 60px;
-          background: url("/static/images/Folder/left-arrow.png") center center no-repeat;
-        }
-        p:hover{
-          transform:rotate(0) scale(1.5);
-          -webkit-transform:rotate(0) scale(1.5);
-          -moz-transform:rotate(0) scale(1.5);
-          -o-transform:rotate(0) scale(1.5);
-          /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-          -ms-transform:rotate(0) scale(1.5);
-          -webkit-transition: all .20s ease-in .1s;
-          transition: all .20s ease-in .1s;
-        }
+      .el-tabs__nav-scroll {
+        line-height: 58px;
+        padding: 0 25px;
       }
-      .right-arrow{
-        width:35px;
-        height: 86px;
-        cursor: pointer;
-        text-align: center;
-        p{
-          width: 16px;
-          height: 60px;
-          background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
-        }
-        p:hover{
-          transform:rotate(0) scale(1.5);
-          -webkit-transform:rotate(0) scale(1.5);
-          -moz-transform:rotate(0) scale(1.5);
-          -o-transform:rotate(0) scale(1.5);
-          /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-          -ms-transform:rotate(0) scale(1.5);
-          -webkit-transition: all .15s ease-in .1s;
-          transition: all .15s ease-in .1s;
-        }
+      .el-tabs__item {
+        height: 58px;
+        line-height: 58px;
       }
-      .folder-list{
-        position: relative;
-        margin: 0 15px 0 15px;
-        box-sizing: border-box;
-        .list-item{
-          overflow: hidden;
-          height: 86px;
-          ul{
-            li{
-              position: relative;
-              width: 94px;
-              display: inline-block;
-              height:60px;
-              float: left;
-              text-align: center;
-              cursor: pointer;
-              padding-top: 5px;
-              p{
-                display: inline-block;
-                vertical-align: middle;
-              }
-              .folder-img{
-                width:40px;
-                height: 40px;
-                padding-top: 5px;
-                background: url("/static/images/Folder/folder-normal.png") center no-repeat;
-              }
-              .folder-num{
-                width:54px;
-                height: 20px;
-                background: url("/static/images/Folder/folder-number.png") center no-repeat;
-                position: absolute;
-                left:60px;
-                top:-4px;
-                transform:rotate(0) scale(0.8);
-                -webkit-transform:rotate(0) scale(0.8);
-                -moz-transform:rotate(0) scale(0.8);
-                -o-transform:rotate(0) scale(0.8);
-                color: #fff;
-                line-height: 20px;
-                font-size:12px;
-              }
-              .folder-setting{
-                position: absolute;
-                left:56px;
-                top:32px;
-                .el-dropdown-link{
-                  b.setting-img{
-                    display: block;
-                    position: absolute;
-                    width:15px;
-                    height: 15px;
-                    background: url("/static/images/Folder/setting.png") no-repeat;
-                  }
-                }
-              }
-              .folder-name{
-                display: block;
-                font-size:12px;
-                color: #333;
-                padding-top: 20px;
-                overflow: hidden;
-                text-overflow:ellipsis;
-                white-space: nowrap;
-              }
-
-              .folder-img:hover{
-                transform:rotate(0) scale(1.5);
-                -webkit-transform:rotate(0) scale(1.5);
-                -moz-transform:rotate(0) scale(1.5);
-                -o-transform:rotate(0) scale(1.5);
-                /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-                -ms-transform:rotate(0) scale(1.5);
-                -webkit-transition: all .15s ease-in .1s;
-                transition: all .15s ease-in .1s;
-
-              }
-            }
-            li.add-folder{
-              background: url("/static/images/Folder/add-folder.png") center no-repeat;
-            }
-            li.add-folder:hover{
-              transform:rotate(0) scale(1.5);
-              -webkit-transform:rotate(0) scale(1.5);
-              -moz-transform:rotate(0) scale(1.5);
-              -o-transform:rotate(0) scale(1.5);
-              /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-              -ms-transform:rotate(0) scale(1.5);
-              -webkit-transition: all .15s ease-in .1s;
-              transition: all .15s ease-in .1s;
-            }
-            li.active{
-              .folder-img{
-                background: url("/static/images/Folder/folder-open.png") no-repeat;
-              }
-            }
-
-          }
-        }
-
+      .el-tabs__item.is-active {
+        color: #4091fb;
+        border-bottom: 2px solid #4091fb;
       }
     }
-  }
-  .contract-type{
-    .el-tabs__header {
-      background: #fff;
-      margin: 0 auto;
-    }
-    .el-tabs__nav-scroll{
-      line-height: 58px;
-      padding:0 25px;
-    }
-    .el-tabs__item{
-      height:58px;
-      line-height: 58px;
-    }
-    .el-tabs__item.is-active {
-      color: #4091fb;
-      border-bottom: 2px solid #4091fb;
-    }
-
   }
 }

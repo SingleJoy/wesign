@@ -1,7 +1,7 @@
 <template>
   <div class="InquiryExpired">
     <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal4" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
@@ -117,11 +117,12 @@
 </template>
 
 <script>
-  import cookie from '@/common/js/getTenant'
-  import moment  from 'moment'
-  import {Trim} from '@/common/js/validate'
+  import cookie from '@/common/js/getTenant';
+  import moment  from 'moment';
+  import {Trim} from '@/common/js/validate';
   import server from "@/api/url";
-  import {b2cContrants,remind} from '@/api/list'
+  import {b2cContrants,remind} from '@/api/list';
+  import {state, actions,mutations} from '@/store/index';
   export default {
     name:'InquiryExpired',
     data() {
@@ -166,7 +167,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods: {
@@ -207,9 +208,17 @@
         }
       },
       getData (requestVo) {
-        var data =[];
-        var isCreater='';
-
+        let data =[];
+        let isCreater='';
+        if(!requestVo){
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'4',
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+            'filingNo':this.$store.state.showFilingNo,
+          };
+        }
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == this.interfaceCode) {
@@ -217,7 +226,7 @@
             } else {
               isCreater = false;
             }
-            var obj = {}
+            let obj = {}
             obj.contractName = res.data.content[i].contractName;
             obj.contractNum = res.data.content[i].contractNum;
             obj.createTime = res.data.content[i].createTime;
@@ -257,19 +266,40 @@
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         if ( this.inputVal4 !== ''  || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' ) {
           if(this.inquiry == true){
-            var start = this.filters.column.create_start_date
-            var end =   this.filters.column.create_end_date
+            let start = this.filters.column.create_start_date
+            let end =   this.filters.column.create_end_date
             if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
             if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-            // var inputVal4
-            var requestVo ={"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
+
+            let requestVo ={
+              "contractName":this.inputVal4,
+              "queryTimeStart":start,
+              "queryTimeEnd":end,
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'4',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData (requestVo)
           }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
+            let requestVo ={
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'4',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData (requestVo)
           }
         } else {
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'4','accountCode':this.queryAccountCode};
+          let requestVo ={
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'4',
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData (requestVo)
         }
       },
@@ -280,12 +310,20 @@
         this.queryAccountCode=value
       },
       contractInquiryExpired () {
-        var start = this.filters.column.create_start_date
-        var end =   this.filters.column.create_end_date
+        let start = this.filters.column.create_start_date
+        let end =   this.filters.column.create_end_date
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal4,"queryTimeStart":start,"queryTimeEnd":end,'pageNo':'1','pageSize':'10','contractStatus':'4'};
+        let requestVo ={
+          "accountCode":this.queryAccountCode,
+          "contractName":this.inputVal4,
+          "queryTimeStart":start,
+          "queryTimeEnd":end,'pageNo':'1',
+          'pageSize':'10',
+          'contractStatus':'4',
+          'filingNo':this.$store.state.showFilingNo,
+        };
         this.getData (requestVo)
         this.currentPage4 =1
         this.inquiry = true
@@ -309,8 +347,8 @@
           'remindType':0
         }
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
-          var resultCode = res.data.resultCode
-          var resultMessage = res.data.resultMessage
+          let resultCode = res.data.resultCode
+          let resultMessage = res.data.resultMessage
           if ( resultCode === '0') {
             this.$message({
               showClose: true,
@@ -329,8 +367,8 @@
         })
       },
       downloadClick (row) { //下载
-        var url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
-        var up = document.createElement('a');
+        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
+        let up = document.createElement('a');
         document.body.appendChild(up)
         up.setAttribute('href',url);
         up.click()
@@ -342,12 +380,12 @@
         this.$router.push('/ContractDelay')
       },
       // getStartTime(){ //日期
-      //   var d = this.value8;
+      //   let d = this.value8;
       //   this.formStartTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'00:00:00';
       // },
       // /*得到搜索条件的结束时间*/
       // getEndTime(){
-      //   var d = this.value9;
+      //   let d = this.value9;
       //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
       // }
       getAccount(){
@@ -366,8 +404,7 @@
       }
     },
     created() {
-      var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'4','accountCode':this.accountLevel==2?this.accountCode:''};
-      this.getData (requestVo);
+
     }
   }
 </script>

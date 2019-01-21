@@ -1,7 +1,7 @@
 <template>
   <div class='InquiryWaitMe'>
     <div class='contractTitle' style="text-align: left;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal1" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人" v-model="inputVal1" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
@@ -132,6 +132,8 @@
   import moment  from 'moment'
   import server from "@/api/url";
   import {b2cContrants,remind} from '@/api/list'
+  import {state, actions,mutations} from '@/store/index';
+
   export default {
     name:'InquiryWaitMe',
     data() {
@@ -177,7 +179,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods: {
@@ -219,10 +221,20 @@
         }
       },
       getData (requestVo) {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-        let url = process.env.API_HOST+'v1/tenant/'+ this.interfaceCode + '/contracts';
+
+        if(!requestVo){
+           requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'1',
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+             'filingNo':this.$store.state.showFilingNo,
+          };
+        }
+
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
             if (res.data.content[i].creater == currentFaceCode) {
@@ -289,15 +301,28 @@
               'pageNo':val,
               'pageSize':'10',
               'contractStatus':'1',
-              'accountCode':this.queryAccountCode
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
             this.getData (requestVo)
           }else{
-            var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.queryAccountCode};
+            var requestVo ={
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'1',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData (requestVo)
           }
         } else {
-          var requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'1','accountCode':this.queryAccountCode};
+          var requestVo ={
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'1',
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData (requestVo)
         }
       },
@@ -318,7 +343,17 @@
         var end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={"accountCode":this.queryAccountCode,"contractName":this.inputVal1,"queryTimeStart":start,"queryTimeEnd":end,'perpetualValid':perpetualValid,'pageNo':'1','pageSize':'10','contractStatus':'1'};
+        var requestVo ={
+          "accountCode":this.queryAccountCode,
+          "contractName":this.inputVal1,
+          "queryTimeStart":start,
+          "queryTimeEnd":end,
+          'perpetualValid':perpetualValid,
+          'pageNo':'1',
+          'pageSize':'10',
+          'contractStatus':'1',
+          'filingNo':this.$store.state.showFilingNo,
+        };
         this.getData (requestVo)
         this.currentPage1 = 1;
         this.$message({
@@ -399,8 +434,7 @@
       }
     },
     created() {
-      var requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'1','accountCode':this.accountLevel==2?this.accountCode:''};
-      this.getData (requestVo);
+
     }
   }
 </script>
