@@ -128,19 +128,16 @@
       </div>
     </div>
 
-
-
     <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
-
       <template>
-        <el-radio-group v-model="$store.state.showFilingNo"  >
+        <el-radio-group v-model="showFilingNo"  >
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
             {{item.filingName}}
           </el-radio>
         </el-radio-group>
         <div class="operate">
-          <el-button type="primary"  @click="folderSure" style='margin-left:10px;letter-spacing:5px;'>确定</el-button>
-          <el-button type="primary"  @click="quit" style='margin-left:10px;letter-spacing:5px;'>取消</el-button>
+          <el-button type="primary" class="folder-sure" @click="folderSure" >确定</el-button>
+          <el-button type="primary" class="folder-quit" @click="quit" >取消</el-button>
         </div>
       </template>
 
@@ -206,7 +203,6 @@
         showFilingNo:this.$store.state.showFilingNo,
         dialogChooseFolder:false,
         folderList:[],
-        singleFolderListNo:'',
         batchFolderListNo:'',
         defaultContractNum:'',
       }
@@ -480,7 +476,9 @@
           contractFilings(this.interfaceCode,this.accountCode).then(res=>{
             if(res.data.resultCode=='1'){
               this.folderList=res.data.data;
+              this.showFilingNo=this.$store.state.showFilingNo;
               this.dialogChooseFolder=true;
+
             }
           }).catch(error=>{
 
@@ -497,13 +495,14 @@
           if(res.data.resultCode=='1'){
             this.dialogChooseFolder=false;
             this.getData();
+            this.$emit('setFolder');
             this.$message({
               type: 'success',
               message: res.data.resultMessage
             });
           }else{
             this.dialogChooseFolder=false;
-            this.singleFolderListNo=null;
+            this.showFilingNo=null;
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -541,7 +540,7 @@
 
       },
       folderSure(){
-        let fillingNo=this.singleFolderListNo;
+        let fillingNo=this.showFilingNo;
          this.contractFiling(fillingNo);
       },
 
@@ -557,8 +556,9 @@
 </script>
 
 <style lang='scss' scoped>
-  @import '../../styles/Multiparty/Multiparties.scss';
+  /*@import '../../styles/Multiparty/Multiparties.scss';*/
   @import "../../common/styles/BatchDownLoad.scss";
+  @import "../../common/styles/dialog.scss";
   .contract-type{
     background: #fff;
   }

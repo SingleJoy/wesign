@@ -131,7 +131,7 @@
     <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder" >
 
       <template>
-        <el-radio-group v-model="$store.state.showFilingNo"  >
+        <el-radio-group v-model="showFilingNo"  >
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
             {{item.filingName}}
           </el-radio>
@@ -202,7 +202,6 @@
         showFilingNo:this.$store.state.showFilingNo,
         dialogChooseFolder:false,
         folderList:[],
-        singleFolderListNo:'',
         batchFolderListNo:'',
         defaultContractNum:'',
       }
@@ -487,6 +486,7 @@
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
+            this.showFilingNo=this.$store.state.showFilingNo;
             this.dialogChooseFolder=true;
           }
         }).catch(error=>{
@@ -504,13 +504,14 @@
           if(res.data.resultCode=='1'){
             this.dialogChooseFolder=false;
             this.getData();
+            this.$emit('setFolder');
             this.$message({
               type: 'success',
               message: res.data.resultMessage
             });
           }else{
             this.dialogChooseFolder=false;
-            this.singleFolderListNo=null;
+            this.showFilingNo=null;
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -548,7 +549,7 @@
 
       },
       folderSure(){
-        let fillingNo=this.singleFolderListNo;
+        let fillingNo=this.showFilingNo;
         this.contractFiling(fillingNo);
       },
 
@@ -567,7 +568,7 @@
   @import "../../common/styles/BatchDownLoad.scss";
 </style>
 <style>
-  @import "../../common/styles/dialog.css";
+  @import "../../common/styles/dialog.scss";
   .totalImg{
     width: 153px;
     margin: 300px auto;

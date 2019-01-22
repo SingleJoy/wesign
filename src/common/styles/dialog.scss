@@ -1,0 +1,32 @@
+.dialogChooseFolder{
+  width: 600px!important;
+  min-height: 400px!important;
+  overflow-y: auto;
+  .folderListCheck{
+    display: inline-block!important;
+    float: left;
+    width: 50%;
+    height: 40px!important;
+    margin: 0!important;
+  }
+  .operate{
+    text-align: center;
+    .folder-sure{
+      margin-left:10px;
+      letter-spacing:5px;
+      width: 200px;
+      background-color: #409eff;
+      color: #fff;
+      margin-right: 40px;
+    }
+    .folder-quit{
+      margin-left:10px;
+      letter-spacing:5px;
+      width: 200px;
+      background-color: #fff;
+      color: #333;
+    }
+  }
+
+}
+

@@ -5,7 +5,7 @@
       <div class="folder-list">
         <div class="list-item" style="width: 80px;float: left;">
           <ul >
-            <li style="width: 80px;" :class="{'active':(!$store.state.showFilingNo)}">
+            <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
               <p class="folder-img" @click="searchFolderData(null)"></p>
               <p class="folder-name" >默认文件夹</p>
             </li>
@@ -16,8 +16,8 @@
             <div class="for-folder-list" :style="{'transform':'translateX('+nowIndex*980+'px)'}" v-if="folderListShow1">
               <ul >
                 <li v-for="(item ,index) in folderListShow1" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
-                  <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
-                  <p class="folder-num" >{{item.contractNum}}</p>
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
+                  <!--<p class="folder-num" >{{item.contractNum}}</p>-->
                   <p class="folder-setting"  >
                     <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
                   <span class="el-dropdown-link">
@@ -131,14 +131,15 @@
       </div>
       <div class="right-arrow" @click="slideRight"><p></p></div>
     </div>
-     <div class="common-top" v-if="auditSteps==3" >
+
+  </div>
+    <div class="common-top" v-if="auditSteps==3" >
       <div class="common-top-tab">
         <div @click="EnterPer(showFilingNo)" :class="{'btn-active':isBtnActive,'btn-default':!isBtnActive}">企业对个人</div>
         <div style="margin-left: -5px;" @click="EnterEnter(showFilingNo)" :class="{'btn-active':!isBtnActive,'btn-default':isBtnActive}">企业对企业</div>
       </div>
 
     </div>
-  </div>
   </div>
 </template>
 
@@ -391,19 +392,10 @@
        }else{
          this.nowIndex++;
        }
-        // if(index<=19&&index<allIndex){
-        //   this.folderListShow=this.folderListShow1;
-        // }
-        // if(index<=29&&index<allIndex){
-        //   this.folderListShow=this.folderListShow2;
-        // }
-        // if(index<=39&&index<allIndex){
-        //   this.folderListShow=this.folderListShow3;
-        // }
+
       },
       slideRight(){
-        // console.log(this.folderListShow)
-        // console.log(this.folderListShow[0].index)
+
         let length=parseInt(this.folderList.length/10);
         console.log(length)
         console.log(this.nowIndex)
@@ -412,22 +404,6 @@
         }else{
           return false
         }
-        // console.log(length)
-        // let index=this.folderListShow[length].index;
-        // let allIndex=this.folderListShow[0].allIndex;
-        // if(index<=9&&index<allIndex){
-        //   this.folderListShow=this.folderListShow2;
-        // }
-        // if(index<=19&&index<allIndex){
-        //   this.folderListShow=this.folderListShow3;
-        // }
-        // if(index<=29&&index<allIndex){
-        //   this.folderListShow=this.folderListShow4;
-        // }
-        // if(index<=39&&index<allIndex){
-        //   this.folderListShow=this.folderListShow5;
-        // }
-
 
       },
     },

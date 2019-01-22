@@ -1,50 +1,18 @@
-.Multiparties{
+.Multiparties,.Mycontracts{
   margin-top: 20px;
+  .main{
+    width: 1200px;
+    margin: 0 auto;
+    .contract-type{
+      background-color: #fff;
+    }
+  }
 }
 .el-table td, .el-table th{
   text-align: center;
 }
-.main{
- width: 1200px;
-  margin: 0 auto;
-  background: #fff;
 
-}
-.main .contract-type{
-  background-color: #fff;
-}
-.main h2{
-  font-weight: normal;
-  font-size: 18px;
-}
-.main h2{
-  font-size: 14px;
-}
-.main h6{
-  color: #eb5a5d;
-  line-height: 50px;
-}
-.main h2 input{
-  display:inline-block;
-  width: 238px;
-  height: 40px;
-  border: 1px solid #ccc;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.main h2 b{
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #ccc;
-  vertical-align: bottom;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-}
-.main h2 span{
-  display: inline-block;
-}
+
 .tab{
   margin-top: 20px;
 }
@@ -53,7 +21,6 @@
 }
 .el-table th{
   font-size: large;
-  //   background: red;
 }
 .pagetion{
   padding-top: 70px;

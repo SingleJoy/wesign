@@ -1,23 +1,23 @@
 <template>
 	<div class="CompanyContracts">
 		<div class="main">
-      <Folder @FolderSearchData="FolderSearchData"></Folder>
+      <Folder @FolderSearchData="FolderSearchData" ref="folder"></Folder>
 		<div class='contract-type'>
 			<el-tabs v-model="activeName" tab-position="40px" @tab-click="handleClick">
 			<el-tab-pane label="全部文件" name="first">
-				<total-cont ref="first"></total-cont>
+				<total-cont ref="first" @setFolder="setFolder"></total-cont>
 			</el-tab-pane>
 			<el-tab-pane label="待我签署" name="second">
-				<inquiry-wa-me ref="second"></inquiry-wa-me>
+				<inquiry-wa-me ref="second" @setFolder="setFolder"></inquiry-wa-me>
 			</el-tab-pane>
 			<el-tab-pane label="待他人签署" name="third">
-				<inquiry-wa-other ref="third"></inquiry-wa-other>
+				<inquiry-wa-other ref="third" @setFolder="setFolder"></inquiry-wa-other>
 			</el-tab-pane>
 			<el-tab-pane label="已生效" name="fourth">
-				<inquiry-into ref="fourth"></inquiry-into>
+				<inquiry-into ref="fourth" @setFolder="setFolder"></inquiry-into>
 			</el-tab-pane>
 			<el-tab-pane label="已截止" name="five">
-				<inquiry-exp ref="five"></inquiry-exp>
+				<inquiry-exp ref="five" @setFolder="setFolder"></inquiry-exp>
 			</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -62,6 +62,9 @@
       FolderSearchData(){
         let name=this.activeName;
         this.getChildData(name)
+      },
+      setFolder(){
+        this.$refs.folder.contractFilings();
       }
     },
     mounted(){
@@ -97,6 +100,10 @@
     white-space: nowrap;
   }
   .CompanyContracts {
+    .main{
+      width: 1200px;
+      margin: 0 auto;
+    }
   .contract-type{
   .el-tabs__header{
     background: #fff;
