@@ -1,7 +1,7 @@
 <template>
   <div class="InquiryIntoForce" >
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal3" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal3" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
@@ -124,6 +124,10 @@
   import moment from "moment";
   import server from "@/api/url";
   import {b2bContrants} from "@/api/detail";
+  import {state, actions,mutations} from '@/store/index';
+  import {addContractFiling, contractFiling, contractFilings,
+    deleteContractFiling, updateContractFiling}
+    from '@/api/folder'
   export default {
     name: "InquiryWaitMe",
     data() {
@@ -169,7 +173,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
       };
     },
     methods: {
@@ -205,6 +209,15 @@
       getData(requestVo) {
         let data = [];
         let isCreater = '';
+        if(!requestVo){
+
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'3',
+            'filingNo':this.$store.state.showFilingNo,
+          };
+        }
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length; i++) {
             let obj = {};
@@ -280,22 +293,35 @@
                 .slice(0, 10);
             }
             let requestVo = {
-              contractName: this.inputVal3,
-              queryTimeStart: start,
-              queryTimeEnd: end,
-              perpetualValid: perpetualValid,
-              pageNo: val,
-              pageSize: "10",
-              contractStatus: "3",
-              accountCode:this.queryAccountCode
+              'contractName': this.inputVal3,
+              'queryTimeStart': start,
+              'queryTimeEnd': end,
+              'perpetualValid': perpetualValid,
+              'pageNo': val,
+              'pageSize': "10",
+             'contractStatus': "3",
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
             this.getData(requestVo);
           } else {
-            let requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
+            let requestVo = {
+              'pageNo': val,
+              'pageSize': "10",
+              'contractStatus': "3" ,
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData(requestVo);
           }
         } else {
-          let requestVo = { pageNo: val, pageSize: "10", contractStatus: "3" ,accountCode:this.queryAccountCode};
+          let requestVo = {
+            'pageNo': val,
+            'pageSize': "10",
+            'contractStatus': "3" ,
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData(requestVo);
         }
       },
@@ -328,14 +354,15 @@
             .slice(0, 10);
         }
         let requestVo = {
-          contractName: this.inputVal3,
-          queryTimeStart: start,
-          queryTimeEnd: end,
-          perpetualValid: perpetualValid,
-          pageNo: "1",
-          pageSize: "10",
-          contractStatus: "3",
-          accountCode:this.queryAccountCode
+          'contractName': this.inputVal3,
+         'queryTimeStart': start,
+          'queryTimeEnd': end,
+          'perpetualValid': perpetualValid,
+          'pageNo': "1",
+          'pageSize': "10",
+          'contractStatus': "3",
+          'accountCode':this.queryAccountCode,
+          'filingNo':this.$store.state.showFilingNo,
         };
         this.getData(requestVo);
         this.$message({
@@ -389,8 +416,8 @@
       // }
     },
     created() {
-      let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3"};
-      this.getData(requestVo);
+      // let requestVo = { pageNo: "1", pageSize: "10", contractStatus: "3"};
+      // this.getData(requestVo);
     }
   };
 </script>

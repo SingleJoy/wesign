@@ -73,13 +73,11 @@
 </script>
 <style lang="scss" scope>
   @import '../../styles/Multiparty/Multiparties.scss';
-
   .el-button--primary:focus{
     background: #eee;
     border-color: #95989d;
     color: #333;
   }
-
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -127,3 +125,4 @@
     padding-bottom: 18px;
   }
 </style>
+

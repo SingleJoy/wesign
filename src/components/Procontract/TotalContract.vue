@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness ==1&& accountLevel!=2" @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
@@ -123,11 +123,15 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
+
   import cookie from '@/common/js/getTenant'
   import moment  from 'moment'
-  import server from "@/api/url";
+
   import {b2bContrants} from "@/api/detail";
+  import {state, actions,mutations} from '@/store/index';
+  import {addContractFiling, contractFiling, contractFilings,
+    deleteContractFiling, updateContractFiling}
+    from '@/api/folder'
   export default {
     data() {
       return {
@@ -173,7 +177,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
       }
     },
     methods: {
@@ -215,7 +219,15 @@
       getData (requestVo) {
         let data =[];
         let isCreater = '';
+        if(!requestVo){
 
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'0',
+            'filingNo':this.$store.state.showFilingNo,
+          };
+        }
         b2bContrants(requestVo,this.interfaceCode).then(res=> {
 
           for (let i = 0; i < res.data.content.length;i++) {
@@ -284,15 +296,28 @@
               'pageNo':val,
               'pageSize':'10',
               'contractStatus':'0',
-              'accountCode':this.queryAccountCode
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
             this.getData (requestVo)
           }else{
-            let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+            let requestVo ={
+              'pageNo':val,
+              'pageSize':'10',
+              'contractStatus':'0',
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData (requestVo)
           }
         } else {
-          let requestVo ={'pageNo':val,'pageSize':'10','contractStatus':'0','accountCode':this.queryAccountCode};
+          let requestVo ={
+            'pageNo':val,
+            'pageSize':'10',
+            'contractStatus':'0',
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData (requestVo)
         }
       },
@@ -321,7 +346,8 @@
           'perpetualValid':perpetualValid,
           'pageNo':'1',
           'pageSize':'10',
-          'contractStatus':'0'
+          'contractStatus':'0',
+          'filingNo':this.$store.state.showFilingNo,
         };
         this.getData (requestVo)
         this.currentPage = 1
@@ -367,8 +393,7 @@
     },
     created() {
       this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      let requestVo ={'pageNo':'1','pageSize':'10','contractStatus':'0'};
-      this.getData (requestVo);
+
     }
   }
 </script>

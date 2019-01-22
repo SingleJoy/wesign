@@ -101,7 +101,8 @@
               </el-tooltip>
               <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
               <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator'>延&nbsp;&nbsp;期</el-button>
-              <el-button @click="rowlookClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
+              <el-button @click="rowlookClick(scope.row)" type="text" size="mini">详&nbsp;&nbsp;情</el-button>
+              <el-button  type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -109,6 +110,10 @@
         <div class="batch-download-btn-area" v-if="num">
           <button  @click="batchDownload"  class="batch-download-btn">
             <span>批量下载</span>
+          </button>
+
+          <button  @click="batchFolder"  class="batch-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
+            <span>批量归档</span>
           </button>
         </div>
       </div>
@@ -123,7 +128,21 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder" >
 
+      <template>
+        <el-radio-group v-model="$store.state.showFilingNo"  >
+          <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
+            {{item.filingName}}
+          </el-radio>
+        </el-radio-group>
+        <div class="operate">
+          <el-button type="primary"  @click="folderSure" style='margin-left:10px;letter-spacing:5px;'>确定</el-button>
+          <el-button type="primary"  @click="quit" style='margin-left:10px;letter-spacing:5px;'>取消</el-button>
+        </div>
+      </template>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -133,6 +152,9 @@
   import moment  from 'moment'
   import server from "@/api/url"
   import {b2bContrants,remind} from '@/api/list'
+  import {addContractFiling, contractFiling, contractFilings,
+    deleteContractFiling, updateContractFiling}
+    from '@/api/folder'
   export default {
     data() {
       return {
@@ -178,6 +200,11 @@
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
         showFilingNo:this.$store.state.showFilingNo,
+        dialogChooseFolder:false,
+        folderList:[],
+        singleFolderListNo:'',
+        batchFolderListNo:'',
+        defaultContractNum:'',
       }
     },
     methods: {
@@ -438,15 +465,7 @@
           this.$router.push('/ContractDelay')
         }
       },
-      // getStartTime(){ //日期
-      //   var d = this.value8;
-      //   this.formStartTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'00:00:00';
-      // },
-      // /*得到搜索条件的结束时间*/
-      // getEndTime(){
-      //   var d = this.value9;
-      //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
-      // }
+
       getAccount(){
         if(!this.hasQuery){
           let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
@@ -460,6 +479,81 @@
             }
           })
         }
+      },
+
+      folderClick(row){
+
+        this.defaultContractNum=row.contractNum;
+        contractFilings(this.interfaceCode,this.accountCode).then(res=>{
+          if(res.data.resultCode=='1'){
+            this.folderList=res.data.data;
+            this.dialogChooseFolder=true;
+          }
+        }).catch(error=>{
+
+        })
+      },
+      contractFiling(filingNo){
+        let params={
+          oldFilingNo:this.$store.state.showFilingNo,
+          newFilingNo:filingNo,
+          contractNo:this.defaultContractNum
+        };
+        contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
+
+          if(res.data.resultCode=='1'){
+            this.dialogChooseFolder=false;
+            this.getData();
+            this.$message({
+              type: 'success',
+              message: res.data.resultMessage
+            });
+          }else{
+            this.dialogChooseFolder=false;
+            this.singleFolderListNo=null;
+            this.$message({
+              type: 'error',
+              message: res.data.resultMessage
+            });
+          }
+        }).catch(error=>{
+
+        })
+      },
+      batchFolder(){
+        let length = this.multipleSelection.length;
+        let str = '';
+        this.downloadList = this.downloadList.concat(this.multipleSelection);
+        if(length < 1){
+          this.$message({
+            showClose: true,
+            message: '请先勾选想要归档合同文件',
+            type: "error"
+          });
+          return false
+        }else {
+          for (let i = 0; i < length; i++) {
+            str += this.multipleSelection[i].contractNum + ',';
+          }
+          this.defaultContractNum=str;
+        }
+        contractFilings(this.interfaceCode,this.accountCode).then(res=>{
+          if(res.data.resultCode=='1'){
+            this.folderList=res.data.data;
+            this.dialogChooseFolder=true;
+          }
+        }).catch(error=>{
+
+        })
+
+      },
+      folderSure(){
+        let fillingNo=this.singleFolderListNo;
+        this.contractFiling(fillingNo);
+      },
+
+      quit(){
+        this.dialogChooseFolder=false;
       }
     },
     created() {
@@ -473,6 +567,7 @@
   @import "../../common/styles/BatchDownLoad.scss";
 </style>
 <style>
+  @import "../../common/styles/dialog.css";
   .totalImg{
     width: 153px;
     margin: 300px auto;

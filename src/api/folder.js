@@ -43,7 +43,7 @@ export function contractFilings(interfaceCode,accountCode) {
 /* 合同归档-归档合同 */
 export function contractFiling(interfaceCode,accountCode,param) {
   return request({
-    url:'api/tenant/'+interfaceCode+'/contract/'+accountCode+'/contractFiling',
+    url:'api/v1.7/tenant/'+interfaceCode+'/contract/'+accountCode+'/contractFiling',
     method:'post',
     data:param
   })

@@ -1,7 +1,7 @@
 <template>
   <div class="InquiryWaitOthers">
     <div class='contractTitle' style="border:none;text-align:left;padding-left:20px;">
-      <input type="text" id='textInfo' placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
       <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2"  @change="selectParam(value)" placeholder="请选择账号类型">
         <el-option
           v-for="item in options"
@@ -123,8 +123,12 @@
 <script>
   import cookie from "@/common/js/getTenant";
   import moment from "moment";
-  import server from "@/api/url";
+
   import {b2bContrants} from "@/api/detail";
+  import {state, actions,mutations} from '@/store/index';
+  import {addContractFiling, contractFiling, contractFilings,
+    deleteContractFiling, updateContractFiling}
+    from '@/api/folder'
   export default {
     name: "InquiryWaitMe",
     data() {
@@ -170,7 +174,7 @@
         },
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
-
+        showFilingNo:this.$store.state.showFilingNo,
       };
     },
     methods: {
@@ -207,7 +211,15 @@
       getData(requestVo) {
         let data = [];
         let isCreater = '';
+        if(!requestVo){
 
+          requestVo ={
+            'pageNo':'1',
+            'pageSize':'10',
+            'contractStatus':'2',
+            'filingNo':this.$store.state.showFilingNo,
+          };
+        }
 
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
 
@@ -292,15 +304,16 @@
               pageNo: val,
               pageSize: "10",
               contractStatus: "2",
-              accountCode:this.queryAccountCode
+              accountCode:this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
             };
             this.getData(requestVo);
           } else {
-            let requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
+            let requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode, 'filingNo':this.$store.state.showFilingNo,};
             this.getData(requestVo);
           }
         } else {
-          let requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode};
+          let requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode, 'filingNo':this.$store.state.showFilingNo,};
           this.getData(requestVo);
         }
       },
@@ -341,7 +354,8 @@
           pageNo: "1",
           pageSize: "10",
           contractStatus: "2",
-          accountCode:this.queryAccountCode
+          accountCode:this.queryAccountCode,
+          'filingNo':this.$store.state.showFilingNo,
         };
         this.getData(requestVo);
         this.$message({
@@ -395,8 +409,8 @@
       // },
     },
     created() {
-      var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2"};
-      this.getData(requestVo);
+      // var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2"};
+      // this.getData(requestVo);
     }
   };
 </script>

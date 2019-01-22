@@ -3,14 +3,16 @@
   margin-top: 20px;
   background: #fff;
   padding: 20px;
-  height: 80px;
-  div{
-    display: inline-block;
-  }
+  height: 180px;
   .left-arrow{
+    position: absolute;
     width:35px;
-    height: 86px;
+    height: 60px;
     cursor: pointer;
+    left: 10px;
+    top: 10px;
+    z-index: 999;
+    background-color: #fff;
     p{
       width: 16px;
       height: 60px;
@@ -28,10 +30,15 @@
     }
   }
   .right-arrow{
-    width:35px;
-    height: 86px;
+    width:55px;
+    height: 100px;
     cursor: pointer;
     text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 999;
+    background-color: #fff;
     p{
       width: 16px;
       height: 60px;
@@ -53,12 +60,16 @@
     margin: 0;
     box-sizing: border-box;
     .list-item{
+      position: relative;
       overflow: hidden;
       height: 86px;
+      margin: 0 0 0 0;
       ul{
+        display: inline-block;
+
         li{
           position: relative;
-          width: 90px;
+          width: 92px;
           display: inline-block;
           height:60px;
           float: left;
@@ -125,10 +136,41 @@
 
           }
         }
-        li.add-folder{
+
+        li.active{
+          .folder-img{
+            background: url("/static/images/Folder/folder-open.png") no-repeat;
+          }
+        }
+
+      }
+      .for-folder-list{
+        position: absolute;
+        top:0;
+        z-index: 9;
+      }
+      ul.for-folder-list{
+        width: 1000px;
+        overflow: hidden;
+        height: 100%;
+        z-index: 9;
+
+      }
+      .operate-folder{
+        position: absolute;
+        top:-5px;
+        right: 32px;
+        z-index: 999;
+        width: 60px;
+        height: 80px;
+        background-color: #fff;
+        .add-folder{
+          padding-top: 32px;
+          width:33px;
+          height: 33px;
           background: url("/static/images/Folder/add-folder.png") center no-repeat;
         }
-        li.add-folder:hover{
+        .add-folder:hover{
           transform:rotate(0) scale(1.5);
           -webkit-transform:rotate(0) scale(1.5);
           -moz-transform:rotate(0) scale(1.5);
@@ -138,14 +180,8 @@
           -webkit-transition: all .15s ease-in .1s;
           transition: all .15s ease-in .1s;
         }
-        li.active{
-          .folder-img{
-
-            background: url("/static/images/Folder/folder-open.png") no-repeat;
-          }
-        }
-
       }
+
     }
 
   }
