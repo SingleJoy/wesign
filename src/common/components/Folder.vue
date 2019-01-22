@@ -1,41 +1,139 @@
 <template>
   <div class="Folder">
     <div class="folder-content">
-      <div class="left-arrow"><p></p></div>
+      <div class="left-arrow" @click="slideLeft"><p></p></div>
       <div class="folder-list">
-        <div class="list-item">
+        <div class="list-item" style="width: 80px;float: left;">
           <ul >
-            <li style="width: 80px;" :class="{'active':(!showFilingNo)}">
+            <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
               <p class="folder-img" @click="searchFolderData(null)"></p>
               <p class="folder-name" >默认文件夹</p>
             </li>
-            <li v-for="(item ,index) in folderList" :key="index" :class="{'active':(item.filingNo==showFilingNo)}">
-              <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
-              <p class="folder-num" >{{item.parentFilingNo}}</p>
-              <p class="folder-setting"  >
-                <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+          </ul>
+        </div>
+        <div class="list-item" style="width: 980px;">
+
+            <div class="for-folder-list" :style="{'transform':'translateX('+nowIndex*980+'px)'}" v-if="folderListShow1">
+              <ul >
+                <li v-for="(item ,index) in folderListShow1" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
+                  <!--<p class="folder-num" >{{item.contractNum}}</p>-->
+                  <p class="folder-setting"  >
+                    <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
                   <span class="el-dropdown-link">
                       <b class="setting-img"></b>
                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
-                    <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                        <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
 
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </p>
-              <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </p>
+                  <p class="folder-name" :title=item.name>{{item.filingName}}</p>
 
-            </li>
-            <li class="add-folder" @click="addFolder()">
+                </li>
+              </ul>
+            </div>
+            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+1)*980+'px)'}" v-if="folderListShow2">
+              <ul >
+                <li v-for="(item ,index) in folderListShow2" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
+                  <p class="folder-num" >{{item.contractNum}}</p>
+                  <p class="folder-setting"  >
+                    <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+                  <span class="el-dropdown-link">
+                      <b class="setting-img"></b>
+                 </span>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                        <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
 
-            </li>
-          </ul>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </p>
+                  <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+
+                </li>
+              </ul>
+            </div>
+            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+3)*980+'px)'}" v-if="folderListShow3">
+              <ul >
+                <li v-for="(item ,index) in folderListShow3" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
+                  <p class="folder-num" >{{item.contractNum}}</p>
+                  <p class="folder-setting"  >
+                    <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+                  <span class="el-dropdown-link">
+                      <b class="setting-img"></b>
+                 </span>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                        <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
+
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </p>
+                  <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+
+                </li>
+              </ul>
+            </div>
+            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+3)*980+'px)'}" v-if="folderListShow4">
+              <ul >
+                <li v-for="(item ,index) in folderListShow4" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
+                  <p class="folder-num" >{{item.contractNum}}</p>
+                  <p class="folder-setting"  >
+                    <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+                  <span class="el-dropdown-link">
+                      <b class="setting-img"></b>
+                 </span>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                        <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
+
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </p>
+                  <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+
+                </li>
+              </ul>
+            </div>
+            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+4)*980+'px)'}" v-if="folderListShow5">
+              <ul >
+                <li v-for="(item ,index) in folderListShow5" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
+                  <p class="folder-num" >{{item.contractNum}}</p>
+                  <p class="folder-setting"  >
+                    <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+                  <span class="el-dropdown-link">
+                      <b class="setting-img"></b>
+                 </span>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                        <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
+
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </p>
+                  <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+
+                </li>
+              </ul>
+            </div>
         </div>
+        <div class="list-item" style="position: absolute;right: 40px;top:10px;width: 90px;">
+          <div class="operate-folder">
+          <div class="add-folder" @click="addFolder()"></div>
+          </div>
       </div>
-      <div class="right-arrow"><p></p></div>
+      <div class="right-arrow" @click="slideRight"><p></p></div>
     </div>
-    <div class="common-top" v-if="auditStatus==3">
+
+  </div>
+    <div class="common-top" v-if="auditSteps==3" >
       <div class="common-top-tab">
         <div @click="EnterPer(showFilingNo)" :class="{'btn-active':isBtnActive,'btn-default':!isBtnActive}">企业对个人</div>
         <div style="margin-left: -5px;" @click="EnterEnter(showFilingNo)" :class="{'btn-active':!isBtnActive,'btn-default':isBtnActive}">企业对企业</div>
@@ -60,21 +158,28 @@
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
         folderList: [],
+        folderListShow: [],
+        folderListShow1: [],
+        folderListShow2: [],
+        folderListShow3: [],
+        folderListShow4: [],
+        folderListShow5: [],
         showFilingNo:this.$store.state.showFilingNo,
         isBtnActive:this.$store.state.isBtnActive,
-        auditStatus:''
+        auditSteps:'',
+        nowIndex:0
       }
     },
     methods:{
       EnterPer(showFilingNo) {
-        this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+        // this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
         this.$store.dispatch('isBtnActive',{isBtnActive:true});
         sessionStorage.setItem("B2BPanelActiveName",'');
         sessionStorage.setItem("B2CPanelActiveName",'');
         this.$router.push("/Mycontract")
       },
       EnterEnter(showFilingNo) {
-        this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+        // this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
         this.$store.dispatch('isBtnActive',{isBtnActive:false});
         sessionStorage.setItem("B2BPanelActiveName",'');
         sessionStorage.setItem("B2CPanelActiveName",'');
@@ -133,6 +238,12 @@
 
       //新增文件夹接口
       addContractFiling(value){
+        if(this.folderList.length>=50){
+          this.$message({
+            type: 'info',
+            message: '您可新增的文件夹数量已达上限'
+          });
+        }
         let params={
           'filingName':value
         };
@@ -159,7 +270,7 @@
           'filingName':filingName,
         };
         updateContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-          console.log(res);
+
 
           if(res.data.resultCode=='1'){
 
@@ -188,6 +299,51 @@
           let resultCode = res.data.resultCode
           if(resultCode=='1'){
             this.folderList=res.data.data;
+            // console.log(this.folderList)
+            for(let i=0;i<this.folderList.length;i++){
+              this.$set(this.folderList[i], 'index', i);
+              this.$set(this.folderList[i], 'allIndex', this.folderList)
+            }
+            if(res.data.data.length<=10){
+              this.folderListShow=this.folderList;
+              this.folderListShow1=this.folderList;
+              this.folderListShow2=null;
+              this.folderListShow3=null;
+              this.folderListShow4=null;
+              this.folderListShow5=null;
+            }
+            else if(res.data.data.length>=11&&res.data.data.length<=20){
+              this.folderListShow=this.folderList.slice(0,10);
+              this.folderListShow1=this.folderList.slice(0,10);
+              this.folderListShow2=this.folderList.slice(11,this.folderList.length);
+              this.folderListShow3=null;
+              this.folderListShow4=null;
+              this.folderListShow5=null;
+            }
+            else if(res.data.data.length>=21&&res.data.data.length<=30){
+              this.folderListShow=this.folderList.slice(0,10);
+              this.folderListShow1=this.folderList.slice(0,10);
+              this.folderListShow2=this.folderList.slice(11,20);
+              this.folderListShow3=this.folderList.slice(21,this.folderList.length);
+              this.folderListShow4=null;
+              this.folderListShow5=null;
+            }
+            else if(res.data.data.length>=31&&res.data.data.length<=40){
+              this.folderListShow=this.folderList.slice(0,10);
+              this.folderListShow1=this.folderList.slice(0,10);
+              this.folderListShow2=this.folderList.slice(11,20);
+              this.folderListShow3=this.folderList.slice(21,30);
+              this.folderListShow4=this.folderList.slice(31,this.folderList.length);
+              this.folderListShow5=null;
+            }
+            else if(res.data.data.length>=41&&res.data.data.length<=50){
+              this.folderListShow=this.folderList.slice(0,10);
+              this.folderListShow1=this.folderList.slice(0,10);
+              this.folderListShow2=this.folderList.slice(11,20);
+              this.folderListShow3=this.folderList.slice(21,30);
+              this.folderListShow4=this.folderList.slice(31,40);
+              this.folderListShow5=this.folderList.slice(41,this.folderList.length);
+            }
           }else{
 
           }
@@ -227,11 +383,33 @@
 
         this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
         this.$emit('FolderSearchData')
-      }
+      },
+      slideLeft(){
+        // let index=this.folderListShow[this.folderListShow.length].index;
+        // let allIndex=this.folderListShow[0].allIndex;
+       if(this.nowIndex>=0){
+         return false
+       }else{
+         this.nowIndex++;
+       }
+
+      },
+      slideRight(){
+
+        let length=parseInt(this.folderList.length/10);
+        console.log(length)
+        console.log(this.nowIndex)
+        if(this.nowIndex<length){
+          this.nowIndex--
+        }else{
+          return false
+        }
+
+      },
     },
     created(){
-      this.auditStatus = cookie.getJSON('tenant')[1].auditStatus;
-      console.log(this.auditStatus)
+      this.auditSteps = cookie.getJSON('tenant')[1].auditSteps;
+
       this.contractFilings();
     }
 

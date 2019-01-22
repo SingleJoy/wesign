@@ -2,25 +2,24 @@
   <div class="Mycontracts">
     <div class="main">
 
-      <Folder @FolderSearchData="FolderSearchData"></Folder>
-
+      <Folder @FolderSearchData="FolderSearchData" ref="folder"></Folder>
 
       <div class="contract-type">
         <el-tabs v-model="activeName" tab-position="40px" @tab-click="handleClick">
-          <el-tab-pane label="全部文件" name="first">
-            <total-contract ref="first" ></total-contract>
+          <el-tab-pane label="全部文件" name="first" >
+            <total-contract ref="first" @setFolder="setFolder"></total-contract>
           </el-tab-pane>
           <el-tab-pane label="待我签署" name="second">
-            <inquiry-wait-me ref="second"></inquiry-wait-me>
+            <inquiry-wait-me ref="second" @setFolder="setFolder"></inquiry-wait-me>
           </el-tab-pane>
           <el-tab-pane label="待他人签署" name="third">
-            <inquiry-wait-others ref="third"></inquiry-wait-others>
+            <inquiry-wait-others ref="third" @setFolder="setFolder"></inquiry-wait-others>
           </el-tab-pane>
           <el-tab-pane label="已生效" name="fourth">
-            <inquiry-into-force ref="fourth"></inquiry-into-force>
+            <inquiry-into-force ref="fourth" @setFolder="setFolder"></inquiry-into-force>
           </el-tab-pane>
           <el-tab-pane label="已截止" name="five">
-            <inquiry-expired ref="five"></inquiry-expired>
+            <inquiry-expired ref="five" @setFolder="setFolder"></inquiry-expired>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -62,6 +61,11 @@
       FolderSearchData(){
         let name=this.activeName;
         this.getChildData(name)
+      },
+      //检测 数据列表组件归档合同后，Folder组件中查询所有合同文件请求一次
+      setFolder(){
+        this.$refs.folder.contractFilings();
+
       }
     },
     mounted(){
@@ -72,7 +76,7 @@
   }
 </script>
 <style lang='scss'>
-
+  @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../styles/Mycontract/Mycontract.scss";
   .el-button--primary:focus{
     background: #eee;
