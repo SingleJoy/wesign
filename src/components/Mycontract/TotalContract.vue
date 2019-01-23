@@ -468,10 +468,9 @@
           })
         }
       },
+
       // 查询所有归档文件夹接口
-
       folderClick(row){
-
        this.defaultContractNum=row.contractNum;
           contractFilings(this.interfaceCode,this.accountCode).then(res=>{
             if(res.data.resultCode=='1'){
