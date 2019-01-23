@@ -57,7 +57,7 @@
                 </li>
               </ul>
             </div>
-            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+3)*980+'px)'}" v-if="folderListShow3">
+            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+2)*980+'px)'}" v-if="folderListShow3">
               <ul >
                 <li v-for="(item ,index) in folderListShow3" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
                   <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
@@ -167,7 +167,8 @@
         showFilingNo:this.$store.state.showFilingNo,
         isBtnActive:this.$store.state.isBtnActive,
         auditSteps:'',
-        nowIndex:0
+        nowIndex:0,
+        changeIndex:0,
       }
     },
     methods:{
@@ -243,6 +244,7 @@
             type: 'info',
             message: '您可新增的文件夹数量已达上限'
           });
+          return;
         }
         let params={
           'filingName':value
@@ -295,7 +297,6 @@
       contractFilings(){
 
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
-
           let resultCode = res.data.resultCode
           if(resultCode=='1'){
             this.folderList=res.data.data;
@@ -304,7 +305,9 @@
               this.$set(this.folderList[i], 'index', i);
               this.$set(this.folderList[i], 'allIndex', this.folderList)
             }
+            
             if(res.data.data.length<=10){
+                
               this.folderListShow=this.folderList;
               this.folderListShow1=this.folderList;
               this.folderListShow2=null;
@@ -338,6 +341,14 @@
             }
             else if(res.data.data.length>=41&&res.data.data.length<=50){
               this.folderListShow=this.folderList.slice(0,10);
+              this.folderListShow1=this.folderList.slice(0,10);
+              this.folderListShow2=this.folderList.slice(10,20);
+              this.folderListShow3=this.folderList.slice(20,30);
+              this.folderListShow4=this.folderList.slice(30,40);
+              this.folderListShow5=this.folderList.slice(40,this.folderList.length);
+              console.log(111)
+            } else {
+                this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
               this.folderListShow3=this.folderList.slice(20,30);
@@ -391,20 +402,20 @@
          return false
        }else{
          this.nowIndex++;
+         this.changeIndex-=1;
        }
 
       },
       slideRight(){
-
         let length=parseInt(this.folderList.length/10);
-        console.log(length)
-        console.log(this.nowIndex)
-        if(this.nowIndex<length){
+        
+        if((this.changeIndex < (length))){
+            this.changeIndex += 1;
           this.nowIndex--
         }else{
+
           return false
         }
-
       },
     },
     created(){
