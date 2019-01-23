@@ -315,7 +315,7 @@
             else if(res.data.data.length>=11&&res.data.data.length<=20){
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(11,this.folderList.length);
+              this.folderListShow2=this.folderList.slice(10,this.folderList.length);
               this.folderListShow3=null;
               this.folderListShow4=null;
               this.folderListShow5=null;
@@ -323,26 +323,26 @@
             else if(res.data.data.length>=21&&res.data.data.length<=30){
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(11,20);
-              this.folderListShow3=this.folderList.slice(21,this.folderList.length);
+              this.folderListShow2=this.folderList.slice(10,20);
+              this.folderListShow3=this.folderList.slice(20,this.folderList.length);
               this.folderListShow4=null;
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=31&&res.data.data.length<=40){
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(11,20);
-              this.folderListShow3=this.folderList.slice(21,30);
-              this.folderListShow4=this.folderList.slice(31,this.folderList.length);
+              this.folderListShow2=this.folderList.slice(10,20);
+              this.folderListShow3=this.folderList.slice(20,30);
+              this.folderListShow4=this.folderList.slice(30,this.folderList.length);
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=41&&res.data.data.length<=50){
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(11,20);
-              this.folderListShow3=this.folderList.slice(21,30);
-              this.folderListShow4=this.folderList.slice(31,40);
-              this.folderListShow5=this.folderList.slice(41,this.folderList.length);
+              this.folderListShow2=this.folderList.slice(10,20);
+              this.folderListShow3=this.folderList.slice(20,30);
+              this.folderListShow4=this.folderList.slice(30,40);
+              this.folderListShow5=this.folderList.slice(40,this.folderList.length);
             }
           }else{
 
