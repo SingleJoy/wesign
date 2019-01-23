@@ -1,6 +1,5 @@
 'use strict'
 
-const baseURL = require('./global');
 module.exports = {
   NODE_ENV: '"production"',
   API_HOST:'"http://192.168.2.156:8080/zqsign-web-wesign/restapi/wesign/"',
