@@ -61,7 +61,7 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="250"
+            width="240"
             :show-overflow-tooltip= true
           >
           </el-table-column>
@@ -75,17 +75,17 @@
           <el-table-column
             prop="createTime"
             label="发起时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="validTime"
             label="结束时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column prop="operation" label="操作" >
             <template slot-scope="scope">
@@ -101,7 +101,6 @@
           <button  @click="batchDownload"  class="batch-download-btn">
             <span>批量下载</span>
           </button>
-
           <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
             <span>批量归档</span>
           </button>

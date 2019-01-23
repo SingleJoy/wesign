@@ -78,6 +78,7 @@
 <style lang='scss'>
   @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../styles/Mycontract/Mycontract.scss";
+  @import "../../common/styles/content.scss";
   .el-button--primary:focus{
     background: #eee;
     border-color: #95989d;

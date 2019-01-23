@@ -62,7 +62,7 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="250"
+            width="240"
             :show-overflow-tooltip= true
           >
           </el-table-column>
@@ -76,22 +76,21 @@
           <el-table-column
             prop="createTime"
             label="发起时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="validTime"
             label="结束时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="operation"
             label="操作"
-
           >
             <template slot-scope="scope">
               <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>

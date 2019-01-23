@@ -519,7 +519,7 @@
 
   .user {
     position: absolute;
-    right: 0%;
+    right: 0;
     top: 8.75rem;
     background: #fff;
     padding: 1.875rem;
@@ -527,14 +527,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 360px;
-    position: absolute;
-    right: 0%;
-    top: 8.75rem;
-    background: #fff;
-    padding: 1.875rem;
-    border-radius: 15px;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+
   }
   .login-logo {
     width: 100px;

@@ -54,8 +54,7 @@
         this.getChildData(name);
       },
       getChildData(name){
-        console.log(name)
-        console.log(this.$refs[name])
+        
         this.$refs[name].getData()
       },
       //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件

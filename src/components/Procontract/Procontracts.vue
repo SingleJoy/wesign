@@ -71,7 +71,7 @@
     },
   }
 </script>
-<style lang='scss' scoped>
+<style lang='scss' >
   @import '../../styles/Multiparty/Multiparties.scss';
 
   @import "../../common/styles/content.scss";

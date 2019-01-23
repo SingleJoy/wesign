@@ -57,7 +57,7 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="250">
+            width="240">
           </el-table-column>
           <el-table-column
             prop="signers"

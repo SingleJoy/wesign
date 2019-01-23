@@ -7,7 +7,7 @@
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
               <p class="folder-img" @click="searchFolderData(null)"></p>
-              <p class="folder-name" style="text-align: left;padding-left: 20px">默认文件夹</p>
+              <p class="folder-name" style="text-align: left;padding-left: 20px;">默认文件夹</p>
             </li>
           </ul>
         </div>
