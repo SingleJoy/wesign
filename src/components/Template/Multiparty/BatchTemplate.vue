@@ -143,7 +143,7 @@
           }
         })
         this.tableData = list;
-        // console.log(list)
+
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {

@@ -109,7 +109,7 @@
             <span>批量下载</span>
           </button>
 
-          <button  @click="batchFolder"  class="batch-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
+          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
             <span>批量归档</span>
           </button>
         </div>
@@ -119,13 +119,14 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
+          :page-sizes="[10, 20, 50, 100]"
           :page-size="10"
-          layout="total,prev, pager, next, jumper"
+          layout="total, sizes, prev, pager, next, jumper"
           :total=Number(num)>
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
       <template>
         <el-radio-group v-model="showFilingNo"  >
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
@@ -161,6 +162,7 @@
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
         currentPage: 1,
+        everyPage:10,
         value8: '',
         value9: '',
         tableData2: [],
@@ -172,7 +174,6 @@
         inputVal:'',
         checked:false,
         inquiry:false, // 查询标示
-        auditStatus:'',
         filters: {
           column: {
             create_start_date: null,
@@ -247,7 +248,7 @@
 
           requestVo ={
             'pageNo':'1',
-            'pageSize':'10',
+            'pageSize':this.everyPage,
             'contractStatus':'0',
             'filingNo':this.$store.state.showFilingNo,
           };
@@ -318,7 +319,7 @@
               "queryTimeEnd":  end,
               'perpetualValid':perpetualValid,
               'pageNo':val,
-              'pageSize':'10',
+              'pageSize':this.everyPage,
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
@@ -327,7 +328,7 @@
           }else{
             let requestVo ={
               'pageNo':val,
-              'pageSize':'10',
+              'pageSize':this.everyPage,
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
@@ -337,7 +338,7 @@
         } else {
           let requestVo ={
             'pageNo':val,
-            'pageSize':'10',
+            'pageSize':this.everyPage,
             'contractStatus':'0',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
@@ -346,7 +347,8 @@
         }
       },
       handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
+        this.everyPage=val;
+        this.getData();
       },
       selectParam(value){
         this.queryAccountCode=value
@@ -369,7 +371,7 @@
           "queryTimeEnd":  end,
           'perpetualValid':perpetualValid,
           'pageNo':'1',
-          'pageSize':'10',
+          'pageSize':this.everyPage,
           'contractStatus':'0',
           'filingNo':this.$store.state.showFilingNo,
         };
@@ -422,7 +424,6 @@
             this.folderList=res.data.data;
             this.showFilingNo=this.$store.state.showFilingNo;
             this.dialogChooseFolder=true;
-
           }
         }).catch(error=>{
 
@@ -490,12 +491,10 @@
 
       quit(){
         this.dialogChooseFolder=false;
-
       }
 
     },
     created() {
-      this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
 
     }
   }

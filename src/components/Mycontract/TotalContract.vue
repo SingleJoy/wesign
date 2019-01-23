@@ -111,7 +111,7 @@
             <span>批量下载</span>
           </button>
 
-          <button  @click="batchFolder"  class="batch-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
+          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
             <span>批量归档</span>
           </button>
         </div>
@@ -121,14 +121,15 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
+          :page-sizes="[10, 20, 50, 100]"
           :page-size="10"
-          layout="total,prev, pager, next, jumper"
+          layout="total, sizes, prev, pager, next, jumper"
           :total=Number(num)>
         </el-pagination>
       </div>
     </div>
 
-    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
       <template>
         <el-radio-group v-model="showFilingNo"  >
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
@@ -140,9 +141,7 @@
           <el-button type="primary" class="folder-quit" @click="quit" >取消</el-button>
         </div>
       </template>
-
     </el-dialog>
-
 
   </div>
 </template>
@@ -168,6 +167,7 @@
         value:'',
         hasQuery:false,
         currentPage: 1,
+        everyPage:10,
         tableData2: [],
         num: '',
         loading: true,
@@ -256,7 +256,7 @@
         if(!requestVo){
            requestVo ={
             'pageNo':'1',
-            'pageSize':'10',
+            'pageSize':this.everyPage,
             'contractStatus':'0',
             'accountCode':this.accountLevel==2?this.accountCode:'',
              'filingNo':this.$store.state.showFilingNo,
@@ -327,7 +327,7 @@
               "queryTimeEnd":  end,
               'perpetualValid':perpetualValid,
               'pageNo':val,
-              'pageSize':'10',
+              'pageSize':this.everyPage,
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
@@ -338,7 +338,7 @@
 
             let requestVo ={
               'pageNo':val,
-              'pageSize':'10',
+              'pageSize':this.everyPage,
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
@@ -348,7 +348,7 @@
         } else {
           let requestVo ={
             'pageNo':val,
-            'pageSize':'10',
+            'pageSize':this.everyPage,
             'contractStatus':'0',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
@@ -357,7 +357,9 @@
         }
       },
       handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
+
+         this.everyPage=val;
+         this.getData();
       },
       selectParam(value){
         this.queryAccountCode=value
@@ -381,7 +383,7 @@
           "queryTimeEnd":  end,
           'perpetualValid':perpetualValid,
           'pageNo':'1',
-          'pageSize':'10',
+          'pageSize':this.everyPage,
           'contractStatus':'0',
           'filingNo':this.$store.state.showFilingNo,
         };
@@ -540,6 +542,14 @@
       },
       folderSure(){
         let fillingNo=this.showFilingNo;
+        if(!fillingNo){
+          this.$message({
+            showClose: true,
+            message: '请选择合同需要归档的文件夹！',
+            type: "error"
+          });
+          return false;
+        }
          this.contractFiling(fillingNo);
       },
 
