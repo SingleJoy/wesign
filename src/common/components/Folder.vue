@@ -45,6 +45,7 @@
                   <span class="el-dropdown-link">
                       <b class="setting-img"></b>
                  </span>
+<<<<<<< HEAD
                     <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
                       <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
@@ -64,6 +65,27 @@
 
                 <p class="folder-setting"  >
                   <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+=======
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                        <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
+
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </p>
+                  <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+
+                </li>
+              </ul>
+            </div>
+            <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+2)*980+'px)'}" v-if="folderListShow3">
+              <ul >
+                <li v-for="(item ,index) in folderListShow3" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
+                  <p class="folder-img" @click="searchFolderData(item.filingNo)"></p>
+                  <p class="folder-num" >{{item.contractNum}}</p>
+                  <p class="folder-setting"  >
+                    <el-dropdown style="position: absolute;left:10px;top:10px"  trigger="click" placement="bottom" >
+>>>>>>> c858b5cb53b1cb2cacc72df16a12f86ff070073d
                   <span class="el-dropdown-link">
                       <b class="setting-img"></b>
                  </span>
@@ -300,14 +322,7 @@
           let resultCode = res.data.resultCode
           if(resultCode=='1'){
             this.folderList=res.data.data;
-            // console.log(this.folderList)
-            for(let i=0;i<this.folderList.length;i++){
-              this.$set(this.folderList[i], 'index', i);
-              this.$set(this.folderList[i], 'allIndex', this.folderList)
-            }
-
             if(res.data.data.length<=10){
-
               this.folderListShow=this.folderList;
               this.folderListShow1=this.folderList;
               this.folderListShow2=null;
@@ -346,15 +361,10 @@
               this.folderListShow3=this.folderList.slice(20,30);
               this.folderListShow4=this.folderList.slice(30,40);
               this.folderListShow5=this.folderList.slice(40,this.folderList.length);
-
             } else {
-              this.folderListShow=this.folderList.slice(0,10);
-              this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(10,20);
-              this.folderListShow3=this.folderList.slice(20,30);
-              this.folderListShow4=this.folderList.slice(30,40);
-              this.folderListShow5=this.folderList.slice(40,this.folderList.length);
+              this.folderListShow = this.folderList;
             }
+
           }else{
 
           }
@@ -398,6 +408,7 @@
       slideLeft(){
         // let index=this.folderListShow[this.folderListShow.length].index;
         // let allIndex=this.folderListShow[0].allIndex;
+<<<<<<< HEAD
         if(this.nowIndex>=0){
           return false
         }else{
@@ -410,6 +421,21 @@
         let length= Math.ceil(this.folderList.length/10);
         if(this.changeIndex<length-1){
           this.changeIndex += 1;
+=======
+       if(this.nowIndex>=0){
+         return false
+       }else{
+         this.nowIndex++;
+         this.changeIndex-=1;
+       }
+
+      },
+      slideRight(){
+        let length=parseInt(this.folderList.length/10);
+        
+        if((this.changeIndex < (length))){
+            this.changeIndex += 1;
+>>>>>>> c858b5cb53b1cb2cacc72df16a12f86ff070073d
           this.nowIndex--
         }else{
 
