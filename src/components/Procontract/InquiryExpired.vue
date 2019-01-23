@@ -93,11 +93,11 @@
         </el-table>
         <!-- 数据表格 end -->
         <div class="batch-download-btn-area" v-if="num">
-          <button  @click="batchDownload"  class="batch-download-btn">
+          <button  @click="batchDownload"  class="folder-download-btn">
             <span>批量下载</span>
           </button>
 
-          <button  @click="batchFolder"  class="batch-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
+          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
             <span>批量归档</span>
           </button>
         </div>
