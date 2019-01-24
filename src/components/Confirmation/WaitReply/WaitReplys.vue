@@ -296,7 +296,7 @@
               confirmButtonText: '确定'
             })
           } else if(response.data.resultCode == '-4'){
-            this.$alert('对不起，该账号已被冻结，请联系众签客服处理！联系电话 400-000-6923.','提示', {
+            this.$alert('对不起，该账号已被冻结，请联系众签客服处理！联系电话 010-57625108.','提示', {
               confirmButtonText: '确定'
             })
           }else if(response.data.resultCode == "-3"){

@@ -106,7 +106,7 @@
             <span>批量下载</span>
           </button>
 
-          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
+          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 20px;margin-bottom: 30px;padding-bottom: 30px">
             <span>批量归档</span>
           </button>
         </div>
@@ -444,6 +444,13 @@
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
             this.showFilingNo=this.$store.state.showFilingNo;
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
+            }
             this.dialogChooseFolder=true;
 
           }
@@ -528,15 +535,17 @@
   @import "../../common/styles/BatchDownLoad.scss";
 </style>
 
-<style>
-  .waitOtherImg {
+<<style lang='scss'>
+  @import "../../common/styles/dialog.scss";
+  .totalImg{
     width: 153px;
     margin: 300px auto;
     height: 89px;
     margin-bottom: 175px;
   }
-  .waitOtherImg > img {
+  .totalImg>img{
     width: 100%;
-    height: 100%;
+    height:100%;
   }
 </style>
+

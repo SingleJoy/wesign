@@ -41,7 +41,7 @@
         <p class="title">支付方式</p>
         <div class="right">
           <p>
-            <b class="accountBalance" style="margin-top: 15px;">客服电话 : 400-000-6923</b>
+            <b class="accountBalance" style="margin-top: 15px;">客服电话 : 010-57625108</b>
           </p>
 
         </div>

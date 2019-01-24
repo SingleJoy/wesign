@@ -20,7 +20,7 @@ export function validateEmail(str) {
  *  @param {*idCard} str
  */
 export function validateCard(str){
-    const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/
+    const reg = /(^\d{18}$)|(^\d{17}(X|x)$)/
     return reg.test(str)
 }
 

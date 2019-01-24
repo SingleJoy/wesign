@@ -17,15 +17,8 @@
       height: 60px;
       background: url("/static/images/Folder/left-arrow.png") center center no-repeat;
     }
-    p:hover{
-      transform:rotate(0) scale(1.5);
-      -webkit-transform:rotate(0) scale(1.5);
-      -moz-transform:rotate(0) scale(1.5);
-      -o-transform:rotate(0) scale(1.5);
-      /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-      -ms-transform:rotate(0) scale(1.5);
-      -webkit-transition: all .20s ease-in .1s;
-      transition: all .20s ease-in .1s;
+    p.leftActive{
+      background: url("/static/images/Folder/left-arrow-gray.png") center center no-repeat;
     }
   }
   .right-arrow{
@@ -43,14 +36,8 @@
       height: 60px;
       background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
     }
-    p:hover{
-      transform:rotate(0) scale(1.5);
-      -webkit-transform:rotate(0) scale(1.5);
-      -moz-transform:rotate(0) scale(1.5);
-      -o-transform:rotate(0) scale(1.5);
-      -ms-transform:rotate(0) scale(1.5);
-      -webkit-transition: all .15s ease-in .1s;
-      transition: all .15s ease-in .1s;
+    p.rightActive{
+      background: url("/static/images/Folder/right-arrow-gray.png") center center no-repeat;
     }
   }
   .folder-list{
@@ -124,6 +111,7 @@
             overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
+            width: 90px;
           }
         }
 
@@ -137,6 +125,7 @@
         position: absolute;
         top:0;
         z-index: 9;
+        margin-left: 15px;
       }
       ul.for-folder-list{
         width: 1000px;
@@ -158,16 +147,7 @@
           height: 33px;
           background: url("/static/images/Folder/add-folder.png") center no-repeat;
         }
-        .add-folder:hover{
-          transform:rotate(0) scale(1.5);
-          -webkit-transform:rotate(0) scale(1.5);
-          -moz-transform:rotate(0) scale(1.5);
-          -o-transform:rotate(0) scale(1.5);
-          /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-          -ms-transform:rotate(0) scale(1.5);
-          -webkit-transition: all .15s ease-in .1s;
-          transition: all .15s ease-in .1s;
-        }
+
       }
     }
   }

@@ -112,7 +112,7 @@
             <span>批量下载</span>
           </button>
 
-          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 30px;margin-bottom: 30px;padding-bottom: 30px">
+          <button  @click="batchFolder"  class="folder-download-btn" style="margin-top: 20px;margin-bottom: 30px;padding-bottom: 30px">
             <span>批量归档</span>
           </button>
         </div>
@@ -133,7 +133,7 @@
 
       <template>
         <el-radio-group v-model="showFilingNo"  >
-          <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
+          <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title="item.filingName">
             {{item.filingName}}
           </el-radio>
         </el-radio-group>
@@ -153,6 +153,7 @@
   import moment  from 'moment'
   import server from "@/api/url"
   import {b2bContrants,remind} from '@/api/list'
+
   import {addContractFiling, contractFiling, contractFilings,
     deleteContractFiling, updateContractFiling}
     from '@/api/folder'
@@ -431,7 +432,7 @@
         }
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
           let resultCode = res.data.resultCode
-          let resultMessage = res.data.resultMessage
+          let resultMessage = res.data.resultMessage;
           if ( resultCode === '0') {
             this.$message({
               showClose: true,
@@ -490,6 +491,20 @@
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
             this.showFilingNo=this.$store.state.showFilingNo;
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
+            }
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
+            }
             this.dialogChooseFolder=true;
           }
         }).catch(error=>{
@@ -578,7 +593,7 @@
   @import '../../styles/Multiparty/Multiparties.scss';
   @import "../../common/styles/BatchDownLoad.scss";
 </style>
-<style>
+<style >
   @import "../../common/styles/dialog.scss";
   .totalImg{
     width: 153px;
@@ -595,4 +610,6 @@
     border-color: #95989d;
     color: #333;
   }
+
+
 </style>

@@ -192,7 +192,7 @@
   </div>
 </template>
 <script>
-  import { mapActions, mapState } from "vuex";
+  import {state, actions,mutations} from '@/store/index';
   import cookie from "@/common/js/getTenant";
   import server from "@/api/url";
   import {templateList,remind,homePageContractLists} from "@/api/home"
@@ -810,7 +810,6 @@
   }
 
   .upload-warn{
-
     width: 47.1rem;
     height: 23rem;
     position: absolute;
@@ -818,17 +817,17 @@
     top: 50%;
     margin-left: -25.05rem;
     margin-top: -20rem;
-    background: url(/static/images/Home/up-warn.png) no-repeat;
+    background:#fff url('/static/images/Home/up-warn.png') no-repeat;
     background-size: 100% 100%;
   div.contract-num{
     position: relative;
     left: 14rem;
-    top: 9.0rem;
+    top: 8.875rem;
     font-size: 14px;
   p{
     font-size: 16px;
     color: red;
-    line-height: 20px;
+    line-height: 1.4;
   }
   }
   .close-warn{

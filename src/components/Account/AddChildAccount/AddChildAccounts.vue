@@ -325,14 +325,11 @@
         if(this.agree){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              this.$nextTick(function () {
-                this.$loading.show();
-              });
+              this.$loading.show();
               this.once=true;//提交按钮不可重复点击
               let pass = md5(this.ruleForm.password); //密码MD5加密
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
-
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let templates=(batchTemplate1+singleTemplate1).substr(1);
@@ -354,12 +351,10 @@
                 company_name:enterpriseName,             //企业名称
                 manageName:manageName,
               };
+
               addAccount(this.interfaceCode,params).then(res => {
+                this.$loading.hide();
                 let accountCode=res.data.accountCode;  //存储accountCode
-                this.fullscreenLoading = true;
-                setTimeout(() => {
-                  this.fullscreenLoading = false;
-                }, 1000);
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
                   this.$message({
@@ -367,18 +362,14 @@
                     message:res.data.resultMessage,
                     type: 'success'
                   })
-                  this.$nextTick(function () {
-                    this.$loading.hide();
-                  });
                   this.$router.push("/Account");
                 }
                 else if(res.data.resultCode=='0'){
                   //二级账号添加失败   三要素验证失败
                   sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
-                  this.$nextTick(function () {
-                    this.$loading.hide();
-                  });
 
+
+                  }
                   let num = 3;
                   if(res.data.data){
                     num = num-res.data.data.authNum;
@@ -399,9 +390,6 @@
                   else if(res.data.resultCode=='2'){
                     this.once=false;
                     //二级账号已存在
-                    this.$nextTick(function () {
-                      this.$loading.hide();
-                    });
                     this.$message({
                       showClose: true,
                       message:res.data.resultMessage,
@@ -416,8 +404,6 @@
                       type: 'error'
                     })
                   }
-
-                }
               }).catch(error=>{
 
               })
@@ -435,11 +421,13 @@
     }
     ,
     created() {
+      this.$loading.show();
       templateList(this.interfaceCode).then(res=> {
         let data=res.data;
         let batchArray=[];
         let singleArray=[];
         if(data){
+
           for(let i=0;i<data.length;i++){
             if(data[i].templateSpecies=='single'){
               singleArray.push(data[i]);
@@ -463,6 +451,7 @@
       }).catch(error=>{
 
       })
+      this.$loading.hide();
     }
   }
 </script>

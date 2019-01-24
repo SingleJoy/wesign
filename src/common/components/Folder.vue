@@ -1,19 +1,19 @@
 <template>
   <div class="Folder">
     <div class="folder-content">
-      <div class="left-arrow" @click="slideLeft"><p></p></div>
+      <div class="left-arrow" @click="slideLeft" ><p :class="{'leftActive':leftActive}"></p></div>
       <div class="folder-list">
         <div class="list-item" style="width: 80px;float: left;">
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
               <p class="folder-img" @click="searchFolderData(null)"></p>
-              <p class="folder-name" style="text-align: left;padding-left: 20px;">默认文件夹</p>
+              <p class="folder-name" style="text-align: left;padding-left: 10px;">默认文件夹</p>
             </li>
           </ul>
         </div>
         <div class="list-item" style="width: 980px;">
 
-          <div class="for-folder-list" :style="{'transform':'translateX('+nowIndex*980+'px)'}" v-if="folderListShow1">
+          <div class="for-folder-list" :style="{'transform':'translateX('+nowIndex*980+'px)','transition-duration': '1.5s'}" v-if="folderListShow1">
             <ul >
               <li v-for="(item ,index) in folderListShow1" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
                 <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
@@ -30,12 +30,12 @@
                     </el-dropdown-menu>
                   </el-dropdown>
                 </p>
-                <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+                <p class="folder-name" :title="item.filingName">{{item.filingName}}</p>
 
               </li>
             </ul>
           </div>
-          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+1)*980+'px)'}" v-if="folderListShow2">
+          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+1)*980+'px)','transition-duration': '1.5s'}" v-if="folderListShow2">
             <ul >
               <li v-for="(item ,index) in folderListShow2" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
                 <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
@@ -52,12 +52,12 @@
                     </el-dropdown-menu>
                   </el-dropdown>
                 </p>
-                <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+                <p class="folder-name" :title="item.filingName">{{item.filingName}}</p>
 
               </li>
             </ul>
           </div>
-          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+2)*980+'px)'}" v-if="folderListShow3">
+          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+2)*980+'px)','transition-duration': '1.5s'}" v-if="folderListShow3">
             <ul >
               <li v-for="(item ,index) in folderListShow3" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
                 <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
@@ -74,12 +74,12 @@
                     </el-dropdown-menu>
                   </el-dropdown>
                 </p>
-                <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+                <p class="folder-name" :title="item.filingName">{{item.filingName}}</p>
 
               </li>
             </ul>
           </div>
-          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+3)*980+'px)'}" v-if="folderListShow4">
+          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+3)*980+'px)','transition-duration': '1.5s'}" v-if="folderListShow4">
             <ul >
               <li v-for="(item ,index) in folderListShow4" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
                 <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
@@ -96,7 +96,7 @@
                     </el-dropdown-menu>
                   </el-dropdown>
                 </p>
-                <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+                <p class="folder-name" :title="item.filingName">{{item.filingName}}</p>
 
               </li>
             </ul>
@@ -118,7 +118,7 @@
                     </el-dropdown-menu>
                   </el-dropdown>
                 </p>
-                <p class="folder-name" :title=item.name>{{item.filingName}}</p>
+                <p class="folder-name" :title="item.filingName">{{item.filingName}}</p>
 
               </li>
             </ul>
@@ -129,14 +129,14 @@
             <div class="add-folder" @click="addFolder()"></div>
           </div>
         </div>
-        <div class="right-arrow" @click="slideRight"><p></p></div>
+        <div class="right-arrow" @click="slideRight" ><p :class="{'rightActive':rightActive}"></p></div>
       </div>
 
     </div>
     <div class="common-top" v-if="auditSteps==3" >
       <div class="common-top-tab">
-        <div @click="EnterPer(showFilingNo)" :class="{'btn-active':isBtnActive,'btn-default':!isBtnActive}">企业对个人</div>
-        <div style="margin-left: -5px;" @click="EnterEnter(showFilingNo)" :class="{'btn-active':!isBtnActive,'btn-default':isBtnActive}">企业对企业</div>
+        <div @click="EnterPer" :class="{'btn-active':isBtnActive,'btn-default':!isBtnActive}">企业对个人</div>
+        <div style="margin-left: -5px;" @click="EnterEnter" :class="{'btn-active':!isBtnActive,'btn-default':isBtnActive}">企业对企业</div>
       </div>
 
     </div>
@@ -167,20 +167,21 @@
         showFilingNo:this.$store.state.showFilingNo,
         isBtnActive:this.$store.state.isBtnActive,
         auditSteps:'',
-        nowIndex:0,
+        nowIndex:this.$store.state.nowIndex,
         changeIndex:0,
+        leftActive:true,
+        rightActive:true,
       }
     },
+    
     methods:{
-      EnterPer(showFilingNo) {
-        // this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+      EnterPer() {
         this.$store.dispatch('isBtnActive',{isBtnActive:true});
         sessionStorage.setItem("B2BPanelActiveName",'');
         sessionStorage.setItem("B2CPanelActiveName",'');
         this.$router.push("/Mycontract")
       },
-      EnterEnter(showFilingNo) {
-        // this.$store.dispatch('showFilingNo',{showFilingNo:showFilingNo});
+      EnterEnter() {
         this.$store.dispatch('isBtnActive',{isBtnActive:false});
         sessionStorage.setItem("B2BPanelActiveName",'');
         sessionStorage.setItem("B2CPanelActiveName",'');
@@ -192,10 +193,17 @@
         this.$prompt('重命名', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          inputPattern: '',
+          inputValidator:function(value){
+            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+              regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+            if(regEn.test(value) || regCn.test(value)||(value&&value.length>30)||(!value)) {
+
+              return false;
+            }
+          },
           inputErrorMessage: '文件夹名称不能包含非法符号且30位以内！'
         }).then(({ value }) => {
-
+           console.log(value.length)
           this.updateContractFiling(filingNo,value);
         }).catch(() => {
 
@@ -227,8 +235,14 @@
         this.$prompt('新增文件夹', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          inputPattern: '',
-          inputErrorMessage: '文件夹长度最多30位'
+          inputValidator:function(value){
+            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+              regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+            if(regEn.test(value) || regCn.test(value)||(value&&value.length>30)||(!value)) {
+              return false;
+            }
+          },
+          inputErrorMessage: '文件夹名称不能包含非法符号且30位以内！'
         }).then(({ value }) => {
           //输入文件夹名称格式正确调用
           this.addContractFiling(value);
@@ -239,7 +253,7 @@
 
       //新增文件夹接口
       addContractFiling(value){
-        if(this.folderList.length>=50){
+        if(this.folderList.length>50){
           this.$message({
             type: 'info',
             message: '您可新增的文件夹数量已达上限'
@@ -300,12 +314,8 @@
           let resultCode = res.data.resultCode
           if(resultCode=='1'){
             this.folderList=res.data.data;
-
-            for(let i=0;i<this.folderList.length;i++){
-              this.$set(this.folderList[i], 'index', i);
-              this.$set(this.folderList[i], 'allIndex', this.folderList)
-            }
-
+            let folderNum=this.folderList.length
+            this.$store.dispatch('folderNum',{folderNum:folderNum});
             if(res.data.data.length<=10){
 
               this.folderListShow=this.folderList;
@@ -316,6 +326,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=11&&res.data.data.length<=20){
+              this.rightActive=false;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,this.folderList.length);
@@ -324,6 +335,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=21&&res.data.data.length<=30){
+              this.rightActive=false;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
@@ -332,6 +344,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=31&&res.data.data.length<=40){
+              this.rightActive=false;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
@@ -340,6 +353,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=41&&res.data.data.length<=50){
+              this.rightActive=false;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
@@ -347,12 +361,7 @@
               this.folderListShow4=this.folderList.slice(30,40);
               this.folderListShow5=this.folderList.slice(40,this.folderList.length);
             } else {
-              this.folderListShow=this.folderList.slice(0,10);
-              this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(10,20);
-              this.folderListShow3=this.folderList.slice(20,30);
-              this.folderListShow4=this.folderList.slice(30,40);
-              this.folderListShow5=this.folderList.slice(40,this.folderList.length);
+              this.rightActive=true;
             }
           }else{
 
@@ -393,14 +402,21 @@
         this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
         this.$emit('FolderSearchData')
       },
+
       slideLeft(){
-        // let index=this.folderListShow[this.folderListShow.length].index;
-        // let allIndex=this.folderListShow[0].allIndex;
+        let length= Math.ceil(this.folderList.length/10);
         if(this.nowIndex>=0){
           return false
         }else{
-          this.nowIndex++;
-          this.changeIndex-=1;
+          this.nowIndex=this.nowIndex+1;
+          this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
+          this.changeIndex--;
+          this.rightActive=false;
+        }
+
+        if(this.nowIndex<=0){
+          this.leftActive=true;
+
         }
 
       },
@@ -408,11 +424,19 @@
         let length= Math.ceil(this.folderList.length/10);
         if(this.changeIndex<length-1){
           this.changeIndex += 1;
-          this.nowIndex--
+          this.nowIndex=this.nowIndex-1;
+          this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
+          this.leftActive=false;
         }else{
 
           return false
         }
+
+        if(Math.abs(this.nowIndex)+1>=length){
+          this.rightActive=true;
+          this.leftActive=false;
+        }
+
       },
     },
     created(){

@@ -26,10 +26,8 @@
                   </el-form-item>
 
 
-
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
                     <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11 ></el-input>
-
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
@@ -69,13 +67,10 @@
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
                       <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
-
                     </el-checkbox-group>
-
                   </template>
 
                 </div>
-
 
                 <div class="batch-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
                   <h3>批量发起模板</h3>
@@ -83,7 +78,6 @@
                     <el-checkbox-group v-model="batchTemplate" >
                       <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
-
                   </template>
 
                 </div>
@@ -94,9 +88,7 @@
 
                 <div class="fill-background"></div>
 
-
               </div>
-
 
             </div>
 
@@ -160,17 +152,13 @@
 </template>
 <script>
 
-  import Account from "../Account"
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
-
   import server from "@/api/url";
   import {updateAccount,templateList,getAccountInfo,getDate} from '@/api/account'
   export default {
     name: 'EditChildNoActives',
-    component:{
-      Account
-    },
+
     data() {
       // 校验二级账号姓名
       let validateAccountName = (rule,value,callback) => {
@@ -326,6 +314,7 @@
       submitBtn(formName){
 
         if(this.agree) {
+          this.$loading.show();
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.once = true;
@@ -344,7 +333,7 @@
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
               }
-              this.$loading.show();
+
               let params={
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
@@ -358,9 +347,9 @@
                 manageName:manageName,    //一级账号名称
               };
               updateAccount(this.interfaceCode,params).then(res => {
-                this.$nextTick(function () {
+
                   this.$loading.hide();
-                })
+
                 if (res.data.resultCode == '1') {
                   this.$message({
                     message: res.data.resultMessage,
@@ -420,6 +409,7 @@
 
     },
     created() {
+      this.$loading.show();
       let accountCode = sessionStorage.getItem("subAccountCode");
 
       let params={accountCode: accountCode}
@@ -459,7 +449,7 @@
 
       })
 
-
+      this.$loading.hide();
     }
 
 

@@ -18,7 +18,9 @@ const state = {
   needSign:'',    //平台方是否签署
   tabIndex:'',     //当前活动tab
   showFilingNo:null,     //当前默认folder编号
-  isBtnActive:true
+  isBtnActive:true,
+  nowIndex:0,
+  folderNum:0
 }
 const actions = {
     fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
@@ -30,6 +32,8 @@ const actions = {
     tabIndex:({commit},obj) => commit('tabIndex',obj),
     showFilingNo:({commit},obj) => commit('showFilingNo',obj),
     isBtnActive:({commit},obj) => commit('isBtnActive',obj),
+    nowIndex:({commit},obj) => commit('nowIndex',obj),
+    folderNum:({commit},obj) => commit('folderNum',obj),
 }
 const mutations = {
   tabIndex (state,res) {
@@ -62,6 +66,12 @@ const mutations = {
   },
   isBtnActive(state,res){
     state.isBtnActive=res.isBtnActive
+  },
+  nowIndex(state,res){
+    state.nowIndex=res.nowIndex
+  },
+  folderNum(state,res){
+    state.folderNum=res.folderNum
   },
 
   headclick (state) {

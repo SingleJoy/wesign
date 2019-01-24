@@ -1,20 +1,24 @@
 .dialogChooseFolder{
   width: 600px!important;
-  min-height: 400px!important;
+  min-height: 200px!important;
   overflow-y: auto;
   .folderListCheck{
     display: inline-block!important;
     float: left;
-    width: 50%;
+    width: 240px;
     height: 40px!important;
     margin: 0!important;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
   }
   .operate{
     text-align: center;
+    padding-top: 30px;
     .folder-sure{
       margin-left:10px;
       letter-spacing:5px;
-      width: 200px;
+      width: 240px;
       background-color: #409eff;
       color: #fff;
       margin-right: 40px;
@@ -22,7 +26,7 @@
     .folder-quit{
       margin-left:10px;
       letter-spacing:5px;
-      width: 200px;
+      width: 240px;
       background-color: #fff;
       color: #333;
     }

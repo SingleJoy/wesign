@@ -148,4 +148,10 @@ input::-webkit-input-placeholder {
 .cell>span{
   color: #333;
 }
+.el-pagination .el-select .el-input{
+  width: 90px !important;
+}
+.el-pagination__sizes{
+  margin: 0!important;
+}
 </style>
