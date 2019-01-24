@@ -162,7 +162,7 @@ export default {
         }
         },
         handleSizeChange(val) {
-        //console.log(`每页 ${val} 条`);
+
         },
         queryTempBatch(){
         let templateInfoRequest ={'templateName':this.inputTempSingle,'pageNnm':1,'useStatus':1,'pageSize':'10','templateSpecies':'single','order':'DESC'}

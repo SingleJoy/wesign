@@ -38,7 +38,7 @@
       <el-button type="primary"  @click='contractInquiry' style='margin-left:10px;letter-spacing:5px;'>搜索</el-button>
     </div>
     <div class="list-body">
-      <div class='table'>
+      <div class='table' >
         <div class="totalImg" v-if="num === 0">
           <img src="/static/images/notavailable.png" alt="">
         </div>
@@ -62,7 +62,7 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="250"
+            width="240"
             :show-overflow-tooltip= true
           >
           </el-table-column>
@@ -87,11 +87,14 @@
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="130">
+            width="140"
+          >
           </el-table-column>
           <el-table-column
             prop="operation"
-            label="操作">
+            label="操作"
+
+          >
             <template slot-scope="scope">
 
               <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
@@ -101,7 +104,7 @@
               <el-button @click="downloadClick(scope.row)" type="primary" size="small" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
               <el-button @click="seeClick(scope.row)" type="text" size="small" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
               <el-button @click="rowLockClick(scope.row)" type="text" size="small">详&nbsp;&nbsp;情</el-button>
-              <el-button  type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
+              <el-button  type="text" size="small" @click="folderClick(scope.row)">归&nbsp;&nbsp;档</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -129,7 +132,7 @@
       </div>
     </div>
 
-    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
       <template>
         <el-radio-group v-model="showFilingNo"  >
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
@@ -141,9 +144,7 @@
           <el-button type="primary" class="folder-quit" @click="quit" >取消</el-button>
         </div>
       </template>
-
     </el-dialog>
-
 
   </div>
 </template>
@@ -214,6 +215,7 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
+
       batchDownload(){
         let length = this.multipleSelection.length;
         let str = '';
@@ -240,6 +242,7 @@
           this.$refs.multipleTable.clearSelection();
         }
       },
+
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return 'background:#f5f5f5;font-weight:bold;'
@@ -247,11 +250,13 @@
           return ''
         }
       },
+
       tableRowClassName(row,rowIndex){
         if(rowIndex%2==0){
           return 'height-color'
         }
       },
+
       getData (requestVo) {
         let data =[];
         let isCreater='';
@@ -309,6 +314,7 @@
 
         })
       },
+
       handleCurrentChange(val) {
         this.currentPage = val
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
@@ -358,14 +364,17 @@
           this.getData (requestVo)
         }
       },
+
       handleSizeChange(val) {
 
          this.everyPage=val;
          this.getData();
       },
+
       selectParam(value){
         this.queryAccountCode=value
       },
+
       contractInquiry () {
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         if (this.checked == true) {
@@ -398,6 +407,7 @@
         });
         this.inquiry = true
       },
+
       rowLockClick (row) {//详情
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
         sessionStorage.setItem('contractNo', row.contractNum)
@@ -406,11 +416,13 @@
         this.$router.push('/ContractInfo')
         this.$store.dispatch('tabIndex',{tabIndex:1});
       },
+
       signClick (row) { //签署
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
         sessionStorage.setItem('contractNo', row.contractNum)
         this.$router.push('/Contract')
       },
+
       remindClick (row) { //提醒
         let param={
           'contractType':1,
@@ -435,6 +447,7 @@
 
         })
       },
+
       downloadClick (row) { //下载
         let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
         let up = document.createElement('a');
@@ -442,21 +455,13 @@
         up.setAttribute('href',url);
         up.click()
       },
+
       seeClick (row) { //延期
         this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
         sessionStorage.setItem('contractNo', row.contractNum)
         cookie.set('state','List')
         this.$router.push('/ContractDelay')
       },
-      // getStartTime(){ //日期
-      //   var d = this.value8;
-      //   this.formStartTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'00:00:00';
-      // },
-      // /*得到搜索条件的结束时间*/
-      // getEndTime(){
-      //   var d = this.value9;
-      //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
-      // }
 
       getAccount(){
         if(!this.hasQuery){
@@ -487,6 +492,7 @@
 
           })
       },
+
       contractFiling(filingNo){
         let params={
           oldFilingNo:this.$store.state.showFilingNo,
@@ -515,6 +521,7 @@
 
         })
       },
+
       batchFolder(){
         let length = this.multipleSelection.length;
         let str = '';
@@ -540,8 +547,8 @@
         }).catch(error=>{
 
         })
-
       },
+
       folderSure(){
         let fillingNo=this.showFilingNo;
         if(!fillingNo){
@@ -557,7 +564,6 @@
 
       quit(){
         this.dialogChooseFolder=false;
-
       }
     },
     created() {

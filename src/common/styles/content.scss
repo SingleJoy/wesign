@@ -20,8 +20,10 @@
 /* //列表样式 */
 .list-body{
   background: #fff;
-  padding: 20px 15px;
-  padding-bottom: 60px;
+  .table{
+    width: 1170px;
+    padding: 15px;
+  }
 }
 /* 分页 */
 .pagetion{

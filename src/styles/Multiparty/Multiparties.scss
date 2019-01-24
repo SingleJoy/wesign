@@ -84,7 +84,6 @@
   .template-title{
     padding:20px 15px 0 15px;
     .title-bg{
-      //background: url('../../../static/images/Common/title.png') no-repeat;
       height:46px;
     }
     .title-name{
@@ -107,7 +106,7 @@
   }
   .template-list{
     .contract-box{
-      padding:0px 25px;
+      padding:0 25px;
       .contract-content{
         overflow: hidden;
         padding:20px 28px;
@@ -120,7 +119,6 @@
           width:180px;
           background: #ddd;
           position: relative;
-          // background: url("../../")
           p{
             text-align: center;
             word-wrap: break-word;
@@ -141,7 +139,6 @@
         .content-left:hover p{
           visibility: visible;
           transition: visibility 3s ease-in;
-          //   transition: border 1s linear,background 1s linear;
         }
         .content-right{
           float: left;

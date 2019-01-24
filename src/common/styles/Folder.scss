@@ -35,7 +35,7 @@
     text-align: center;
     position: absolute;
     right: 0;
-    top: 5;
+    top: 5px;
     z-index: 999;
     background-color: #fff;
     p{
@@ -48,7 +48,6 @@
       -webkit-transform:rotate(0) scale(1.5);
       -moz-transform:rotate(0) scale(1.5);
       -o-transform:rotate(0) scale(1.5);
-      /*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
       -ms-transform:rotate(0) scale(1.5);
       -webkit-transition: all .15s ease-in .1s;
       transition: all .15s ease-in .1s;
@@ -65,7 +64,6 @@
       margin: 0 0 0 0;
       ul{
         display: inline-block;
-
         li{
           position: relative;
           width: 92px;
@@ -89,21 +87,21 @@
             line-height: 50px;
             background: url("/static/images/Folder/folder-normal.png") center no-repeat;
           }
-          .folder-num{
-            width:54px;
-            height: 20px;
-            background: url("/static/images/Folder/folder-number1.png") center no-repeat;
-            position: absolute;
-            left:60px;
-            top:-4px;
-            transform:rotate(0) scale(0.8);
-            -webkit-transform:rotate(0) scale(0.8);
-            -moz-transform:rotate(0) scale(0.8);
-            -o-transform:rotate(0) scale(0.8);
-            color: #409eff;
-            line-height: 20px;
-            font-size:12px;
-          }
+          //.folder-num{
+          //  width:54px;
+          //  height: 20px;
+          //  background: url("/static/images/Folder/folder-number.png") center no-repeat;
+          //  position: absolute;
+          //  left:60px;
+          //  top:-4px;
+          //  transform:rotate(0) scale(0.8);
+          //  -webkit-transform:rotate(0) scale(0.8);
+          //  -moz-transform:rotate(0) scale(0.8);
+          //  -o-transform:rotate(0) scale(0.8);
+          //  color: #409eff;
+          //  line-height: 20px;
+          //  font-size:12px;
+          //}
           .folder-setting{
             position: absolute;
             left:62px;
@@ -127,17 +125,6 @@
             text-overflow:ellipsis;
             white-space: nowrap;
           }
-          .folder-img:hover{
-            //transform:rotate(0) scale(1.5);
-            //-webkit-transform:rotate(0) scale(1.5);
-            //-moz-transform:rotate(0) scale(1.5);
-            //-o-transform:rotate(0) scale(1.5);
-            ///*transform 属性下 rotate（旋转）和scale（放大）属性；可以同时用*/
-            //-ms-transform:rotate(0) scale(1.5);
-            //-webkit-transition: all .15s ease-in .1s;
-            //transition: all .15s ease-in .1s;
-
-          }
         }
 
         li.active{
@@ -145,7 +132,6 @@
             background: url("/static/images/Folder/folder-open.png") no-repeat;
           }
         }
-
       }
       .for-folder-list{
         position: absolute;
@@ -157,7 +143,6 @@
         overflow: hidden;
         height: 100%;
         z-index: 9;
-
       }
       .operate-folder{
         position: absolute;
@@ -184,8 +169,6 @@
           transition: all .15s ease-in .1s;
         }
       }
-
     }
-
   }
 }

@@ -129,7 +129,7 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder" >
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder" >
 
       <template>
         <el-radio-group v-model="showFilingNo"  >

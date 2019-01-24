@@ -62,7 +62,7 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="250"
+            width="240"
             :show-overflow-tooltip= true
           >
           </el-table-column>
@@ -76,17 +76,17 @@
           <el-table-column
             prop="createTime"
             label="发起时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="validTime"
             label="截止时间"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="150">
+            width="140">
           </el-table-column>
           <el-table-column
             prop="operation"
@@ -102,7 +102,7 @@
         </el-table>
         <!-- 数据表格 end -->
         <div class="batch-download-btn-area" v-if="num">
-          <button  @click="batchDownload"  class="folder-download-btn">
+          <button  @click="batchDownload"  class="batch-download-btn">
             <span>批量下载</span>
           </button>
 
@@ -116,13 +116,14 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange3"
           :current-page="currentPage2"
+          :page-sizes="[10, 20, 50, 100]"
           :page-size="10"
-          layout="total,prev, pager, next, jumper"
+          layout="total, sizes, prev, pager, next, jumper"
           :total= Number(num)>
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
       <template>
         <el-radio-group v-model="showFilingNo"  >
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
@@ -164,6 +165,7 @@
         value8: "",
         value9: "",
         tableData2: [],
+        everyPage:10,
         num: "",
         loading: true,
         inputVal2: "",
@@ -238,7 +240,7 @@
 
           requestVo ={
             'pageNo':'1',
-            'pageSize':'10',
+            'pageSize':this.everyPage,
             'contractStatus':'2',
             'filingNo':this.$store.state.showFilingNo,
           };
@@ -320,28 +322,41 @@
             }
             this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
             let requestVo = {
-              contractName: this.inputVal2,
-              queryTimeStart: start,
-              queryTimeEnd: end,
-              perpetualValid: perpetualValid,
-              pageNo: val,
-              pageSize: "10",
-              contractStatus: "2",
-              accountCode:this.queryAccountCode,
+              'contractName': this.inputVal2,
+              'queryTimeStart': start,
+              'queryTimeEnd': end,
+              'perpetualValid': perpetualValid,
+               'pageNo': val,
+              'pageSize':this.everyPage,
+              'contractStatus': "2",
+              'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
             };
             this.getData(requestVo);
           } else {
-            let requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode, 'filingNo':this.$store.state.showFilingNo,};
+            let requestVo = {
+              'pageNo': val,
+              'pageSize':this.everyPage,
+              'contractStatus': "2",
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+            };
             this.getData(requestVo);
           }
         } else {
-          let requestVo = { pageNo: val, pageSize: "10", contractStatus: "2",accountCode:this.queryAccountCode, 'filingNo':this.$store.state.showFilingNo,};
+          let requestVo = {
+            'pageNo': val,
+            'pageSize':this.everyPage,
+            'contractStatus': "2",
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+          };
           this.getData(requestVo);
         }
       },
       handleSizeChange(val) {
-        // console.log(`每页 ${val} 条`);
+        this.everyPage=val;
+        this.getData();
       },
       selectParam(value){
         this.queryAccountCode=value
@@ -370,14 +385,14 @@
             .slice(0, 10);
         }
         let requestVo = {
-          contractName: this.inputVal2,
-          queryTimeStart: start,
-          queryTimeEnd: end,
-          perpetualValid: perpetualValid,
-          pageNo: "1",
-          pageSize: "10",
-          contractStatus: "2",
-          accountCode:this.queryAccountCode,
+          'contractName': this.inputVal2,
+          'queryTimeStart': start,
+          'queryTimeEnd': end,
+          'perpetualValid': perpetualValid,
+          'pageNo': "1",
+          'pageSize':this.everyPage,
+          'contractStatus': "2",
+           'accountCode':this.queryAccountCode,
           'filingNo':this.$store.state.showFilingNo,
         };
         this.getData(requestVo);
@@ -503,8 +518,7 @@
 
     },
     created() {
-      // var requestVo = { pageNo: "1", pageSize: "10", contractStatus: "2"};
-      // this.getData(requestVo);
+
     }
   };
 </script>

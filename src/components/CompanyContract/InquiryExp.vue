@@ -57,7 +57,7 @@
             prop="contractName"
             label="合同名称"
             style="text-align:center"
-            width="250">
+            width="240">
           </el-table-column>
           <el-table-column
             prop="signers"
@@ -121,7 +121,7 @@
       </div>
     </div>
 
-    <el-dialog title="单次合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
 
       <template>
         <el-radio-group v-model="showFilingNo"  >

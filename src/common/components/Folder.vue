@@ -7,7 +7,7 @@
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
               <p class="folder-img" @click="searchFolderData(null)"></p>
-              <p class="folder-name" >默认文件夹</p>
+              <p class="folder-name" style="text-align: left;padding-left: 20px;">默认文件夹</p>
             </li>
           </ul>
         </div>
@@ -250,7 +250,7 @@
           'filingName':value
         };
         addContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-          console.log(res)
+
           let resultCode = res.data.resultCode;
 
           if(resultCode=='0'){
@@ -300,7 +300,7 @@
           let resultCode = res.data.resultCode
           if(resultCode=='1'){
             this.folderList=res.data.data;
-            // console.log(this.folderList)
+
             for(let i=0;i<this.folderList.length;i++){
               this.$set(this.folderList[i], 'index', i);
               this.$set(this.folderList[i], 'allIndex', this.folderList)
@@ -346,7 +346,6 @@
               this.folderListShow3=this.folderList.slice(20,30);
               this.folderListShow4=this.folderList.slice(30,40);
               this.folderListShow5=this.folderList.slice(40,this.folderList.length);
-              console.log(111)
             } else {
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
@@ -369,7 +368,6 @@
           'filingNo':filingNo
         };
         deleteContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-          // console.log(res);
 
           if(res.data.resultCode=='1'){
             // this.$store.dispatch('showFilingNo',{showFilingNo:''})
