@@ -131,7 +131,7 @@
 
         <template>
           <el-radio-group v-model="showFilingNo"  >
-            <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title=$store.state.showFilingNo>
+            <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title="item.filingName">
               {{item.filingName}}
             </el-radio>
           </el-radio-group>

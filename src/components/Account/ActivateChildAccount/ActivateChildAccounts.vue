@@ -17,7 +17,7 @@
     </div>
     <div class="ActivateChildAccounts">
 
-      <div class="main" >
+      <div class="main" style="margin-top: 100px;">
 
         <div class="container">
 

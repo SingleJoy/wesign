@@ -101,7 +101,7 @@
               </li>
             </ul>
           </div>
-          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+4)*980+'px)'}" v-if="folderListShow5">
+          <div class="for-folder-list" :style="{'transform':'translateX('+(nowIndex+4)*980+'px)','transition-duration': '1.5s'}" v-if="folderListShow5">
             <ul >
               <li v-for="(item ,index) in folderListShow5" :key="index" :class="{'active':(item.filingNo==$store.state.showFilingNo)}">
                 <p class="folder-img" @click="searchFolderData(item.filingNo)">{{item.contractNum}}</p>
@@ -112,7 +112,7 @@
                       <b class="setting-img"></b>
                  </span>
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item @click.native="reNameFolder(item.filingNo,item.filingName)">重命名</el-dropdown-item>
+                      <el-dropdown-item @click.native="reNameFolder(item.filingNo)">重命名</el-dropdown-item>
                       <el-dropdown-item @click.native="deleteFolder(item.filingNo)">删除</el-dropdown-item>
 
                     </el-dropdown-menu>
@@ -140,6 +140,42 @@
       </div>
 
     </div>
+    <el-dialog title="新增文件夹" :visible.sync="addFolderShow"  custom-class="folderDialog" >
+
+      <div class="add-folder-content" >
+      <el-form :model="ruleForm" :rules="rulesAdd"  ref="rulesAdd">
+
+        <el-form-item prop="folderName">
+          <el-input v-model="ruleForm.folderName" placeholder="请输入合同名称" class="folderName-input"  ></el-input>
+        </el-form-item>
+
+        <div class="login-btn" style="margin-left: 200px;">
+          <el-button type="default" size="medium" @click="quit">取消</el-button>
+          <el-button type="primary" size="medium" @click="addSure">确定</el-button>
+        </div>
+
+      </el-form>
+
+    </div>
+    </el-dialog>
+    <el-dialog title="修改文件名称" :visible.sync="editFolderShow"  custom-class="folderDialog" >
+
+      <div class="add-folder-content" >
+        <el-form :model="ruleFormEdit" :rules="rulesEdit"  ref="rulesEdit">
+
+          <el-form-item prop="folderName">
+            <el-input v-model="ruleFormEdit.folderName" placeholder="请输入合同名称" class="folderName-input"  ></el-input>
+          </el-form-item>
+
+          <div class="login-btn" style="margin-left: 200px;">
+            <el-button type="default" size="medium" @click="quit">取消</el-button>
+            <el-button type="primary" size="medium" @click="editSure">确定</el-button>
+          </div>
+
+        </el-form>
+
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -154,7 +190,19 @@
   export default {
     name: 'Folder',
     data() {
+      var checkFoulderName = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("请输入文件名称"));
+        } else if (((/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im).test(value))||(/[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im).test(value)) {
+          callback(new Error("文件夹名称不能包含非法符号"));
+        } else if(value.length>30){
+          callback(new Error("文件夹名称超过30位"));
+        }else{
+          callback();
+        }
+      };
       return {
+
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
         folderList: [],
@@ -168,9 +216,26 @@
         isBtnActive:this.$store.state.isBtnActive,
         auditSteps:'',
         nowIndex:this.$store.state.nowIndex,
-        changeIndex:0,
-        leftActive:true,
-        rightActive:true,
+        leftActive:false,
+        rightActive:false,
+        leftSilde:1,
+        rightSilde:'',
+        folderNum:'',
+        addFolderShow:false,
+        editFolderShow:false,
+        ruleForm:{
+          folderName:''
+        },
+        ruleFormEdit:{
+          folderName:''
+        },
+        rulesAdd:{
+          folderName: [{ validator: checkFoulderName, trigger: "blur" }],
+        },
+        rulesEdit:{
+          folderName: [{ validator: checkFoulderName, trigger: "blur" }],
+        },
+        defaultEditFillNo:'',
       }
     },
     
@@ -181,38 +246,47 @@
         sessionStorage.setItem("B2CPanelActiveName",'');
         this.$router.push("/Mycontract")
       },
+
       EnterEnter() {
         this.$store.dispatch('isBtnActive',{isBtnActive:false});
         sessionStorage.setItem("B2BPanelActiveName",'');
         sessionStorage.setItem("B2CPanelActiveName",'');
         this.$router.push("/CompanyContract")
       },
-      //重命名归档文件夹名称
+
       reNameFolder(filingNo,filingName){
+       this.editFolderShow=true;
+       this.defaultEditFillNo=filingNo;
+      },
 
-        this.$prompt('重命名', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputValidator:function(value){
-            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
-              regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-            if(regEn.test(value) || regCn.test(value)||(value&&value.length>30)||(!value)) {
+      //重命名归档文件夹名称
+      updateContractFiling(){
+        let params={
+          'filingNo':this.defaultEditFillNo,
+          'filingName':this.ruleFormEdit.folderName
+        };
+        updateContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
 
-              return false;
-            }
-          },
-          inputErrorMessage: '文件夹名称不能包含非法符号且30位以内！'
-        }).then(({ value }) => {
-           console.log(value.length)
-          this.updateContractFiling(filingNo,value);
-        }).catch(() => {
+          if(res.data.resultCode=='1'){
+            this.$message({
+              type: 'success',
+              message: '修改文件夹名称成功!'
+            });
+            this.contractFilings();
+          }else{
+            this.$message({
+              type: 'error',
+              message: res.data.resultMessage
+            });
+          }
 
-        });
+        }).catch(error=>{
+
+        })
       },
 
       //删除归档文件
       deleteFolder(filingNo){
-
         this.$confirm('文件夹删除后，该文件夹中的合同文件将会回归未归档状态，是否删除文件夹？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -231,43 +305,25 @@
       },
 
       // 新增文件夹，数据更新  调用兄弟组件方法
-      addFolder(filingName){
-        this.$prompt('新增文件夹', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputValidator:function(value){
-            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
-              regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-            if(regEn.test(value) || regCn.test(value)||(value&&value.length>30)||(!value)) {
-              return false;
-            }
-          },
-          inputErrorMessage: '文件夹名称不能包含非法符号且30位以内！'
-        }).then(({ value }) => {
-          //输入文件夹名称格式正确调用
-          this.addContractFiling(value);
-        }).catch(() => {
+      addFolder(){
+        if(this.folderList.length==50){
+          this.$message({
+            type: 'error',
+            message: '您可新增的文件夹数量已达上限50'
+          });
+          return false
+        }
+        this.addFolderShow=true;
 
-        });
       },
 
       //新增文件夹接口
-      addContractFiling(value){
-        if(this.folderList.length>50){
-          this.$message({
-            type: 'info',
-            message: '您可新增的文件夹数量已达上限'
-          });
-          return;
-        }
+      addContractFiling(){
         let params={
-          'filingName':value
+          'filingName':this.ruleForm.folderName
         };
         addContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-
-          let resultCode = res.data.resultCode;
-
-          if(resultCode=='0'){
+          if(res.data.resultCode=='1'){
             this.$message({
               type: 'success',
               message: '添加新文件夹成功 '
@@ -279,45 +335,20 @@
         })
       },
 
-      //重命名件夹接口
-      updateContractFiling(filingNo,filingName){
-        let params={
-          'filingNo':filingNo,
-          'filingName':filingName,
-        };
-        updateContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-
-
-          if(res.data.resultCode=='1'){
-
-            this.$message({
-              type: 'success',
-              message: '修改文件夹名称成功!'
-            });
-            this.contractFilings();
-          }else{
-            this.$message({
-              type: 'error',
-              message: res.data.resultMessage
-            });
-          }
-
-        }).catch(error=>{
-
-        })
-      },
-
       // 查询所有归档文件夹接口
       contractFilings(){
-
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
-          let resultCode = res.data.resultCode
+          let resultCode = res.data.resultCode;
           if(resultCode=='1'){
             this.folderList=res.data.data;
-            let folderNum=this.folderList.length
-            this.$store.dispatch('folderNum',{folderNum:folderNum});
+            console.log(this.folderList.length)
+            this.folderNum=Math.ceil(this.folderList.length/10);
+            this.rightSilde=Math.ceil(this.folderList.length/10);
+            console.log(this.folderNum)
+            this.$store.dispatch('folderNum',{folderNum:this.folderNum});
             if(res.data.data.length<=10){
-
+              this.leftActive=false;
+              this.rightActive=false;
               this.folderListShow=this.folderList;
               this.folderListShow1=this.folderList;
               this.folderListShow2=null;
@@ -326,42 +357,47 @@
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=11&&res.data.data.length<=20){
-              this.rightActive=false;
+              this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(10,this.folderList.length);
+              this.folderListShow2=this.folderList.slice(10,res.data.data.length);
               this.folderListShow3=null;
               this.folderListShow4=null;
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=21&&res.data.data.length<=30){
-              this.rightActive=false;
+              this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
-              this.folderListShow3=this.folderList.slice(20,this.folderList.length);
+              this.folderListShow3=this.folderList.slice(20,res.data.data.length);
               this.folderListShow4=null;
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=31&&res.data.data.length<=40){
-              this.rightActive=false;
+              this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
               this.folderListShow3=this.folderList.slice(20,30);
-              this.folderListShow4=this.folderList.slice(30,this.folderList.length);
+              this.folderListShow4=this.folderList.slice(30,res.data.data.length);
               this.folderListShow5=null;
             }
             else if(res.data.data.length>=41&&res.data.data.length<=50){
-              this.rightActive=false;
+              this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
               this.folderListShow3=this.folderList.slice(20,30);
               this.folderListShow4=this.folderList.slice(30,40);
-              this.folderListShow5=this.folderList.slice(40,this.folderList.length);
+              this.folderListShow5=this.folderList.slice(40,res.data.data.length);
             } else {
-              this.rightActive=true;
+              this.folderListShow=this.folderList.slice(0,10);
+              this.folderListShow1=this.folderList.slice(0,10);
+              this.folderListShow2=this.folderList.slice(10,20);
+              this.folderListShow3=this.folderList.slice(20,30);
+              this.folderListShow4=this.folderList.slice(30,40);
+              this.folderListShow5=this.folderList.slice(40,50);
             }
           }else{
 
@@ -393,51 +429,77 @@
           }
 
         }).catch(error=>{
-
         })
       },
 
       searchFolderData(filingNo){
-
         this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
         this.$emit('FolderSearchData')
       },
 
       slideLeft(){
-        let length= Math.ceil(this.folderList.length/10);
-        if(this.nowIndex>=0){
-          return false
-        }else{
-          this.nowIndex=this.nowIndex+1;
-          this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
-          this.changeIndex--;
-          this.rightActive=false;
-        }
+        console.log(this.folderNum)
+        if(this.leftActive){
+          if ((this.folderNum>1)&&((this.folderNum<5)||(this.folderNum=5))){
+            this.nowIndex = this.nowIndex+1;
+            this.folderNum = this.folderNum-1;
+            this.rightActive=true;
+            this.$store.dispatch('nowIndex', {nowIndex: this.nowIndex});
 
-        if(this.nowIndex<=0){
-          this.leftActive=true;
-
+          }else{
+            this.rightActive=false;
+          }
         }
 
       },
+
       slideRight(){
-        let length= Math.ceil(this.folderList.length/10);
-        if(this.changeIndex<length-1){
-          this.changeIndex += 1;
-          this.nowIndex=this.nowIndex-1;
-          this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
-          this.leftActive=false;
-        }else{
+        console.log(this.folderNum)
+        if(this.rightActive) {
+            if ((this.folderNum>1)&&((this.folderNum<5)||(this.folderNum=5))){
 
-          return false
+              this.nowIndex = this.nowIndex-1;
+              this.folderNum = this.folderNum-1;
+              this.leftActive=true;
+              this.$store.dispatch('nowIndex', {nowIndex: this.nowIndex});
+
+           }else{
+              this.rightActive=false;
+            }
         }
-
-        if(Math.abs(this.nowIndex)+1>=length){
-          this.rightActive=true;
-          this.leftActive=false;
-        }
-
       },
+
+      addSure(){
+        this.$refs.rulesAdd.validate(valid => {
+          if (valid) {
+             this.addContractFiling();
+            this.editFolderShow=false;
+            this.addFolderShow=false;
+            this.ruleForm.folderName='';
+            this.ruleFormEdit.folderName='';
+          }else{
+          }
+        });
+      },
+      editSure(){
+        this.$refs.rulesEdit.validate(valid => {
+          if (valid) {
+            this.updateContractFiling();
+            this.editFolderShow=false;
+            this.addFolderShow=false;
+            this.ruleForm.folderName='';
+            this.ruleFormEdit.folderName='';
+          }else{
+
+          }
+        });
+      },
+      quit(){
+         this.editFolderShow=false;
+         this.addFolderShow=false;
+         this.ruleFormEdit.folderName='';
+         this.ruleForm.folderName='';
+      }
     },
     created(){
       this.auditSteps = cookie.getJSON('tenant')[1].auditSteps;
@@ -453,4 +515,17 @@
   @import "../../common/styles/content.scss";
   @import "../../common/styles/Folder.scss";
 
+</style>
+<style>
+ .folderDialog,.add-folder-content{
+    width: 420px!important;
+    height: 196px!important;
+  }
+  .folderName-input{
+   width: 360px;
+    /*padding: 0 15px;*/
+    /*height: 40px;*/
+    /*border: 1px solid #ddd;*/
+    border-radius: 4px;
+  }
 </style>
