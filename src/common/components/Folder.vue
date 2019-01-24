@@ -314,7 +314,6 @@
           return false
         }
         this.addFolderShow=true;
-
       },
 
       //新增文件夹接口
@@ -439,6 +438,7 @@
 
       slideLeft(){
         console.log(this.folderNum)
+        console.log(this.nowIndex)
         if(this.leftActive){
           if ((this.folderNum>1)&&((this.folderNum<5)||(this.folderNum=5))){
             this.nowIndex = this.nowIndex+1;
@@ -455,8 +455,9 @@
 
       slideRight(){
         console.log(this.folderNum)
+        console.log(this.nowIndex)
         if(this.rightActive) {
-            if ((this.folderNum>1)&&((this.folderNum<5)||(this.folderNum=5))){
+            if ((this.folderNum>=1)&&((this.folderNum<5)||(this.folderNum=5))&&(this.folderNum)){
 
               this.nowIndex = this.nowIndex-1;
               this.folderNum = this.folderNum-1;
