@@ -34,10 +34,11 @@
     p{
       width: 16px;
       height: 60px;
-      background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
+      background: url("/static/images/Folder/right-arrow-gray.png") center center no-repeat;
     }
     p.rightActive{
-      background: url("/static/images/Folder/right-arrow-gray.png") center center no-repeat;
+
+      background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
     }
   }
   .folder-list{

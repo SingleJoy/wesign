@@ -180,6 +180,7 @@
 </template>
 
 <script>
+
   import {addContractFiling,
     contractFiling,
     contractFilings,
@@ -218,8 +219,6 @@
         nowIndex:this.$store.state.nowIndex,
         leftActive:false,
         rightActive:false,
-        leftSilde:1,
-        rightSilde:'',
         folderNum:'',
         addFolderShow:false,
         editFolderShow:false,
@@ -337,13 +336,12 @@
       // 查询所有归档文件夹接口
       contractFilings(){
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
-          let resultCode = res.data.resultCode;
-          if(resultCode=='1'){
+          console.log("当前是多少:"+(1-this.nowIndex)+"页");
+          if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
-            console.log(this.folderList.length)
+            // console.log(this.folderList.length)
             this.folderNum=Math.ceil(this.folderList.length/10);
-            this.rightSilde=Math.ceil(this.folderList.length/10);
-            console.log(this.folderNum)
+
             this.$store.dispatch('folderNum',{folderNum:this.folderNum});
             if(res.data.data.length<=10){
               this.leftActive=false;
@@ -437,37 +435,42 @@
       },
 
       slideLeft(){
-        console.log(this.folderNum)
-        console.log(this.nowIndex)
-        if(this.leftActive){
-          if ((this.folderNum>1)&&((this.folderNum<5)||(this.folderNum=5))){
-            this.nowIndex = this.nowIndex+1;
-            this.folderNum = this.folderNum-1;
-            this.rightActive=true;
-            this.$store.dispatch('nowIndex', {nowIndex: this.nowIndex});
 
-          }else{
+
+        if((1-this.nowIndex)>1){
+          this.nowIndex=this.nowIndex+1;
+
+          this.rightActive=true;
+          this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
+          if((1-this.nowIndex)==this.folderNum){
             this.rightActive=false;
+          }else if(this.nowIndex==0){
+            this.leftActive=false;
           }
+        }else{
+          return false
         }
-
+        console.log("当前是多少:"+(1-this.nowIndex)+"页");
       },
 
       slideRight(){
-        console.log(this.folderNum)
-        console.log(this.nowIndex)
-        if(this.rightActive) {
-            if ((this.folderNum>=1)&&((this.folderNum<5)||(this.folderNum=5))&&(this.folderNum)){
 
-              this.nowIndex = this.nowIndex-1;
-              this.folderNum = this.folderNum-1;
-              this.leftActive=true;
-              this.$store.dispatch('nowIndex', {nowIndex: this.nowIndex});
 
-           }else{
+
+        if((1-this.nowIndex)<this.folderNum){
+           this.nowIndex=this.nowIndex-1;
+
+           this.leftActive=true;
+           this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
+            if((1-this.nowIndex)==this.folderNum){
               this.rightActive=false;
+            }else if(this.nowIndex==0){
+              this.leftActive=false;
             }
+        }else{
+          return false
         }
+        console.log("当前是多少:"+(1-this.nowIndex)+"页");
       },
 
       addSure(){
@@ -482,6 +485,7 @@
           }
         });
       },
+
       editSure(){
         this.$refs.rulesEdit.validate(valid => {
           if (valid) {
@@ -495,6 +499,7 @@
           }
         });
       },
+
       quit(){
          this.editFolderShow=false;
          this.addFolderShow=false;
