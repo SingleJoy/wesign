@@ -140,14 +140,14 @@
       </div>
 
     </div>
-    <Dialog > </Dialog>
+
     <el-dialog title="新增文件夹" :visible.sync="addFolderShow"  custom-class="folderDialog" >
 
       <div class="add-folder-content" >
       <el-form :model="ruleForm" :rules="rulesAdd"  ref="rulesAdd">
 
         <el-form-item prop="folderName">
-          <el-input v-model="ruleForm.folderName" placeholder="请输入合同名称" class="folderName-input"  ></el-input>
+          <el-input v-model="ruleForm.folderName" placeholder="请输入合同名称" class="folderName-input"  style="width: 380px;"></el-input>
         </el-form-item>
 
         <div class="login-btn" style="margin-left: 200px;">
@@ -165,7 +165,7 @@
         <el-form :model="ruleFormEdit" :rules="rulesEdit"  ref="rulesEdit">
 
           <el-form-item prop="folderName">
-            <el-input v-model="ruleFormEdit.folderName" placeholder="请输入合同名称" class="folderName-input"  ></el-input>
+            <el-input v-model="ruleFormEdit.folderName" placeholder="请输入合同名称" class="folderName-input" style="width: 380px;" ></el-input>
           </el-form-item>
 
           <div class="login-btn" style="margin-left: 200px;">
