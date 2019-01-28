@@ -94,8 +94,6 @@ import BindCompany from "../components/UserRegister/BindCompany.vue"
 
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
 
-// 1.8新增
-import Tree from '../components/Tree/Tree.vue'   //
 
 // demo 演示
 import DemoRegister from "../demo/DemoRegister.vue";   //demo注册/登录
