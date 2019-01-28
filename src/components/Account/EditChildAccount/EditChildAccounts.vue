@@ -119,16 +119,12 @@
 </template>
 <script>
 
-  import Account from "../Account"
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
   import {updateAccount, getAccountInfo,getDate} from '@/api/account'
-
   export default {
     name: 'AddChildAccounts',
-    component:{
-      Account
-    },
+
     data() {
       // 校验二级账号姓名
       let validateAccountName = (rule,value,callback) => {

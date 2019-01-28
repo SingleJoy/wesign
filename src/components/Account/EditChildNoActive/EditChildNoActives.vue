@@ -158,7 +158,6 @@
   import {updateAccount,templateList,getAccountInfo,getDate} from '@/api/account'
   export default {
     name: 'EditChildNoActives',
-
     data() {
       // 校验二级账号姓名
       let validateAccountName = (rule,value,callback) => {
@@ -347,26 +346,24 @@
                 manageName:manageName,    //一级账号名称
               };
               updateAccount(this.interfaceCode,params).then(res => {
-
-                  this.$loading.hide();
-
+                this.$loading.hide();
+                this.once = false;
                 if (res.data.resultCode == '1') {
                   this.$message({
                     message: res.data.resultMessage,
                     type: 'success'
                   });
-
                   this.$router.push("/Account");
                 } else if(res.data.resultCode == 0){
                   let num = 3;
                   if(res.data.data){
                     num = num-res.data.data.authNum;
-                    if(num>='1'){
+                    if(num>1){
                       this.$alert(<div style="textAlign:center">
                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
                       <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
                         <p class="vertifiId-warn">您还剩余{num}次机会</p> </div>, '警告',{confirmButtonText: '确定',});
-                      this.once=false;
+
                     }else if(num=='0'){
                       this.$alert(<div style="textAlign:center">
                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
@@ -381,7 +378,7 @@
                     message:res.data.resultMessage,
                     type: 'error'
                   });
-                  this.once = false;
+
                 }
               }).catch(error=>{
 

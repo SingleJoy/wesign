@@ -354,7 +354,8 @@
 
               addAccount(this.interfaceCode,params).then(res => {
                 this.$loading.hide();
-                let accountCode=res.data.accountCode;  //存储accountCode
+                this.once = false;
+
                 //二级账号添加成功
                 if(res.data.resultCode=='1'){
                   this.$message({
@@ -364,46 +365,36 @@
                   })
                   this.$router.push("/Account");
                 }
-                else if(res.data.resultCode=='0'){
+                else if(res.data.resultCode=='0') {
                   //二级账号添加失败   三要素验证失败
-                  sessionStorage.setItem('subAccountCode',res.data.data.accountCode)
-
-
-                  }
+                  sessionStorage.setItem('subAccountCode', res.data.data.accountCode)
                   let num = 3;
-                  if(res.data.data){
-                    num = num-res.data.data.authNum;
-                    if(num>='1'){
+                  if (res.data.data) {
+                    num = num - res.data.data.authNum;
+                    if (num > 1) {
                       this.$alert(<div style="textAlign:center">
                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
                         <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
-                        <p class="vertifiId-warn">您还剩余{num}次机会</p> </div>, '警告',{confirmButtonText: '确定',});
-                    }
-                    else{
+                        <p class="vertifiId-warn">您还剩余{num}次机会</p></div>, '警告', {confirmButtonText: '确定',});
+                    } else {
                       this.$alert(<div style="textAlign:center">
-                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
-                         <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
-                        </div>, '警告',{confirmButtonText: '确定',});
+                        <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                        <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                      </div>, '警告', {confirmButtonText: '确定',});
                     }
                     this.$router.push('/EditChildNoActive')
                   }
-                  else if(res.data.resultCode=='2'){
-                    this.once=false;
-                    //二级账号已存在
-                    this.$message({
-                      showClose: true,
-                      message:res.data.resultMessage,
-                      type: 'error'
-                    })
+                }
+                else if (res.data.resultCode == '2') {
 
-                  }
-                  else{
-                    this.$message({
-                      showClose: true,
-                      message: '您未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
-                      type: 'error'
-                    })
-                  }
+                  //二级账号已存在
+                  this.$message({
+                    showClose: true,
+                    message: res.data.resultMessage,
+                    type: 'error'
+                  })
+
+                }
               }).catch(error=>{
 
               })
