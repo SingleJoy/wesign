@@ -141,7 +141,7 @@
 
     </div>
 
-    <el-dialog title="新增文件夹" :visible.sync="addFolderShow"  custom-class="folderDialog" >
+    <el-dialog title="新增文件夹" :visible.sync="addFolderShow"  custom-class="folderDialog"  :before-close="handleClose">
 
       <div class="add-folder-content" >
       <el-form :model="ruleForm" :rules="rulesAdd"  ref="rulesAdd">
@@ -159,7 +159,7 @@
 
     </div>
     </el-dialog>
-    <el-dialog title="修改文件名称" :visible.sync="editFolderShow"  custom-class="folderDialog" >
+    <el-dialog title="修改文件名称" :visible.sync="editFolderShow"  custom-class="folderDialog" :before-close="handleClose">
 
       <div class="add-folder-content" >
         <el-form :model="ruleFormEdit" :rules="rulesEdit"  ref="rulesEdit">
@@ -192,10 +192,10 @@
   export default {
     name: 'Folder',
     data() {
-      var checkFoulderName = (rule, value, callback) => {
+      let checkFoulderName = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入文件名称"));
-        } else if (((/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im).test(value))||(/[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im).test(value)) {
+        } else if (((/[`~!@#$%^&*()_+<>?:"{},\/;'[\]]/im).test(value))||(/[·！#￥（）：；“”‘、，|《。》？、【】[\]]/im).test(value)) {
           callback(new Error("文件夹名称不能包含非法符号"));
         } else if(value.length>30){
           callback(new Error("文件夹名称超过30位"));
@@ -253,7 +253,12 @@
         sessionStorage.setItem("B2CPanelActiveName",'');
         this.$router.push("/CompanyContract")
       },
+      handleClose(done){
+        this.ruleForm.folderName='';
+        this.ruleFormEdit.folderName='';
+        done();
 
+      },
       reNameFolder(filingNo,filingName){
        this.editFolderShow=true;
        this.defaultEditFillNo=filingNo;
@@ -293,6 +298,7 @@
           type: 'warning',
           center: true
         }).then(() => {
+
           this.deleteContractFiling(filingNo);
 
         }).catch(() => {
@@ -314,6 +320,7 @@
           return false
         }
         this.addFolderShow=true;
+
       },
 
       //新增文件夹接口
@@ -337,13 +344,13 @@
       // 查询所有归档文件夹接口
       contractFilings(){
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
-
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
             // console.log(this.folderList.length)
             this.folderNum=Math.ceil(this.folderList.length/10);
 
             this.$store.dispatch('folderNum',{folderNum:this.folderNum});
+
             if(res.data.data.length<=10){
               this.leftActive=false;
               this.rightActive=false;
@@ -413,7 +420,8 @@
         deleteContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
 
           if(res.data.resultCode=='1'){
-            // this.$store.dispatch('showFilingNo',{showFilingNo:''})
+            this.$store.dispatch('showFilingNo',{showFilingNo:null});
+            this.$store.dispatch('nowIndex',{nowIndex:0});
             this.contractFilings();
             this.$message({
               type: 'success',
