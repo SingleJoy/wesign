@@ -819,14 +819,6 @@ export const router = new Router({
         keepAlive: true
       }
     },
-    {
-      path:'/Tree',
-      name:'Tree',
-      component:Tree,
-      meta:{
-        auth:true,
-      }
-    }
 
   ],
   scrollBehavior(to, from, savedPosition) {
