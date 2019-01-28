@@ -7,7 +7,7 @@
     position: absolute;
     width:35px;
     height: 60px;
-    cursor: pointer;
+
     left: 10px;
     top: 25px;
     z-index: 999;
@@ -16,15 +16,16 @@
       width: 16px;
       height: 60px;
       background: url("/static/images/Folder/left-arrow-gray.png") center center no-repeat;
+      cursor: not-allowed;
     }
     p.leftActive{
       background: url("/static/images/Folder/left-arrow.png") center center no-repeat;
+      cursor: pointer;
     }
   }
   .right-arrow{
     width:55px;
     height: 100px;
-    cursor: pointer;
     text-align: center;
     position: absolute;
     right: 0;
@@ -32,12 +33,13 @@
     z-index: 999;
     background-color: #fff;
     p{
+      cursor: not-allowed;
       width: 16px;
       height: 60px;
       background: url("/static/images/Folder/right-arrow-gray.png") center center no-repeat;
     }
     p.rightActive{
-
+      cursor: pointer;
       background: url("/static/images/Folder/right-arrow.png") center center no-repeat;
     }
   }

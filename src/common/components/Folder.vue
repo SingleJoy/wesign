@@ -140,6 +140,7 @@
       </div>
 
     </div>
+    <Dialog > </Dialog>
     <el-dialog title="新增文件夹" :visible.sync="addFolderShow"  custom-class="folderDialog" >
 
       <div class="add-folder-content" >
@@ -336,7 +337,7 @@
       // 查询所有归档文件夹接口
       contractFilings(){
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
-          console.log("当前是多少:"+(1-this.nowIndex)+"页");
+
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
             // console.log(this.folderList.length)
@@ -436,7 +437,6 @@
 
       slideLeft(){
 
-
         if((1-this.nowIndex)>1){
           this.nowIndex=this.nowIndex+1;
 
@@ -450,16 +450,11 @@
         }else{
           return false
         }
-        console.log("当前是多少:"+(1-this.nowIndex)+"页");
+        console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
       },
-
       slideRight(){
-
-
-
         if((1-this.nowIndex)<this.folderNum){
            this.nowIndex=this.nowIndex-1;
-
            this.leftActive=true;
            this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
             if((1-this.nowIndex)==this.folderNum){
@@ -470,7 +465,7 @@
         }else{
           return false
         }
-        console.log("当前是多少:"+(1-this.nowIndex)+"页");
+        console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
       },
 
       addSure(){
@@ -509,7 +504,6 @@
     },
     created(){
       this.auditSteps = cookie.getJSON('tenant')[1].auditSteps;
-
       this.contractFilings();
     }
 
