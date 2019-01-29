@@ -17,10 +17,14 @@ const state = {
   type:'',        // 数据回显类型
   needSign:'',    //平台方是否签署
   tabIndex:'',     //当前活动tab
-  showFilingNo:null,     //当前默认folder编号
+  showFilingNo:'',     //当前默认folder编号
   isBtnActive:true,
-  nowIndex:0,
-  folderNum:0
+  nowIndex:0,  //归档合同文件左右翻页
+  folderNum:0,   //归档合同文件总共多少页
+  PanelActiveName:'first',
+  showTypePanel:true,
+  showFilingType:true,   //实名
+  showFilingTypeUnRec:false,   //未实名
 }
 const actions = {
     fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
@@ -34,6 +38,11 @@ const actions = {
     isBtnActive:({commit},obj) => commit('isBtnActive',obj),
     nowIndex:({commit},obj) => commit('nowIndex',obj),
     folderNum:({commit},obj) => commit('folderNum',obj),
+  PanelActiveName:({commit},obj) => commit('PanelActiveName',obj),
+  showTypePanel:({commit},obj) => commit('showTypePanel',obj),
+  showFilingType:({commit},obj) => commit('showFilingType',obj),
+  showFilingTypeUnRec:({commit},obj) => commit('showFilingTypeUnRec',obj),
+
 }
 const mutations = {
   tabIndex (state,res) {
@@ -72,6 +81,19 @@ const mutations = {
   },
   folderNum(state,res){
     state.folderNum=res.folderNum
+  },
+
+  PanelActiveName(state,res){
+    state.PanelActiveName=res.PanelActiveName
+  },
+  showTypePanel(state,res){
+    state.showTypePanel=res.showTypePanel
+  },
+  showFilingType(state,res){
+    state.showFilingType=res.showFilingType
+  },
+  showFilingTypeUnRec(state,res){
+    state.showFilingTypeUnRec=res.showFilingTypeUnRec
   },
 
   headclick (state) {

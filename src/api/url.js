@@ -266,7 +266,8 @@ const service = {
       params: param
     });
   },
-  queryStatementList(param, interfaceCode) {
+
+  queryStatementList(param,interfaceCode) {
     return request({
       url: "/api/v1.6/tenant/" + interfaceCode + "/getAllWesignBill",
       method: "get",

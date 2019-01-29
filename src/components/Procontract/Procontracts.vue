@@ -2,25 +2,25 @@
   <div class="Procontracts">
 
     <div class='main'>
-      <Folder @FolderSearchData="FolderSearchData"></Folder>
+      <Folder @FolderSearchData="FolderSearchData" ref="folder"></Folder>
 
       <div class="contract-type">
 
-      <el-tabs v-model="activeName" tab-position="40px" style="margin-top:20px;" @tab-click="handleClick">
+      <el-tabs v-model="$store.state.PanelActiveName" tab-position="40px" style="margin-top:20px;" @tab-click="handleClick">
         <el-tab-pane label="全部文件" name="first">
-          <total-contract ref="first"></total-contract>
+          <total-contract ref="first" @setFolder="setFolder"></total-contract>
         </el-tab-pane>
         <el-tab-pane label="待我签署" name="second">
-          <inquiry-wait-me ref="second"></inquiry-wait-me>
+          <inquiry-wait-me ref="second" @setFolder="setFolder"></inquiry-wait-me>
         </el-tab-pane>
         <el-tab-pane label="待他人签署" name="third">
-          <inquiry-wait-others ref="third"></inquiry-wait-others>
+          <inquiry-wait-others ref="third" @setFolder="setFolder"></inquiry-wait-others>
         </el-tab-pane>
         <el-tab-pane label="已生效" name="fourth">
-          <inquiry-into-force ref="fourth"></inquiry-into-force>
+          <inquiry-into-force ref="fourth" @setFolder="setFolder"></inquiry-into-force>
         </el-tab-pane>
         <el-tab-pane label="已截止" name="five">
-          <inquiry-expired ref="five"></inquiry-expired>
+          <inquiry-expired ref="five" @setFolder="setFolder"></inquiry-expired>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -45,7 +45,7 @@
       return {
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
-        activeName:sessionStorage.getItem('b2cPanelActiveName')?sessionStorage.getItem('b2cPanelActiveName'):'first',
+        activeName:this.$store.state.PanelActiveName,
         showFilingNo:this.$store.state.showFilingNo,
       }
     },
@@ -63,6 +63,9 @@
       FolderSearchData(){
         let name=this.activeName;
         this.getChildData(name)
+      },
+      setFolder(){
+        this.$refs.folder.contractFilings();
       }
     },
     mounted(){

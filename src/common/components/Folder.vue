@@ -135,8 +135,8 @@
     </div>
     <div class="common-top" v-if="auditSteps==3" >
       <div class="common-top-tab">
-        <div @click="EnterPer" :class="{'btn-active':isBtnActive,'btn-default':!isBtnActive}">企业对个人</div>
-        <div style="margin-left: -5px;" @click="EnterEnter" :class="{'btn-active':!isBtnActive,'btn-default':isBtnActive}">企业对企业</div>
+        <div @click="EnterPer" :class="{'btn-active':$store.state.showTypePanel,'btn-default':(!$store.state.showTypePanel)}">企业对个人</div>
+        <div style="margin-left: -5px;" @click="EnterEnter" :class="{'btn-active':(!$store.state.showTypePanel),'btn-default':$store.state.showTypePanel}">企业对企业</div>
       </div>
 
     </div>
@@ -237,25 +237,29 @@
     },
     
     methods:{
+
       EnterPer() {
         this.$store.dispatch('isBtnActive',{isBtnActive:true});
-        sessionStorage.setItem("B2BPanelActiveName",'');
-        sessionStorage.setItem("B2CPanelActiveName",'');
-        this.$router.push("/Mycontract")
+        this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
+        this.$store.dispatch('showTypePanel',{showTypePanel:true});
+        this.$emit('FolderSearchData')
+
       },
 
       EnterEnter() {
         this.$store.dispatch('isBtnActive',{isBtnActive:false});
-        sessionStorage.setItem("B2BPanelActiveName",'');
-        sessionStorage.setItem("B2CPanelActiveName",'');
-        this.$router.push("/CompanyContract")
+        this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
+        this.$store.dispatch('showTypePanel',{showTypePanel:false});
+        this.$emit('FolderSearchData')
+
       },
+
       handleClose(done){
         this.ruleForm.folderName='';
         this.ruleFormEdit.folderName='';
         done();
-
       },
+
       reNameFolder(filingNo,filingName){
        this.editFolderShow=true;
        this.defaultEditFillNo=filingNo;
@@ -330,6 +334,11 @@
             this.$message({
               type: 'success',
               message: '添加新文件夹成功 '
+            });
+          }else{
+            this.$message({
+              type: 'error',
+              message: res.data.resultMessage
             });
           }
           this.contractFilings();
@@ -419,7 +428,11 @@
           if(res.data.resultCode=='1'){
             this.$store.dispatch('showFilingNo',{showFilingNo:null});
             this.$store.dispatch('nowIndex',{nowIndex:0});
+            this.$store.dispatch('showFilingType',{showFilingType:true});
+            this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
+
             this.contractFilings();
+            this.$emit('FolderSearchData');
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -437,6 +450,16 @@
 
       searchFolderData(filingNo){
         this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
+        this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
+        this.$store.dispatch('showTypePanel',{showTypePanel:true});
+
+        if(filingNo){
+          this.$store.dispatch('showFilingType',{showFilingType:false});
+          this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:true});
+        }else {
+          this.$store.dispatch('showFilingType',{showFilingType:true});
+          this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
+        }
         this.$emit('FolderSearchData')
       },
 
@@ -444,7 +467,6 @@
 
         if((1-this.nowIndex)>1){
           this.nowIndex=this.nowIndex+1;
-
           this.rightActive=true;
           this.$store.dispatch('nowIndex',{nowIndex:this.nowIndex});
           if((1-this.nowIndex)==this.folderNum){

@@ -600,7 +600,7 @@
                   });
                 }
 
-              }).catch(errot=>{
+              }).catch(error=>{
 
               })
 

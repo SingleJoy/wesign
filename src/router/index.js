@@ -25,8 +25,8 @@ import Signaturesetting from '../components/Templatelaunch/Signaturesetting/Sign
 import Contractsign from '../components/Templatelaunch/Contractsign/Contractsign.vue' //模板合同签署
 import Specifiedposition from '../components/Templatelaunch/Specifiedposition/Specifiedposition.vue' //模板指定位置
 import Fillinformation from '../components/Templatelaunch/Fillinformation/Fillinformation.vue' //模板填充信息
-import TotalContract from '../components/Mycontract/TotalContract.vue' // 全部合同
-import InquiryWaitMe from '../components/Mycontract/InquiryWaitMe.vue' // 待我签署合同
+import TotalContract from '../components/Mycontract/B2C/TotalContract.vue' // 全部合同
+import InquiryWaitMe from '../components/Mycontract/B2C/InquiryWaitMe.vue' // 待我签署合同
 import batchInfo from '../components/Templatebatch/batchInfo/batchInfo.vue' //批量模板填充信息
 import batchSetting from '../components/Templatebatch/batchSetting/batchSetting.vue' //批量模板签署设置
 import Templatecomplete from '../components/Templatebatch/Templatecomplete/Templatecomplete.vue' //批量模板签署完成
@@ -83,7 +83,7 @@ import CompanyExa from '../components/CompanyExa/CompanyExa.vue'                
 import BuyProduct from '../components/BuyProduct/BuyProduct.vue'                                   //B2B 无权限
 import Merchant from '../components/Merchant/Merchant.vue'                                         //b2b 无权限首页
 import Procontract from '../components/Procontract/Procontract.vue'                                //b2b 合同列表 (小b)
-import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
+// import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 //IndividualRegister
@@ -692,14 +692,14 @@ export const router = new Router({
         auth: true
       }
     },
-    {
-      path: '/CompanyContract',
-      name: 'CompanyContract',
-      component: CompanyContract,
-      meta: {
-        auth: true
-      }
-    },
+    // {
+    //   path: '/CompanyContract',
+    //   name: 'CompanyContract',
+    //   component: CompanyContract,
+    //   meta: {
+    //     auth: true
+    //   }
+    // },
     {
       path: '/CompanyExb',
       name: 'CompanyExb',

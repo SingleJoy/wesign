@@ -35,7 +35,7 @@
     </div>
     <div class="list-body">
       <div class='table'>
-        <div class="expiredImg" v-if="num === 0">
+        <div class="totalImg" v-if="num === 0">
           <img src="/static/images/notavailable.png" alt="">
         </div>
         <el-table
@@ -86,7 +86,8 @@
               <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1&&(scope.row.isCreater?accountCode == scope.row.operator:true) '>签&nbsp;&nbsp;署</el-button> -->
               <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
               <el-button @click="rowLockClick(scope.row)" type="text" size="mini">详&nbsp;&nbsp;情</el-button>
-              <el-button  type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
+              <el-button v-if="$store.state.showFilingTypeUnRec" type="text" size="small" @click="folderClick(scope.row)">重新归档</el-button>
+              <el-button v-else type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
 
             </template>
           </el-table-column>
@@ -454,6 +455,14 @@
       },
       folderSure(){
         let fillingNo=this.showFilingNo;
+        if(!fillingNo){
+          this.$message({
+            showClose: true,
+            message: '请选择合同需要归档的文件夹！',
+            type: "error"
+          });
+          return false;
+        }
         this.contractFiling(fillingNo);
       },
 

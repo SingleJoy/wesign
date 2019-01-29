@@ -77,7 +77,7 @@
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="140">
+            width="120">
           </el-table-column>
           <el-table-column
             prop="operation"
@@ -91,7 +91,8 @@
               <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
               <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4  && scope.row.isCreater && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
               <el-button @click="rowLockClick(scope.row)" type="text" size="mini">详&nbsp;&nbsp;情</el-button>
-              <el-button  type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
+              <el-button v-if="$store.state.showFilingType" type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
+              <el-button v-else type="text" size="small" @click="folderClick(scope.row)">重新归档</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -199,6 +200,7 @@
         folderList:[],
         batchFolderListNo:'',
         defaultContractNum:'',
+        showFilingType:true,
       }
     },
     methods: {
@@ -503,6 +505,14 @@
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
+            this.showFilingNo=this.$store.state.showFilingNo;
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
+            }
             this.dialogChooseFolder=true;
           }
         }).catch(error=>{
@@ -527,18 +537,22 @@
       }
     },
     created() {
-
+      if(this.showFilingNo){
+        this.showFilingType=true
+      }else {
+        this.showFilingType=false
+      }
     }
   }
 </script>
 
 <style lang='scss' scoped>
-  @import '../../styles/Multiparty/Multiparties.scss';
-  @import "../../common/styles/BatchDownLoad.scss";
+  @import '../../../styles/Multiparty/Multiparties';
+  @import "../../../common/styles/BatchDownLoad";
 </style>
 
 <style>
-  @import "../../common/styles/dialog.scss";
+  @import "../../../common/styles/dialog.scss";
   .expiredImg{
     width: 153px;
     margin: 300px auto;

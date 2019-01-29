@@ -1,8 +1,8 @@
 <template>
-  <div class="InquiryWaitOthers">
-    <div class="contractTitle" style="text-align: left;">
-      <input type="text" class="signer-name" placeholder="如合同名称/签署人"  v-model="inputVal2" :maxlength = 50>
-      <el-select v-model="value" v-if="isBusiness==1&& accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="请选择账号类型">
+  <div>
+    <div class='contractTitle' style="text-align: left;">
+      <input type="text" class="signer-name" placeholder="如合同名称/签署人" v-model="inputVal" @keyup.enter.native="contractInquiry()" :maxlength = 50>
+      <el-select v-model="value" v-if="isBusiness==1 && accountLevel!=2" @visible-change="getAccount()" @change="selectParam(value)" placeholder="全部">
         <el-option
           v-for="item in options"
           :key="item.accountCode"
@@ -37,23 +37,24 @@
         v-model="checked"
       ></el-checkbox>
       <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
-      <el-button type="primary" @click='contractInquiryWaitOthers' style='margin-left:20px;letter-spacing:5px;'>搜索</el-button>
+      <el-button type="primary" @click='contractInquiry' style="margin-left:20px;letter-spacing:5px;">搜索</el-button>
     </div>
     <div class="list-body">
       <div class="table">
-        <div class="waitOtherImg" v-if="num === 0">
+        <div class="totalImg" v-if="num === 0">
           <img src="/static/images/notavailable.png" alt="">
         </div>
         <el-table
-          :data="tableData2"
           :header-cell-style="getRowClass"
+          :data="tableInformation"
           style="width: 100%;text-align:center"
           v-loading="loading"
           element-loading-text="拼命加载中"
           v-cloak
           v-else
           @selection-change="handleSelectionChange"
-          ref="multipleTable">
+          ref="multipleTable"
+        >
           <el-table-column
             type="selection"
             width="55">
@@ -75,32 +76,34 @@
           </el-table-column>
           <el-table-column
             prop="createTime"
+            clearable=true
             label="发起时间"
-            width="140">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="validTime"
             label="截止时间"
-            width="140">
+            width="150">
           </el-table-column>
           <el-table-column
             prop="contractStatus"
             label="当前状态"
-            width="140">
+            width="120">
           </el-table-column>
           <el-table-column
             prop="operation"
             label="操作"
           >
             <template slot-scope="scope">
-              <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && accountCode == scope.row.operator'>签&nbsp;&nbsp;署</el-button>
-              <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater && accountCode == scope.row.operator' >
-                <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
+              <el-button @click="affixClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1  && (scope.row.isCreater?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
+              <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.isCreater  && accountCode == scope.row.operator' >
+                <el-button @click="warnClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
               </el-tooltip>
               <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-              <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater == true  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
-              <el-button @click="rowLockClick(scope.row)" type="text" size="mini">详&nbsp;&nbsp;情</el-button>
-              <el-button  type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
+              <el-button @click="lookClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator'>延&nbsp;&nbsp;期</el-button>
+              <el-button @click="rowlookClick(scope.row)" type="text" size="mini">详&nbsp;&nbsp;情</el-button>
+              <el-button v-if="$store.state.showFilingType" type="text" size="small" @click="folderClick(scope.row)">归档</el-button>
+              <el-button v-else type="text" size="small" @click="folderClick(scope.row)">重新归档</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -118,17 +121,16 @@
       <div class='pagetion'>
         <el-pagination
           @size-change="handleSizeChange"
-          @current-change="handleCurrentChange3"
-          :current-page="currentPage2"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
           :page-sizes="[10, 20, 50, 100]"
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
-          :total= Number(num)>
+          :total=Number(num)>
         </el-pagination>
       </div>
     </div>
-
-    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
+    <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder" >
 
       <template>
         <el-radio-group v-model="showFilingNo"  >
@@ -143,41 +145,40 @@
       </template>
 
     </el-dialog>
-
   </div>
 </template>
 
 <script>
+  import {state, actions,mutations} from '@/store/index';
   import cookie from '@/common/js/getTenant'
   import moment  from 'moment'
-  import server from "@/api/url";
-  import {b2cContrants,remind} from '@/api/list'
-  import {state, actions,mutations} from '@/store/index';
+  import server from "@/api/url"
+  import {b2bContrants,remind} from '@/api/list'
+
   import {addContractFiling, contractFiling, contractFilings,
     deleteContractFiling, updateContractFiling}
     from '@/api/folder'
   export default {
-    name:'InquiryWaitMe',
     data() {
       return {
-        options: [],
-        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
-        value:'',
-        hasQuery:false,
-        currentPage2: 1,
-        everyPage:10,
-        value8: '',
-        value9: '',
-        tableData2: [],
-        num: '',
-        loading: true,
-        inputVal2:'',
-        checked:false,
-        inquiry:false,
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
         accountCode:sessionStorage.getItem('accountCode'),
         accountLevel:sessionStorage.getItem('accountLevel'),
         isBusiness:cookie.getJSON('tenant')[1].isBusiness,
+        options: [],
+        value:'',
+        queryAccountCode:this.accountLevel==2?sessionStorage.getItem('accountCode'):'',
+        currentPage: 1,
+        everyPage:10,
+        value8: '',
+        value9: '',
+        tableInformation: [],
+        num: '',
+        hasQuery:false,
+        loading: true,
+        inputVal:'',
+        checked:false,
+        inquiry:false, // 查询标示
         filters: {
           column: {
             create_start_date: null,
@@ -248,35 +249,37 @@
         }
       },
       getData (requestVo) {
-        let data =[];
-        let isCreater='';
+        var data =[];
+        var isCreater='';
+        let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
         if(!requestVo){
           requestVo ={
             'pageNo':'1',
             'pageSize':this.everyPage,
-            'contractStatus':'2',
+            'contractStatus':'0',
             'accountCode':this.accountLevel==2?this.accountCode:'',
             'filingNo':this.$store.state.showFilingNo,
           };
-        }
 
-        b2cContrants(requestVo,this.interfaceCode).then(res=>{
+        }
+        b2bContrants(requestVo,this.interfaceCode).then(res=>{
           for (let i = 0; i < res.data.content.length;i++) {
-            if (res.data.content[i].creater == this.interfaceCode) {
+            if(res.data.content[i].creater == currentFaceCode){
               isCreater = true;
-            } else {
+            }else{
               isCreater = false;
             }
-            var obj = {}
+            let obj = {}
             obj.contractName = res.data.content[i].contractName;
             obj.contractNum = res.data.content[i].contractNum;
             obj.createTime = res.data.content[i].createTime;
             obj.signers =  res.data.content[i].signers;
-            obj.validTime =  res.data.content[i].validTime;
             obj.contractStatus =  res.data.content[i].contractStatus;
-            obj.operator = res.data.content[i].operator
+            obj.validTime =  res.data.content[i].validTime;
+            obj.contractType = res.data.content[i].contractType;
+            obj.operator = res.data.content[i].operator;
             obj.isCreater = isCreater;
-            obj.operation = ''
+            obj.operation = '';
             switch (obj.contractStatus){
               case "1":
                 obj.contractStatus="待我签署";
@@ -297,18 +300,18 @@
             }
             data[i] = obj
           }
-          this.tableData2 = data
+          this.tableInformation = data
           this.num = res.data.totalItemNumber
           this.loading = false
+
         }).catch(error=>{
 
         })
-
       },
-      handleCurrentChange3(val) {
-        this.currentPage2 = val
+      handleCurrentChange(val) {
+        this.currentPage = val;
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
-        if ( this.inputVal2 !== ''  || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
+        if ( this.inputVal !== '' || this.filters.column.create_start_date !== '' || this.filters.column.create_end_date !=='' || this.checked !== false) {
           if (this.checked == true) {
             var perpetualValid = '1'
           } else {
@@ -317,35 +320,41 @@
           if(this.inquiry == true){
             var start = this.filters.column.create_start_date
             var end =   this.filters.column.create_end_date
-            if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
+            if(start == null) {
+              start =null
+            }else{
+              start = moment(start).format().slice(0,10)
+            }
             if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
             var requestVo ={
-              "contractName":this.inputVal2,
+              "contractName":this.inputVal,
               "queryTimeStart":start,
-              "queryTimeEnd":end,
+              "queryTimeEnd":  end,
               'perpetualValid':perpetualValid,
               'pageNo':val,
               'pageSize':this.everyPage,
-              'contractStatus':'2',
+              'contractStatus':'0',
+              // 'accountCode':this.accountLevel==2?this.queryAccountCode:''
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
             };
             this.getData (requestVo)
           }else{
-            var requestVo ={
-              'pageNo':val,
+
+            let requestVo ={'pageNo':val,
               'pageSize':this.everyPage,
-              'contractStatus':'2',
+              'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
             };
             this.getData (requestVo)
           }
         } else {
-          var requestVo ={
+
+          let requestVo ={
             'pageNo':val,
             'pageSize':this.everyPage,
-            'contractStatus':'2',
+            'contractStatus':'0',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
           };
@@ -359,63 +368,72 @@
       selectParam(value){
         this.queryAccountCode=value
       },
-      contractInquiryWaitOthers () {
+      contractInquiry () {
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
         if (this.checked == true) {
           var perpetualValid = '1'
         } else {
           var perpetualValid = ''
         }
-        var start = this.filters.column.create_start_date
-        var end =   this.filters.column.create_end_date
+        let start = this.filters.column.create_start_date
+        let end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-        var requestVo ={
-          "accountCode":this.queryAccountCode,
-          "contractName":this.inputVal2,
+        let requestVo ={
+          "accountCode":this.queryAccountCode?this.queryAccountCode:(this.accountLevel==2?this.accountCode:''),
+          "contractName":this.inputVal,
           "queryTimeStart":start,
-          "queryTimeEnd":end,
+          "queryTimeEnd":  end,
           'perpetualValid':perpetualValid,
           'pageNo':'1',
           'pageSize':this.everyPage,
-          'contractStatus':'2',
+          'contractStatus':'0',
           'filingNo':this.$store.state.showFilingNo,
         };
         this.getData (requestVo)
-        this.currentPage2 = 1;
+        this.currentPage = 1
         this.$message({
           showClose: true,
           message: '查询成功!',
           type: 'success'
         });
         this.inquiry = true
+        //   console.log(this.currentPage)
       },
-      seeClick (row) { //延期合同
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        this.$router.push('/ContractDelay')
-      },
-      rowLockClick (row) {
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
-        cookie.set('state','List')
-        this.$router.push('/ContractInfo')
+      rowlookClick (row) {//详情
+        if(row.contractType == '0'){
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+          cookie.set('state','List')
+          this.$router.push('/CompanyExa')
+        }else{
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+          this.$router.push('/ContractInfo')
+        }
         this.$store.dispatch('tabIndex',{tabIndex:1});
       },
-      signClick (row) { //签署
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        this.$router.push('/Contract')
+      affixClick (row) { //签署
+        if(row.contractType == '0'){
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          this.$router.push('/Dimension')
+        }else{
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          this.$router.push('/Contract')
+        }
       },
-      remindClick (row) { //提醒
+      warnClick (row) { //提醒
         let param={
-          'contractType':1,
-          'remindType':0
+          contractType:0,
+          remindType:0
         }
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
-          var resultCode = res.data.resultCode
-          var resultMessage = res.data.resultMessage
+          let resultCode = res.data.resultCode
+          let resultMessage = res.data.resultMessage;
           if ( resultCode === '0') {
             this.$message({
               showClose: true,
@@ -432,7 +450,6 @@
         }).catch(error=>{
 
         })
-
       },
       downloadClick (row) { //下载
         let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
@@ -442,32 +459,61 @@
         up.click()
       },
 
+      lookClick(row){  //延期
+        if(row.contractType == '0'){
+          sessionStorage.setItem('contractNo', row.contractNum)
+          cookie.set('state','List')
+          this.$router.push('/CompanyExc')
+        }else{
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          this.$router.push('/ContractDelay')
+        }
+      },
+
       getAccount(){
         if(!this.hasQuery){
+          let interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
           let accountCode = sessionStorage.getItem('accountCode');
           let enterpriseName = sessionStorage.getItem('enterpriseName');
-          server.queryContractLists(this.interfaceCode).then(res=>{
+          server.queryContractLists(interfaceCode).then(res=>{
             if(res.data.resultCode == 1){
               this.options=res.data.dataList;
               this.options.unshift({accountCode:'',accountName:'全部'},{accountCode:accountCode,accountName:enterpriseName})
               this.hasQuery=true;
             }
-
           })
         }
       },
+
       folderClick(row){
+
         this.defaultContractNum=row.contractNum;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
+            this.showFilingNo=this.$store.state.showFilingNo;
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
+            }
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
+            }
             this.dialogChooseFolder=true;
-
           }
         }).catch(error=>{
 
         })
       },
+
       contractFiling(filingNo){
         let params={
           oldFilingNo:this.$store.state.showFilingNo,
@@ -486,7 +532,7 @@
             });
           }else{
             this.dialogChooseFolder=false;
-
+            this.showFilingNo=null;
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -496,6 +542,7 @@
 
         })
       },
+
       batchFolder(){
         let length = this.multipleSelection.length;
         let str = '';
@@ -531,6 +578,7 @@
         })
 
       },
+
       folderSure(){
         let fillingNo=this.showFilingNo;
         if(!fillingNo){
@@ -546,7 +594,8 @@
 
       quit(){
         this.dialogChooseFolder=false;
-      }
+      },
+
     },
     created() {
 
@@ -555,19 +604,19 @@
 </script>
 
 <style lang='scss' scoped>
-  @import '../../styles/Multiparty/Multiparties.scss';
-  @import "../../common/styles/BatchDownLoad.scss";
+  @import '../../../styles/Multiparty/Multiparties.scss';
+  @import "../../../common/styles/BatchDownLoad.scss";
 </style>
 
 <style>
-  @import "../../common/styles/dialog.scss";
-  .waitOtherImg{
+  @import "../../../common/styles/dialog.scss";
+  .totalImg{
     width: 153px;
     margin: 300px auto;
     height: 89px;
     margin-bottom: 175px;
   }
-  .waitOtherImg>img{
+  .totalImg>img{
     width: 100%;
     height:100%;
   }
@@ -576,4 +625,6 @@
     border-color: #95989d;
     color: #333;
   }
+
+
 </style>
