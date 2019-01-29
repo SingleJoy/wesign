@@ -19,7 +19,6 @@ export default {
   },
 
   beforeRouteLeave(to, from, next) {
-
     if(to.name!='CompanyContract'){
       this.$store.dispatch('showFilingNo',{showFilingNo:null});
       this.$store.dispatch('nowIndex',{nowIndex:0});

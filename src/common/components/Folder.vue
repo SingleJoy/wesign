@@ -149,14 +149,11 @@
         <el-form-item prop="folderName">
           <el-input v-model="ruleForm.folderName" placeholder="请输入合同名称" class="folderName-input"  style="width: 380px;"></el-input>
         </el-form-item>
-
         <div class="login-btn" style="margin-left: 200px;">
           <el-button type="default" size="medium" @click="quit">取消</el-button>
           <el-button type="primary" size="medium" @click="addSure">确定</el-button>
         </div>
-
       </el-form>
-
     </div>
     </el-dialog>
     <el-dialog title="修改文件名称" :visible.sync="editFolderShow"  custom-class="folderDialog" :before-close="handleClose">

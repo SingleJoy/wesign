@@ -102,7 +102,7 @@
                 <el-button @click="remindClick(scope.row)" type="primary" size="small">提&nbsp;&nbsp;醒</el-button>
               </el-tooltip>
               <el-button @click="downloadClick(scope.row)" type="primary" size="small" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载</el-button>
-              <el-button @click="seeClick(scope.row)" type="text" size="small" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
+              <el-button @click="seeClick(scope.row)" type="primary" size="small" v-else-if ='scope.row.operation === 4 && scope.row.isCreater  && accountCode == scope.row.operator' >延&nbsp;&nbsp;期</el-button>
               <el-button @click="rowLockClick(scope.row)" type="text" size="small">详&nbsp;&nbsp;情</el-button>
               <el-button  type="text" size="small" @click="folderClick(scope.row)">归&nbsp;&nbsp;档</el-button>
             </template>
