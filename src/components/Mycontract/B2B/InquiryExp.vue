@@ -126,6 +126,9 @@
 
       <template>
         <el-radio-group v-model="showFilingNo"  >
+          <el-radio  label=""  class="folderListCheck"  title="默认文件夹">
+            默认文件夹
+          </el-radio>
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title="item.filingName">
             {{item.filingName}}
           </el-radio>

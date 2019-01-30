@@ -242,7 +242,6 @@
           document.body.appendChild(up);
           up.setAttribute('href', url);
           up.click();
-
           self.multipleSelection = [];
           this.$refs.multipleTable.clearSelection();
         }
@@ -587,13 +586,13 @@
       }
     },
     created() {
-
+         console.log(this.$store.state.showFilingNo)
     }
   }
 </script>
 
 <style lang='scss' scoped>
-  /*@import '../../styles/Multiparty/Multiparties.scss';*/
+
   @import "../../../common/styles/BatchDownLoad";
   @import "../../../common/styles/dialog";
   .contract-type{

@@ -491,13 +491,7 @@
           <!--if(res.data.resultCode=='1'){-->
             <!--this.folderList=res.data.data;-->
             <!--this.showFilingNo=this.$store.state.showFilingNo;-->
-            <!--if(this.$store.state.folderNum<=0){-->
-              <!--this.$message({-->
-                <!--type: 'error',-->
-                <!--message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'-->
-              <!--});-->
-              <!--return false;-->
-            <!--}-->
+
             <!--if(this.$store.state.folderNum<=0){-->
               <!--this.$message({-->
                 <!--type: 'error',-->

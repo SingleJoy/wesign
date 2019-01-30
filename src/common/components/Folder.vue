@@ -449,14 +449,17 @@
       },
 
       searchFolderData(filingNo){
-        this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
+
+        // this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
         this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
         this.$store.dispatch('showTypePanel',{showTypePanel:true});
 
         if(filingNo){
+          this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
           this.$store.dispatch('showFilingType',{showFilingType:false});
           this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:true});
         }else {
+          this.$store.dispatch('showFilingNo',{showFilingNo:''});
           this.$store.dispatch('showFilingType',{showFilingType:true});
           this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
         }

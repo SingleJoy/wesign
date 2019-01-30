@@ -134,6 +134,9 @@
 
       <template>
         <el-radio-group v-model="showFilingNo"  >
+          <el-radio  label=""  class="folderListCheck"  title="默认文件夹">
+            默认文件夹
+          </el-radio>
           <el-radio v-for="item in folderList" :label="item.filingNo"  :key="item.filingNo"  class="folderListCheck" :name=item.filingNo :title="item.filingName">
             {{item.filingName}}
           </el-radio>
@@ -493,13 +496,7 @@
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
             this.showFilingNo=this.$store.state.showFilingNo;
-            if(this.$store.state.folderNum<=0){
-              this.$message({
-                type: 'error',
-                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
-              });
-              return false;
-            }
+
             if(this.$store.state.folderNum<=0){
               this.$message({
                 type: 'error',
@@ -520,6 +517,17 @@
           newFilingNo:filingNo,
           contractNo:this.defaultContractNum
         };
+
+        // if(this.$store.state.showFilingNo==filingNo){
+        //
+        //     this.$message({
+        //       showClose: true,
+        //       message: '合同归档！',
+        //       type: "success"
+        //     });
+        //     return false;
+        //
+        // }
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
 
           if(res.data.resultCode=='1'){
@@ -581,14 +589,14 @@
 
       folderSure(){
         let fillingNo=this.showFilingNo;
-        if(!fillingNo){
-          this.$message({
-            showClose: true,
-            message: '请选择合同需要归档的文件夹！',
-            type: "error"
-          });
-          return false;
-        }
+        // if(!fillingNo){
+        //   this.$message({
+        //     showClose: true,
+        //     message: '请选择合同需要归档的文件夹！',
+        //     type: "error"
+        //   });
+        //   return false;
+        // }
         this.contractFiling(fillingNo);
       },
 
