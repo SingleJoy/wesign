@@ -616,7 +616,7 @@
   @import "../../../common/styles/BatchDownLoad.scss";
 </style>
 
-<style>
+<style lang='scss'>
   @import "../../../common/styles/dialog.scss";
   .totalImg{
     width: 153px;

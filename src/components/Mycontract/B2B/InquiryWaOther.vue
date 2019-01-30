@@ -594,14 +594,14 @@
       },
       folderSure(){
         let fillingNo=this.showFilingNo;
-        if(!fillingNo){
-          this.$message({
-            showClose: true,
-            message: '请选择合同需要归档的文件夹！',
-            type: "error"
-          });
-          return false;
-        }
+        // if(!fillingNo){
+        //   this.$message({
+        //     showClose: true,
+        //     message: '请选择合同需要归档的文件夹！',
+        //     type: "error"
+        //   });
+        //   return false;
+        // }
         this.contractFiling(fillingNo);
       },
 
@@ -621,7 +621,7 @@
   @import "../../../common/styles/BatchDownLoad.scss";
 </style>
 
-<style>
+<style lang='scss'>
   @import "../../../common/styles/dialog.scss";
   .waitOtherImg {
     width: 153px;
