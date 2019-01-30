@@ -2,7 +2,7 @@
   <div class="Mycontracts">
     <div class="main">
 
-      <Folder @FolderSearchData="FolderSearchData" ref="folder"></Folder>
+      <Folder @FolderSearchData="FolderSearchData" ref="folder" @changeDefaultFillNo="changeDefaultFillNo"></Folder>
 
       <div class="contract-type" v-if="$store.state.showTypePanel" title="企业对个人">
         <!--企业对个人-->
@@ -41,7 +41,7 @@
             <B2BInquiryInto ref="fourth" @setFolder="setFolder"></B2BInquiryInto>
           </el-tab-pane>
           <el-tab-pane label="已截止" name="five">
-            <B2BInquiryExp ref="five" @setFolder="setFolder"></B2BInquiryExp>
+            <B2BInquiryExp ref="five" @setFolder="setFolder" ></B2BInquiryExp>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -109,6 +109,9 @@
       //检测 数据列表组件归档合同后，Folder组件中查询所有合同文件请求一次
       setFolder(){
         this.$refs.folder.contractFilings();
+      },
+      changeDefaultFillNo(){
+        this.$refs[this.$store.state.PanelActiveName].changeDefaultFillNo();
       }
     },
     mounted(){

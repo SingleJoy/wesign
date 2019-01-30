@@ -6,7 +6,7 @@
         <div class="list-item" style="width: 80px;float: left;">
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
-              <p class="folder-img" @click="searchFolderData(null)"></p>
+              <p class="folder-img" @click="searchFolderData()"></p>
               <p class="folder-name" style="text-align: left;padding-left: 10px;">默认文件夹</p>
             </li>
           </ul>
@@ -426,7 +426,7 @@
         deleteContractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
 
           if(res.data.resultCode=='1'){
-            this.$store.dispatch('showFilingNo',{showFilingNo:null});
+            this.$store.dispatch('showFilingNo',{showFilingNo:''});
             this.$store.dispatch('nowIndex',{nowIndex:0});
             this.$store.dispatch('showFilingType',{showFilingType:true});
             this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
@@ -450,19 +450,23 @@
 
       searchFolderData(filingNo){
 
-        // this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
+       console.log(filingNo)
         this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
         this.$store.dispatch('showTypePanel',{showTypePanel:true});
 
         if(filingNo){
           this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
+          this.$store.dispatch('showFilingNoDefault',{showFilingNoDefault:filingNo});
           this.$store.dispatch('showFilingType',{showFilingType:false});
           this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:true});
         }else {
           this.$store.dispatch('showFilingNo',{showFilingNo:''});
+          this.$store.dispatch('showFilingNoDefault',{showFilingNoDefault:''});
           this.$store.dispatch('showFilingType',{showFilingType:true});
           this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
         }
+
+        this.$emit('changeDefaultFillNo');
         this.$emit('FolderSearchData')
       },
 

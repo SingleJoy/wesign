@@ -535,7 +535,7 @@
             <!--});-->
           <!--}else{-->
             <!--this.dialogChooseFolder=false;-->
-            <!--this.showFilingNo=null;-->
+            <!--this.showFilingNo='';-->
             <!--this.$message({-->
               <!--type: 'error',-->
               <!--message: res.data.resultMessage-->

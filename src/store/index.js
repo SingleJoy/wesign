@@ -17,7 +17,8 @@ const state = {
   type:'',        // 数据回显类型
   needSign:'',    //平台方是否签署
   tabIndex:'',     //当前活动tab
-  showFilingNo:'',     //当前默认folder编号
+  showFilingNoDefault:'',     //当前默认folder编号
+  showFilingNo:'',     //当前folder编号
   isBtnActive:true,
   nowIndex:0,  //归档合同文件左右翻页
   folderNum:0,   //归档合同文件总共多少页
@@ -35,6 +36,7 @@ const actions = {
     needSign:({ commit },obj) => commit('needSign',obj),
     tabIndex:({commit},obj) => commit('tabIndex',obj),
     showFilingNo:({commit},obj) => commit('showFilingNo',obj),
+    showFilingNoDefault:({commit},obj) => commit('showFilingNoDefault',obj),
     isBtnActive:({commit},obj) => commit('isBtnActive',obj),
     nowIndex:({commit},obj) => commit('nowIndex',obj),
     folderNum:({commit},obj) => commit('folderNum',obj),
@@ -71,7 +73,9 @@ const mutations = {
   },
   showFilingNo(state,res){
     state.showFilingNo=res.showFilingNo
-
+  },
+  showFilingNoDefault(state,res){
+    state.showFilingNoDefault=res.showFilingNoDefault
   },
   isBtnActive(state,res){
     state.isBtnActive=res.isBtnActive

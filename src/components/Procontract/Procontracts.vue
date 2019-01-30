@@ -2,7 +2,7 @@
   <div class="Procontracts">
 
     <div class='main'>
-      <Folder @FolderSearchData="FolderSearchData" ref="folder"></Folder>
+      <Folder @FolderSearchData="FolderSearchData" ref="folder"  @changeDefaultFillNo="changeDefaultFillNo"></Folder>
 
       <div class="contract-type">
 
@@ -53,19 +53,23 @@
 
       handleClick(tab, event) {
         let name=tab.paneName;
-        sessionStorage.setItem("b2cPanelActiveName",name);
+        this.$store.dispatch('PanelActiveName',{PanelActiveName:name});
         this.getChildData(name);
       },
-      getChildData(name){
-        this.$refs[name].getData()
+      getChildData(){
+        this.$refs[this.$store.state.PanelActiveName].getData()
       },
       //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
       FolderSearchData(){
         let name=this.activeName;
         this.getChildData(name)
       },
+      //子组件添加归档合同  调用兄弟组件方法  查询兄弟组件归档文件接口
       setFolder(){
         this.$refs.folder.contractFilings();
+      },
+      changeDefaultFillNo(){
+        this.$refs[this.$store.state.PanelActiveName].changeDefaultFillNo();
       }
     },
     mounted(){

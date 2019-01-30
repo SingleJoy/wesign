@@ -427,7 +427,7 @@
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
             this.showFilingNo=this.$store.state.showFilingNo;
-            if(this.$store.state.folderNum<=0){
+            if(this.$store.state.folderNum==0){
               this.$message({
                 type: 'error',
                 message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
@@ -442,12 +442,12 @@
       },
       contractFiling(filingNo){
         let params={
-          oldFilingNo:this.$store.state.showFilingNo,
-          newFilingNo:filingNo,
+          oldFilingNo:this.$store.state.showFilingNoDefault,
+          newFilingNo:this.showFilingNo,
           contractNo:this.defaultContractNum
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-
+          this.showFilingNo=this.$store.state.showFilingNoDefault;
           if(res.data.resultCode=='1'){
             this.dialogChooseFolder=false;
             this.getData();
@@ -458,7 +458,7 @@
             });
           }else{
             this.dialogChooseFolder=false;
-            this.showFilingNo=null;
+            this.showFilingNo='';
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -503,26 +503,25 @@
         })
 
       },
+      sourceFilter(){
+
+      },
       folderSure(){
         let fillingNo=this.showFilingNo;
-        // if(!fillingNo){
-        //   this.$message({
-        //     showClose: true,
-        //     message: '请选择合同需要归档的文件夹！',
-        //     type: "error"
-        //   });
-        //   return false;
-        // }
+
         this.contractFiling(fillingNo);
       },
-
       quit(){
         this.dialogChooseFolder=false;
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
+      },
+      changeDefaultFillNo(){
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
       }
 
     },
     created() {
-       console.log()
+
     }
   }
 </script>

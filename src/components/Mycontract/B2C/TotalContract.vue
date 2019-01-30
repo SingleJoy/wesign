@@ -33,12 +33,12 @@
         :picker-options="pickerBeginDateAfter"
       >
       </el-date-picker>
-      <el-checkbox style='padding-right:20px' v-model="checked"></el-checkbox>
-      <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>
-      <el-button type="primary"  @click='contractInquiry' style='margin-left:10px;letter-spacing:5px;'>搜索</el-button>
+      <el-checkbox style="padding-right:20px" v-model="checked"></el-checkbox>
+      <b class="info" style="font-size: 12px;display: inline-block;margin-left: -18px;">永久有效</b>
+      <el-button type="primary"  @click="contractInquiry" style="margin-left:10px;letter-spacing:5px;">搜索</el-button>
     </div>
     <div class="list-body">
-      <div class='table' >
+      <div class="table" >
         <div class="totalImg" v-if="num === 0">
           <img src="/static/images/notavailable.png" alt="">
         </div>
@@ -135,7 +135,7 @@
 
     <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder">
       <template>
-        <el-radio-group v-model="showFilingNo"  >
+        <el-radio-group v-model="showFilingNo" @change="getSelectValue">
           <el-radio  label=""  class="folderListCheck"  title="默认文件夹">
             默认文件夹
           </el-radio>
@@ -216,7 +216,10 @@
       }
     },
     methods: {
-
+      getSelectValue(val){
+        console.log(val)
+        console.log(this.showFilingNo)
+      },
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
@@ -488,7 +491,6 @@
           contractFilings(this.interfaceCode,this.accountCode).then(res=>{
             if(res.data.resultCode=='1'){
               this.folderList=res.data.data;
-              this.showFilingNo=this.$store.state.showFilingNo;
               if(this.$store.state.folderNum<=0){
                 this.$message({
                   type: 'error',
@@ -506,12 +508,12 @@
 
       contractFiling(filingNo){
         let params={
-          oldFilingNo:this.$store.state.showFilingNo,
-          newFilingNo:filingNo,
+          oldFilingNo:this.$store.state.showFilingNoDefault,
+          newFilingNo:this.showFilingNo,
           contractNo:this.defaultContractNum
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-
+          this.showFilingNo=this.$store.state.showFilingNoDefault;
           if(res.data.resultCode=='1'){
             this.dialogChooseFolder=false;
             this.getData();
@@ -522,7 +524,6 @@
             });
           }else{
             this.dialogChooseFolder=false;
-            this.showFilingNo=null;
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -553,7 +554,7 @@
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.data;
-            this.showFilingNo=this.$store.state.showFilingNo;
+
             if(this.$store.state.folderNum<=0){
               this.$message({
                 type: 'error',
@@ -570,23 +571,21 @@
 
       folderSure(){
         let fillingNo=this.showFilingNo;
-        // if(!fillingNo){
-        //   this.$message({
-        //     showClose: true,
-        //     message: '请选择合同需要归档的文件夹！',
-        //     type: "error"
-        //   });
-        //   return false;
-        // }
+
          this.contractFiling(fillingNo);
       },
 
       quit(){
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
         this.dialogChooseFolder=false;
+      },
+      changeDefaultFillNo(){
+
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
       }
     },
     created() {
-         console.log(this.$store.state.showFilingNo)
+
     }
   }
 </script>

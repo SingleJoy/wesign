@@ -130,10 +130,11 @@
         </el-pagination>
       </div>
     </div>
+
     <el-dialog title="合同归档" :visible.sync="dialogChooseFolder"  custom-class="dialogChooseFolder" >
 
       <template>
-        <el-radio-group v-model="showFilingNo"  >
+        <el-radio-group v-model="showFilingNo" >
           <el-radio  label=""  class="folderListCheck"  title="默认文件夹">
             默认文件夹
           </el-radio>
@@ -148,6 +149,7 @@
       </template>
 
     </el-dialog>
+
   </div>
 </template>
 
@@ -513,23 +515,12 @@
 
       contractFiling(filingNo){
         let params={
-          oldFilingNo:this.$store.state.showFilingNo,
-          newFilingNo:filingNo,
+          oldFilingNo:this.$store.state.showFilingNoDefault,
+          newFilingNo:this.showFilingNo,
           contractNo:this.defaultContractNum
         };
-
-        // if(this.$store.state.showFilingNo==filingNo){
-        //
-        //     this.$message({
-        //       showClose: true,
-        //       message: '合同归档！',
-        //       type: "success"
-        //     });
-        //     return false;
-        //
-        // }
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-
+          this.showFilingNo=this.$store.state.showFilingNoDefault;
           if(res.data.resultCode=='1'){
             this.dialogChooseFolder=false;
             this.getData();
@@ -540,7 +531,7 @@
             });
           }else{
             this.dialogChooseFolder=false;
-            this.showFilingNo=null;
+            this.showFilingNo='';
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -589,20 +580,17 @@
 
       folderSure(){
         let fillingNo=this.showFilingNo;
-        // if(!fillingNo){
-        //   this.$message({
-        //     showClose: true,
-        //     message: '请选择合同需要归档的文件夹！',
-        //     type: "error"
-        //   });
-        //   return false;
-        // }
+
         this.contractFiling(fillingNo);
       },
 
       quit(){
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
         this.dialogChooseFolder=false;
       },
+      changeDefaultFillNo(){
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
+      }
 
     },
     created() {

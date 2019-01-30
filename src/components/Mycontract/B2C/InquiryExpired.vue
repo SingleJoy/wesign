@@ -416,15 +416,7 @@
         cookie.set('state','List')
         this.$router.push('/ContractDelay')
       },
-      // getStartTime(){ //日期
-      //   let d = this.value8;
-      //   this.formStartTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'00:00:00';
-      // },
-      // /*得到搜索条件的结束时间*/
-      // getEndTime(){
-      //   let d = this.value9;
-      //   this.formEndTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +' '+'23:59:59';
-      // }
+
       getAccount(){
         if(!this.hasQuery){
 
@@ -439,8 +431,8 @@
           })
         }
       },
-      folderClick(row){
 
+      folderClick(row){
         this.defaultContractNum=row.contractNum;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
@@ -460,14 +452,15 @@
 
         })
       },
+
       contractFiling(filingNo){
         let params={
-          oldFilingNo:this.$store.state.showFilingNo,
-          newFilingNo:filingNo,
+          oldFilingNo:this.$store.state.showFilingNoDefault,
+          newFilingNo:this.showFilingNo,
           contractNo:this.defaultContractNum
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
-
+          this.showFilingNo=this.$store.state.showFilingNoDefault;
           if(res.data.resultCode=='1'){
             this.dialogChooseFolder=false;
             this.getData();
@@ -478,7 +471,7 @@
             });
           }else{
             this.dialogChooseFolder=false;
-            this.showFilingNo=null;
+            this.showFilingNo='';
             this.$message({
               type: 'error',
               message: res.data.resultMessage
@@ -525,19 +518,16 @@
       },
       folderSure(){
         let fillingNo=this.showFilingNo;
-        // if(!fillingNo){
-        //   this.$message({
-        //     showClose: true,
-        //     message: '请选择合同需要归档的文件夹！',
-        //     type: "error"
-        //   });
-        //   return false;
-        // }
+
         this.contractFiling(fillingNo);
       },
       quit(){
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
         this.dialogChooseFolder=false;
-      }
+      },
+      changeDefaultFillNo(){
+        this.showFilingNo=this.$store.state.showFilingNoDefault;
+      },
     },
     created() {
       if(this.showFilingNo){

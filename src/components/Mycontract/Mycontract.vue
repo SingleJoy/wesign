@@ -19,7 +19,7 @@
     },
 
     beforeDestroy() {
-      this.$store.dispatch('showFilingNo',{showFilingNo:null});
+      this.$store.dispatch('showFilingNo',{showFilingNo:''});
       this.$store.dispatch('nowIndex',{nowIndex:0});
       this.$store.dispatch('isBtnActive',{isBtnActive:true});
       this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
