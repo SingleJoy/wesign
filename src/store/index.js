@@ -22,10 +22,10 @@ const state = {
   isBtnActive:true,
   nowIndex:0,  //归档合同文件左右翻页
   folderNum:0,   //归档合同文件总共多少页
-  PanelActiveName:'first',
-  showTypePanel:true,
-  showFilingType:true,   //实名
-  showFilingTypeUnRec:false,   //未实名
+  PanelActiveName:'first', //记录筛选列表状态(全部文件  待我签署 待他人签署 已生效 已截止)
+  showTypePanel:true,     //企业对个人或者企业对企业删选条件(默认企业对个人)
+  showFilingType:true,       //实名  归档or重新归档 根据当前账号类型以及当前筛选列表是否是默认文件夹  默认文件夹则显示归档 否则显示重新归档
+  showFilingTypeUnRec:false,   //未实名  归档or重新归档  未实名  默认文件夹为未归档
 }
 const actions = {
     fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),

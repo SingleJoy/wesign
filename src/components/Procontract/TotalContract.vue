@@ -503,12 +503,9 @@
         })
 
       },
-      sourceFilter(){
 
-      },
       folderSure(){
         let fillingNo=this.showFilingNo;
-
         this.contractFiling(fillingNo);
       },
       quit(){
