@@ -23,7 +23,7 @@ export function getTemplateImags(interfaceCode,templateNo,param) {
 //contractTemp
 export function contractTemp(interfaceCode,param) {
   return request({
-    url: "api/v1/tenant/"+interfaceCode+'/contractTemp/',
+    url: "api/v1/tenant/"+interfaceCode+'/contractTemp',
     method: "post",
     data:param
   })

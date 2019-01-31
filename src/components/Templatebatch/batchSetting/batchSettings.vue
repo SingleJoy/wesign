@@ -451,7 +451,7 @@
             return false
 
         }
-        if(this.checked == false && this.value8 == ''){
+        if(this.checked == false && !this.value8){
           this.$alert('您还没有选择签署时间!','提示', {
             confirmButtonText: '确定'
           });
