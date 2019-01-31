@@ -240,24 +240,16 @@
         this.rightScroll.scrollToElement(el, 300)
       },
       _initScroll(){
-        // if(this.allpage<10){
-        // console.log(23)
 
-
-        // }
-        let that =this;
-        setTimeout(function(){
-          that.leftScroll = new BScroll(that.$refs.leftWrapper, {
-            click: true,
-            probeType: 3,
-            // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-          })
-          that.rightScroll = new BScroll(that.$refs.rightWrapper, {
-            probeType: 3,
-            preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
-          })
-          // console.log(that.rightScroll)
-        },3000)
+        this.leftScroll = new BScroll(this.$refs.leftWrapper, {
+          click: true,
+          probeType: 3,
+          // preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
+        this.rightScroll = new BScroll(this.$refs.rightWrapper, {
+          probeType: 3,
+          preventDefaultException:{className:/(^|\s)sign_center(\s|$)/}
+        })
 
         this.rightScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y))
@@ -265,7 +257,7 @@
       },
       _calculateHeight(){
         let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-        let height = 0
+        let height = 0;
         this.imgHeight.push(height)
         for (let i = 1; i < imgList.length; i++) {
           let item = imgList[i]
@@ -338,23 +330,23 @@
             };
           templateBatchSign(this.interfaceCode,params).then(res=> {
 
-              if(res.data.resultCode == 0){
-                this.$message({
-                  showClose: true,
-                  message: '模板填充信息完成!',
-                  type: 'success'
-                })
-                this.$loading.hide(); //隐藏
+            if(res.data.resultCode == 0){
+              this.$message({
+                showClose: true,
+                message: '模板填充信息完成!',
+                type: 'success'
+              })
+              this.$loading.hide(); //隐藏
 
 
-                this.$router.push('/batchsign')
-              } else {
-                this.$message({
-                  showClose: true,
-                  message: '此模板已填充完毕,无法再次填充!!',
-                  type: 'error'
-                })
-              }
+              this.$router.push('/batchsign')
+            } else {
+              this.$message({
+                showClose: true,
+                message: '此模板已填充完毕,无法再次填充!!',
+                type: 'error'
+              })
+            }
 
           }).catch(error=>{
 
