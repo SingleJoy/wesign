@@ -492,7 +492,7 @@
             confirmButtonText: '确定'
           });
           return false
-        }else if (((/[`~!@#$%^&*()_+<>?:"{},\/;'[\]]/im).test(this.enterpriseName))||(/[·！#￥（）：；“”‘、，|《。》？、【】[\]]/im).test(this.enterpriseName)) {
+        }else if (((/[`~!@#$%^&*_+<>?:"{},\/;'[\]]/im).test(this.enterpriseName))||(/[·！#￥：；“”‘、，|《。》？、【】[\]]/im).test(this.enterpriseName)) {
           this.$alert('对手方企业名称不能包含非法符号!','提示', {
             confirmButtonText: '确定',
           });
