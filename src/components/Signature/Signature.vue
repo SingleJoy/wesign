@@ -487,7 +487,7 @@
           });
           return false
         }
-        if( this.enterpriseName == ''){
+        if(!this.enterpriseName){
           this.$alert('您还没有添加对手方企业!','添加对手方', {
             confirmButtonText: '确定'
           });
@@ -503,7 +503,7 @@
           });
           return false
         }
-        if( TrimAll(this.analogueEmail) == ''){
+        if(TrimAll(this.analogueEmail) == ''){
           this.$alert('您还没有添加对手方邮箱!','添加对手方', {
             confirmButtonText: '确定'
           });
@@ -520,7 +520,7 @@
           });
           return false
         }
-        if(this.analogueMobile == ''){
+        if(!this.analogueMobile){
           this.$alert('您还没有添加对手方手机号!','添加对手方', {
             confirmButtonText: '确定'
           });
@@ -629,7 +629,6 @@
     created() {
 
       let type = sessionStorage.getItem('type');
-
       this.operateType = sessionStorage.getItem('type');
       this.companyName = cookie.getJSON('tenant')[1].companyName;
       this.username = cookie.getJSON('tenant')[0].userName;
@@ -691,10 +690,8 @@
     border-top: none !important;
     background: url("/static/images/Common/title.png") no-repeat;
   }
-
 </style>
 <style>
-
   .contract-info{
     box-sizing: border-box !important;
     height:700px !important;

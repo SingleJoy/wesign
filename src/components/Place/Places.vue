@@ -350,7 +350,7 @@
           data[i] = contractUrl
           this.$loading.hide(); //隐藏
         }
-        this.imgList = data
+        this.imgList = data;
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
           probeType: 3,
           scrollY: true,
