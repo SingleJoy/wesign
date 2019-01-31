@@ -4,8 +4,9 @@
 
       <Folder @FolderSearchData="FolderSearchData" ref="folder" @changeDefaultFillNo="changeDefaultFillNo"></Folder>
 
+      <!--企业对个人-->
       <div class="contract-type" v-if="$store.state.showTypePanel" title="企业对个人">
-        <!--企业对个人-->
+
         <el-tabs v-model="$store.state.PanelActiveName" tab-position="40px" @tab-click="handleClick">
           <el-tab-pane label="全部文件" name="first" >
             <B2CTotalContract ref="first" @setFolder="setFolder"></B2CTotalContract>
@@ -25,8 +26,9 @@
         </el-tabs>
       </div>
 
+      <!--企业对企业-->
       <div class='contract-type' v-else title="企业对企业">
-        <!--企业对企业-->
+
         <el-tabs v-model="$store.state.PanelActiveName" tab-position="40px" @tab-click="handleClick">
           <el-tab-pane label="全部文件" name="first">
             <B2BTotalCont ref="first" @setFolder="setFolder"></B2BTotalCont>
@@ -94,12 +96,13 @@
       handleClick(tab, event) {
        let name=tab.paneName;
         this.$store.dispatch('PanelActiveName',{PanelActiveName:name});
-
          this.getChildData(name);
       },
+      //查询子组件（数据表格）列表数据
       getChildData(name){
         this.$refs[name].getData()
       },
+
       //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
       FolderSearchData(){
         this.$nextTick(()=>{
@@ -110,6 +113,8 @@
       setFolder(){
         this.$refs.folder.contractFilings();
       },
+
+      //切换归档文件夹  Folder组件对应修改兄弟组件(table表格中 默认便当文件夹编号)
       changeDefaultFillNo(){
         this.$refs[this.$store.state.PanelActiveName].changeDefaultFillNo();
       }

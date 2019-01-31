@@ -1,9 +1,10 @@
 <template>
   <div class="Folder">
     <div class="folder-content">
+      <!--/向左边切换归档文件夹箭头-->
       <div class="left-arrow" @click="slideLeft" ><p :class="{'leftActive':leftActive}"></p></div>
       <div class="folder-list">
-        <div class="list-item" style="width: 80px;float: left;">
+        <div class="list-item" style="width: 100px;float: left;left: 20px;">
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
               <p class="folder-img" @click="searchFolderData()"></p>
@@ -124,14 +125,15 @@
             </ul>
           </div>
         </div>
-        <div class="list-item" style="position: absolute;right: 40px;top:10px;width: 90px;">
+        <div class="list-item" style="position: absolute;right: 0;top:10px;width: 90px;">
           <div class="operate-folder">
             <div class="add-folder" @click="addFolder()"></div>
           </div>
         </div>
-        <div class="right-arrow" @click="slideRight" ><p :class="{'rightActive':rightActive}"></p></div>
-      </div>
 
+      </div>
+      <!--向右切换归档文件夹箭头-->
+      <div class="right-arrow" @click="slideRight" ><p :class="{'rightActive':rightActive}"></p></div>
     </div>
     <div class="common-top" v-if="auditSteps==3" >
       <div class="common-top-tab">
@@ -511,6 +513,7 @@
             this.ruleForm.folderName='';
             this.ruleFormEdit.folderName='';
           }else{
+
           }
         });
       },

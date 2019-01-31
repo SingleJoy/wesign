@@ -25,8 +25,7 @@ import Signaturesetting from '../components/Templatelaunch/Signaturesetting/Sign
 import Contractsign from '../components/Templatelaunch/Contractsign/Contractsign.vue' //模板合同签署
 import Specifiedposition from '../components/Templatelaunch/Specifiedposition/Specifiedposition.vue' //模板指定位置
 import Fillinformation from '../components/Templatelaunch/Fillinformation/Fillinformation.vue' //模板填充信息
-import TotalContract from '../components/Mycontract/B2C/TotalContract.vue' // 全部合同
-import InquiryWaitMe from '../components/Mycontract/B2C/InquiryWaitMe.vue' // 待我签署合同
+
 import batchInfo from '../components/Templatebatch/batchInfo/batchInfo.vue' //批量模板填充信息
 import batchSetting from '../components/Templatebatch/batchSetting/batchSetting.vue' //批量模板签署设置
 import Templatecomplete from '../components/Templatebatch/Templatecomplete/Templatecomplete.vue' //批量模板签署完成
@@ -169,7 +168,6 @@ export const router = new Router({
       path: '/Forget',
       name: 'Forget',
       component: Forget,
-
       meta: {
         auth: false
       }
@@ -178,7 +176,6 @@ export const router = new Router({
       path: '/FoundUser',
       name: 'FoundUser',
       component: FoundUser,
-
       meta: {
         auth: false
       }
