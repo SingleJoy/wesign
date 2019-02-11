@@ -135,8 +135,9 @@
           </el-radio>
         </el-radio-group>
         <div class="operate">
-          <el-button type="primary" class="folder-sure" @click="folderSure" >确定</el-button>
+
           <el-button type="primary" class="folder-quit" @click="quit" >取消</el-button>
+          <el-button type="primary" class="folder-sure" @click="folderSure" >确定</el-button>
         </div>
       </template>
 

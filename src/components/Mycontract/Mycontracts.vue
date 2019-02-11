@@ -5,7 +5,7 @@
       <Folder @FolderSearchData="FolderSearchData" ref="folder" @changeDefaultFillNo="changeDefaultFillNo"></Folder>
 
       <!--企业对个人-->
-      <div class="contract-type" v-if="$store.state.showTypePanel" title="企业对个人">
+      <div class="contract-type" v-if="$store.state.showTypePanel" >
 
         <el-tabs v-model="$store.state.PanelActiveName" tab-position="40px" @tab-click="handleClick">
           <el-tab-pane label="全部文件" name="first" >
@@ -27,7 +27,7 @@
       </div>
 
       <!--企业对企业-->
-      <div class='contract-type' v-else title="企业对企业">
+      <div class='contract-type' v-else >
 
         <el-tabs v-model="$store.state.PanelActiveName" tab-position="40px" @tab-click="handleClick">
           <el-tab-pane label="全部文件" name="first">
