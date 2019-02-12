@@ -179,6 +179,7 @@
       </div>
     </div>
     <div class='dialogbg' v-show="welcomeMessage">
+    
       <div class="upload-warn">
         <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
         <!--<p>{{contractNum}}</p>-->
@@ -822,7 +823,7 @@
   div.contract-num{
     position: relative;
     left: 14rem;
-    top: 8.875rem;
+    top: 8.625rem;
     font-size: 14px;
   p{
     font-size: 16px;
