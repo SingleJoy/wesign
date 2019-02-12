@@ -7,7 +7,7 @@
         <div class="list-item" style="width: 100px;float: left;left: 20px;">
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
-              <p class="folder-img" @click="searchFolderData()"></p>
+              <p class="folder-img" @click="searchFolderData()">{{$store.state.defaultFolderTotalNum}}</p>
               <p class="folder-name" style="text-align: left;padding-left: 10px;">默认文件夹</p>
             </li>
           </ul>
@@ -206,6 +206,7 @@
 
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
+        defaultFolderTotalNum:'',  //默认文件夹合同总数
         folderList: [],
         folderListShow: [],
         folderListShow1: [],
@@ -451,11 +452,8 @@
       },
 
       searchFolderData(filingNo){
-
-       console.log(filingNo)
         this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
         this.$store.dispatch('showTypePanel',{showTypePanel:true});
-
         if(filingNo){
           this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
           this.$store.dispatch('showFilingNoDefault',{showFilingNoDefault:filingNo});
@@ -467,7 +465,6 @@
           this.$store.dispatch('showFilingType',{showFilingType:true});
           this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
         }
-
         this.$emit('changeDefaultFillNo');
         this.$emit('FolderSearchData')
       },
@@ -488,6 +485,7 @@
         }
         console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
       },
+
       slideRight(){
         if((1-this.nowIndex)<this.folderNum){
            this.nowIndex=this.nowIndex-1;

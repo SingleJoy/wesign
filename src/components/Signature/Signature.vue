@@ -2,13 +2,13 @@
   <div class='infos'>
     <div>
       <div class="Tops">
-        <nav class='nav'>
-          <p class='logo'>
+        <nav class="nav">
+          <p class="logo">
             <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
           </p>
-          <div class='buttons'>
-            <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-            <el-button style='color:#4091fb' :disabled="nextBtn" @click="nextFit">下一步</el-button>
+          <div class="buttons">
+            <el-button type="info" style="background:#ccc" :disabled="hasClick" @click="signCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+            <el-button style="color:#4091fb" :disabled="nextBtn" @click="nextFit">下一步</el-button>
           </div>
         </nav>
       </div>
@@ -557,7 +557,7 @@
         }
         var interfaceCode = cookie.getJSON('tenant')[1].interfaceCode;
         var contractNo = sessionStorage.getItem('contractNo');
-        var perpetualValid = ''
+        var perpetualValid = '';
         if(this.checked == true){
           perpetualValid = '1'
         } else{
@@ -566,7 +566,8 @@
         if(this.ContractNumber != contractNo){
           this.operateType = ''
         }
-      let param={
+        this.nextBtn=true;
+        let param={
         accountCode:sessionStorage.getItem('accountCode'),
         operateType:this.operateType, //操作类型(回显)
         signInterfaceCode:this.signInterfaceCode, //签署企业编号
@@ -587,18 +588,21 @@
         // 对手方企业信息设置
         setting(this.interfaceCode,this.contractNo,param).then(res =>{
           if(res.data.resultCode == '1'){
-            sessionStorage.setItem('contractName', TrimAll(this.input))
+            sessionStorage.setItem('contractName', TrimAll(this.input));
+            this.nextBtn=false;
             this.$router.push('/Place')
           }else if(res.data.resultCode == '-1'){
             this.$alert(res.data.resultMessage,'提示', {
               confirmButtonText: '确定'
             })
+            this.nextBtn=false;
           }else{
             this.$message({
               showClose: true,
               message: res.data.resultMessage,
               type: 'warning'
             })
+            this.nextBtn=false;
           }
         }).catch(error=>{
 
@@ -635,6 +639,7 @@
       this.mobile = cookie.getJSON('tenant')[0].mobile;
       this.email = cookie.getJSON('tenant')[1].email;
       if(type == 'back'){
+        this.$loading.show(); //显示
         let Jurisdiction = sessionStorage.getItem('Jurisdiction');
         //页面回退  数据回显
         echoContractSetting(this.interfaceCode,this.contractNo).then(res=> {
@@ -670,6 +675,7 @@
         }).catch(error=>{
 
         })
+        this.$loading.hide(); //隐藏
       }
     }
   }

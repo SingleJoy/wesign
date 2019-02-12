@@ -20,6 +20,7 @@ const state = {
   showFilingNoDefault:'',     //当前默认folder编号
   showFilingNo:'',     //当前folder编号
   isBtnActive:true,
+  defaultFolderTotalNum:'',
   nowIndex:0,  //归档合同文件左右翻页
   folderNum:0,   //归档合同文件总共多少页
   PanelActiveName:'first', //记录筛选列表状态(全部文件  待我签署 待他人签署 已生效 已截止)
@@ -44,6 +45,7 @@ const actions = {
   showTypePanel:({commit},obj) => commit('showTypePanel',obj),
   showFilingType:({commit},obj) => commit('showFilingType',obj),
   showFilingTypeUnRec:({commit},obj) => commit('showFilingTypeUnRec',obj),
+  defaultFolderTotalNum:({commit},obj) => commit('defaultFolderTotalNum',obj),
 
 }
 const mutations = {
@@ -98,6 +100,9 @@ const mutations = {
   },
   showFilingTypeUnRec(state,res){
     state.showFilingTypeUnRec=res.showFilingTypeUnRec
+  },
+  defaultFolderTotalNum(state,res){
+    state.defaultFolderTotalNum=res.defaultFolderTotalNum
   },
 
   headclick (state) {

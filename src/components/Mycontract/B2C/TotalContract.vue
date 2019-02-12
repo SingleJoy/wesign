@@ -294,6 +294,7 @@
             obj.contractStatus =  res.data.content[i].contractStatus;
             obj.operator = res.data.content[i].operator
             obj.isCreater = isCreater;
+            this.$store.dispatch('defaultFolderTotalNum',{defaultFolderTotalNum:res.data.totalItemNumber});
             obj.operation = ''
             switch (obj.contractStatus){
               case "1":
