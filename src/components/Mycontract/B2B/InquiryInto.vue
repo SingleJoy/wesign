@@ -264,6 +264,7 @@
             'contractStatus':'3',
             'accountCode':this.accountLevel==2?this.accountCode:'',
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
         }
 
@@ -354,14 +355,29 @@
               'contractStatus': "3",
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData(requestVo);
           } else {
-            let requestVo = { 'pageNo': val, 'pageSize':this.everyPage, 'contractStatus': "3",'accountCode':this.queryAccountCode,'filingNo':this.$store.state.showFilingNo,};
+            let requestVo = {
+              'pageNo': val,
+              'pageSize':this.everyPage,
+              'contractStatus': "3",
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
+            };
             this.getData(requestVo);
           }
         } else {
-          let requestVo = { 'pageNo': val, 'pageSize':this.everyPage, 'contractStatus': "3" ,'accountCode':this.queryAccountCode,'filingNo':this.$store.state.showFilingNo,};
+          let requestVo = {
+            'pageNo': val,
+            'pageSize':this.everyPage,
+            'contractStatus': "3" ,
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
+          };
           this.getData(requestVo);
         }
       },
@@ -406,6 +422,7 @@
           'pageSize':this.everyPage,
           'contractStatus': "3",
           'filingNo':this.$store.state.showFilingNo,
+          'accountLevel':sessionStorage.getItem("accountLevel"),
         };
         this.getData(requestVo);
         this.currentPage3 = 1;

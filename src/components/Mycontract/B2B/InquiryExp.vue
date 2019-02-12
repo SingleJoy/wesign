@@ -255,6 +255,7 @@
             'contractStatus':'4',
             'accountCode':this.accountLevel==2?this.accountCode:'',
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
         }
         b2bContrants(requestVo,this.interfaceCode).then(res=>{
@@ -322,6 +323,7 @@
               // 'accountCode':this.accountLevel==2?this.accountCode:''
               "accountCode":this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }else{
@@ -331,6 +333,7 @@
               'contractStatus':'4',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }
@@ -341,6 +344,7 @@
             'contractStatus':'4',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
           this.getData (requestVo)
         }
@@ -368,6 +372,7 @@
           'pageSize':this.everyPage,
           'contractStatus':'4',
           'filingNo':this.$store.state.showFilingNo,
+          'accountLevel':sessionStorage.getItem("accountLevel"),
         };
         this.getData (requestVo)
         this.currentPage4 = 1;

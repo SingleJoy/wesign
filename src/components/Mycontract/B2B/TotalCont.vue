@@ -265,6 +265,7 @@
             'contractStatus':'0',
             'accountCode':this.accountLevel==2?this.accountCode:'',
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
 
         }
@@ -344,15 +345,18 @@
               // 'accountCode':this.accountLevel==2?this.queryAccountCode:''
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }else{
 
-            let requestVo ={'pageNo':val,
+            let requestVo ={
+              'pageNo':val,
               'pageSize':this.everyPage,
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }
@@ -364,6 +368,7 @@
             'contractStatus':'0',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
           this.getData (requestVo)
         }
@@ -396,6 +401,7 @@
           'pageSize':this.everyPage,
           'contractStatus':'0',
           'filingNo':this.$store.state.showFilingNo,
+          'accountLevel':sessionStorage.getItem("accountLevel"),
         };
         this.getData (requestVo)
         this.currentPage = 1

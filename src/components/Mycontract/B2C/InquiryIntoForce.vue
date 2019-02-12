@@ -265,6 +265,7 @@
             'contractStatus':'3',
             'accountCode':this.accountLevel==2?this.accountCode:'',
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
         }
         b2cContrants(requestVo,this.interfaceCode).then(res=>{
@@ -335,6 +336,7 @@
               'contractStatus':'3',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }else{
@@ -343,6 +345,7 @@
               'contractStatus':'3',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }
@@ -352,6 +355,7 @@
             'contractStatus':'3',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
           this.getData (requestVo)
         }
@@ -383,6 +387,7 @@
           'pageSize':this.everyPage,
           'contractStatus':'3',
           'filingNo':this.$store.state.showFilingNo,
+          'accountLevel':sessionStorage.getItem("accountLevel"),
         };
         this.getData (requestVo)
         this.currentPage3 = 1
