@@ -7,7 +7,7 @@
         <div class="list-item" style="width: 100px;float: left;left: 20px;">
           <ul >
             <li style="width: 110px;" :class="{'active':(!$store.state.showFilingNo)}">
-              <p class="folder-img" @click="searchFolderData()">{{$store.state.defaultFolderTotalNum}}</p>
+              <p class="folder-img" @click="searchFolderData()">{{defaultFolderTotalNum}}</p>
               <p class="folder-name" style="text-align: left;padding-left: 10px;">默认文件夹</p>
             </li>
           </ul>
@@ -203,10 +203,9 @@
         }
       };
       return {
-
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
-        defaultFolderTotalNum:'',  //默认文件夹合同总数
+        defaultFolderTotalNum:0,  //默认文件夹合同总数
         folderList: [],
         folderListShow: [],
         folderListShow1: [],
@@ -246,7 +245,6 @@
         this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
         this.$store.dispatch('showTypePanel',{showTypePanel:true});
         this.$emit('FolderSearchData')
-
       },
 
       EnterEnter() {
@@ -254,7 +252,6 @@
         this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
         this.$store.dispatch('showTypePanel',{showTypePanel:false});
         this.$emit('FolderSearchData')
-
       },
 
       handleClose(done){
@@ -354,13 +351,14 @@
       contractFilings(){
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
+            this.defaultFolderTotalNum=res.data.data;
             // console.log(this.folderList.length)
             this.folderNum=Math.ceil(this.folderList.length/10);
 
             this.$store.dispatch('folderNum',{folderNum:this.folderNum});
 
-            if(res.data.data.length<=10){
+            if(res.data.dataList.length<=10){
               this.leftActive=false;
               this.rightActive=false;
               this.folderListShow=this.folderList;
@@ -370,41 +368,41 @@
               this.folderListShow4=null;
               this.folderListShow5=null;
             }
-            else if(res.data.data.length>=11&&res.data.data.length<=20){
+            else if(res.data.dataList.length>=11&&res.data.dataList.length<=20){
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
-              this.folderListShow2=this.folderList.slice(10,res.data.data.length);
+              this.folderListShow2=this.folderList.slice(10,res.data.dataList.length);
               this.folderListShow3=null;
               this.folderListShow4=null;
               this.folderListShow5=null;
             }
-            else if(res.data.data.length>=21&&res.data.data.length<=30){
+            else if(res.data.dataList.length>=21&&res.data.dataList.length<=30){
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
-              this.folderListShow3=this.folderList.slice(20,res.data.data.length);
+              this.folderListShow3=this.folderList.slice(20,res.data.dataList.length);
               this.folderListShow4=null;
               this.folderListShow5=null;
             }
-            else if(res.data.data.length>=31&&res.data.data.length<=40){
+            else if(res.data.dataList.length>=31&&res.data.dataList.length<=40){
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
               this.folderListShow3=this.folderList.slice(20,30);
-              this.folderListShow4=this.folderList.slice(30,res.data.data.length);
+              this.folderListShow4=this.folderList.slice(30,res.data.dataList.length);
               this.folderListShow5=null;
             }
-            else if(res.data.data.length>=41&&res.data.data.length<=50){
+            else if(res.data.dataList.length>=41&&res.data.dataList.length<=50){
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
               this.folderListShow3=this.folderList.slice(20,30);
               this.folderListShow4=this.folderList.slice(30,40);
-              this.folderListShow5=this.folderList.slice(40,res.data.data.length);
+              this.folderListShow5=this.folderList.slice(40,res.data.dataList.length);
             } else {
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);

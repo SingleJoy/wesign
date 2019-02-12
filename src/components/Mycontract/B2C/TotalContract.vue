@@ -213,6 +213,7 @@
         folderList:[],
         batchFolderListNo:'',
         defaultContractNum:'',
+        accountLevel:sessionStorage.getItem("accountLevel"),
 
       }
     },
@@ -273,7 +274,7 @@
             'pageNo':'1',
             'pageSize':this.everyPage,
             'contractStatus':'0',
-            'accountCode':this.accountLevel==2?this.accountCode:'',
+             'accountCode':this.accountLevel==2?this.accountCode:'',
              'filingNo':this.$store.state.showFilingNo,
           };
         }
@@ -294,7 +295,7 @@
             obj.contractStatus =  res.data.content[i].contractStatus;
             obj.operator = res.data.content[i].operator
             obj.isCreater = isCreater;
-            this.$store.dispatch('defaultFolderTotalNum',{defaultFolderTotalNum:res.data.totalItemNumber});
+            // this.$store.dispatch('defaultFolderTotalNum',{defaultFolderTotalNum:res.data.totalItemNumber});
             obj.operation = ''
             switch (obj.contractStatus){
               case "1":

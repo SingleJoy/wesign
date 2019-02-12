@@ -179,7 +179,7 @@
       </div>
     </div>
     <div class='dialogbg' v-show="welcomeMessage">
-    
+
       <div class="upload-warn">
         <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
         <!--<p>{{contractNum}}</p>-->
