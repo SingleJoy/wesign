@@ -217,8 +217,8 @@
         isBtnActive:this.$store.state.isBtnActive,
         auditSteps:'',
         nowIndex:this.$store.state.nowIndex,
-        leftActive:false,
-        rightActive:false,
+        leftActive:true,
+        rightActive:true,
         folderNum:'',
         addFolderShow:false,
         editFolderShow:false,
@@ -369,6 +369,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.dataList.length>=11&&res.data.dataList.length<=20){
+              this.leftActive=false;
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
@@ -378,6 +379,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.dataList.length>=21&&res.data.dataList.length<=30){
+              this.leftActive=false;
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
@@ -387,6 +389,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.dataList.length>=31&&res.data.dataList.length<=40){
+              this.leftActive=false;
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
@@ -396,6 +399,7 @@
               this.folderListShow5=null;
             }
             else if(res.data.dataList.length>=41&&res.data.dataList.length<=50){
+              this.leftActive=false;
               this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
@@ -403,7 +407,10 @@
               this.folderListShow3=this.folderList.slice(20,30);
               this.folderListShow4=this.folderList.slice(30,40);
               this.folderListShow5=this.folderList.slice(40,res.data.dataList.length);
-            } else {
+            }
+            else {
+              this.leftActive=false;
+              this.rightActive=true;
               this.folderListShow=this.folderList.slice(0,10);
               this.folderListShow1=this.folderList.slice(0,10);
               this.folderListShow2=this.folderList.slice(10,20);
@@ -411,6 +418,7 @@
               this.folderListShow4=this.folderList.slice(30,40);
               this.folderListShow5=this.folderList.slice(40,50);
             }
+           // this.setTabState();
           }else{
 
           }
@@ -418,7 +426,31 @@
 
         })
       },
-
+      // 页面刷新 左右切换状态
+      // setTabState(){
+      //   if((1-this.nowIndex)>1){
+      //
+      //     if((1-this.nowIndex)==this.folderNum){
+      //       this.rightActive=false;
+      //     }else if(this.nowIndex==0){
+      //       this.leftActive=false;
+      //     }else{
+      //       this.leftActive=true
+      //     }
+      //   }
+      //
+      //   if((1-this.nowIndex)<this.folderNum){
+      //
+      //     this.leftActive=true;
+      //     if((1-this.nowIndex)==this.folderNum){
+      //       this.rightActive=false;
+      //     }else if(this.nowIndex==0){
+      //       this.leftActive=false;
+      //     }else{
+      //       this.leftActive=true
+      //     }
+      //   }
+      // },
       // 删除归档文件夹接口
       deleteContractFiling(filingNo){
         let params={
@@ -540,6 +572,8 @@
     created(){
       this.auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       this.contractFilings();
+      //页面刷新 左右切换滑动  按钮 active状态
+
     }
 
   }

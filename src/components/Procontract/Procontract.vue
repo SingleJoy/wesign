@@ -25,6 +25,7 @@
       this.$store.dispatch('isBtnActive',{isBtnActive:true});
       this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
       this.$store.dispatch('showFilingType',{showFilingType:true});
+      this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
     },
   }
 </script>

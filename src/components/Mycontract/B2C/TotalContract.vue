@@ -440,7 +440,7 @@
       remindClick (row) { //提醒
         let param={
           'contractType':1,
-        }
+        };
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
           var resultCode = res.data.resultCode
           var resultMessage = res.data.resultMessage
@@ -479,7 +479,6 @@
 
       getAccount(){
         if(!this.hasQuery){
-
           let accountCode = sessionStorage.getItem('accountCode');
           let enterpriseName = sessionStorage.getItem('enterpriseName');
           server.queryContractLists(this.interfaceCode).then(res=>{
@@ -560,7 +559,9 @@
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
+
             this.folderList=res.data.dataList;
+
             if(this.$store.state.folderNum<=0){
               this.$message({
                 type: 'error',
@@ -577,7 +578,6 @@
 
       folderSure(){
         let fillingNo=this.showFilingNo;
-
         this.contractFiling(fillingNo);
       },
 
