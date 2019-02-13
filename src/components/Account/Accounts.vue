@@ -147,7 +147,8 @@
               <el-input type="text" v-model="createSeal"  ></el-input>
               <a href="javascript:void(0);" @click="newSeal">生成公章</a>
             </div>
-            <el-dialog title="合同详情图片" :visible.sync="dialogVisible" custom-class="showSealDemo" >    <!-- :lock-scroll= false有问题！！！！ -->
+            <el-dialog  :visible.sync="dialogVisible" custom-class="showSealDemo" >
+              <!-- :lock-scroll= false有问题！！！！ -->
 
               <img src="/static/images/Account/create-seal-demo.jpg"  style='width:100%;'>
 
@@ -1100,8 +1101,9 @@
     background: url("/static/images/Account/seal-tips.png") no-repeat;
   }
   .showSealDemo{
-    overflow-y: scroll;
-    overflow-x: hidden;
+    width :500px!important;
+    height 500px!important;
+    overflow hidden;
   }
   .vertifiId-warn{
     color:red

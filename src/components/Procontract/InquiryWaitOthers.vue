@@ -331,7 +331,7 @@
               'queryTimeStart': start,
               'queryTimeEnd': end,
               'perpetualValid': perpetualValid,
-               'pageNo': val,
+              'pageNo': val,
               'pageSize':this.everyPage,
               'contractStatus': "2",
               'accountCode':this.queryAccountCode,
@@ -397,7 +397,7 @@
           'pageNo': "1",
           'pageSize':this.everyPage,
           'contractStatus': "2",
-           'accountCode':this.queryAccountCode,
+          'accountCode':this.queryAccountCode,
           'filingNo':this.$store.state.showFilingNo,
         };
         this.getData(requestVo);
@@ -447,7 +447,7 @@
         this.defaultContractNum=row.contractNum;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.showFilingNo=this.$store.state.showFilingNo;
             if(this.$store.state.folderNum<=0){
               this.$message({
@@ -510,7 +510,7 @@
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.dialogChooseFolder=true;
           }
         }).catch(error=>{

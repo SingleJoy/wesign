@@ -205,7 +205,7 @@
           }
         },
         accountCode:sessionStorage.getItem('accountCode'),
-        accountLevel:sessionStorage.getItem('accountLevel'),
+
         multipleSelection: [],    //全选按钮的数组
         downloadList:[],  //要下载的数组
         showFilingNo:this.$store.state.showFilingNo,
@@ -214,7 +214,6 @@
         batchFolderListNo:'',
         defaultContractNum:'',
         accountLevel:sessionStorage.getItem("accountLevel"),
-
       }
     },
     methods: {
@@ -276,6 +275,7 @@
             'contractStatus':'0',
              'accountCode':this.accountLevel==2?this.accountCode:'',
              'filingNo':this.$store.state.showFilingNo,
+             'accountLevel':sessionStorage.getItem("accountLevel"),
           };
         }
 
@@ -349,6 +349,7 @@
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
 
             this.getData (requestVo)
@@ -360,6 +361,7 @@
               'contractStatus':'0',
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData (requestVo)
           }
@@ -370,6 +372,7 @@
             'contractStatus':'0',
             'accountCode':this.queryAccountCode,
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
           this.getData (requestVo)
         }
@@ -407,6 +410,7 @@
           'pageSize':this.everyPage,
           'contractStatus':'0',
           'filingNo':this.$store.state.showFilingNo,
+          'accountLevel':sessionStorage.getItem("accountLevel"),
         };
         this.getData (requestVo)
         this.currentPage = 1
@@ -493,7 +497,7 @@
        this.defaultContractNum=row.contractNum;
           contractFilings(this.interfaceCode,this.accountCode).then(res=>{
             if(res.data.resultCode=='1'){
-              this.folderList=res.data.data;
+              this.folderList=res.data.dataList;
               if(this.$store.state.folderNum<=0){
                 this.$message({
                   type: 'error',

@@ -205,7 +205,7 @@
       return {
         interfaceCode:sessionStorage.getItem('interfaceCode'),
         accountCode:sessionStorage.getItem('accountCode'),
-        defaultFolderTotalNum:0,  //默认文件夹合同总数
+        defaultFolderTotalNum:'',  //默认文件夹合同总数
         folderList: [],
         folderListShow: [],
         folderListShow1: [],

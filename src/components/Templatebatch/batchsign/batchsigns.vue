@@ -128,7 +128,7 @@
         /*获取后台数据，并使用imgArray*/
         for(let i=0;i<res.data.length;i++){
           let contractUrl = res.data[i].contractUrl
-            data[i] = contractUrl
+          data[i] = contractUrl
 
         }
         this.imgArray = data
@@ -164,12 +164,12 @@
         // })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-          	mouseWheel: {
+          mouseWheel: {
             speed: 1200,
             invert: false,
             easeTime: 300
           },
-				  preventDefault:false,
+          preventDefault:false,
           probeType: 3,
         })
 
@@ -232,7 +232,7 @@
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
-                this.gainPosition()
+                this.gainPosition();
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;
                 }, 50);
@@ -243,54 +243,61 @@
           }
         })
       },
-      gainPosition () { //点击签署
-
+      gainPosition () {
+        //点击签署
         if (this.flag == true){
+          this.flag == false;
           this.$loading.show(); //显示
           contractkeywordsign(this.interfaceCode,this.contractNo).then(res=> {
-              if (res.data.responseCode == 0){
-                this.$message({
-                  showClose: true,
-                  message: '合同签署成功！',
-                  type: 'success'
+            if (res.data.responseCode == 0){
+              this.flag = true
+              this.$message({
+                showClose: true,
+                message: '合同签署成功！',
+                type: 'success'
+              })
+              this.$loading.hide(); //隐藏
+              this.$router.push('/Templatecomplete')
+            }else if(res.data.responseCode==1){
+              this.flag = true;
+              this.$loading.hide(); //隐藏
+              //一级账号
+              if (this.accountLevel == 1) {
+                this.$confirm(
+                  <div class="warn-num ">
+                    <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                    <div class="customer-service"></div>
+                  </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+                  this.$router.push('/PackagePurchase')
                 })
-                this.$loading.hide(); //隐藏
-                this.$router.push('/Templatecomplete')
-              }else if(res.data.responseCode==1){
-                    this.$loading.hide(); //显示
-                if (this.accountLevel == 1) {
-                  this.$confirm(
-                    <div class="warn-num ">
-                      <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-                      <div class="customer-service"></div>
-                    </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
-                    this.$router.push('/PackagePurchase')
-                  })
-                }else{
-                  this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
-                    confirmButtonText: '取消',
-
-                  });
-                }
               }
+              //二级账号
               else{
-                    this.$loading.hide(); //显示
-                    this.$message({
-                        showClose: true,
-                        message: res.data.resultMessage,
-                        type: 'success'
-                    })
-                }
+                this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+                  confirmButtonText: '取消',
+                });
+              }
+
+            }
+            else{
+              this.flag = true;
+              this.$loading.hide(); //隐藏
+              this.$message({
+                showClose: true,
+                message: res.data.resultMessage,
+                type: 'success'
+              })
+            }
 
           }).catch(error=>{
 
           })
-          this.flag = false
+
         }
       }
     },
     mounted() {
-      prohibit()
+      prohibit();
     }
   }
 </script>
@@ -298,7 +305,7 @@
   @import "../../../styles/batchInfo/batchsigns.scss";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
-   .customer-service{
+  .customer-service{
     width: 200px!important;
     height: 50px!important;
     background: url('/static/images/Common/customer-service.gif') no-repeat !important;

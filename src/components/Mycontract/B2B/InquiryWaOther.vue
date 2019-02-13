@@ -263,6 +263,7 @@
             'contractStatus':'2',
             'accountCode':this.accountLevel==2?this.accountCode:'',
             'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
 
         }
@@ -354,14 +355,29 @@
               // accountCode:this.accountLevel==2?this.accountCode:''
               'accountCode':this.queryAccountCode,
               'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
             };
             this.getData(requestVo);
           } else {
-            let requestVo = { 'pageNo': val, 'pageSize':this.everyPage, 'contractStatus': "2" ,'accountCode':this.queryAccountCode, 'filingNo':this.$store.state.showFilingNo,};
+            let requestVo = {
+              'pageNo': val,
+              'pageSize':this.everyPage,
+              'contractStatus': "2" ,
+              'accountCode':this.queryAccountCode,
+              'filingNo':this.$store.state.showFilingNo,
+              'accountLevel':sessionStorage.getItem("accountLevel"),
+            };
             this.getData(requestVo);
           }
         } else {
-          let requestVo = { 'pageNo': val, 'pageSize':this.everyPage, 'contractStatus': "2",'accountCode':this.queryAccountCode,'filingNo':this.$store.state.showFilingNo,};
+          let requestVo = {
+            'pageNo': val,
+            'pageSize':this.everyPage,
+            'contractStatus': "2",
+            'accountCode':this.queryAccountCode,
+            'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
+          };
           this.getData(requestVo);
         }
       },
@@ -405,6 +421,7 @@
           'pageSize':this.everyPage,
           'contractStatus': "2",
           'filingNo':this.$store.state.showFilingNo,
+          'accountLevel':sessionStorage.getItem("accountLevel"),
         };
         this.currentPage2 = 1;
         this.getData(requestVo);
@@ -569,7 +586,7 @@
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.showFilingNo=this.$store.state.showFilingNo;
             if(this.$store.state.folderNum<=0){
               this.$message({

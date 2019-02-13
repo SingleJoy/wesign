@@ -20,9 +20,11 @@
 
     beforeDestroy() {
       this.$store.dispatch('showFilingNo',{showFilingNo:''});
+      this.$store.dispatch('showFilingNoDefault',{showFilingNoDefault:''});
       this.$store.dispatch('nowIndex',{nowIndex:0});
       this.$store.dispatch('isBtnActive',{isBtnActive:true});
       this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
+      this.$store.dispatch('showFilingType',{showFilingType:true});
 
     },
 

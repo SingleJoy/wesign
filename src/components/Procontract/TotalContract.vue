@@ -488,7 +488,7 @@
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.showFilingNo=this.$store.state.showFilingNo;
             if(this.$store.state.folderNum<=0){
               this.$message({
