@@ -255,8 +255,6 @@
         let data = [];
         let isCreater = "";
         let currentFaceCode = cookie.getJSON("tenant")[1].interfaceCode;
-
-
         if(!requestVo){
           requestVo ={
             'pageNo':'1',
@@ -516,7 +514,7 @@
         this.defaultContractNum=row.contractNum;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.showFilingNo=this.$store.state.showFilingNo;
             if(this.$store.state.folderNum<=0){
               this.$message({
@@ -606,6 +604,10 @@
       },
       changeDefaultFillNo(){
         this.showFilingNo=this.$store.state.showFilingNoDefault;
+      },
+      //重置二级账号帅选条件
+      defaultSelectValue(){
+        this.value='';
       }
     },
     created() {

@@ -7,6 +7,7 @@ const state = {
   flag: false,
   data: '111',
   contractName1:'', //拖拽上传合同名字
+  roleName:'', //二级角色
   contractNo1:'',    //拖拽上传合同编号
   rowName: '',       //主页table合同名字
   rowNumber: '',     //主页table合同编号
@@ -46,6 +47,7 @@ const actions = {
   showFilingType:({commit},obj) => commit('showFilingType',obj),
   showFilingTypeUnRec:({commit},obj) => commit('showFilingTypeUnRec',obj),
   defaultFolderTotalNum:({commit},obj) => commit('defaultFolderTotalNum',obj),
+  roleName:({commit},obj) => commit('roleName',obj),
 
 }
 const mutations = {
@@ -103,6 +105,9 @@ const mutations = {
   },
   defaultFolderTotalNum(state,res){
     state.defaultFolderTotalNum=res.defaultFolderTotalNum
+  },
+  roleName(state,res){
+    state.roleName=res.roleName
   },
 
   headclick (state) {

@@ -450,7 +450,7 @@
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.dialogChooseFolder=true;
           }
         }).catch(error=>{

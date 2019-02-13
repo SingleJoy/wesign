@@ -2,7 +2,7 @@
   <div class="Mycontracts">
     <div class="main">
 
-      <Folder @FolderSearchData="FolderSearchData" ref="folder" @changeDefaultFillNo="changeDefaultFillNo"></Folder>
+      <Folder @FolderSearchData="FolderSearchData" ref="folder" @changeDefaultFillNo="changeDefaultFillNo" @defaultSelectValue="defaultSelectValue"></Folder>
 
       <!--企业对个人-->
       <div class="contract-type" v-if="$store.state.showTypePanel" >
@@ -117,6 +117,9 @@
       //切换归档文件夹  Folder组件对应修改兄弟组件(table表格中 默认便当文件夹编号)
       changeDefaultFillNo(){
         this.$refs[this.$store.state.PanelActiveName].changeDefaultFillNo();
+      },
+      defaultSelectValue(){
+        this.$refs[this.$store.state.PanelActiveName].defaultSelectValue();
       }
     },
     mounted(){

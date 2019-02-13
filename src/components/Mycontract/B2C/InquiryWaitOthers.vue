@@ -471,7 +471,7 @@
         this.defaultContractNum=row.contractNum;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
+            this.folderList=res.data.dataList;
             this.dialogChooseFolder=true;
 
           }
@@ -556,13 +556,13 @@
       changeDefaultFillNo(){
         this.showFilingNo=this.$store.state.showFilingNoDefault;
       },
+      //重置二级账号帅选条件
+      defaultSelectValue(){
+        this.value='';
+      }
     },
     created() {
-      if(this.showFilingNo){
-        this.showFilingType=true
-      }else {
-        this.showFilingType=false
-      }
+
     }
   }
 </script>

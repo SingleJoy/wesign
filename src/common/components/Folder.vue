@@ -452,6 +452,7 @@
       searchFolderData(filingNo){
         this.$store.dispatch('PanelActiveName',{PanelActiveName:'first'});
         this.$store.dispatch('showTypePanel',{showTypePanel:true});
+
         if(filingNo){
           this.$store.dispatch('showFilingNo',{showFilingNo:filingNo});
           this.$store.dispatch('showFilingNoDefault',{showFilingNoDefault:filingNo});
@@ -464,7 +465,8 @@
           this.$store.dispatch('showFilingTypeUnRec',{showFilingTypeUnRec:false});
         }
         this.$emit('changeDefaultFillNo');
-        this.$emit('FolderSearchData')
+        this.$emit('FolderSearchData');
+        this.$emit('defaultSelectValue');
       },
 
       slideLeft(){

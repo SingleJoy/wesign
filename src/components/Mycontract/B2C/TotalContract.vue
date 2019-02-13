@@ -269,13 +269,13 @@
         let data =[];
         let isCreater='';
         if(!requestVo){
-           requestVo ={
+          requestVo ={
             'pageNo':'1',
             'pageSize':this.everyPage,
             'contractStatus':'0',
-             'accountCode':this.accountLevel==2?this.accountCode:'',
-             'filingNo':this.$store.state.showFilingNo,
-             'accountLevel':sessionStorage.getItem("accountLevel"),
+            'accountCode':this.accountLevel==2?this.accountCode:'',
+            'filingNo':this.$store.state.showFilingNo,
+            'accountLevel':sessionStorage.getItem("accountLevel"),
           };
         }
 
@@ -380,8 +380,8 @@
 
       handleSizeChange(val) {
 
-         this.everyPage=val;
-         this.getData();
+        this.everyPage=val;
+        this.getData();
       },
 
       selectParam(value){
@@ -494,23 +494,23 @@
 
       // 查询所有归档文件夹接口
       folderClick(row){
-       this.defaultContractNum=row.contractNum;
-          contractFilings(this.interfaceCode,this.accountCode).then(res=>{
-            if(res.data.resultCode=='1'){
-              this.folderList=res.data.dataList;
-              if(this.$store.state.folderNum<=0){
-                this.$message({
-                  type: 'error',
-                  message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
-                });
-                return false;
-              }
-              this.dialogChooseFolder=true;
-
+        this.defaultContractNum=row.contractNum;
+        contractFilings(this.interfaceCode,this.accountCode).then(res=>{
+          if(res.data.resultCode=='1'){
+            this.folderList=res.data.dataList;
+            if(this.$store.state.folderNum<=0){
+              this.$message({
+                type: 'error',
+                message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
+              });
+              return false;
             }
-          }).catch(error=>{
+            this.dialogChooseFolder=true;
 
-          })
+          }
+        }).catch(error=>{
+
+        })
       },
 
       contractFiling(filingNo){
@@ -551,7 +551,7 @@
             message: '请先勾选想要归档合同文件',
             type: "error"
           });
-         return false
+          return false
         }else {
           for (let i = 0; i < length; i++) {
             str += this.multipleSelection[i].contractNum + ',';
@@ -560,8 +560,7 @@
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
-            this.folderList=res.data.data;
-
+            this.folderList=res.data.dataList;
             if(this.$store.state.folderNum<=0){
               this.$message({
                 type: 'error',
@@ -579,7 +578,7 @@
       folderSure(){
         let fillingNo=this.showFilingNo;
 
-         this.contractFiling(fillingNo);
+        this.contractFiling(fillingNo);
       },
 
       quit(){
@@ -587,8 +586,11 @@
         this.dialogChooseFolder=false;
       },
       changeDefaultFillNo(){
-
         this.showFilingNo=this.$store.state.showFilingNoDefault;
+      },
+      //重置二级账号帅选条件
+      defaultSelectValue(){
+        this.value='';
       }
     },
     created() {
