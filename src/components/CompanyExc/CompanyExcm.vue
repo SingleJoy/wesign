@@ -254,7 +254,7 @@
       seeContractImg (){
         this.$loading.show(); //显示
         let data =[];
-        b2bImgs(this.interfaceCode ,this.rowNumber).then(res=> {
+        b2bImgs(this.interfaceCode ,this.contractNo).then(res=> {
 
             for (let i = 0; i < res.data.dataList.length;i++) {
               let contractUrl = res.data.dataList[i].contractUrl

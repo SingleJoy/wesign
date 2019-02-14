@@ -31,7 +31,7 @@
     <!-- 合同所有信息开始 -->
     <div class='contractInfo'>
         <div class='oneInfo'>
-            <p><h3 class='infoss'>合同信息</h3></p>
+            <div><h3 class='infoss'>合同信息</h3></div>
           <ul id='oneInfos'>
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
