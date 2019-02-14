@@ -286,7 +286,7 @@
             } else {
               isCreater = false;
             }
-            var obj = {}
+            let obj = {}
             obj.contractName = res.data.content[i].contractName;
             obj.contractNum = res.data.content[i].contractNum;
             obj.createTime = res.data.content[i].createTime;
@@ -295,7 +295,7 @@
             obj.contractStatus =  res.data.content[i].contractStatus;
             obj.operator = res.data.content[i].operator
             obj.isCreater = isCreater;
-            // this.$store.dispatch('defaultFolderTotalNum',{defaultFolderTotalNum:res.data.totalItemNumber});
+
             obj.operation = ''
             switch (obj.contractStatus){
               case "1":
@@ -335,11 +335,11 @@
             var perpetualValid = ''
           }
           if(this.inquiry == true){
-            var start = this.filters.column.create_start_date
-            var end =   this.filters.column.create_end_date
+            let start = this.filters.column.create_start_date
+            let end =   this.filters.column.create_end_date
             if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
             if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
-            var requestVo ={
+            let requestVo ={
               "contractName":this.inputVal,
               "queryTimeStart":start,
               "queryTimeEnd":  end,
@@ -395,8 +395,8 @@
         } else {
           var perpetualValid = ''
         }
-        var start = this.filters.column.create_start_date
-        var end =   this.filters.column.create_end_date
+        let start = this.filters.column.create_start_date
+        let end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
         let requestVo ={
@@ -442,8 +442,8 @@
           'contractType':1,
         };
         remind(param,this.interfaceCode,row.contractNum).then(res=>{
-          var resultCode = res.data.resultCode
-          var resultMessage = res.data.resultMessage
+          let resultCode = res.data.resultCode
+          let resultMessage = res.data.resultMessage
           if ( resultCode === '0') {
             this.$message({
               showClose: true,
@@ -497,7 +497,7 @@
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
-            if(this.$store.state.folderNum<=0){
+            if(this.$store.state.folderNum<1){
               this.$message({
                 type: 'error',
                 message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
@@ -562,7 +562,7 @@
 
             this.folderList=res.data.dataList;
 
-            if(this.$store.state.folderNum<=0){
+            if(this.$store.state.folderNum<1){
               this.$message({
                 type: 'error',
                 message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'

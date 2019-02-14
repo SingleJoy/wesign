@@ -140,7 +140,6 @@
           </el-radio>
         </el-radio-group>
         <div class="operate">
-
           <el-button type="primary" class="folder-quit" @click="quit" >取消</el-button>
           <el-button type="primary" class="folder-sure" @click="folderSure" >确定</el-button>
         </div>
@@ -486,7 +485,7 @@
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
             this.showFilingNo=this.$store.state.showFilingNo;
-            if(this.$store.state.folderNum<=0){
+            if(this.$store.state.folderNum<1){
               this.$message({
                 type: 'error',
                 message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'
@@ -548,7 +547,7 @@
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
             this.showFilingNo=this.$store.state.showFilingNo;
-            if(this.$store.state.folderNum<=0){
+            if(this.$store.state.folderNum<1){
               this.$message({
                 type: 'error',
                 message: '暂无可归档的文件夹，您可点击“默认文件夹”后的加号，新增自定义文件夹'

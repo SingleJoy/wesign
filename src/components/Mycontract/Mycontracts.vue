@@ -93,11 +93,13 @@
     },
 
     methods:{
+
       handleClick(tab, event) {
        let name=tab.paneName;
         this.$store.dispatch('PanelActiveName',{PanelActiveName:name});
          this.getChildData(name);
       },
+
       //查询子组件（数据表格）列表数据
       getChildData(name){
         this.$refs[name].getData()
@@ -118,11 +120,12 @@
       changeDefaultFillNo(){
         this.$refs[this.$store.state.PanelActiveName].changeDefaultFillNo();
       },
+
       defaultSelectValue(){
         this.$refs[this.$store.state.PanelActiveName].defaultSelectValue();
       }
     },
-    mounted(){
+    created(){
       this.getChildData(this.$store.state.PanelActiveName)
 
     },
@@ -138,7 +141,6 @@
     border-color: #95989d;
     color: #333;
   }
-
   .el-tabs__nav-scroll{
     font-size: 16px;
     color: #333;
@@ -149,20 +151,17 @@
   .el-table th>.cell{
     text-align: center;
   }
-
   .el-table__row .cell{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
   .el-table tr:nth-child(odd) {
     background: #fff;
   }
   .el-table tr:nth-child(even) {
     background: #f5f5f5;
   }
-
 </style>
 
 

@@ -20,8 +20,7 @@ const state = {
   tabIndex:'',     //当前活动tab
   showFilingNoDefault:'',     //当前默认folder编号
   showFilingNo:'',     //当前folder编号
-  isBtnActive:true,
-  defaultFolderTotalNum:'',
+  isBtnActive:true,    //对个人对企业active状态
   nowIndex:0,  //归档合同文件左右翻页
   folderNum:0,   //归档合同文件总共多少页
   PanelActiveName:'first', //记录筛选列表状态(全部文件  待我签署 待他人签署 已生效 已截止)
@@ -30,23 +29,22 @@ const state = {
   showFilingTypeUnRec:false,   //未实名  归档or重新归档  未实名  默认文件夹为未归档
 }
 const actions = {
-    fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
-    contractsInfo: ({ commit },obj) => commit('contractsInfo',obj),
-    template:({ commit },obj) => commit('template',obj),
-    templateType:({ commit },obj) => commit('templateType',obj),
-    type:({ commit },obj) => commit('type',obj),
-    needSign:({ commit },obj) => commit('needSign',obj),
-    tabIndex:({commit},obj) => commit('tabIndex',obj),
-    showFilingNo:({commit},obj) => commit('showFilingNo',obj),
-    showFilingNoDefault:({commit},obj) => commit('showFilingNoDefault',obj),
-    isBtnActive:({commit},obj) => commit('isBtnActive',obj),
-    nowIndex:({commit},obj) => commit('nowIndex',obj),
-    folderNum:({commit},obj) => commit('folderNum',obj),
+  fileSuccess1: ({ commit },obj) => commit('fileSuccess1',obj),
+  contractsInfo: ({ commit },obj) => commit('contractsInfo',obj),
+  template:({ commit },obj) => commit('template',obj),
+  templateType:({ commit },obj) => commit('templateType',obj),
+  type:({ commit },obj) => commit('type',obj),
+  needSign:({ commit },obj) => commit('needSign',obj),
+  tabIndex:({commit},obj) => commit('tabIndex',obj),
+  showFilingNo:({commit},obj) => commit('showFilingNo',obj),
+  showFilingNoDefault:({commit},obj) => commit('showFilingNoDefault',obj),
+  isBtnActive:({commit},obj) => commit('isBtnActive',obj),
+  nowIndex:({commit},obj) => commit('nowIndex',obj),
+  folderNum:({commit},obj) => commit('folderNum',obj),
   PanelActiveName:({commit},obj) => commit('PanelActiveName',obj),
   showTypePanel:({commit},obj) => commit('showTypePanel',obj),
   showFilingType:({commit},obj) => commit('showFilingType',obj),
   showFilingTypeUnRec:({commit},obj) => commit('showFilingTypeUnRec',obj),
-  defaultFolderTotalNum:({commit},obj) => commit('defaultFolderTotalNum',obj),
   roleName:({commit},obj) => commit('roleName',obj),
 
 }
@@ -103,9 +101,7 @@ const mutations = {
   showFilingTypeUnRec(state,res){
     state.showFilingTypeUnRec=res.showFilingTypeUnRec
   },
-  defaultFolderTotalNum(state,res){
-    state.defaultFolderTotalNum=res.defaultFolderTotalNum
-  },
+
   roleName(state,res){
     state.roleName=res.roleName
   },
@@ -125,11 +121,11 @@ const mutations = {
 }
 
 export default new vuex.Store({
-    plugins: [createPersistedState({
-        storage: window.sessionStorage
-    })],
-    state,
-    actions,
-    mutations
+  plugins: [createPersistedState({
+    storage: window.sessionStorage
+  })],
+  state,
+  actions,
+  mutations
 
 })
