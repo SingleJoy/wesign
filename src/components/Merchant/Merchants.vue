@@ -8,9 +8,7 @@
     <div class="main" style="background-color: #fff;padding-top: 10px;">
 
       <div class='main_left'>
-        <!--<div class='upload' style='cursor:point'>-->
-        <!--<div style='cursor:pointer;'  @click='choice' class="el-upload__text"><img src="../../../static/images/add1.png" alt="" style='width:679px;'></div>-->
-        <!--</div>-->
+
         <div class='merchant-upload' style='border:none;'>
           <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
             <div class="content-upload">
@@ -36,7 +34,7 @@
           <div  class='single' v-if='count>0'>
             <div v-for="(item,index) in arr" :key="index">
               <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>
-                <img src="../../../static/images/Container/home-icon-v1.6.png" alt="">
+                <img src="/static/images/Container/home-icon-v1.6.png" alt="">
                 <span style='color:#4091fb'>{{item.name}}</span>
               </div>
             </div>
@@ -46,7 +44,7 @@
           </div>
           <div class='more' v-else>
             <div class='more1'>
-              <h3><img src="../../../static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
+              <h3><img src="/static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
             </div>
           </div>
         </div>
@@ -85,11 +83,13 @@
             style="width: 100%;text-align:center"
             :row-class-name="tableRowClassName"
             v-cloak
+            @selection-change="handleSelectionChange"
+            ref="multipleTable"
           >
             <el-table-column
               prop="contractName"
               label="合同名称"
-              width="250"
+              width="260"
               style="text-align:center"
               :show-overflow-tooltip='true'
             >
@@ -97,24 +97,24 @@
             <el-table-column
               prop="signers"
               label="签署人"
-              width="200"
+              width="250"
               :show-overflow-tooltip='true'
             >
             </el-table-column>
             <el-table-column
               prop="createTime"
               label="发起时间"
-              width="170">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="validTime"
               label="截止时间"
-              width="170">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="contractStatus"
               label="当前状态"
-              width="160">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="operation"
@@ -129,6 +129,7 @@
               </template>
             </el-table-column>
           </el-table>
+
         </div>
       </div>
     </div>
@@ -137,10 +138,37 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
+  import server from "@/api/url";
+  import {homePageContractLists} from '@/api/home'
 
   export default {
     name: 'Merchants',
+    data() {
+      return {
+        popup:false,
+        topTip:true,
+        tableData: [],
+        download :'',
+        loading: true,
+        loading2:false,
+        count:"",
+        waitMe:'0',
+        waitOther:'0',
+        takeEffect:'0',
+        deadline:'0',
+        arr: [],
+        uploadFile:true,
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        auditStatus:'',
+
+        num:''
+      }
+    },
     methods: {
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return 'background:#f5f5f5;font-weight:bold;'
@@ -184,17 +212,17 @@
         this.$router.push('Procontract')
       },
       wait () {
-         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                   //待他人签署
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                   //待他人签署
         sessionStorage.setItem('second','third')
         this.$router.push('Procontract')
       },
       takeEff (){
-         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                           //已生效
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                           //已生效
         sessionStorage.setItem('second','fourth')
         this.$router.push('Procontract')
       },
       end () {
-         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                      //已截止
+        this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                      //已截止
         sessionStorage.setItem('second','five')
         this.$router.push('Procontract')
       },
@@ -218,6 +246,7 @@
       },
       choice(){
         this.$router.push('/BuyProduct')
+
       },
       jump () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
@@ -225,7 +254,8 @@
       },
       more (){
         this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push('/BuyProduct')
+        this.$router.push('/More')
+        // this.$router.push('/BuyProduct')
       },
       rowLockClick (row) { //查看
         if(row.contractType == '0'){
@@ -241,89 +271,72 @@
         }
       }
     },
-    data() {
-      return {
-        popup:false,
-        topTip:true,
-        tableData: [],
-        download :'',
-        loading: true,
-        loading2:false,
-        count:"",
-        waitMe:'0',
-        waitOther:'0',
-        takeEffect:'0',
-        deadline:'0',
-        arr: [],
-        uploadFile:true,
-        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-        auditStatus:''
-      }
-    },
     created() {
-        if(!cookie.getJSON('tenant')){
-            return
+      if(!cookie.getJSON('tenant')){
+        return
+      }
+      this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
+      var authStatus = cookie.getJSON('tenant')[0].authStatus
+      var auditStatus = cookie.getJSON('tenant')[1].auditStatus
+      var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+      if(auditSteps!=3){
+        this.topTip = false
+      }
+      var data =[];
+      var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
+
+      homePageContractLists(requestVo,this.interfaceCode).then(res=>{
+        this.num=res.data.content.length;
+        for (let i = 0; i < res.data.content.length;i++) {
+          var obj = {}
+          obj.contractName = res.data.content[i].contractName;
+          obj.contractNum = res.data.content[i].contractNum;
+          obj.createTime = res.data.content[i].createTime;
+          obj.signers =  res.data.content[i].signers;
+          obj.contractStatus =  res.data.content[i].contractStatus;
+          obj.validTime =  res.data.content[i].validTime
+          obj.contractType = res.data.content[i].contractType
+          obj.operation = ''
+          switch (obj.contractStatus){
+            case "1":
+              obj.contractStatus="待我签署";
+              obj.operation = 1
+              break;
+            case "2":
+              obj.contractStatus="待他人签署";
+              obj.operation = 2
+              break;
+            case "3":
+              obj.contractStatus="已生效";
+              obj.operation = 3
+              break;
+            default:
+              obj.contractStatus="已截止";
+              obj.operation = 4
+          }
+          data[i] = obj
         }
-        this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-        var authStatus = cookie.getJSON('tenant')[0].authStatus
-        var auditStatus = cookie.getJSON('tenant')[1].auditStatus
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps
-        if(auditSteps!=3){
-            this.topTip = false
-        }
-        var data =[];
-        var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-        let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/homePageContractLists';
-        this.$http.get(url, {params: requestVo}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-            } else {
-            for (let i = 0; i < res.data.content.length;i++) {
-                var obj = {}
-                obj.contractName = res.data.content[i].contractName;
-                obj.contractNum = res.data.content[i].contractNum;
-                obj.createTime = res.data.content[i].createTime;
-                obj.signers =  res.data.content[i].signers;
-                obj.contractStatus =  res.data.content[i].contractStatus;
-                obj.validTime =  res.data.content[i].validTime
-                obj.contractType = res.data.content[i].contractType
-                obj.operation = ''
-                switch (obj.contractStatus){
-                case "1":
-                    obj.contractStatus="待我签署";
-                    obj.operation = 1
-                    break;
-                case "2":
-                    obj.contractStatus="待他人签署";
-                    obj.operation = 2
-                    break;
-                case "3":
-                    obj.contractStatus="已生效";
-                    obj.operation = 3
-                    break;
-                default:
-                    obj.contractStatus="已截止";
-                    obj.operation = 4
-                }
-                data[i] = obj
-            }
-            this.tableData = data
-            this.loading = false
-            }
+        this.tableData = data
+        this.loading = false
+
+      }).catch(error=>{
+
+      })
+
+      let requestType=['bwaitForMeSign','bwaitForOtherSign','btakeEffect','bdeadline'];
+      let responseType=['waitMe','waitOther','takeEffect','deadline']
+      let param={
+        accountCode:this.accountCode
+      }
+      for(let i=0;i< requestType.length;i++){
+        let type =  responseType[i];
+        server[requestType[i]](param,this.interfaceCode).then(res=>{
+          this[type] = res.data.count
+        }).catch(error=>{
+
         })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForMeSign').then(function (res) {
-            this.waitMe = res.data.count
-        })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/waitForOtherSign').then(function (res) {
-            this.waitOther = res.data.count
-        })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/takeEffect').then(function (res) {
-            this.takeEffect = res.data.count
-        })
-        this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/deadline').then(function (res) {
-            this.deadline = res.data.count
-        })
-        this.count = 0
+      }
+      this.count = 0
     },
     mounted() {
       sessionStorage.removeItem("type")
@@ -453,6 +466,6 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 </style>

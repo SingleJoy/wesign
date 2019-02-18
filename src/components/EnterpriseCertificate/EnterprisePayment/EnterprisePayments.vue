@@ -3,7 +3,7 @@
     <div class="Topes">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/logo2.png" alt="">
         </p>
 
       </nav>
@@ -114,252 +114,239 @@
   import server from '@/api/url.js'
   import cookie from '@/common/js/getTenant'
   import {validateOpenName,TrimAll,validateDecimal,onlyChinese,validateCard,validateMoblie,validateSmsCode} from '@/common/js/validate'
+  import {valitedSmsCode,sendSmsCodefourth} from '@/api/common'
   export default {
     name: 'EnterprisePayments',
 
     data () {
       //校验打款金额
-      var validatePaymentNum=(rule,value,callback)=>{
-        if (value === '') {
-          callback(new Error('请输入打款金额'));
-        }else if(TrimAll(value).length>4||TrimAll(value)<0.01||TrimAll(value)>0.99){
-          callback(new Error('打款金额填写只能在0.01~0.99之间'));
+        let validatePaymentNum=(rule,value,callback)=>{
+            if (value === '') {
+            callback(new Error('请输入打款金额'));
+            }else if(TrimAll(value).length>4||TrimAll(value)<0.01||TrimAll(value)>0.99){
+            callback(new Error('打款金额填写只能在0.01~0.99之间'));
+            }
         }
-      }
 
       // 法人身份证号校验
-      var validateIDcard=(rule,value,callback)=>{
-        if(value===''){
-          callback(new Error('法人身份证号不可为空'))
-        }else if(value!==''&&!(validateCard(TrimAll(value)))){
-          callback(new Error('身份证号格式不正确'));
-        }else {
-          callback()
+        let validateIDcard=(rule,value,callback)=>{
+            if(value===''){
+            callback(new Error('法人身份证号不可为空'))
+            }else if(value!==''&&!(validateCard(TrimAll(value)))){
+            callback(new Error('身份证号格式不正确'));
+            }else {
+            callback()
+            }
         }
-      }
       //手机号码
-      var validateLegalMobile=(rule,value,callback)=>{
-        if(value===''){
-          callback(new Error('法人手机号不可为空'))
-        }else if(value!==''&&!(validateMoblie(TrimAll(value)))){
-          callback(new Error('法人手机号填写格式错误'));
-        }else {
-          callback()
+        let validateLegalMobile=(rule,value,callback)=>{
+            if(value===''){
+            callback(new Error('法人手机号不可为空'))
+            }else if(value!==''&&!(validateMoblie(TrimAll(value)))){
+            callback(new Error('法人手机号填写格式错误'));
+            }else {
+            callback()
+            }
         }
-      }
 
       //校验6位手机验证码
-      var validatePhoneCode=(rule,value,callback)=>{
-        if(value===''){
-          callback(new Error('验证码不为空'))
-        }else if(value!==''&&!(validateSmsCode(value))){
-          callback(new Error('验证码只能是6位数字'));
-        }else {
-          callback()
+        let validatePhoneCode=(rule,value,callback)=>{
+            if(value===''){
+            callback(new Error('验证码不为空'))
+            }else if(value!==''&&!(validateSmsCode(value))){
+            callback(new Error('验证码只能是6位数字'));
+            }else {
+            callback()
+            }
         }
-      }
 
-      return {
-        ruleForm: {
-          paymentNum:'',  //打款金额
-          enterpriseName:'',//企业名称
-          bankAccount:'', //企业银行账号
-          bankName:'' ,//银行名称
-          bankArea:'', //开户行支行所在省市
-          bankBranchName:'',  //支行银行名称
-        },
-        message:'',
-        // mobile:sessionStorage.getItem("mobile"),
-        mobileShowFirst:'',
-        mobileShowLast:'',
-        dialogAgreement:false,
-        once:false, //提交按钮单次点击,
-        verifySub:false, //五次打款验证提交
-        // showAlert:true,  //轮询查询打款失败  第一次弹窗
-        time:1,
-        // allowInput:false,//打款失败 禁止输入
-        rules:{
-          paymentNum: [
-            {validator: validatePaymentNum, trigger: 'blur' }
-          ],
+        return {
+            ruleForm: {
+                paymentNum:'',  //打款金额
+                enterpriseName:'',//企业名称
+                bankAccount:'', //企业银行账号
+                bankName:'' ,//银行名称
+                bankArea:'', //开户行支行所在省市
+                bankBranchName:'',  //支行银行名称
+            },
+            message:'',
+            // mobile:sessionStorage.getItem("mobile"),
+            mobileShowFirst:'',
+            mobileShowLast:'',
+            dialogAgreement:false,
+            once:false, //提交按钮单次点击,
+            verifySub:false, //五次打款验证提交
+            // showAlert:true,  //轮询查询打款失败  第一次弹窗
+            time:0,
+            // allowInput:false,//打款失败 禁止输入
+            rules:{
+                paymentNum: [
+                    {validator: validatePaymentNum, trigger: 'blur' }
+                ],
+            },
+            legalForm:{
+                legalPerson:'',
+                IDcard:'',
+                legalMobile:'',
+                phoneCode:'',
+            },
+            ruleFormRules:{
+            //   legalPerson:[
+            //     { required: true,validator: validateLegalPerson, trigger: 'blur' }
+            //   ],
+                IDcard:[
+                    { required: true,validator: validateIDcard, trigger: 'blur' }
+                ],
+                legalMobile:[
+                    { required: true,validator: validateLegalMobile, trigger: 'blur' }
+                ],
+                phoneCode:[
+                    { required: true,validator: validatePhoneCode, trigger: 'blur' }
+                ],
+            },
+            interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+            formLabelWidth:'200px',
+            smsCode:'',   //短信码
+            smsNoVer:'',   //
+            appId:'',  //验证码返回appId
+            repeat:false,
+            pollTimer:null   //轮询的定时器
 
-        },
-        legalForm:{
-          legalPerson:'',
-          IDcard:'',
-          legalMobile:'',
-          phoneCode:'',
-        },
-        ruleFormRules:{
-          //   legalPerson:[
-          //     { required: true,validator: validateLegalPerson, trigger: 'blur' }
-          //   ],
-          IDcard:[
-            { required: true,validator: validateIDcard, trigger: 'blur' }
-          ],
-          legalMobile:[
-            { required: true,validator: validateLegalMobile, trigger: 'blur' }
-          ],
-          phoneCode:[
-            { required: true,validator: validatePhoneCode, trigger: 'blur' }
-          ],
-        },
-        interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
-        formLabelWidth:'200px',
-        smsCode:'',   //短信码
-        smsNoVer:'',   //
-        appId:'',  //验证码返回appId
-        repeat:false,
-        pollTimer:null   //轮询的定时器
-
-      }
+        }
     },
     beforeDestroy() {
-      clearInterval(this.timer);
-      this.timer = null;
+        clearInterval(this.timer);
+        this.timer = null;
     },
     methods:{
       change (val) {
         this.province=val[0]
         this.city=val[1]
       },
-
-      sendCode(){
+    sendCode(){
         let mobile=this.legalForm.legalMobile;
         if(!mobile){
-          this.$message({
-            showClose: true,
-            message: '手机号为空',
-            type: 'error'
-          })
+            this.$message({
+                showClose: true,
+                message: '手机号为空',
+                type: 'error'
+            })
         }else{
-          this.repeat = true;
-
-          var codeType = '0';
-          var count = 60;
-          var curCount = count;
-          var timer = null;
-          this.sms = true;
-          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode',{'mobile':mobile,'sendType':codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
-
-            this.smsNoVer=res.data.smsNo   //短信编号
-            this.appId=res.data.appId     //appId
-
-
-            var resultCode = res.data.resultCode;
-            var smsNo = res.data.smsNo;
-            var smsCode = res.data.smsCode;
-            var message = res.data.resultMessage;
-            if (resultCode === '1') {
-              this.smsNo = true;
-              this.smsCodeNum +=1;
-              if(this.smsCodeNum == 3){
-                this.isDisabled = true
-              } else{
-                this.isDisabled = false
-              }
-              let codeInfo = document.getElementById('code')
-              codeInfo.innerText =  curCount + '秒'
-              this.smsNum = smsNo
-
-              codeInfo.setAttribute('disabled', 'true')
-              let that = this
-              timer = setInterval(function () {
-                codeInfo.innerText =  (curCount - 1) + '秒'
-                if (curCount === 0) {
-                  codeInfo.innerText = '获取'
-                  clearInterval(timer)
-                  codeInfo.removeAttribute('disabled')
-                  that.repeat = false
-                } else {
-                  curCount--
-                }
-              }, 1000)
-            }else{
-              let that =this;
-
-              that.smsNo = false
-              that.repeat = false
-
-              this.$alert(res.data.resultMessage,'提示', {
-                confirmButtonText: '确定'
-              })
-
+            this.repeat = true;
+            var codeType = '0';
+            var count = 60;
+            var curCount = count;
+            var timer = null;
+            this.sms = true;
+            let param={
+                'mobile':mobile,
+                'sendType':codeType,
+                'interfaceCode':this.interfaceCode
             }
-          })
+            sendSmsCodefourth(param).then(res=>{
+                this.smsNoVer=res.data.smsNo   //短信编号
+                this.appId=res.data.appId     //appId
+                var resultCode = res.data.resultCode;
+                var smsNo = res.data.smsNo;
+                var smsCode = res.data.smsCode;
+                var message = res.data.resultMessage;
+                if (resultCode === '1') {
+                this.smsNo = true;
+                this.smsCodeNum +=1;
+                if(this.smsCodeNum == 3){
+                    this.isDisabled = true
+                } else{
+                    this.isDisabled = false
+                }
+                let codeInfo = document.getElementById('code')
+                codeInfo.innerText =  curCount + '秒'
+                this.smsNum = smsNo
+                codeInfo.setAttribute('disabled', 'true')
 
+                timer = setInterval(()=> {
+                    codeInfo.innerText =  (curCount - 1) + '秒'
+                    if (curCount === 0) {
+                    codeInfo.innerText = '获取'
+                    clearInterval(timer)
+                    codeInfo.removeAttribute('disabled')
+                    this.repeat = false
+                    } else {
+                    curCount--
+                    }
+                }, 1000)
+                }else{
+
+                this.smsNo = false
+                this.repeat = false
+
+                this.$alert(res.data.resultMessage,'提示', {
+                    confirmButtonText: '确定'
+                })
+
+                }
+            }).catch(error=>{
+
+            })
         }
 
       },
       // 解冻打款失败
       thaw(legalForm){
-
         this.$refs[legalForm].validate((valid) => {
-          this.verifySub = true;
-          if(valid){
-            // console.log('this.ruleForm.phoneCode'+this.ruleFormRules.phoneCode)
-            this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-              params: {
-                'mobile': this.legalForm.legalMobile, 'smsNo': this.smsNoVer, 'smsCode': this.legalForm.phoneCode, 'appId': this.appId
-              }
-            }).then(res => {
-              //手机号验证码检验失败
-              if (res.data.resultCode != 1) {
-                this.verifySub = false
-                this.$message({
-                  showClose: true,
-                  message: res.data.resultMessage,
-                  type: 'error'
-                })
-              }else {
-                //手机号验证码检验成功
-                this.verifySub = false;
-                // this.$message({
-                //     showClose: true,
-                //     message: res.data.resultMessage,
-                //     type: 'success'
-                // })
+            this.verifySub = true;
+            if(valid){
+                let param={
+                    'mobile': this.legalForm.legalMobile,
+                    'smsNo': this.smsNoVer,
+                    'smsCode': this.legalForm.phoneCode,
+                    'appId': this.appId
+                }
+                valitedSmsCode(param).then(res=>{
+                    //手机号验证码检验失败
+                    if (res.data.resultCode != 1) {
+                        this.verifySub = false
+                        this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: 'error'
+                        })
+                    }else {
+                    //手机号验证码检验成功
+                        this.verifySub = false;
+                        let params ={
+                            'userName':this.legalForm.legalPerson,
+                            'idCard':this.legalForm.IDcard,
+                            'mobile':this.legalForm.legalMobile,
+                            'interfaceCode':this.interfaceCode,
+                        };
 
-                //手机号验证码校验成功后，开始调用解冻打款确认接口
-
-                let param ={
-                  'userName':this.legalForm.legalPerson,
-                  'idCard':this.legalForm.IDcard,
-                  'mobile':this.legalForm.legalMobile,
-                  'interfaceCode':this.interfaceCode,
-                };
-                // console.log(param);
-                let that=this;
-                server.unfreezeRemittance(param).then(function (res) {
-                  if (res.data.resultCode == '1') {
-                    that.verifySub = false
-                    that.$message({
-                      showClose: true,
-                      message: res.data.resultMessage,
-                      type: 'success'
-                    })
-                    that.dialogAgreement=false;
-                    that.ruleForm.paymentNum='';
-                    that.legalForm.IDcard='';
-                    that.legalForm.legalMobile='';
-                    that.legalForm.phoneCode='';
-                  } else {
-                    that.$message({
-                      showClose: true,
-                      message: res.data.resultMessage,
-                      type: 'error'
-                    })
-                    that.dialogAgreement=false;
-
-                  }
+                        server.unfreezeRemittance(params).then(res=> {
+                            if (res.data.resultCode == '1') {
+                                this.verifySub = false
+                                this.$message({
+                                    showClose: true,
+                                    message: res.data.resultMessage,
+                                    type: 'success'
+                                })
+                                this.dialogAgreement=false;
+                                this.ruleForm.paymentNum='';
+                                this.legalForm.IDcard='';
+                                this.legalForm.legalMobile='';
+                                this.legalForm.phoneCode='';
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: res.data.resultMessage,
+                                    type: 'error'
+                                })
+                                this.dialogAgreement=false;
+                            }
+                        })
+                    }
+                }).catch(error=>{
 
                 })
-
-              }
-
-
-            })
-          }
+            }
         })
       },
       cancel(){
@@ -420,25 +407,27 @@
 
       //轮询
       pollingPanel(timer){ //轮询打款状态
-        let that = this;
-        server.moneyStatus(this.interfaceCode).then(function (res) {
+
+        server.moneyStatus(this.interfaceCode).then(res=> {
           if(res.data.resultCode=='1') {
-            clearInterval(that.timer);
-            that.timer = null;
+            clearInterval(this.timer);
+            this.timer = null;
           }else if(res.data.resultCode=='-4'){
-            if(that.time>(1000*60*60)){
-              clearInterval(that.timer);
-              that.timer = null;
+            if(this.time>(60*60)){
+              clearInterval(this.timer);
+              this.timer = null;
             }
           }else if(res.data.resultCode=='-1'){
-            clearInterval(that.timer);
-            that.timer = null;
-            that.$alert(res.data.resultMessage, '提示',{
+            clearInterval(this.timer);
+            this.timer = null;
+            this.$alert(res.data.resultMessage, '提示',{
                 confirmButtonText: '确定'
               }).then(()=>{
-                   that.$router.push('/EnterpriseCertificate')
+                   this.$router.push('/EnterpriseCertificate')
               });
           }
+
+        }).catch(error=>{
 
         })
       },
@@ -450,7 +439,7 @@
         return
       }
       this.enterpriseName = sessionStorage.getItem("companyName");
-      //   console.log(this.interfaceCode);
+
       // 查询企业银行信息
       server.getBank(this.interfaceCode).then(response => {
         if (response.data.resultCode == '1') {
@@ -470,18 +459,15 @@
       })
 
       // 轮询查找打款进度信息
-      let that = this;
-      let timer = null;
-    //   setTimeout(function(){
-        this.timer = setInterval(function () {
-            that.pollingPanel(this.timer)
-        }, 3000);
-    //   },3000)
-      
 
-      setInterval(function () {
-        that.time=that.time+1;
-      },1000)
+      let timer = null;
+        this.timer = setInterval(()=> {
+            this.pollingPanel(this.timer)
+        }, 5000);
+
+      setInterval(()=> {
+        this.time=this.time+2;
+      },2000)
 
     }
 

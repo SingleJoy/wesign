@@ -3,7 +3,7 @@
    <div class="Tops">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="contractCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -58,10 +58,10 @@
       <!-- 右侧签署按钮开始 -->
       <div class='sign_right'>
         <a href="javascript:void(0);" @click="getPosition">
-          <img src="../../../static/images/Contract/seal-submit.png" alt="" >
+          <img src="/static/images/Contract/seal-submit.png" alt="" >
         </a>
 
-       <p id='smCode'>
+       <p id="smCode">
          <el-tooltip class="item" effect="dark" content="被授权人扫码签署" placement="right">
          <img :src="[qrSignImg]" alt="" v-show="qrSignImg!=''">
          </el-tooltip>
@@ -81,6 +81,8 @@ import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
+import { getSignatureImg,contractimgs,getSignature,callSignerpositions,contractmoresign,qRCode} from '@/api/business'
+
 export default {
   name: 'Dimensions',
   data () {
@@ -108,7 +110,10 @@ export default {
       recapture:false,
       arrow:[],
       timer:null,  //轮询定时器,
-      clickOnce:false
+      clickOnce:false,
+      interfaceCode:sessionStorage.getItem("interfaceCode"),
+      contractNo:sessionStorage.getItem("contractNo"),
+      userCode:cookie.getJSON('tenant')[0].userCode
     }
   },
   computed:{
@@ -129,13 +134,13 @@ export default {
     var pag = [];
       if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条
-            var i = Math.min(this.showItem,this.allpage);
+           let i = Math.min(this.showItem,this.allpage);
             while(i){
                 pag.unshift(i--);
             }
         }else{ //当前页数大于显示页数了
             //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-            var middle = this.currentIndex + 1
+            let middle = this.currentIndex + 1
               i = this.showItem;
             if( middle >  (this.allpage - this.showItem)  ){
                 middle = (this.allpage - this.showItem) + 1
@@ -148,31 +153,15 @@ export default {
     }
   },
   created() {
-    var contractNo = sessionStorage.getItem('contractNo')
-    if (contractNo) {
-      // console.log(this.$store.state.contractNo1)
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        // console.log('session是不是空')
-        this.$store.state.contractNo1 = contractNo
-        // console.log(this.$store.state.contractNo1)
-      }
 
-    }
     this.$loading.show(); //显示
-    var data =[]
-    let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+contractNo+'/contractimgs'
-    let urlPic = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/getSignature'
-    let qrUrl =  process.env.API_HOST+'v1.4/user/'+ cookie.getJSON('tenant')[0].userCode + '/qRCode'
 
-    this.$http.get(url).then(function (res) {
-      if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-      /*获取后台数据，并使用imgArray*/
+    //合同图片
+    let data =[]
+    contractimgs(this.interfaceCode,this.contractNo).then(res=> {
 
-      for(var i=0;i<res.data.dataList.length;i++){
-        var contractUrl = res.data.dataList[i].contractUrl
+      for(let i=0;i<res.data.dataList.length;i++){
+        let contractUrl = res.data.dataList[i].contractUrl
         data[i] = contractUrl
         this.$loading.hide(); //隐藏
       }
@@ -189,80 +178,68 @@ export default {
 				scrollY: true,
 				preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
 			});
-      }
-    }).catch(function (error) {
-      this.$message.error('请求失败！请刷新再试！')
+    }).catch(error=>{
+
+    })
+    getSignature(this.interfaceCode).then(res=>{
+        this.contractSignImg = res.data
+    }).catch(error=>{
+
+    })
+    let param={
+        'contractNo':this.contractNo
+    }
+    qRCode(this.userCode,param).then(res=>{
+          this.qrSignImg = res.data
+    }).catch(error=>{
+
     })
 
-     this.$http.get(urlPic).then(function (res) {
-      this.contractSignImg = res.bodyText
-     })
-
-     this.$http.get(qrUrl,{params:{'contractNo':contractNo}}).then(function (res) {
-      this.qrSignImg = res.bodyText
-     })
-
-    var that = this
-    var timer = null
+    let that = this
+    let timer = null
     this.timer = setInterval(function () {
       that.pollingPanel(this.timer)
     }, 3000)
 
+    callSignerpositions(this.interfaceCode,this.contractNo,this.userCode).then(res=> {
 
-    this.$http.get(process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+ contractNo +'/user/'+ cookie.getJSON('tenant')[0].userCode + '/signerpositions').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-        this.$router.push('/Server')
-      } else {
-
-        if(res.data.resultCode==0){
-        //   this.$message({
-        //     showClose: true,
-        //     message: '合同次数已用尽，无法继续发起对企业合同',
-        //     type: 'warning'
-        //   });
-          // this.$router.push('/Home')
-        }else{
           var array = res.data.list
-
-          for (var i =0 ; i<array.length; i++){
-            var userCode = array[i].userCode;
-            if(userCode == cookie.getJSON('tenant')[1].interfaceCode){
+          for (let i =0 ; i<array.length; i++){
+            let userCode = array[i].userCode;
+            if(userCode == this.interfaceCode){
               this.arr.push(array[i])
             }
-            if(userCode != cookie.getJSON('tenant')[1].interfaceCode){
+            if(userCode != this.interfaceCode){
               this.group.push(array[i])
             }
           }
-        }
 
+    }).catch(error=>{
 
-
-      }
     })
   },
   methods:{
     showDialog(){
-      var smCode = document.getElementById('smCode')
+      let smCode = document.getElementById('smCode')
       smCode.style.display ='block'
       this.recapture = false
-      var userCode = cookie.getJSON('tenant')[0].userCode
-      var contractNo = sessionStorage.getItem('contractNo')
-        //   contractNo = JSON.parse(contractNo);
-      var that = this
-      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg',{params:{'temp':'0'}}).then(function (res) {
-        if( res.data == '1'){
-          for(var i = 0;i<this.arrow.length;i++){
-            var signCanvas = document.getElementById("div-" + i)
-            var parentBox = document.getElementById('contractImg')
+      let t = Math.random()
+      getSignatureImg(this.contractNo ,this.userCode,t).then(res=> {
+        if(res.data == '1'){
+          for(let i = 0;i<this.arrow.length;i++){
+            let signCanvas = document.getElementById("div-" + i)
+            let parentBox = document.getElementById('contractImg')
              if(signCanvas&&parentBox){
                 parentBox.removeChild(signCanvas)
              }
           }
           // var timer = null
           this.timer = setInterval(function () {
-            that.pollingPanel(this.timer)
+            this.pollingPanel(this.timer)
           }, 3000)
         }
+      }).catch(error=>{
+
       })
     },
     goto (currentIndex){
@@ -278,10 +255,6 @@ export default {
       this.rightScroll.scrollToElement(el, 300)
     },
     _initScroll(){
-      // this.leftScroll = new BScroll(this.$refs.leftWrapper, {
-      //   click: true
-      // })
-
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         mouseWheel: {
 					speed: 1200,
@@ -326,13 +299,7 @@ export default {
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
-                // if(cookie.getJSON('tenant')[1].isBusiness == '0'){
-                //   this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-                //   this.$router.push('/Merchant');
-                // }else{
-                //   this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
-                //   this.$router.push('/Home');
-                // }
+
                 this.$router.push('/Home');
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;
@@ -346,29 +313,32 @@ export default {
         })
       },
     getPosition () { //点击签署
+
       if (this.flag == true){
       this.flag = false
-       var signPositionStr = ''
-        for (var i =0 ; i<this.arr.length; i++){
-          var pageNum = this.arr[i].pageNum;
-				  var offsetX = this.arr[i].offsetX;
-          var offsetY = this.arr[i].offsetY;
-          var parentBox = document.getElementById('contractImg')
-          var firstImg =parentBox.getElementsByTagName('img')[1]
-          var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-          var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-          var hidden =document.getElementById('hidden')
-          var leftX = offsetX * imgWight;
-          var topY = (pageNum - 1 + offsetY) * imgHeight;
+        let signPositionStr = ''
+        for (let i =0 ; i<this.arr.length; i++){
+          let pageNum = this.arr[i].pageNum;
+          let offsetX = this.arr[i].offsetX;
+          let offsetY = this.arr[i].offsetY;
+          let parentBox = document.getElementById('contractImg')
+          let firstImg =parentBox.getElementsByTagName('img')[1]
+          let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+          let imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
+          let hidden =document.getElementById('hidden')
+
+          let leftX = offsetX * imgWight;
+          let topY = (pageNum - 1 + offsetY) * imgHeight;
           // var signCanvasImg = document.getElementById('signCanvasImg').offsetHeight
           // var topY = (pageNum - 1 + offsetY) * imgHeight + pageNum - parseInt(signCanvasImg/4);
-          var signPic = document.getElementById('signImg').cloneNode(true)
+          let signPic = document.getElementById('signImg').cloneNode(true)
           parentBox.appendChild(signPic);
           signPic.style.position= 'absolute';
           signPic.style.top= topY + 'px'
           signPic.style.left = leftX + 'px'
           hidden.style.display='none'
-          var windowScrollTop = document.documentElement.scrollTop
+
+          let windowScrollTop = document.documentElement.scrollTop
           if(i == this.arr.length-1){
             signPositionStr += pageNum+","+leftX+","+offsetY * (imgHeight);
           }else{
@@ -426,33 +396,30 @@ export default {
     },
     submitContract () { //确认签署
      this.$loading.show(); //显示
-     var contractNo = sessionStorage.getItem('contractNo')
-        //   contractNo = JSON.parse(contractNo);
-     var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-     var imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
-     var signH = parseInt(document.getElementById('signImg').style.height)//签章高度
-     var signW =  parseInt(document.getElementById('signImg').style.width)
-     var signatureW =  parseInt(document.getElementById('signCanvasImg').style.width)//手写
-     var signatureH =  parseInt(document.getElementById('signCanvasImg').style.height)
-     let url = process.env.API_HOST+'v1.4/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[0].userCode + '/contractmoresign/'+ contractNo
-      this.$http.post(url,{
-       'tenantSignCode':cookie.getJSON('tenant')[1].interfaceCode,
-       'userSignCode': cookie.getJSON('tenant')[0].userCode,
-       'enterpriseSignImg':this.contractSignImg.split(",")[1],
-       'signatureImg':this.canvasTest.split(",")[1],
-       'phoneHeight':imgHeight,
-       'phoneWidth': imgWight,
-       'signH':signH,
-       'signW':signW,
-       'signatureW':signatureW,
-       'signatureH':signatureH,
-       'enterprisePositionStr':this.signPosition,
-       'personalPositionStr':this.signPosit
-      },{emulateJSON: true}).then(function (res) {
-       if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-       if (res.data.responseCode == 1){
+
+      let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+      let imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
+      let signH = parseInt(document.getElementById('signImg').style.height)//签章高度
+      let signW =  parseInt(document.getElementById('signImg').style.width)
+      let signatureW =  parseInt(document.getElementById('signCanvasImg').style.width)//手写
+      let signatureH =  parseInt(document.getElementById('signCanvasImg').style.height)
+      let params = {
+        'tenantSignCode':this.interfaceCode,
+        'userSignCode': this.userCode,
+        'enterpriseSignImg':this.contractSignImg.split(",")[1],
+        'signatureImg':this.canvasTest.split(",")[1],
+        'phoneHeight':imgHeight,
+        'phoneWidth': imgWight,
+        'signH':signH,
+        'signW':signW,
+        'signatureW':signatureW,
+        'signatureH':signatureH,
+        'enterprisePositionStr':this.signPosition,
+        'personalPositionStr':this.signPosit
+      }
+      contractmoresign(this.interfaceCode,this.userCode,this.contractNo,params).then(res=> {
+
+        if (res.data.responseCode == 1) {
           this.centerDialogVisible = false
           this.$message({
             showClose: true,
@@ -460,58 +427,56 @@ export default {
             type: 'success'
           })
           this.$loading.hide(); //隐藏
-          this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-          sessionStorage.setItem('contractNo',contractNo)
           this.$router.push('/SignSuccess')
-       }
-      }
-     })
+        }
+      }).catch(error=>{
+
+      })
     },
     pollingPanel(timer) { //轮询手写面板
-      var userCode = cookie.getJSON('tenant')[0].userCode
-      var contractNo = sessionStorage.getItem('contractNo')
-      var t = Math.random()
-    //   contractNo = JSON.parse(contractNo)
-      this.$http.get(process.env.API_HOST+'v1.4/contract/'+ contractNo +'/user/'+userCode+'/getSignatureImg?t='+t).then(function (res) {
-      this.canvasTest =  res.bodyText
-      if(res.bodyText != '') {
-        var smCode = document.getElementById('smCode')
-        smCode.style.display ='none';
-      }
-      setTimeout(() => {
-      if(this.canvasTest!=''){
-          var signPosit = ''
-          for (var i =0 ; i<this.group.length; i++){
-            var pageNum = this.group[i].pageNum;
-            var offsetX = this.group[i].offsetX;
-            var offsetY = this.group[i].offsetY;
-            var parentBox = document.getElementById('contractImg')
-            var firstImg =parentBox.getElementsByTagName('img')[1]
-            var imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-            var imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-            var signCanvas =document.getElementById('signCanvas')
-            var leftX = offsetX * imgWight;
-            var topY = (pageNum - 1 + offsetY) * imgHeight;
-            var signPng = document.getElementById('signCanvasImg').cloneNode(true);
-            parentBox.appendChild(signPng);
-            signPng.style.position= 'absolute';
-            signPng.style.top= topY + 'px'
-            signPng.style.left = leftX + 'px'
-            signPng.setAttribute("id", "div-" + i);
-            this.arrow.push (i)
-            signCanvas.style.display='none'
-            var windowScrollTop = document.documentElement.scrollTop
-            if(i == this.group.length-1){
-              signPosit += pageNum+","+leftX+","+offsetY * (imgHeight);
-            }else{
-              signPosit += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
-            }
-          }
-          clearInterval(this.timer)
-          this.signPosit = signPosit
-          this.recapture = true
+      let t = Math.random()
+      getSignatureImg(this.contractNo,this.userCode,t).then(res=>{
+          this.canvasTest =  res.data
+        if(res.data != '') {
+          var smCode = document.getElementById('smCode')
+          smCode.style.display ='none';
         }
-      },1000)
+        setTimeout(() => {
+          if(this.canvasTest!=''){
+            let signPosit = ''
+            for (let i =0 ; i<this.group.length; i++){
+              let pageNum = this.group[i].pageNum;
+              let offsetX = this.group[i].offsetX;
+              let offsetY = this.group[i].offsetY;
+              let parentBox = document.getElementById('contractImg')
+              let firstImg =parentBox.getElementsByTagName('img')[1]
+              let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+              let imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
+              let signCanvas =document.getElementById('signCanvas')
+              let leftX = offsetX * imgWight;
+              let topY = (pageNum - 1 + offsetY) * imgHeight;
+              let signPng = document.getElementById('signCanvasImg').cloneNode(true);
+              parentBox.appendChild(signPng);
+              signPng.style.position= 'absolute';
+              signPng.style.top= topY + 'px'
+              signPng.style.left = leftX + 'px'
+              signPng.setAttribute("id", "div-" + i);
+              this.arrow.push (i)
+              signCanvas.style.display='none'
+              var windowScrollTop = document.documentElement.scrollTop
+              if(i == this.group.length-1){
+                signPosit += pageNum+","+leftX+","+offsetY * (imgHeight);
+              }else{
+                signPosit += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+              }
+            }
+            clearInterval(this.timer)
+            this.signPosit = signPosit
+            this.recapture = true
+          }
+        },1000)
+      }).catch(error=>{
+
       })
     }
   },

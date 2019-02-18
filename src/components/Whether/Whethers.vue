@@ -3,7 +3,7 @@
   <div class="Tops">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="cancelSign">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -78,6 +78,7 @@
 import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
+import {signerpositions,contractDetail,contractImg} from '@/api/personal.js'
 export default {
   name: 'Pcontract',
     data () {
@@ -90,7 +91,11 @@ export default {
         signUserList:[],
         imgList:[],
         imgHeight: [],
-        scrollY: 0  //batterScroll 滚动的Y轴距离
+        scrollY: 0 , //batterScroll 滚动的Y轴距离
+        interfaceCode:sessionStorage.getItem("interfaceCode"),
+        contractNo:sessionStorage.getItem("contractNo"),
+        contractName:sessionStorage.getItem("contractName"),
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
       }
   },
   computed:{
@@ -202,10 +207,7 @@ export default {
         })
       },
     lastStepFit(){  //上一步
-      this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-      this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', this.$store.state.contractName1)
-      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+
       sessionStorage.setItem('type','back')
       this.$router.push('/Contractsigning')
     },
@@ -236,45 +238,40 @@ export default {
             param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
           }
         }
+        let requestParam={
+            signerpositions:param
+        };
+        signerpositions(requestParam,this.interfaceCode,this.contractNo).then(res=>{
+            if(res.data.resultCode == '0') {
 
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-           if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-          if(res.data.resultCode == '0') {
-            // this.$message({
-            //   showClose: true,
-            //   message: '指定位置成功!',
-            //   type: 'success'
-            // })
-            this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.contractName1,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', this.$store.state.contractName1)
-            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-            if(this.$store.state.needSign != 1){
-              this.$router.push('/Success')
-            }
-          }else if(res.data.resultCode==1){
-               this.$confirm(
-                    <div class="warn-num">
-                        <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-                        <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-                        <div class="customer-service"></div>
-                    </div>,'提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(() => {
-                    // this.$router.push('/Home')
-                }).catch(() => {
-                    
+
+                if(sessionStorage.getItem("needSign")!= 1){
+                this.$router.push('/Success')
+                }
+            }else if(res.data.resultCode==1){
+              if (this.accountLevel == 1) {
+                this.$confirm(
+                  <div class="warn-num ">
+                    <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                    <div class="customer-service"></div>
+                  </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+                  this.$router.push('/PackagePurchase')
+                })
+              }else{
+                this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+                  confirmButtonText: '取消',
+
                 });
-          }else{
-            this.$message({
-              showClose: true,
-              message: '指定位置失败!',
-              type: 'error'
-            })
-          }
-        }
+              }
+            }else{
+                this.$message({
+                showClose: true,
+                message: '指定位置失败!',
+                type: 'error'
+                })
+            }
+        }).catch(error=>{
+
         })
       } else {
         this.$message({
@@ -286,54 +283,31 @@ export default {
     }
   },
   created () {
-    var contractName = sessionStorage.getItem('contractName')
-    var contractNo = sessionStorage.getItem('contractNo')
-    var needSign = sessionStorage.getItem('needSign')
-    if (contractName) {
-    //   contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
-    if (needSign) {
-    //   needSign = JSON.parse(needSign)
-      if ( this.$store.state.needSign == ''){
-        this.$store.state.needSign = needSign
-      }
-    }
-    this.$loading.show(); //显示
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-       if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-      var signUserVo = res.data.signUserVo
-      this.signUserList = signUserVo
-        }
-    })
-    var data =[];
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-       if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-            this.allpage = res.data.length
-            this.$nextTick(() => {
-                this.initScroll()
-                this.calculateHeight()
-            })
-            for (let i = 0; i < res.data.length;i++) {
-                let contractUrl = res.data[i].contractUrl
-                data[i] = contractUrl
-                this.$loading.hide(); //隐藏
-            }
-            this.imgList = data
 
+
+    this.$loading.show(); //显示
+    contractDetail(this.interfaceCode,this.contractNo).then(res=>{
+        let signUserVo = res.data.signUserVo
+        this.signUserList = signUserVo
+    }).catch(error=>{
+
+    })
+
+    let data =[];
+    contractImg(this.interfaceCode,this.contractNo).then(res=>{
+        this.allpage = res.data.length
+        this.$nextTick(() => {
+            this.initScroll()
+            this.calculateHeight()
+        })
+        for (let i = 0; i < res.data.length;i++) {
+            let contractUrl = res.data[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
         }
+        this.imgList = data
+    }).catch(error=>{
+
     })
 
   },
@@ -397,18 +371,6 @@ export default {
                         el.childNodes[6].style.color ='white'
                     }, true);
                 }
-                // for(var i= 0;i<del.length;i++){
-                //     del[i].addEventListener('click', function () {
-                //         if(this.parentNode.parentNode){
-                //             this.parentNode.parentNode.removeChild(this.parentNode)
-                //         }
-                //       var m = Number(el.childNodes[6].innerText.replace(/[^0-9\-,]/g,'').split('').join(''))
-                //       n--
-                //       m--
-                //      el.childNodes[6].innerText ='拖入位置（'+m +'）次'
-                //      el.childNodes[6].style.color ='white'
-                //       }, true);
-                // }
              more.removeChild(item)
              var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
              var left = l - document.getElementById('div2').offsetLeft  //进入合同页面左偏移量
@@ -522,7 +484,7 @@ export default {
    .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

@@ -7,21 +7,35 @@
 			:row-style="tableRowStyle"
 			:header-cell-style="tableHeaderColor">
 			<el-table-column
-				prop="rechargeId"
+				prop="tradeNo"
 				label="交易流水号"
 				width="300"
 				align="center">
 			</el-table-column>
 			<el-table-column
-				prop="rechargeMoney"
+				prop="tradeMoney"
 				label="充值金额"
 				width="200"
 				align="center">
 			</el-table-column>
 			<el-table-column
-				prop="rechargeType"
+				prop="tradeWay"
 				label="支付方式"
 				align="center">
+        <template slot-scope="scope">
+          <span v-if ="scope.row.tradeWay == 0">
+           对公打款
+          </span>
+          <span v-else-if ="scope.row.tradeWay == 1">
+           余额
+          </span>
+          <span v-else-if="scope.row.tradeWay ==2">
+           支付宝
+          </span>
+          <span v-else ="scope.row.tradeWay ==3">
+           微信
+          </span>
+        </template>
 			</el-table-column>
 			<el-table-column
 				prop="rechargeTime"
@@ -49,15 +63,15 @@
 	</div>
 </template>
 <script>
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
 	name: "charges",
 	data() {
         return {
-			interfaceCode: '',
+			interfaceCode: sessionStorage.getItem("interfaceCode"),
 			totalItemNumber: 0,
           	tableData: [
-				
+
 			],
 		}
 	},
@@ -73,7 +87,7 @@ export default {
 			}
 		},
 		handleSizeChange(val) {
-			
+
         },
         //点击切换列表数据
 		handleCurrentChange(val) {
@@ -100,9 +114,8 @@ export default {
 		}
 	},
 	created() {
-        //获取interfaceCode
-        this.interfaceCode = sessionStorage.getItem("interfaceCode");
-        //第一次进去页面获取列表
+
+  //第一次进去页面获取列表
 		this.getList(1,10);
 	}
 }

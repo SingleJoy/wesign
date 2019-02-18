@@ -3,7 +3,7 @@
     <div class="Topes">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/logo2.png" alt="">
         </p>
 
       </nav>
@@ -26,7 +26,7 @@
           <div class="payment-success">
 
             <div class="image">
-              <img src="../../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
+              <img src="/static/images/Common/contract-sign-success.png" alt="" style="margin-top: 10px;">
             </div>
 
             <div  class="success-tips">
@@ -102,6 +102,7 @@
 </template>
 <script>
   import server from '@/api/url.js'
+  import {homePage} from '@/api/login.js'
    import cookie from '@/common/js/getTenant'
   export default {
     name: 'EnterpriseRegisterSuccs',
@@ -122,9 +123,9 @@
     },
     methods:{
       download(){
-        var way = this.downloadUrl;
-        var url = process.env.API_HOST+'v1.4/tenant/downloadFile?fileType='+way;
-        var up = document.createElement('a');
+        let way = this.downloadUrl;
+        let url = process.env.API_HOST+'v1.4/tenant/downloadFile?fileType='+way;
+        let up = document.createElement('a');
         document.body.appendChild(up)
         up.setAttribute('href',url);
         up.click()
@@ -166,8 +167,10 @@
             mobile:sessionStorage.getItem('mobile')
         };
         let urlParam = sessionStorage.getItem('interfaceCode')
-        server.login(param,urlParam).then(res => {
-        cookie.set("tenant", res.data.dataList);  //更新cookie
+         homePage(param,urlParam).then(res => {
+          cookie.set("tenant", res.data.dataList);  //更新cookie
+           sessionStorage.setItem("auditSteps",res.data.dataList.auditSteps)
+        }).catch(error=>{
 
         })
     }
@@ -180,12 +183,12 @@
   @import "../../../styles/EnterpriseCertificate/EnterprisePayment.styl";
   @import "../../../../static/icon/iconfont.css";
   .enterprise-certification{
-    background: url('/../../../../static/images/Common/numberCertificate.png') no-repeat 4px 4px;
+    background: url('/static/images/Common/numberCertificate.png') no-repeat 4px 4px;
   }
   .certification-bg{
-    background: url('/../../../../static/images/EnterpriseRegister/certification1.png') no-repeat;
+    background: url('/static/images/EnterpriseRegister/certification1.png') no-repeat;
   }
   .certification-book>.bg-png{
-    background: url('/../../../../static/images/EnterpriseRegister/certification-book.png') no-repeat;
+    background: url('/static/images/EnterpriseRegister/certification-book.png') no-repeat;
   }
 </style>

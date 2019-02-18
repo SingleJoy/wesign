@@ -60,10 +60,10 @@
   </div>
 </template>
 <script>
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
     name: "Invoices",
-    
+
     data(){
       	return{
 			interfaceCode: '',
@@ -88,7 +88,7 @@ export default {
 			}
 		},
 		handleSizeChange(val) {
-			
+
         },
         //点击页码切换列表
 		handleCurrentChange(val) {

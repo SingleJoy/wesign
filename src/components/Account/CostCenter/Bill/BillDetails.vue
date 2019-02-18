@@ -55,12 +55,12 @@
 <script>
 import Charge from '../Charge/Charge'
 import Invoice from '../Invoice/Invoice'
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
     name: 'BillDetails',
     data() {
         return{
-            interfaceCode: '',
+            interfaceCode: sessionStorage.getItem('interfaceCode'),
             getTitle: '',
             createTime: '',
             tableData: [
@@ -92,8 +92,8 @@ export default {
         },
         download() {
             const billTitle = this.$route.query.billTitle
-            var url = "/api/v1.6/tenant/" + this.interfaceCode + "/" + billTitle + "/downloadWesignBill";
-            var download = document.createElement('a');
+            let url = "/api/v1.6/tenant/" + this.interfaceCode + "/" + billTitle + "/downloadWesignBill";
+            let download = document.createElement('a');
             document.body.appendChild(download)
             download.setAttribute('href',url);
             download.click()
@@ -101,7 +101,7 @@ export default {
     },
     created() {
         const billTitle = decodeURI(this.$route.query.billTitle);
-        this.interfaceCode = sessionStorage.getItem('interfaceCode');
+
         server.queryStatementDetail(this.interfaceCode, billTitle).then(res => {
             const dataList = res.data.dataList;
             for(let i = 0; i < dataList.length; i++) {

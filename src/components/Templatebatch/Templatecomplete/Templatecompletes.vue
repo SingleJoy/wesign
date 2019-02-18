@@ -18,7 +18,7 @@
       <div class="state">
         <div class="stateInfo">
           <div>
-            <img src="../../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
+            <img src="/static/images/Common/contract-sign-success.png" alt="" style="margin-top: 10px;">
           </div>
           <div style="margin-left: 30px;">
             <span>恭喜,合同签署成功！</span>
@@ -53,7 +53,7 @@ export default {
     methods:{
         goHome(){
             this.$store.dispatch('tabIndex',{tabIndex:0});
-                this.$router.push('/Home')
+             this.$router.push('/Home')
 
         }
     }

@@ -3,7 +3,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' @click="activeCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -17,7 +17,7 @@
     </div>
     <div class="ActivateChildAccounts">
 
-      <div class="main" >
+      <div class="main" style="margin-top: 100px;">
 
         <div class="container">
 
@@ -52,9 +52,7 @@
                     方二维码完成签署
                   </div>
 
-
                 </div>
-
 
                 <el-dialog
                   :visible.sync="dialogAgreement"
@@ -98,17 +96,14 @@
 
 <script>
   import cookie from '@/common/js/getTenant'
-  import Accounts from '../Accounts'
   import {validateSmsCode} from '@/common/js/validate'
   import server from "@/api/url";
+  import {SignAuthbook,getSignatureImg,getAuthBookImg,qRCode} from '@/api/account'
   export default {
-    component:{
-      Accounts
-    },
 
     data() {
       // 校验验证码
-      var validateCode = (rule, value, callback) => {
+      let validateCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else if (value!== ''&&!validateSmsCode(value)) {
@@ -174,23 +169,21 @@
       sendCode(){
         if(this.repeat == false){
           this.repeat = true;
-          var codeType = '0';
-          var count = 60;
-          var curCount = count;
-          var timer = null;
+          let codeType = '0';
+          let count = 60;
+          let curCount = count;
+          let timer = null;
 
-          let mobile=this.mobile;
           this.sms = true;
-          this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode}, {emulateJSON: true}).then(function (res) {
-            // this.smsCode=res.data.smsCode
+          let params={'mobile': this.mobile, 'sendType': codeType,'interfaceCode':this.interfaceCode};
+          server.smsCodeOld(params).then(res=> {
+
             this.smsNoVer=res.data.smsNo   //短信编号
             this.appId=res.data.appId     //appId
-
-
-            var resultCode = res.data.resultCode;
-            var smsNo = res.data.smsNo;
-            var smsCode = res.data.smsCode;
-            var message = res.data.resultMessage;
+            let resultCode = res.data.resultCode;
+            let smsNo = res.data.smsNo;
+            let smsCode = res.data.smsCode;
+            let message = res.data.resultMessage;
             if (resultCode === '1') {
               this.smsNo = true;
               this.smsCodeNum +=1;
@@ -218,15 +211,15 @@
               }, 1000)
             }else{
               let that =this;
-
               that.smsNo = false
               that.repeat = false
-
               this.$alert(res.data.resultMessage,'提示', {
                 confirmButtonText: '确定'
               })
 
             }
+          }).catch(error=>{
+
           })
         }
       },
@@ -270,63 +263,67 @@
       },
 
       submitForm(formName){
-
+        if(!this.repeat){
+          this.$message({
+            type: 'error',
+            message: '请先获取短信验证码!'
+          });
+          return false
+        }
         let accountCode = sessionStorage.getItem("accountCode");
         let authorizerCode = sessionStorage.getItem("authorizerCode");
         let signatureImg = this.canvasTest;
-        this.$nextTick(function () {
+        this.$nextTick(()=> {
           this.$loading.show("正在提交数据，请等待...");
         });
         this.$refs[formName].validate((valid) => {
-
-          this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-            params: {
-              'mobile': this.mobile, 'smsNo': this.smsNoVer, 'smsCode': this.ruleForm.smsCode, 'appId': this.appId
-            }
-          }).then(res => {
+        let params={
+          'mobile': this.mobile,
+          'smsNo': this.smsNoVer,
+          'smsCode': this.ruleForm.smsCode,
+          'appId': this.appId
+        };
+          server.valiteSmsCode(params).then(res => {
             this.fullscreenLoading = true;
             setTimeout(() => {
               this.fullscreenLoading = false;
             }, 2000);
-            this.$nextTick(function () {
+            this.$nextTick(()=> {
               this.$loading.hide();
             });
             if (res.data.resultCode != 1) {
-
               this.$message({
                 showClose: true,
                 message: res.data.resultMessage,
                 type: 'error'
               })
-
             } else {
-              this.$nextTick(function () {
+              this.$nextTick(()=> {
                 this.$loading.show("数据提交成功，正在校验...");
               });
-              this.$http.post(process.env.API_HOST + 'v1.5/user/SignAuthbook', {
-                'authorizerCode': authorizerCode,
-                'mobile': this.mobile,
-                'smsNo': this.smsNoVer,
-                'appId': this.appId,
-                'smsCode': this.ruleForm.smsCode,
-                'signatureImg': signatureImg,
-                'accountCode': accountCode,
-              }, {emulateJSON: true}).then(function (res) {
+              let params={
+                  'authorizerCode': authorizerCode,
+                  'mobile': this.mobile,
+                  'smsNo': this.smsNoVer,
+                  'appId': this.appId,
+                  'smsCode': this.ruleForm.smsCode,
+                  'signatureImg': signatureImg,
+                  'accountCode': accountCode,
+                };
+                SignAuthbook(params).then(res=> {
                  this.fullscreenLoading = true;
                  setTimeout(() => {
                   this.fullscreenLoading = false;
                 }, 3000);
-                this.$nextTick(function () {
+                this.$nextTick(()=> {
                   this.$loading.hide();
                 });
                 if(res.data.resultCode == '1'){
                   let param={
                     mobile:sessionStorage.getItem("mobile"),
-                    // accountCode:accountCode?accountCode:''
                   };
-
                   let urlParam=sessionStorage.getItem("interfaceCode");
-                  this.$nextTick(function () {
+                  this.$nextTick(()=> {
                     this.$loading.show("激活成功，正在初始化数据，请等待...");
                   });
                   this.fullscreenLoading = true;
@@ -336,15 +333,15 @@
                   server.login(param,urlParam).then(res => {
                     cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
                     this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                    this.$nextTick(function () {
+                    this.$nextTick(()=> {
                       this.$loading.hide();
                     });
                     sessionStorage.setItem('accountStatus','1')
                     this.$router.push("/Home");
-
                   })
                 }else {
-                  this.$nextTick(function () {
+
+                  this.$nextTick(()=>{
                     this.$loading.show("激活失败，请刷新页面重新激活...");
                     this.$router.push("/ActivateChildAccount");
                   });
@@ -355,25 +352,24 @@
 
                 }
 
-              })
+              }).catch(error=>{
+
+                })
             }
+          }).catch(error=>{
 
           })
-
         })
-
       },
-
       pollingPanel(timer){ //轮询手写面板
-
 
         let accountCode = sessionStorage.getItem('accountCode');
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let t = Math.random();
-        this.$http.get(process.env.API_HOST+'v1.4/contract/'+ accountCode +'/user/'+authorizerCode+'/getSignatureImg?t='+t).then(function (res) {
-          this.canvasTest =  res.bodyText
-          //   console.log(res.bodyText)
-          if(res.bodyText != '') {
+        getSignatureImg(accountCode,authorizerCode,t).then(res=> {
+          this.canvasTest =  res.data
+
+          if(this.canvasTest!= '') {
             let smCode = document.getElementById('smCode')
             smCode.style.display ='none';
             let  signCanvas= document.getElementById('signCanvas')
@@ -382,16 +378,17 @@
           }
           setTimeout(() => {
             if(this.canvasTest!=''){
-
               clearInterval(this.timer)
-
             }
           },1000)
+        }).catch(error=>{
+
         })
+
       }
     },
     created(){
-
+      this.$loading.show();
       this.mobileShowFirst=this.mobile.substring(0,3);
       this.mobileShowLast=this.mobile.substring(7,11);
 
@@ -399,21 +396,25 @@
       if(accountStatus==1){
         this.$router('/Home');
       }
-
       let accountCode=sessionStorage.getItem("accountCode");
       let authorizerCode=sessionStorage.getItem("authorizerCode");
-
       //
       let  requestNo={'interfaceCode':this.interfaceCode,'accountCode':accountCode,'authorizerCode':authorizerCode};
-      this.$http.get(process.env.API_HOST+'v1.5/user/getAuthBookImg', {params:requestNo}).then(function (res) {
-        this.authorizationImg=res.bodyText;
-      })
+      getAuthBookImg(requestNo).then(res=>{
+        this.authorizationImg=res.data;
+      }).catch(error=>{
 
-      let qrUrl =process.env.API_HOST+'v1.4/user/'+authorizerCode+'/qRCode';
-      this.$http.get(qrUrl,{params:{'contractNo':accountCode}}).then(function (res) {
-        this.qrSignImg=res.bodyText;
       });
 
+      let params={
+        'contractNo':accountCode
+      }
+      qRCode(authorizerCode,params).then(res=> {
+        this.qrSignImg=res.data;
+      }).catch(error=>{
+
+      });
+      this.$loading.hide(); //隐藏
       let that = this
       let timer = null
       this.timer = setInterval(function () {
@@ -427,7 +428,7 @@
 <style lang="stylus">
   @import "../../../styles/Account/ChildAccount.styl";
   .content-body>p.title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
   .send-code{
     margin: 15px 0;

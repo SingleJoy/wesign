@@ -8,9 +8,9 @@
     </div>
 </template>
 <script>
-import MuTop from '../../common/components/MuTop'
+import MuTop from '@/common/components/MuTop'
 import Merchants from './Merchants'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Merchant',
   components: {

@@ -3,7 +3,7 @@
 		<div class="layer" v-show="isShow">
 			<div class="reminder" v-show="isShowSkip">
 				<div class="reminder_img">
-					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
 					<span>您已完成企业绑定，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
@@ -16,17 +16,17 @@
 					<span class="layer_close_right" @click="close()">X</span>
 				</div>
 				<div class="layer_character">
-					<img src="../../../static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/new-agreement.png" alt="">
 				</div>
 			</div>
 		</div>
 		<div class="login-nav">
-			<div class="logo-zq"><img src="../../../static/images/Login/modification-logo.png" alt=""></div>
+			<div class="logo-zq"><img src="/static/images/Login/modification-logo.png" alt=""></div>
 			<div class="logo-content">
 				<span>已有账号，</span>
 				<span @click="login()" class="simulation">
 					<span class="register" >立即登录</span>
-					<img src="../../../static/images/Login/goback-right.png" alt="">
+					<img src="/static/images/Login/goback-right.png" alt="">
 				</span>
 			</div>
 		</div>
@@ -100,6 +100,7 @@ import md5 from "js-md5";
 //import { mapActions, mapState } from "vuex";
 import server from "@/api/url";
 import {GetQueryString} from '@/common/js/InterceptUrl'
+import certification from '@/api/certification'
 export default {
 	name: "IndividualRegisters",
 	data() {
@@ -207,12 +208,12 @@ export default {
         if(getinterfaceCode){
             this.interfaceCode = getinterfaceCode
             server.getUrlMobile(getinterfaceCode).then(res=>{
-               
+
                     this.ruleForm.tenantName = res.data.data.tenantName;
                     this.ruleForm.userName = res.data.data.userName;
                     this.ruleForm.mobile = res.data.data.mobile;
-               
-                
+
+
             }).catch(error=>{
 
             })
@@ -242,7 +243,7 @@ export default {
     },
 	methods: {
           mouseoverFn(e){
-            
+
             this.slideShow=true
         },
         mouseoutFn(e){
@@ -275,7 +276,7 @@ export default {
                     e.stopPropagation();
                 };
                 l = e.clientX - disX - that.$refs.handle.getBoundingClientRect().left;  //移动距离
-                maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离  
+                maxWin = that.$refs.handle.getBoundingClientRect().width-41;//最大滑动距离
                 // console.log(l,maxWin,that.$refs.handle.getBoundingClientRect().width)
                 if(l < 0){
                     l = 0
@@ -326,7 +327,7 @@ export default {
                 }else{                         //滑动失败
                     that.slideFaild(l);
                 }
-            } 
+            }
         },
 
         //切换图片
@@ -362,7 +363,7 @@ export default {
                     that.slideText="向右拖动滑块拼图验证"
                 },500)
             }
-            
+
         },
         //滑动成功但未输入手机号或手机号输入格式不正确
         slideSuccessNoName(l){
@@ -501,11 +502,14 @@ export default {
 		submitForm(formName) {
                 if(this.codeSure) {
                     //验证码是否正确
-                    this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-                        params: {
-                            'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-                        }
-                    }).then(res => {
+                  let params={
+                     'mobile': this.ruleForm.mobile,
+                    'smsNo': this.smsNo,
+                    'smsCode': this.ruleForm.code,
+                    'appId': this.appId
+
+                  }
+                  certification.smsValite(params).then(res => {
                         if(res.data.resultCode == 1) {
                             //个人绑定企业提交
                             server.bindEnterpress({
@@ -531,7 +535,7 @@ export default {
                                         });
                                     }
                                 }).catch(error => {
-                                    
+
                             });
                         } else {
                             this.$message({
@@ -542,7 +546,7 @@ export default {
                         }
 
                     }).catch(error => {
-                      
+
                     })
                 } else {
                     this.$message({
@@ -551,8 +555,8 @@ export default {
                         type: 'error'
                     });
                 }
-				
-		
+
+
 		}
 	}
 }
@@ -657,17 +661,10 @@ export default {
 	width: 100%;
     height: 40rem;
     overflow:hidden;
-    background: url('../../../static/images/Login/new-login.png') no-repeat;
+    background: url('/static/images/Login/new-login.png') no-repeat;
     background-size: 100% 100%;
 	}
 	.center {
-	// width: 77.5rem;
-	// height: 34rem;
-	// background:url('../../../static/images/Login/try.png') no-repeat;
-	// position: absolute;
-	// background-size: 100%;
-	// top: 315px;
-	// left: 266px;
 
 		width: 75rem;
 		height: auto;
@@ -760,7 +757,7 @@ export default {
 	margin-top: -150px;
 	z-index: 999;
 	border-radius: 5px;
-	background: url("../../../static/images/Login/context.png") no-repeat;
+	background: url("/static/images/Login/context.png") no-repeat;
 	display: none;
 	.login-cancel {
 	font-size: 24px;

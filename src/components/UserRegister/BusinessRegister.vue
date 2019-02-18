@@ -6,7 +6,7 @@
 </template>
 <script>
     import BusinessRegisters from './BusinessRegisters.vue'
-    import Bottom from '../../common/components/Bottom'
+    import Bottom from '@/common/components/Bottom'
     export default {
         name: 'BusinessRegister',
         components: {

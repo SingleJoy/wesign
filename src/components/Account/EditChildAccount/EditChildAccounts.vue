@@ -89,7 +89,7 @@
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="../../../../static/images/Account/no-template.png">
+                  <img src="/static/images/blank.png" alt="">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 
@@ -119,18 +119,15 @@
 </template>
 <script>
 
-  import Account from "../Account"
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
-  import cookie from '@/common/js/getTenant'
+  import {updateAccount, getAccountInfo,getDate} from '@/api/account'
   export default {
     name: 'AddChildAccounts',
-    component:{
-      Account
-    },
+
     data() {
       // 校验二级账号姓名
-      var validateAccountName = (rule,value,callback) => {
+      let validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -140,7 +137,7 @@
         }
       }
       // 校验二级账号管理员账户
-      var validateUserName = (rule,value,callback) => {
+      let validateUserName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入管理员账户'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -150,7 +147,7 @@
         }
       }
       //校验身份证号
-      var validateIdCard = (rule,value,callback) => {
+      let validateIdCard = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入身份证号'))
         } else if (value !== '' && !validateCard(value)){
@@ -160,7 +157,7 @@
         }
       }
       // 校验密码
-      var validateChildPassWord = (rule, value, callback) => {
+      let validateChildPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else if (value.length < 8 || value.length > 16) {
@@ -170,7 +167,7 @@
         }
       }
       // 校验手机号
-      var validateChildMobile = (rule,value,callback) => {
+      let validateChildMobile = (rule,value,callback) => {
 
         if(value === ''){
           callback(new Error('请输入手机号'))
@@ -182,7 +179,7 @@
         }
       }
       //校验邮箱
-      var validateChildEmail=(rule,value,callback)=>{
+      let validateChildEmail=(rule,value,callback)=>{
         if (value === '') {
           callback(new Error('请输入邮箱'));
         }else if (value !== '' && !validateEmail(value)){
@@ -242,19 +239,17 @@
     },
     methods: {
       changEvent(){
-        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-          // console.log(res.bodyText);
+       getDate().then(res=> {
+          this.date=res.data
+        }).catch(error=>{
 
-          this.date=res.bodyText;
-
-        });
+       })
       },
       // 取消
       quit(formName){
         this.$refs[formName].resetFields();
         this.$router.push('/Account');
       },
-
       //提交事件
       submitBtn(formName){
 
@@ -266,8 +261,6 @@
               let pass = md5(this.ruleForm.password); //密码MD5加密
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
-
-
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
               let singleTemplate1=singleTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
@@ -278,9 +271,8 @@
               }
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
-
               }
-              this.$http.post(process.env.API_HOST + 'v1.5/tenant/'+this.interfaceCode+ '/updateAccount', {
+              let params={
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCard,                  //省份证号
@@ -292,7 +284,8 @@
                 company_name: this.enterpriseName,
                 manageName:manageName,
 
-              }, {emulateJSON: true}).then(res => {
+              };
+              updateAccount(this.interfaceCode,params).then(res => {
                 this.fullscreenLoading = true;
                 setTimeout(() => {
                   this.fullscreenLoading = false;
@@ -317,10 +310,11 @@
                     type: 'error'
                   })
                 }
+              }).catch(error=>{
+
               })
 
             }else{
-
               this.$message({
                 showClose: true,
                 message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
@@ -329,21 +323,17 @@
             }
           })
 
-
       },
 
     },
     created() {
       let accountCode = sessionStorage.getItem("subAccountCode");
-
-      this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
-        params: {
-          accountCode: accountCode,        //账户编号
-        }
-      }).then(res => {
+      let params={
+        accountCode: accountCode,        //账户编号
+      }
+      getAccountInfo(this.interfaceCode, params).then(res => {
         //
         if (res.data.resultCode == '1'){
-
             this.ruleForm.accountName = res.data.data.accountName;            //账户名称
             this.ruleForm.Email= res.data.data.email;                    //邮箱
             this.ruleForm.mobile= res.data.data.mobile;                    //手机号
@@ -354,7 +344,7 @@
             let singleArray=[];
             let batchArray=[];
             let data=res.data.dataList;
-            // console.log(data);
+
           if(res.data.dataList){
             for(let i=0;i<data.length;i++){
               if(data[i].templateSpecies=='single'){
@@ -377,9 +367,6 @@
             }
           }
 
-
-
-
         }
       })
 
@@ -390,10 +377,6 @@
 
 <style lang="stylus">
   @import "../../../styles/Account/ChildAccount.styl";
-
-
-
-
   .el-checkbox-group>.el-checkbox{
     display:block !important;
     height: 40px !important;
@@ -414,18 +397,15 @@
     display: inline-block;
     height: 36px;
   }
-
-
   .account-ruleForm>.el-form-item>.el-form-item__content>.el-form-item__error{
     margin-left: 20px;
-
   }
   .account-ruleForm>.el-form-item>.el-form-item__content>.el-input>.el-input__inner{
     width:330px;
     margin-left: 20px;
   }
   .content-body>p.title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
   b.agreement-sign{

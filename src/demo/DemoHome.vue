@@ -3,7 +3,7 @@
 		<DemoTop></DemoTop>
 		<div class="layer"></div>
 		<div class="select-experience" v-show="isShow" v-if="showHomeModel">
-			<img src="../../static/images/Demo/demo-home.png" alt="">
+			<img src="/static/images/Demo/demo-home.png" alt="">
 			<div class="home-character">
 				<div class="welcome">欢迎使用微签</div>
 				<div class="upgrade">
@@ -19,9 +19,9 @@
 		</div>
 		<div class="form-board" v-show="!isShow">
 			<div class="sponsor">模板发起</div>
-			<div class="img-hand"><img src="../../static/images/Demo/pointer.png" alt=""></div>
+			<div class="img-hand"><img src="/static/images/Demo/pointer.png" alt=""></div>
 			<div class="img-handle">
-				<img src="../../static/images/Demo/dialog.png" alt="">
+				<img src="/static/images/Demo/dialog.png" alt="">
 				<div class="template_content">
 					<div class="template-click">点击这里</div>
 					<div class="template-start">您可以发起合同哟~ ~</div>
@@ -32,11 +32,11 @@
 				</div>
 			</div>
 
-			<div class="img-portrait"><img src="../../static/images/Demo/expression.png" alt=""></div>
+			<div class="img-portrait"><img src="/static/images/Demo/expression.png" alt=""></div>
 
 		</div>
 		<div class="content">
-			<img src="../../static/images/Demo/demo-homePage01.png" alt="">
+			<img src="/static/images/Demo/demo-homePage01.png" alt="">
 		</div>
 
 		<Bottom></Bottom>

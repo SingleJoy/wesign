@@ -3,7 +3,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/logo2.png" alt="">
         </p>
         <div class='buttons'>
           <!-- <el-button type="info" style='background:#ccc' @click="tempBatchSignCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button> -->
@@ -42,7 +42,7 @@
           </ul>
         </div>
         <div class='sign_right'>
-          <a href="javascript:void(0);" @click="batchSign"><img src="../../../../static/images/Contract/submit.png" alt=""></a>
+          <a href="javascript:void(0);" @click="batchSign"><img src="/static/images/Contract/submit.png" alt=""></a>
           <br>
         </div>
         <!-- 右侧签署按钮结束 -->
@@ -55,6 +55,7 @@
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
+  import {contracttempimgs,contractkeywordsign} from '@/api/template'
   export default {
     name: 'Contractsigns',
     data () {
@@ -75,7 +76,13 @@
         contractSignImg:'',
         flag: true,
         // centerDialog:false,
-        signPosition:''
+        signPosition:'',
+        interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        templateNo:sessionStorage.getItem('templateNo'),
+        contractNo:sessionStorage.getItem('contractNo'),
+        templateName:sessionStorage.getItem('templateName'),
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
+
       }
     },
     computed:{
@@ -93,7 +100,7 @@
       },
       pages:function(){
         this.showItem = 10;
-        var pag = [];
+        let pag = [];
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
           //总页数和要显示的条数那个大就显示多少条
           var i = Math.min(this.showItem,this.allpage);
@@ -101,7 +108,7 @@
             pag.unshift(i--);
           }
         }else{ //当前页数大于显示页数了
-          var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
+          let middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
             i = this.showItem;
           if( middle >  (this.allpage - this.showItem)  ){
             middle = (this.allpage - this.showItem) + 1
@@ -114,43 +121,27 @@
       }
     },
     created() {
-      var contractName = sessionStorage.getItem('templateName')
-      var contractNo = sessionStorage.getItem('contractNo')
-      if (contractName) {
-        // contractName = JSON.parse(contractName)
-        if ( this.$store.state.templateName == ''){
-          this.$store.state.templateName = contractName
-        }
-      }
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-      this.$loading.show(); //显示
-      var data =[]
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contract/'+this.$store.state.contractNo1+'/contracttempimgs'
-      this.$http.get(url).then(function (res) {
-        /*获取后台数据，并使用imgArray*/
 
-        for(var i=0;i<res.data.length;i++){
-          var contractUrl = res.data[i].contractUrl
+      this.$loading.show(); //显示
+      let data =[]
+      contracttempimgs(this.interfaceCode,this.contractNo).then(res=> {
+        /*获取后台数据，并使用imgArray*/
+        for(let i=0;i<res.data.length;i++){
+          let contractUrl = res.data[i].contractUrl
           data[i] = contractUrl
-          this.$loading.hide(); //隐藏
+
         }
         this.imgArray = data
         /*获取总的页码*/
         this.allpage = res.data.length
-
         this.$nextTick(() => {
           this._initScroll()
           this._calculateHeight()
         })
-      }).catch(function (error) {
-        this.$message.error('请求失败！请刷新再试！')
-      })
+      }).catch(error=> {
 
+      })
+      this.$loading.hide(); //隐藏
     },
     methods:{
       goto (currentIndex){
@@ -173,12 +164,12 @@
         // })
 
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
-          	mouseWheel: {
+          mouseWheel: {
             speed: 1200,
             invert: false,
             easeTime: 300
           },
-				  preventDefault:false,
+          preventDefault:false,
           probeType: 3,
         })
 
@@ -241,7 +232,7 @@
               instance.confirmButtonText = '执行中...';
               setTimeout(() => {
                 done();
-                this.gainPosition()
+                this.gainPosition();
                 setTimeout(() => {
                   instance.confirmButtonLoading = false;
                 }, 50);
@@ -252,55 +243,61 @@
           }
         })
       },
-      gainPosition () { //点击签署
-        this.$loading.show(); //显示
+      gainPosition () {
+        //点击签署
         if (this.flag == true){
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/user/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractkeywordsign/'+this.$store.state.contractNo1,{emulateJSON: true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-              this.$router.push('/Server')
-            } else {
-              if (res.data.responseCode == 0){
-                this.$message({
-                  showClose: true,
-                  message: '合同签署成功！',
-                  type: 'success'
+          this.flag == false;
+          this.$loading.show(); //显示
+          contractkeywordsign(this.interfaceCode,this.contractNo).then(res=> {
+            if (res.data.responseCode == 0){
+              this.flag = true
+              this.$message({
+                showClose: true,
+                message: '合同签署成功！',
+                type: 'success'
+              })
+              this.$loading.hide(); //隐藏
+              this.$router.push('/Templatecomplete')
+            }else if(res.data.responseCode==1){
+              this.flag = true;
+              this.$loading.hide(); //隐藏
+              //一级账号
+              if (this.accountLevel == 1) {
+                this.$confirm(
+                  <div class="warn-num ">
+                    <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                    <div class="customer-service"></div>
+                  </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+                  this.$router.push('/PackagePurchase')
                 })
-                this.$loading.hide(); //隐藏
-                this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-                sessionStorage.setItem('contractName', this.$store.state.templateName)
-                sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
-                this.$router.push('/Templatecomplete')
-              }else if(res.data.responseCode==1){
-                    this.$loading.hide(); //显示
-                    this.$confirm(
-                        <div class="warn-num">
-                            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-                            <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-                            <div class="customer-service"></div>
-                        </div>,'提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(() => {
-                    this.$router.push('/Home')
-                }).catch(() => {
-                    
+              }
+              //二级账号
+              else{
+                this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+                  confirmButtonText: '取消',
                 });
-              }else{
-                    this.$loading.hide(); //显示
-                    this.$message({
-                        showClose: true,
-                        message: res.data.resultMessage,
-                        type: 'success'
-                    })
-                }
+              }
+
             }
+            else{
+              this.flag = true;
+              this.$loading.hide(); //隐藏
+              this.$message({
+                showClose: true,
+                message: res.data.resultMessage,
+                type: 'success'
+              })
+            }
+
+          }).catch(error=>{
+
           })
-          this.flag = false
+
         }
       }
     },
     mounted() {
-      prohibit()
+      prohibit();
     }
   }
 </script>
@@ -308,10 +305,10 @@
   @import "../../../styles/batchInfo/batchsigns.scss";
   @import "../../../common/styles/Tops.css";
   @import "../../../common/styles/SigningSteps.css";
-   .customer-service{
+  .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

@@ -12,16 +12,18 @@
 }
 .common-top{
     width:100%;
-    height: 126px;
     background: #fff;
-    margin-top:20px;
-    margin-bottom: 20px;
+    padding: 0 0 20px 0;
+    margin-top: 20px;
+
 }
 /* //列表样式 */
 .list-body{
   background: #fff;
-  padding: 20px 15px;
-  padding-bottom: 60px;
+  .table{
+    width: 1170px;
+    padding: 15px;
+  }
 }
 /* 分页 */
 .pagetion{
@@ -30,12 +32,12 @@
 }
 /* 下拉选择 */
 .el-select{
-  width:249px;
+  //width:249px;
 }
 .common-top-tab{
   width: 602px;
-  margin: 0 auto;
-  padding-top: 38px;
+  margin: 20px auto 0 auto;
+  padding-top: 20px;
 }
 
 .el-tabs__nav-scroll{
@@ -90,7 +92,7 @@
 }
 #textInfo{
     display: inline-block;
-    width: 237px;
+    width: 190px;
     height: 38px;
     padding-left: 5px;
     padding-right: 5px;

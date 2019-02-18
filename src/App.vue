@@ -19,8 +19,9 @@ html,body{
 background: #f5f5f5;
 }
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  -webkit-box-shadow: 0 0 0 1000px white inset!important;
 }
+
 .el-button--primary{
     color: #fff;
     background-color: #4091fb;
@@ -146,5 +147,11 @@ input::-webkit-input-placeholder {
 }
 .cell>span{
   color: #333;
+}
+.el-pagination .el-select .el-input{
+  width: 90px !important;
+}
+.el-pagination__sizes{
+  margin: 0!important;
 }
 </style>

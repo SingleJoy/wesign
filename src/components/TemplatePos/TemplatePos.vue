@@ -8,7 +8,7 @@
 <script>
 // import Tops from '../../common/components/Tops'
 import TemplatePoses from './TemplatePoses'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'TemplatePos',
     components: {

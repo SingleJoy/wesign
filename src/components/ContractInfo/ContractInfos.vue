@@ -1,7 +1,7 @@
 <template>
-  <div class='ContractInfos' style="margin-top: 20px;">
-    <div class='main'>
-      <div class='first' style="display: inherit;">
+  <div class="ContractInfos"style="margin-top: 20px;">
+    <div class="main">
+      <div class="first" style="display: inherit;">
         <p style="line-height: 60px;float: left;">
           <span>我的合同</span>
           <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
@@ -17,14 +17,14 @@
         </p>
 
       </div>
-    
+
       <div class="title">签署文件</div>
        <div class="line"></div>
       <span class="text">
         <strong>当前状态：</strong>
         <span>{{status}}</span>
        </span>
-  
+
       <div class="three" style="text-align: left;">
         <p class="details">
           <strong style="line-height: 20px;">合同文件：</strong><span class="contract_Name" :title="contractName">{{contractName}}</span>
@@ -44,7 +44,7 @@
       <div class="table" style="width: 1200px;padding: 15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
-          style="width: 100%;text-align:center"
+          style="width: 100%;text-align:center;"
           :header-cell-style="getRowClass"
         >
           <el-table-column
@@ -87,7 +87,7 @@
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
       <div style="margin-top: 30px;margin-left: 70px;">
-        <img v-if="History.length>1"  style="position: relative;z-index: 999;left: -20px;" src="../../../static/images/Contractinfo/sign_step.png" alt="">
+        <img v-if="History.length>1"  style="position: relative;z-index: 999;left: -20px;" src="/static/images/ContractInfo/sign_step.png" alt="">
         <el-steps direction="vertical" :active=0>
           <el-step :title=item.signUserName+item.logInfo
                    :description=item.signTime
@@ -106,14 +106,13 @@
 @import "../../common/styles/content.scss";
   .ContractInfos .main .title{
     height: 46px;
-    // margin: -65px 0 0 15px;
     line-height: 46px;
     padding-left: 40px;
     color: #fff;
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
     margin-top: 20px;
     margin-left: 15px;
   }
@@ -129,11 +128,11 @@
     height: 100px;
   }
   .back-home{
-    background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width:60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
   .main .first #sign-icon{
-    background: url("../../../static/images/ContractInfo/detail_sign.png") no-repeat;
+    background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
     height: 60px;
     position: absolute;
     text-align: center;
@@ -184,6 +183,7 @@
     text-align: center;
   }
 
+
   .showDialogs{
     height: 700px;
   // overflow-y: scroll;
@@ -216,6 +216,7 @@
   import server from '@/api/url';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
+  import {remind,b2cContrantsDetail,contractSignUserInfo,b2cImgs} from '@/api/detail'
   export default {
     name: 'ContractInfos',
     data() {
@@ -223,7 +224,6 @@
         baseURL:this.baseURL.BASE_URL,
         tableData2: [],
         accountLevel:'',
-        contractNo:'',
         contractName:'',
         validTime:'',
         status:'',
@@ -238,29 +238,32 @@
         accountName:'',
         operator:'',
         accountCode:sessionStorage.getItem('accountCode'),
+        contractNo:sessionStorage.getItem('contractNo'),
         sponsorInterfaceCode:''
       };
     },
     methods: {
       remindSignClick (row) {
         //  var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
-        var remindParam = {
+        let remindParam = {
           userCode:row.userCode,
           contractType:1
         }
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+ this.$store.state.rowNumber +'/remind',{params:remindParam} ,{emulateJSON:true}).then(function (res) {
-          var resultCode = res.data.resultCode
-          if ( resultCode === '0') {
-            this.$message({
-              message: '短信通知成功',
-              type: 'success'
-            });
-          } else if(resultCode === '1'){
-            this.$message({
-              message: '该合同本日发送短信次数已用尽！',
-              type: 'error'
-            });
-          }
+        remind(remindParam,this.interfaceCode,this.contractNo).then(res=>{
+            let resultCode = res.data.resultCode
+            if ( resultCode === '0') {
+                this.$message({
+                    message: '短信通知成功',
+                    type: 'success'
+                });
+            } else if(resultCode === '1'){
+                this.$message({
+                    message: '该合同本日发送短信次数已用尽！',
+                    type: 'error'
+                });
+            }
+        }).catch(error=>{
+
         })
       },
       getTenant () {
@@ -314,52 +317,39 @@
       seeContractImg (){
         this.imgList =[];
         this.$loading.show(); //显示
-        var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+        let data =[];
+        b2cImgs(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+        }).catch(error=>{
+
         })
         this.dialogTableVisible = true
       },
       downloadClick () {
-        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ this.$store.state.rowNumber;
-        var download = document.createElement('a');
+        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+ this.contractNo
+        let download = document.createElement('a');
         document.body.appendChild(download)
         download.setAttribute('href',url);
         download.click()
       },
       seeContractDetails () {
-        var data =[];
-        var isCreater='';
+        let data =[];
+        let isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-        // 从合同列表页面进入
-        if(this.$store.state.rowNumber){
-          let contractNo=this.$store.state.rowNumber
-          this.contractNo=contractNo;
-        }else {   //签署完成页面进入
-          let contractNo=sessionStorage.getItem('contractNo')
-          this.contractNo=contractNo;
-        }
-        let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
-        this.$http.get(url).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-            var contractNoZq = res.data.contractVo.contractNoZq
-            var contractVo = res.data.contractVo
-            var signUserVo = res.data.signUserVo
-            var type = contractVo.createType
-            this.contractNo = contractVo.contractNo
-            this.contractType = contractVo.contractType
-            this.contractName = contractVo.contractName
+
+        b2cContrantsDetail(this.interfaceCode,this.contractNo).then(res=>{
+            let contractNoZq = res.data.contractVo.contractNoZq;
+            let contractVo = res.data.contractVo;
+            let signUserVo = res.data.signUserVo;
+            let type = contractVo.createType;
+            this.contractNo = contractVo.contractNo;
+            this.contractType = contractVo.contractType;
+            this.contractName = contractVo.contractName;
             this.validTime = contractVo.validTime
             this.status = contractVo.status
             this.operator = res.data.contractVo.operator
@@ -389,7 +379,7 @@
               isCreater = false
             }
             for (let i = 0; i < signUserVo.length;i++) {
-              var obj = {}
+              let obj = {}
               obj.signUserName = signUserVo[i].signUserName
               obj.mobile = signUserVo[i].mobile
               obj.idCard = signUserVo[i].idCard
@@ -410,12 +400,18 @@
               data[i] = obj
             }
             this.tableData2 = data
-            this.$http.get(process.env.API_HOST+'v1.4/contract/'+this.contractNo+'/contractSignUserInfo',{params:{'contractNoZq':contractNoZq}}).then(function (res) {
-              this.History = res.data.dataList
+            let param={
+                contractNoZq:contractNoZq
+            }
+            contractSignUserInfo(param,this.contractNo).then(res=>{
+                this.History = res.data.dataList
+            }).catch(error=>{
+
             })
-          }
+        }).catch(error=>{
 
         })
+        // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))
@@ -458,17 +454,11 @@
 
     created() {
       this.signMobile = cookie.getJSON('tenant')[0].mobile
-      var contractNo = sessionStorage.getItem('contractNo');
-      var accountLevel = sessionStorage.getItem('accountLevel');
-      var accountCode = sessionStorage.getItem('accountCode');
-      var detailAccountCode = sessionStorage.getItem('detailAccountCode');
-      if (contractNo) {
-        // contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.rowNumber == ''){
-          this.contractNo = contractNo;
-          this.$store.state.rowNumber = contractNo
-        }
-      }
+
+      let accountLevel = sessionStorage.getItem('accountLevel');
+      let accountCode = sessionStorage.getItem('accountCode');
+      let detailAccountCode = sessionStorage.getItem('detailAccountCode');
+
       this.seeContractDetails()
       //判断是不是二级账户如果是不请求顶部显示部门姓名
       if(accountLevel != 2){
@@ -479,7 +469,7 @@
           if(res.data.resultCode == 1){
             this.accountName = res.data.data
           }
-        }).catch({
+        }).catch(error=>{
 
         })
       }
