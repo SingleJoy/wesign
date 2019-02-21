@@ -278,11 +278,32 @@
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.gainPosition();
+                    this.verifySignature();
                 } else {
                     return false;
                 }
             });
+        },
+        verifySignature() {
+            this.load = true;
+            let accountCode = sessionStorage.getItem("accountCode");
+            let signVerifyPassword = {
+                signVerifyPassword: this.ruleForm.password
+            };
+            verifySignPassword(accountCode, signVerifyPassword).then(res => {
+                if(res.data.resultCode == 1) {
+                    this.dialogVisibleSign = false;
+                    this.load = false;
+                    this.gainPosition();
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: res.data.resultMessage
+                    });
+                }
+            }).catch(error => {
+
+            })
         },
       batchSign() {    //签署操作
         const h = this.$createElement;
