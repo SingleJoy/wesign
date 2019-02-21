@@ -192,3 +192,22 @@ export  function bindEmail(interfaceCode,param) {
     data:param
   })
 }
+
+
+//修改签署验证开关
+export  function changeSignSet(accountCode,param) {
+    return request({
+      url:"api/v1.7/tenant/account/"+accountCode+'/updateSignVerify',
+      method:"post",
+      data:param
+    })
+}
+//修改签署验证密码
+export  function changeSignPwd(accountCode,param) {
+    return request({
+      url:"api/v1.7/tenant/account/"+accountCode+'/resetSignPassword',
+      method:"post",
+      data:param
+    })
+}
+  
