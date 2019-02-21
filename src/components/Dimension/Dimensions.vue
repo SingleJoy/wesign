@@ -7,7 +7,7 @@
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="contractCancel" :disabled="clickOnce">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-        <el-button style='color:#4091fb' v-show="clickSign==true" @click="submitBtn">提交签署</el-button>
+        <el-button style='color:#4091fb' v-show="clickSign==true" @click="verifySign">提交签署</el-button>
       </div>
     </nav>
   </div>
@@ -74,6 +74,25 @@
     </div>
     <!-- 签署合同结束 -->
   </div>
+  <div class="sign_dialog">
+        <el-dialog
+            title="验证通过后，合同即签署并发出"
+            :visible.sync="dialogVisibleSign"
+            :before-close="closeSign"
+            width="30%">
+            <div class="sign_element">
+                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
+                    <el-form-item label="请输入签署密码：" prop="password">
+                        <el-input type="password" placeholder="请输入签署密码" v-model="ruleForm.password" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="closeSign()">取 消</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" :loading= load>确 定</el-button>
+            </span>
+        </el-dialog>
+    </div>
   </div>
 </template>
 <script>
@@ -82,11 +101,34 @@ import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import { getSignatureImg,contractimgs,getSignature,callSignerpositions,contractmoresign,qRCode} from '@/api/business'
+import { verifySignPassword } from '@/api/personal.js'
 
 export default {
   name: 'Dimensions',
   data () {
+    var validatePassword = (rule, value, callback) => {
+        if (value === '') {
+            callback(new Error('请输入签署密码'));
+        } else{
+            let verificationPsd = /^[a-zA-Z0-9]{4,16}$/;
+            if(!verificationPsd.test(value)) {
+                callback(new Error('格式不正确，签署密码为4~16位，可录入数字、字母、数字+字母'));
+            } else {
+                callback();
+            }
+        }
+    };
     return {
+        ruleForm:{
+            password:'',
+        },
+        rules: {
+            password: [
+                { validator: validatePassword, trigger: 'change' }
+            ],
+        },
+        dialogVisibleSign: false, //签署密码弹框
+        load: false,
       baseURL:this.baseURL.BASE_URL,
       current: 0,
       showItem:0,
@@ -350,7 +392,62 @@ export default {
        this.flag = false
        this.clickSign = true
     },
-    submitBtn() {
+    verifySign() {
+        sessionStorage.setItem("signVerify",1);
+        if(sessionStorage.getItem("signVerify") == 1) {
+            if(this.$refs.ruleForm) {
+                this.$refs.ruleForm.resetFields();
+            }
+            this.dialogVisibleSign = true;
+        } else {
+            this.submitBtn("signVerify");
+        }
+    },
+    closeSign() {
+        this.$message({
+            type: 'info',
+            message: "取消签署"
+        });
+        this.dialogVisibleSign = false;
+    },
+    submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+            if (valid) {
+                this.submitBtn();
+            } else {
+                return false;
+            }
+        });
+    },
+    submitBtn(signVerify) {
+        if(!signVerify) {
+            this.load = true;
+            let accountCode = sessionStorage.getItem("accountCode");
+            let signVerifyPassword = {
+                signVerifyPassword: this.ruleForm.password
+            };
+            verifySignPassword(accountCode, signVerifyPassword).then(res => {
+                if(res.data.resultCode == 1) {
+                    this.dialogVisibleSign = false;
+                    this.load = false;
+                    if(this.canvasTest == null ||this.canvasTest == ''){
+                        this.$alert('未指定完所有签章','提示', {
+                            confirmButtonText: '确定'
+                        })
+                        return false
+                    }
+                    this.submitContract();
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: res.data.resultMessage
+                    });
+                }
+            }).catch(error => {
+
+            })
+            return;
+        }
       if(this.resubmit == true){
         this.resubmit = false
         if(this.canvasTest == null ||this.canvasTest == ''){
@@ -418,7 +515,7 @@ export default {
         'personalPositionStr':this.signPosit
       }
       contractmoresign(this.interfaceCode,this.userCode,this.contractNo,params).then(res=> {
-
+          console.log(res.data.responseCode)
         if (res.data.responseCode == 1) {
           this.centerDialogVisible = false
           this.$message({
