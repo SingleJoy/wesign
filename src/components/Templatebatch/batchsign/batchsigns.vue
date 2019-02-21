@@ -42,11 +42,30 @@
           </ul>
         </div>
         <div class='sign_right'>
-          <a href="javascript:void(0);" @click="batchSign"><img src="/static/images/Contract/submit.png" alt=""></a>
+          <a href="javascript:void(0);" @click="verifySign"><img src="/static/images/Contract/submit.png" alt=""></a>
           <br>
         </div>
         <!-- 右侧签署按钮结束 -->
       </div>
+    </div>
+     <div class="sign_dialog">
+        <el-dialog
+            title="验证通过后，合同即签署并发出"
+            :visible.sync="dialogVisibleSign"
+            :before-close="closeSign"
+            width="30%">
+            <div class="sign_element">
+                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
+                    <el-form-item label="请输入签署密码：" prop="password">
+                        <el-input type="password" placeholder="请输入签署密码" v-model="ruleForm.password" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="closeSign()">取 消</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" :loading= load>确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
   </div>
 </template>
@@ -56,10 +75,33 @@
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import {contracttempimgs,contractkeywordsign} from '@/api/template'
+  import { verifySignPassword } from '@/api/personal.js'
   export default {
     name: 'Contractsigns',
     data () {
+        var validatePassword = (rule, value, callback) => {
+        if (value === '') {
+            callback(new Error('请输入签署密码'));
+        } else{
+            let verificationPsd = /^[a-zA-Z0-9]{4,16}$/;
+            if(!verificationPsd.test(value)) {
+                callback(new Error('格式不正确，签署密码为4~16位，可录入数字、字母、数字+字母'));
+            } else {
+                callback();
+            }
+        }
+    };
       return {
+          ruleForm:{
+            password:'',
+        },
+        rules: {
+            password: [
+                { validator: validatePassword, trigger: 'change' }
+            ],
+        },
+        dialogVisibleSign: false, //签署密码弹框
+        load: false,
         baseURL:this.baseURL.BASE_URL,
         //初始化左侧页码，并使第一个高亮
         current:0,
@@ -215,6 +257,54 @@
           }
         })
       },
+        verifySign() {
+            sessionStorage.setItem("signVerify",1);
+            if(sessionStorage.getItem("signVerify") == 1) {
+                if(this.$refs.ruleForm) {
+                    this.$refs.ruleForm.resetFields();
+                }
+                this.dialogVisibleSign = true;
+            } else {
+                this.batchSign("signVerify");
+            }
+        },
+        closeSign() {
+            this.$message({
+                type: 'info',
+                message: "取消签署"
+            });
+            this.dialogVisibleSign = false;
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.verifySignature();
+                } else {
+                    return false;
+                }
+            });
+        },
+        verifySignature() {
+            this.load = true;
+            let accountCode = sessionStorage.getItem("accountCode");
+            let signVerifyPassword = {
+                signVerifyPassword: this.ruleForm.password
+            };
+            verifySignPassword(accountCode, signVerifyPassword).then(res => {
+                if(res.data.resultCode == 1) {
+                    this.dialogVisibleSign = false;
+                    this.load = false;
+                    this.gainPosition();
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: res.data.resultMessage
+                    });
+                }
+            }).catch(error => {
+
+            })
+        },
       batchSign() {    //签署操作
         const h = this.$createElement;
         this.$msgbox({
@@ -311,5 +401,12 @@
     background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
+  /* 签章密码弹框样式 */
+.sign_dialog .el-dialog {
+    height: 200px;
+}
+.sign_dialog .sign_element .el-input{
+    width: 60%;
+}
 </style>
 
