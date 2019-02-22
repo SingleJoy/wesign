@@ -101,10 +101,13 @@
       },
 
       //查询子组件（数据表格）列表数据
-      getChildData(name){                //组件还没有mount就调用了这个方法会报错
-          this.$nextTick(function() {
-            this.$refs[name].getData()
-          })
+      getChildData(){
+
+        this.$nextTick(()=>{
+          this.$refs[this.$store.state.PanelActiveName].getData()
+        })
+
+
       },
 
       //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
