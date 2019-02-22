@@ -240,41 +240,41 @@
           };
           if (stateCode == "1") {
             if(response.data.dataList[0].length>0){
-              var urlParam =  response.data.dataList[0][0].interfaceCode;
-             var accountMoney =  response.data.dataList[0][0].accountMoney;
-             var enterpriseName = response.data.dataList[0][0].enterpriseName;
-             var mobile = response.data.dataList[0][0].mobile;
-             var auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
-             var accountCode = response.data.dataList[0][0].accountCode;
-             var accountLevel = response.data.dataList[0][0].accountLevel;
-              var accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
-              sessionStorage.setItem("enterpriseName", enterpriseName);
-              sessionStorage.setItem('accountCode',accountCode);
-              sessionStorage.setItem('accountLevel',accountLevel);
-              sessionStorage.setItem("interfaceCode", urlParam);
-              sessionStorage.setItem('auditStatus',auditStatus);
-              sessionStorage.setItem('mobile',mobile);
-              sessionStorage.setItem('accountMoney',accountMoney);
+                var urlParam =  response.data.dataList[0][0].interfaceCode;
+                var accountMoney =  response.data.dataList[0][0].accountMoney;
+                var enterpriseName = response.data.dataList[0][0].enterpriseName;
+                var mobile = response.data.dataList[0][0].mobile;
+                var auditStatus = response.data.dataList[0][0].auditStatus;  //个人认证状态
+                var accountCode = response.data.dataList[0][0].accountCode;
+                var accountLevel = response.data.dataList[0][0].accountLevel;
+                var accountStatus = response.data.dataList[0][0].accountStatus;  //企业认证状态
+                sessionStorage.setItem("enterpriseName", enterpriseName);
+                sessionStorage.setItem('accountCode',accountCode);
+                sessionStorage.setItem('accountLevel',accountLevel);
+                sessionStorage.setItem("interfaceCode", urlParam);
+                sessionStorage.setItem('auditStatus',auditStatus);
+                sessionStorage.setItem('mobile',mobile);
+                sessionStorage.setItem('accountMoney',accountMoney);
             }else{
-              var urlParam =  response.data.dataList[1][0].interfaceCode;
-             var interfaceCode =  response.data.dataList[1][0].interfaceCode;
-             var accountMoney =  response.data.dataList[1][0].accountMoney;
-             var enterpriseName = response.data.dataList[1][0].enterpriseName;
-             var mobile = response.data.dataList[1][0].mobile;
-             var accountCode = response.data.dataList[1][0].accountCode;
-             var accountLevel = response.data.dataList[1][0].accountLevel;
-             var accountStatus = response.data.dataList[1][0].accountStatus;
-             var authorizerCode = response.data.dataList[1][0].authorizerCode;
-             var auditStatus = response.data.dataList[1][0].auditStatus;
-              sessionStorage.setItem("enterpriseName", enterpriseName);
-              sessionStorage.setItem("interfaceCode", interfaceCode);
-              sessionStorage.setItem('accountCode',accountCode);
-              sessionStorage.setItem('accountLevel',accountLevel);
-              sessionStorage.setItem('authorizerCode',authorizerCode);
-              sessionStorage.setItem('mobile',mobile);
-              sessionStorage.setItem('auditStatus',auditStatus);
-              sessionStorage.setItem('accountMoney',accountMoney);
-            }
+                var urlParam =  response.data.dataList[1][0].interfaceCode;
+                var interfaceCode =  response.data.dataList[1][0].interfaceCode;
+                var accountMoney =  response.data.dataList[1][0].accountMoney;
+                var enterpriseName = response.data.dataList[1][0].enterpriseName;
+                var mobile = response.data.dataList[1][0].mobile;
+                var accountCode = response.data.dataList[1][0].accountCode;
+                var accountLevel = response.data.dataList[1][0].accountLevel;
+                var accountStatus = response.data.dataList[1][0].accountStatus;
+                var authorizerCode = response.data.dataList[1][0].authorizerCode;
+                var auditStatus = response.data.dataList[1][0].auditStatus;
+                sessionStorage.setItem("enterpriseName", enterpriseName);
+                sessionStorage.setItem("interfaceCode", interfaceCode);
+                sessionStorage.setItem('accountCode',accountCode);
+                sessionStorage.setItem('accountLevel',accountLevel);
+                sessionStorage.setItem('authorizerCode',authorizerCode);
+                sessionStorage.setItem('mobile',mobile);
+                sessionStorage.setItem('auditStatus',auditStatus);
+                sessionStorage.setItem('accountMoney',accountMoney);
+                }
             if(accountStatus==2){
               this.$router.push('/ActivateChildAccount');
             }else if(accountStatus==6){

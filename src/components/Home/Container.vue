@@ -188,13 +188,38 @@
           <p class="b2c">{{b2cNum}}</p>
         </div>
       </div>
-
+     
     </div>
+    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="520px">
+        <div class="sign-dialog-title">
+            <p class="sign-user">尊贵的用户</p>
+            <p>为保证您的账户安全，现合同签署时加强验证</p>
+        </div>
+        <div class="sign-body-text">
+            <p class=""><img src="/static/images/Home/1.png" alt=""><span>每次签署合同--提交签署时都需要验证签署密码</span></p>
+            <p class=""><img src="/static/images/Home/2.png" alt=""><span>您可在【我的账户】中对签署密码进行管理</span></p>
+            <el-form :model="signForm" :rules="signRules" ref='signRef'  :close-on-click-modal="false">
+                <img src="/static/images/Home/3.png" alt="">
+                <el-form-item label="请设置签署密码" prop="signPassword"> 
+                    <el-input v-model="signForm.signPassword" type="password" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="再次确认签署密码" prop="verifySignPassword">
+
+                    <el-input v-model="signForm.verifySignPassword" type="password" auto-complete="off"></el-input>
+                </el-form-item>
+            </el-form>
+        </div>
+       
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="submitSignPwd('signRef')">提交</el-button>
+        </div>
+    </el-dialog>
   </div>
 </template>
 <script>
   import {state, actions,mutations} from '@/store/index';
   import cookie from "@/common/js/getTenant";
+  import {valiteSignPwd} from '@/common/js/validate'
   import server from "@/api/url";
   import {templateList,remind,homePageContractLists} from "@/api/home"
   import {downloadContracts} from "@/api/common"
@@ -202,7 +227,39 @@
   export default {
     name: "Container",
     data() {
+         let validateSignPwd = (rule,value,callback) =>{
+            if(!value){
+                callback(new Error('签署密码不能为空'));
+            }else if(!valiteSignPwd(value)){
+                callback(new Error('密码格式为4-16位数字、字母、或数字字母组合'));
+            }else{
+                callback()
+            }
+        }
+        let verficateSignPwd = (rule,value,callback) =>{
+            console.log(value,this.signForm.signPassword)
+            if(!value){
+                callback(new Error('请再次确认签署密码'));
+            }else if(this.signForm.signPassword != value){
+                callback(new Error('两次输入的签署密码不一致'));
+            }else{
+                callback()
+            }
+        }
       return {
+        signForm:{
+            signPassword:'',
+            verifySignPassword:''
+        },
+        signDialog:true,
+        signRules:{
+            signPassword:[
+                { validator: validateSignPwd, trigger: 'blur'}
+            ],
+            verifySignPassword:[
+                 { validator: verficateSignPwd, trigger: 'blur'}
+            ]
+        },
         baseURL:this.baseURL.BASE_URL,
         popupContainer: false,
         tableData: [],
@@ -784,6 +841,58 @@
 </script>
 <style lang="scss" scoped>
   @import "../../styles/Container.css";
+  #sign-pwd-dialog{
+        /deep/ .el-dialog__body{
+            text-align: center;
+            padding:0 50px 20px 50px;
+        }
+        /deep/ .el-dialog__footer{
+            text-align: center;
+            .el-button{
+                width:200px;
+            }
+        }
+        .sign-body-text{
+            text-align: left;
+            font-size: 16px;
+           /deep/ .el-form-item__label{
+                font-size: 16px;
+                text-align: left;
+                padding-left: 10px; 
+            }
+            /deep/ .el-form-item__content{
+                display: flex;
+                .el-input__inner{
+                    width:250px;
+                }
+            }
+            img{
+                float: left;
+            }
+            p{
+                line-height: 25px;
+                color:#333;
+                padding-bottom: 15px;
+                span{
+                    padding-left: 10px
+                }
+            }
+        }
+        .sign-dialog-title{
+            p{
+                font-size: 20px;
+                color:#4091fb;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            .sign-user{
+                font-size: 25px;
+                background: linear-gradient(to top, #4091fb, #9315e4);
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+        }
+  }
   .right1:hover,
   .right2:hover,
   .right3:hover,
