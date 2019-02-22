@@ -125,20 +125,22 @@
                 <!--accountLevel  1为一级账号  2为二级账号  item.defultCode 0为默认签章 1为非默认签章->
                 item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
                 <!--chooseDefaultSeal  -->
-                <div class="sign-bg">
+                <div class="sign-bg" style="display:flex">
                     <div v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" style="background: #fff;padding: 2px; box-sizing: border-box;">
                         <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
                         <!--合同章-->
                             <img :src="[item.signaturePath]">
                         </div>
                     </div>
-                    <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
+                    <div style="">
+                        <div class="create-seal" v-if="!officeSeal" v-show="accountLevel=='1'">
                         <!--生成公章-->
-                        <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
-                        <span>录入公章防伪码在线生成</span>
-                        <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
-                        <el-input type="text" v-model="createSeal"  ></el-input>
-                        <a href="javascript:void(0);" @click="newSeal">生成公章</a>
+                            <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
+                            <span>录入公章防伪码在线生成</span>
+                            <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
+                            <el-input type="text" v-model="createSeal"  ></el-input>
+                            <a href="javascript:void(0);" @click="newSeal">生成公章</a>
+                        </div>
                     </div>
                     <el-dialog  :visible.sync="dialogVisible" custom-class="showSealDemo" >
                     <!-- :lock-scroll= false有问题！！！！ -->
@@ -148,11 +150,11 @@
                     
                 </div>
             </div>
-            <div class="sign-controll sign-management">
+            <div class="sign-controll sign-management" >
                 <p class="title">配置管理</p>
                 <div class="border-bottom"></div>
                 <div class="controll-content">
-                    <div class="sign-bg">
+                    <div class="sign-bg" v-if="showSignSet">
                         <div class="sign-controll-manage">
                             <div class="switch-btn">
                                 <span class="sign-setting-title">签署时验证签署密码</span>
@@ -165,6 +167,7 @@
                             </div>
                         </div>
                     </div> 
+                    <div v-else>购买后方可进行签署设置</div>
                     <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px" :close-on-click-modal="false" :before-close="cancelPwd">
                         <p class="sign-dialog-title">设置签署密码</p>
                         <el-form :model="signForm" :rules="signRules" ref='signRef' label-width="150px">
@@ -534,6 +537,7 @@
         },
         codeVisible:false, //短信验证
         signPwdVisible:false,
+        showSignSet:cookie.getJSON("tenant")[1].isBusiness == 1?true:false,
         hasSettingPwd:cookie.getJSON("tenant")[1].signVerifyPassword?true:false,   //是否设置过密码
         signVerify:cookie.getJSON("tenant")[1].signVerify==0?false:true,           //密码开关
         isShow: true,
@@ -1122,8 +1126,8 @@
                 }).catch(error=>{
 
                 })
-
             }
+            
             }
 
         },
@@ -1166,14 +1170,21 @@
                 let sealNo_ = sealNo;
                 UpdateAccountSignature(this.interfaceCode,sealNo_).then(res=>{
                     if (res.data.resultCode == '1') {
-                    this.$alert(res.data.resultMessage, '提示', {
-                        confirmButtonText: '确定'
+                    // this.$alert(res.data.resultMessage, '提示', {
+                    //     confirmButtonText: '确定'
+                    // });
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: 'success'
                     });
                     this.searchSeal();
                     } else {
-                    this.$alert(res.data.resultMessage, '提示', {
-                        confirmButtonText: '确定'
-                    });
+                        this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: 'warning'
+                        });
                     }
                 });
                 }).catch(() => {

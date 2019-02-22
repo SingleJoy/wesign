@@ -253,7 +253,7 @@
             signPassword:'',
             verifySignPassword:''
         },
-        signDialog:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].signVerifyRemind==0?false:true:false,
+        signDialog:cookie.getJSON("tenant")?(cookie.getJSON("tenant")[1].signVerifyRemind==1 && cookie.getJSON("tenant")[1].isBusiness == 1)?true:false:false,
         signRules:{
             signPassword:[
                 { validator: validateSignPwd, trigger: 'blur'}
