@@ -98,6 +98,7 @@
 <script>
 import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
+import md5 from "js-md5";
 import cookie from '@/common/js/getTenant'
 import {prohibit} from '@/common/js/prohibitBrowser'
 import { getSignatureImg,contractimgs,getSignature,callSignerpositions,contractmoresign,qRCode} from '@/api/business'
@@ -434,7 +435,7 @@ export default {
             this.load = true;
             let accountCode = sessionStorage.getItem("accountCode");
             let signVerifyPassword = {
-                signVerifyPassword: this.ruleForm.password
+                signVerifyPassword: md5(this.ruleForm.password)
             };
             verifySignPassword(accountCode, signVerifyPassword).then(res => {
                 if(res.data.resultCode == 1) {
