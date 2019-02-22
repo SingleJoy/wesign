@@ -153,6 +153,13 @@
         this.$router.push('/');
       },
       submitForm(formName) {
+        if(!this.getCode){
+          this.$message({
+            message: '请先获取验证码！',
+            type: 'warning'
+          })
+          return false
+        }
         if(this.ruleForm.mobile != this.ruleForm.username){//校验发送验证码的手机和提交时的手机是否是一个
           this.$message({
             message: '请检查手机号是否正确',
@@ -171,10 +178,10 @@
             }
             valitedSmsCode(param).then(res=>{
               if(res.data.resultCode == 1) {
-                var pass = md5(this.ruleForm.password);
-                var user = {'mobile':this.ruleForm.username,'newPassword':pass};
+                let pass = md5(this.ruleForm.password);
+                let user = {'mobile':this.ruleForm.username,'newPassword':pass};
                 changePassword(user).then(res=>{
-                  var resultCode = res.data.resultCode
+                  let resultCode = res.data.resultCode
                   if (resultCode == '1') {
                     this.$message({
                       message: '修改密码成功',
@@ -206,7 +213,7 @@
         });
       },
       sendCode(){
-        if(this.ruleForm.username == ''){
+        if(!this.ruleForm.username){
           this.$message({
             message: '请输入手机号',
             type: 'warning'
@@ -222,12 +229,16 @@
         if(this.disCode){
           return
         }
+
         var codeType = '0'
         var InterValObj = 60
         var count = 60
         var curCount = count
         var timer = null
-        let param={'userName': this.ruleForm.username, 'sendType': codeType}
+        let param={
+          'userName': this.ruleForm.username,
+          'sendType': codeType
+        };
         sendSmsCode(param).then(res=>{
           var appId = res.data.appId
           this.appId = appId
@@ -238,6 +249,7 @@
           this.ruleForm.mobile = res.data.mobile  //发送验证码后返回的手机号
           if (resultCode === '0') {
             this.iscode = true;
+            this.getCode = true;
             var codeInfo = document.getElementById('code')
             codeInfo.innerText =  curCount + '秒后获取'
             this.smsNum = smsNo
@@ -253,6 +265,7 @@
               }
             }, 1000)
           }else{
+            this.getCode=false;
             this.$message({
               message: res.data.resultMessage,
               type: 'warning'
@@ -375,8 +388,6 @@
   }
   .logo-zq img {
     vertical-align: middle;
-  // background-color: #000;
-  // width: 30px;
   }
   .logo-content {
     display: inline-block;

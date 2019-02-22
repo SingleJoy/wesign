@@ -36,7 +36,7 @@
                     <el-form-item prop="password" style="margin-bottom: 1.25rem;">
                       <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password"  @keyup.enter.native="submitForm('ruleForm')" :maxlength="16"></el-input><i class="icon-suo"></i>
                     </el-form-item>
-
+                     <!--图形验证码-->
                     <el-form-item  v-if="showGraphic">
 
                       <el-input :maxlength=4 placeholder="请输入验证码" class="messageInput"  v-model="graphic" @keyup.enter.native="submitForm('ruleForm')" style="width: 70%;"></el-input>
@@ -74,45 +74,44 @@
   export default {
     name: "Login",
     data() {
-     var checkName = (rule, value, callback) => {
+     let checkName = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入手机号"));
         } else if (!validateMoblie(value)) {
           callback(new Error("手机号输入错误"));
         } else {
-         var params = {
+         let params = {
             username: this.ruleForm.username
           };
 
           server.verficate(params).then(res => {
             if (res.data == 0) {
              //用户手机号数据库存在
-
               if(!this.showGraphic){
-               var params={
+               let params={
                   phone:this.ruleForm.username
-                }
-                phoneStatus(params).then(res=>{
-
-                  //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
-                  if(res.data.resultCode==1){
-                    this.showGraphic=true;
-                    this.$message({
-                      showClose: true,
-                      message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
-                      type: "error"
-                    });
-                    getVerifyCodeImg(this.ruleForm.username).then(res=>{
-                      this.base64=res.data;
-                    }).catch(error=>{
-
-                    })
-                  }else{
-
-                  }
-                }).catch(error=>{
-
-                })
+                };
+                // phoneStatus(params).then(res=>{
+                //
+                //   //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
+                //   if(res.data.resultCode==1){
+                //     this.showGraphic=true;
+                //     this.$message({
+                //       showClose: true,
+                //       message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
+                //       type: "error"
+                //     });
+                //     getVerifyCodeImg(this.ruleForm.username).then(res=>{
+                //       this.base64=res.data;
+                //     }).catch(error=>{
+                //
+                //     })
+                //   }else{
+                //
+                //   }
+                // }).catch(error=>{
+                //
+                // })
               }
 
               callback();
@@ -124,7 +123,7 @@
           });
         }
       };
-     var checkPassWord = (rule, value, callback) => {
+     let checkPassWord = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("请输入密码"));
         } else {
@@ -234,7 +233,6 @@
         }
         bindEnterprises(bindParams).then(response=>{
          var stateCode = response.data.bindTenantNum; //绑定企业个数 一个的话直接跳首页
-
           var loginParam={
             mobile:this.ruleForm.username,
           };
@@ -255,7 +253,8 @@
                 sessionStorage.setItem('auditStatus',auditStatus);
                 sessionStorage.setItem('mobile',mobile);
                 sessionStorage.setItem('accountMoney',accountMoney);
-            }else{
+            }
+            else{
                 var urlParam =  response.data.dataList[1][0].interfaceCode;
                 var interfaceCode =  response.data.dataList[1][0].interfaceCode;
                 var accountMoney =  response.data.dataList[1][0].accountMoney;
@@ -285,7 +284,6 @@
                 type: "warning"
               });
             }else{
-
               server.login(loginParam,urlParam).then(res => {
                 //先判断是否为实名用户，再根据isBusiness 判断是否有发起合同10次限制
                 //判断是否为实名用户 auditSteps=3 已实名
