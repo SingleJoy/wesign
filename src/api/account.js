@@ -210,4 +210,14 @@ export  function changeSignPwd(accountCode,param) {
       data:param
     })
 }
+
+//修改签署验证密码
+export  function noSignRemind(accountCode) {
+    return request({
+      url:"api/v1.7/tenant/account/"+accountCode+'/signVerifyRemind',
+      method:"post",
+      data:''
+    })
+}
+
   
