@@ -343,7 +343,7 @@ export default {
     submitBtn(signVerify) {
         if(!signVerify) {
             this.load = true;
-            let accountCode = sessionStorage.getItem("accountCode");
+            let accountCode = cookie.getJSON('tenant')[1].accountCode;
             let signVerifyPassword = {
                 signVerifyPassword: this.ruleForm.password
             };
