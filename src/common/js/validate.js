@@ -35,7 +35,7 @@ export function validatePassWord(str){
  * @param {password(4-16)} str
   */
 export function valiteSignPwd(str){
-    const reg = /^[a-z0-9]{4,16}$/;
+    const reg = /^[a-zA-Z0-9]{4,16}$/;
     return reg.test(str)
 }
 

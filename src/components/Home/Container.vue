@@ -190,7 +190,7 @@
       </div>
      
     </div>
-    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :close-on-click-modal="false" :show-close="false">
+    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :close-on-click-modal="false">
         <div class="sign-dialog-title">
             <p class="sign-user">尊贵的用户</p>
             <p>为保证您的账户安全，现合同签署时加强验证</p>
@@ -286,6 +286,7 @@
         b2cNum:'',
         num:'',
         accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
+        mobile:sessionStorage.getItem("mobile"),
       };
     },
     methods: {
@@ -310,6 +311,7 @@
                             });
                             that.signDialog = false
                             that.resetFormData()
+                            that,updateSession()
                         }else{
                             that.$message({
                                 showClose: true,
@@ -322,6 +324,18 @@
                     })
                 }
              })
+        },
+        updateSession(){
+            let param={
+                mobile:this.mobile
+            }
+            server.login(param,this.interfaceCode).then(res => {
+                if(res.data.resultCode ==1){
+                    cookie.set("tenant", res.data.dataList);
+                }
+            }).catch(error => {
+
+            });
         },
         resetFormData(){
             this.signForm ={

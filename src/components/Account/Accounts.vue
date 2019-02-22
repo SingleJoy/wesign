@@ -693,7 +693,8 @@
                                 message:res.data.resultMessage,
                                 type: 'success'
                             });
-                            that.signPwdVisible = false
+                            that.signPwdVisible = false;
+                            that.hasSettingPwd = true;
                             that.updateSession()
                             that.resetFormData()
                         }else{
@@ -831,7 +832,6 @@
         },
 
      /*   配置管理逻辑结束 */
-
 
         packageBuy(){
             this.$router.push('/PackageBuy')
