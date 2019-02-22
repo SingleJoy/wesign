@@ -116,7 +116,7 @@
         this.$refs.folder.contractFilings();
       },
 
-      //切换归档文件夹  Folder组件对应修改兄弟组件(table表格中 默认便当文件夹编号)
+      //切换归档文件夹  Folder组件对应修改兄弟组件(table表格中 默认当文件夹编号)
       changeDefaultFillNo(){
         this.$refs[this.$store.state.PanelActiveName].changeDefaultFillNo();
       },
@@ -126,8 +126,9 @@
       }
     },
     created(){
-      this.getChildData(this.$store.state.PanelActiveName)
-
+      this.$nextTick(()=> {
+        this.getChildData(this.$store.state.PanelActiveName)
+      })
     },
 
   }
