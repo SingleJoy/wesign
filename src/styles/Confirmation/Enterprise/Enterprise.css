@@ -1,0 +1,68 @@
+.Enterprises{
+  clear: both;
+  width: 1200px;
+  margin: 20px auto;
+  background: #fff;
+  height: 800px;
+  overflow-y: scroll;
+}
+
+/* products开始 */
+.productes{
+  clear: both;
+
+}
+.title{
+  padding-top: 5px;
+  border-top:1px solid #ddd;
+}
+.center{
+  width: 850px;
+  height: 500px;
+  background: #fafafa;
+  margin: 0 auto;
+  padding: 20px;
+}
+.container{
+  background: #fff;
+  text-align: center;
+}
+.container .first{
+  margin-bottom:20px;
+}
+.container .first span{
+  margin-right: 20px;
+  font-size:14px;
+  font-family:"微软雅黑";
+
+}
+.container .secondTitle{
+  width: 338px;
+  margin-top: 20px;
+  margin-left: 35%;
+  font-size:12px;
+  text-align: initial;
+  color: #a9a9a9;
+  margin-bottom: 10px;
+}
+.container .second>span{
+  margin-right: 20px;
+  font-size:14px;
+  font-family:"微软雅黑";
+}
+.container .second {
+ margin-bottom: 20px;
+}
+.thirdInfo{
+  display: inline-block;
+  width: 100px;
+  margin-left: -31px;
+  font-size:14px;
+  font-family:"微软雅黑";
+  color: #424242;
+}
+.header-title{padding-top: 100px;margin-bottom: 55px;}
+.content-img{margin-left: -520px;margin-top: -30px;}
+.content-info{margin-top: -40px;margin-left: -40px;}
+.content-info>span{color: #4091fb;font-size: 15px;font-weight: bold; font-family:"微软雅黑";}
+.edit-btn{margin-left: 50px;}

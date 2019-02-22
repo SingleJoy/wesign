@@ -1,0 +1,16 @@
+.server{
+    width: 1200px;
+    background: #fff;
+    margin: 20px auto;
+    height: 800px;
+    overflow: hidden;
+}
+.server p{
+    text-align: center;
+    padding-top: 164px;
+}
+.server h4{
+    padding: 10px 0 10px 0;
+    text-align: center;
+    font-size: 14px;
+ }
