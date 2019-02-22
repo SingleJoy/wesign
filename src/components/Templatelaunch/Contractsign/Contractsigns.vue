@@ -82,6 +82,7 @@
 </template>
 <script>
     import BScroll from 'better-scroll'
+    import cookie from '@/common/js/getTenant'
     import {prohibit} from '@/common/js/prohibitBrowser'
     import {signature} from '@/api/business'
     import {contractimgs,contractmoresign} from '@/api/template'
@@ -316,8 +317,8 @@
             }
         },
         verifySign() {
-            sessionStorage.setItem("signVerify",'1');
-            if(sessionStorage.getItem("signVerify") == 1) {
+            let signVerify = cookie.getJSON('tenant')[1].signVerify;
+            if(signVerify == 1) {
                 this.dialogVisibleSign = true;
             } else {
                 this.submitBtn("signVerify");
@@ -341,21 +342,27 @@
         },
         submitBtn(signVerify) {
             if(!signVerify) {
+                if (!this.repeat){
+                    return;
+                }
+                this.repeat = false;
                 this.load = true;
                 let accountCode = sessionStorage.getItem("accountCode");
                 let signVerifyPassword = {
                     signVerifyPassword: this.ruleForm.password
                 };
                 verifySignPassword(accountCode, signVerifyPassword).then(res => {
-                    console.log(this.ruleForm.password);
                     if(res.data.resultCode == 1) {
                         this.load = false;
+                        this.dialogVisibleSign = false;
                         this.submitContract();
                     } else {
                         this.$message({
                             type: 'error',
-                            message: res.data.resultMessage
+                            message: "签署密码错误"
                         });
+                        this.repeat = true;
+                        this.load = false;
                     }
                 }).catch(error => {
 
@@ -363,7 +370,6 @@
                 return;
             }
             if (this.repeat == true){
-                console.log(222);
                 this.repeat = false
                 const h = this.$createElement;
                 this.$msgbox({

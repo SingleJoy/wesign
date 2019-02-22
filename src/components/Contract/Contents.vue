@@ -114,6 +114,7 @@ export default {
         },
         dialogVisibleSign: false, //签署密码弹框
         load: false,
+        repeat:true,  // 标识是否可以点击
       baseURL:this.baseURL.BASE_URL,
       interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
       contractName:sessionStorage.getItem('contractName'),
@@ -317,8 +318,8 @@ export default {
         }
     },
     verifySign() {
-        sessionStorage.setItem("signVerify",1);
-        if(sessionStorage.getItem("signVerify") == 1) {
+        let signVerify = cookie.getJSON('tenant')[1].signVerify;
+        if(signVerify == 1) {
             this.dialogVisibleSign = true;
         } else {
             this.submitBtn("signVerify");
@@ -342,20 +343,27 @@ export default {
     },
     submitBtn(signVerify) {
         if(!signVerify) {
+            if (!this.repeat){
+                return;
+            }
+            this.repeat = false;
             this.load = true;
-            let accountCode = cookie.getJSON('tenant')[1].accountCode;
+            let accountCode = sessionStorage.getItem("accountCode");
             let signVerifyPassword = {
                 signVerifyPassword: this.ruleForm.password
             };
             verifySignPassword(accountCode, signVerifyPassword).then(res => {
                 if(res.data.resultCode == 1) {
                     this.load = false;
+                    this.dialogVisibleSign = false;
                     this.submitContract();
                 } else {
                     this.$message({
                         type: 'error',
-                        message: res.data.resultMessage
+                        message: "签署密码错误"
                     });
+                    this.repeat = true;
+                    this.load = false;
                 }
             }).catch(error => {
 
