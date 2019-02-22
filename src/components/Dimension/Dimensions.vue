@@ -393,8 +393,14 @@ export default {
        this.clickSign = true
     },
     verifySign() {
-        sessionStorage.setItem("signVerify",1);
-        if(sessionStorage.getItem("signVerify") == 1) {
+        let signVerify = cookie.getJSON('tenant')[1].signVerify;
+        if(signVerify == 1) {
+            if(this.canvasTest == null ||this.canvasTest == ''){
+                this.$alert('未指定完所有签章','提示', {
+                    confirmButtonText: '确定'
+                })
+                return;
+            }
             if(this.$refs.ruleForm) {
                 this.$refs.ruleForm.resetFields();
             }
@@ -421,6 +427,10 @@ export default {
     },
     submitBtn(signVerify) {
         if(!signVerify) {
+            if (!this.resubmit){
+                return;
+            }
+            this.resubmit = false;
             this.load = true;
             let accountCode = sessionStorage.getItem("accountCode");
             let signVerifyPassword = {
@@ -430,18 +440,14 @@ export default {
                 if(res.data.resultCode == 1) {
                     this.dialogVisibleSign = false;
                     this.load = false;
-                    if(this.canvasTest == null ||this.canvasTest == ''){
-                        this.$alert('未指定完所有签章','提示', {
-                            confirmButtonText: '确定'
-                        })
-                        return false
-                    }
                     this.submitContract();
                 } else {
                     this.$message({
                         type: 'error',
-                        message: res.data.resultMessage
+                        message: "签署密码错误"
                     });
+                    this.resubmit = true;
+                    this.load = false;
                 }
             }).catch(error => {
 
@@ -515,7 +521,6 @@ export default {
         'personalPositionStr':this.signPosit
       }
       contractmoresign(this.interfaceCode,this.userCode,this.contractNo,params).then(res=> {
-          console.log(res.data.responseCode)
         if (res.data.responseCode == 1) {
           this.centerDialogVisible = false
           this.$message({
