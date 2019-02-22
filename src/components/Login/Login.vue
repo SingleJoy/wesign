@@ -91,27 +91,27 @@
                let params={
                   phone:this.ruleForm.username
                 };
-                phoneStatus(params).then(res=>{
-
-                  //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
-                  if(res.data.resultCode==1){
-                    this.showGraphic=true;
-                    this.$message({
-                      showClose: true,
-                      message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
-                      type: "error"
-                    });
-                    getVerifyCodeImg(this.ruleForm.username).then(res=>{
-                      this.base64=res.data;
-                    }).catch(error=>{
-
-                    })
-                  }else{
-
-                  }
-                }).catch(error=>{
-
-                })
+                // phoneStatus(params).then(res=>{
+                //
+                //   //用户手机号存在 校验是否请求验证码  1需要请求  0不需要 已经输入验证码的话不需要再请求
+                //   if(res.data.resultCode==1){
+                //     this.showGraphic=true;
+                //     this.$message({
+                //       showClose: true,
+                //       message: "对不起，您当天累计输错密码超过5次，需要填写验证码进行校验",
+                //       type: "error"
+                //     });
+                //     getVerifyCodeImg(this.ruleForm.username).then(res=>{
+                //       this.base64=res.data;
+                //     }).catch(error=>{
+                //
+                //     })
+                //   }else{
+                //
+                //   }
+                // }).catch(error=>{
+                //
+                // })
               }
 
               callback();
