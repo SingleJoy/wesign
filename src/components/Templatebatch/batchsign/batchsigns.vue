@@ -110,6 +110,7 @@
         // allpage:allpage
         // 左侧页码的总数
         allpage:0,
+        repeat: true, //标识是否可以提交
         imgArray:[],
         imgHeight: [],
         contractImgHeight: 0,
@@ -258,8 +259,8 @@
         })
       },
         verifySign() {
-            sessionStorage.setItem("signVerify",1);
-            if(sessionStorage.getItem("signVerify") == 1) {
+            let signVerify = cookie.getJSON('tenant')[1].signVerify;
+            if(signVerify == 1) {
                 if(this.$refs.ruleForm) {
                     this.$refs.ruleForm.resetFields();
                 }
@@ -285,6 +286,10 @@
             });
         },
         verifySignature() {
+            if (!this.repeat){
+                return;
+            }
+            this.repeat = false;
             this.load = true;
             let accountCode = sessionStorage.getItem("accountCode");
             let signVerifyPassword = {
@@ -298,8 +303,10 @@
                 } else {
                     this.$message({
                         type: 'error',
-                        message: res.data.resultMessage
+                        message: "签署密码错误"
                     });
+                    this.load = false;
+                    this.repeat = true;
                 }
             }).catch(error => {
 

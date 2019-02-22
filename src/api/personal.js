@@ -86,7 +86,7 @@ export function signature(interfaceCode) {
 /* 签署密码验证 */
 export function verifySignPassword(accountCode, param) {
     return request({
-        url: "api/v1.7/tenant/account/" + accountCode + "/resetSignPassword",
+        url: "api/v1.7/tenant/account/" + accountCode + "/verifySignPassword",
         method: "POST",
         data: param
     });
