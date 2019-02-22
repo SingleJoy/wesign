@@ -165,7 +165,7 @@
                             </div>
                         </div>
                     </div> 
-                    <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px" :close-on-click-modal="false" >
+                    <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px" :close-on-click-modal="false" :before-close="cancelPwd">
                         <p class="sign-dialog-title">设置签署密码</p>
                         <el-form :model="signForm" :rules="signRules" ref='signRef' label-width="150px">
                             <el-form-item label="请输入新签署密码" prop="signPassword">
@@ -179,7 +179,7 @@
                             <el-button type="primary" @click="submitSignPwd('signRef')">提交</el-button>
                         </div>
                     </el-dialog>
-                    <el-dialog id="sign-code-dialog" :visible.sync="codeVisible" width="520px" :close-on-click-modal="false">
+                    <el-dialog id="sign-code-dialog" :visible.sync="codeVisible" width="520px" :close-on-click-modal="false" :before-close="cancelCode">
                         <p class="sign-dialog-title">将会向<span style="font-size: 20px;color: #4091fb;">{{mobile}}</span>发送短信验证码</p>
                         <el-form :model="signCodeForm" :rules="smsRules" ref="smsRef">
                             <el-form-item prop="signSmsCode">
@@ -759,9 +759,16 @@
                 }
             })
         },
-        //取消
+        //取消短信验证
         cancelCode(){
             this.codeVisible = false;
+            this.$refs['smsRef'].clearValidate();
+            this.resetFormData()
+        },
+        //取消密码
+        cancelPwd(){
+            this.signPwdVisible = false;
+            this.$refs['signRef'].clearValidate();
             this.resetFormData()
         },
         //获取验证码
