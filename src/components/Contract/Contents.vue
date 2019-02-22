@@ -86,6 +86,7 @@
 import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
+import md5 from "js-md5";
 import {prohibit} from '@/common/js/prohibitBrowser'
 import {contractImg,b2cSignPosition,b2cSubmitSign,signature,verifySignPassword} from '@/api/personal.js'
 export default {
@@ -350,7 +351,7 @@ export default {
             this.load = true;
             let accountCode = sessionStorage.getItem("accountCode");
             let signVerifyPassword = {
-                signVerifyPassword: this.ruleForm.password
+                signVerifyPassword: md5(this.ruleForm.password)
             };
             verifySignPassword(accountCode, signVerifyPassword).then(res => {
                 if(res.data.resultCode == 1) {

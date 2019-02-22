@@ -87,6 +87,7 @@
     import {signature} from '@/api/business'
     import {contractimgs,contractmoresign} from '@/api/template'
     import {b2cSignPosition, verifySignPassword} from '@/api/personal'
+    import md5 from "js-md5";
     export default {
         name: 'Contractsigns',
         data () {
@@ -349,7 +350,7 @@
                 this.load = true;
                 let accountCode = sessionStorage.getItem("accountCode");
                 let signVerifyPassword = {
-                    signVerifyPassword: this.ruleForm.password
+                    signVerifyPassword: md5(this.ruleForm.password)
                 };
                 verifySignPassword(accountCode, signVerifyPassword).then(res => {
                     if(res.data.resultCode == 1) {
