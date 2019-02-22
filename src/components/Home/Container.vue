@@ -190,7 +190,7 @@
       </div>
      
     </div>
-    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="520px">
+    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :close-on-click-modal="false" :show-close="false">
         <div class="sign-dialog-title">
             <p class="sign-user">尊贵的用户</p>
             <p>为保证您的账户安全，现合同签署时加强验证</p>
@@ -198,13 +198,12 @@
         <div class="sign-body-text">
             <p class=""><img src="/static/images/Home/1.png" alt=""><span>每次签署合同--提交签署时都需要验证签署密码</span></p>
             <p class=""><img src="/static/images/Home/2.png" alt=""><span>您可在【我的账户】中对签署密码进行管理</span></p>
-            <el-form :model="signForm" :rules="signRules" ref='signRef'  :close-on-click-modal="false">
-                <img src="/static/images/Home/3.png" alt="">
-                <el-form-item label="请设置签署密码" prop="signPassword"> 
+            <el-form :model="signForm" :rules="signRules" ref='signRef'>
+                <img src="/static/images/Home/3.png" alt="" style="margin-top:7px;">
+                <el-form-item label="请设置签署密码" prop="signPassword" class="sign-pwd"> 
                     <el-input v-model="signForm.signPassword" type="password" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="再次确认签署密码" prop="verifySignPassword">
-
+                <el-form-item label="再次确认签署密码" prop="verifySignPassword" class="sign-verify-pwd">
                     <el-input v-model="signForm.verifySignPassword" type="password" auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -212,6 +211,7 @@
        
         <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="submitSignPwd('signRef')">提交</el-button>
+            <span class="sign-no-tip" @click="noSignRemind">不再提示</span>
         </div>
     </el-dialog>
   </div>
@@ -221,6 +221,8 @@
   import cookie from "@/common/js/getTenant";
   import {valiteSignPwd} from '@/common/js/validate'
   import server from "@/api/url";
+  import md5 from "js-md5";
+  import {changeSignPwd,noSignRemind} from "@/api/account";
   import {templateList,remind,homePageContractLists} from "@/api/home"
   import {downloadContracts} from "@/api/common"
 
@@ -251,7 +253,7 @@
             signPassword:'',
             verifySignPassword:''
         },
-        signDialog:true,
+        signDialog:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].signVerifyRemind==0?false:true:false,
         signRules:{
             signPassword:[
                 { validator: validateSignPwd, trigger: 'blur'}
@@ -287,29 +289,88 @@
       };
     },
     methods: {
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
 
-      getRowClass({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex == 0) {
-          return "background:#f5f5f5;text-align:center;font-weight:bold;";
-        } else {
-          return "";
-        }
-      },
-      tableRowClassName({ row, rowIndex }) {
-        if (rowIndex === 1) {
-          return "warning-row";
-        } else if (rowIndex === 3) {
-          return "success-row";
-        }
-        return "";
-      },
-      otherTemplate() {
-        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push("/Multiparty");
-      },
+       // 签署验证提醒
+        submitSignPwd(ruleName){
+            let that = this;
+             that.$refs[ruleName].validate((valid) => {
+                if(valid){
+                    let param ={
+                        signVerifyPassword:md5(that.signForm.signPassword)
+                    }
+                    changeSignPwd(that.accountCode,param).then(res=>{
+                        if(res.data.resultCode == 1){
+                            that.$message({
+                                showClose: true,
+                                message:res.data.resultMessage,
+                                type: 'success'
+                            });
+                            that.signDialog = false
+                            that.resetFormData()
+                        }else{
+                            that.$message({
+                                showClose: true,
+                                message:res.data.resultMessage,
+                                type: 'warning'
+                            });
+                        }
+                    }).catch(res=>{
+
+                    })
+                }
+             })
+        },
+        resetFormData(){
+            this.signForm ={
+                signPassword:'',
+                verifySignPassword:''
+            }
+        },
+        //不再提示按钮
+        noSignRemind(){
+            let that = this;
+            noSignRemind(that.accountCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    that.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'success'
+                    });
+                    that.signDialog = false
+                }else{
+                    that.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'warning'
+                    });
+                }
+            }).catch(err=>{
+
+            })
+        },
+
+        getRowClass({ row, column, rowIndex, columnIndex }) {
+            if (rowIndex == 0) {
+            return "background:#f5f5f5;text-align:center;font-weight:bold;";
+            } else {
+            return "";
+            }
+        },
+        tableRowClassName({ row, rowIndex }) {
+            if (rowIndex === 1) {
+            return "warning-row";
+            } else if (rowIndex === 3) {
+            return "success-row";
+            }
+            return "";
+        },
+        otherTemplate() {
+            this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
+            this.$router.push("/Multiparty");
+        },
       jumper(item, index) {
         //查询合同剩余次数
 
@@ -842,16 +903,21 @@
 <style lang="scss" scoped>
   @import "../../styles/Container.css";
   #sign-pwd-dialog{
+       /deep/ .el-dialog{
+           border-radius: 10px;
+       }
         /deep/ .el-dialog__body{
             text-align: center;
             padding:0 50px 20px 50px;
         }
         /deep/ .el-dialog__footer{
             text-align: center;
+            padding-bottom: 40px;
             .el-button{
-                width:200px;
+                width:250px;
             }
         }
+        
         .sign-body-text{
             text-align: left;
             font-size: 16px;
@@ -860,12 +926,26 @@
                 text-align: left;
                 padding-left: 10px; 
             }
+            .sign-verify-pwd{
+                 /deep/ .el-form-item__label{
+                     padding-left: 33px;
+                 }
+            }
+            .sign-pwd{
+                .el-input,{
+                    margin-left:17px;
+                }
+                /deep/ .el-form-item__error{
+                    margin-left:17px;
+                }
+            }
             /deep/ .el-form-item__content{
                 display: flex;
                 .el-input__inner{
                     width:250px;
                 }
             }
+
             img{
                 float: left;
             }
@@ -877,6 +957,12 @@
                     padding-left: 10px
                 }
             }
+        }
+        .sign-no-tip{
+            font-size: 14px;
+            color: #4091fb;
+            cursor: pointer;
+            margin-left: 5px;
         }
         .sign-dialog-title{
             p{

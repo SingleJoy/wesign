@@ -165,9 +165,9 @@
                             </div>
                         </div>
                     </div> 
-                    <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px">
+                    <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px" :close-on-click-modal="false" :before-close="cancelPwd">
                         <p class="sign-dialog-title">设置签署密码</p>
-                        <el-form :model="signForm" :rules="signRules" ref='signRef' label-width="150px" :close-on-click-modal="false">
+                        <el-form :model="signForm" :rules="signRules" ref='signRef' label-width="150px">
                             <el-form-item label="请输入新签署密码" prop="signPassword">
                                 <el-input v-model="signForm.signPassword" type="password" auto-complete="off"></el-input>
                             </el-form-item>
@@ -179,7 +179,7 @@
                             <el-button type="primary" @click="submitSignPwd('signRef')">提交</el-button>
                         </div>
                     </el-dialog>
-                    <el-dialog id="sign-code-dialog" :visible.sync="codeVisible" width="520px">
+                    <el-dialog id="sign-code-dialog" :visible.sync="codeVisible" width="520px" :close-on-click-modal="false" :before-close="cancelCode">
                         <p class="sign-dialog-title">将会向<span style="font-size: 20px;color: #4091fb;">{{mobile}}</span>发送短信验证码</p>
                         <el-form :model="signCodeForm" :rules="smsRules" ref="smsRef">
                             <el-form-item prop="signSmsCode">
@@ -191,7 +191,7 @@
                         </el-form>
                         
                          <div slot="footer" class="dialog-footer">
-                            <el-button @click="codeVisible = false">取 消</el-button>
+                            <el-button @click="cancelCode">取 消</el-button>
                             <el-button type="primary" @click="smsCodeSubmit('smsRef')">确 定</el-button>
                         </div>
                     </el-dialog>
@@ -507,6 +507,7 @@
             }
         }
       return{
+        timer:null, //定时器
         smsType:'',
         signCodeText:'获取验证码',
         smsValited:false,
@@ -642,6 +643,8 @@
                 signPassword:'',
                 verifySignPassword:''
             }
+            clearInterval(this.timer);
+            console.log(this.signCodeText)
         },
         //设置签署密码
         handleSignVerify(value){     //判断是否设置密码   设置后开启直接开启 关闭进行手机号验证
@@ -677,7 +680,7 @@
             that.$refs[ruleName].validate((valid) => {
                 if(valid){
                     let param={
-                        signVerifyPassword:that.signForm.signPassword
+                        signVerifyPassword:md5(that.signForm.signPassword)
                     }
                     changeSignPwd(that.accountCode,param).then(res=>{
                         if(res.data.resultCode == 1){
@@ -756,9 +759,21 @@
                 }
             })
         },
+        //取消短信验证
+        cancelCode(){
+            this.codeVisible = false;
+            this.$refs['smsRef'].clearValidate();
+            this.resetFormData()
+        },
+        //取消密码
+        cancelPwd(){
+            this.signPwdVisible = false;
+            this.$refs['signRef'].clearValidate();
+            this.resetFormData()
+        },
         //获取验证码
         getSignSendCode(){
-            let codeType = '0',curCount = 60,timer = null;
+            let codeType = '0',curCount = 60;
             this.signCodeBtn = true;
             let params={'mobile': 13651305434,'interfaceCode':this.interfaceCode};
             server.smsCodeOld(params).then(res=> {
@@ -767,12 +782,12 @@
                 let resultCode = res.data.resultCode;
                 if (resultCode == '1') {
                     this.signCodeText =  curCount + '秒';
-                    timer = setInterval( ()=> {
+                    this.timer = setInterval( ()=> {
                     this.signCodeText = (curCount - 1) + '秒';
                         if (curCount== 0) {
                             this.signCodeText = '获取验证码';
                             this.signCodeBtn = false;
-                            clearInterval(timer);
+                            clearInterval(this.timer);
                         } else {
                             curCount --
                         }
