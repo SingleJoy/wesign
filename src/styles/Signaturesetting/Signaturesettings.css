@@ -1,0 +1,167 @@
+.Signaturesettings{
+    width: 1200px;
+    margin: 100px auto 0 auto;
+    background: #fff;
+    overflow:hidden
+}
+
+
+/* 文件信息样式开始 */
+.Signaturesettings>.file{
+  clear: both;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding-top: 5px;
+
+}
+.Signaturesettings>.file>.fileInfo{
+   padding-left: 15px;
+    height: 70px;
+    border-bottom: 1px solid #ccc;
+}
+.proper{
+    font-weight: normal;
+    }
+/* 文件信息样式 */
+.proper{
+    padding-left: 10px;
+}
+.proper .first b{
+    font-size: 14px;
+}
+.proper .first span{
+    font-size: 14px;
+}
+.proper .select {
+    font-size: 14px;
+    padding-left: 36px;
+    padding-right: 27px;
+    color: #4091fb;
+    cursor: pointer;
+}
+.proper .replace {
+    font-size: 14px;
+    color: #4091fb;
+}
+.first{
+    padding-top: 25px;
+    padding-left:48px;
+    float: left;
+}
+.second{
+    float: left;
+    padding-top: 16px;
+    padding-left: 88px;
+    font-size: 14px;
+    color: #666;
+}
+
+.second .info{
+    font-weight: normal;
+    color: #666;
+}
+/* 签署人设置开始 */
+.Signaturesettings .setting{
+    clear: both;
+}
+.setting>.settingInfo{
+    padding-top: 5px;
+    border-bottom: 1px solid #ddd;
+}
+.settingInfo>img{
+    padding-top: 20px;
+    float: left;
+}
+.settingInfo .personInfonfo{
+    float: right;
+    padding-right: 15px;
+    margin-top: -55px;
+}
+.personInfonfo .info{
+    font-size: 14px;
+    font-weight: normal;
+    color: #666;
+}
+.settingInfo .personInfonfo em,a{
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+}
+.settingInfo .personInfonfo a{
+    display: inline-block;
+    width: 116px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    background: #4091fb;
+    border-radius: 5px;
+}
+/* 渲染table的样式开始 */
+.el-table__header-wrapper .has-gutter tr th{
+    text-align: center;
+}
+.el-table_1_column_1{
+    text-align: center;
+}
+.el-table .warning-row {
+    background: #f5f5f5;
+  }
+
+  .el-table .success-row {
+    background: #f5f5f5;
+  }
+  .table th{
+      text-align: center;
+      background: #f5f5f5;
+      font-weight: bold;
+      color: #666;
+      font-size: 15px;
+  }
+  .table tr:nth-child(even){
+    background: #f5f5f5;
+  }
+  .table{
+      margin-top: 16px;
+      margin-left: 25px;
+      height: 300px;
+  }
+  /* 渲染table样式结束 */
+  .btns{
+      width: 436px;
+      margin: 30px auto;
+      height: 40px;
+  }
+  #off{
+      width: 208px;
+      height: 40px;
+      background: #cccc;
+      color: #fff;
+      display: block;
+      border-radius: 5px;
+      float: left;
+      text-align: center;
+      line-height: 40px;
+      margin-right: 20px;
+  }
+  #next{
+    width: 208px;
+    height: 40px;
+    background: #4091fb;
+    color: #fff;
+    display: block;
+    border-radius: 5px;
+    float: left;
+    text-align: center;
+    line-height: 40px;
+}
+.nav{
+    position: relative;
+}
+.nav .btns{
+    margin-left: 5px;
+    position: absolute;
+    /* line-height: 80px; */
+    right: 0;
+    top: -25px;
+}

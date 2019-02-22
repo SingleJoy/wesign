@@ -1,0 +1,153 @@
+.main{
+    width:1200px;
+    margin:0 auto
+}
+
+.line{
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+  margin-top:20px;
+  margin-bottom: 20px
+}
+.common-top{
+    width:100%;
+    background: #fff;
+    padding: 0 0 20px 0;
+    margin-top: 20px;
+
+}
+/* //列表样式 */
+.list-body{
+  background: #fff;
+  .table{
+    width: 1170px;
+    padding: 15px;
+  }
+}
+/* 分页 */
+.pagetion{
+  padding-top: 50px;
+  text-align: center;
+}
+/* 下拉选择 */
+.el-select{
+  //width:249px;
+}
+.common-top-tab{
+  width: 602px;
+  margin: 20px auto 0 auto;
+  padding-top: 20px;
+}
+
+.el-tabs__nav-scroll{
+  font-size: 16px;
+  color: #333;
+}
+#tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
+  font-size: 16px;
+}
+.el-table th>.cell{
+  text-align: center;
+  font-size: 14px;
+}
+#app{
+  overflow: hidden;
+}
+.el-table__row .cell{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.el-tabs__header{
+  background: #fff;
+  margin: 0 auto;
+}
+.el-tabs__nav-scroll{
+  line-height: 58px;
+  padding:0 25px;
+}
+.el-tabs__item{
+  height:58px;
+  line-height: 58px;
+}
+.el-tabs__item.is-active {
+  color: #4091fb;
+  border-bottom: 2px solid #4091fb;
+}
+.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: hidden;
+}
+#contractTextInfo{
+  display: inline-block;
+  width: 237px;
+  height: 38px;
+  padding-left: 5px;
+  padding-right: 5px;
+  outline: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  margin-right:20px;
+}
+#textInfo{
+    display: inline-block;
+    width: 190px;
+    height: 38px;
+    padding-left: 5px;
+    padding-right: 5px;
+    outline: none;
+    border: 1px solid #dcdfe6;
+    border-radius: 3px;
+    margin-right:20px;
+}
+
+.btn-default{
+    width: 300px;
+    height: 46px;
+    background: #fff;
+    border: 1px solid #4091fb;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    line-height: 48px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .btn-active{
+    width: 300px;
+    height:48px;
+    background:#4091fb;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    line-height: 48px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  .currentStep .el-icon-location:before{
+    color:#4091fb
+  }
+
+  /* 头部title样式 */
+  .title-bg{
+    background: url('/static/images/Common/title.png') no-repeat;
+    height: 46px;
+    margin-bottom:15px;
+    margin-top:20px;
+
+}
+.title-name{
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 28px;
+    margin-top: 10px;
+    display: inline-block;
+    letter-spacing: 2px;
+    width: 204px;
+}

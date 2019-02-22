@@ -1,0 +1,159 @@
+.batchInfos{
+  width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  overflow:hidden
+}
+
+/* 分页样式 */
+.signing{
+  clear: both;
+  height: 900px;
+  width: 100%;
+  border-top: 1px solid #ddd;
+}
+
+.sign_left{
+  /* margin-left: 110px;
+  width: 60px;
+  float: left; */
+  width: 170px;
+  height:822px;
+  float: left;
+}
+#top{
+  width: 47px;
+  height: 20px;text-align: center;
+  /* background: #ccc; */
+  background: #0e90d2;
+  margin-bottom: 36px;
+}
+#bottom{
+  width: 47px;
+  height: 20px;text-align: center;
+  /* background: #ccc; */
+  background: #0e90d2;
+  margin-top: 36px;
+}
+
+.pagination {
+  position: relative;
+  top: 40px;
+  float:right;
+}
+.pagination li a{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: block;
+  background:#dddddd;
+  text-align: center;
+  line-height: 35px;
+  color: #666;
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+.pagination li:after
+{
+  content:"";
+  font-weight:bold;
+  border: 1px dashed #999;
+  margin-left: 15px;
+}
+.pagination li:nth-child(11):after{
+  content:"";
+  font-weight:normal;
+  border: none;
+  display: block;
+  margin-top: -10px;
+}
+.pagination li a:hover{
+  background:#0E90D2;
+  color: #fff;
+}
+.pagination li.active a{
+  background:#0E90D2;
+  color:#fff;
+}
+.pagination li{
+  margin-left: 6px;
+}
+.pagination p>a{
+  color: #fff;
+}
+.pagination li.active a{
+  background:#0E90D2;
+  color:#fff;
+}
+/* 渲染合同样式 */
+.sign_center{
+  /* width: 656px;
+  height: 822px;
+  border: 1px solid #ccc;
+  float: left;
+  overflow: hidden;
+  margin-top: 40px;
+  margin-left: 25px; */
+
+  width: 595px;
+  height: 824px;
+  border: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  overflow: hidden;
+  margin-top: 40px;
+  margin-left: 40px;
+}
+/*得到合同图片，并渲染到页面*/
+
+/* 提交样式 */
+.sign_right{
+  margin-top: 30px;
+  float: left;
+  margin-left: 25px;
+  overflow: auto;
+  height: 841px;
+}
+/*定义滚动条轨道 内阴影+圆角*/
+.sign_right ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background: #fff ;
+}
+/*定义滑块 内阴影+圆角*/
+.sign_right ::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:rgb(149, 196, 240);
+}
+.sign_right::-webkit-scrollbar-thumb:hover {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:rgb(149, 196, 240);
+}
+.sign_right .right_title{
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+}
+.sign_right .input_title{
+  height: 46px;
+  line-height: 46px;
+  font-size: 14px;
+}
+.sign_right .input_box{
+  width: 240px;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 4px;
+
+}
+
+/* 12 */
+.Pcontract{
+  width: 1200px;
+  margin: 5px auto;
+  background: #fff;
+  overflow:hidden
+}

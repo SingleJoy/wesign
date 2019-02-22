@@ -1,0 +1,119 @@
+.Contents{
+  width: 1200px;
+  margin: 100px auto 0 auto;
+  background: #fff;
+  overflow:hidden
+}
+
+.title{
+  clear: both;
+ padding-top: 50px;
+}
+
+
+
+/* 文件信息样式开始 */
+.file{
+  clear: both;
+  margin-top:20px;
+}
+.file>.fileInfo{
+  padding-left: 10px;
+  height: 70px;
+  border-bottom: 1px solid #ccc;
+}
+.fileInfo{
+ padding-left: 15px;
+  padding-top: 10px;
+  height: 70px;
+  border-bottom: 1px solid #ccc;
+}
+.info-left{
+ display: inline-block;
+  margin-left: 50px;
+  margin-top: 30px;
+
+
+}
+.info-right{
+  display: inline-block;
+  margin-left: 170px;
+  margin-top: 30px;
+
+}
+.info-left p span{
+  color: #666;
+}
+.info-left p a{
+  color: #4091fb;
+  padding-left: 40px;
+}
+/* .sign-people{
+  margin-left: 10px;
+  height: 70px;
+  border-bottom: 1px solid #ccc;
+} */
+.list-content{
+  clear: both;
+  margin-top: 40px;
+  text-align: center;
+}
+.list-info{
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.list-left{
+  width: 531px;
+  height: 780px;
+  background:url("../../../static/images/Contractsigning/initiator.png") no-repeat;
+  float: left;
+
+}
+.list-left .list-info span{
+  display: inline-block;
+  text-align: right;
+  width:80px;
+  color: #006c9d;
+}
+.list-right .list-info>span{
+  display: inline-block;
+  text-align: right;
+  width:115px;
+  color: #f18d0b;
+}
+.list-right{
+  width: 531px;
+  height: 740px;
+  display: inline-block;
+  background: url("../../../static/images/Contractsigning/opponent.png") no-repeat;
+   float: left;
+}
+.authentication{
+  display: inline-block;
+  width: 67px;
+  height: 28px;
+  background: url("../../../static/images/Contractsigning/authentication.png") no-repeat;
+  margin-top: -3px;
+  vertical-align: middle;
+
+}
+.analogue{
+  display: inline-block;
+  width: 67px;
+  height: 28px;
+  margin-top: -3px;
+  vertical-align: middle;
+}
+.list-body{
+ background:#f5f5f5;border-radius: 5px; text-align: center;margin-left: 71px;
+}
+.agent span{
+
+  color: #666!important;
+}
+.showDialogs{
+    height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
