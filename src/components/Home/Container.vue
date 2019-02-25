@@ -190,7 +190,7 @@
       </div>
      
     </div>
-    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :close-on-click-modal="false" :show-close="false">
+    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :close-on-click-modal="false" :show-close="false" >
         <div class="sign-dialog-title">
             <p class="sign-user">尊贵的用户</p>
             <p>为保证您的账户安全，现合同签署时加强验证</p>

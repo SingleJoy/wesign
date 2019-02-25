@@ -102,12 +102,7 @@
 
       //查询子组件（数据表格）列表数据
       getChildData(){
-
-        this.$nextTick(()=>{
           this.$refs[this.$store.state.PanelActiveName].getData()
-        })
-
-
       },
 
       //检测 folder组件是否出发了点击文件夹的 FolderSearchData事件
@@ -130,8 +125,10 @@
         this.$refs[this.$store.state.PanelActiveName].defaultSelectValue();
       }
     },
-    created(){
-      this.getChildData(this.$store.state.PanelActiveName)
+    mounted(){
+
+        this.getChildData(this.$store.state.PanelActiveName)
+    
 
     },
 
