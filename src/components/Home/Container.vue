@@ -4,7 +4,6 @@
       <div class='main_left'>
         <div class='upload' style='border:none;'>
           <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
-
             <div class="content-upload">
               <h3>上传发起合同</h3>
               <div class="content-body">
