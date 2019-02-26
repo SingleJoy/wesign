@@ -76,7 +76,7 @@
     data () {
       return {
         baseURL:this.baseURL.BASE_URL,
-        //初始化左侧页码，并使第一个高亮
+        // 初始化左侧页码，并使第一个高亮
         current:1,
         // 左侧页码显示的个数
         showItem:0,
