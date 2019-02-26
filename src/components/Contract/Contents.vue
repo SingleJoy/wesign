@@ -96,12 +96,13 @@ export default {
             if (value === '') {
                 callback(new Error('请输入签署密码'));
             } else{
-                let verificationPsd = /^[a-zA-Z0-9]{4,16}$/;
-                if(!verificationPsd.test(value)) {
-                    callback(new Error('格式不正确，签署密码为4~16位，可录入数字、字母、数字+字母'));
-                } else {
-                    callback();
-                }
+                callback();
+                // let verificationPsd = /^[a-zA-Z0-9]{4,16}$/;
+                // if(!verificationPsd.test(value)) {
+                //     callback(new Error('格式不正确，签署密码为4~16位，可录入数字、字母、数字+字母'));
+                // } else {
+                //     callback();
+                // }
             }
         };
     return {
