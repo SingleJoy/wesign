@@ -331,6 +331,7 @@
                 message: "取消签署"
             });
             this.dialogVisibleSign = false;
+            this.$refs.ruleForm.resetFields();
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
