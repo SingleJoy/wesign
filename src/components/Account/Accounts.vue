@@ -154,7 +154,7 @@
                 <p class="title">配置管理</p>
                 <div class="border-bottom"></div>
                 <div class="controll-content">
-                    <div class="sign-bg" v-if="showSignSet">
+                    <div class="sign-bg">
                         <div class="sign-controll-manage">
                             <div class="switch-btn">
                                 <span class="sign-setting-title">签署时验证签署密码</span>
@@ -167,7 +167,6 @@
                             </div>
                         </div>
                     </div> 
-                    <div v-else>购买后方可进行签署设置</div>
                     <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px" :close-on-click-modal="false" :before-close="cancelPwd">
                         <p class="sign-dialog-title">设置签署密码</p>
                         <el-form :model="signForm" :rules="signRules" ref='signRef' label-width="150px">
@@ -538,7 +537,7 @@
         codeVisible:false, //短信验证
         signPwdVisible:false,
         showSignSet:cookie.getJSON("tenant")[1].isBusiness == 1?true:false,
-        hasSettingPwd:cookie.getJSON("tenant")[1].signVerifyPassword?true:false,   //是否设置过密码
+        hasSettingPwd:!cookie.getJSON("tenant")[1].signVerifyPassword?false:true,   //是否设置过密码
         signVerify:cookie.getJSON("tenant")[1].signVerify==0?false:true,           //密码开关
         isShow: true,
         ContractAllowance: '',
@@ -695,7 +694,7 @@
                             });
                             that.signPwdVisible = false;
                             that.hasSettingPwd = true;
-                            that.updateSession()
+                            // that.updateSession()
                             that.resetFormData()
                         }else{
                             that.$message({
@@ -1282,6 +1281,7 @@
         },
         created() {
            // 查询证书
+           console.log(this.hasSettingPwd)
             getCertificate(this.interfaceCode).then(res=> {
                 if(res.data.resultCode=='1'){
                 this.serialNumber=res.data.data.userCode;

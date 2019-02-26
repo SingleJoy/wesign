@@ -123,7 +123,8 @@
               width="200"
             >
               <template slot-scope="scope">
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
+                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button> 
+                <!-- 签署按钮权限：合同状态为1（待签署）且 -->
                 <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true && accountCode == scope.row.operator'>
                   <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
                 </el-tooltip>
@@ -190,7 +191,7 @@
       </div>
      
     </div>
-    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :close-on-click-modal="false">
+    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :before-close="closeDialog">
         <div class="sign-dialog-title">
             <p class="sign-user">尊贵的用户</p>
             <p>为保证您的账户安全，现合同签署时加强验证</p>
@@ -249,11 +250,12 @@
             }
         }
       return {
+        // hasClose:sessionStorage.getItem('hasClose')?sessionStorage.getItem('hasClose'):false,
         signForm:{
             signPassword:'',
             verifySignPassword:''
         },
-        signDialog:cookie.getJSON("tenant")?(cookie.getJSON("tenant")[1].signVerifyRemind==1 && cookie.getJSON("tenant")[1].isBusiness == 1)?true:false:false,
+        signDialog:false,
         signRules:{
             signPassword:[
                 { validator: validateSignPwd, trigger: 'blur'}
@@ -293,7 +295,10 @@
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-
+        closeDialog(){
+            sessionStorage.setItem('hasClose',true)
+            this.signDialog = false
+        },
        // 签署验证提醒
         submitSignPwd(ruleName){
             let that = this;
@@ -311,7 +316,7 @@
                             });
                             that.signDialog = false
                             that.resetFormData()
-                            that,updateSession()
+                            that.updateSession()
                         }else{
                             that.$message({
                                 showClose: true,
@@ -820,10 +825,16 @@
       var isCreater = "";
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
+      let hadClose = sessionStorage.getItem('hasClose')?false:true;
+      let isShowSignDialog = (cookie.getJSON('tenant')[1].signVerifyRemind == 1 && cookie.getJSON('tenant')[1].isBusiness == 1 )?true:false;
 
       if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
         this.welcomeMessage = false;
         sessionStorage.setItem('welcomePage',false)
+      }
+      console.log(hadClose,isShowSignDialog)
+      if(hadClose&&isShowSignDialog){
+          this.signDialog = true
       }
       var requestVo = {
         pageNo: "1",
