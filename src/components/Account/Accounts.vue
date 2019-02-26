@@ -126,9 +126,9 @@
                 item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
                 <!--chooseDefaultSeal  -->
                 <div class="sign-bg" style="display:flex">
-                    <div v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" style="background: #fff;padding: 2px; box-sizing: border-box;">
                         <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
-                        <!--合同章-->
+                            <div v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" style="background: #fff;padding: 2px; box-sizing: border-box;">
+                                <!--合同章-->
                             <img :src="[item.signaturePath]">
                         </div>
                     </div>
@@ -182,7 +182,7 @@
                         </div>
                     </el-dialog>
                     <el-dialog id="sign-code-dialog" :visible.sync="codeVisible" width="520px" :close-on-click-modal="false" :before-close="cancelCode">
-                        <p class="sign-dialog-title">将会向<span style="font-size: 20px;color: #4091fb;">{{mobile}}</span>发送短信验证码</p>
+                        <p class="sign-dialog-title">将会向<span style="font-size: 20px;color: #4091fb;">{{formatMobile}}</span>发送短信验证码</p>
                         <el-form :model="signCodeForm" :rules="smsRules" ref="smsRef">
                             <el-form-item prop="signSmsCode">
                                 <el-input v-model="signCodeForm.signSmsCode" type="text" auto-complete="off"></el-input>
@@ -204,8 +204,8 @@
             <p class="title" style="position: relative;">账号管理 </p>
             <div class="border-bottom"></div>
           <div class="child-account" style="overflow: hidden" >
-            <div class="account-list" >
-              <!--<div class="list-content" v-for="item in accountList">-->
+            <div class="account-list" style="display:flex">
+              <!-- <div class="list-content" v-for="item in accountList"> -->
                 <div v-if="showSecondList">
                     <div class="list-content" v-for="(item,index) in accountList" :key="index">
                         <ul>
@@ -262,12 +262,10 @@
                         <!--永久冻结-->
                         <div style="color: red;font-size: 14px;position: absolute;left: -190px;top: 80px;">该账号验证次数过多，无法继续使用</div>
                         </div>
-
-                        <div class="operate" v-if="item.accountStatus=='6'">
-                        <!--已冻结-->
-                            <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
-
-                        </div>
+                    <div class="operate" v-if="item.accountStatus=='6'">
+                    <!--已冻结-->
+                        <a class="thaw" href="javascript:void(0)" @click="frozen(item.accountCode,item.accountStatus)">解冻</a>
+                    </div>
                     </div>
                 </div>
                 <div class="left-plus" @click="sealManagement" v-if="addOperate" >
@@ -417,7 +415,7 @@
 <script>
   import md5 from 'js-md5'
   import cookie from '@/common/js/getTenant'
-  import {validatePassWord,validateEmail,validateSmsCode,validateSeal,TrimAll,valiteSignPwd} from '@/common/js/validate'
+  import {validatePassWord,validateEmail,validateSmsCode,validateSeal,TrimAll,valiteSignPwd,slicePhone} from '@/common/js/validate'
   import  AddChildAccount from './AddChildAccount/AddChildAccount'
   import {modifyPassword,secondAccounts,updateAccountStatus,createSignature,getSignatures,UpdateAccountSignature,getCertificate,getAccountInformation,bindEmail,changeSignSet,changeSignPwd} from '@/api/account'
   import server from '@/api/url'
@@ -544,6 +542,8 @@
         baseURL:this.baseURL.BASE_URL,
         Jurisdiction:true,
         mobile:sessionStorage.getItem("mobile"),
+        formatMobile:'',
+        hasGetCode:false,
         Email:'',
         authName:'',
         enterpriseName:'',
@@ -641,6 +641,7 @@
             this.smsNo = '';
             this.signCodeForm.signSmsCode = '';
             this.signCodeBtn = false;
+            this.hasGetCode = false;
             this.signCodeText = '获取验证码';
             this.signForm={
                 signPassword:'',
@@ -706,7 +707,6 @@
                     }).catch(res=>{
 
                     })
-
                 }
             })
         },
@@ -753,15 +753,23 @@
         },
         //短信验证提交
         smsCodeSubmit(ruleName){
-            this.$refs[ruleName].validate((valid)=>{
-                if(valid){
-                    if(this.smsType == 'switch'){
-                        this.valiteSmsCode('switch')
-                    }else if(this.smsType == 'reset'){
-                        this.valiteSmsCode('reset')
+            if(this.hasGetCode){
+                this.$refs[ruleName].validate((valid)=>{
+                    if(valid){
+                        if(this.smsType == 'switch'){
+                            this.valiteSmsCode('switch')
+                        }else if(this.smsType == 'reset'){
+                            this.valiteSmsCode('reset')
+                        }
                     }
-                }
-            })
+                })
+            }else{
+                this.$message({
+                    showClose: true,
+                    message:'请先获取验证码',
+                    type: 'warning'
+                });
+            }
         },
         //取消短信验证
         cancelCode(){
@@ -785,6 +793,7 @@
                 this.appId=res.data.appId;   //appId
                 let resultCode = res.data.resultCode;
                 if (resultCode == '1') {
+                    this.hasGetCode = true;
                     this.signCodeText =  curCount + '秒';
                     this.timer = setInterval( ()=> {
                     this.signCodeText = (curCount - 1) + '秒';
@@ -1281,6 +1290,7 @@
         },
         created() {
            // 查询证书
+           this.formatMobile = slicePhone(this.mobile),
            console.log(this.hasSettingPwd)
             getCertificate(this.interfaceCode).then(res=> {
                 if(res.data.resultCode=='1'){

@@ -143,6 +143,10 @@ export  function onlyChinese(str){
   return reg.test(str)
 }
 
+export function slicePhone(str){
+    return str.slice(0,3) + '****' +str.slice(-4)
+}
+
 // /[@#\$%\^&\*]+/g 特殊字符
 /**
  * 加 g 去除全部空格 不加去除前后空格
