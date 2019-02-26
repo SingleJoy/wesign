@@ -125,7 +125,7 @@ export default {
         },
         rules: {
             password: [
-                { validator: validatePassword, trigger: 'change' }
+                { validator: validatePassword, trigger: 'blur' }
             ],
         },
         dialogVisibleSign: false, //签署密码弹框
