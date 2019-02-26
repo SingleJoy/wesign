@@ -68,7 +68,7 @@
                 <div class="sign_element">
                     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
                         <el-form-item label="请输入签署密码：" prop="password">
-                            <el-input type="password" placeholder="请输入签署密码" v-model="ruleForm.password" autocomplete="off"></el-input>
+                            <el-input type="password" placeholder="请输入签署密码" maxlength="16" v-model="ruleForm.password" autocomplete="off"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
