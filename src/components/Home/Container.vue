@@ -310,7 +310,7 @@
                         if(res.data.resultCode == 1){
                             that.$message({
                                 showClose: true,
-                                message:res.data.resultMessage,
+                                message: "签署密码设置成功",
                                 type: 'success'
                             });
                             that.signDialog = false
