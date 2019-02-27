@@ -56,7 +56,7 @@
           >
           </el-date-picker>
 
-          <el-checkbox v-model="checked3" @change='checkedBox'>永久有效</el-checkbox>
+          <el-checkbox v-model="checked3" @change='checkedBox' style="margin-right: 0;">永久有效</el-checkbox>
           <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified" style="margin-left: 10px;">确认</el-button>
           <strong style="font-weight: normal;margin-left: 15px;">业务场景：</strong><span>{{businessScenario}}</span>
 
