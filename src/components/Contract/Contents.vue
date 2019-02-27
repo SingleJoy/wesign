@@ -63,7 +63,7 @@
   </div>
     <div class="sign_dialog">
         <el-dialog
-            title="验证通过后，合同即签署并发出"
+            title="校验签署密码"
             :visible.sync="dialogVisibleSign"
             :before-close="closeSign"
             width="30%">
