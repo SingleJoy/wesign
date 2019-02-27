@@ -643,12 +643,12 @@
             this.signCodeForm.signSmsCode = '';
             this.signCodeBtn = false;
             this.hasGetCode = false;
-            // this.signCodeText = '获取验证码';
+          this.signCodeText = '获取验证码';
             this.signForm={
                 signPassword:'',
                 verifySignPassword:''
             }
-            // clearInterval(this.timer);
+             clearInterval(this.timer);
             // console.log(this.signCodeText)
         },
         //设置签署密码
@@ -790,7 +790,7 @@
         getSignSendCode(){
             let codeType = '0',curCount = 60;
             this.signCodeBtn = true;
-            let params={'mobile': 13651305434,'interfaceCode':this.interfaceCode};
+            let params={'mobile': sessionStorage.getItem("mobile"),'interfaceCode':this.interfaceCode};
             server.smsCodeOld(params).then(res=> {
                 this.smsNo=res.data.smsNo;   //短信编号
                 this.appId=res.data.appId;   //appId

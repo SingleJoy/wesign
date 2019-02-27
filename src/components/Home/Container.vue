@@ -239,7 +239,7 @@
             }
         }
         let verficateSignPwd = (rule,value,callback) =>{
-            console.log(value,this.signForm.signPassword)
+            // console.log(value,this.signForm.signPassword)
             if(!value){
                 callback(new Error('请再次确认签署密码'));
             }else if(this.signForm.signPassword != value){
@@ -831,7 +831,7 @@
         this.welcomeMessage = false;
         sessionStorage.setItem('welcomePage',false)
       }
-      console.log(hadClose,isShowSignDialog)
+      // console.log(hadClose,isShowSignDialog)
       if(hadClose&&isShowSignDialog){
           this.signDialog = true
       }
