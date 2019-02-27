@@ -36,7 +36,7 @@
 
           <p class='second'><span>签署截止日期：</span>
             <el-date-picker
-              style='width:138px;margin-right:20px'
+              style='width:138px;'
               height='height:40px'
               v-model="value8"
               type="date"
@@ -52,10 +52,12 @@
             <el-checkbox
               v-model="checked"
               @change='checkedBox'
+              style="margin-right: 0;margin-left: 20px;"
             ></el-checkbox>
             <b class='info'>永久有效</b>
             <el-checkbox
               v-model="checked1"
+              style="margin-right: 0;margin-left: 20px;"
             ></el-checkbox>
             <b class='info'>平台方是否签署</b>
           </p>

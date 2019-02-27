@@ -126,8 +126,8 @@
                 item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
                 <!--chooseDefaultSeal  -->
                 <div class="sign-bg" style="display:flex">
-                        <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
-                            <div v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" style="padding: 2px; box-sizing: border-box;">
+                        <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))">
+                            <div  style="padding: 2px; box-sizing: border-box;">
                                 <!--合同章-->
                             <img :src="[item.signaturePath]">
                         </div>
@@ -472,7 +472,7 @@
             if (value == '') {
             callback(new Error('邮箱不可为空'));
             }else if (value !== '' && !validateEmail(value)){
-            console.log(value)
+            // console.log(value)
             callback(new Error('邮箱输入格式不正确'));
             } else {
             callback();
@@ -497,7 +497,7 @@
             }
         }
         let verficateSignPwd = (rule,value,callback) =>{
-            console.log(value,this.signForm.signPassword)
+            // console.log(value,this.signForm.signPassword)
             if(!value){
                 callback(new Error('请再次确认签署密码'));
             }else if(this.signForm.signPassword != value){
@@ -653,7 +653,7 @@
         //设置签署密码
         handleSignVerify(value){     //判断是否设置密码   设置后开启直接开启 关闭进行手机号验证
             let that = this;
-            console.log(that.hasSettingPwd)
+            // console.log(that.hasSettingPwd)
             if(!that.hasSettingPwd){
                 that.$message.error('请先设置签署密码')
                 that.signVerify = false
@@ -1291,7 +1291,7 @@
         created() {
            // 查询证书
            this.formatMobile = slicePhone(this.mobile),
-           console.log(this.hasSettingPwd)
+           // console.log(this.hasSettingPwd)
             getCertificate(this.interfaceCode).then(res=> {
                 if(res.data.resultCode=='1'){
                 this.serialNumber=res.data.data.userCode;
