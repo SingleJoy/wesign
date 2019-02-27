@@ -32,7 +32,6 @@
       >
       </el-date-picker>
       <el-checkbox
-        style='padding-right:20px'
         v-model="checked"
       ></el-checkbox>
       <b class='info' style='font-size: 12px;display: inline-block;margin-left: -18px;'>永久有效</b>

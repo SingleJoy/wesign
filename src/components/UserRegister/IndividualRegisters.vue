@@ -96,7 +96,7 @@
                 <el-input type="password" v-model="ruleForm.newPassword" :disabled="passwordDisabled"  placeholder="请再次输入密码"></el-input><i class="icon-suo"></i>
               </el-form-item>
               <el-form-item style="margin-bottom: 5px;" class="agree-style">
-                <el-checkbox v-model="checked" @change="iAgreen" class="iagree">我同意</el-checkbox>
+                <el-checkbox v-model="checked" @change="iAgreen" class="iagree" style="margin-right: 0;">我同意</el-checkbox>
                 <a href="javascript:void(0);" @click="protocol" class="agreement">《微签注册使用协议》</a>
                 <a href="javascript:void(0);" @click="CDNprotocol" class="agreement">《SLA》</a>
                 <a href="javascript:void(0);" @click="Couldprotocol" class="agreement">《云平台协议》</a>
