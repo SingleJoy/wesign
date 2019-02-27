@@ -126,8 +126,8 @@
                 item.signatureCode 签章编号 一级账号做默认签章修改时传入参数-->
                 <!--chooseDefaultSeal  -->
                 <div class="sign-bg" style="display:flex">
-                        <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))">
-                            <div  style="padding: 2px; box-sizing: border-box;">
+                        <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}" v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" >
+                            <div style="padding: 2px; box-sizing: border-box;">
                                 <!--合同章-->
                             <img :src="[item.signaturePath]">
                         </div>
