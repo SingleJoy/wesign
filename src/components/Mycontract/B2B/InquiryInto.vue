@@ -32,7 +32,6 @@
       >
       </el-date-picker>
       <el-checkbox
-        style="padding-right:20px;"
         v-model="checked"
       >
       </el-checkbox>

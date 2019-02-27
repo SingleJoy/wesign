@@ -127,7 +127,7 @@
                 <!--chooseDefaultSeal  -->
                 <div class="sign-bg" style="display:flex">
                         <div class="sign-picture"   v-for="(item,index) in SealList" :key="index" @click="changeDefaultSeal(item.signatureCode,item.defultCode)" :class="{'chooseDefaultSeal':(item.defultCode=='0')&&(accountLevel=='1')}">
-                            <div v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" style="background: #fff;padding: 2px; box-sizing: border-box;">
+                            <div v-if="(accountLevel=='1')||((accountLevel=='2')&&(item.defultCode=='0'))" style="padding: 2px; box-sizing: border-box;">
                                 <!--合同章-->
                             <img :src="[item.signaturePath]">
                         </div>
@@ -204,7 +204,7 @@
             <p class="title" style="position: relative;">账号管理 </p>
             <div class="border-bottom"></div>
           <div class="child-account" style="overflow: hidden" >
-            <div class="account-list" style="display:flex">
+            <div class="account-list">
               <!-- <div class="list-content" v-for="item in accountList"> -->
                 <div v-if="showSecondList">
                     <div class="list-content" v-for="(item,index) in accountList" :key="index">
@@ -643,13 +643,13 @@
             this.signCodeForm.signSmsCode = '';
             this.signCodeBtn = false;
             this.hasGetCode = false;
-            this.signCodeText = '获取验证码';
+            // this.signCodeText = '获取验证码';
             this.signForm={
                 signPassword:'',
                 verifySignPassword:''
             }
-            clearInterval(this.timer);
-            console.log(this.signCodeText)
+            // clearInterval(this.timer);
+            // console.log(this.signCodeText)
         },
         //设置签署密码
         handleSignVerify(value){     //判断是否设置密码   设置后开启直接开启 关闭进行手机号验证
@@ -1347,7 +1347,7 @@
     background-size: 94%;
   }
   .create-seal{
-    background: url("/static/images/Account/defalut-seal.png")no-repeat;
+    background: url("/static/images/Account/defalut-seal-set.png") no-repeat;
   }
   .seal-management .left-plus,.child-account .account-list .list-content{
     background: url("/static/images/Account/addSeal.png") no-repeat;
