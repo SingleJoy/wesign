@@ -38,7 +38,7 @@
 
           <p class='second'><span>签署截止日期：</span>
             <el-date-picker
-              style='width:138px;margin-right:20px'
+              style='width:138px;margin-right:20px;margin-left: 15px;'
               height='height:40px'
               v-model="value8"
               type="date"
@@ -54,6 +54,7 @@
             <el-checkbox
               v-model="checked"
               @change='checkedBox'
+              style="margin-right: 10px;"
             ></el-checkbox>
             <b class='info'>永久有效</b>
           </p>
@@ -67,9 +68,9 @@
           <div class="title" >签署人设置</div>
           <p class='batchInfo' style="margin-top:-40px;">
             <!-- <el-checkbox></el-checkbox>
-			<b class='info'>短信通知</b>
-			<el-checkbox></el-checkbox>
-			<b class='info'>邮箱通知</b> -->
+			       <b class='info'>短信通知</b>
+		        	<el-checkbox></el-checkbox>
+			       <b class='info'>邮箱通知</b> -->
             <el-button type="primary" size="medium" @click="addSigner" icon="el-icon-circle-plus-outline">添加签署人</el-button>
             <el-dialog title="添加人员" :visible.sync="modifyPassword"  width="26%" top="30vh" custom-class='tempBatchOut' center @close="closeDialog('ruleForm')">
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
@@ -148,11 +149,7 @@
         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
-
-
   </div>
-
-
 </template>
 <script>
   import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
@@ -327,10 +324,10 @@
         }).catch(error=>{
 
         })
-        this.dialVisible= true
+        this.dialVisible= true;
       },
       dateInputTemp () {
-        this.checked = false
+        this.checked = false;
       },
       checkedBox () {
         if(this.checked==true){
@@ -338,11 +335,11 @@
         }
       },
       modifyClick (row) {
-        row.edit=!row.edit
-        this.operate = false
-        this.editSigner = false
-        this.delSigner = false
-        this.editSign = true
+        row.edit=!row.edit;
+        this.operate = false;
+        this.editSigner = false;
+        this.delSigner = false;
+        this.editSign = true;
       },
       confirmEdit(row){     //完成修改
         let mobileArr = []
@@ -443,7 +440,7 @@
         })
       },
       nextStepFit () { //下一步
-        let batchText = document.getElementById('batchText').value
+        let batchText = document.getElementById('batchText').value;
         if(this.templateName == ''){
           this.$alert('您还没有填写合同名称!','提示', {
               confirmButtonText: '确定'
@@ -526,21 +523,21 @@
           contractTemp(this.interfaceCode,zqUserContractTempVo).then(res=> {
             let contractNo = res.data.data;
              this.contractNo=contractNo;
-            sessionStorage.setItem('contractNo',this.contractNo)
+            sessionStorage.setItem('contractNo',this.contractNo);
             if ( res.data.resultCode == 0) {
                 this.$message({
                   showClose: true,
                   message: res.data.resultMessage,
                   type: 'success'
-                })
+                });
                 //用户可能会修改模板名称  需要重新存templateName
-                sessionStorage.setItem("templateName",TrimAll(this.templateName))
+                sessionStorage.setItem("templateName",TrimAll(this.templateName));
                 this.$router.push('/batchInfo')
               } else {
                 this.$alert('您还没有选择签署时间!','提示', {
                   confirmButtonText: '确定'
                 })
-                this.load = false
+                this.load = false;
               }
 
           }).catch(error=>{
@@ -550,9 +547,8 @@
         }
       },
       addSigner(){
-        this.getContractNum();
-        if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
 
+        if((this.tableDate3)&&(this.tableDate3.length>this.b2cNum-1)){
 
           if (this.accountLevel == 1) {
             this.$confirm(
@@ -600,6 +596,7 @@
       },
     },
     created() {
+      this.$loading.show();
       this.getContractNum();
       if (this.type == 'back'){
         this.operate = true;
@@ -626,7 +623,7 @@
 
         })
       }
-
+      this.$loading.hide();
     }
   }
 </script>

@@ -33,7 +33,7 @@
         :picker-options="pickerBeginDateAfter"
       >
       </el-date-picker>
-      <el-checkbox style="padding-right:20px" v-model="checked"></el-checkbox>
+      <el-checkbox  v-model="checked"></el-checkbox>
       <b class="info" style="font-size: 12px;display: inline-block;margin-left: -18px;">永久有效</b>
       <el-button type="primary"  @click="contractInquiry" style="margin-left:10px;letter-spacing:5px;">搜索</el-button>
     </div>
