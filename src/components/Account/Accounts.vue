@@ -633,7 +633,8 @@
         appId:'',  //验证码返回appId
         smsNoVer:'',
         smsCodeNum:0,
-        onceCode:false //验证码单机操作
+        onceCode:false, //验证码单机操作
+        passwordIdentification: "签署密码设置成功" //0-设置密码， 1-重置密码
       }
     },
     methods: {
@@ -672,10 +673,12 @@
         //设置密码
         setSignPwd(){
             this.signPwdVisible = true;
+            this.passwordIdentification = "签署密码设置成功";
         },
         //重置密码
         resetSignPwd(){
             this.codeVisible = true;
+            this.passwordIdentification = "签署密码重置成功";
             this.smsType = 'reset';
         },
         //设置密码提交
@@ -690,7 +693,7 @@
                         if(res.data.resultCode == 1){
                             that.$message({
                                 showClose: true,
-                                message:res.data.resultMessage,
+                                message: this.passwordIdentification,
                                 type: 'success'
                             });
                             that.signPwdVisible = false;
