@@ -127,7 +127,7 @@
         accountMoney:'',   //账户余额
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         accountCode:sessionStorage.getItem("accountCode"),
-        amountList:[2000,3000,5000,10000],
+        amountList:[0.01,3000,5000,10000],
         amountPayList:[
           {name:'支付宝',index:'0'},
           {name:'微信',index:'1'}
@@ -136,7 +136,7 @@
         isActive:sessionStorage.getItem('payItem')?sessionStorage.getItem('payItem'):0,  //默认第一个套餐
         isPayActive:0,  //默认支付宝支付
         qrcodeUrl:'',
-        payNum:'2000',
+        payNum:'0.01',
         bugSuccessDialog:false,
         htmls:'',//支付宝返回form表单
         tabPay:false,
