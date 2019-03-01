@@ -156,17 +156,18 @@
                 <div class="controll-content">
                     <div class="sign-bg">
                         <div class="sign-controll-manage">
-                            <div class="switch-btn">
+                          <div class="password-manage">
+                            <span class="sign-setting-title">签署密码设置</span>
+                            <el-button type="primary" v-if="!hasSettingPwd" @click="setSignPwd">设置密码</el-button>
+                            <el-button type="primary" v-else plain @click="resetSignPwd">重置密码</el-button>
+                          </div>
+                          <div class="switch-btn">
                                 <span class="sign-setting-title">签署时验证签署密码</span>
                                 <el-switch  v-model="signVerify" @change="handleSignVerify"></el-switch>
                             </div>
-                            <div class="password-manage">
-                                <span class="sign-setting-title">签署密码设置</span>
-                                  <el-button type="primary" v-if="!hasSettingPwd" @click="setSignPwd">设置密码</el-button>
-                                  <el-button type="primary" v-else plain @click="resetSignPwd">重置密码</el-button>
-                            </div>
                         </div>
-                    </div> 
+                    </div>
+
                     <el-dialog id="sign-pwd-dialog" :visible.sync="signPwdVisible" width="520px" :close-on-click-modal="false" :before-close="cancelPwd">
                         <p class="sign-dialog-title">设置签署密码</p>
                         <el-form :model="signForm" :rules="signRules" ref='signRef' label-width="150px">
@@ -181,7 +182,9 @@
                             <el-button type="primary" @click="submitSignPwd('signRef')">提交</el-button>
                         </div>
                     </el-dialog>
-                    <el-dialog id="sign-code-dialog" :visible.sync="codeVisible" width="520px" :close-on-click-modal="false" :before-close="cancelCode">
+
+
+                    <el-dialog title="关闭签署密码" id="sign-code-dialog" :visible.sync="codeVisible" width="520px" :close-on-click-modal="false" :before-close="cancelCode">
                         <p class="sign-dialog-title">将会向<span style="font-size: 20px;color: #4091fb;">{{formatMobile}}</span>发送短信验证码</p>
                         <el-form :model="signCodeForm" :rules="smsRules" ref="smsRef">
                             <el-form-item prop="signSmsCode">
@@ -191,15 +194,33 @@
                                   <el-button style="width:112px" type="primary" ref="signCodeInfo"  @click="getSignSendCode('smsRules')" :disabled="signCodeBtn" v-text="signCodeText"></el-button>
                             </el-form-item>
                         </el-form>
-                        
                          <div slot="footer" class="dialog-footer">
                             <el-button @click="cancelCode">取 消</el-button>
                             <el-button type="primary" @click="smsCodeSubmit('smsRef')">确 定</el-button>
                         </div>
                     </el-dialog>
+
+                  <el-dialog :title="!hasSettingPwd?('设置签署密码'):('重置签署密码')" id="sign-code-dialog" :visible.sync="signCodeDialog" width="520px" :close-on-click-modal="false" :before-close="cancelCodeSign">
+                    <p class="sign-dialog-title">将会向<span style="font-size: 20px;color: #4091fb;">{{formatMobile}}</span>发送短信验证码</p>
+                    <el-form :model="signCodeFormSign" :rules="smsRulesSign" ref="smsRefSign">
+                      <el-form-item prop="signSmsCode">
+                        <el-input v-model="signCodeFormSign.signSmsCode" type="text" auto-complete="off"></el-input>
+                      </el-form-item>
+                      <el-form-item>
+                        <el-button style="width:112px" type="primary" ref="signCodeInfoSign"  @click="getSignSendCodeSign('smsRulesSign')" :disabled="signCodeBtnSign" v-text="signCodeTextSign"></el-button>
+                      </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button @click="cancelCodeSign">取 消</el-button>
+                      <el-button type="primary" @click="smsCodeSubmitSign('smsRefSign')">确 定</el-button>
+                    </div>
+                  </el-dialog>
+
+
                 </div>
             </div>
         </div>
+
         <div class="seal-management" v-if="oneLever">
             <p class="title" style="position: relative;">账号管理 </p>
             <div class="border-bottom"></div>
@@ -386,6 +407,7 @@
           <el-button type="primary"  @click="submitForm('ruleForm')" size="medium">确 定</el-button>
         </span>
     </el-dialog>
+
     <!--绑定邮箱-->
     <el-dialog :visible.sync="bindEmailDialog" width="430px" custom-class="bindEmail" center>
       <div class="tips">请输入想要绑定的邮箱账号</div>
@@ -510,8 +532,10 @@
         timer:null, //定时器
         smsType:'',
         signCodeText:'获取验证码',
+        signCodeTextSign:'获取验证码',
         smsValited:false,
         signCodeBtn:false,
+        signCodeBtnSign:false,
         signCodeForm:{
             signSmsCode:''
         },
@@ -532,7 +556,28 @@
                  { validator: verficateSignPwd, trigger: 'blur'}
             ]
         },
-        codeVisible:false, //短信验证
+        signCodeFormSign:{
+          signSmsCode:''
+        },
+        smsRulesSign:{
+          signSmsCode:[
+            {validator: validateBindSmsCode, trigger: 'blur'}
+          ]
+        },
+        signFormSign:{
+          signPassword:'',
+          verifySignPassword:''
+        },
+        signRulesSign:{
+          signPassword:[
+            { validator: validateSignPwd, trigger: 'blur'}
+          ],
+          verifySignPassword:[
+            { validator: verficateSignPwd, trigger: 'blur'}
+          ]
+        },
+        codeVisible:false, //管理签署密码弹窗
+        signCodeDialog:false, //重置签署密码弹窗
         signPwdVisible:false,
         showSignSet:cookie.getJSON("tenant")[1].isBusiness == 1?true:false,
         hasSettingPwd:!cookie.getJSON("tenant")[1].signVerifyPassword?false:true,   //是否设置过密码
@@ -544,6 +589,7 @@
         mobile:sessionStorage.getItem("mobile"),
         formatMobile:'',
         hasGetCode:false,
+        hasGetCodeSign:false,
         Email:'',
         authName:'',
         enterpriseName:'',
@@ -629,9 +675,12 @@
         once:false, //绑定邮箱单次点击
         accountMoney:'',   //账户余额
         smsNo: '',
+        smsNo1: '',
         smsCode: '',
         appId:'',  //验证码返回appId
+        appId1:'',  //验证码返回appId
         smsNoVer:'',
+        smsNoVer1:'',
         smsCodeNum:0,
         onceCode:false, //验证码单机操作
         passwordIdentification: "签署密码设置成功" //0-设置密码， 1-重置密码
@@ -639,33 +688,40 @@
     },
     methods: {
         resetFormData(){
-            this.smsNo = '';
+
             this.signCodeForm.signSmsCode = '';
-            this.signCodeBtn = false;
-            this.hasGetCode = false;
-          this.signCodeText = '获取验证码';
+            this.signCodeText = '获取验证码';
             this.signForm={
                 signPassword:'',
                 verifySignPassword:''
             }
-             clearInterval(this.timer);
-            // console.log(this.signCodeText)
         },
+
+      resetFormDataSign(){
+
+        this.signCodeFormSign.signSmsCode = '';
+        this.signCodeTextSign = '获取验证码';
+        this.signFormSign={
+          signPassword:'',
+          verifySignPassword:''
+        }
+
+      },
         //设置签署密码
         handleSignVerify(value){     //判断是否设置密码   设置后开启直接开启 关闭进行手机号验证
             let that = this;
             // console.log(that.hasSettingPwd)
             if(!that.hasSettingPwd){
-                that.$message.error('请先设置签署密码')
-                that.signVerify = false
+                that.$message.error('请先设置签署密码');
+                that.signVerify = false;
             }else{
                 if(!value){                   //关闭时value为false
-                    that.codeVisible = true   //手机校验
+                    that.codeVisible = true;   //手机校验
                     that.signVerify = true;
                     this.smsType = 'switch';
                 }else{
                     that.signVerify = false;   //开启开关(默认会改变signVerify的值 这里先设置关时true  开时false  再接口请求成功后取反方正确)
-                    that.chengeSignStatus();
+                    that.changeSignStatus();
 
                 }
             }
@@ -677,7 +733,7 @@
         },
         //重置密码
         resetSignPwd(){
-            this.codeVisible = true;
+            this.signCodeDialog = true;
             this.passwordIdentification = "签署密码重置成功";
             this.smsType = 'reset';
         },
@@ -690,15 +746,17 @@
                         signVerifyPassword:md5(that.signForm.signPassword)
                     }
                     changeSignPwd(that.accountCode,param).then(res=>{
+                      that.signForm.signPassword='';
+                      that.signForm.verifySignPassword='';
                         if(res.data.resultCode == 1){
                             that.$message({
                                 showClose: true,
                                 message: this.passwordIdentification,
                                 type: 'success'
                             });
+
                             that.signPwdVisible = false;
                             that.hasSettingPwd = true;
-                            // that.updateSession()
                             that.resetFormData()
                         }else{
                             that.$message({
@@ -714,7 +772,7 @@
             })
         },
         //切换验证
-        chengeSignStatus(){
+        changeSignStatus(){
             let that = this;
             let param={
                 signVerify:that.signVerify?0:1
@@ -723,14 +781,18 @@
                 if(res.data.resultCode == 1){
                     sessionStorage.setItem('signVerify',res.data.data);
                     that.codeVisible = false;
-                    that.signVerify = !that.signVerify
+                    that.signVerify = !that.signVerify;
                     that.$message({
                         showClose: true,
                         message:res.data.resultMessage,
                         type: 'success'
                     });
-                    that.updateSession()
-                    that.resetFormData()
+                  that.signCodeText = '获取验证码';
+                  that.signCodeBtn = false;
+                  clearInterval(this.timer);
+                    that.signCodeDialog=false;
+                    that.updateSession();
+                    that.resetFormData();
                 }else{
                     that.$message({
                         showClose: true,
@@ -746,11 +808,11 @@
         //重置密码
         restPwd(){
             let that = this;
-            that.codeVisible = false
+            that.codeVisible = false;
             that.$loading.show(); //显示
             setTimeout(function(){
                 that.$loading.hide(); //显示
-                that.signPwdVisible = true;
+                // that.signPwdVisible = true;
             },1000)
 
         },
@@ -759,11 +821,24 @@
             if(this.hasGetCode){
                 this.$refs[ruleName].validate((valid)=>{
                     if(valid){
-                        if(this.smsType == 'switch'){
-                            this.valiteSmsCode('switch')
-                        }else if(this.smsType == 'reset'){
-                            this.valiteSmsCode('reset')
-                        }
+                      this.valiteSmsCode()
+                    }
+                })
+            }else{
+                this.$message({
+                    showClose: true,
+                    message:'请先获取验证码',
+                    type: 'warning'
+                });
+            }
+        },
+
+        smsCodeSubmitSign(ruleName){
+            if(this.hasGetCodeSign){
+                this.$refs[ruleName].validate((valid)=>{
+                    if(valid){
+
+                      this.valiteSmsCodeSign()
                     }
                 })
             }else{
@@ -777,9 +852,17 @@
         //取消短信验证
         cancelCode(){
             this.codeVisible = false;
+            this.signCodeForm.signSmsCode = '';
             this.$refs['smsRef'].clearValidate();
-            this.resetFormData()
+            this.resetFormData();
         },
+
+      cancelCodeSign(){
+        this.signCodeDialog = false;
+        this.signCodeFormSign.signSmsCode = '';
+        this.$refs['smsRefSign'].clearValidate();
+        this.resetFormDataSign()
+      },
         //取消密码
         cancelPwd(){
             this.signPwdVisible = false;
@@ -790,7 +873,10 @@
         getSignSendCode(){
             let codeType = '0',curCount = 60;
             this.signCodeBtn = true;
-            let params={'mobile': sessionStorage.getItem("mobile"),'interfaceCode':this.interfaceCode};
+            let params={
+              'mobile': sessionStorage.getItem("mobile"),
+              'interfaceCode':this.interfaceCode
+            };
             server.smsCodeOld(params).then(res=> {
                 this.smsNo=res.data.smsNo;   //短信编号
                 this.appId=res.data.appId;   //appId
@@ -813,9 +899,37 @@
                 }
             })
         },
+        getSignSendCodeSign(){
+            let codeType = '0',curCount = 60;
+            this.signCodeBtnSign = true;
+            let params={'mobile': sessionStorage.getItem("mobile"),'interfaceCode':this.interfaceCode};
+            server.smsCodeOld(params).then(res=> {
+                this.smsNo1=res.data.smsNo;   //短信编号
+                this.appId1=res.data.appId;   //appId
+                let resultCode = res.data.resultCode;
+                if (resultCode == '1') {
+                    this.hasGetCodeSign = true;
+                    this.signCodeTextSign =  curCount + '秒';
+
+                    this.timerSign = setInterval( ()=> {
+
+                    this.signCodeTextSign = (curCount - 1) + '秒';
+                        if (curCount== 0) {
+                            this.signCodeTextSign = '获取验证码';
+                            this.signCodeBtnSign = false;
+                            clearInterval(this.timerSign);
+                        } else {
+                            curCount --
+                        }
+                    }, 1000)
+                }else{
+
+                }
+            })
+        },
 
         //验证验证码
-        valiteSmsCode(type){
+        valiteSmsCode(){
             let that = this;
             let param={
               'mobile': that.mobile,
@@ -825,11 +939,39 @@
             }
             valitedSmsCode(param).then(res=>{
               if(res.data.resultCode == 1) {
-                  if(type == 'reset'){
-                      that.restPwd()
-                  }else if(type == 'switch'){
-                      that.chengeSignStatus()
-                  }
+                that.signCodeText = '获取验证码';
+                that.signCodeBtn = false;
+                that.codeVisible = false;
+                clearInterval(this.timer);
+                that.changeSignStatus()
+                that.restPwd()
+              }else {
+                that.$message({
+                  showClose: true,
+                  message: res.data.resultMessage,
+                  type: 'error'
+                });
+              }
+            }).catch(error=>{
+
+            })
+        },
+        valiteSmsCodeSign(){
+            let that = this;
+            let param={
+              'mobile': that.mobile,
+              'smsNo': that.smsNo1,
+              'appId': that.appId1,
+              'smsCode': that.signCodeFormSign.signSmsCode
+            };
+            valitedSmsCode(param).then(res=>{
+              if(res.data.resultCode == 1) {
+                this.signCodeTextSign = '获取验证码';
+                this.signCodeBtnSign = false;
+                this.signCodeDialog=false;
+                clearInterval(this.timerSign);
+                this.signCodeFormSign.signSmsCode='';
+                this.signPwdVisible=true;
               }else {
                 that.$message({
                   showClose: true,
@@ -916,15 +1058,16 @@
             });
 
             return false
-        }else if(!validateEmail(this.bindEmailForm.email)){
-
-            this.$message({
+        }
+        else if(!validateEmail(this.bindEmailForm.email)){
+          this.$message({
             showClose: true,
             message: "绑定邮箱格式输入不正确",
             type: "success"
             });
             return false
-        }else{
+        }
+        else{
             var codeType = '0';
             var count = 60;
             var curCount = count;
@@ -973,7 +1116,6 @@
 
             })
         }
-
 
         },
         AccoutCenter(){
@@ -1114,32 +1256,69 @@
         },
         // 生成签章
 
-        newSeal(){
-            if(this.oneLever){
-            if(TrimAll(this.createSeal) == ''){
-                this.$alert('公章防伪码不能为空！','提示', {
+        newSeal() {
+          if (this.oneLever) {
+            if (!/^\d+$/.test(this.createSeal)&&this.createSeal){
+              this.$alert('公章防伪码长度应为13位数字', '提示', {
                 confirmButtonText: '确定'
-                })
+              });
+             return false;
+            }
 
-            }else if((TrimAll(this.createSeal)!='')&&!validateSeal(this.createSeal)){
-                this.$alert('公章防伪码必须为13位数字！','提示', {
+            if (this.createSeal&&this.createSeal.length!='13') {
+              this.$alert('公章防伪码长度应为13位数字', '提示', {
                 confirmButtonText: '确定'
-                })
-            }else if(validateSeal(this.createSeal)){
-                let params={
-                "interfaceCode":this.interfaceCode,
-                "securityCode":this.createSeal   //13位用户输入码
-                }
-                createSignature(params).then(res=> {
-                if(res.data.resultCode == '1'){
-                    this.searchSeal();
-                }
-                }).catch(error=>{
+              });
+              return false;
+            } else {
 
-                })
+              const h = this.$createElement;
+              this.$msgbox({
+                title: '提示',
+                message: h('p', null, [
+                  h('span', null, '是否确定要生成公章？ '),
+                  h('i', { style: 'color: teal' }, '')
+                ]),
+                center:true,
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                beforeClose: (action, instance, done) => {
+                  if (action === 'confirm') {
+                    instance.confirmButtonLoading = true;
+                    instance.confirmButtonText = '执行中...';
+                    setTimeout(() => {
+                      let params = {
+                        "interfaceCode": this.interfaceCode,
+                        "securityCode": this.createSeal   //13位用户输入码
+                      }
+                      createSignature(params).then(res=> {
+                        if(res.data.resultCode == '1'){
+                          this.searchSeal();
+                        }
+                      }).catch(error=>{
+
+                      });
+                      done();
+                      setTimeout(() => {
+                        instance.confirmButtonLoading = false;
+                      }, 50);
+                    }, 100);
+                  } else {
+                    done();
+                    this.$message({
+                      type: 'info',
+                      message: '取消'
+                    });
+                  }
+                }
+              })
+
+
             }
-            
-            }
+          }
+
+
 
         },
 
@@ -1294,7 +1473,7 @@
         created() {
            // 查询证书
            this.formatMobile = slicePhone(this.mobile),
-           // console.log(this.hasSettingPwd)
+
             getCertificate(this.interfaceCode).then(res=> {
                 if(res.data.resultCode=='1'){
                 this.serialNumber=res.data.data.userCode;
@@ -1410,15 +1589,15 @@
             font-size:16px;    
         }
         .switch-btn{
-            border-bottom: 1px solid #dcdfe6;
-            padding-bottom: 20px;
+            padding: 20px 0;
             .el-switch{
                 float:right;
             }
         }
         .password-manage{
             padding-top:20px;
-            padding-bottom: 130px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #dcdfe6;
             .el-button{
                 float:right
             }  
