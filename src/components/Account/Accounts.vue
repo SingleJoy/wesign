@@ -942,6 +942,7 @@
                 that.signCodeText = '获取验证码';
                 that.signCodeBtn = false;
                 that.codeVisible = false;
+                that.hasGetCode=false;
                 clearInterval(this.timer);
                 that.changeSignStatus()
                 that.restPwd()
@@ -972,6 +973,7 @@
                 clearInterval(this.timerSign);
                 this.signCodeFormSign.signSmsCode='';
                 this.signPwdVisible=true;
+                this.hasGetCodeSign=false;
               }else {
                 that.$message({
                   showClose: true,
