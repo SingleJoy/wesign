@@ -155,11 +155,9 @@
       },
     },
     created() {
-      this.roomlink = cookie.getJSON('tenant')[1].signRoomLink
-
-
-      getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
-
+      this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
+      let t=Math.random();
+      getContractDetails(this.interfaceCode,this.contractNo,t).then(res=>{
           this.signUser = res.data.signUserVo
           var contractVo = res.data.contractVo
           this.validTime = contractVo.validTime

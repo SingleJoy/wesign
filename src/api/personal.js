@@ -44,9 +44,9 @@ export function signUser(interfaceCode,contractNo){
     })
 }
 /* 获取合同详情 */
-export function contractDetail(interfaceCode,contractNo){
+export function getContractDetails(interfaceCode,contractNo,t){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails",
+      url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+t,
         method: "get",
         params: ''
     })

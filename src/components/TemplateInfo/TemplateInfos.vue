@@ -149,8 +149,8 @@ export default {
   },
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
-
-    getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
+    let t=Math.random();
+    getContractDetails(this.interfaceCode,this.contractNo,t).then(res=>{
      this.signUser = res.data.signUserVo
      let  contractVo = res.data.contractVo
      this.validTime = contractVo.validTime

@@ -250,7 +250,8 @@ export default {
     },
     seeContractSign(){
      let data =[];
-      b2cContrantsDetail(this.interfaceCode,this.contractNo).then(res=> {
+      let t=Math.random();
+      b2cContrantsDetail(this.interfaceCode,this.contractNo,t).then(res=> {
         let contractVo = res.data.contractVo
         let signUserVo = res.data.signUserVo
         let type = contractVo.createType

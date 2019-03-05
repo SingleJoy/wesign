@@ -76,7 +76,7 @@
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import {contractDetail,contractImg,signerpositions} from '@/api/personal'
+  import {getContractDetails,contractImg,signerpositions} from '@/api/personal'
   export default {
     name: 'Specifiedpositions',
     data () {
@@ -143,7 +143,7 @@
         this.clickNav(currentIndex)
       },
       goto2 (currentIndex){
-        currentIndex++
+        currentIndex++;
         this.clickNav(currentIndex)
       },
       clickNav(index) {
@@ -285,9 +285,8 @@
     },
     created () {
 
-
       this.$loading.show(); //显示
-      contractDetail(this.interfaceCode,this.contractNo).then(res=>{
+      getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
 
           let signUserVo = res.data.signUserVo
           this.signUserList = signUserVo

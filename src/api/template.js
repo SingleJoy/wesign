@@ -99,9 +99,9 @@ export  function signerpositions(interfaceCode,contractNo,param) {
   })
 }
 // getContractDetails
-export function getContractDetails(interfaceCode,contractNo) {
+export function getContractDetails(interfaceCode,contractNo,t) {
   return request({
-    url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/getContractDetails',
+    url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+t,
     method: "get",
     params:''
   })

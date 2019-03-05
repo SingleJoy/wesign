@@ -341,8 +341,8 @@
         let data =[];
         let isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
-
-        b2cContrantsDetail(this.interfaceCode,this.contractNo).then(res=>{
+        let t=Math.random();
+        b2cContrantsDetail(this.interfaceCode,this.contractNo,t).then(res=>{
             let contractNoZq = res.data.contractVo.contractNoZq;
             let contractVo = res.data.contractVo;
             let signUserVo = res.data.signUserVo;
@@ -350,10 +350,10 @@
             this.contractNo = contractVo.contractNo;
             this.contractType = contractVo.contractType;
             this.contractName = contractVo.contractName;
-            this.validTime = contractVo.validTime
-            this.status = contractVo.status
-            this.operator = res.data.contractVo.operator
-            this.sponsorInterfaceCode = res.data.contractVo.interfaceCode
+            this.validTime = contractVo.validTime;
+            this.status = contractVo.status;
+            this.operator = res.data.contractVo.operator;
+            this.sponsorInterfaceCode = res.data.contractVo.interfaceCode;
             switch (type) {
               case '1':
                 this.createType = '模板发起'
@@ -362,7 +362,7 @@
                 this.createType = '上传发起'
                 break;
             }
-            switch ( this.status ){
+            switch (this.status ){
               case "1":
                 this.status = '签署中'
                 break;
@@ -411,7 +411,7 @@
         }).catch(error=>{
 
         })
-        // let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.contractNo+'/getContractDetails'
+
       },
       backHome(){
         // console.log("state"+cookie.getJSON('state'))

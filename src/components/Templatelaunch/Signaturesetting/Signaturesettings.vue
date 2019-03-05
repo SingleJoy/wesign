@@ -163,7 +163,7 @@
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import {contractimgs,getContractDetails} from "@/api/template"
+  import {contractimgs} from "@/api/template"
   import {getSignLink,echoContractInfo,perfectContract} from "@/api/personal"
   import server from "@/api/url";
   export default {

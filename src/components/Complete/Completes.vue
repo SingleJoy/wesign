@@ -95,7 +95,7 @@ import {prohibit} from '@/common/js/prohibitBrowser'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
-import {contractDetail,signLink,contractImg,getSignLink} from '@/api/personal'
+import {getContractDetails,signLink,contractImg,getSignLink} from '@/api/personal'
 export default {
   data () {
     return {
@@ -114,7 +114,6 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-
         this.$store.dispatch('tabIndex',{tabIndex:1});
         cookie.set("state", "Home");
         this.$router.push('/ContractInfo')
@@ -123,6 +122,7 @@ export default {
 
       this.$loading.show(); //显示
       var data =[];
+
       contractImg(this.interfaceCode,this.contractNo).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
                 let contractUrl = res.data[i].contractUrl
@@ -149,7 +149,7 @@ export default {
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
 
-    contractDetail(this.interfaceCode,this.contractNo).then(res=>{
+    getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
         this.signUser = res.data.signUserVo
         let contractVo = res.data.contractVo
         this.validTime = contractVo.validTime

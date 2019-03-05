@@ -29,9 +29,9 @@ export function b2bImgs(interfaceCode,contractNo){
 
 
 /* b2c 合同详情 */
-export function b2cContrantsDetail(interfaceCode,contractNo){
+export function b2cContrantsDetail(interfaceCode,contractNo,t){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode +'/contract/'+ contractNo+"/getContractDetails",
+      url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+t,
         method: "get",
         params: ''
     })

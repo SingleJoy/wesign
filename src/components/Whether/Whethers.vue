@@ -78,7 +78,7 @@
 import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
-import {signerpositions,contractDetail,contractImg} from '@/api/personal.js'
+import {signerpositions,getContractDetails,contractImg} from '@/api/personal.js'
 export default {
   name: 'Pcontract',
     data () {
@@ -284,9 +284,8 @@ export default {
   },
   created () {
 
-
     this.$loading.show(); //显示
-    contractDetail(this.interfaceCode,this.contractNo).then(res=>{
+    getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
         let signUserVo = res.data.signUserVo
         this.signUserList = signUserVo
     }).catch(error=>{

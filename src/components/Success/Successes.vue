@@ -95,7 +95,7 @@
   import {mapActions, mapState} from 'vuex'
   import clip from '@/common/js/clipboard.js' // use clipboard directly
   import cookie from '@/common/js/getTenant'
-  import {contractImg,contractDetail,getSignLink} from '@/api/personal'
+  import {contractImg,getContractDetails,getSignLink} from '@/api/personal'
 
   export default {
     data () {
@@ -148,7 +148,7 @@
     created() {
 
       this.roomLink = cookie.getJSON('tenant')[1].signRoomLink;
-       contractDetail(this.interfaceCode,this.contractNo).then(res=>{
+       getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
             this.signUser = res.data.signUserVo
             let contractVo = res.data.contractVo
             this.validTime = contractVo.validTime

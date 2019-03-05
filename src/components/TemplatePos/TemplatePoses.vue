@@ -286,7 +286,8 @@ export default {
   created () {
 
     this.$loading.show(); //显示
-    getContractDetails(this.interfaceCode,this.contractNo).then(res=> {
+    let t=Math.random();
+    getContractDetails(this.interfaceCode,this.contractNo,t).then(res=> {
 
       let signUserVo = res.data.signUserVo
       this.signUserList = signUserVo
