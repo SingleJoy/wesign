@@ -116,7 +116,8 @@
 
         this.$loading.show(); //显示
         let data =[];
-        contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
+        let t=Math.random();
+        contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
 
             for (let i = 0; i < res.data.dataList.length;i++) {
               let contractUrl = res.data.dataList[i].contractUrl

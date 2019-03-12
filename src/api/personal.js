@@ -2,14 +2,6 @@
 import request from '../utils/fetch'
 
 
-/* b2c获取合同详情 */
-export function contractImg(interfaceCode,contractNo){
-    return request({
-        url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/contractimgs",
-        method: "get",
-        params: ''
-    })
-}
 
 /* 下一步 */
 export function perfectContract(param,interfaceCode,contractNo){

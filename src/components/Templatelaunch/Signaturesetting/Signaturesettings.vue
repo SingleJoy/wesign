@@ -160,10 +160,10 @@
 </template>
 <script>
   import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
-  import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import {contractimgs} from "@/api/template"
+  import {contractimgs} from "@/api/detail"
   import {getSignLink,echoContractInfo,perfectContract} from "@/api/personal"
   import server from "@/api/url";
   export default {
@@ -308,7 +308,8 @@
 
       seeTemplate () {
         let data =[];
-        contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
+        let t=Math.random();
+        contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
           for (let i = 0; i < res.data.length;i++) {
             let contractUrl = res.data[i].contractUrl
             data[i] = contractUrl
@@ -687,3 +688,4 @@
     overflow-y: scroll !important;
   }
 </style>
+

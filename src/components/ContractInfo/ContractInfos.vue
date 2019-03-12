@@ -216,7 +216,7 @@
   import server from '@/api/url';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
-  import {remind,b2cContrantsDetail,contractSignUserInfo,b2cImgs} from '@/api/detail'
+  import {remind,getContractDetails,contractSignUserInfo,contractimgs} from '@/api/detail'
   export default {
     name: 'ContractInfos',
     data() {
@@ -318,7 +318,8 @@
         this.imgList =[];
         this.$loading.show(); //显示
         let data =[];
-        b2cImgs(this.interfaceCode,this.contractNo).then(res=>{
+        let t=Math.random();
+        contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl
               data[i] = contractUrl
@@ -342,7 +343,7 @@
         let isCreater='';
         let currentFaceCode = cookie.getJSON('tenant')[1].interfaceCode;
         let t=Math.random();
-        b2cContrantsDetail(this.interfaceCode,this.contractNo,t).then(res=>{
+        getContractDetails(this.interfaceCode,this.contractNo,t).then(res=>{
             let contractNoZq = res.data.contractVo.contractNoZq;
             let contractVo = res.data.contractVo;
             let signUserVo = res.data.signUserVo;

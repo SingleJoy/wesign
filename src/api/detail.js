@@ -11,25 +11,18 @@ export function b2bContrants(param,interfaceCode){
     })
 }
 /* b2b详情 */
-export function b2bDetail(contractNo){
+export function signFinish(contractNo){
     return request({
         url: "/api/v1.4/contract/"+ contractNo +"/signFinish",
         method: "get",
         params: ''
     })
 }
-/* b2b合同图片 */
-export function b2bImgs(interfaceCode,contractNo){
-    return request({
-        url: "/api/v1.4/tenant/" + interfaceCode +'/contract/' + contractNo +"/contractimgs",
-        method: "get",
-        params: ''
-    })
-}
+
 
 
 /* b2c 合同详情 */
-export function b2cContrantsDetail(interfaceCode,contractNo,t){
+export function getContractDetails(interfaceCode,contractNo,t){
     return request({
       url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+t,
         method: "get",
@@ -37,9 +30,9 @@ export function b2cContrantsDetail(interfaceCode,contractNo,t){
     })
 }
 /* b2c合同图片 */
-export function b2cImgs(interfaceCode,contractNo){
+export function contractimgs(interfaceCode,contractNo,t){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs",
+        url: "/api/v1/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs?t="+t,
         method: "get",
         params: ''
     })

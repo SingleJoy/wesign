@@ -1,9 +1,4 @@
-/*
- * @Author: wangjia
- * @Date: 2018-06-07 10:39:15
- * @Last Modified by: wangjia
- * @Last Modified time: 2018-06-20 15:50:28
- */
+
 <template>
   <div class="Completes">
     <div class="step" style="width: 720px;">  <!--步骤条 -->
@@ -90,12 +85,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
 import {prohibit} from '@/common/js/prohibitBrowser'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
-import {getContractDetails,signLink,contractImg,getSignLink} from '@/api/personal'
+import {getContractDetails,signLink,contractimgs,getSignLink} from '@/api/personal'
 export default {
   data () {
     return {

@@ -84,11 +84,12 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
-import { mapActions, mapState } from 'vuex'
+import {state, actions,mutations} from '@/store/index';
 import cookie from '@/common/js/getTenant'
 import md5 from "js-md5";
 import {prohibit} from '@/common/js/prohibitBrowser'
-import {contractImg,b2cSignPosition,b2cSubmitSign,signature,verifySignPassword} from '@/api/personal.js'
+import {b2cSignPosition,b2cSubmitSign,signature,verifySignPassword} from '@/api/personal.js'
+import {contractimgs} from '@/api/detail.js'
 export default {
   name: 'Contents',
   data () {

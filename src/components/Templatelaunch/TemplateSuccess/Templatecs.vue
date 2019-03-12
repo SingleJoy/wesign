@@ -98,10 +98,10 @@
 <script>
   import clip from '@/common/js/clipboard.js' // use clipboard directly
   import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
-  import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import {contractimgs,getContractDetails} from "@/api/template"
+  import {contractimgs,getContractDetails} from "@/api/detail"
   import {getSignLink} from "@/api/personal"
   export default {
     data () {
@@ -129,7 +129,8 @@
       seeContractImg (){
         this.$loading.show(); //显示
         let data =[];
-        contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
+        let t=Math.random();
+        contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
 
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl

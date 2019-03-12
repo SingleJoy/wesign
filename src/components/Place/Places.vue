@@ -338,6 +338,7 @@
     })
 
     let data =[];
+    let t=Math.random();
     contractimgs(this.interfaceCode,this.contractNo).then(res=> {
 
         this.allpage = res.data.dataList.length

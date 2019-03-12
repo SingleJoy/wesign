@@ -95,7 +95,7 @@
   import {mapActions, mapState} from 'vuex'
   import clip from '@/common/js/clipboard.js' // use clipboard directly
   import cookie from '@/common/js/getTenant'
-  import {contractImg,getContractDetails,getSignLink} from '@/api/personal'
+  import {contractimgs,getContractDetails,getSignLink} from '@/api/personal'
 
   export default {
     data () {

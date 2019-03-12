@@ -174,7 +174,8 @@
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import Loading from '@/common/components/Loading'
-  import {contractImg,perfectContract,echoContractInfo} from '@/api/personal.js'
+  import {perfectContract,echoContractInfo} from '@/api/personal.js'
+  import {contractimgs} from '@/api/detail.js'
 
   export default {
     name: 'Contractsignings',

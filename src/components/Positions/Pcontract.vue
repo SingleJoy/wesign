@@ -73,7 +73,8 @@
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import { mapActions, mapState } from 'vuex'
-  import {signerpositions,signUser,contractImg} from '@/api/personal.js'
+  import {signerpositions,signUser} from '@/api/personal.js'
+  import {contractimgs} from '@/api/detail.js'
   export default {
     name: 'Pcontract',
     data () {

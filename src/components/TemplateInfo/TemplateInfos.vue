@@ -92,11 +92,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
-import clipboard from '@/common/directive/clipboard/index' // use clipboard by v-directive
-import {contractimgs,getContractDetails} from "@/api/template"
+
+import {contractimgs,getContractDetails} from "@/api/detail"
 import {getSignLink} from "@/api/personal"
 export default {
   data () {
@@ -123,8 +123,8 @@ export default {
     },
     seeContractImg (){
       let data =[];
-      contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
-
+      let t=Math.random();
+      contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
         for (let i = 0; i < res.data.length;i++) {
         let contractUrl = res.data[i].contractUrl
         data[i] = contractUrl

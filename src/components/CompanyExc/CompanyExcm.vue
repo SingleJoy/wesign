@@ -26,13 +26,13 @@
         </p>
 
       </div>
-      <p class='second'>
-      <div class="title">签署文件</div>
-      <span class='text'>
+      <div class='second'>
+        <div class="title">签署文件</div>
+        <span class='text'>
           <strong>当前状态：</strong>
           <span>{{status}}</span>
         </span>
-      </p>
+      </div>
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit" style="vertical-align: middle;">{{contractName}}</span>
@@ -163,17 +163,17 @@
     line-height: 44px;
     padding-left: 35px;
     padding-right: 15px;
-  span{
-    color:#fff;
-    font-size: 12px;
-    padding-left: 0;
-  }
-  .department{
-    font-size: 14px;
-    display: block;
-    font-weight: 500;
-    margin-top: 10px;
-  }
+    span{
+      color:#fff;
+      font-size: 12px;
+      padding-left: 0;
+    }
+    .department{
+      font-size: 14px;
+      display: block;
+      font-weight: 500;
+      margin-top: 10px;
+    }
 
   }
   .el-table--scrollable-x .el-table__body-wrapper{
@@ -202,7 +202,7 @@
 
   .showDialogs{
     height: 700px;
-  // overflow-y: scroll;
+    // overflow-y: scroll;
     overflow: hidden;
   }
   .backHome{
@@ -213,11 +213,11 @@
   }
 </style>
 <script>
-  import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {updateContractTime,b2bImgs,contractSignUserInfo,b2bDetail} from '@/api/detail';
+  import {updateContractTime,contractimgs,contractSignUserInfo,signFinish} from '@/api/detail';
   export default {
     name: 'CompanyExcm',
     data() {
@@ -254,14 +254,15 @@
       seeContractImg (){
         this.$loading.show(); //显示
         let data =[];
-        b2bImgs(this.interfaceCode ,this.contractNo).then(res=> {
+        let t=Math.random();
+        contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
 
-            for (let i = 0; i < res.data.dataList.length;i++) {
-              let contractUrl = res.data.dataList[i].contractUrl
-              data[i] = contractUrl
-              this.$loading.hide(); //隐藏
-            }
-            this.imgList = data
+          for (let i = 0; i < res.data.dataList.length;i++) {
+            let contractUrl = res.data.dataList[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
+          }
+          this.imgList = data
 
         }).catch(error=>{
 
@@ -277,7 +278,7 @@
       },
       seeContractDetails () {
         let data =[];
-        b2bDetail(this.contractNo).then(res=> {
+        signFinish(this.contractNo).then(res=> {
           let contractType = res.data.data.contractType;
           if(contractType == '0'){
             this.businessScenario = '企业对企业'

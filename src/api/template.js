@@ -98,22 +98,8 @@ export  function signerpositions(interfaceCode,contractNo,param) {
     data: param
   })
 }
-// getContractDetails
-export function getContractDetails(interfaceCode,contractNo,t) {
-  return request({
-    url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+t,
-    method: "get",
-    params:''
-  })
-}
 
-export function contractimgs(interfaceCode,contractNo) {
-  return request({
-    url: "api/v1/tenant/"+interfaceCode+'/contract/'+contractNo+'/contractimgs',
-    method: "get",
-    params:''
-  })
-}
+
 
 export function contractmoresign(interfaceCode,contractNo,param) {
   return request({

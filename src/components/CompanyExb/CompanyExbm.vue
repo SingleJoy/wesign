@@ -1,39 +1,32 @@
 <template>
   <div class='CompanyExbm'>
     <div class='main'>
-      <!-- <p class='first' style="display: inherit;">
-        <span>我的合同</span>
-        <span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-        <span v-else style="padding-right: 75%;">>合同详情</span>
-          <a  class="backHome back-home" href="javascript:void(0);"  @click="backHome" >返回</a>
-          <span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
 
-      </p> -->
-        <div class='first' style="display: inherit;">
-            <p style="line-height: 60px;float: left;">
-                <span>我的合同</span>
-                <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-                <span style="color:#4091fb" v-else> >合同详情</span>
-            </p>
+      <div class="first" style="display: inherit;">
+        <p style="line-height: 60px;float: left;">
+          <span>我的合同</span>
+          <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+          <span style="color:#4091fb" v-else> >合同详情</span>
+        </p>
 
-            <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
-                <span class="department">{{accountName}}</span>
+        <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
+          <span class="department">{{accountName}}</span>
 
-            </p>
+        </p>
 
-            <p>
-                <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-                <!-- <span  v-if='status=="已截止" && operator == accountCode' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
-            </p>
+        <p>
+          <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+          <!-- <span  v-if='status=="已截止" && operator == accountCode' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
+        </p>
 
-        </div>
-      <p class='second'>
-      <div class="title">签署文件</div>
+      </div>
+      <div class='second'>
+        <div class="title">签署文件</div>
         <span class='text'>
                <strong>当前状态：</strong>
                <span>{{status}}</span>
-             </span>
-      </p>
+        </span>
+      </div>
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit">{{contractName}}</span>
@@ -94,24 +87,24 @@
           >
             <template slot-scope="scope">
               <!-- <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && status!="已截止"' @click="remindSignClick(scope.row)">提醒签署</el-button> -->
-                <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
+              <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
             </template>
           </el-table-column>
         </el-table>
       </div>
       <div class="title" style="margin-top: 15px">合同历史</div>
-        <div style="margin-top: 30px;margin-left: 70px;">
-            <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;"  src="/static/images/ContractInfo/sign_step.png" alt="">
-            <el-steps direction="vertical" :active=0>
-                <el-step :title=item.signUserName+item.logInfo
-                    :description=item.signTime
-                    v-for="(item,index) in History"
-                    :key="index" icon="el-icon-location"
-                    :class="{'currentStep':index == 0}"
-                    style="font-size: 40px;height:100px;flex-basis: auto;">
-                </el-step>
-            </el-steps>
-        </div>
+      <div style="margin-top: 30px;margin-left: 70px;">
+        <img v-if="History.length>1" style="position: relative;z-index: 999;left: -20px;"  src="/static/images/ContractInfo/sign_step.png" alt="">
+        <el-steps direction="vertical" :active=0>
+          <el-step :title=item.signUserName+item.logInfo
+                   :description=item.signTime
+                   v-for="(item,index) in History"
+                   :key="index" icon="el-icon-location"
+                   :class="{'currentStep':index == 0}"
+                   style="font-size: 40px;height:100px;flex-basis: auto;">
+          </el-step>
+        </el-steps>
+      </div>
     </div>
   </div>
 </template>
@@ -163,29 +156,29 @@
     height: 700px;
   }
   .main .first #sign-icon{
-        background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
-        height: 60px;
-        position: absolute;
-        text-align: center;
-        display: inline-block;
-        margin-left: 20px;
-        background-size: cover;
-        line-height: 44px;
-        padding-left: 35px;
-        padding-right: 15px;
-        span{
-            color:#fff;
-            font-size: 12px;
-            padding-left: 0;
-        }
-        .department{
-            font-size: 14px;
-            display: block;
-            font-weight: 500;
-            margin-top: 10px;
-        }
-
+    background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
+    height: 60px;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    margin-left: 20px;
+    background-size: cover;
+    line-height: 44px;
+    padding-left: 35px;
+    padding-right: 15px;
+    span{
+      color:#fff;
+      font-size: 12px;
+      padding-left: 0;
     }
+    .department{
+      font-size: 14px;
+      display: block;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+
+  }
 
   .showDialogs{
     height: 700px;
@@ -200,11 +193,11 @@
   }
 </style>
 <script>
-  import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remind,b2bDetail,contractSignUserInfo,b2bImgs} from '@/api/detail'
+  import {remind,signFinish,contractSignUserInfo,contractimgs} from '@/api/detail'
   export default {
     name: 'CompanyExbm',
     data() {
@@ -237,18 +230,18 @@
           contractType:0
         }
         remind(remindParam,this.interfaceCode,this.contractNo).then(res=>{
-            let resultCode = res.data.resultCode
-            if ( resultCode === '0') {
-                this.$message({
-                message: '短信通知成功',
-                type: 'success'
-                });
-            } else if(resultCode === '1'){
-                this.$message({
-                message: '该合同本日发送短信次数已用尽！',
-                type: 'error'
-                });
-            }
+          let resultCode = res.data.resultCode
+          if ( resultCode === '0') {
+            this.$message({
+              message: '短信通知成功',
+              type: 'success'
+            });
+          } else if(resultCode === '1'){
+            this.$message({
+              message: '该合同本日发送短信次数已用尽！',
+              type: 'error'
+            });
+          }
         }).catch(error=>{
 
         })
@@ -259,13 +252,14 @@
       seeContractImg (){
         this.$loading.show(); //显示
         let data =[];
-        b2bImgs(this.interfaceCode,this.contractNo).then(res=>{
-            for (let i = 0; i < res.data.dataList.length;i++) {
-              let contractUrl = res.data.dataList[i].contractUrl
-              data[i] = contractUrl
-              this.$loading.hide(); //隐藏
-            }
-            this.imgList = data
+        let t=Math.random();
+        contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
+          for (let i = 0; i < res.data.dataList.length;i++) {
+            let contractUrl = res.data.dataList[i].contractUrl
+            data[i] = contractUrl
+            this.$loading.hide(); //隐藏
+          }
+          this.imgList = data
         }).catch(error=>{
 
         })
@@ -278,20 +272,20 @@
         download.setAttribute('href',url);
         download.click()
       },
-    // signClick(){
-    //     //签署
-    //     if (this.contractType == "0") {
-    //       this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-    //       sessionStorage.setItem("contractNo", this.contractNo);
-    //       this.$router.push("/Dimension");
-    //     } else {
-    //       this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-    //       sessionStorage.setItem("contractNo", this.contractNo);
-    //       this.$router.push("/Contract");
-    //     }
-    // },
-    //延期
-    extensionClick(){
+      // signClick(){
+      //     //签署
+      //     if (this.contractType == "0") {
+      //       this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+      //       sessionStorage.setItem("contractNo", this.contractNo);
+      //       this.$router.push("/Dimension");
+      //     } else {
+      //       this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
+      //       sessionStorage.setItem("contractNo", this.contractNo);
+      //       this.$router.push("/Contract");
+      //     }
+      // },
+      //延期
+      extensionClick(){
         if (this.contractType == "0") {
           sessionStorage.setItem("contractNo", this.contractNo);
           cookie.set("state", "E");
@@ -302,65 +296,64 @@
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
-    },
+      },
       seeContractDetails () {
         let data =[];
-        // let url = process.env.API_HOST+'v1.4/contract/'+this.$store.state.rowNumber+'/signFinish';
 
-        b2bDetail(this.contractNo).then(res=>{
-            let contractType = res.data.data.contractType
-            if(contractType == '0'){
-              this.businessScenario = '企业对企业'
-            }
-            let contractNoZq = res.data.data.contractNoZq
-            this.contractName = res.data.data.contractName
-            this.sponsorInterfaceCode = res.data.data.interfaceCode
-            let type = res.data.data.contractType
-            switch (type) {
-              case '1':
-                this.createType = '模板发起'
+        signFinish(this.contractNo).then(res=>{
+          let contractType = res.data.data.contractType
+          if(contractType == '0'){
+            this.businessScenario = '企业对企业'
+          }
+          let contractNoZq = res.data.data.contractNoZq
+          this.contractName = res.data.data.contractName
+          this.sponsorInterfaceCode = res.data.data.interfaceCode
+          let type = res.data.data.contractType
+          switch (type) {
+            case '1':
+              this.createType = '模板发起'
+              break;
+            default:
+              this.createType = '上传发起'
+              break;
+          }
+          this.status = res.data.data.status
+          this.operator = res.data.data.operator
+          this.validTime = res.data.data.validTime
+          let signUserVo = res.data.dataList
+          for (let i = 0; i < signUserVo.length;i++) {
+            let obj = {}
+            obj.signUserName = signUserVo[i].signUserName
+            obj.email = signUserVo[i].email
+            obj.userName = signUserVo[i].userName
+            obj.mobile = signUserVo[i].mobile
+            obj.idCard = signUserVo[i].idCard
+            obj.signStatus = signUserVo[i].signStatus
+            obj.userCode = signUserVo[i].userCode
+
+            switch ( obj.signStatus ){
+              case "0":
+                obj.signStatus = 0
                 break;
               default:
-                this.createType = '上传发起'
+                obj.signStatus = 1
                 break;
             }
-            this.status = res.data.data.status
-            this.operator = res.data.data.operator
-            this.validTime = res.data.data.validTime
-            let signUserVo = res.data.dataList
-            for (let i = 0; i < signUserVo.length;i++) {
-              let obj = {}
-              obj.signUserName = signUserVo[i].signUserName
-              obj.email = signUserVo[i].email
-              obj.userName = signUserVo[i].userName
-              obj.mobile = signUserVo[i].mobile
-              obj.idCard = signUserVo[i].idCard
-              obj.signStatus = signUserVo[i].signStatus
-              obj.userCode = signUserVo[i].userCode
-
-              switch ( obj.signStatus ){
-                case "0":
-                  obj.signStatus = 0
-                  break;
-                default:
-                  obj.signStatus = 1
-                  break;
-              }
-              if (obj.idCard === null || obj.idCard === 'undefined') {
-                obj.idCard = ''
-              }
-              data[i] = obj
+            if (obj.idCard === null || obj.idCard === 'undefined') {
+              obj.idCard = ''
             }
-            this.tableData2 = data
+            data[i] = obj
+          }
+          this.tableData2 = data
 
-            let param={
-                contractNoZq:contractNoZq
-            }
-            contractSignUserInfo(param,this.ContractCode).then(res=>{
-                this.History = res.data.dataList;
-            }).catch(error=>{
+          let param={
+            contractNoZq:contractNoZq
+          }
+          contractSignUserInfo(param,this.ContractCode).then(res=>{
+            this.History = res.data.dataList;
+          }).catch(error=>{
 
-            })
+          })
         }).catch(error=>{
 
         })
@@ -373,44 +366,44 @@
         }
       },
       backHome(){
-            if(cookie.getJSON('state')=='list'){
-                this.$router.push("/Procontract")
-                this.$store.dispatch('tabIndex',{tabIndex:1});
-            }else if(cookie.getJSON('state')=='home'){
-                this.$router.push("/Merchant")
-                this.$store.dispatch('tabIndex',{tabIndex:0});
-            }else if(cookie.getJSON('state')== 'Home'){
-                this.$router.push("/Home")
-                this.$store.dispatch('tabIndex',{tabIndex:0});
-            }else if(cookie.getJSON('state') == 'List'){
-                this.$router.push("/Mycontract")
-                this.$store.dispatch('tabIndex',{tabIndex:1});
-            }
+        if(cookie.getJSON('state')=='list'){
+          this.$router.push("/Procontract")
+          this.$store.dispatch('tabIndex',{tabIndex:1});
+        }else if(cookie.getJSON('state')=='home'){
+          this.$router.push("/Merchant")
+          this.$store.dispatch('tabIndex',{tabIndex:0});
+        }else if(cookie.getJSON('state')== 'Home'){
+          this.$router.push("/Home")
+          this.$store.dispatch('tabIndex',{tabIndex:0});
+        }else if(cookie.getJSON('state') == 'List'){
+          this.$router.push("/Mycontract")
+          this.$store.dispatch('tabIndex',{tabIndex:1});
+        }
 
 
       }
     },
     created() {
-        this.signMobile = cookie.getJSON('tenant')[0].mobile;
+      this.signMobile = cookie.getJSON('tenant')[0].mobile;
 
-        let accountLevel = sessionStorage.getItem('accountLevel');
-        let accountCode = sessionStorage.getItem('accountCode');
-        let detailAccountCode = sessionStorage.getItem('detailAccountCode');
+      let accountLevel = sessionStorage.getItem('accountLevel');
+      let accountCode = sessionStorage.getItem('accountCode');
+      let detailAccountCode = sessionStorage.getItem('detailAccountCode');
 
-        this.seeContractDetails ();
+      this.seeContractDetails ();
       //判断是不是二级账户如果是不请求顶部显示部门姓名
-        if(accountLevel != 2){
-            let param={
-                accountCode:detailAccountCode
-            }
-            server.getAccountName(param,this.interfaceCode).then(res=>{
-                if(res.data.resultCode == 1){
-                    this.accountName = res.data.data
-                }
-            }).catch(error=>{
-
-            })
+      if(accountLevel != 2){
+        let param={
+          accountCode:detailAccountCode
         }
+        server.getAccountName(param,this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.accountName = res.data.data
+          }
+        }).catch(error=>{
+
+        })
+      }
     }
   }
 </script>

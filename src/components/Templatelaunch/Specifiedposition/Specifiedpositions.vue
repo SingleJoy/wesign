@@ -76,7 +76,7 @@
   import { mapActions, mapState } from 'vuex'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import {getContractDetails,contractImg,signerpositions} from '@/api/personal'
+  import {getContractDetails,contractimgs,signerpositions} from '@/api/personal'
   export default {
     name: 'Specifiedpositions',
     data () {

@@ -1,13 +1,7 @@
 <template>
   <div class='CompanyExam'>
     <div class='main'>
-      <!-- <p class='first' style="display: inherit;">
-		<span>我的合同</span>
-		<span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-		<span v-else style="padding-right: 75%;">>合同详情</span>
-		<a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-		<span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
-	  </p> -->
+
       <div class='first' style="display: inherit;">
         <p style="line-height: 60px;float: left;">
           <span>我的合同</span>
@@ -26,14 +20,14 @@
         </p>
 
       </div>
-      <p class='second'>
-      <div class="title">签署文件</div>
+      <div class='second'>
+        <div class="title">签署文件</div>
 
-      <span class='text'>
+        <span class='text'>
                <strong>当前状态：</strong>
                <span>{{status}}</span>
              </span>
-      </p>
+      </div>
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong>
@@ -160,17 +154,17 @@
     line-height: 44px;
     padding-left: 35px;
     padding-right: 15px;
-  span{
-    color:#fff;
-    font-size: 12px;
-    padding-left: 0;
-  }
-  .department{
-    font-size: 14px;
-    display: block;
-    font-weight: 500;
-    margin-top: 10px;
-  }
+    span{
+      color:#fff;
+      font-size: 12px;
+      padding-left: 0;
+    }
+    .department{
+      font-size: 14px;
+      display: block;
+      font-weight: 500;
+      margin-top: 10px;
+    }
 
   }
   .currentStep .el-step__icon{
@@ -195,7 +189,7 @@
 
   .showDialogs{
     height: 700px;
-  //   overflow-y: scroll;
+    //   overflow-y: scroll;
     overflow: hidden;
   }
   .showDialogs .el-dialog__body{
@@ -218,11 +212,11 @@
   }
 </style>
 <script>
-  import { mapActions, mapState } from 'vuex'
+  import {state, actions,mutations} from '@/store/index';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remind,b2bDetail,contractSignUserInfo,b2bImgs} from '@/api/detail'
+  import {remind,signFinish,contractSignUserInfo,contractimgs} from '@/api/detail'
   export default {
     name: 'CompanyExam',
     data() {
@@ -278,9 +272,10 @@
       seeContractImg (){
         this.$loading.show(); //显示
         let data =[];
-        b2bImgs(this.interfaceCode,this.contractNo).then(res=>{
+        let t=Math.random();
+        contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
           for (let i = 0; i < res.data.dataList.length;i++) {
-            let contractUrl = res.data.dataList[i].contractUrl
+            let contractUrl = res.data.dataList[i].contractUrl;
             data[i] = contractUrl
             this.$loading.hide(); //隐藏
           }
@@ -301,7 +296,7 @@
         let data =[];
 
         let currentFaceCode = this.interfaceCode;
-        b2bDetail(this.contractNo).then(res=>{
+        signFinish(this.contractNo).then(res=>{
           let contractType = res.data.data.contractType
           if(contractType == '0'){
             this.businessScenario = '企业对企业'

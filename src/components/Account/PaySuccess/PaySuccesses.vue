@@ -34,7 +34,6 @@
   import {GetQueryString} from '@/common/js/InterceptUrl'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import {aliPayReturn} from '@/api/purchase'
-  import server from '@/api/url'
   import {bindEnterprises,homePage} from '@/api/login'
 
   export default {

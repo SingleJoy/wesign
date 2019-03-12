@@ -12,7 +12,6 @@
           </div>
         </div>
 
-
       </nav>
     </div>
     <div class="ActivateChildAccounts">
@@ -109,7 +108,7 @@
         } else if (value!== ''&&!validateSmsCode(value)) {
           callback(new Error('验证码密码长度是6位'))
         }
-      }
+      };
 
       return {
         baseURL:this.baseURL.BASE_URL,
@@ -142,7 +141,6 @@
         show:'',
         mobileShowFirst:'',
         mobileShowLast:'',
-
       }
     },
     // 组件销毁前清除定时器
@@ -367,7 +365,7 @@
         let authorizerCode = sessionStorage.getItem('authorizerCode');
         let t = Math.random();
         getSignatureImg(accountCode,authorizerCode,t).then(res=> {
-          this.canvasTest =  res.data
+          this.canvasTest =  res.data;
 
           if(this.canvasTest!= '') {
             let smCode = document.getElementById('smCode')

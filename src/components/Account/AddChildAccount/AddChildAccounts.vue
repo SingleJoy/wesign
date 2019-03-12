@@ -171,7 +171,7 @@
         } else {
           callback()
         }
-      }
+      };
       // 校验二级账号管理员账户
       let validateUserName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
@@ -181,7 +181,7 @@
         } else {
           callback()
         }
-      }
+      };
       //校验身份证号
       let validateIdCard = (rule,value,callback) => {
         if (TrimAll(value) === ''){
@@ -191,7 +191,7 @@
         } else {
           callback()
         }
-      }
+      };
       // 校验密码
       let validateChildPassWord = (rule, value, callback) => {
         if (value === '') {
@@ -203,7 +203,7 @@
         }else {
           callback();
         }
-      }
+      };
       // 校验手机号
       let validateChildMobile = (rule,value,callback) => {
 
@@ -238,7 +238,7 @@
 
           callback()
         }
-      }
+      };
       //校验邮箱
       let validateChildEmail=(rule,value,callback)=>{
         if (value === '') {
@@ -248,7 +248,7 @@
         } else{
           callback()
         }
-      }
+      };
 
       return{
         server:true,

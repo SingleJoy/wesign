@@ -42,12 +42,7 @@ const service = {
   //查看合同详情
   contractInfo(param, interfaceCode) {
     return request({
-      url:
-      "/api/v1/tenant/" +
-      interfaceCode +
-      "/contract/" +
-      param.contractNo +
-      "/contractimgs",
+      url: "/api/v1/tenant/" + interfaceCode + "/contract/" + param.contractNo + "/contractimgs",
       method: "get",
       params: ""
     });

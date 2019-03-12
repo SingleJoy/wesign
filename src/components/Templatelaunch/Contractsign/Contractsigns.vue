@@ -85,7 +85,8 @@
     import cookie from '@/common/js/getTenant'
     import {prohibit} from '@/common/js/prohibitBrowser'
     import {signature} from '@/api/business'
-    import {contractimgs,contractmoresign} from '@/api/template'
+    import {contractmoresign} from '@/api/template'
+    import {contractimgs} from '@/api/detail'
     import {b2cSignPosition, verifySignPassword} from '@/api/personal'
     import md5 from "js-md5";
     export default {
@@ -178,7 +179,8 @@
 
         let data =[]
         this.$loading.show(); //显示
-        contractimgs(this.interfaceCode,this.contractNo).then(res=> {
+          let t=Math.random();
+        contractimgs(this.interfaceCode,this.contractNo,t).then(res=> {
             /*获取后台数据，并使用imgArray*/
             for(let i=0;i<res.data.length;i++){
             let contractUrl = res.data[i].contractUrl
