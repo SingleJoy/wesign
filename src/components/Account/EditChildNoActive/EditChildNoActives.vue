@@ -26,10 +26,8 @@
                   </el-form-item>
 
 
-
                   <el-form-item label="手机号码" :label-width="formLabelWidth" prop="mobile">
                     <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" :maxlength= 11 :minlength= 11 ></el-input>
-
                   </el-form-item>
 
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
@@ -69,13 +67,10 @@
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
                       <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
-
                     </el-checkbox-group>
-
                   </template>
 
                 </div>
-
 
                 <div class="batch-list" v-if="(singleTemplateLength)||(batchTemplateLength)">
                   <h3>批量发起模板</h3>
@@ -83,23 +78,17 @@
                     <el-checkbox-group v-model="batchTemplate" >
                       <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
-
                   </template>
 
                 </div>
                 <div class="no-template" v-if="(!singleTemplateLength)&&(!batchTemplateLength)">
-                  <img src="../../../../static/images/Account/no-template.png">
+                  <img src="/static/images/blank.png" alt="">
                   <p style="color: #999;">暂无模板</p>
                 </div>
 
                 <div class="fill-background"></div>
 
-                <!--<div class="empty-template" >-->
-                <!--<img src="../../../../../static/images/Confirmation/Account/default-template.png">-->
-                <!--<p class="tips">喔喔！暂时没有任何模板信息哦</p>-->
-                <!--</div>-->
               </div>
-
 
             </div>
 
@@ -149,8 +138,8 @@
               </el-dialog>
 
               <div class="operate-buttons">
-                <button class="quit" @click="quit('ruleForm')" href="javascript:void(0)">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
-                <button class="submit"  @click="submitBtn('ruleForm')" href="javascript:void(0)" :disabled="once">提交</button>
+                <button class="quit" @click="quit('ruleForm')" >取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+                <button class="submit"  @click="submitBtn('ruleForm')"  :disabled="once">提交</button>
               </div>
             </div>
           </div>
@@ -163,19 +152,15 @@
 </template>
 <script>
 
-  import Account from "../Account"
   import md5 from 'js-md5'
   import {validateMoblie,validateEmail,TrimAll,validatePassWord,validateCard} from '@/common/js/validate'
-  import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
+  import {updateAccount,templateList,getAccountInfo,getDate} from '@/api/account'
   export default {
     name: 'EditChildNoActives',
-    component:{
-      Account
-    },
     data() {
       // 校验二级账号姓名
-      var validateAccountName = (rule,value,callback) => {
+      let validateAccountName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -185,7 +170,7 @@
         }
       }
       // 校验二级账号管理员账户
-      var validateUserName = (rule,value,callback) => {
+      let validateUserName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入管理员账户'))
         } else if (value.length<2 || value.length > 15 ) {
@@ -195,7 +180,7 @@
         }
       }
       //校验身份证号
-      var validateIdCard = (rule,value,callback) => {
+      let validateIdCard = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入身份证号'))
         } else if (value !== '' && !validateCard(value)){
@@ -205,7 +190,7 @@
         }
       }
       // 校验密码
-      var validateChildPassWord = (rule, value, callback) => {
+      let validateChildPassWord = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else if (value.length < 8 || value.length > 16) {
@@ -217,7 +202,7 @@
         }
       }
       // 校验手机号
-      var validateChildMobile = (rule,value,callback) => {
+      let validateChildMobile = (rule,value,callback) => {
 
         if(value === ''){
           callback(new Error('请输入手机号'))
@@ -253,7 +238,7 @@
         }
       }
       //校验邮箱
-      var validateChildEmail=(rule,value,callback)=>{
+      let validateChildEmail=(rule,value,callback)=>{
         if (value === '') {
           callback(new Error('请输入邮箱'));
         }else if (value !== '' && !validateEmail(value)){
@@ -314,11 +299,8 @@
     },
     methods: {
       changEvent(){
-        this.$http.get(process.env.API_HOST + "v1.5/user/getDate").then(function(res) {
-          //   console.log(res.bodyText)
-
-          this.date=res.bodyText;
-
+        getDate().then(res=> {
+          this.date=res.data;
         });
       },
       // 取消
@@ -331,15 +313,13 @@
       submitBtn(formName){
 
         if(this.agree) {
+          this.$loading.show();
           this.$refs[formName].validate((valid) => {
-
             if (valid) {
-
               this.once = true;
               let pass = md5(this.ruleForm.password);
               let batchTemplate=JSON.stringify(this.batchTemplate);  //批量模板
               let singleTemplate=JSON.stringify(this.singleTemplate);  //单次发起模板
-
               let accountCode = sessionStorage.getItem("subAccountCode");
               // let batchTemplate1=batchTemplate.substr(2,batchTemplate.length-3);
               let batchTemplate1=batchTemplate.replace("[",",").replace("]","").replace(/\"/g,"");
@@ -352,8 +332,8 @@
               if((this.batchTemplate.length+this.singleTemplate.length)=='0'){
                 templates='';
               }
-              this.$loading.show();
-              this.$http.post(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/updateAccount', {
+
+              let params={
                 accountName: this.ruleForm.accountName,  //管理员姓名
                 userName: this.ruleForm.userName,            //账户名称
                 idCard: this.ruleForm.idCode,                  //省份证号
@@ -364,115 +344,112 @@
                 templates: templates,                                //分配模板
                 company_name: this.enterpriseName,
                 manageName:manageName,    //一级账号名称
-              }, {emulateJSON: true}).then(res => {
-                this.$nextTick(function () {
-                  this.$loading.hide();
-                })
+              };
+              updateAccount(this.interfaceCode,params).then(res => {
+                this.$loading.hide();
+                this.once = false;
                 if (res.data.resultCode == '1') {
                   this.$message({
                     message: res.data.resultMessage,
                     type: 'success'
                   });
-
                   this.$router.push("/Account");
-                } else if(res.data.resultCode == 0){
+                }
+                else if(res.data.resultCode == '0'){
                   let num = 3;
                   if(res.data.data){
                     num = num-res.data.data.authNum;
-
-                   if(num>='1'){
-
-                     this.$alert(<div style="textAlign:center">
+                    if(num>0){
+                      this.$alert(<div style="textAlign:center">
                         <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
-                        <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
-                        <p class="vertifiId-warn">您还剩余{num}次机会</p> </div>, '警告',{confirmButtonText: '确定',});
-                       this.once=false;
-                   }else if(num=='0'){
-
-                     this.$alert(<div style="textAlign:center">
-                      <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
                       <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
-                      </div>, '警告',{confirmButtonText: '确定',});
-                     this.$router.push("/Account");
+                        <p class="vertifiId-warn">您还剩余{num}次机会</p> </div>, '警告',{confirmButtonText: '确定',});
+
+                    }else if(num==0){
+                      this.$alert(<div style="textAlign:center">
+                        <p>子账号管理员实名认证未通过，请仔细核对管理员姓名、身份证号、手机号是否为同一主体</p>
+                      <p class="vertifiId-warn warn-first">实名认证三次未通过该账号将被冻结</p>
+                        </div>, '警告',{confirmButtonText: '确定',});
+                      this.$router.push("/Account");
                     }
-
                   }
+                }
+                else if(res.data.resultCode == '2'){
+                  this.$message({
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                  });
 
-            }else if(res.data.resultCode == 2){
+                }
+              }).catch(error=>{
+
+              })
+            }
+            else {
               this.$message({
                 showClose: true,
-                message:res.data.resultMessage,
+                message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
                 type: 'error'
-              });
-              this.once = false;
+              })
+              this.once=false;
             }
           })
 
-        }else {
-          this.$message({
-            showClose: true,
-            message: '您你未完成子账户基本信息编辑，请您先完成子账户基本信息编辑!',
-            type: 'error'
-          })
+        }else{
+          this.$alert('您还未确认签署《电子合同子账号管理认证授权书》!', '确认签署',{
+            confirmButtonText: '确定'
+          });
           this.once=false;
+          return false;
         }
+
+      },
+
+    },
+    created() {
+      this.$loading.show();
+      let accountCode = sessionStorage.getItem("subAccountCode");
+
+      let params={accountCode: accountCode}
+      getAccountInfo(this.interfaceCode,params).then(res => {
+        if (res.data.resultCode == '1'){
+          this.ruleForm.accountName = res.data.data.accountName;            //账户名称
+          this.ruleForm.Email= res.data.data.email;                    //邮箱
+          let singleArray=[];
+          let batchArray=[];
+          let data=res.data.dataList;
+          //模板存在
+          if(data){
+            for(let i=0;i<data.length;i++){
+
+              if(data[i].templateSpecies=='single'){
+                singleArray.push(data[i]);
+              }else {
+                batchArray.push(data[i]);
+              }
+            }
+            this.single=singleArray;
+            this.batch=batchArray;
+            if(this.single.length==0){
+              this.singleTemplateLength=false
+            }else{
+              this.singleTemplateLength=true
+            }
+            if(this.batch.length==0){
+              this.batchTemplateLength=false
+            }else{
+              this.batchTemplateLength=true
+            }
+          }
+
+        }
+      }).catch(error=>{
+
       })
 
-  }else{
-    this.$alert('您还未确认签署《电子合同子账号管理认证授权书》!', '确认签署',{
-      confirmButtonText: '确定'
-    });
-    this.once=false;
-    return false;
-  }
-
-  },
-
-  },
-  created() {
-    let accountCode = sessionStorage.getItem("subAccountCode");
-
-
-    this.$http.get(process.env.API_HOST + 'v1.5/tenant/' + this.interfaceCode + '/getAccountInfo', {
-      params: {accountCode: accountCode}
-    }).then(res => {
-      if (res.data.resultCode == '1'){
-        this.ruleForm.accountName = res.data.data.accountName;            //账户名称
-        this.ruleForm.Email= res.data.data.email;                    //邮箱
-        let singleArray=[];
-        let batchArray=[];
-        let data=res.data.dataList;
-        //模板存在
-        if(data){
-          for(let i=0;i<data.length;i++){
-
-            if(data[i].templateSpecies=='single'){
-              singleArray.push(data[i]);
-            }else {
-              batchArray.push(data[i]);
-            }
-          }
-          this.single=singleArray;
-          this.batch=batchArray;
-          if(this.single.length==0){
-            this.singleTemplateLength=false
-          }else{
-            this.singleTemplateLength=true
-          }
-          if(this.batch.length==0){
-            this.batchTemplateLength=false
-          }else{
-            this.batchTemplateLength=true
-          }
-        }
-
-
-
-      }
-    })
-
-
-  }
+      this.$loading.hide();
+    }
 
 
   }
@@ -510,7 +487,7 @@
     margin-left: 20px;
   }
   .content-body>p.title{
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
 
 

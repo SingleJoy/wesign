@@ -19,7 +19,7 @@
     <div class="state">
       <div class="stateInfo">
         <div>
-          <img src="../../../static/images/contract-success.png" alt="" style="margin-top: 40px;">
+          <img src="/static/images/Common/contract-sign-success.png" alt="" style="margin-top: 10px;">
         </div>
         <div style="margin-left: 30px;">
           <span>恭喜,合同签署成功！</span>
@@ -31,12 +31,12 @@
     <!-- 合同所有信息开始 -->
     <div class='contractInfo'>
         <div class='oneInfo'>
-            <p><h3 class='infoss'>合同信息</h3></p>
+            <div><h3 class='infoss'>合同信息</h3></div>
           <ul id='oneInfos'>
             <li><p ><span>合同名称：</span>
             <el-tooltip placement="top">
-              <div slot="content">{{this.$store.state.contractName1}}</div>
-              <span id='templateTextInfo'>{{this.$store.state.contractName1}}</span>
+              <div slot="content">{{contractName}}</div>
+              <span id='templateTextInfo'>{{contractName}}</span>
             </el-tooltip>
             <a href="javascript:void(0);" @click="seeContractImg" style='color:#4091fb'>查看合同</a>
             </p></li>
@@ -59,7 +59,7 @@
           <dd><p><span>合同链接：</span><span id='contractAddress'>{{contractlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dd>
             <dl>
-              <dt><img src="../../../static/images/Room/hand.png" alt=""></dt>
+              <dt><img src="/static/images/Room/hand.png" alt=""></dt>
               <dd>
                 <p><a href="javascript:void(0);" @click='handleCopy(contractlink,$event)'>复制链接</a></p>
               </dd>
@@ -71,7 +71,7 @@
           <dd><p><span>签约室链接：</span><span id='contractAddress1'>{{roomlink}}</span></p></dd>  <!--加查看对应合同地址-->
           <dd>
             <dl>
-              <dt><img src="../../../static/images/Room/room.png" alt=""></dt>
+              <dt><img src="/static/images/Room/room.png" alt=""></dt>
               <dd>
                 <p><a href="javascript:void(0);" @click='handleCopy(roomlink,$event)'>复制链接</a></p>
               </dd>
@@ -95,11 +95,16 @@
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
-import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
+import clipboard from '@/common/directive/clipboard/index' // use clipboard by v-directive
+import {contractimgs,getContractDetails} from "@/api/template"
+import {getSignLink} from "@/api/personal"
 export default {
   data () {
     return {
       baseURL:this.baseURL.BASE_URL,
+      interfaceCode:sessionStorage.getItem("interfaceCode"),
+      contractNo:sessionStorage.getItem("contractNo"),
+      contractName:sessionStorage.getItem("contractName"),
       signUser:[],
       validTime:'',
       dialogTableVisible:false,
@@ -110,25 +115,25 @@ export default {
   },
   methods: {
     lookDetails () { //查看详情
-      this.$store.dispatch('contractsInfo',{contractNo:this.$store.state.contractNo1})
+
+      cookie.set("state", "Home");
       this.$router.push('/ContractInfo')
       this.$store.dispatch('tabIndex',{tabIndex:1});
 
     },
     seeContractImg (){
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
+      let data =[];
+      contractimgs(this.interfaceCode ,this.contractNo).then(res=> {
 
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
         for (let i = 0; i < res.data.length;i++) {
         let contractUrl = res.data[i].contractUrl
         data[i] = contractUrl
         }
         this.imgList = data
-        }
-      })
+
+      }).catch(error=>{
+
+      });
       this.dialogTableVisible = true
     },
     handleCopy(text, event) {
@@ -144,34 +149,20 @@ export default {
   },
   created() {
     this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
-    var contractName = sessionStorage.getItem('contractName')
-    var contractNo = sessionStorage.getItem('contractNo')
-
-    if (contractName) {
-    //   contractName = JSON.parse(contractName)
-      if ( this.$store.state.contractName1 == ''){
-        this.$store.state.contractName1 = contractName
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
-
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+    let t=Math.random();
+    getContractDetails(this.interfaceCode,this.contractNo,t).then(res=>{
      this.signUser = res.data.signUserVo
-     var contractVo = res.data.contractVo
+     let  contractVo = res.data.contractVo
      this.validTime = contractVo.validTime
-        }
-    })
+    }).catch(error=>{
 
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/getSignLink').then(function (res) {
-      this.contractlink = res.bodyText
+    });
+
+    getSignLink(this.interfaceCode ,this.contractNo).then(res=> {
+      this.contractlink = res.data
+
+    }).catch(error=>{
+
     })
   },
   mounted() {

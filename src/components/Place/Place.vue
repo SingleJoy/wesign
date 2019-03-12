@@ -6,7 +6,7 @@
 </template>
 <script>
 import Places from './Places'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Place',
     components: {

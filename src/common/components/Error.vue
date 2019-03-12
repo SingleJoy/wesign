@@ -2,9 +2,9 @@
   <div class='Error'>
     <Top></Top>
     <div class='server'>
-      <p class='animated lightSpeedIn'><img src="../../../static/images/Server/Server.png" alt=""></p>
+      <p class='animated lightSpeedIn'><img src="/static/images/Server/Server.png" alt=""></p>
       <h4>啊哦~系统繁忙中，3秒后自动返回，请点击下面按钮返回首页……</h4>
-      <el-button type="primary" style='margin-left:542px;'>返回首页</el-button>
+      <el-button type="primary" style='margin-left:542px;' @click="back">返回首页</el-button>
     </div>
     <Bottom></Bottom>
   </div>
@@ -17,6 +17,18 @@ export default {
   components: {
     Top,
     Bottom
+  },
+  methods:{
+    back(){
+      this.$router.push('/')
+    }
+  },
+  created(){
+    this.$nextTick(() => {
+     setTimeout(()=>{
+       this.$router.push('/')
+     },3000)
+    })
   }
 }
 </script>

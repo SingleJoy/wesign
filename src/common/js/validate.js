@@ -1,8 +1,3 @@
-/**
- * Author:WANGJIA
- * Date：2018/2/7
- */
-
 
 /**
  * @param {*moblie} str
@@ -16,7 +11,7 @@ export function validateMoblie(str) {
  * @param {*email} str
  */
 export function validateEmail(str) {
-    // const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+
     const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
     return reg.test(str)
 }
@@ -25,7 +20,7 @@ export function validateEmail(str) {
  *  @param {*idCard} str
  */
 export function validateCard(str){
-    const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/
+    const reg = /(^\d{18}$)|(^\d{17}(X|x)$)/
     return reg.test(str)
 }
 
@@ -34,6 +29,13 @@ export function validateCard(str){
  */
 export function validatePassWord(str){
     const reg = /[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/
+    return reg.test(str)
+}
+/** 
+ * @param {password(4-16)} str
+  */
+export function valiteSignPwd(str){
+    const reg = /^[a-zA-Z0-9]{4,16}$/;
     return reg.test(str)
 }
 
@@ -45,15 +47,6 @@ export function validateCredit(str){
     return reg.test(str)
 }
 
-
-
-// /**
-//  *  @param {*Name-Chinese} str
-//  */
-// export function validateCredit(str){
-//     const reg =  /\u4e00-\u9fa5/
-//     return reg.test(str)
-// }
 
 /**
  *  @param {*nonnumeric} str
@@ -75,7 +68,7 @@ export function validateBank(str){
  *  @param {*validateBankNum} str
  */
 export function validateBankNum(str){
-    const reg = /^([0-9]\d{5,18})$/
+    const reg = /^([0-9]\d{5,21})$/
     return reg.test(str)
 }
 /**
@@ -150,18 +143,13 @@ export  function onlyChinese(str){
   return reg.test(str)
 }
 
+export function slicePhone(str){
+    return str.slice(0,3) + '****' +str.slice(-4)
+}
 
+// /[@#\$%\^&\*]+/g 特殊字符
 /**
  * 加 g 去除全部空格 不加去除前后空格
  * @param {*} str 目标字符串
  * @param {*} is_global 是否检查整个字符串
  */
-// export function TrimAll(str,is_global){
-//     var result;
-//     _is_global = (typeof(is_global) !== 'undefined')? is_global: 'n';
-//     result = str.replace(/(^\s+)|(\s+$)/g, "");
-//     if(_is_global.toLowerCase() == 'g'){
-//         result = result.replace(/\s/g, "");
-//     }
-//     return result
-// }

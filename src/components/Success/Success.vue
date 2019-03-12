@@ -2,13 +2,13 @@
     <div class='Success'>
         <Top></Top>
         <Successes></Successes>
-        <Bottom></Bottom> 
+        <Bottom></Bottom>
     </div>
 </template>
 <script>
-import Top from '../../common/components/Top'
+import Top from '@/common/components/Top'
 import Successes from './Successes'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Success',
     components: {

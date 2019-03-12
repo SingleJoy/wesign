@@ -11,18 +11,18 @@
               <div class="content-bg">
 					<div class="business-account">
 						<p class="top-img">
-							<img class="" src="../../../static/images/Login/company_top.png" alt="企业账号">
+							<img class="" src="/static/images/Login/company_top.png" alt="企业账号">
 							<span>企业</span>
 						</p>
 						<ul v-if="companyList.length>0" class="role-ul">
 							<li v-for="(item,index) in companyList" :key="index" class="role-item">
 								<div class="item-left">
 									<span class="sign" v-if="item.auditSteps==3">
-										<img src="../../../static/images/Login/sign_red.png" alt="">
+										<img src="/static/images/Login/sign_red.png" alt="">
 										<span class="company-status active">已实名</span>
 									</span>
 									<span class="sign" v-else>
-											<img src="../../../static/images/Login/sign_gray.png" alt="">
+											<img src="/static/images/Login/sign_gray.png" alt="">
 											<span class="company-status no-active">未实名</span>
 									</span>
 									<div class="info-content">
@@ -45,7 +45,7 @@
 						</ul>
 						<ul v-else>
 							<li class="no-data">
-								<img src="../../../static/images/blank.png" alt="">
+								<img src="/static/images/blank.png" alt="">
 								<p>暂未开通</p>
 							</li>
 						</ul>
@@ -53,7 +53,7 @@
 					<div class="line"></div>
 					<div class="sub-business-account">
 						<p class="top-img">
-							<img class="" src="../../../static/images/Login/subcompany_top.png" alt="企业子账号">
+							<img class="" src="/static/images/Login/subcompany_top.png" alt="企业子账号">
 							<span>企业子账号</span>
 							<span style="font-size: 14px;margin-left: 200px;color: red;letter-spacing: 1px; margin-top: 10px;">(子账号为企业管理员分配)</span>
 						</p>
@@ -61,31 +61,31 @@
 							<li v-for="(item,index) in subCompanyList" :key="index" class='role-item'>
 								<div class="item-left">
 									<span class="sign" v-if="item.accountStatus==0">
-										<img src="../../../static/images/Login/has_sign.png" alt="">
+										<img src="/static/images/Login/has_sign.png" alt="">
 										<span class="subcompany-status active">关闭</span>
 									</span>
 									<span class="sign" v-if="item.accountStatus==1">
-										<img src="../../../static/images/Login/has_sign.png" alt="">
+										<img src="/static/images/Login/has_sign.png" alt="">
 										<span class="subcompany-status active">开通</span>
 									</span>
 									<span class="sign" v-else-if="item.accountStatus==2">
-										<img src="../../../static/images/Login/has_sign.png" alt="">
+										<img src="/static/images/Login/has_sign.png" alt="">
 										<span class="subcompany-status active">未激活</span>
 									</span>
 									<span class="sign" v-else-if="item.accountStatus==3">
-										<img src="../../../static/images/Login/has_sign.png" alt="">
+										<img src="/static/images/Login/has_sign.png" alt="">
 										<span class="subcompany-status active">已激活</span>
 									</span>
 									<span class="sign" v-else-if="item.accountStatus==4">
-										<img src="../../../static/images/Login/has_sign.png" alt="">
+										<img src="/static/images/Login/has_sign.png" alt="">
 										<span class="subcompany-status active">待完善</span>
 									</span>
 									<span class="sign" v-else-if="item.accountStatus==5">
-										<img src="../../../static/images/Login/has_sign.png" alt="">
+										<img src="/static/images/Login/has_sign.png" alt="">
 										<span class="subcompany-status active">永久冻结</span>
 									</span>
 									<span class="sign" v-else-if="item.accountStatus==6">
-											<img src="../../../static/images/Login/un_sign.png" alt="">
+											<img src="/static/images/Login/un_sign.png" alt="">
 											<span class="subcompany-status no-active">冻结</span>
 									</span>
 
@@ -110,7 +110,7 @@
 						</ul>
 						<ul v-else>
 							<li class="no-data">
-								<img src="../../../static/images/blank.png" alt="">
+								<img src="/static/images/blank.png" alt="">
 								<p>暂未开通</p>
 							</li>
 						</ul>
@@ -134,7 +134,6 @@ import cookie from '@/common/js/getTenant'
   export default {
     name:'Role',
     data () {
-
       return {
 			companyList:[],
 			subCompanyList:[],
@@ -152,7 +151,6 @@ import cookie from '@/common/js/getTenant'
 	},
     methods: {
 		loginEnter(item){
-
 			sessionStorage.setItem('accountCode',item.accountCode);      //账户编号
 			sessionStorage.setItem('accountLevel',item.accountLevel);      //账号类型一二级
 			sessionStorage.setItem('authorizerCode',item.authorizerCode);      	//授权人编号
@@ -162,6 +160,7 @@ import cookie from '@/common/js/getTenant'
 			sessionStorage.setItem('enterpriseName',item.enterpriseName);
 			// console.log(item.enterpriseName)
 			sessionStorage.setItem('userCode',item.userCode);
+			sessionStorage.setItem('accountMoney',item.accountMoney);
 
 			let params = {
 				mobile:item.mobile,
@@ -169,32 +168,32 @@ import cookie from '@/common/js/getTenant'
 			}
 			let urlParam = item.interfaceCode;
 			if(item.accountStatus==2){
-                sessionStorage.setItem('accountStatus',2)
-				this.$router.push('/ActivateChildAccount')
+        sessionStorage.setItem('accountStatus','2');
+				this.$router.push('/ActivateChildAccount');
 			}else{
 				server.login(params,urlParam).then(res=>{
-                    if(res.data.dataList[1].auditSteps!=3){
-                        this.$message({
-                        showClose: true,
-                            duration: 1000,
-                            message: "登录成功",
-                            type: "success"
-                        });
-                        cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
-                        this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
-                        this.$router.push("/Merchant");
-                    }else{
-                            this.$message({
-                            showClose: true,
-                            duration: 1000,
-                            message: "登录成功",
-                            type: "success"
-                        });
-                        cookie.set("tenant", res.data.dataList);
-                        this.$store.dispatch("tabIndex", { tabIndex: 0 });
-                        this.$router.push("/Home");
-                    }
-                       
+         if(res.data.dataList[1].auditSteps!=3){
+          this.$message({
+            showClose: true,
+            duration: 1000,
+            message: "登录成功",
+            type: "success"
+           });
+           cookie.set("tenant", res.data.dataList); //存入cookie 所需信息
+               this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
+               this.$router.push("/Merchant");
+               }else{
+                  this.$message({
+                  showClose: true,
+                  duration: 1000,
+                  message: "登录成功",
+                  type: "success"
+                   });
+                cookie.set("tenant", res.data.dataList);
+                this.$store.dispatch("tabIndex", { tabIndex: 0 });
+                 this.$router.push("/Home");
+              }
+
 				}).catch(error=>{
 					this.$message({
 						showClose: true,
@@ -278,12 +277,11 @@ import cookie from '@/common/js/getTenant'
 					.role-item{
 						margin-top: 20px;
 						height:175px;
-                        // float: right;
 						.sign img{
 							float: right;
 						}
 						.item-left{
-							background: url("../../../static/images/Login/company.png") no-repeat;
+							background: url("/static/images/Login/company.png") no-repeat;
 							width: 649px;
 							border-right: 1px solid #89c3eb;
 							height: 175px;
@@ -404,7 +402,7 @@ import cookie from '@/common/js/getTenant'
 							margin-right: 5px;
 						}
 						.item-left{
-							background: url("../../../static/images/Login/subcompany.png") no-repeat;
+							background: url("/static/images/Login/subcompany.png") no-repeat;
 							width: 649px;
 							border-right: 1px solid #89c3eb;
 							height: 175px;

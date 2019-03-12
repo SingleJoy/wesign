@@ -10,7 +10,6 @@ import Role from '../components/Login/Role.vue' //登录角色选择
 import TemplateCreate from '../components/Template/TemplateCreate.vue' //模板发起合同列表(测试合并)
 import ContractList from '../components/ContractList/ContractList.vue' //合同列表（合并组件）
 
-
 import Home from '../components/Home/Home.vue' //主页
 import Contract from '../components/Contract/Contract.vue' //点击签署
 import Contractsigning from '../components/Contractsigning/Contractsigning.vue' //签署设置页面
@@ -26,8 +25,7 @@ import Signaturesetting from '../components/Templatelaunch/Signaturesetting/Sign
 import Contractsign from '../components/Templatelaunch/Contractsign/Contractsign.vue' //模板合同签署
 import Specifiedposition from '../components/Templatelaunch/Specifiedposition/Specifiedposition.vue' //模板指定位置
 import Fillinformation from '../components/Templatelaunch/Fillinformation/Fillinformation.vue' //模板填充信息
-import TotalContract from '../components/Mycontract/TotalContract.vue' // 全部合同
-import InquiryWaitMe from '../components/Mycontract/InquiryWaitMe.vue' // 待我签署合同
+
 import batchInfo from '../components/Templatebatch/batchInfo/batchInfo.vue' //批量模板填充信息
 import batchSetting from '../components/Templatebatch/batchSetting/batchSetting.vue' //批量模板签署设置
 import Templatecomplete from '../components/Templatebatch/Templatecomplete/Templatecomplete.vue' //批量模板签署完成
@@ -39,13 +37,14 @@ import Whether from '../components/Whether/Whether.vue' //平台方是否签署
 import Success from '../components/Success/Success.vue' //平台方是否签署(成功)
 import TemplatePos from '../components/TemplatePos/TemplatePos.vue' //平台方是否签署    (模板)
 import TemplateInfo from '../components/TemplateInfo/TemplateInfo.vue' //平台方是否签署(模板成功)
+
 //b2b
-import Company from '../components/Company/Company.vue'                                           //b2b 首页
-import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
+// import Company from '../components/Company/Company.vue'                                           //b2b 首页
+// import Enterprise from '../components/Confirmation/Enterprise/Enterprise.vue'                     //企业认证
 import Payment from '../components/Confirmation/Payment/Payment.vue'                              //打款
 import EnterprisePayment from '../components/EnterpriseCertificate/EnterprisePayment/EnterprisePayment.vue'                              //企业打款
 import EnterpriseRegisterSucc from '../components/EnterpriseCertificate/EnterpriseRegisterSucc/EnterpriseRegisterSucc.vue'                              //企业打款
-import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
+// import WaitReply from '../components/Confirmation/WaitReply/WaitReply.vue'                        //等待中
 import Completion from '../components/Confirmation/Completion/Completion.vue'                     //认证完成
 
 import Account from '../components/Account/Account.vue'                              //个人账户(签章，账号管理)
@@ -62,7 +61,9 @@ import BillList from "../components/Account/CostCenter/Bill/BillList.vue";      
 import BillDetail from "../components/Account/CostCenter/Bill/BillDetail.vue";                //我的账户->账户中心->账单列表详情
 import Invoice from '../components/Account/CostCenter/Invoice/Invoices.vue'                //我的账户->账户中心->发票
 import InvoiceDetail from '../components/Account/CostCenter/Invoice/InvoiceDetail.vue'                //我的账户->账户中心->发票
-
+import PackagePurchase from '../components/Account/PackagePurchase/PackagePurchase.vue'                //我的账户->套餐购买
+import PackageBuy from '../components/Account/PackageBuy/PackageBuy.vue'                //我的账户->充值
+import PaySuccess from '../components/Account/PaySuccess/PaySuccess.vue'                //我的账户->充值
 
 
 import PersonWait from '../components/Confirmation/PersonWait/PersonWait.vue'                     //个人认证等待
@@ -74,14 +75,14 @@ import MobileSuccess from '../components/Mobile/MobileSuccess/Success.vue'      
 import SignSuccess from '../components/SignSuccess/SignSuccess.vue'                               //b2b 签署成功
 import CompanyExa from '../components/CompanyExa/CompanyExa.vue'                                  //b2b 合同详情
 //import Register from '../components/Credentials/Enterprise/Register/Register.vue'                 //b2b 注册企业
-import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue'                 //b2b 个人认证（OCR）
-import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue'       //b2b 手持证件照
-import Information from '../components/Credentials/Personal/Information/Information.vue'     //b2b 个人认证（三要素）
-import Authentication from '../components/Credentials/Personal/Authentication/Authentication.vue'  //b2b 个人认证（三要素认证成功）
+// import Pupload from '../components/Credentials/Personal/Pupload/Pupload.vue'                 //b2b 个人认证（OCR）
+// import ErrorPupload from '../components/Credentials/Personal/ErrorPupload/ErrorPupload.vue'       //b2b 手持证件照
+// import Information from '../components/Credentials/Personal/Information/Information.vue'     //b2b 个人认证（三要素）
+// import Authentication from '../components/Credentials/Personal/Authentication/Authentication.vue'  //b2b 个人认证（三要素认证成功）
 import BuyProduct from '../components/BuyProduct/BuyProduct.vue'                                   //B2B 无权限
 import Merchant from '../components/Merchant/Merchant.vue'                                         //b2b 无权限首页
 import Procontract from '../components/Procontract/Procontract.vue'                                //b2b 合同列表 (小b)
-import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
+// import CompanyContract from '../components/CompanyContract/CompanyContract.vue'                    //b2b 合同列表 （大b）
 import CompanyExb from '../components/CompanyExb/CompanyExb.vue'                                   //小B详情
 import CompanyExc from '../components/CompanyExc/CompanyExc.vue'                                   //合同延期
 //IndividualRegister
@@ -91,6 +92,7 @@ import BusinessRegister from '../components/UserRegister/BusinessRegister.vue'  
 import BindCompany from "../components/UserRegister/BindCompany.vue"
 
 import EnterpriseCertificate from '../components/EnterpriseCertificate/EnterpriseCertificate.vue'   //企业认证
+
 
 // demo 演示
 import DemoRegister from "../demo/DemoRegister.vue";   //demo注册/登录
@@ -161,12 +163,11 @@ export const router = new Router({
             auth:true
         }
     },
-    
+
     {
       path: '/Forget',
       name: 'Forget',
       component: Forget,
-
       meta: {
         auth: false
       }
@@ -175,7 +176,6 @@ export const router = new Router({
       path: '/FoundUser',
       name: 'FoundUser',
       component: FoundUser,
-
       meta: {
         auth: false
       }
@@ -412,30 +412,30 @@ export const router = new Router({
         auth: true
       }
     },
-    {
-      path: '/Company',
-      name: 'Company',
-      component: Company,
-      meta: {
-        auth: true
-      }
-    },
-    {
-      path: '/Enterprise',
-      name: 'Enterprise',
-      component: Enterprise,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/Payment',
-      name: 'Payment',
-      component: Payment,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/Company',
+    //   name: 'Company',
+    //   component: Company,
+    //   meta: {
+    //     auth: true
+    //   }
+    // },
+    // {
+    //   path: '/Enterprise',
+    //   name: 'Enterprise',
+    //   component: Enterprise,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/Payment',
+    //   name: 'Payment',
+    //   component: Payment,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
         path: '/EnterprisePayment',
         name: 'EnterprisePayment',
@@ -449,14 +449,14 @@ export const router = new Router({
       name: 'EnterpriseRegisterSucc',
       component: EnterpriseRegisterSucc,
     },
-    {
-      path: '/WaitReply',
-      name: 'WaitReply',
-      component: WaitReply,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/WaitReply',
+    //   name: 'WaitReply',
+    //   component: WaitReply,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
       path: '/Completion',
       name: 'Completion',
@@ -507,6 +507,32 @@ export const router = new Router({
       path: '/ActivateChildAccount',
       name: 'ActivateChildAccount',
       component: ActivateChildAccount,
+      meta: {
+        auth: false
+      }
+    },
+    //套餐购买
+    {
+      path: '/PackagePurchase',
+      name: 'PackagePurchase',
+      component: PackagePurchase,
+      meta: {
+        auth: false
+      }
+    },
+    //充值
+    {
+      path: '/PackageBuy',
+      name: 'PackageBuy',
+      component: PackageBuy,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: '/PaySuccess',
+      name: 'PaySuccess',
+      component: PaySuccess,
       meta: {
         auth: false
       }
@@ -583,38 +609,38 @@ export const router = new Router({
     //     auth: false
     //   }
     // },
-    {
-      path: '/Pupload',
-      name: 'Pupload',
-      component: Pupload,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/ErrorPupload',
-      name: 'ErrorPupload',
-      component: ErrorPupload,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/Information',
-      name: 'Information',
-      component: Information,
-      meta: {
-        auth: false
-      }
-    },
-    {
-      path: '/Authentication',
-      name: 'Authentication',
-      component: Authentication,
-      meta: {
-        auth: false
-      }
-    },
+    // {
+    //   path: '/Pupload',
+    //   name: 'Pupload',
+    //   component: Pupload,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/ErrorPupload',
+    //   name: 'ErrorPupload',
+    //   component: ErrorPupload,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/Information',
+    //   name: 'Information',
+    //   component: Information,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
+    // {
+    //   path: '/Authentication',
+    //   name: 'Authentication',
+    //   component: Authentication,
+    //   meta: {
+    //     auth: false
+    //   }
+    // },
     {
       path: '/BuyProduct',
       name: 'BuyProduct',
@@ -663,14 +689,14 @@ export const router = new Router({
         auth: true
       }
     },
-    {
-      path: '/CompanyContract',
-      name: 'CompanyContract',
-      component: CompanyContract,
-      meta: {
-        auth: true
-      }
-    },
+    // {
+    //   path: '/CompanyContract',
+    //   name: 'CompanyContract',
+    //   component: CompanyContract,
+    //   meta: {
+    //     auth: true
+    //   }
+    // },
     {
       path: '/CompanyExb',
       name: 'CompanyExb',

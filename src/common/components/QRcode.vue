@@ -2,7 +2,7 @@
     <div class="QRcode">
         <div>微信公众号</div>
         <div>
-            <img src="../../../static/images/Login/QRcode-login.png" alt="">
+            <img src="/static/images/Login/QRcode-login.png" alt="">
         </div>
     </div>
 </template>

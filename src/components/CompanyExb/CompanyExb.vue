@@ -1,6 +1,6 @@
 /*
- * @Author: wangjia 
- * @Date: 2018-06-08 13:43:17 
+ * @Author: wangjia
+ * @Date: 2018-06-08 13:43:17
  * @Last Modified by: wangjia
  * @Last Modified time: 2018-06-23 18:07:04
  */
@@ -12,9 +12,9 @@
   </div>
 </template>
 <script>
-import MuTop from '../../common/components/MuTop'
+import MuTop from '@/common/components/MuTop'
 import CompanyExbm from './CompanyExbm'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'CompanyExb',
     components: {

@@ -4,40 +4,29 @@
       <div class="greet">
         <span>{{msg}}</span>
         <div class="sign-operation">
-          <input type="button" value="清屏" @touchstart="clear" @mousedown="clear" class="btn-style clear-sign" />
-          <input type="button" value="提交" @touchstart="savePNG" @mousedown="savePNG" class="btn-style sign-submit"/>
+          <button type="button" value="清屏" @touchstart="clear" @mousedown="clear" class="btn-style clear-sign" >清屏</button>
+          <button type="button"  @touchstart="savePNG" @mousedown="savePNG" class="btn-style sign-submit" :disabled="once">提交</button>
         </div>
-
       </div>
       <canvas id="canvas"></canvas>
     </div>
 
-
     <div class="modal unsign-modal" id="unsign-modal">
       <div class="modal-box" >
-
         <div class="modal-body">
           <a href="javascript:void(0);" @click="close" class="close">X</a>
-
-
         </div>
-
-
       </div>
     </div>
-
   </div>
-
-
 
 
 </template>
 
 <script>
   import Draw from '@/common/js/draw';
-
   import {GetQueryString} from '@/common/js/InterceptUrl'
-
+  import {saveSignatureImg } from '@/api/mobile'
   export default {
     name: 'canvas',
     data() {
@@ -46,7 +35,7 @@
         degree: 90,
         signImage: null,
         showBox: false,
-
+        once:false
       };
     },
     components: {
@@ -119,17 +108,22 @@
         this.draw.downloadPNGImage(this.draw.getPNGImage());
       },
       savePNG() {
+        this.once=true;
         this.signImage = this.draw.getPNGImage();
         var blank = document.createElement('canvas');
         blank.width = document.querySelector('canvas').width;
         blank.height = document.querySelector('canvas').height;
 
         if( this.signImage == blank.toDataURL()){
-
           return false
         }
-        var signToken = GetQueryString("signToken")
-        this.$http.post(process.env.API_HOST+'/v1.4/signToken/'+ signToken +'/saveSignatureImg',{signatureImg: this.signImage},{emulateJSON:true}).then(function(res){
+        let signToken = GetQueryString("signToken");
+        let params={'signatureImg': this.signImage};
+
+        saveSignatureImg(signToken,params).then(res=>{
+
+          this.once=false;
+          this.signImage=null;
           this.$router.push('/MobileSuccess')
         })
       },
@@ -343,7 +337,7 @@
   .modal-body{
     width:200px;
     height:200px;
-    background: url('../../../../static/images/Canvas/canvas-tips.png') no-repeat;
+    background: url('/static/images/Canvas/canvas-tips.png') no-repeat;
   }
   .modal-footer{padding: 10px;height:30px;}
   .modal-footer a{display: inline-block;border-radius: 4px; }

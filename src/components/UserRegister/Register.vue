@@ -7,9 +7,9 @@
     </div>
 </template>
 <script>
-    import QRcode from '../../common/components/QRcode'
+    import QRcode from '@/common/components/QRcode'
     import IndividualRegisters from './IndividualRegisters.vue'
-    import Bottom from '../../common/components/Bottom'
+    import Bottom from '@/common/components/Bottom'
     export default {
         name: 'Register',
         components: {

@@ -32,7 +32,7 @@
 			@size-change="handleSizeChange"
 			@current-change="handleCurrentChange"
 			:current-page="currentPage"
-			:page-size="1"
+			:page-size="7"
 			layout="prev, pager, next, total, jumper"
 			:total="totalItemNumber">
 			</el-pagination>
@@ -41,17 +41,17 @@
 </template>
 
 <script>
-import server from '../../../../api/url.js'
+import server from '@/api/url.js'
 export default {
 	name: "BillLists",
 	data() {
-        return {
-			interfaceCode: '',
+    return {
+			interfaceCode: sessionStorage.getItem("interfaceCode"),
 			totalItemNumber: 0,
-          	tableData: [
+      tableData: [
 
 			],
-			currentPage: 4
+			currentPage: 1
 		}
 	},
 	methods: {
@@ -67,16 +67,16 @@ export default {
 			// console.log(`每页 ${val} 条`);
 		},
 		handleCurrentChange(val) {
-			this.getList(val,1);
+			this.getList(val);
 		},
 		viewDetail(scope) {
 			this.$router.push({path:'/CostCenter/BillDetail', query: {billTitle: encodeURI(scope.billTitle)}});
 		},
-		getList(pageNum, pageSize) {
+		getList(pageNum) {
 			let params = {
 				pageNum: pageNum,
-				pageSize: pageSize
-			}
+				pageSize: 7
+			};
 			server.queryStatementList(params, this.interfaceCode).then(res => {
 				this.tableData = res.data.contents;
 				this.totalItemNumber = res.data.totalItemNumber
@@ -86,7 +86,7 @@ export default {
 		}
 	},
 	created() {
-		this.interfaceCode = sessionStorage.getItem("interfaceCode");
+
 		this.getList(1,1)
 	}
 }

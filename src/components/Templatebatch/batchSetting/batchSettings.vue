@@ -3,7 +3,7 @@
     <div class="Tops">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../../../static/images/logo2.png" alt="">
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
         <div class='buttons' v-show="delSigner == true">
           <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="batchTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -38,7 +38,7 @@
 
           <p class='second'><span>签署截止日期：</span>
             <el-date-picker
-              style='width:138px;margin-right:20px'
+              style='width:138px;margin-right:20px;margin-left: 15px;'
               height='height:40px'
               v-model="value8"
               type="date"
@@ -54,6 +54,7 @@
             <el-checkbox
               v-model="checked"
               @change='checkedBox'
+              style="margin-right: 10px;"
             ></el-checkbox>
             <b class='info'>永久有效</b>
           </p>
@@ -67,9 +68,9 @@
           <div class="title" >签署人设置</div>
           <p class='batchInfo' style="margin-top:-40px;">
             <!-- <el-checkbox></el-checkbox>
-			<b class='info'>短信通知</b>
-			<el-checkbox></el-checkbox>
-			<b class='info'>邮箱通知</b> -->
+			       <b class='info'>短信通知</b>
+		        	<el-checkbox></el-checkbox>
+			       <b class='info'>邮箱通知</b> -->
             <el-button type="primary" size="medium" @click="addSigner" icon="el-icon-circle-plus-outline">添加签署人</el-button>
             <el-dialog title="添加人员" :visible.sync="modifyPassword"  width="26%" top="30vh" custom-class='tempBatchOut' center @close="closeDialog('ruleForm')">
               <el-form :model="ruleForm" :rules="rules" ref='ruleForm' class="demo-ruleForm" size="medium">
@@ -148,21 +149,18 @@
         <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
-
-
-
-
-    </div>
-
   </div>
 </template>
 <script>
-  import {validateMoblie,validateCard,TrimAll} from '../../../common/js/validate'
+  import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
+  import { backContractTempSigner,getTemplateImags,contractTemp} from '@/api/template'
+  import {prohibit} from '@/common/js/prohibitBrowser'
+  import server from "@/api/url";
   export default {
     name: 'batchSettings',
     data() {
-      var validateName = (rule,value,callback) => {
+      let validateName = (rule,value,callback) => {
         if (TrimAll(value) === ''){
           callback(new Error('请输入姓名'))
         } else if (TrimAll(value).length<2 || TrimAll(value).length > 15 ) {
@@ -171,8 +169,8 @@
           callback()
         }
       }
-      var validateIdCard = (rule,value,callback) => {
-        if( this.$store.state.templateGenre == 'fillidcardreference' && value == ''){
+      let validateIdCard = (rule,value,callback) => {
+        if( this.templateGenre == 'fillidcardreference' && value == ''){
           callback(new Error('身份证信息为必填项'))
         }else if (value !== '' && !validateCard(value)){
           callback(new Error('身份证格式错误'))
@@ -180,10 +178,10 @@
           callback()
         }
       }
-      var validatePhone = (rule,value,callback) => {
+      let validatePhone = (rule,value,callback) => {
         var mobileArray = []
         if(this.tableDate3 != ''){
-          for(var i=0;i<this.tableDate3.length;i++){
+          for(let i=0;i<this.tableDate3.length;i++){
             mobileArray.push(this.tableDate3[i].mobile)
           }
         }
@@ -242,10 +240,16 @@
             return  time.getTime() < Date.now();
           }
         },
-        templateName:sessionStorage.getItem('templateName'),
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
-        b2cNum:sessionStorage.getItem("b2cNum"),
-        b2bNum:sessionStorage.getItem("b2bNum"),
+        templateNo:sessionStorage.getItem('templateNo'),
+        contractNo:sessionStorage.getItem('contractNo'),
+        templateName:sessionStorage.getItem('templateName'),
+        templateGenre:sessionStorage.getItem('templateGenre'),
+        accountCode:sessionStorage.getItem('accountCode'),
+        type:sessionStorage.getItem('type'),
+        b2cNum:sessionStorage.getItem("b2cNum")?sessionStorage.getItem('b2cNum'):0,
+        b2bNum:sessionStorage.getItem("b2bNum")?sessionStorage.getItem('b2bNum'):0,
       }
     },
     methods: {
@@ -272,7 +276,7 @@
           if (valid) {
 
             if (this.tableDate3 == '' || this.tableDate3.length < 51){
-              var obj = {}
+              let obj = {}
               obj.signUserName = TrimAll(this.ruleForm.signUserName)
               obj.mobile = this.ruleForm.mobile
               obj.idCard = this.ruleForm.idCard
@@ -301,58 +305,50 @@
       closeDialog(formName){
         this.$refs[formName].resetFields()
       },
-      changeContName (){
-        var batchText = document.getElementById('batchText').value
-        if(batchText == ''){
-          this.$alert('您还没有填写合同名称!','签署', {
-            confirmButtonText: '确定'
-          });
-          return false
-        }
-        this.$store.dispatch('template',{templateName:batchText,templateNo:this.$store.state.templateNo})
-        sessionStorage.setItem('templateName', batchText)
-        sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-      },
+
       showBatchTemplate () {
         this.$loading.show(); //显示
-        var data =[];
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/template/'+this.$store.state.templateNo+'/getTemplateImags',{params: {"templateSpecificType":this.$store.state.templateGenre}}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+       let data =[];
+       let params={
+       "templateSpecificType":this.templateGenre
+       };
+        getTemplateImags(this.interfaceCode,this.templateNo,params).then(res=> {
+
             for (let i = 0; i < res.data.list.length;i++) {
               let contractUrl = res.data.list[i]
               data[i] = contractUrl
               this.$loading.hide(); //隐藏
             }
             this.imgList = data
-          }
+
+        }).catch(error=>{
+
         })
-        this.dialVisible= true
+        this.dialVisible= true;
       },
       dateInputTemp () {
-        this.checked = false
+        this.checked = false;
       },
       checkedBox () {
-        if(this.checked == true){
-          this.value8 = ''
+        if(this.checked==true){
+          this.value8 =null;
         }
       },
       modifyClick (row) {
-        row.edit=!row.edit
-        this.operate = false
-        this.editSigner = false
-        this.delSigner = false
-        this.editSign = true
+        row.edit=!row.edit;
+        this.operate = false;
+        this.editSigner = false;
+        this.delSigner = false;
+        this.editSign = true;
       },
       confirmEdit(row){     //完成修改
-        var mobileArr = []
+        let mobileArr = []
         if(this.tableDate3 != ''){
           for(var i=0;i<this.tableDate3.length;i++){
             mobileArr.push(this.tableDate3[i].mobile)
           }
         }
-        var index = mobileArr.indexOf(row.mobile)
+       let index = mobileArr.indexOf(row.mobile)
         mobileArr.splice(index, 1)
 
         if(TrimAll(row.signUserName) == ''){
@@ -379,11 +375,11 @@
           this.$alert('手机号不能与发起方手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
-        } else if(this.primaryMobile = row.mobile){
+        } else if(this.primaryMobile ==row.mobile){
           this.$alert('手机号不能与一级账号的手机号相同!','修改签署人', {
             confirmButtonText: '确定'
           })
-        }else if( this.$store.state.templateGenre == 'fillidcardreference' && row.idCard == ''){
+        }else if( this.templateGenre == 'fillidcardreference' && row.idCard == ''){
           this.$alert('身份证信息为必填项!','修改签署人', {
             confirmButtonText: '确定'
           })
@@ -402,14 +398,14 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          rows.splice(index, 1)
-          this.delSigner = true
+          rows.splice(index, 1);
+          this.delSigner = true;
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });
-          this.delSigner = true
+          this.delSigner = true;
         })
       },
       batchTempCancel() {    //取消操作
@@ -444,16 +440,15 @@
         })
       },
       nextStepFit () { //下一步
-        var batchText = document.getElementById('batchText').value
-        if(batchText == ''){
-          if(batchText == ''){
-            this.$alert('您还没有填写合同名称!','提示', {
+        let batchText = document.getElementById('batchText').value;
+        if(this.templateName == ''){
+          this.$alert('您还没有填写合同名称!','提示', {
               confirmButtonText: '确定'
-            });
+          });
             return false
-          }
+
         }
-        if(this.checked == false && this.value8 == ''){
+        if(this.checked == false && !this.value8){
           this.$alert('您还没有选择签署时间!','提示', {
             confirmButtonText: '确定'
           });
@@ -477,7 +472,7 @@
           var emails = ''
           var perpetualValid = ''
 
-          for(var i = 0; i < this.tableDate3.length;i++ ){
+          for(let i = 0; i < this.tableDate3.length;i++ ){
             var name = this.tableDate3[i].signUserName
             var mobile = this.tableDate3[i].mobile
             var idCard = this.tableDate3[i].idCard
@@ -487,7 +482,6 @@
             id_nums += idCard + ','
             emails += email + ','
           }
-
           names = names.substring(0, names.length-1)
           mobiles = mobiles.substring(0,mobiles.length-1)
           id_nums = id_nums.substring(0,id_nums.length-1)
@@ -497,74 +491,78 @@
           } else {
             perpetualValid = ''
           }
-          if ( this.operateType !='' ){
-            var zqUserContractTempVo = {
-              "creater":cookie.getJSON('tenant')[1].interfaceCode,
+          if (this.operateType !='' ){
+            var  zqUserContractTempVo = {
+              "creater":this.interfaceCode,
               "operateType":this.operateType,
-              "contractTempNo":this.$store.state.contractNo1,
+              "contractTempNo":this.contractNo,
               "contractName":TrimAll(this.templateName),
-              "templateNo":this.$store.state.templateNo,
-              "validTime":this.value8,
-              "perpetualValid":perpetualValid,
-              "names":names,
-              "idCards":id_nums,
-              "mobiles":mobiles, 
-              "templateSpecificType":this.$store.state.templateGenre,
-              "accountCode":sessionStorage.getItem('accountCode')
-            }
-          } else {
-            var zqUserContractTempVo = {
-              "creater":cookie.getJSON('tenant')[1].interfaceCode,
-              "contractName":TrimAll(this.templateName),
-              "templateNo":this.$store.state.templateNo,
+              "templateNo":this.templateNo,
               "validTime":this.value8,
               "perpetualValid":perpetualValid,
               "names":names,
               "idCards":id_nums,
               "mobiles":mobiles,
-              "templateSpecificType":this.$store.state.templateGenre,
-              "accountCode":sessionStorage.getItem('accountCode')
+              "templateSpecificType":this.templateGenre,
+              "accountCode":this.accountCode
+            }
+          } else {
+            var  zqUserContractTempVo = {
+              "creater":this.interfaceCode,
+              "contractName":TrimAll(this.templateName),
+              "templateNo":this.templateNo,
+              "validTime":this.value8,
+              "perpetualValid":perpetualValid,
+              "names":names,
+              "idCards":id_nums,
+              "mobiles":mobiles,
+              "templateSpecificType":this.templateGenre,
+              "accountCode":this.accountCode
             }
           }
-          this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/contractTemp',zqUserContractTempVo,{emulateJSON:true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-              this.$router.push('/Server')
-            } else {
-              var contractNo = res.data.data
-              if ( res.data.resultCode == 0) {
+          contractTemp(this.interfaceCode,zqUserContractTempVo).then(res=> {
+            let contractNo = res.data.data;
+             this.contractNo=contractNo;
+            sessionStorage.setItem('contractNo',this.contractNo);
+            if ( res.data.resultCode == 0) {
                 this.$message({
                   showClose: true,
                   message: res.data.resultMessage,
                   type: 'success'
-                })
-                this.$store.dispatch('template',{templateName:this.templateName,templateNo:this.$store.state.templateNo})
-                this.$store.dispatch('fileSuccess1',{contractNo:contractNo})
-                this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-                sessionStorage.setItem('templateName',this.templateName)
-                sessionStorage.setItem('templateNo', this.$store.state.templateNo)
-                sessionStorage.setItem('contractNo', contractNo)
-                sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
+                });
+                //用户可能会修改模板名称  需要重新存templateName
+                sessionStorage.setItem("templateName",TrimAll(this.templateName));
                 this.$router.push('/batchInfo')
               } else {
                 this.$alert('您还没有选择签署时间!','提示', {
                   confirmButtonText: '确定'
                 })
-                this.load = false
+                this.load = false;
               }
-            }
+
+          }).catch(error=>{
+
           })
 
         }
       },
       addSigner(){
 
-        if((this.tableDate3 != '')&&(this.tableDate3.length>this.b2cNum-1)){
-          this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽，若想添加更多签署人</p>
-          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+        if((this.tableDate3)&&(this.tableDate3.length>this.b2cNum-1)){
+
+          if (this.accountLevel == 1) {
+            this.$confirm(
+              <div class="warn-num ">
+                <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽，若想添加更多签署人!</p>
+                <div class="customer-service"></div>
+              </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+              this.$router.push('/PackagePurchase')
+            })
+          }else{
+            this.$alert('对个人合同份数已用尽，若想添加更多签署人!', '提示', {
+              confirmButtonText: '取消',
+            });
+          }
           return false
         }
         if(this.editSigner == false){
@@ -575,51 +573,42 @@
         } else {
           this.modifyPassword = true
         }
-      }
+      },
+      //合同剩余发起次数
+      getContractNum(){
+        let param={
+          t:Math.random()
+        };
+        server.authorityUpload(param,this.interfaceCode).then(res=>{
+          if(res.data.resultCode == 1){
+            this.b2bNum = res.data.data.b2bNum;
+            this.b2cNum = res.data.data.b2cNum;
+          }else{
+            this.$message({
+              showClose: true,
+              message: res.data.resultMessage,
+              type: "error"
+            });
+          }
+        }).catch(error=>{
+
+        })
+      },
     },
     created() {
-
-      var templateName = sessionStorage.getItem('templateName');
-      var templateNo = sessionStorage.getItem('templateNo');
-      var contractNo = sessionStorage.getItem('contractNo');
-      var templateGenre = sessionStorage.getItem('templateGenre')
-      var type = sessionStorage.getItem('type')
-      if (templateName) {
-
-        if ( this.$store.state.templateName == ''){
-          this.$store.state.templateName = templateName
+      this.$loading.show();
+      this.getContractNum();
+      if (this.type == 'back'){
+        this.operate = true;
+        let params={
+          "contractTempNo":this.contractNo,
+          "operateType":this.type,
+          "accountCode":this.accountCode
         }
-      }
-      if (templateNo) {
-        //   templateNo = JSON.parse(templateNo)
-        if ( this.$store.state.templateNo == ''){
-          this.$store.state.templateNo = templateNo
-        }
-      }
-      if (templateGenre) {
-        //   templateGenre = JSON.parse(templateGenre)
-        if ( this.$store.state.templateGenre == ''){
-          this.$store.state.templateGenre = templateGenre
-        }
-      }
-      if (contractNo) {
-        //   contractNo = JSON.parse(contractNo)
-        if ( this.$store.state.contractNo1 == ''){
-          this.$store.state.contractNo1 = contractNo
-        }
-      }
-      if (type) {
-        //   type = JSON.parse(type)
-        if ( this.$store.state.type == ''){
-          this.$store.state.type = type
-        }
-      }
-      if ( type == 'back'){
-        this.operate = true
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode + '/backContractTempSigner',{params: {"contractTempNo":this.$store.state.contractNo1,"operateType":this.$store.state.type,"accountCode":sessionStorage.getItem('accountCode')}}).then(function (res) {
-          var perpetualValid = res.data.perpetualValid;
-          var validTime = res.data.validTime;
-          var list = res.data.list!=null?res.data.list:[];
+        backContractTempSigner(this.interfaceCode,params).then(res=> {
+          let perpetualValid = res.data.perpetualValid;
+          let validTime = res.data.validTime;
+          let list = res.data.list!=null?res.data.list:[];
           this.operateType = res.data.operateType
           if(perpetualValid =="1"){
             this.checked = true
@@ -630,8 +619,11 @@
             this.value8 = validTime
           }
           this.tableDate3 = list
+        }).catch(error=>{
+
         })
       }
+      this.$loading.hide();
     }
   }
 </script>
@@ -651,7 +643,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
     font-weight: normal;
   }
   .first #batchText{
@@ -704,7 +696,7 @@
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

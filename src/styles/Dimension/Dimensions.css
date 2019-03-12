@@ -139,3 +139,11 @@
   line-height: 33px;
   margin-left: -1px;
 }
+/* 签章密码弹框样式 */
+.sign_dialog .el-dialog {
+    height: 200px;
+}
+.sign_dialog .sign_element .el-input{
+    width: 60%;
+}
+

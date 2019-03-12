@@ -2,7 +2,6 @@
 import Vue from 'vue'
 import {router} from './router'
 import ElementUI from 'element-ui'
-// import createPersistedState from 'vuex-persistedstate'   //vuex数据持久化
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import VueResource from 'vue-resource'
@@ -32,5 +31,8 @@ new Vue({
   router,
   store,
   components: { App },
+  created(){
+   
+  },
   template: '<App/>'
 })

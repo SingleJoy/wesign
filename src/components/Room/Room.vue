@@ -8,9 +8,9 @@
   </div>
 </template>
 <script>
-import Top from '../../common/components/Top'
+import Top from '@/common/components/Top'
 import Rooming from './Rooming'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Room',
   components: {

@@ -6,7 +6,7 @@
 </template>
 <script>
 import Contents from './Contents'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Contract',
     components: {

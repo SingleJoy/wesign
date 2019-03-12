@@ -3,7 +3,7 @@
     <div class="Top">
       <nav class='nav'>
         <p class='logo'>
-          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
 
       </nav>
@@ -73,7 +73,7 @@
     margin: 20px auto;
     height: 600px;
     position: relative;
-    background:url("../../static/images/Demo/addPerson03.png") no-repeat;
+    background:url("/static/images/Demo/addPerson03.png") no-repeat;
 
   }
  .demo-modal{
@@ -95,7 +95,7 @@
     height: 550px;
     position: relative;
     z-index: 1002;
-    background: url("../../static/images/Demo/addPerson02.png") no-repeat;
+    background: url("/static/images/Demo/addPerson02.png") no-repeat;
     top: 200px;
   }
 
@@ -107,7 +107,7 @@
     position: absolute;
     left: 20px;
     top:100px;
-    background: url("../../static/images/Demo/nextStep.png") no-repeat;
+    background: url("/static/images/Demo/nextStep.png") no-repeat;
   }
   .person-dialog{
     width: 400px;
@@ -116,7 +116,7 @@
     position: absolute;
     left: 20px;
     top:100px;
-    background: url("../../static/images/Demo/demo-addperson-dialog.png") no-repeat;
+    background: url("/static/images/Demo/demo-addperson-dialog.png") no-repeat;
   }
   .step-modal .expression{
     width: 110px;
@@ -125,7 +125,7 @@
     position: absolute;
     left: 300px;
     top:100px;
-    background: url("../../static/images/Demo/expression.png") no-repeat;
+    background: url("/static/images/Demo/expression.png") no-repeat;
   }
   .step-modal .dialog{
     width: 305px;
@@ -133,7 +133,7 @@
     z-index: 1001;
     position: absolute;
     left: 375px;
-    background: url("../../static/images/Demo/dialog-right.png") no-repeat;
+    background: url("/static/images/Demo/dialog-right.png") no-repeat;
   }
 
   .step-modal .pointer{
@@ -143,7 +143,7 @@
     position: absolute;
     left: 610px;
     top:200px;
-    background: url("../../static/images/Demo/pointer-blue.png") no-repeat;
+    background: url("/static/images/Demo/pointer-blue.png") no-repeat;
   }
   .step-modal .dialog>p{
 

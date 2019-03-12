@@ -6,9 +6,9 @@
   </div>
 </template>
 <script>
-import QRcode from '../../common/components/QRcode'
+import QRcode from '@/common/components/QRcode'
 import Forget from './Forget.vue'
-import Bottom from '../../common/components/Bottom'
+import Bottom from '@/common/components/Bottom'
 export default {
   name: 'Contract',
     components: {

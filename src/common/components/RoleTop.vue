@@ -2,9 +2,9 @@
   <div class="Top">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
-      <p  class="signout-btn" @click="amendPassWord"><img src="../../../static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></p>
+      <p  class="signout-btn" @click="amendPassWord"><img src="/static/images/back.png" alt=""><a href="javascript:void(0);">退出</a></p>
     </nav>
   </div>
 
@@ -24,6 +24,7 @@
 </style>
 <script>
 import cookie from '@/common/js/getTenant'
+import {exitAndDeleteSession} from '@/api/common'
 export default {
   name: 'Top',
       data() {
@@ -73,23 +74,17 @@ export default {
         })
       },
       signOut () {
-        this.$http.get(process.env.API_HOST+'v1/tenant/exitAndDeleteSession').then(function (res) {
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/')
-          } else {
+        exitAndDeleteSession().then(res=> {
             this.$message({
               showClose: true,
-              message: res.body.message,
+              message: res.data.message,
               type: 'success'
             })
             this.$router.push('/')
-          }
-        })
-      },
-       tabActive(value){
-        this.$store.dispatch('tabIndex',{tabIndex:value});
-        this.tabIndex = this.$store.state.tabIndex;
 
+        }).catch(error=>{
+
+        })
       },
     }
 

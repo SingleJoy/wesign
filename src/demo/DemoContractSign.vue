@@ -3,8 +3,8 @@
     <div class="Top">
       <nav class='nav'>
         <p class='logo'>
-          <!--<img src="../../../../../static/images/Top/v1.6-logo.png" alt="logo图">-->
-          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
+
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
 
       </nav>
@@ -21,7 +21,7 @@
 
       </div>
       <div class="demo-seal">
-        <img src="../../static/images/Demo/demo-seal.png">
+        <img src="/static/images/Demo/demo-seal.png">
       </div>
 
       <div class="template-contract"></div>
@@ -105,7 +105,7 @@
     height: 131px;
     z-index: 1005;
     position: absolute;
-    background: url("../../static/images/Demo/demo-sign-operate.png") no-repeat;
+    background: url("/static/images/Demo/demo-sign-operate.png") no-repeat;
     left: 940px;
     top: 240px;
     cursor: pointer;
@@ -116,7 +116,7 @@
     height: 196px;
     z-index: 1004;
     position: absolute;
-    background: url("../../static/images/Demo/demo-seal.png") no-repeat;
+    background: url("/static/images/Demo/demo-seal.png") no-repeat;
     left: 650px;
     top: 930px;
   }
@@ -126,7 +126,7 @@
     height: 1110px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-contract2.png") no-repeat;
+    background: url("/static/images/Demo/template-contract2.png") no-repeat;
     margin-top: 20px;
   }
   .demoTemplateFill-content >.template-contract{
@@ -136,8 +136,7 @@
     position: absolute;
     left: 258px;
     top: 230px;
-    /*background: url("../../static/images/Demo/contract02.png") no-repeat;*/
-    background: url("../../static/images/Demo/demo-detail06.jpg") no-repeat;
+    background: url("/static/images/Demo/demo-detail06.jpg") no-repeat;
   }
 
   .template-fill-info{
@@ -151,7 +150,7 @@
     height: 120px;
     z-index: 1004;
     position: absolute;
-    background: url("../../static/images/Demo/expression.png") no-repeat;
+    background: url("/static/images/Demo/expression.png") no-repeat;
     left: 245px;
     top:115px
   }
@@ -159,7 +158,7 @@
     width: 305px;
     height: 200px;
     position: absolute;
-    background: url("../../static/images/Demo/dialog.png") no-repeat;
+    background: url("/static/images/Demo/dialog.png") no-repeat;
   }
   .template-fill-info>.dialog>p{
     padding:20px 15px;
@@ -197,7 +196,7 @@
     position: absolute;
     left: 130px;
     top:-85px;
-    background: url("../../static/images/Demo/pointer-up.png") no-repeat;
+    background: url("/static/images/Demo/pointer-up.png") no-repeat;
   }
   .fill-in-blank{
     width: 249px;
@@ -205,7 +204,7 @@
     left: 870px;
     z-index: 1003;
     position: absolute;
-    background: url("../../static/images/Demo/information-input.png") no-repeat ;
+    background: url("/static/images/Demo/information-input.png") no-repeat ;
     border-radius: 5px;
   }
   .Top {

@@ -1,524 +1,524 @@
-<template>
-        <div class='Companise'>
-        <div class='main'>
-            <div class='main_left'>
-              <div class='upload' style='border:none;'>
-                  <div style='cursor:pointer;'  @click='choice' class="el-upload__text"><img src="../../../static/images/add1.png" alt="" style='width:679px;'></div>
-              </div>
-               <p class='context2'>
-                 模板发起合同
-               </p>
-                <div class='icons'>
-                  <div  class='single' v-if='count>0'>
-                      <div v-for="(item,index) in arr" :key="index">
-                        <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>
-                            <img src="../../../static/images/Container/icons_1.png" alt="">
-                            <span style='color:#4091fb'>{{item.name}}</span>
-                        </div>
-                      </div>
-                      <div class='two'  @click='otherTemplate'>
-                          <span>选择其他>></span>
-                      </div>
-                    </div>
-                    <div class='more' v-else>
-                      <div class='more1'>
-                        <h3><img src="../../../static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class='main_right'>
-                 <p style='clear:both;text-align:left;'>合同概括</p>
-                 <div class='right1' @click="animated">
-                     <span>{{waitMe}}</span>
-                     <span>待我签署</span>
-                 </div>
-                 <div class='right2' @click='wait'>
-                     <span>{{waitOther}}</span>
-                     <span>待他人签署</span>
-                 </div>
-                  <div class='right3' @click='takeEff'>
-                     <span>{{takeEffect}}</span>
-                     <span>已生效</span>
-                 </div>
-                   <div class='right4'  @click='end'>
-                     <span>{{deadline}}</span>
-                     <span>已截止</span>
-                 </div>
-            </div>
-            <div class='main_table'>
-                <div class='title'>
-                    <h1><img src="../../../static/images/Container/title.png" alt=""></h1>
-                    <a href="javascript:void(0);" @click='jump'>查看更多>></a>
-                </div>
-                <div class='table'>
-                    <el-table
-                        v-loading="loading"
-                        element-loading-text="拼命加载中"
-                        :data="tableData"
-                        style="width: 100%;text-align:center"
-                        :row-class-name="tableRowClassName"
-                        v-cloak
-                        >
-                        <el-table-column
-                        prop="contractName"
-                        label="合同名称"
-                        width="250"
-                        style="text-align:center"
-                        :show-overflow-tooltip='true'
-                        >
-                        </el-table-column>
-                        <el-table-column
-                        prop="signers"
-                        label="签署人"
-                        width="200"
-                        :show-overflow-tooltip='true'
-                        >
-                        </el-table-column>
-                        <el-table-column
-                        prop="createTime"
-                        label="发起时间"
-                        width="170">
-                        </el-table-column>
-                        <el-table-column
-                        prop="validTime"
-                        label="截止时间"
-                        width="170">
-                        </el-table-column>
-                        <el-table-column
-                        prop="contractStatus"
-                        label="当前状态"
-                        width="160">
-                        </el-table-column>
-                        <el-table-column
-                        prop="operation"
-                        label="操作"
-                        width="200"
-                        >
-                        <template slot-scope="scope">
-                        <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>
-                        <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2' >
-                        <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
-                        </el-tooltip>
-                        <el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载 </el-button>
-                        <el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else >延&nbsp;&nbsp;期</el-button>
-                        <el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>
-                        </template>
-                        </el-table-column>
-                    </el-table>
-                </div>
-            </div>
-        </div>
-        <div class='dialogbg' v-show="popup">
-        <div class='dilog' >
-          <div class='left'>
-              <el-upload
-            ref='upload'
-            class="upload-demo"
-            :action='urlloadUrl()'
-            :before-upload="handleChange"
-            :on-success="fileSuccess"
-            :show-file-list= false
-            :limit=1
-            accept='.docx,.pdf,.doc,.txt'
-            element-loading-text="拼命上传中"
-            element-loading-background="rgba(0, 0, 0, 0.5)"
-            >
-            <img src="../../../static/images/Login/b2c.png" alt="">
-            </el-upload>
-          </div>
-            <div class='right'>
-              <el-upload
-              ref='upload'
-              class="upload-demo"
-              :action='uploadUrl()'
-              :data=Type
-              :before-upload="handleChange"
-              :on-success="fileSuccess1"
-              :show-file-list= false
-              :limit=1
-              accept='.docx,.pdf,.doc,.txt'
-              element-loading-text="拼命上传中"
-              element-loading-background="rgba(0, 0, 0, 0.5)"
-              >
-              <img src="../../../static/images/Login/b2b.png" alt="">
-              </el-upload>
-            <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
-          </div>
-      </div>
-      </div>
-    </div>
-</template>
-<script>
-import { mapActions, mapState } from 'vuex'
-import cookie from '@/common/js/getTenant'
+<!--<template>-->
+        <!--<div class='Companise'>-->
+        <!--<div class='main'>-->
+            <!--<div class='main_left'>-->
+              <!--<div class='upload' style='border:none;'>-->
+                  <!--<div style='cursor:pointer;'  @click='choice' class="el-upload__text"><img src="../../../static/images/add1.png" alt="" style='width:679px;'></div>-->
+              <!--</div>-->
+               <!--<p class='context2'>-->
+                 <!--模板发起合同-->
+               <!--</p>-->
+                <!--<div class='icons'>-->
+                  <!--<div  class='single' v-if='count>0'>-->
+                      <!--<div v-for="(item,index) in arr" :key="index">-->
+                        <!--<div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;'>-->
+                            <!--<img src="../../../static/images/Container/icons_1.png" alt="">-->
+                            <!--<span style='color:#4091fb'>{{item.name}}</span>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                      <!--<div class='two'  @click='otherTemplate'>-->
+                          <!--<span>选择其他>></span>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class='more' v-else>-->
+                      <!--<div class='more1'>-->
+                        <!--<h3><img src="../../../static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class='main_right'>-->
+                 <!--<p style='clear:both;text-align:left;'>合同概括</p>-->
+                 <!--<div class='right1' @click="animated">-->
+                     <!--<span>{{waitMe}}</span>-->
+                     <!--<span>待我签署</span>-->
+                 <!--</div>-->
+                 <!--<div class='right2' @click='wait'>-->
+                     <!--<span>{{waitOther}}</span>-->
+                     <!--<span>待他人签署</span>-->
+                 <!--</div>-->
+                  <!--<div class='right3' @click='takeEff'>-->
+                     <!--<span>{{takeEffect}}</span>-->
+                     <!--<span>已生效</span>-->
+                 <!--</div>-->
+                   <!--<div class='right4'  @click='end'>-->
+                     <!--<span>{{deadline}}</span>-->
+                     <!--<span>已截止</span>-->
+                 <!--</div>-->
+            <!--</div>-->
+            <!--<div class='main_table'>-->
+                <!--<div class='title'>-->
+                    <!--<h1><img src="../../../static/images/Container/title.png" alt=""></h1>-->
+                    <!--<a href="javascript:void(0);" @click='jump'>查看更多>></a>-->
+                <!--</div>-->
+                <!--<div class='table'>-->
+                    <!--<el-table-->
+                        <!--v-loading="loading"-->
+                        <!--element-loading-text="拼命加载中"-->
+                        <!--:data="tableData"-->
+                        <!--style="width: 100%;text-align:center"-->
+                        <!--:row-class-name="tableRowClassName"-->
+                        <!--v-cloak-->
+                        <!--&gt;-->
+                        <!--<el-table-column-->
+                        <!--prop="contractName"-->
+                        <!--label="合同名称"-->
+                        <!--width="250"-->
+                        <!--style="text-align:center"-->
+                        <!--:show-overflow-tooltip='true'-->
+                        <!--&gt;-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                        <!--prop="signers"-->
+                        <!--label="签署人"-->
+                        <!--width="200"-->
+                        <!--:show-overflow-tooltip='true'-->
+                        <!--&gt;-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                        <!--prop="createTime"-->
+                        <!--label="发起时间"-->
+                        <!--width="170">-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                        <!--prop="validTime"-->
+                        <!--label="截止时间"-->
+                        <!--width="170">-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                        <!--prop="contractStatus"-->
+                        <!--label="当前状态"-->
+                        <!--width="160">-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                        <!--prop="operation"-->
+                        <!--label="操作"-->
+                        <!--width="200"-->
+                        <!--&gt;-->
+                        <!--<template slot-scope="scope">-->
+                        <!--<el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 '>签&nbsp;&nbsp;署</el-button>-->
+                        <!--<el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2' >-->
+                        <!--<el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>-->
+                        <!--</el-tooltip>-->
+                        <!--<el-button @click="downloadClick(scope.row)" type="primary" size="mini" v-else-if ='scope.row.operation === 3' >下&nbsp;&nbsp;载 </el-button>-->
+                        <!--<el-button @click="seeClick(scope.row)" type="primary" size="mini" v-else >延&nbsp;&nbsp;期</el-button>-->
+                        <!--<el-button @click="rowLockClick(scope.row)" type="primary" size="mini">详&nbsp;&nbsp;情</el-button>-->
+                        <!--</template>-->
+                        <!--</el-table-column>-->
+                    <!--</el-table>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class='dialogbg' v-show="popup">-->
+        <!--<div class='dilog' >-->
+          <!--<div class='left'>-->
+              <!--<el-upload-->
+            <!--ref='upload'-->
+            <!--class="upload-demo"-->
+            <!--:action='urlloadUrl()'-->
+            <!--:before-upload="handleChange"-->
+            <!--:on-success="fileSuccess"-->
+            <!--:show-file-list= false-->
+            <!--:limit=1-->
+            <!--accept='.docx,.pdf,.doc,.txt'-->
+            <!--element-loading-text="拼命上传中"-->
+            <!--element-loading-background="rgba(0, 0, 0, 0.5)"-->
+            <!--&gt;-->
+            <!--<img src="../../../static/images/Login/b2c.png" alt="">-->
+            <!--</el-upload>-->
+          <!--</div>-->
+            <!--<div class='right'>-->
+              <!--<el-upload-->
+              <!--ref='upload'-->
+              <!--class="upload-demo"-->
+              <!--:action='uploadUrl()'-->
+              <!--:data=Type-->
+              <!--:before-upload="handleChange"-->
+              <!--:on-success="fileSuccess1"-->
+              <!--:show-file-list= false-->
+              <!--:limit=1-->
+              <!--accept='.docx,.pdf,.doc,.txt'-->
+              <!--element-loading-text="拼命上传中"-->
+              <!--element-loading-background="rgba(0, 0, 0, 0.5)"-->
+              <!--&gt;-->
+              <!--<img src="../../../static/images/Login/b2b.png" alt="">-->
+              <!--</el-upload>-->
+            <!--<p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>-->
+          <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+<!--import { mapActions, mapState } from 'vuex'-->
+<!--import cookie from '@/common/js/getTenant'-->
 
-export default {
-  name: 'Companise',
-    methods: {
-      tableRowClassName({row, rowIndex}) {
-        if (rowIndex === 1) {
-          return 'warning-row';
-        } else if (rowIndex === 3) {
-          return 'success-row';
-        }
-        return '';
-      },
-      otherTemplate(){
-        this.$router.push('/Multiparty')
-      },
-      jumper (item,index) {
-        if( item.templateSpecies == 'batch'){
-          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})
-          sessionStorage.setItem('templateName', item.name)
-          sessionStorage.setItem('templateNo', item.templateNo)
-          sessionStorage.setItem('templateGenre',item.templateSpecies)
-          this.$router.push('/batchSetting')
-        } else {
-          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          sessionStorage.setItem('templateName', item.name)
-          sessionStorage.setItem('templateNo', item.templateNo)
-          this.$router.push('/Fillinformation')
-        }
-
-
-      },
-      animated () {                                                                   //待我签署
-        sessionStorage.setItem('second','second')
-        this.$router.push('Mycontract')
-      },
-      wait () {                                                                       //待他人签署
-        sessionStorage.setItem('second','third')
-        this.$router.push('Mycontract')
-      },
-      takeEff (){                                                                  //已生效
-        sessionStorage.setItem('second','fourth')
-        this.$router.push('Mycontract')
-      },
-      end () {                                                                         //已截止
-        sessionStorage.setItem('second','five')
-        this.$router.push('Mycontract')
-      },
-      signClick (row) { //签署
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        this.$router.push('/Contract')
-      },
-      remindClick (row) { //提醒
-
-        this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/contract/'+row.contractNum+'/remind',{params:{
-            'contractType':0,
-            'remindType':0
-          }}).then(function (res) {
-          var resultCode = res.data.resultCode
-          var resultMessage = res.data.resultMessage
-            if ( resultCode === '0') {
-              this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: 'success'
-            });
-            } else if(resultCode === '2'){
-            this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: 'success'
-            });
-            } else {
-              this.$message({
-              showClose: true,
-              message: resultMessage,
-              type: 'error'
-            });
-          }
-        })
-      },
-       urlloadUrl(){
-        return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`
-      },
-      uploadUrl(){
-        return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
-      },
-      seeClick(row){  //延期
-      this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-      sessionStorage.setItem('contractNo', row.contractNum)
-      this.$router.push('/ContractDelay')
-      },
-      downloadClick (row) { //下载
-        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[0].interfaceCode +'/'+ row.contractNum;
-        var up = document.createElement('a');
-        document.body.appendChild(up)
-        up.setAttribute('href',url);
-        up.click()
-      },
-       choice(){
-        this.popup =!this.popup
-      },
-      jump () {
-        this.$router.push('/Mycontract')
-      },
-      more (){
-         this.$router.push('/More')
-      },
-      rowLockClick (row) { //查看
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        this.$router.push('/ContractInfo')
-      },
-      handleChange (name) {
-        var max_size = 5;// 5M
-        var fileContName = name.name.replace(/\s+/g, "")
-        var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/
-        if(!reg.test(fileContName)){
-          this.$message({
-            showClose: true,
-            message: '只能传pdf,doc,txt,docx格式的文件',
-            type: 'error'
-          });
-          this.$refs.upload.clearFiles()
-          this.uploadFile = false
-          return false
-        } else if( name.size > max_size*1024*1024){
-          this.$message({
-            showClose: true,
-            message: '文件大小超过限制',
-            type: 'error'
-          });
-          this.$refs.upload.clearFiles()
-          this.uploadFile = false
-          return false
-        } else if(fileContName.length >50){
-          this.$message({
-            showClose: true,
-            message: '上传文件名称不得超过50字符！',
-            type: 'error'
-          });
-          this.$refs.upload.clearFiles()
-          this.uploadFile = false
-          return false
-        } else {
-          this.loading2 = true
-          this.uploadFile = true
-        }
-      },
-      fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-      var contractName = file.name.replace(/\s+/g, "")
-      var contractNo = file.response.contractNo
-      var resultCode = file.response.resultCode
-      if(  this.uploadFile == true ){
-        this.$message({
-          showClose: true,
-          message: '上传成功',
-          type: 'success'
-        });
-        var index1=contractName.lastIndexOf(".");
-        var suffix=contractName.slice(0,index1);
-        this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-        sessionStorage.setItem('contractName', suffix)
-        sessionStorage.setItem('contractNo', contractNo)
-        this.$router.push('/Contractsigning')
-        }
-      },
-      fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
-        var contractName = file.name.replace(/\s+/g, "")
-        var contractNo = file.response.contractNo
-        var resultCode = file.response.resultCode
-        if(  this.uploadFile == true ){
-          this.$message({
-            showClose: true,
-            message: '上传成功',
-            type: 'success'
-          });
-          var index1=contractName.lastIndexOf(".");
-          var suffix=contractName.slice(0,index1);
-          this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})
-          sessionStorage.setItem('contractName',suffix)
-          sessionStorage.setItem('contractNo', contractNo)
-          this.$router.push('/Signature')   //更改路由地址
-        }
-      }
-  },
-  data() {
-    return {
-      baseURL:this.baseURL.BASE_URL,
-      popup:false,
-      tableData: [],
-      download :'',
-      loading: true,
-      loading2:false,
-      count:"",
-      waitMe:'',
-      waitOther:'',
-      takeEffect:'',
-      deadline:'',
-      arr: [],
-      uploadFile:true,
-      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-      Type:{contractType:'0'}
-    }
-  },
-   created() {
-    var data =[];
-    var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-    let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/contracts';
-    this.$http.get(url, {params: requestVo}).then(function (res) {
-      if(res.data.sessionStatus == '0'){
-        this.$router.push('/Server')
-      } else {
-       for (let i = 0; i < res.data.content.length;i++) {
-        var obj = {}
-        obj.contractName = res.data.content[i].contractName;
-        obj.contractNum = res.data.content[i].contractNum;
-        obj.createTime = res.data.content[i].createTime;
-        obj.signers =  res.data.content[i].signers;
-        obj.validTime =  res.data.content[i].validTime;
-        obj.contractStatus =  res.data.content[i].contractStatus;
-        obj.operation = ''
-        switch (obj.contractStatus){
-          case "1":
-          obj.contractStatus="待我签署";
-          obj.operation = 1
-            break;
-          case "2":
-          obj.contractStatus="待他人签署";
-          obj.operation = 2
-            break;
-          case "3":
-          obj.contractStatus="已生效";
-          obj.operation = 3
-            break;
-          default:
-          obj.contractStatus="已截止";
-          obj.operation = 4
-            break;
-        }
-        data[i] = obj
-      }
-      this.tableData = data
-      this.loading = false
-      }
-    })
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/waitForMeSign').then(function (res) {
-      this.waitMe = res.data.count
-    })
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/waitForOtherSign').then(function (res) {
-      this.waitOther = res.data.count
-    })
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/takeEffect').then(function (res) {
-      this.takeEffect = res.data.count
-    })
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/deadline').then(function (res) {
-      this.deadline = res.data.count
-    })
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/templateList').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-        this.$router.push('/Server')
-      } else {
-      this.arr = res.data.slice(0,3)
-      this.count = res.data.length
-      }
-    })
-  },
-  mounted() {
-    sessionStorage.removeItem("type")
-    sessionStorage.removeItem("contractNo")
-	}
-}
-</script>
-<style lang="scss" scoped>
-    @import "../../styles/Company/Companise.scss";
-    .right1:hover,.right2:hover,.right3:hover,.right4:hover{
-    -webkit-transition: all 0.5s ease-in;
-    -moz-transition: all 0.5s ease-in;
-    -ms-transition: all 0.5s ease-in;
-    -o-transition: all 0.5s ease-in;
-    -webkit-transform: scale(1.08);
-    -ms-transform: scale(1.08);
-    -o-transform:scale(1.08);
-    -moz-transform: scale(1.08);
-  }
-</style>
-<style>
-.view{
-     width: 100%;
-    height: 100%;
-    background: #000;
-    position: absolute;
-    z-index: 4000;
-    background-color: rgba(0,0,0,0.5);
-    position: absolute;
-    left:0;
-    top:0;
-
-}
-.dialogbg{
-  background:#000;
-  background:rgba(0,0,0,.3);
-  width:100%;
-  height:1080px;
-  position: absolute;
-  left:0;
-  top:0;
-  z-index: 1999;
-
-}
-.el-upload-dragger{
-  width: 680px !important;
-  height: 154px !important;
-  /* margin-left: 284px !important; */
-  /* margin-top: -41px !important; */
-}
-.el-table tr:nth-child(odd){
-  background:#fff;
-}
-.el-table tr:nth-child(even){
-  background:#f5f5f5;
-}
-.el-table th>.cell{
-  text-align: none;
-}
-
-  .el-tabs__nav-scroll{
-    font-size: 16px;
-    color: #333;
-  }
-  #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
-    font-size: 16px;
-  }
-.el-table th>.cell{
-  text-align: center;
-}
+<!--export default {-->
+  <!--name: 'Companise',-->
+    <!--methods: {-->
+      <!--tableRowClassName({row, rowIndex}) {-->
+        <!--if (rowIndex === 1) {-->
+          <!--return 'warning-row';-->
+        <!--} else if (rowIndex === 3) {-->
+          <!--return 'success-row';-->
+        <!--}-->
+        <!--return '';-->
+      <!--},-->
+      <!--otherTemplate(){-->
+        <!--this.$router.push('/Multiparty')-->
+      <!--},-->
+      <!--jumper (item,index) {-->
+        <!--if( item.templateSpecies == 'batch'){-->
+          <!--this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})-->
+          <!--this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})-->
+          <!--sessionStorage.setItem('templateName', item.name)-->
+          <!--sessionStorage.setItem('templateNo', item.templateNo)-->
+          <!--sessionStorage.setItem('templateGenre',item.templateSpecies)-->
+          <!--this.$router.push('/batchSetting')-->
+        <!--} else {-->
+          <!--this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})-->
+          <!--sessionStorage.setItem('templateName', item.name)-->
+          <!--sessionStorage.setItem('templateNo', item.templateNo)-->
+          <!--this.$router.push('/Fillinformation')-->
+        <!--}-->
 
 
-.el-table__row .cell{
-  overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-}
+      <!--},-->
+      <!--animated () {                                                                   //待我签署-->
+        <!--sessionStorage.setItem('second','second')-->
+        <!--this.$router.push('Mycontract')-->
+      <!--},-->
+      <!--wait () {                                                                       //待他人签署-->
+        <!--sessionStorage.setItem('second','third')-->
+        <!--this.$router.push('Mycontract')-->
+      <!--},-->
+      <!--takeEff (){                                                                  //已生效-->
+        <!--sessionStorage.setItem('second','fourth')-->
+        <!--this.$router.push('Mycontract')-->
+      <!--},-->
+      <!--end () {                                                                         //已截止-->
+        <!--sessionStorage.setItem('second','five')-->
+        <!--this.$router.push('Mycontract')-->
+      <!--},-->
+      <!--signClick (row) { //签署-->
+        <!--this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})-->
+        <!--sessionStorage.setItem('contractNo', row.contractNum)-->
+        <!--this.$router.push('/Contract')-->
+      <!--},-->
+      <!--remindClick (row) { //提醒-->
 
-#title{
-  text-align:left !important;
-}
-.one:hover{
-  border: 1px solid #4091fb;
-}
-.two:hover{
-  border: 1px solid #4091fb;
-}
-#close{
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  text-align:center;
-  line-height:30px;
-  display:block;
-  background:#fff;
-  color:#000;
-}
-.el-button--primary:focus{
-  background: #eee;
-  border-color: #95989d;
-  color: #333;
-}
-</style>
+        <!--this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/contract/'+row.contractNum+'/remind',{params:{-->
+            <!--'contractType':0,-->
+            <!--'remindType':0-->
+          <!--}}).then(function (res) {-->
+          <!--var resultCode = res.data.resultCode-->
+          <!--var resultMessage = res.data.resultMessage-->
+            <!--if ( resultCode === '0') {-->
+              <!--this.$message({-->
+              <!--showClose: true,-->
+              <!--message: resultMessage,-->
+              <!--type: 'success'-->
+            <!--});-->
+            <!--} else if(resultCode === '2'){-->
+            <!--this.$message({-->
+              <!--showClose: true,-->
+              <!--message: resultMessage,-->
+              <!--type: 'success'-->
+            <!--});-->
+            <!--} else {-->
+              <!--this.$message({-->
+              <!--showClose: true,-->
+              <!--message: resultMessage,-->
+              <!--type: 'error'-->
+            <!--});-->
+          <!--}-->
+        <!--})-->
+      <!--},-->
+       <!--urlloadUrl(){-->
+        <!--return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile`-->
+      <!--},-->
+      <!--uploadUrl(){-->
+        <!--return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`-->
+      <!--},-->
+      <!--seeClick(row){  //延期-->
+      <!--this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})-->
+      <!--sessionStorage.setItem('contractNo', row.contractNum)-->
+      <!--this.$router.push('/ContractDelay')-->
+      <!--},-->
+      <!--downloadClick (row) { //下载-->
+        <!--var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[0].interfaceCode +'/'+ row.contractNum;-->
+        <!--var up = document.createElement('a');-->
+        <!--document.body.appendChild(up)-->
+        <!--up.setAttribute('href',url);-->
+        <!--up.click()-->
+      <!--},-->
+       <!--choice(){-->
+        <!--this.popup =!this.popup-->
+      <!--},-->
+      <!--jump () {-->
+        <!--this.$router.push('/Mycontract')-->
+      <!--},-->
+      <!--more (){-->
+         <!--this.$router.push('/More')-->
+      <!--},-->
+      <!--rowLockClick (row) { //查看-->
+        <!--this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})-->
+        <!--sessionStorage.setItem('contractNo', row.contractNum)-->
+        <!--this.$router.push('/ContractInfo')-->
+      <!--},-->
+      <!--handleChange (name) {-->
+        <!--var max_size = 5;// 5M-->
+        <!--var fileContName = name.name.replace(/\s+/g, "")-->
+        <!--var reg= /[.](docx|pdf|doc|txt|DOCX|PDF|DOC|TXT)$/-->
+        <!--if(!reg.test(fileContName)){-->
+          <!--this.$message({-->
+            <!--showClose: true,-->
+            <!--message: '只能传pdf,doc,txt,docx格式的文件',-->
+            <!--type: 'error'-->
+          <!--});-->
+          <!--this.$refs.upload.clearFiles()-->
+          <!--this.uploadFile = false-->
+          <!--return false-->
+        <!--} else if( name.size > max_size*1024*1024){-->
+          <!--this.$message({-->
+            <!--showClose: true,-->
+            <!--message: '文件大小超过限制',-->
+            <!--type: 'error'-->
+          <!--});-->
+          <!--this.$refs.upload.clearFiles()-->
+          <!--this.uploadFile = false-->
+          <!--return false-->
+        <!--} else if(fileContName.length >50){-->
+          <!--this.$message({-->
+            <!--showClose: true,-->
+            <!--message: '上传文件名称不得超过50字符！',-->
+            <!--type: 'error'-->
+          <!--});-->
+          <!--this.$refs.upload.clearFiles()-->
+          <!--this.uploadFile = false-->
+          <!--return false-->
+        <!--} else {-->
+          <!--this.loading2 = true-->
+          <!--this.uploadFile = true-->
+        <!--}-->
+      <!--},-->
+      <!--fileSuccess(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue-->
+      <!--var contractName = file.name.replace(/\s+/g, "")-->
+      <!--var contractNo = file.response.contractNo-->
+      <!--var resultCode = file.response.resultCode-->
+      <!--if(  this.uploadFile == true ){-->
+        <!--this.$message({-->
+          <!--showClose: true,-->
+          <!--message: '上传成功',-->
+          <!--type: 'success'-->
+        <!--});-->
+        <!--var index1=contractName.lastIndexOf(".");-->
+        <!--var suffix=contractName.slice(0,index1);-->
+        <!--this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})-->
+        <!--sessionStorage.setItem('contractName', suffix)-->
+        <!--sessionStorage.setItem('contractNo', contractNo)-->
+        <!--this.$router.push('/Contractsigning')-->
+        <!--}-->
+      <!--},-->
+      <!--fileSuccess1(name, file, fileList){  //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue-->
+        <!--var contractName = file.name.replace(/\s+/g, "")-->
+        <!--var contractNo = file.response.contractNo-->
+        <!--var resultCode = file.response.resultCode-->
+        <!--if(  this.uploadFile == true ){-->
+          <!--this.$message({-->
+            <!--showClose: true,-->
+            <!--message: '上传成功',-->
+            <!--type: 'success'-->
+          <!--});-->
+          <!--var index1=contractName.lastIndexOf(".");-->
+          <!--var suffix=contractName.slice(0,index1);-->
+          <!--this.$store.dispatch('fileSuccess1',{contractName:suffix,contractNo:contractNo})-->
+          <!--sessionStorage.setItem('contractName',suffix)-->
+          <!--sessionStorage.setItem('contractNo', contractNo)-->
+          <!--this.$router.push('/Signature')   //更改路由地址-->
+        <!--}-->
+      <!--}-->
+  <!--},-->
+  <!--data() {-->
+    <!--return {-->
+      <!--baseURL:this.baseURL.BASE_URL,-->
+      <!--popup:false,-->
+      <!--tableData: [],-->
+      <!--download :'',-->
+      <!--loading: true,-->
+      <!--loading2:false,-->
+      <!--count:"",-->
+      <!--waitMe:'',-->
+      <!--waitOther:'',-->
+      <!--takeEffect:'',-->
+      <!--deadline:'',-->
+      <!--arr: [],-->
+      <!--uploadFile:true,-->
+      <!--interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,-->
+      <!--Type:{contractType:'0'}-->
+    <!--}-->
+  <!--},-->
+   <!--created() {-->
+    <!--var data =[];-->
+    <!--var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};-->
+    <!--let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/contracts';-->
+    <!--this.$http.get(url, {params: requestVo}).then(function (res) {-->
+      <!--if(res.data.sessionStatus == '0'){-->
+        <!--this.$router.push('/Server')-->
+      <!--} else {-->
+       <!--for (let i = 0; i < res.data.content.length;i++) {-->
+        <!--var obj = {}-->
+        <!--obj.contractName = res.data.content[i].contractName;-->
+        <!--obj.contractNum = res.data.content[i].contractNum;-->
+        <!--obj.createTime = res.data.content[i].createTime;-->
+        <!--obj.signers =  res.data.content[i].signers;-->
+        <!--obj.validTime =  res.data.content[i].validTime;-->
+        <!--obj.contractStatus =  res.data.content[i].contractStatus;-->
+        <!--obj.operation = ''-->
+        <!--switch (obj.contractStatus){-->
+          <!--case "1":-->
+          <!--obj.contractStatus="待我签署";-->
+          <!--obj.operation = 1-->
+            <!--break;-->
+          <!--case "2":-->
+          <!--obj.contractStatus="待他人签署";-->
+          <!--obj.operation = 2-->
+            <!--break;-->
+          <!--case "3":-->
+          <!--obj.contractStatus="已生效";-->
+          <!--obj.operation = 3-->
+            <!--break;-->
+          <!--default:-->
+          <!--obj.contractStatus="已截止";-->
+          <!--obj.operation = 4-->
+            <!--break;-->
+        <!--}-->
+        <!--data[i] = obj-->
+      <!--}-->
+      <!--this.tableData = data-->
+      <!--this.loading = false-->
+      <!--}-->
+    <!--})-->
+    <!--this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/waitForMeSign').then(function (res) {-->
+      <!--this.waitMe = res.data.count-->
+    <!--})-->
+    <!--this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/waitForOtherSign').then(function (res) {-->
+      <!--this.waitOther = res.data.count-->
+    <!--})-->
+    <!--this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/takeEffect').then(function (res) {-->
+      <!--this.takeEffect = res.data.count-->
+    <!--})-->
+    <!--this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/deadline').then(function (res) {-->
+      <!--this.deadline = res.data.count-->
+    <!--})-->
+    <!--this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[0].interfaceCode +'/templateList').then(function (res) {-->
+      <!--if(res.data.sessionStatus == '0'){-->
+        <!--this.$router.push('/Server')-->
+      <!--} else {-->
+      <!--this.arr = res.data.slice(0,3)-->
+      <!--this.count = res.data.length-->
+      <!--}-->
+    <!--})-->
+  <!--},-->
+  <!--mounted() {-->
+    <!--sessionStorage.removeItem("type")-->
+    <!--sessionStorage.removeItem("contractNo")-->
+	<!--}-->
+<!--}-->
+<!--</script>-->
+<!--<style lang="scss" scoped>-->
+    <!--@import "../../styles/Company/Companise.scss";-->
+    <!--.right1:hover,.right2:hover,.right3:hover,.right4:hover{-->
+    <!-- -webkit-transition: all 0.5s ease-in;-->
+    <!-- -moz-transition: all 0.5s ease-in;-->
+    <!-- -ms-transition: all 0.5s ease-in;-->
+    <!-- -o-transition: all 0.5s ease-in;-->
+    <!-- -webkit-transform: scale(1.08);-->
+    <!-- -ms-transform: scale(1.08);-->
+    <!-- -o-transform:scale(1.08);-->
+    <!-- -moz-transform: scale(1.08);-->
+  <!--}-->
+<!--</style>-->
+<!--<style>-->
+<!--.view{-->
+     <!--width: 100%;-->
+    <!--height: 100%;-->
+    <!--background: #000;-->
+    <!--position: absolute;-->
+    <!--z-index: 4000;-->
+    <!--background-color: rgba(0,0,0,0.5);-->
+    <!--position: absolute;-->
+    <!--left:0;-->
+    <!--top:0;-->
+
+<!--}-->
+<!--.dialogbg{-->
+  <!--background:#000;-->
+  <!--background:rgba(0,0,0,.3);-->
+  <!--width:100%;-->
+  <!--height:1080px;-->
+  <!--position: absolute;-->
+  <!--left:0;-->
+  <!--top:0;-->
+  <!--z-index: 1999;-->
+
+<!--}-->
+<!--.el-upload-dragger{-->
+  <!--width: 680px !important;-->
+  <!--height: 154px !important;-->
+  <!--/* margin-left: 284px !important; */-->
+  <!--/* margin-top: -41px !important; */-->
+<!--}-->
+<!--.el-table tr:nth-child(odd){-->
+  <!--background:#fff;-->
+<!--}-->
+<!--.el-table tr:nth-child(even){-->
+  <!--background:#f5f5f5;-->
+<!--}-->
+<!--.el-table th>.cell{-->
+  <!--text-align: none;-->
+<!--}-->
+
+  <!--.el-tabs__nav-scroll{-->
+    <!--font-size: 16px;-->
+    <!--color: #333;-->
+  <!--}-->
+  <!--#tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{-->
+    <!--font-size: 16px;-->
+  <!--}-->
+<!--.el-table th>.cell{-->
+  <!--text-align: center;-->
+<!--}-->
+
+
+<!--.el-table__row .cell{-->
+  <!--overflow: hidden !important;-->
+    <!--text-overflow: ellipsis !important;-->
+    <!--white-space: nowrap !important;-->
+<!--}-->
+
+<!--#title{-->
+  <!--text-align:left !important;-->
+<!--}-->
+<!--.one:hover{-->
+  <!--border: 1px solid #4091fb;-->
+<!--}-->
+<!--.two:hover{-->
+  <!--border: 1px solid #4091fb;-->
+<!--}-->
+<!--#close{-->
+  <!--width:30px;-->
+  <!--height:30px;-->
+  <!--border-radius:50%;-->
+  <!--text-align:center;-->
+  <!--line-height:30px;-->
+  <!--display:block;-->
+  <!--background:#fff;-->
+  <!--color:#000;-->
+<!--}-->
+<!--.el-button&#45;&#45;primary:focus{-->
+  <!--background: #eee;-->
+  <!--border-color: #95989d;-->
+  <!--color: #333;-->
+<!--}-->
+<!--</style>-->

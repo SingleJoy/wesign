@@ -47,12 +47,12 @@
                   </p>
                   <p>
 										<span  @click="previewContract(item)" class="item-option">
-											<img src="../../../../static/images/Multiparty/see.png" alt="">
+											<img src="/static/images/Multiparty/see.png" alt="">
                                             <span>在线预览</span>
 										</span>
 
                     <span @click="generateClick(item)" class="item-option">
-											<img src="../../../../static/images/Multiparty/creater.png" alt="">
+											<img src="/static/images/Multiparty/creater.png" alt="">
 											<span >立即发起</span>
 										</span>
                   </p>
@@ -69,7 +69,7 @@
         </ul>
         <ul v-else style="text-align: center;margin-top: 100px;">
           <li class="no-data">
-            <img src="../../../../static/images/blank.png" alt="">
+            <img src="/static/images/blank.png" alt="">
             <p>{{textTip}}</p>
           </li>
         </ul>
@@ -92,7 +92,7 @@
   @import "../../../styles/Multiparty/Multiparties.scss";
   @import "../../../common/styles/content.scss";
   .BatchTemplate .title-bg{
-    background: url('../../../../static/images/Common/title.png') no-repeat !important;
+    background: url('/static/images/Common/title.png') no-repeat !important;
     height:46px;
   }
   .beacthImg{
@@ -108,7 +108,7 @@
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>
@@ -131,6 +131,7 @@
         dialogTableVisible:false,
         accountLevel:sessionStorage.getItem("accountLevel"),
         interfaceCode:cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+        b2cNum:''
       };
     },
     methods: {
@@ -142,7 +143,7 @@
           }
         })
         this.tableData = list;
-        // console.log(list)
+
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
@@ -177,14 +178,20 @@
           if(res.data.resultCode == 1){
 
             this.b2cNum = res.data.data.b2cNum;
-            sessionStorage.setItem("b2cNum",this.b2cNum)
             if(this.b2cNum<=0){
-              this.$confirm(
-              <div class="warn-num">
-                <p class="title" style="font-size:16px;text-align:center;">对个人合同份数已用尽</p>
-                <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-                <div class="customer-service"></div>
-                </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+              if (this.accountLevel == 1) {
+                this.$confirm(
+                  <div class="warn-num ">
+                    <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                    <div class="customer-service"></div>
+                    </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+                  this.$router.push('/PackagePurchase')
+                })
+              }else{
+                this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+                  confirmButtonText: '取消',
+                });
+              }
             }else {
               this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
               this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
@@ -203,10 +210,8 @@
         var data =[];
         let accountCode=sessionStorage.getItem('accountCode')
         server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
-            if(res.data.contents){
+
+          if(res.data.contents&&res.data.contents.length>0){
               for (let i = 0; i < res.data.contents.length;i++) {
                 var obj = {}
                 obj.templateNo = res.data.contents[i].templateCode;         //模板号
@@ -227,8 +232,9 @@
               this.num = res.data.totalItemNumber
               this.loading = false
             }
-          }
-        }).catch({
+
+        }).catch(error=>
+        {
 
         })
       },
@@ -246,9 +252,7 @@
         var data =[];
         let accountCode=sessionStorage.getItem('accountCode')
         server.contractTemplate(templateInfoRequest,accountCode).then(res=>{
-          if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-          } else {
+
             if(res.data.contents&&res.data.contents.length>0){
               for (let i = 0; i < res.data.contents.length;i++) {
                 var obj = {}
@@ -274,7 +278,7 @@
               this.num='';
               this.textTip = "无匹配模板"
             }
-          }
+
         }).catch({
 
         })

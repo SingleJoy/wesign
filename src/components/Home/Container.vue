@@ -4,7 +4,6 @@
       <div class='main_left'>
         <div class='upload' style='border:none;'>
           <div style='cursor:pointer;'  @click='choice' class="el-upload__text">
-
             <div class="content-upload">
               <h3>上传发起合同</h3>
               <div class="content-body">
@@ -28,7 +27,7 @@
             <div  class='single' v-if='count>0'>
               <div v-for="(item,index) in arr" :key="index" >
                 <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;margin-left: 5px;'>
-                  <img src="../../../static/images/Container/home-icon-v1.6.png" alt="">
+                  <img src="/static/images/Container/home-icon-v1.6.png" alt="">
                   <span style='color:#4091fb'>{{item.name}}</span>
                 </div>
               </div>
@@ -38,7 +37,7 @@
             </div>
             <div class='more' v-else>
               <div class='more1'>
-                <h3><img src="../../../static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
+                <h3><img src="/static/images/single.png" alt=""><span @click='more'>了解模板>></span></h3>
               </div>
             </div>
           </div>
@@ -80,40 +79,42 @@
             style="width: 100%;text-align:center"
             :row-class-name="tableRowClassName"
             v-cloak
+            @selection-change="handleSelectionChange"
+            ref="multipleTable"
           >
             <el-table-column
               label="合同名称"
-              width="250"
+              width="260"
               style="text-align:center"
               :show-overflow-tooltip='true'
             >
               <template slot-scope="scope">
-                <img  class="contract-sign" v-if="scope.row.contractType==0" src="../../../static/images/Login/tocompany.png"/>
-                <img  class="contract-sign" v-else src="../../../static/images/Login/topersonal.png" />
+                <img  class="contract-sign" v-if="scope.row.contractType==0" src="/static/images/Login/tocompany.png"/>
+                <img  class="contract-sign" v-else src="/static/images/Login/topersonal.png" />
                 <span>{{ scope.row.contractName }}</span>
               </template>
             </el-table-column>
             <el-table-column
               prop="signers"
               label="签署人"
-              width="210"
+              width="250"
               :show-overflow-tooltip='true'
             >
             </el-table-column>
             <el-table-column
               prop="createTime"
               label="发起时间"
-              width="170">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="validTime"
               label="截止时间"
-              width="170">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="contractStatus"
               label="当前状态"
-              width="160">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="operation"
@@ -121,7 +122,8 @@
               width="200"
             >
               <template slot-scope="scope">
-                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button>
+                <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.operation === 1 &&(scope.row.flag?accountCode == scope.row.operator:true)'>签&nbsp;&nbsp;署</el-button> 
+                <!-- 签署按钮权限：合同状态为1（待签署）且 -->
                 <el-tooltip content="短信通知签署方" effect="light" placement="right" v-else-if ='scope.row.operation === 2 && scope.row.flag == true && accountCode == scope.row.operator'>
                   <el-button @click="remindClick(scope.row)" type="primary" size="mini">提&nbsp;&nbsp;醒</el-button>
                 </el-tooltip>
@@ -131,6 +133,7 @@
               </template>
             </el-table-column>
           </el-table>
+
         </div>
       </div>
     </div>
@@ -152,7 +155,7 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/v1.6-geren.png" alt="">
+            <img src="/static/images/Login/v1.6-geren.png" alt="">
           </el-upload>
         </div>
         <div class='rightDilog'>
@@ -169,13 +172,14 @@
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
           >
-            <img src="../../../static/images/Login/v1.6-qiye.png" alt="">
+            <img src="/static/images/Login/v1.6-qiye.png" alt="">
           </el-upload>
           <p style='clear:both;color:red; text-align:center; margin-left:-288px;padding:10px;'><i class='el-icon-warning'></i>请先选择对手身份个人或者企业</p>
         </div>
       </div>
     </div>
     <div class='dialogbg' v-show="welcomeMessage">
+
       <div class="upload-warn">
         <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
         <!--<p>{{contractNum}}</p>-->
@@ -184,18 +188,81 @@
           <p class="b2c">{{b2cNum}}</p>
         </div>
       </div>
-
+     
     </div>
+    <el-dialog id="sign-pwd-dialog" :visible.sync="signDialog" width="580px" :before-close="closeDialog">
+        <div class="sign-dialog-title">
+            <p class="sign-user">尊贵的用户</p>
+            <p>为保证您的账户安全，现合同签署时加强验证</p>
+        </div>
+        <div class="sign-body-text">
+            <p class=""><img src="/static/images/Home/1.png" alt=""><span>每次签署合同--提交签署时都需要验证签署密码</span></p>
+            <p class=""><img src="/static/images/Home/2.png" alt=""><span>您可在【我的账户】中对签署密码进行管理</span></p>
+            <el-form :model="signForm" :rules="signRules" ref='signRef'>
+                <img src="/static/images/Home/3.png" alt="" style="margin-top:7px;">
+                <el-form-item label="请设置签署密码" prop="signPassword" class="sign-pwd"> 
+                    <el-input v-model="signForm.signPassword" type="password" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="再次确认签署密码" prop="verifySignPassword" class="sign-verify-pwd">
+                    <el-input v-model="signForm.verifySignPassword" type="password" auto-complete="off"></el-input>
+                </el-form-item>
+            </el-form>
+        </div>
+       
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="submitSignPwd('signRef')">提交</el-button>
+            <span class="sign-no-tip" @click="noSignRemind">不再提示</span>
+        </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-  import { mapActions, mapState } from "vuex";
+  import {state, actions,mutations} from '@/store/index';
   import cookie from "@/common/js/getTenant";
+  import {valiteSignPwd} from '@/common/js/validate'
   import server from "@/api/url";
+  import md5 from "js-md5";
+  import {changeSignPwd,noSignRemind} from "@/api/account";
+  import {templateList,remind,homePageContractLists} from "@/api/home"
+  import {downloadContracts} from "@/api/common"
+
   export default {
     name: "Container",
     data() {
+         let validateSignPwd = (rule,value,callback) =>{
+            if(!value){
+                callback(new Error('签署密码不能为空'));
+            }else if(!valiteSignPwd(value)){
+                callback(new Error('密码格式为4-16位数字、字母、或数字字母组合'));
+            }else{
+                callback()
+            }
+        }
+        let verficateSignPwd = (rule,value,callback) =>{
+
+            if(!value){
+                callback(new Error('请再次确认签署密码'));
+            }else if(this.signForm.signPassword != value){
+                callback(new Error('两次输入的签署密码不一致'));
+            }else{
+                callback()
+            }
+        }
       return {
+        // hasClose:sessionStorage.getItem('hasClose')?sessionStorage.getItem('hasClose'):false,
+        signForm:{
+            signPassword:'',
+            verifySignPassword:''
+        },
+        signDialog:false,
+        signRules:{
+            signPassword:[
+                { validator: validateSignPwd, trigger: 'blur'}
+            ],
+            verifySignPassword:[
+                 { validator: verficateSignPwd, trigger: 'blur'}
+            ]
+        },
         baseURL:this.baseURL.BASE_URL,
         popupContainer: false,
         tableData: [],
@@ -216,51 +283,161 @@
         Type: { contractType: "0" },
         welcomeMessage:true, //欢迎信息
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
-        b2bNum:'0',
-        b2cNum:'0',
+        b2bNum:'',
+        b2cNum:'',
+        num:'',
+        accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
+        mobile:sessionStorage.getItem("mobile"),
       };
     },
     methods: {
-      getRowClass({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex == 0) {
-          return "background:#f5f5f5;text-align:center;font-weight:bold;";
-        } else {
-          return "";
-        }
-      },
-      tableRowClassName({ row, rowIndex }) {
-        if (rowIndex === 1) {
-          return "warning-row";
-        } else if (rowIndex === 3) {
-          return "success-row";
-        }
-        return "";
-      },
-      otherTemplate() {
-        this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push("/Multiparty");
-      },
-      jumper(item, index) {
-        if (item.templateSpecies == "batch") {
-          this.$store.dispatch("template", {
-            templateName: item.name,
-            templateNo: item.templateNo
-          });
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
+        closeDialog(){
+            sessionStorage.setItem('hasClose',true)
+            this.signDialog = false
+        },
+       // 签署验证提醒
+        submitSignPwd(ruleName){
+            let that = this;
+             that.$refs[ruleName].validate((valid) => {
+                if(valid){
+                    let param ={
+                        signVerifyPassword:md5(that.signForm.signPassword)
+                    }
+                    changeSignPwd(that.accountCode,param).then(res=>{
+                        if(res.data.resultCode == 1){
+                            that.$message({
+                                showClose: true,
+                                message: "签署密码设置成功",
+                                type: 'success'
+                            });
+                            that.signDialog = false
+                            that.resetFormData()
+                            that.updateSession()
+                        }else{
+                            that.$message({
+                                showClose: true,
+                                message:res.data.resultMessage,
+                                type: 'warning'
+                            });
+                        }
+                    }).catch(res=>{
 
-          this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
-          sessionStorage.setItem("templateName",item.name);
-          sessionStorage.setItem("templateNo", item.templateNo);
-          sessionStorage.setItem( "templateGenre", item.templateSpecificType);
-          this.$router.push("/batchSetting");
-        } else {
-          this.$store.dispatch("template", {
-            templateName: item.name,
-            templateNo: item.templateNo
-          });
-          sessionStorage.setItem("templateName", item.name);
-          sessionStorage.setItem("templateNo", item.templateNo);
-          this.$router.push("/Fillinformation");
-        }
+                    })
+                }
+             })
+        },
+        updateSession(){
+            let param={
+                mobile:this.mobile
+            }
+            server.login(param,this.interfaceCode).then(res => {
+                if(res.data.resultCode ==1){
+                    cookie.set("tenant", res.data.dataList);
+                }
+            }).catch(error => {
+
+            });
+        },
+        resetFormData(){
+            this.signForm ={
+                signPassword:'',
+                verifySignPassword:''
+            }
+        },
+        //不再提示按钮
+        noSignRemind(){
+            let that = this;
+            noSignRemind(that.accountCode).then(res=>{
+                if(res.data.resultCode == 1){
+                    that.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'success'
+                    });
+                    that.signDialog = false
+                }else{
+                    that.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'warning'
+                    });
+                }
+            }).catch(err=>{
+
+            })
+        },
+
+        getRowClass({ row, column, rowIndex, columnIndex }) {
+            if (rowIndex == 0) {
+            return "background:#f5f5f5;text-align:center;font-weight:bold;";
+            } else {
+            return "";
+            }
+        },
+        tableRowClassName({ row, rowIndex }) {
+            if (rowIndex === 1) {
+            return "warning-row";
+            } else if (rowIndex === 3) {
+            return "success-row";
+            }
+            return "";
+        },
+        otherTemplate() {
+            this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
+            this.$router.push("/Multiparty");
+        },
+      jumper(item, index) {
+        //查询合同剩余次数
+
+         if(this.b2cNum<=0){
+
+           if(this.accountLevel==1){
+             this.$confirm(
+               <div class="warn-num ">
+                 <p class="title" style="font-size:16px;text-align:center;">对不起，对个人合同份数已用尽!</p>
+                 <div class="customer-service"></div>
+               </div>,'提示', { confirmButtonText: '去购买',showCancelButton:'取消'}).then(()=>{
+                 this.$router.push('/PackagePurchase')
+             })
+           }else{
+               
+             this.$alert('对不起，对个人合同份数已用尽!', '提示', {
+               confirmButtonText: '取消',
+             });
+             return false
+           }
+
+          } else{
+            if(item.templateSpecies == "batch") {
+               this.$store.dispatch("template", {
+                 templateName: item.name,
+                 templateNo: item.templateNo
+           });
+           this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
+           sessionStorage.setItem("templateName",item.name);
+           sessionStorage.setItem("templateNo", item.templateNo);
+           sessionStorage.setItem( "templateGenre", item.templateSpecificType);
+           if(this.b2cNum<=0){
+             return false
+           }
+           this.$router.push("/batchSetting");
+         } else {
+              this.$store.dispatch("template", {
+                templateName: item.name,
+                templateNo: item.templateNo
+              });
+           sessionStorage.setItem("templateName", item.name);
+           sessionStorage.setItem("templateNo", item.templateNo);
+              if(this.b2cNum<=0){
+                return false
+              }
+           this.$router.push("/Fillinformation");
+         }
+       }
+
       },
       animated() {
         //待我签署
@@ -300,12 +477,12 @@
       },
       remindClick(row) {
         //提醒
-        var remindParam={
+        let remindParam={
           contractType:row.contractType==0?0:1
         };
-        this.$http.get(process.env.API_HOST + "v1/tenant/" + cookie.getJSON("tenant")[1].interfaceCode + "/contract/" + row.contractNum +"/remind",{params:remindParam}).then(function(res) {
-          var resultCode = res.data.resultCode;
-          var resultMessage = res.data.resultMessage;
+        remind(remindParam,this.interfaceCode,row.contractNum).then(res=>{
+          let resultCode = res.data.resultCode;
+          let resultMessage = res.data.resultMessage;
           if (resultCode === "0") {
             this.$message({
               showClose: true,
@@ -325,13 +502,14 @@
               type: "error"
             });
           }
-        });
+        }).catch(error=>{
+
+        })
       },
       urlloadUrl() {
         return `${this.baseURL}/restapi/wesign/v1/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
       uploadUrl() {
-        // return `http://192.168.1.15:8080/zqsign-web-wesign/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile`
         return `${this.baseURL}/restapi/wesign/v1.4/tenant/${this.interfaceCode}/contractfile?accountCode=${this.accountCode}`
       },
       seeClick(row) {
@@ -347,15 +525,11 @@
           this.$router.push("/ContractDelay");
         }
       },
+      //单次下载
       downloadClick(row) {
         //下载
-        var url =
-          process.env.API_HOST +
-          "v1/contract/" +
-          cookie.getJSON("tenant")[1].interfaceCode +
-          "/" +
-          row.contractNum;
-        var up = document.createElement("a");
+        let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNum;
+        let up = document.createElement("a");
         document.body.appendChild(up);
         up.setAttribute("href", url);
         up.click();
@@ -364,15 +538,12 @@
       //合同剩余发起次数
       getContractNum(){
         let param={
-            t:Math.random()
+          t:Math.random()
         }
         server.authorityUpload(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
             this.b2bNum = res.data.data.b2bNum;
             this.b2cNum = res.data.data.b2cNum;
-            if(this.clickup){
-              this.popupContainer = !this.popupContainer;
-            }
 
           }else{
             this.$message({
@@ -385,20 +556,14 @@
 
         })
       },
-      choice() {
-        this.clickup = true;
-        if(this.isBusiness==0){         //先判断是否为大B（付费用户）
-          // if(this.contractNum==0){         //默认进来判断10次机会是否用完 用完提醒否则查剩余次数
-          //     this.welcomeMessage = true;
-          // }else{
-          this.getContractNum();
-          // }
-        }else if(cookie.getJSON('tenant')[1].createContractRole== 1){
+      choice(){
+
+        if(cookie.getJSON('tenant')[1].createContractRole== 1){
           this.$alert('您暂无上传发起权限','提示', {
             confirmButtonText: '确定'
           })
         }else{
-          // this.popupContainer = !this.popupContainer;
+          this.popupContainer = !this.popupContainer;
           this.getContractNum();
         }
       },
@@ -473,39 +638,48 @@
           return false;
         }
         else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
-
-          this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-            <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
-
-          this.$refs.upload.clearFiles();
-          this.uploadFile = false;
-          this.$loading.hide();
-
-          return false
+            if (this.accountLevel == 1) {
+              this.$confirm(
+                <div class="warn-num ">
+                  <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
+                  <div class="customer-service"></div>
+                </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+                this.$router.push('/PackagePurchase')
+              })
+            }else{
+              this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+                confirmButtonText: '取消',
+              });
+            }
+            this.$refs.upload.clearFiles();
+            this.uploadFile = false;
+            this.$loading.hide();
+            return false
         }
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
-
-          this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
-
+          if (this.accountLevel == 1) {
+            this.$confirm(
+              <div class="warn-num ">
+                <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+                <div class="customer-service"></div>
+              </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+              this.$router.push('/PackagePurchase')
+            })
+          }else{
+            this.$alert('对不起，您的签约次数已用尽!', '提示', {
+              confirmButtonText: '取消',
+            });
+          }
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else {
           this.loading2 = true;
           this.uploadFile = true;
         }
+        this.$loading.hide();
       },
       handleChange1(name) {
         this.$loading.show();
@@ -546,27 +720,43 @@
           return false;
         }
         else if((this.b2bNum<=0)&&(this.b2cNum>=0)){
-          this.$confirm(
-          <div class="warn-num ">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
-          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+          if (this.accountLevel == 1) {
+            this.$confirm(
+              <div class="warn-num ">
+                <p class="title" style="font-size:16px;text-align:center;">对不起，对企业合同份数已用尽</p>
+                <div class="customer-service"></div>
+              </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+              this.$router.push('/PackagePurchase')
+            })
+          }else{
+            this.$alert('对不起，对企业合同份数已用尽!', '提示', {
+              confirmButtonText: '取消',
+
+            });
+          }
+
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
           this.$loading.hide();
-
           return false
         }
         else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
 
-          this.$confirm(
-          <div class="warn-num">
-            <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
-          <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-            <div class="customer-service"></div>
-            </div>,'提示', {confirmButtonText: '确定',showCancelButton:false})
+          if (this.accountLevel == 1) {
+            this.$confirm(
+              <div class="warn-num ">
+                <p class="title" style="font-size:16px;text-align:center;">对不起，您的签约次数已用尽!</p>
+                <div class="customer-service"></div>
+              </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+              this.$router.push('/PackagePurchase')
+            })
+          }else{
+            this.$alert('对不起，您的签约次数已用尽!', '提示', {
+              confirmButtonText: '取消',
+
+            });
+          }
 
           this.$refs.upload.clearFiles();
           this.uploadFile = false;
@@ -634,13 +824,16 @@
       var isCreater = "";
       let accountLevel = sessionStorage.getItem('accountLevel');
       let authorizerCode = sessionStorage.getItem('authorizerCode');
-      let interfaceCode = this.interfaceCode;
+      let hadClose = sessionStorage.getItem('hasClose')?false:true;
+      let isShowSignDialog = (cookie.getJSON('tenant')[1].signVerifyRemind == 1 && cookie.getJSON('tenant')[1].isBusiness == 1 )?true:false;
+
       if(sessionStorage.getItem('welcomePage')|| cookie.getJSON('tenant')[1].isBusiness==1){
         this.welcomeMessage = false;
+        sessionStorage.setItem('welcomePage',false)
       }
-
-      this.getContractNum()
-
+      if(hadClose&&isShowSignDialog){
+          this.signDialog = true
+      }
       var requestVo = {
         pageNo: "1",
         pageSize: "7",
@@ -650,63 +843,63 @@
 
       };
       this.$store.dispatch('tabIndex',{tabIndex:0});
-      server.contractLists(requestVo,interfaceCode).then(res=>{
-        if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
-          for (let i = 0; i < res.data.content.length; i++) {
-            if (res.data.content[i].creater == interfaceCode) {  //发起方
-              flag = true;
-            } else {
-              flag = false;
-            }
-            res.data.content[i].flag = flag;
-            var obj = {};
-            obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
-            obj.createTime = res.data.content[i].createTime;
-            obj.signers = res.data.content[i].signers;
-            obj.contractStatus = res.data.content[i].contractStatus;
-            obj.validTime = res.data.content[i].validTime;
-            obj.contractType = res.data.content[i].contractType;
-            obj.flag = res.data.content[i].flag;
-            obj.operator = res.data.content[i].operator
-            obj.operation = "";
-            // obj.creater = res.data.content[i].creater
-            switch (obj.contractStatus) {
-              case "1":
-                obj.contractStatus = "待我签署";
-                obj.operation = 1;
-                break;
-              case "2":
-                obj.contractStatus = "待他人签署";
-                obj.operation = 2;
-                break;
-              case "3":
-                obj.contractStatus = "已生效";
-                obj.operation = 3;
-                break;
-              default:
-                obj.contractStatus = "已截止";
-                obj.operation = 4;
-            }
-            data[i] = obj;
-          }
-          // console.log(data[1],typeof sessionStorage.getItem('accountCode'))
-          this.tableData = data;
-          this.loading = false;
+      homePageContractLists(requestVo,this.interfaceCode).then(res=>{
+        if(res&&res.data&&res.data.content&&res.data.content.length){
+          this.num=res.data.content.length;
         }
+        for (let i = 0; i < res.data.content.length; i++) {
+          if (res.data.content[i].creater == this.interfaceCode) {  //发起方
+            flag = true;
+          } else {
+            flag = false;
+          }
+          res.data.content[i].flag = flag;
+          var obj = {};
+          obj.contractName = res.data.content[i].contractName;
+          obj.contractNum = res.data.content[i].contractNum;
+          obj.createTime = res.data.content[i].createTime;
+          obj.signers = res.data.content[i].signers;
+          obj.contractStatus = res.data.content[i].contractStatus;
+          obj.validTime = res.data.content[i].validTime;
+          obj.contractType = res.data.content[i].contractType;
+          obj.flag = res.data.content[i].flag;
+          obj.operator = res.data.content[i].operator
+          obj.operation = "";
+          // obj.creater = res.data.content[i].creater
+          switch (obj.contractStatus) {
+            case "1":
+              obj.contractStatus = "待我签署";
+              obj.operation = 1;
+              break;
+            case "2":
+              obj.contractStatus = "待他人签署";
+              obj.operation = 2;
+              break;
+            case "3":
+              obj.contractStatus = "已生效";
+              obj.operation = 3;
+              break;
+            default:
+              obj.contractStatus = "已截止";
+              obj.operation = 4;
+          }
+          data[i] = obj;
+        }
+        this.tableData = data;
+        this.loading = false;
+
       })
 
       //合同概括请求
       //在读取属性[]和.注意！  server.requestType[i]报错
       let requestType=['waitForMeSign','waitForOtherSign','takeEffect','deadline'];
+
       let param={
         accountCode:this.accountCode
       }
-      for(var i=0;i< requestType.length;i++){
+      for(let i=0;i< requestType.length;i++){
         let type =  requestType[i];
-        server[requestType[i]](param,interfaceCode).then(res=>{
+        server[requestType[i]](param,this.interfaceCode).then(res=>{
           this[type] = res.data.count
         }).catch(error=>{
 
@@ -714,18 +907,16 @@
       }
       let resParam={
         accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
-      }
-
-
+      };
       // 首页模板列表
-      this.$http.get(process.env.API_HOST + "v1/tenant/"+cookie.getJSON("tenant")[1].interfaceCode + "/templateList",{params:resParam}).then(function(res) {
-        if (res.data.sessionStatus == "0") {
-          this.$router.push("/Server");
-        } else {
-          this.arr = res.data.slice(0, 3);
-          this.count = res.data.length;
-        }
-      });
+      templateList(resParam,this.interfaceCode).then(res=>{
+        this.arr = res.data.slice(0, 3);
+        this.count = res.data.length;
+      }).catch(error=>{
+
+      })
+      //查询合同剩余次数
+      this.getContractNum();
     },
     mounted() {
       sessionStorage.removeItem("type");
@@ -735,6 +926,83 @@
 </script>
 <style lang="scss" scoped>
   @import "../../styles/Container.css";
+  #sign-pwd-dialog{
+       /deep/ .el-dialog{
+           border-radius: 10px;
+       }
+        /deep/ .el-dialog__body{
+            text-align: center;
+            padding:0 50px 20px 50px;
+        }
+        /deep/ .el-dialog__footer{
+            text-align: center;
+            padding-bottom: 40px;
+            .el-button{
+                width:250px;
+            }
+        }
+        
+        .sign-body-text{
+            text-align: left;
+            font-size: 16px;
+           /deep/ .el-form-item__label{
+                font-size: 16px;
+                text-align: left;
+                padding-left: 10px; 
+            }
+            .sign-verify-pwd{
+                 /deep/ .el-form-item__label{
+                     padding-left: 33px;
+                 }
+            }
+            .sign-pwd{
+                .el-input,{
+                    margin-left:17px;
+                }
+                /deep/ .el-form-item__error{
+                    margin-left:17px;
+                }
+            }
+            /deep/ .el-form-item__content{
+                display: flex;
+                .el-input__inner{
+                    width:250px;
+                }
+            }
+
+            img{
+                float: left;
+            }
+            p{
+                line-height: 25px;
+                color:#333;
+                padding-bottom: 15px;
+                span{
+                    padding-left: 10px
+                }
+            }
+        }
+        .sign-no-tip{
+            font-size: 14px;
+            color: #4091fb;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .sign-dialog-title{
+            p{
+                font-size: 20px;
+                color:#4091fb;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            .sign-user{
+                font-size: 25px;
+                background: linear-gradient(to top, #4091fb, #9315e4);
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+        }
+  }
   .right1:hover,
   .right2:hover,
   .right3:hover,
@@ -762,15 +1030,6 @@
   }
 
   .upload-warn{
-  // width: 68.1rem;
-  // height: 32rem;
-  // position: absolute;
-  // left: 50%;
-  // top: 50%;
-  // margin-left: -34.05rem;
-  // margin-top: -20rem;
-  // background: url('/static/images/Login/up-warn.png') no-repeat ;
-  // background-size:100% 100%;
     width: 47.1rem;
     height: 23rem;
     position: absolute;
@@ -778,17 +1037,17 @@
     top: 50%;
     margin-left: -25.05rem;
     margin-top: -20rem;
-    background: url(/static/images/Login/up-warn.png) no-repeat;
+    background:#fff url('/static/images/Home/up-warn.png') no-repeat;
     background-size: 100% 100%;
   div.contract-num{
     position: relative;
     left: 14rem;
-    top: 9.0rem;
+    top: 8.625rem;
     font-size: 14px;
   p{
     font-size: 16px;
     color: red;
-    line-height: 20px;
+    line-height: 1.4;
   }
   }
   .close-warn{
@@ -894,12 +1153,12 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

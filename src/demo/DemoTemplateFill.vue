@@ -4,8 +4,8 @@
     <div class="Top">
       <nav class='nav'>
         <p class='logo'>
-          <!--<img src="../../../../../static/images/Top/v1.6-logo.png" alt="logo图">-->
-          <img src="../../static/images/Top/v1.6-logo.png" alt="logo图">
+
+          <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
         </p>
 
       </nav>
@@ -19,12 +19,12 @@
 
       </div>
       <div class=" demo-detail">
-         <img src="../../static/images/Demo/demo-detail04.jpg">
-         <!--<img src="../../static/images/Demo/demo-detail04.jpg">-->
+         <img src="/static/images/Demo/demo-detail04.jpg">
+
       </div>
 
       <div class="template-contract">
-        <img class="fill-info-right" src="../../static/images/Demo/fill-info-right.png">
+        <img class="fill-info-right" src="/static/images/Demo/fill-info-right.png">
       </div>
 
       <div class="template-fill-info">
@@ -109,7 +109,7 @@
     height: 196px;
     z-index: 1004;
     position: absolute;
-    background: url("../../static/images/Demo/demo-seal.png") no-repeat;
+    background: url("/static/images/Demo/demo-seal.png") no-repeat;
     left: 500px;
     top: 530px;
   }
@@ -120,14 +120,14 @@
     position: absolute;
     left: 530px;
     top: -60px;
-    background: url("../../static/images/Demo/nextStep.png") no-repeat;
+    background: url("/static/images/Demo/nextStep.png") no-repeat;
   }
   .demoTemplateFill-content .step-modal{
     width: 1200px;
     height: 1100px;
     position: relative;
     z-index: 1001;
-    background: url("../../static/images/Demo/template-contract4.png") no-repeat;
+    background: url("/static/images/Demo/template-contract4.png") no-repeat;
     margin-top: 20px;
   }
   .fill-info-right{
@@ -143,7 +143,6 @@
     left: 258px;
     top: 230px;
     overflow: hidden;
-    /*background: url("../../static/images/Demo/demo-detail04.jpg") no-repeat;*/
   }
   .template-contract{
     width: 908px;
@@ -167,7 +166,7 @@
     height: 120px;
     z-index: 1004;
     position: absolute;
-    background: url("../../static/images/Demo/expression.png") no-repeat;
+    background: url("/static/images/Demo/expression.png") no-repeat;
     left: 275px;
     top:90px
   }
@@ -175,7 +174,7 @@
     width: 305px;
     height: 200px;
     position: absolute;
-    background: url("../../static/images/Demo/dialog.png") no-repeat;
+    background: url("/static/images/Demo/dialog.png") no-repeat;
   }
   .demoTemplateFill-content .template-fill-info>.dialog>p{
     padding:20px 15px;
@@ -213,7 +212,7 @@
     position: absolute;
     left: 230px;
     top:-85px;
-    background: url("../../static/images/Demo/pointer.png") no-repeat;
+    background: url("/static/images/Demo/pointer.png") no-repeat;
   }
 
   .Top {

@@ -1,0 +1,247 @@
+.PackageBuys{
+  position: relative;
+  .PackageBuys-main{
+    width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    min-height: 600px;
+    .main-header{
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+      background-color: #fff;
+      padding-top: 1px;
+      .title{
+        height: 46px;
+        margin: 20px 0 0 15px;
+        line-height: 46px;
+        padding-left: 40px;
+        color: #fff;
+        font-size: 20px;
+        padding-top: 0 !important;
+        border-top: none !important;
+        background: url('/static/images/Common/title.png') no-repeat;
+      }
+      .right{
+        float: right;
+        margin-top: -55px;
+        margin-right: 20px;
+        p{
+          float: right;
+          .back-account{
+            height: 30px;
+            padding-left: 35px;
+            font-size: 16px;
+            text-align: right;
+            color: #4091fb;
+            display: block;
+            span.back-png{
+              display: inline-block;
+              width: 30px;
+              height: 18px;
+              background: url('/static/images/Common/back-home.png') no-repeat;
+            }
+          }
+          b.accountBalance{
+            font-size: 16px;
+            color: #4091fb;
+            display: block;
+            line-height: 35px;
+            width: 255px;
+            text-align: right;
+          }
+        }
+      }
+    }
+    .main-body{
+      background-color: #fff;
+      position: relative;
+      padding: 20px;
+      .amount-content{
+        position: relative;
+        width: 1160px;
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        overflow: auto;
+        .amount-list{
+          padding-left: 20px;
+          ul{
+            li{
+             width: 170px;
+              height: 56px;
+              font-size: 16px;
+              color: #333;
+              border: 2px solid #ddd;
+              border-radius: 4px;
+              line-height: 60px;
+              float:left;
+              margin-right: 30px;
+              margin-bottom: 20px;
+              cursor: pointer;
+            }
+            li.active{
+              border-color: #4091fb;
+              background: url("/static/images/Account/PackageBuy/choose-active.png") no-repeat 145px 32px;
+              color: #4091fb;
+
+            }
+          }
+        }
+
+      }
+      .pay-content{
+        border:1px solid #ddd;
+        border-radius: 4px;
+        .pay-list{
+          padding: 20px 30px;
+          ul{
+            li{
+              cursor: pointer;
+              p{
+                display: inline-block;
+                width: 180px;
+                height: 60px;
+              }
+              display: inline-block;
+              width: 180px;
+              height: 60px;
+              border: 2px solid #ddd;
+              border-radius: 4px;
+              float:left;
+              margin-right: 30px;
+              margin-bottom: 20px;
+            }
+            li:nth-child(1)>p{
+              background: url("/static/images/Account/PackageBuy/ALIPAY.png") no-repeat 10px 5px;
+            }
+            li:nth-child(2)>p{
+              background: url("/static/images/Account/PackageBuy/WECHATPAY.png") no-repeat 10px 5px;
+            }
+            li.active{
+              background: url("/static/images/Account/PackageBuy/choose-active.png") no-repeat 156px 37px;
+              border-color:#4091fb;
+            }
+          }
+        }
+        .pay-operate{
+          position: relative;
+          clear: both;
+          overflow: auto;
+          padding-bottom: 10px;
+          .qrcode{
+            display:inline-block;
+            float: left;
+            margin-left: 240px;
+            img{
+              width: 120px;
+              height: 120px;
+              border: 1px solid #ddd;
+              border-radius: 2px;
+            }
+          }
+          .show-pay-num{
+            display:inline-block;
+            float: right;
+            margin-right: 20px;
+            width: 300px;
+            height: 70px;
+            border: 2px solid #4091fb;
+            line-height: 70px;
+            text-align: center;
+            p{
+              font-size: 30px;
+              color: #666;
+              span{
+                font-size: 14px;
+                color: #333;
+              }
+              b{
+                color: #4091fb;
+              }
+            }
+          }
+
+        }
+    }
+      .goToPay{
+        position: relative;
+        clear: both;
+        width: 280px;
+        margin: 25px auto;
+        a{
+          display: block;
+          width: 280px;
+          height: 60px;
+          line-height: 60px;
+          background: #4091fb;
+          color: #fff;
+          font-size: 16px;
+          text-align: center;
+          border-radius: 4px;
+        }
+      }
+      .warn-content{
+        width: 100%;
+        background-color:#f8fbff;
+        clear: both;
+        height: 100px;
+      }
+      .warn-tips{
+        text-align: left;
+        float: left;
+        box-sizing: border-box;
+        .tip-header{
+          font-size: 14px;
+          color: red;
+          line-height: 25px;
+        }
+        .tip-body{
+          h4{
+            font-size: 14px;
+            font-weight: normal;
+            color: #333;
+            line-height: 25px;
+          }
+        }
+      }
+    }
+
+  }
+  .bug-success-dialog{
+    .dialog-content{
+      padding:20px;
+      .header{
+       font-size: 16px;
+        text-align: center;
+      }
+      .body{
+        font-size: 18px;
+        margin: 20px auto;
+        p{
+          margin: 20px 0;
+          text-align: center;
+          span{
+            padding: 0 15px;
+            color: #4091fb;
+          }
+        }
+      }
+      .footer{
+        font-size: 16px;
+        margin: 0 auto;
+        a{
+          margin: 0 auto;
+          display: block;
+          width: 200px;
+          height: 40px;
+          line-height: 40px;
+          background: #4091fb;
+          color: #fff;
+          font-size: 16px;
+          text-align: center;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}

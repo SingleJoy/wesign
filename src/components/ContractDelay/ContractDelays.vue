@@ -106,7 +106,7 @@
     font-size: 20px;
     padding-top: 0 !important;
     border-top: none !important;
-    background: url("../../../static/images/Common/title.png") no-repeat;
+    background: url("/static/images/Common/title.png") no-repeat;
   }
   .ContractDelays .main .text{
     margin-top: -30px;
@@ -114,7 +114,7 @@
     padding-right: 50px;
   }
   .back-home{
-    background: url("../../../static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
     width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
   }
   .el-tabs__nav-scroll{
@@ -143,15 +143,17 @@
 </style>
 <script>
 import { mapActions, mapState } from 'vuex'
-import { Switch } from 'element-ui';
-import cookie from '@/common/js/getTenant'
+
+import cookie from '@/common/js/getTenant';
+import {showSignRoomInfo} from '@/api/account';
+import {notification} from '@/api/list';
+import {b2cImgs,b2cContrantsDetail,updateContractTime} from '@/api/detail';
 export default {
-  name: 'ContractInfos',
+  name: 'ContractDelays',
   data() {
     return {
       baseURL:this.baseURL.BASE_URL,
       tableData2: [],
-      contractNo:'',
       contractName:'',
       validTimes:new Date(),
       status:'',
@@ -165,7 +167,9 @@ export default {
         disabledDate(time) {
           return time.getTime() < Date.now() - 8.64e7;
         }
-      }
+      },
+      contractNo:sessionStorage.getItem('contractNo'),
+      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
     }
   },
   methods: {
@@ -177,13 +181,19 @@ export default {
         }
     },
     remindSignClick (row) {
-      this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/signRoom/showSignRoomInfo').then(function (res) {
-        var status = res.data.data.status
-        var signRoomLink = res.data.data.signRoomLink
-        var resultCode = res.data.data.resultCode
-        let notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"signRoomLink":signRoomLink,"mobile":row.mobile}
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/notification',notificationReq,{emulateJSON:true}).then(function (res) {
-          var resultCode = res.data.resultCode
+      showSignRoomInfo(this.interfaceCode).then(res=>{
+       let status = res.data.data.status
+        let signRoomLink = res.data.data.signRoomLink
+        let resultCode = res.data.data.resultCode
+        let params = {
+         "type":'0',
+          "contractNo":this.contractNo,
+          "userCode":row.userCode,
+          "signRoomLink":signRoomLink,
+          "mobile":row.mobile
+       }
+        notification(this.interfaceCode,params).then(res=> {
+         let resultCode = res.data.resultCode
             if ( resultCode === '0') {
               this.$message({
               message: '短信通知成功',
@@ -195,25 +205,31 @@ export default {
               type: 'error'
             });
           }
+        }).catch(error=>{
+
         })
+      }).catch(error=>{
+
       })
     },
     seeContractImg (){
       this.$loading.show(); //显示
-      var data =[];
-      this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/contractimgs').then(function (res) {
+      let data =[];
+      b2cImgs(this.interfaceCode,this.contractNo).then(res=> {
         for (let i = 0; i < res.data.length;i++) {
         let contractUrl = res.data[i].contractUrl
         data[i] = contractUrl
         this.$loading.hide(); //隐藏
         }
         this.imgList = data
+      }).catch(error=>{
+
       })
       this.dialogTableVisible = true
     },
     downloadClick () {
-      var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+this.contractNo;
-      var download = document.createElement('a');
+      let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+this.contractNo;
+      let download = document.createElement('a');
       document.body.appendChild(download)
       download.setAttribute('href',url);
       download.click()
@@ -233,15 +249,12 @@ export default {
       }
     },
     seeContractSign(){
-      var data =[];
-      let url = process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.contractNo+'/getContractDetails'
-      this.$http.get(url).then(function (res) {
-        if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-        var contractVo = res.data.contractVo
-        var signUserVo = res.data.signUserVo
-        var type = contractVo.createType
+     let data =[];
+      let t=Math.random();
+      b2cContrantsDetail(this.interfaceCode,this.contractNo,t).then(res=> {
+        let contractVo = res.data.contractVo
+        let signUserVo = res.data.signUserVo
+        let type = contractVo.createType
         this.contractNo = contractVo.contractNo
         this.contractName = contractVo.contractName
 
@@ -281,7 +294,7 @@ export default {
           break;
         }
         for (let i = 0; i < signUserVo.length;i++) {
-          var obj = {}
+          let obj = {}
           obj.signUserName = signUserVo[i].signUserName
           obj.mobile = signUserVo[i].mobile
           obj.idCard = signUserVo[i].idCard
@@ -301,11 +314,13 @@ export default {
           data[i] = obj
         }
         this.tableData2 = data
-        }
+
+      }).catch(error=>{
+
       })
     },
     dateModified () {  // 修改日期
-      var perpetualValid = ''
+      let perpetualValid = ''
       if (this.checked3 == true){
         perpetualValid = '1'
       } else {
@@ -317,13 +332,15 @@ export default {
           message: '请选择时间选项!',
           type: 'error'
         })
-        return
+        return false
       } else {
             this.hasClick = true;
-            this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.rowNumber+'/updateContractTime',{'validTime':this.validTimes,'perpetualValid':perpetualValid},{emulateJSON:true}).then(function (res) {
-            if(res.data.sessionStatus == '0'){
-            this.$router.push('/Server')
-            } else {
+            let params={
+              'validTime':this.validTimes,
+              'perpetualValid':perpetualValid
+            };
+        updateContractTime(params,this.interfaceCode,this.contractNo).then(res=> {
+
             if( res.data.resultCode == 0){
             this.$message({
                 showClose: true,
@@ -332,7 +349,9 @@ export default {
             });
             this.seeContractSign()
             }
-            }
+
+        }).catch(error=>{
+
         })
       }
     },
@@ -354,16 +373,7 @@ export default {
   },
   created() {
     this.signMobile = cookie.getJSON('tenant')[0].mobile;
-    // console.log(cookie.getJSON('tenant'),this.signMobile)
-    var contractNo = sessionStorage.getItem('contractNo')
-    if(contractNo){
-        // contractNo = JSON.parse(contractNo);
-        this.contractNo = contractNo
-        if ( this.$store.state.rowNumber == ''){
-            this.$store.state.rowNumber = contractNo;
-            this.contractNo = contractNo
-        }
-    }
+
     this.seeContractSign()
   }
 }

@@ -3,7 +3,7 @@
 		<div class="layer" v-show="isShow">
 			<div class="reminder" v-show="isShowSkip">
 				<div class="reminder_img">
-					<img src="../../../static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/register-dialog.gif" alt="">
 				</div>
 				<div class="reminder_text">
 					<span>您已完成注册，请使用账号密码进行登录即将跳转至登录页面&nbsp;&nbsp;</span>
@@ -16,20 +16,20 @@
 					<span class="layer_close_rigth">X</span>
 				</div>
 				<div class="layer_character">
-					<img src="../../../static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
+					<img src="/static/images/Credentials/Enterprise/Register/agreement.jpg" alt="">
 				</div>
 			</div>
 		</div>
 		<div class="Topes">
 			<nav class='nav'>
 				<p class='logo'>
-				<img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+				<img src="/static/images/Top/v1.6-logo.png" alt="logo图">
 				</p>
 			</nav>
 		</div>
 		<section class="contain">
 			<div class="image_register">
-				<img src="../../../static/images/Common/title.png" alt="">
+				<img src="/static/images/Common/title.png" alt="">
 				<div class="register">注&nbsp;&nbsp;&nbsp;&nbsp;册</div>
 			</div>
 			<div class="shadow">
@@ -74,6 +74,7 @@
 	import {GetQueryString} from '@/common/js/InterceptUrl';
 	import md5 from "js-md5";
 	import server from "@/api/url";
+	import certification from "@/api/certification";
 	export default {
 		name: "BusinessRegisters",
 		data() {
@@ -214,11 +215,13 @@
             },
 
             sendInfo(){
-                this.$http.get(process.env.API_HOST + 'v1.4/sms', {
-                    params: {
-                        'mobile': this.ruleForm.mobile, 'smsNo': this.smsNo, 'smsCode': this.ruleForm.code, 'appId': this.appId
-                    }
-                }).then(res => {
+			       let params={
+               'mobile': this.ruleForm.mobile,
+               'smsNo': this.smsNo,
+               'smsCode': this.ruleForm.code,
+               'appId': this.appId
+            }
+              certification.smsValite(params).then(res => {
                     if(res.body.resultCode == 1) {
                         //验证码有效提交注册信息
                         this.compangSave();
@@ -279,8 +282,12 @@
 							//console.log('已存在');
 						} else {
 							//获取验证码
-							this.$http.post(process.env.API_HOST+'v1.4/sms/sendCode', {'mobile': this.ruleForm.mobile,'interfaceCode': this.num}, {emulateJSON: true}).then(function (res) {
-								// console.log(res);
+              let params= {
+                'mobile': this.ruleForm.mobile,
+                'interfaceCode': this.num
+              }
+             server.smsCode(params).then(res=> {
+
 								if(res.body.resultCode == 1) {
 									this.smsNo = res.body.smsNo;
 									this.appId= res.body.appId
@@ -310,8 +317,7 @@
 					'appId':this.appId
 				};
 				//企业商户注册提交
-				server.companyRegister(params,{emulateJSON: true})
-				.then(res => {
+				server.companyRegister(params).then(res => {
 					if (res.data.resultCode == '1') {
 						this.$message({
 							showClose: true,
@@ -358,7 +364,7 @@
 			this.interfaceCode = GetQueryString("appId");
 			sessionStorage.setItem('interfaceCode', this.interfaceCode);
 			//获取企业信息
-			server.getCompanyRegister(this.interfaceCode,{emulateJSON: true}).then(res => {
+			server.getCompanyRegister(this.interfaceCode).then(res => {
 				if (res.data.resultCode == '1') {
 					this.$message({
 						showClose: true,

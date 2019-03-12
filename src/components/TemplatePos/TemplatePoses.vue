@@ -3,7 +3,7 @@
    <div class="Tops">
     <nav class='nav'>
       <p class='logo'>
-        <img src="../../../static/images/Top/v1.6-logo.png" alt="logo图">
+        <img src="/static/images/Top/v1.6-logo.png" alt="logo图">
       </p>
       <div class='buttons'>
         <el-button type="info" style='background:#ccc' @click="templateCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
@@ -74,6 +74,7 @@
 import BScroll from 'better-scroll'
 import { mapActions, mapState } from 'vuex'
 import cookie from '@/common/js/getTenant'
+import {signerpositions,getContractDetails,contractimgs} from '@/api/template'
 
 export default {
   name: 'Specifiedpositions',
@@ -87,7 +88,12 @@ export default {
       signUserList:[],
       imgList:[],
       imgHeight: [],
-      scrollY: 0  //batterScroll 滚动的Y轴距离
+      scrollY: 0 ,
+      contractNo:sessionStorage.getItem("contractNo"),
+      needSign:sessionStorage.getItem("needSign"),
+      templateName:sessionStorage.getItem("templateName"),
+      interfaceCode:sessionStorage.getItem("interfaceCode"),
+      accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
     }
   },
   computed:{
@@ -105,16 +111,16 @@ export default {
     },
     pages:function(){
     this.showItem = 10;
-    var pag = [];
+    let pag = [];
       if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
             //总页数和要显示的条数那个大就显示多少条
-            var i = Math.min(this.showItem,this.allpage);
+            let i = Math.min(this.showItem,this.allpage);
             while(i){
                 pag.unshift(i--);
             }
         }else{ //当前页数大于显示页数了
             //var middle = this.currentIndex - Math.floor(this.showItem / 2 ),//从哪里开始
-            var middle = this.currentIndex + 1
+            let middle = this.currentIndex + 1
                 i = this.showItem;
             if( middle >  (this.allpage - this.showItem)  ){
                 middle = (this.allpage - this.showItem) + 1
@@ -199,10 +205,10 @@ export default {
       })
     },
     lastStepFit (){ //上一步
-      this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
+
       this.$store.dispatch('type',{type:'back'})
-      sessionStorage.setItem('contractName', this.$store.state.templateName)
-      sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+
+
       sessionStorage.setItem('type','back')
       this.$router.push('/Signaturesetting')
 
@@ -234,31 +240,30 @@ export default {
             param += userId+","+(pageNo+1)+","+offsetX+","+offsetY+"&"
           }
         }
-        this.$http.post(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/signerpositions',{"signerpositions":param},{emulateJSON: true}).then(function (res) {
-          if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+        let params={"signerpositions":param};
+        signerpositions(this.interfaceCode,this.contractNo,params).then(res=> {
+
           if(res.data.resultCode == '0') {
-            this.$store.dispatch('fileSuccess1',{contractName:this.$store.state.templateName,contractNo:this.$store.state.contractNo1})
-            sessionStorage.setItem('contractName', this.$store.state.templateName)
-            sessionStorage.setItem('contractNo', this.$store.state.contractNo1)
+
+
             if (this.$store.state.needSign != 1){
                 this.$router.push('/TemplateInfo')
             }
           }else if(res.data.resultCode==1){
-                this.$confirm(
-                    <div class="warn-num">
-                        <p class="title" style="font-size:16px;text-align:center;">对不起，您的对个人签约次数已用尽!</p>
-                        <p style="font-size:16px;text-align:center;">请联系客服购买套餐</p>
-                        <div class="customer-service"></div>
-                    </div>,'提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(() => {
-                    // this.$router.push('/Home')
-                }).catch(() => {
-                    
-                });
+            if (this.accountLevel == 1) {
+              this.$confirm(
+                <div class="warn-num ">
+                  <p class="title" style="font-size:16px;text-align:center;">对不起，对个人合同份数已用尽</p>
+                  <div class="customer-service"></div>
+                </div>, '提示', {confirmButtonText: '去购买', showCancelButton: '取消'}).then(() => {
+                this.$router.push('/PackagePurchase')
+              })
+            }else{
+              this.$alert('对不起，您的对个人签约次数已用尽!', '提示', {
+                confirmButtonText: '取消',
+
+              });
+            }
 
           }else{
             this.$message({
@@ -266,7 +271,7 @@ export default {
               message: '指定位置失败!',
               type: 'error'
             })
-          }
+
         }
         })
       } else {
@@ -279,48 +284,19 @@ export default {
     }
   },
   created () {
-    var templateName = sessionStorage.getItem('templateName')
-    var templateNo = sessionStorage.getItem('templateNo')
-    var contractNo = sessionStorage.getItem('contractNo')
-    var needSign = sessionStorage.getItem('needSign')
-    if (templateName) {
 
-      if ( this.$store.state.templateName == ''){
-        this.$store.state.templateName = templateName
-      }
-    }
-    if (contractNo) {
-    //   contractNo = JSON.parse(contractNo)
-      if ( this.$store.state.contractNo1 == ''){
-        this.$store.state.contractNo1 = contractNo
-      }
-    }
-    if (templateNo) {
-    //   templateNo = JSON.parse(templateNo)
-      if ( this.$store.state.templateNo == ''){
-        this.$store.state.templateNo = templateNo
-      }
-    }
-    if (needSign) {
-    //   needSign = JSON.parse(needSign)
-      if ( this.$store.state.needSign == ''){
-        this.$store.state.needSign = needSign
-      }
-    }
     this.$loading.show(); //显示
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode+'/contract/'+this.$store.state.contractNo1+'/getContractDetails').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
-      var signUserVo = res.data.signUserVo
+    let t=Math.random();
+    getContractDetails(this.interfaceCode,this.contractNo,t).then(res=> {
+
+      let signUserVo = res.data.signUserVo
       this.signUserList = signUserVo
-        }
+
+    }).catch(error=>{
+
     })
-    var data =[];
-    this.$http.get(process.env.API_HOST+'v1/tenant/'+ cookie.getJSON('tenant')[1].interfaceCode +'/contract/'+this.$store.state.contractNo1+'/contractimgs').then(function (res) {
-      if(res.data.sessionStatus == '0'){
-          this.$router.push('/Server')
-        } else {
+    let data =[];
+    contractimgs(this.interfaceCode,this.contractNo).then(res=> {
       this.allpage = res.data.length
       this.$nextTick(() => {
         this._initScroll()
@@ -337,85 +313,80 @@ export default {
         this.$loading.hide(); //隐藏
         }
         this.imgList = data
-        }
+
+    }).catch(error=>{
+
     })
 
   },
   directives: {
     drag: {
     bind :function (el, binding) {
-        var n = 0
-       var that = null
-        el.onmousedown = function (e) {
-          e.preventDefault();
-          //鼠标按下，计算当前元素距离可视区的距离
-          //el.style.position='absolute';
-          n++;
+      var n = 0
+      var that = null
+      el.onmousedown = function (e) {
+        e.preventDefault();
+        //鼠标按下，计算当前元素距离可视区的距离
+        //el.style.position='absolute';
+        n++;
 
-          let disX = e.clientX - el.offsetLeft;
-          let disY = e.clientY - el.offsetTop + document.documentElement.scrollTop;
-          var item = document.createElement("div");
-          var more = document.getElementById('more')
-          //var div2 = document.getElementById('div2')
-          item.style.left = disX+'px'
-          item.style.top = disY+'px'
-          //item.style.width = div2.clientWidth*9/21 +'px'
-          //item.style.height = div2.clientWidth*9/21 +'px'
-          more.appendChild(item);
-          document.onmousemove = function (e) {
-            item.style.cursor='move'
-            var maxRight = document.getElementById('div1').clientWidth+ document.getElementById('div1').offsetLeft - el.clientWidth //最大右部距离
-            var minLeft = document.getElementById('div1').offsetLeft   //判断最小左面距离
-            var minTop = document.getElementById('div1').offsetTop     //判断最小上部距离
-            var maxTop = document.getElementById('div1').offsetHeight + minTop -  el.clientWidth //最大下距离
-            //通过事件委托，计算移动的距离
-            var e = e|| window.event;
-            let l = e.clientX - disX;
-            let t = e.clientY - disY + document.documentElement.scrollTop;
-            //移动当前元素
-            item.className ='signBox'
-            item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
-            var del = document.getElementsByClassName('delete');
-            if(del){
-                del[del.length-1].addEventListener('click', function () {
-                    if(this.parentNode.parentNode){
-                        this.parentNode.parentNode.removeChild(this.parentNode)
-                    }
-                    n--
-                    el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
-                }, true);
+        let disX = e.clientX - el.offsetLeft;
+        let disY = e.clientY - el.offsetTop + document.documentElement.scrollTop;
+        var item = document.createElement("div");
+        var more = document.getElementById('more')
+        //var div2 = document.getElementById('div2')
+        item.style.left = disX+'px'
+        item.style.top = disY+'px'
+        //item.style.width = div2.clientWidth*9/21 +'px'
+        //item.style.height = div2.clientWidth*9/21 +'px'
+        more.appendChild(item);
+        document.onmousemove = function (e) {
+          item.style.cursor='move'
+          var maxRight = document.getElementById('div1').clientWidth+ document.getElementById('div1').offsetLeft - el.clientWidth //最大右部距离
+          var minLeft = document.getElementById('div1').offsetLeft   //判断最小左面距离
+          var minTop = document.getElementById('div1').offsetTop     //判断最小上部距离
+          var maxTop = document.getElementById('div1').offsetHeight + minTop -  el.clientWidth //最大下距离
+          //通过事件委托，计算移动的距离
+          var e = e|| window.event;
+          let l = e.clientX - disX;
+          let t = e.clientY - disY + document.documentElement.scrollTop;
+          //移动当前元素
+          item.className ='signBox'
+          item.innerHTML = '<h5 class="infoStyle">'+el.childNodes[0].innerText+'</h5><h6 class="textStyle">'+el.childNodes[2].innerText+'</h6><input type="hidden" class="user" value="'+el.childNodes[4].innerText+'"><b  class="delete">X</b>';
+
+
+          var del = document.getElementsByClassName('delete')
+          for(var i= 0;i<del.length;i++){
+            del[i].onclick=function () {
+              if(this.parentNode.parentNode){
+                this.parentNode.parentNode.removeChild(this.parentNode)
+              }
+
+              n--
+              el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
             }
-            // for(var i= 0;i<del.length;i++){
-            //     del[i].onclick=function () {
-            //         if(this.parentNode.parentNode){
-            //             this.parentNode.parentNode.removeChild(this.parentNode)
-            //         }
-                    
-            //         n--
-            //         el.childNodes[6].innerText ='拖入位置（'+ n +'）次'
-            //     }
-            // }
+          }
 
-            item.style.left = l + 'px';
-            item.style.top = t + 'px';
+          item.style.left = l + 'px';
+          item.style.top = t + 'px';
 
-            if(l < minLeft || l>maxRight){
-              document.onmouseup = null
-            } else if (t< minTop || t>maxTop) {
-              document.onmouseup = null
-            } else {
-             document.onmouseup = function (e) {
-             document.onmousemove = null;
-             document.onmouseup = null;
-             more.removeChild(item)
-             var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
-             var left = l - document.getElementById('div2').offsetLeft  //进入合同页面左偏移量
-             var top = t - document.getElementById('div2').offsetTop  //进入合同页面上偏移量
-             item.style.width='125px'
-             item.style.height='125px'
-             item.style.left = left + 'px';
-             item.style.top = (top+Math.abs(scrollY)) + 'px';
-             div2.appendChild(item)
+          if(l < minLeft || l>maxRight){
+            document.onmouseup = null
+          } else if (t< minTop || t>maxTop) {
+            document.onmouseup = null
+          } else {
+            document.onmouseup = function (e) {
+              document.onmousemove = null;
+              document.onmouseup = null;
+              more.removeChild(item)
+              var scrollY = document.getElementById('div2').style.transform.match(/\.*translate\((.*?)\)/)[1].replace(/[^0-9\-,]/g,'').split(',')[1];
+              var left = l - document.getElementById('div2').offsetLeft  //进入合同页面左偏移量
+              var top = t - document.getElementById('div2').offsetTop  //进入合同页面上偏移量
+              item.style.width='125px'
+              item.style.height='125px'
+              item.style.left = left + 'px';
+              item.style.top = (top+Math.abs(scrollY)) + 'px';
+              div2.appendChild(item)
 
               var dragNum = el.childNodes[6]
               dragNum.innerText ='拖入位置（'+ n +'）次'
@@ -433,8 +404,8 @@ export default {
               for (var i =0;i<signBox.length;i++){
                 signBox[i].onmousedown = function (e){
                   e.preventDefault();
-                   let X = e.clientX - this.offsetLeft;
-                   let Y = e.clientY - this.offsetTop +document.documentElement.scrollTop;
+                  let X = e.clientX - this.offsetLeft;
+                  let Y = e.clientY - this.offsetTop +document.documentElement.scrollTop;
                   this.style.position='absolute';
                   var _this=this
                   document.onmousemove = function (e) {
@@ -443,34 +414,34 @@ export default {
                     let to = e.clientY - Y + document.documentElement.scrollTop;
 
                     if (le <= 0) {
-                     le = 0;
+                      le = 0;
                     } else if (le > div2.clientWidth - _this.offsetWidth) {
-                    le = div2.clientWidth - _this.offsetWidth;
+                      le = div2.clientWidth - _this.offsetWidth;
                     }
                     if (to <= 0) {
-                    to = 0;
+                      to = 0;
                     } else if (to > div2.clientHeight - _this.offsetHeight ) {
-                    to =  div2.clientHeight - _this.offsetHeight
+                      to =  div2.clientHeight - _this.offsetHeight
                     }
                     _this.style.left = le +'px'
                     _this.style.top = to +'px'
-                    }
-                    document.onmouseup = function (e) {
+                  }
+                  document.onmouseup = function (e) {
                     document.onmousemove = null;
                     document.onmouseup = null;
                   }
+                }
               }
-             }
             }
-           }
           }
         }
       }
     }
+    }
   }
 }
 </script>
-<style lang="css" scoped>
+<style lang="css">
   @import "../../styles/TemplatePos/TemplatePoses.css";
   @import "../../common/styles/Tops.css";
   @import "../../common/styles/SigningSteps.css";
@@ -517,7 +488,7 @@ export default {
   .customer-service{
     width: 200px!important;
     height: 50px!important;
-    background: url('../../../static/images/Common/customer-service.gif') no-repeat !important;
+    background: url('/static/images/Common/customer-service.gif') no-repeat !important;
     margin-left: 80px;
   }
 </style>

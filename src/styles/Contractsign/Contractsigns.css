@@ -119,3 +119,11 @@
 .sign_right a {
   text-decoration: none;
 }
+
+/* 签章密码弹框样式 */
+.sign_dialog .el-dialog {
+    height: 200px;
+}
+.sign_dialog .sign_element .el-input{
+    width: 60%;
+}

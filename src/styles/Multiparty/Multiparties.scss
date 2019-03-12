@@ -1,49 +1,21 @@
-.Multiparties{
+.Multiparties,.Mycontracts{
   margin-top: 20px;
+  .main{
+    width: 1200px;
+    margin: 0 auto;
+    .contract-type{
+      background-color: #fff;
+    }
+  }
 }
 .el-table td, .el-table th{
   text-align: center;
 }
-.main{
-  /* width: 1200px;
-  margin: 0 auto;
-  background: #fff;
-  padding-left: 5px;
-  padding-right: 5px; */
+.contract-type{
+  min-height: 450px;
+  background-color: #fff;
+}
 
-}
-.main h2{
-  font-weight: normal;
-  font-size: 18px;
-}
-.main h2{
-  font-size: 14px;
-}
-.main h6{
-  color: #eb5a5d;
-  line-height: 50px;
-}
-.main h2 input{
-  display:inline-block;
-  width: 238px;
-  height: 40px;
-  border: 1px solid #ccc;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.main h2 b{
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #ccc;
-  vertical-align: bottom;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-}
-.main h2 span{
-  display: inline-block;
-}
 .tab{
   margin-top: 20px;
 }
@@ -52,13 +24,22 @@
 }
 .el-table th{
   font-size: large;
-  //   background: red;
 }
 .pagetion{
-  padding-top: 50px;
+  padding-top: 70px;
   text-align: center;
 }
-
+.signer-name{
+  display: inline-block;
+  width: 190px;
+  height: 38px;
+  padding-left: 5px;
+  padding-right: 5px;
+  outline: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  margin-right:20px;
+}
 #textInfoModel{
   display: inline-block;
   width: 237px;
@@ -81,20 +62,19 @@
   background: #fff;
   height: 80px;
   box-sizing: border-box;
-  margin-bottom: 20px;
 }
 #text{
   padding-left: 30px;
 }
 .el-table th>.cell{
   text-align: center;
+  font-size: 14px;
 }
 
 .common-top{
   .el-tabs__nav-wrap{
     background: #fff;
     margin-bottom: 20px;
-    height: 126px;
   }
 }
 
@@ -104,7 +84,6 @@
   .template-title{
     padding:20px 15px 0 15px;
     .title-bg{
-      //background: url('../../../static/images/Common/title.png') no-repeat;
       height:46px;
     }
     .title-name{
@@ -127,7 +106,7 @@
   }
   .template-list{
     .contract-box{
-      padding:0px 25px;
+      padding:0 25px;
       .contract-content{
         overflow: hidden;
         padding:20px 28px;
@@ -140,7 +119,6 @@
           width:180px;
           background: #ddd;
           position: relative;
-          // background: url("../../")
           p{
             text-align: center;
             word-wrap: break-word;
@@ -161,7 +139,6 @@
         .content-left:hover p{
           visibility: visible;
           transition: visibility 3s ease-in;
-          //   transition: border 1s linear,background 1s linear;
         }
         .content-right{
           float: left;
@@ -220,3 +197,14 @@
   }
 }
 
+.signer-name{
+  display: inline-block;
+  width: 190px;
+  height: 38px;
+  padding-left: 5px;
+  padding-right: 5px;
+  outline: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  margin-right:20px;
+}
