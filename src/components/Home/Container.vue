@@ -854,7 +854,7 @@
             flag = false;
           }
           res.data.content[i].flag = flag;
-          var obj = {};
+          let obj = {};
           obj.contractName = res.data.content[i].contractName;
           obj.contractNum = res.data.content[i].contractNum;
           obj.createTime = res.data.content[i].createTime;
@@ -896,7 +896,7 @@
 
       let param={
         accountCode:this.accountCode
-      }
+      };
       for(let i=0;i< requestType.length;i++){
         let type =  requestType[i];
         server[requestType[i]](param,this.interfaceCode).then(res=>{
@@ -906,10 +906,10 @@
         })
       }
       let resParam={
-        accountCode:sessionStorage.getItem('accountLevel')==2?this.accountCode:''
+        accountCode:(sessionStorage.getItem('accountLevel')==2)?this.accountCode:''
       };
       // 首页模板列表
-      templateList(resParam,this.interfaceCode).then(res=>{
+      templateList(this.interfaceCode,resParam).then(res=>{
         this.arr = res.data.slice(0, 3);
         this.count = res.data.length;
       }).catch(error=>{

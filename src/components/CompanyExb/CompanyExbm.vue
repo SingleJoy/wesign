@@ -20,15 +20,15 @@
         </p>
 
       </div>
-      <div class='second'>
-        <div class="title">签署文件</div>
-        <span class='text'>
+      <div class="second">
+      <div class="title">签署文件</div>
+      <span class="text">
                <strong>当前状态：</strong>
                <span>{{status}}</span>
-        </span>
+             </span>
       </div>
-      <div class='three'>
-        <p class='details2' style="text-align:left;">
+      <div class="three">
+        <p class="details2" style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit">{{contractName}}</span>
           <a href="javascript:void(0);" @click="seeContractImg">查看</a>
           <a href="javascript:void(0);" @click="downloadClick">下载</a>
@@ -43,7 +43,7 @@
           <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
-      <div class='table' style="width: 1200px;padding:15px;box-sizing: border-box;">
+      <div class="table" style="width: 1200px;padding:15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
           style="width: 100%;text-align:center"
@@ -197,7 +197,8 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remind,signFinish,contractSignUserInfo,contractimgs} from '@/api/detail'
+  import {remind,contractSignUserInfo,contractimgs} from '@/api/detail';
+  import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExbm',
     data() {

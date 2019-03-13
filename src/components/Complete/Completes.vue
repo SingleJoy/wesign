@@ -90,7 +90,8 @@ import {prohibit} from '@/common/js/prohibitBrowser'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
-import {getContractDetails,signLink,contractimgs,getSignLink} from '@/api/personal'
+import {getContractDetails,signLink,getSignLink} from '@/api/personal'
+import {contractimgs} from '@/api/detail'
 export default {
   data () {
     return {
@@ -116,9 +117,9 @@ export default {
     seeContractImg (){
 
       this.$loading.show(); //显示
-      var data =[];
-
-      contractImg(this.interfaceCode,this.contractNo).then(res=>{
+      let data =[];
+      let t=Math.random();
+      contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
                 let contractUrl = res.data[i].contractUrl
                 data[i] = contractUrl

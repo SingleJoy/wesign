@@ -2,7 +2,6 @@
 import request from '../utils/fetch'
 
 
-
 /* 下一步 */
 export function perfectContract(param,interfaceCode,contractNo){
     return request({

@@ -26,9 +26,9 @@
         </p>
 
       </div>
-      <div class='second'>
-        <div class="title">签署文件</div>
-        <span class='text'>
+      <div class="second">
+      <div class="title">签署文件</div>
+      <span class="text">
           <strong>当前状态：</strong>
           <span>{{status}}</span>
         </span>
@@ -217,7 +217,8 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {updateContractTime,contractimgs,contractSignUserInfo,signFinish} from '@/api/detail';
+  import {updateContractTime,contractimgs,contractSignUserInfo} from '@/api/detail';
+  import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExcm',
     data() {

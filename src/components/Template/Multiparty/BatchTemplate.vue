@@ -193,7 +193,7 @@
                 });
               }
             }else {
-              this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})
+              this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo});
               this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
               sessionStorage.setItem('templateName', row.templateName)
               sessionStorage.setItem('templateNo',row.templateNo)

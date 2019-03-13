@@ -297,7 +297,8 @@
 
       })
       var data =[];
-      contractImg(this.interfaceCode,this.contractNo).then(res=>{
+    let t=Math.random();
+    contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
         this.allpage = res.data.length
         this.$nextTick(() => {
           this.initScroll()

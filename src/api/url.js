@@ -113,14 +113,14 @@ const service = {
       params: param
     })
   },
-  //首页合同列表
-  contractLists(param, interfaceCode) {
-    return request({
-      url: "/api/v1.4/tenant/" + interfaceCode + "/homePageContractLists",
-      method: "get",
-      params: param
-    });
-  },
+  // //首页合同列表
+  // contractLists(param, interfaceCode) {
+  //   return request({
+  //     url: "/api/v1.4/tenant/" + interfaceCode + "/homePageContractLists",
+  //     method: "get",
+  //     params: param
+  //   });
+  // },
   //筛选查询合同列表
   queryContractLists(interfaceCode) {
     return request({

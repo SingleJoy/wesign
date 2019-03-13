@@ -340,7 +340,7 @@
         this.imgList=[];
         let data =[];
         let t=Math.random();
-        contractImg(this.interfaceCode,this.contractNo,t).then(res=>{
+        contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
               let contractUrl = res.data[i].contractUrl;
               data[i] = contractUrl

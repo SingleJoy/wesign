@@ -1,6 +1,6 @@
 import request from '../utils/fetch'
 
-export  function templateList(param,interfaceCode){
+export  function templateList(interfaceCode,param){
     return request({
         url: "/api/v1/tenant/" + interfaceCode + "/templateList",
         method: "get",

@@ -1,7 +1,13 @@
 <template>
   <div class='CompanyExam'>
     <div class='main'>
-
+      <!-- <p class='first' style="display: inherit;">
+		<span>我的合同</span>
+		<span v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+		<span v-else style="padding-right: 75%;">>合同详情</span>
+		<a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+		<span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
+	  </p> -->
       <div class='first' style="display: inherit;">
         <p style="line-height: 60px;float: left;">
           <span>我的合同</span>
@@ -20,14 +26,14 @@
         </p>
 
       </div>
-      <div class='second'>
-        <div class="title">签署文件</div>
+      <p class='second'>
+      <div class="title">签署文件</div>
 
-        <span class='text'>
+      <span class='text'>
                <strong>当前状态：</strong>
                <span>{{status}}</span>
              </span>
-      </div>
+      </p>
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong>
@@ -216,7 +222,8 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remind,signFinish,contractSignUserInfo,contractimgs} from '@/api/detail'
+  import {remindcontractSignUserInfo,contractimgs} from '@/api/detail';
+  import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExam',
     data() {

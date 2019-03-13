@@ -116,7 +116,7 @@
       }
     },
     mounted() {
-      // this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+
       this.$nextTick(() => {
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
           probeType: 3,
@@ -170,7 +170,7 @@
         this.clickNave(currentIndex)
       },
       clickNave(index) {
-        // let imgLists = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
+
         let imgLists = document.getElementsByClassName('contractImg-hook')
         let el = imgLists[index - 1]
         this.rightScroll.scrollToElement(el, 300)
