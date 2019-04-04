@@ -98,7 +98,7 @@ export default {
             total:'1',
             requestParams:{                    //列表请求参数
                 templateName:'',
-                pageNnm:1,
+                pageNum:1,
                 userStatus:1,
                 pageSize:10,
                 templateSpecies:'single',
@@ -116,7 +116,7 @@ export default {
             this.activeTab = 1
             this.requestParams = {
                 templateName:'',
-                pageNnm:1,
+                pageNum:1,
                 userStatus:1,
                 pageSize:10,
                 templateSpecies:'single',
@@ -129,7 +129,7 @@ export default {
             this.activeTab = 0;
             this.requestParams = {
                 templateName:'',
-                pageNnm:1,
+                pageNum:1,
                 userStatus:1,
                 pageSize:10,
                 templateSpecies:'batch',
