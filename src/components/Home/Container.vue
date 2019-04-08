@@ -28,7 +28,7 @@
               <div v-for="(item,index) in arr" :key="index" >
                 <div class='one' v-on:click="jumper(item,index)" style='border: 1px solid #ccc;margin-left: 5px;'>
                   <img src="/static/images/Container/home-icon-v1.6.png" alt="">
-                  <span style='color:#4091fb'>{{item.name}}</span>
+                  <span style='color:#4091fb'>{{item.templateName}}</span>
                 </div>
               </div>
               <div class='two'  v-if='arr.length>2' @click='otherTemplate'>
@@ -818,7 +818,6 @@
     },
 
     created() {
-
       var data = [];
       var flag = "";
       var isCreater = "";

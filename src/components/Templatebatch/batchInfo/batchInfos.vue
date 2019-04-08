@@ -91,7 +91,7 @@
   import BScroll from 'better-scroll'
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import {getTemplateImags,templateVal,userInfo,templateBatchSign} from '@/api/template'
+  import {getTemplateImgs,templateVal,userInfo,templateBatchSign} from '@/api/template'
   export default {
     name: 'batchInfos',
     data () {
@@ -173,7 +173,7 @@
       let params={
         "templateSpecificType":this.templateGenre
       }
-      getTemplateImags(this.interfaceCode,this.templateNo,params).then(res=> {
+      getTemplateImgs(this.interfaceCode,this.templateNo,params).then(res=> {
         //获取批量模板图片信息
         this.allpage = res.data.list.length;
         for (let i = 0; i < res.data.list.length;i++) {

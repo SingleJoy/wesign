@@ -154,7 +154,7 @@
 <script>
   import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
-  import { backContractTempSigner,getTemplateImags,contractTemp} from '@/api/template'
+  import { backContractTempSigner,getTemplateImgs,contractTemp} from '@/api/template'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import server from "@/api/url";
   export default {
@@ -312,7 +312,7 @@
        let params={
        "templateSpecificType":this.templateGenre
        };
-        getTemplateImags(this.interfaceCode,this.templateNo,params).then(res=> {
+        getTemplateImgs(this.interfaceCode,this.templateNo,params).then(res=> {
 
             for (let i = 0; i < res.data.list.length;i++) {
               let contractUrl = res.data.list[i]

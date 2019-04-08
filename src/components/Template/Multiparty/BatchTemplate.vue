@@ -159,14 +159,14 @@
         document.documentElement.scrollTop = 0
         if ( this.queryTempBatch !== '') {
           if(this.query == true){
-            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNum':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
           }else{
-            var templateInfoRequest ={'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+            var templateInfoRequest ={'pageNum':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
             this.getTemplateList (templateInfoRequest)
           }
         } else {
-          var templateInfoRequest ={'pageNnm':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+          var templateInfoRequest ={'pageNum':val,'useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
           this.getTemplateList (templateInfoRequest)
         }
       },
@@ -214,7 +214,7 @@
           if(res.data.contents&&res.data.contents.length>0){
               for (let i = 0; i < res.data.contents.length;i++) {
                 var obj = {}
-                obj.templateNo = res.data.contents[i].templateCode;         //模板号
+                obj.templateNo = res.data.contents[i].templateNo;         //模板号
                 obj.templateName = res.data.contents[i].templateName;       //模板名
                 obj.tempalateDate = res.data.contents[i].strCreateTime;     //上传日期
                 obj.signatory = res.data.contents[i].template.partyNumber;  //合同方
@@ -247,7 +247,7 @@
           })
           return false
         }
-        var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+        var templateInfoRequest ={'templateName':this.inputTempBatch,'pageNum':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
         // this.getTemplateList (templateInfoRequest)
         var data =[];
         let accountCode=sessionStorage.getItem('accountCode')
@@ -256,7 +256,7 @@
             if(res.data.contents&&res.data.contents.length>0){
               for (let i = 0; i < res.data.contents.length;i++) {
                 var obj = {}
-                obj.templateNo = res.data.contents[i].templateCode;         //模板号
+                obj.templateNo = res.data.contents[i].templateNo;         //模板号
                 obj.templateName = res.data.contents[i].templateName;       //模板名
                 obj.tempalateDate = res.data.contents[i].strCreateTime;     //上传日期
                 obj.signatory = res.data.contents[i].template.partyNumber;  //合同方
@@ -287,7 +287,7 @@
       }
     },
     created() {
-      var templateInfoRequest ={'pageNnm':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
+      var templateInfoRequest ={'pageNum':'1','useStatus':1,'pageSize':'10','templateSpecies':'batch','order':'DESC'};
       this.getTemplateList (templateInfoRequest)
     }
   }

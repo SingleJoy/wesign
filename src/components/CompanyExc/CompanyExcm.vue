@@ -8,66 +8,66 @@
             <a class="backHome back-home" href="javascript:void(0);"  @click="backHome" >返回</a>
             <span v-if='status=="已截止"' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span>
       </p> -->
-      <div class='first' style="display: inherit;">
-        <p style="line-height: 60px;float: left;">
-          <span>我的合同</span>
-          <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
-          <span style="color:#4091fb" v-else> >合同详情</span>
-        </p>
+        <div class='first' style="display: inherit;">
+            <p style="line-height: 60px;float: left;">
+            <span>我的合同</span>
+            <span style="color:#4091fb" v-if='status=="已截止"'>>&nbsp;合同延期 (您可以点击修改签署截止日期或者勾选永久来改变合同状态)</span>
+            <span style="color:#4091fb" v-else> >合同详情</span>
+            </p>
 
-        <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
-          <span class="department">{{accountName}}</span>
+            <p id="sign-icon" v-if="accountCode!= operator && accountName && (this.interfaceCode == this.sponsorInterfaceCode)">
+            <span class="department">{{accountName}}</span>
 
-        </p>
+            </p>
 
-        <p>
-          <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
-          <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
-        </p>
+            <p>
+            <a class="backHome back-home" @click="backHome" href="javascript:void(0);">返回</a>
+            <!-- <span  v-if='status=="已截止" && accountCode == operator' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
+            </p>
 
-      </div>
-      <div class="second">
-      <div class="title">签署文件</div>
-      <span class="text">
-          <strong>当前状态：</strong>
-          <span>{{status}}</span>
-        </span>
-      </div>
-      <div class='three'>
-        <p class='details2' style="text-align:left;">
-          <strong>合同文件：</strong><span class="lengthLimit" style="vertical-align: middle;">{{contractName}}</span>
-          <a href="javascript:void(0);" @click="seeContractImg">查看</a>
-          <a href="javascript:void(0);" @click="downloadClick">下载</a>
-          <strong>发起方式：</strong><span>{{createType}}</span>
-
-          <strong style="padding-left: 15px;">签署截止日期：</strong>
-
-          <el-date-picker
-            style='width:138px;margin-right:10px'
-            height='height:40px'
-            v-model="validTime"
-            type="date"
-            :editable= false
-            :clearable= false
-            format="yyyy-MM-dd 23:59:59"
-            value-format="yyyy-MM-dd 23:59:59"
-            @change="dateInput"
-            :picker-options="pickerOptions0"
-          >
-          </el-date-picker>
-
-          <el-checkbox v-model="checked3" @change='checkedBox' style="margin-right: 0;">永久有效</el-checkbox>
-          <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified" style="margin-left: 10px;">确认</el-button>
-          <strong style="font-weight: normal;margin-left: 15px;">业务场景：</strong><span>{{businessScenario}}</span>
-
-        </p>
-        <div class="title" style="margin-top: 15px">签署人员</div>
-      </div>
-      <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='showDialogs'>
-        <div v-for="(item,index) in imgList" :key="index" >
-          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
         </div>
-      </el-dialog>
+        <p class="second">
+            <div class="title">签署文件</div>
+            <span class="text">
+                <strong>当前状态：</strong>
+                <span>{{status}}</span>
+            </span>
+        </p>
+        <div class='three'>
+            <p class='details2' style="text-align:left;">
+            <strong>合同文件：</strong><span class="lengthLimit" style="vertical-align: middle;">{{contractName}}</span>
+            <a href="javascript:void(0);" @click="seeContractImg">查看</a>
+            <a href="javascript:void(0);" @click="downloadClick">下载</a>
+            <strong>发起方式：</strong><span>{{createType}}</span>
+
+            <strong style="padding-left: 15px;">签署截止日期：</strong>
+
+            <el-date-picker
+                style='width:138px;margin-right:10px'
+                height='height:40px'
+                v-model="validTime"
+                type="date"
+                :editable= false
+                :clearable= false
+                format="yyyy-MM-dd 23:59:59"
+                value-format="yyyy-MM-dd 23:59:59"
+                @change="dateInput"
+                :picker-options="pickerOptions0"
+            >
+            </el-date-picker>
+
+            <el-checkbox v-model="checked3" @change='checkedBox' style="margin-right: 0;">永久有效</el-checkbox>
+            <el-button type="primary" plain size='medium' :disabled="hasClick" @click="dateModified" style="margin-left: 10px;">确认</el-button>
+            <strong style="font-weight: normal;margin-left: 15px;">业务场景：</strong><span>{{businessScenario}}</span>
+
+            </p>
+            <div class="title" style="margin-top: 15px">签署人员</div>
+        </div>
+        <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='showDialogs'>
+            <div v-for="(item,index) in imgList" :key="index" >
+            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+            </div>
+        </el-dialog>
       <div class='table' style="width: 1200px;padding:15px;box-sizing: border-box;">
         <el-table
           :data="tableData2"
@@ -298,6 +298,17 @@
               break;
           }
           this.status = res.data.data.status
+           switch (this.status ){
+                case "1":
+                this.status = '签署中'
+                break;
+                case "2":
+                this.status = '已生效'
+                break;
+                default:
+                this.status = '已截止'
+                break;
+            }
           if(res.data.data.perpetualValid == '1'){
             this.checked3 = true
             this.validTime = ''

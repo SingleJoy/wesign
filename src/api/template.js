@@ -12,9 +12,9 @@ export function backContractTempSigner(interfaceCode,param) {
 }
 
 //getTemplateImags
-export function getTemplateImags(interfaceCode,templateNo,param) {
+export function getTemplateImgs(interfaceCode,templateNo,param) {
   return request({
-    url: "api/v1/tenant/"+interfaceCode+'/template/'+templateNo+'/getTemplateImags',
+    url: "api/v1/tenant/"+interfaceCode+'/template/'+templateNo+'/getTemplateImgs',
     method: "get",
     params:param
   })

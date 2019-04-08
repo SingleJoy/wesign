@@ -288,7 +288,6 @@
       }
     },
     created () {
-
       this.$loading.show(); //显示
       signUser(this.interfaceCode,this.contractNo).then(res=>{
         var signUserVo = res.data.dataList

@@ -26,14 +26,13 @@
         </p>
 
       </div>
-      <p class='second'>
-      <div class="title">签署文件</div>
-
-      <span class='text'>
-               <strong>当前状态：</strong>
-               <span>{{status}}</span>
-             </span>
-      </p>
+        <p class='second'>
+            <div class="title">签署文件</div>
+            <span class='text'>
+                <strong>当前状态：</strong>
+                <span>{{status}}</span>
+            </span>
+        </p>
       <div class='three'>
         <p class='details2' style="text-align:left;">
           <strong>合同文件：</strong>
@@ -101,7 +100,7 @@
             width="160"
           >
             <template slot-scope="scope">
-              <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.isCreater && scope.row.contractStatus != "已截止" && accountCode == operator' @click="remindSignClick(scope.row)">提醒签署</el-button>
+              <el-button  type="text" size="small" v-if ='scope.row.signStatus === 0 && scope.row.mobile != signMobile && scope.row.contractStatus != 3 && (scope.row.isCreater?interfaceCode != scope.row.userCode:false)' @click="remindSignClick(scope.row)">提醒签署</el-button>
               <!-- <el-button @click="signClick(scope.row)" type="primary" size="mini" v-if ='scope.row.signStatus == 0 && scope.row.userCode==interfaceCode && accountCode == operator'>签&nbsp;&nbsp;署</el-button> -->
             </template>
           </el-table-column>
@@ -222,7 +221,7 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remindcontractSignUserInfo,contractimgs} from '@/api/detail';
+  import {remind,contractSignUserInfo,contractimgs} from '@/api/detail';
   import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExam',
@@ -311,7 +310,9 @@
           let contractNoZq = res.data.data.contractNoZq
           this.contractName = res.data.data.contractName
           this.sponsorInterfaceCode = res.data.data.interfaceCode
+          this.status = res.data.data.status
           let type = res.data.data.contractType
+          let contractStatus = res.data.data.status
           switch (type) {
             case '1':
               this.createType = '模板发起'
@@ -320,13 +321,22 @@
               this.createType = '上传发起'
               break;
           }
-          this.status = res.data.data.status
+            switch (this.status ){
+                case "1":
+                this.status = '签署中'
+                break;
+                case "2":
+                this.status = '已生效'
+                break;
+                default:
+                this.status = '已截止'
+                break;
+            }
           this.validTime = res.data.data.validTime
           let signUserVo = res.data.dataList
-          let contractStatus = res.data.data.status
           let isCreater='';
           this.operator = res.data.data.operator
-          if(currentFaceCode == res.data.data.interfaceCode){
+          if(this.operator == this.accountCode){
             isCreater = true
           }else{
             isCreater = false
@@ -339,7 +349,7 @@
             obj.mobile = signUserVo[i].mobile
             obj.idCard = signUserVo[i].idCard
             obj.signStatus = signUserVo[i].signStatus
-            obj.userCode = signUserVo[i].authorizerCode;
+            obj.userCode = signUserVo[i].userCode;
             obj.status = signUserVo[i].status;
             obj.isCreater = isCreater;
             obj.contractStatus = contractStatus
@@ -355,6 +365,7 @@
               obj.idCard = ''
             }
             data[i] = obj
+            console.log(obj)
           }
           this.tableData2 = data;
           let param={
@@ -362,6 +373,7 @@
           }
           contractSignUserInfo(param,this.contractNo).then(res=>{
             this.History = res.data.dataList
+            console.log(this.History)
           }).catch(error=>{
 
           })
