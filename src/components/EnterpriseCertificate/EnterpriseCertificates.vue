@@ -332,7 +332,7 @@
 
               </div>
               <p class="upload-tip">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
-              <div class="company-input" v-if="!IdInfoShow">
+              <div class="company-input" v-if="IdInfoShow">
                 <div class="input-item">
                   <span v-if="authorizerType" class="input-title">被授权人姓名</span>
                   <span v-else class="input-title">法人姓名</span>
@@ -635,8 +635,9 @@
                 { validator: checkLicenseName, trigger: 'blur'}
             ],
         },
+        licenseIsEdit:false,
         idCardTip:false,
-        idCardEdit:true,
+        idCardEdit:false,
         idCardForm:{
             userName:'',
             idCard:''
@@ -648,10 +649,8 @@
             idCard:[
                 { validator: checkIDCard, trigger: 'blur'}
             ]
-
-        }
-
-
+        },
+        idCardIsEdit:false,
       }
     },
     created(){
@@ -802,15 +801,24 @@
       editLicense(){
         this.attorneyEditTip = true;
       },
-      //营业执照编辑确定
+      //营业执照编辑保存
       editLicenseConfirm(form){
           this.$refs[form].validate((valid)=>{
               if(valid){
-                    this.licenseInfo.tenantName = this.editLicenseForm.tenantName
-                    this.licenseInfo.creditCode = this.editLicenseForm.creditCode
-                    this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
-                    this.attorneyEditTip = false
+                  if((this.licenseInfo.tenantName == this.editLicenseForm.tenantName)&&( this.licenseInfo.creditCode == this.editLicenseForm.creditCode)&&(this.licenseInfo.legalPerson == this.editLicenseForm.legalPerson)){
+                      this.$message({
+                        showClose: true,
+                        message: '编辑信息和OCR信息一致',
+                        type: 'success'
+                    })
+                  }else{
+                        this.licenseInfo.tenantName = this.editLicenseForm.tenantName
+                        this.licenseInfo.creditCode = this.editLicenseForm.creditCode
+                        this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
+                        this.licenseIsEdit = true
+                  }
                     this.attorneyEdit = false
+
               }
           })
          
@@ -823,10 +831,19 @@
         this.editLicenseForm.creditCode = this.licenseInfo.creditCode;
         this.editLicenseForm.legalPerson = this.licenseInfo.legalPerson;
       },
-      //营业执照取消
+      //营业执照编辑取消
       editLicenseCancel(){
            this.attorneyEditTip = false;
            this.attorneyEdit = false;
+           this.editLicenseForm = {
+                tenantName:'',
+                creditCode:'',
+                legalPerson:''
+            }
+            this.idCardForm = {
+                userName:'',
+                idCard:''
+            }
       },
       //身份证正面上传成功
       handIdFrontSuccess(name, file, fileList){
@@ -888,10 +905,18 @@
       idCardConfirm(form){
            this.$refs[form].validate((valid)=>{
               if(valid){
-                this.IdInfo.userName = this.idCardForm.userName;
-                this.IdInfo.idCard = this.idCardForm.idCard;
-                this.idCardTip = false;
-                this.idCardEdit = false;
+                if((this.IdInfo.userName == this.idCardForm.userName)&&(this.IdInfo.idCard == this.idCardForm.idCard)){
+                    this.$message({
+                        showClose: true,
+                        message: '编辑信息和OCR信息一致',
+                        type: 'success'
+                    })
+                }else{
+                    this.IdInfo.userName = this.idCardForm.userName;
+                    this.IdInfo.idCard = this.idCardForm.idCard;
+                    this.idCardIsEdit = true;
+                }
+                this.idCardEdit = false;                
               }
            })
       },
@@ -1216,20 +1241,22 @@
           creditCode:this.licenseInfo.creditCode,
           creditPhoto:this.licenseInfo.creditPhoto,
           legalPerson:this.licenseInfo.legalPerson,
-          interfaceCode:this.interfaceCode
+          interfaceCode:this.interfaceCode,
+        //   isEdit:this.licenseIsEdit
+          isEdit:true
         }
         server.licenseInfo(param).then(res=>{
           if(res.data.resultCode==1){
             this.sigleClick = false;
             this.licenseStatus = true;
             this.subIdInfo();
-            // this.$loading.hide();
+            this.$loading.hide();
             this.countRequest+=1;
           }else{
             this.sigleClick = false;
             this.licenseStatus = false;
             this.subIdInfo();
-            // this.$loading.hide();
+            this.$loading.hide();
             this.countRequest-=1;
             this.$message({
               showClose: true,
@@ -1252,20 +1279,20 @@
           authorizerType:this.authorizerType==true?1:0,
           frontPhoto:this.IdInfo.frontPhoto,
           backPhoto:this.IdInfo.backPhoto,
-          email:this.IdInfo.email
+          email:this.IdInfo.email,
+        //   isEdit:this.idCardEdit
+          isEdit:true
         }
         server.IdCardInfo(params).then(res=>{
           if(res.data.resultCode==1){
             this.sigleClick = false;
-            // this.$loading.hide();
-            this.subbankInfo();
+            this.checkMserver();
             this.IdStatus = true;
             this.countRequest+=1;
           }else{
             this.sigleClick = false;
             this.IdStatus = false;
-            // this.$loading.hide();
-            this.subbankInfo();
+            this.checkMserver();
             this.countRequest-=1;
             this.$message({
               showClose: true,
@@ -1277,6 +1304,20 @@
         }).catch(error=>{
 
         })
+      },
+      //人工审核
+      checkMserver(){
+
+          server.checkManualReview(param,this.interfaceCode).then(res=>{
+              if(res.data.resultCode == 1){
+                this.countRequest+=1;
+                this.subbankInfo()
+              }else{
+                this.countRequest-=1;
+              }
+          }).catch(err=>{
+
+          })
       },
       //银行信息提交
       subbankInfo(){
@@ -1294,7 +1335,7 @@
             this.sigleClick = false;
             this.bankStatus = true;
             this.$loading.hide();
-            if(this.countRequest==2){
+            if(this.countRequest==3){
               this.$router.push('/EnterprisePayment');
             }
           }else{
