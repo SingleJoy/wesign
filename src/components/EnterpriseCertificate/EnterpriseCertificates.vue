@@ -202,6 +202,7 @@
                 <div class="business-license">
                   <el-upload
                     ref='upload1'
+                    :data="interfaceParam"
                     class="upload-license"
                     :action='uploadLicenseUrl()'
                     :before-upload="beforeUpload"
@@ -290,6 +291,7 @@
                   <div class='card-left'>
                     <el-upload
                       ref='upload2'
+                      :data="interfaceParam"
                       class="upload-cardID"
                       :action='uploadIDUrl("front")'
                       :before-upload="beforeUpload"
@@ -651,6 +653,9 @@
             ]
         },
         idCardIsEdit:false,
+        interfaceParam:{
+            interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+        }
       }
     },
     created(){
@@ -807,10 +812,11 @@
               if(valid){
                   if((this.licenseInfo.tenantName == this.editLicenseForm.tenantName)&&( this.licenseInfo.creditCode == this.editLicenseForm.creditCode)&&(this.licenseInfo.legalPerson == this.editLicenseForm.legalPerson)){
                       this.$message({
-                        showClose: true,
-                        message: '编辑信息和OCR信息一致',
-                        type: 'success'
-                    })
+                            showClose: true,
+                            message: '编辑信息和OCR信息一致',
+                            type: 'success'
+                        })
+                        this.licenseIsEdit = true
                   }else{
                         this.licenseInfo.tenantName = this.editLicenseForm.tenantName
                         this.licenseInfo.creditCode = this.editLicenseForm.creditCode
@@ -911,6 +917,7 @@
                         message: '编辑信息和OCR信息一致',
                         type: 'success'
                     })
+                    this.idCardIsEdit = true;
                 }else{
                     this.IdInfo.userName = this.idCardForm.userName;
                     this.IdInfo.idCard = this.idCardForm.idCard;
@@ -1284,24 +1291,23 @@
         }
         server.IdCardInfo(params).then(res=>{
           if(res.data.resultCode==1){
+
             this.sigleClick = false;
             this.IdStatus = true;
             this.countRequest+=1;  //计数器
             if(this.licenseIsEdit || this.idCardEdit){  //企业信息或个人信息编辑过触发人工审核 未
             // 企业和个人认证通过进入打款页面=>查询人工审核状态=>审核通过=>银行信息提交=>轮询打款状态=>打款验证=>实名完成
-                                                            //=>审核不通过=>返回企业认证页面=>重新编辑提交触发上述流程
-            let params={
-                to_acc_name:this.bankInfo.to_acc_name,               //企业名称
-                to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
-                to_bank_name:this.bankInfo.to_bank_name,                   //银行名称
-                to_pro_name:this.bankInfo.to_pro_name,                    //开户行省名
-                to_city_name:this.bankInfo.to_city_name,                   //开户行市名
-                to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
-            }
-            this.$router.push({
-                name:'EnterprisePayment',
-                params:params
-            });
+                                                           //=>审核不通过=>返回企业认证页面=>重新编辑提交触发上述流程
+                let params={
+                    to_acc_name:this.bankInfo.to_acc_name,               //企业名称
+                    to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
+                    to_bank_name:this.bankInfo.to_bank_name,                   //银行名称
+                    to_pro_name:this.bankInfo.to_pro_name,                    //开户行省名
+                    to_city_name:this.bankInfo.to_city_name,                   //开户行市名
+                    to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
+                }
+                this.$router.push('/EnterprisePayment');
+                sessionStorage.setItem('bankInfo',JSON.stringify(params))
             }else{
                 this.subbankInfo()
             }

@@ -432,6 +432,37 @@
         })
       },
 
+        //定义轮询触发
+        definePoll(){
+            // 轮询查找打款进度信息
+            let timer = null;
+            this.timer = setInterval(()=> {
+                this.pollingPanel(this.timer)
+            }, 5000);
+            setInterval(()=> {
+                this.time=this.time+2;
+            },2000)  
+        },
+
+      //银行信息提交
+    subbankInfo(params){
+        let interfaceCode = this.interfaceCode;
+        server.bankInfo(params,interfaceCode).then(res=>{
+          if(res.data.resultCode==1){
+              this.definePoll()
+          }else{
+            this.$router.push('/EnterpriseCertificate');
+            this.$message({
+              showClose: true,
+              message:res.data.resultMessage,
+              type: 'error'
+            })
+          }
+        }).catch(error=>{
+
+        })
+      },
+
     },
     created() {
       if (cookie.getJSON("tenant")[1].auditSteps == 3) {
@@ -458,30 +489,26 @@
         }
       })
      //查询人工审核信息
-      console.log(this.$route.param)
-    //   checkMserver(){
-    //       server.checkManualReview({},this.interfaceCode).then(res=>{
-    //           if(res.data.resultCode == 1){
-    //             this.countRequest+=1;
-    //             this.subbankInfo()
-    //           }else{
-    //             this.countRequest-=1;
-    //           }
-    //       }).catch(err=>{
+      let params = sessionStorage.getItem('bankInfo');  //银行信息
+          params = JSON.parse(params)
+      console.log(params)
+      if(params&&params.to_acc_dept){
+          console.log('触发了人工审核')
+          //查询人工审核状态
+            server.checkManualReview({},this.interfaceCode).then(res=>{
+              if(res.data.resultCode == 1){
+                this.subbankInfo(params)
+              }else{
+                
+              }
+          }).catch(err=>{
 
-    //       })
-    //   }
-      // 轮询查找打款进度信息
-
-      let timer = null;
-        this.timer = setInterval(()=> {
-            this.pollingPanel(this.timer)
-        }, 5000);
-
-      setInterval(()=> {
-        this.time=this.time+2;
-      },2000)
-
+          })
+      }else{
+          console.log('直接轮询')
+          this.definePoll()
+      }
+    
     }
 
   }

@@ -73,14 +73,7 @@ const service = {
         params: param
         })
     },
-    //查询人工审核状态
-    checkManualReview(param,interfaceCode) {
-        return request({
-            url: '/api/v1.8/'+interfaceCode+'/queryCheckStatus',
-            method: 'post',
-            data:param
-        })
-    },
+    
 }
 export default service;
 
