@@ -1220,26 +1220,8 @@
               '信息提交中...',
             );
             this.sublicenseInfo()
-            // this.sigleClick = true;
-            // if(this.auditStatus==2){   //企业认证成功
-            //     this.subIdInfo();
-            //     // this.subbankInfo();
-            //     this.countRequest+=1;
-            // }else if(this.auditSteps==1){     //个人认证成功
-            //     this.sublicenseInfo();
-            //     // this.subbankInfo();
-            //     this.countRequest+=1;
-            // }else{
-            //     this.sublicenseInfo();
-            //     this.subIdInfo();
-            //     // this.subbankInfo();
-            // }
           }
         })
-
-
-
-
       },
       //营业执照信息提交
       sublicenseInfo(){
@@ -1249,8 +1231,8 @@
           creditPhoto:this.licenseInfo.creditPhoto,
           legalPerson:this.licenseInfo.legalPerson,
           interfaceCode:this.interfaceCode,
-        //   isEdit:this.licenseIsEdit
-          isEdit:true
+          isEdit:this.licenseIsEdit
+        //   isEdit:true
         }
         server.licenseInfo(param).then(res=>{
           if(res.data.resultCode==1){
@@ -1265,9 +1247,9 @@
             this.$loading.hide();
             this.countRequest-=1;
             this.$message({
-              showClose: true,
-              message:res.data.resultMessage,
-              type: 'error'
+                showClose: true,
+                message:res.data.resultMessage,
+                type: 'error'
             })
           }
         }).catch(error=>{
@@ -1278,50 +1260,49 @@
       //身份证信息提交
       subIdInfo(){
         let params={
-          userName:this.IdInfo.userName,
-          idCard:this.IdInfo.idCard,
-          mobile:this.IdInfo.mobile,
-          interfaceCode:this.interfaceCode,
-          authorizerType:this.authorizerType==true?1:0,
-          frontPhoto:this.IdInfo.frontPhoto,
-          backPhoto:this.IdInfo.backPhoto,
-          email:this.IdInfo.email,
-        //   isEdit:this.idCardEdit
-          isEdit:true
+            userName:this.IdInfo.userName,
+            idCard:this.IdInfo.idCard,
+            mobile:this.IdInfo.mobile,
+            interfaceCode:this.interfaceCode,
+            authorizerType:this.authorizerType==true?1:0,
+            frontPhoto:this.IdInfo.frontPhoto,
+            backPhoto:this.IdInfo.backPhoto,
+            email:this.IdInfo.email,
+            isEdit:this.idCardEdit
+            //   isEdit:true
         }
         server.IdCardInfo(params).then(res=>{
-          if(res.data.resultCode==1){
-
-            this.sigleClick = false;
-            this.IdStatus = true;
-            this.countRequest+=1;  //计数器
-            if(this.licenseIsEdit || this.idCardEdit){  //企业信息或个人信息编辑过触发人工审核 未
-            // 企业和个人认证通过进入打款页面=>查询人工审核状态=>审核通过=>银行信息提交=>轮询打款状态=>打款验证=>实名完成
-                                                           //=>审核不通过=>返回企业认证页面=>重新编辑提交触发上述流程
-                let params={
-                    to_acc_name:this.bankInfo.to_acc_name,               //企业名称
-                    to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
-                    to_bank_name:this.bankInfo.to_bank_name,                   //银行名称
-                    to_pro_name:this.bankInfo.to_pro_name,                    //开户行省名
-                    to_city_name:this.bankInfo.to_city_name,                   //开户行市名
-                    to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
+            if(res.data.resultCode==1){
+                this.sigleClick = false;
+                this.IdStatus = true;
+                this.countRequest+=1;  //计数器
+                if(this.licenseIsEdit || this.idCardEdit){  //企业信息或个人信息编辑过触发人工审核 未
+                // 企业和个人认证通过进入打款页面=>查询人工审核状态=>审核通过=>银行信息提交=>轮询打款状态=>打款验证=>实名完成
+                                                            //=>审核不通过=>返回企业认证页面=>重新编辑提交触发上述流程
+                    let params={
+                        to_acc_name:this.bankInfo.to_acc_name,               //企业名称
+                        to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
+                        to_bank_name:this.bankInfo.to_bank_name,                   //银行名称
+                        to_pro_name:this.bankInfo.to_pro_name,                    //开户行省名
+                        to_city_name:this.bankInfo.to_city_name,                   //开户行市名
+                        to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
+                    }
+                    this.$router.push('/EnterprisePayment');
+                    sessionStorage.setItem('bankInfo',JSON.stringify(params))
+                    console.log('触发了人工审核')
+                }else{
+                    this.subbankInfo()
                 }
-                this.$router.push('/EnterprisePayment');
-                sessionStorage.setItem('bankInfo',JSON.stringify(params))
             }else{
-                this.subbankInfo()
+                this.sigleClick = false;
+                this.IdStatus = false;
+                this.countRequest-=1;
+                this.$message({
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                })
             }
-          }else{
-            this.sigleClick = false;
-            this.IdStatus = false;
-            this.countRequest-=1;
-            this.$message({
-              showClose: true,
-              message:res.data.resultMessage,
-              type: 'error'
-            })
-          }
-
         }).catch(error=>{
 
         })
@@ -1359,31 +1340,10 @@
 
         })
       },
-      //更新cookie
-      // updateCookie(){
-      //     let param={
-      //         mobile:sessionStorage.getItem('mobile')
-      //     };
-      //     let urlParam = sessionStorage.getItem('interfaceCode')
-      //     let that=this
-      //     server.login(param,urlParam).then(res => {
-      //         cookie.set("tenant", res.data.dataList);  //更新cookie
-
-      //     })
-      // },
-      //请求成功跳转
-      // success(val){
-      //     if(val==2){       //执照信息和个人信息认证成功后调银行信息接口 成功后跳转
-      //         if(this.licenseStatus&&this.IdStatus){
-      //         this.updateCookie();
-      //         }
-
-      //     }
-      // }
     },
     watch:{
       countRequest:function(val){
-        // this.success(val);
+
       }
     }
 
