@@ -457,7 +457,20 @@
           })
         }
       })
+     //查询人工审核信息
+      console.log(this.$route.param)
+    //   checkMserver(){
+    //       server.checkManualReview({},this.interfaceCode).then(res=>{
+    //           if(res.data.resultCode == 1){
+    //             this.countRequest+=1;
+    //             this.subbankInfo()
+    //           }else{
+    //             this.countRequest-=1;
+    //           }
+    //       }).catch(err=>{
 
+    //       })
+    //   }
       // 轮询查找打款进度信息
 
       let timer = null;
