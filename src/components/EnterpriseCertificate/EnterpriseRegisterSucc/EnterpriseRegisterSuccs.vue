@@ -166,10 +166,10 @@
         let param={
             mobile:sessionStorage.getItem('mobile')
         };
-        let urlParam = sessionStorage.getItem('interfaceCode')
+        let urlParam = sessionStorage.getItem('interfaceCode');
          homePage(param,urlParam).then(res => {
-          cookie.set("tenant", res.data.dataList);  //更新cookie
-           sessionStorage.setItem("auditSteps",res.data.dataList.auditSteps)
+           cookie.set("tenant", res.data.dataList);  //更新cookie
+           sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
         }).catch(error=>{
 
         })
