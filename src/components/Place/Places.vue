@@ -521,7 +521,7 @@
     text-align:center;
     font-size:16px;
     font-weight:normal;
-    margin-top: -60px;
+    margin-top: 0!important;
     width: 130px;
     line-height: 30px;
   }

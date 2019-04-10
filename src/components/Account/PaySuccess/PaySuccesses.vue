@@ -103,7 +103,7 @@
               sessionStorage.setItem('mobile',item.mobile);      				  //手机号
               sessionStorage.setItem('interfaceCode',item.interfaceCode);
               sessionStorage.setItem('auditStatus',item.auditStatus);
-              sessionStorage.setItem('enterpriseName',item.enterpriseName);
+
               sessionStorage.setItem('userCode',item.userCode);
               sessionStorage.setItem('accountMoney',item.accountMoney);
               sessionStorage.setItem("companyList",JSON.stringify(res.data.dataList)); //角色列表
