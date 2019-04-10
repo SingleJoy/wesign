@@ -177,7 +177,8 @@ export default {
             verifySub:false, //五次打款验证提交
             // showAlert:true,  //轮询查询打款失败  第一次弹窗
             time:0,
-            // allowInput:false,//打款失败 禁止输入
+            timeReviewNum:0,   //人工审核查验计数
+            timerReview:null,
             rules:{
                 paymentNum: [
                     {validator: validatePaymentNum, trigger: 'blur' }
@@ -442,7 +443,7 @@ export default {
         },
 
         //定义轮询触发
-        definePoll(){
+        defineMoneyPoll(){
             // 轮询查找打款进度信息
             let timer = null;
             this.timer = setInterval(()=> {
@@ -453,18 +454,44 @@ export default {
             },2000)  
         },
 
+        //定义人工审核轮询
+        defineReviewPoll(params){
+            this.timerReview = setInterval(()=> {
+                 if(this.timeReviewNum>60*60){
+                    clearInterval(this.timerReview);
+                    return 
+                }
+                this.pollingReviewStatus(this.timerReview,params)
+                this.timeReviewNum+=5;
+            }, 5000);
+        },
+        // 查询人工审核状态
+        pollingReviewStatus(timerReview,params){
+            server.checkManualReview({},this.interfaceCode).then(res=>{
+                if(res.data.resultCode == 0){
+                    clearInterval(this.timerReview);
+                    this.subBankInfo(params)
+                    this.verifySub = false
+                }else{
+                }
+            }).catch(err=>{
+                
+            })
+        },
       //银行信息提交
-        subbankInfo(params){
+        subBankInfo(params){
             let interfaceCode = this.interfaceCode;
             server.bankInfo(params,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
-                this.definePoll()
+                this.getBankInfo()
+                this.defineMoneyPoll()
+
             }else{
                 this.$router.push('/EnterpriseCertificate');
                 this.$message({
-                showClose: true,
-                message:res.data.resultMessage,
-                type: 'error'
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
                 })
             }
             }).catch(error=>{
@@ -482,21 +509,11 @@ export default {
         let params = sessionStorage.getItem('bankInfo');  //银行信息
             params = JSON.parse(params)
         if(params&&params.to_acc_dept){
-            //查询人工审核状态
-            server.checkManualReview({},this.interfaceCode).then(res=>{
-                if(res.data.resultCode == 1){
-                    this.getBankInfo()
-                    this.subbankInfo(params)
-                    this.verifySub = false
-                }else{
-                  
-                }
-            }).catch(err=>{
-                  this.verifySub = true
-            })
+           this.defineReviewPoll(params)    //查询人工审核
+           this.verifySub = true;
         }else{
             this.getBankInfo()
-            this.definePoll()
+            this.defineMoneyPoll()
         }
     }
   }
