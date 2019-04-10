@@ -112,6 +112,7 @@
 </template>
 <script>
 import server from '@/api/url.js'
+import certificateServer from '@/api/certification.js'
 import cookie from '@/common/js/getTenant'
 import {validateOpenName,TrimAll,validateDecimal,onlyChinese,validateCard,validateMoblie,validateSmsCode} from '@/common/js/validate'
 import {valitedSmsCode,sendSmsCodefourth} from '@/api/common'
@@ -471,21 +472,29 @@ export default {
                 if(res.data.resultCode == 0){
                     clearInterval(this.timerReview);
                     this.subBankInfo(params)
-                    this.verifySub = false
+                    this.once = false 
+                }else if(res.data.resultCode == 1 || res.data.resultCode == 2 || res.data.resultCode == 3){
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
+                    clearInterval(this.timerReview);
+                    this.$router.push('/EnterpriseCertificate');
                 }else{
+
                 }
             }).catch(err=>{
-                
+                  clearInterval(this.timerReview);
             })
         },
       //银行信息提交
         subBankInfo(params){
             let interfaceCode = this.interfaceCode;
-            server.bankInfo(params,interfaceCode).then(res=>{
+            certificateServer.bankInfo(params,interfaceCode).then(res=>{
             if(res.data.resultCode==1){
                 this.getBankInfo()
                 this.defineMoneyPoll()
-
             }else{
                 this.$router.push('/EnterpriseCertificate');
                 this.$message({
@@ -510,7 +519,7 @@ export default {
             params = JSON.parse(params)
         if(params&&params.to_acc_dept){
            this.defineReviewPoll(params)    //查询人工审核
-           this.verifySub = true;
+           this.once = true;
         }else{
             this.getBankInfo()
             this.defineMoneyPoll()
