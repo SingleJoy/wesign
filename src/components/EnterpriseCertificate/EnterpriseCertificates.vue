@@ -816,15 +816,13 @@
                             message: '编辑信息和OCR信息一致',
                             type: 'success'
                         })
-                        this.licenseIsEdit = true
+                        this.licenseIsEdit = false
                   }else{
                         this.licenseInfo.tenantName = this.editLicenseForm.tenantName
                         this.licenseInfo.creditCode = this.editLicenseForm.creditCode
                         this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
                         this.licenseIsEdit = true
                   }
-                    this.attorneyEdit = false
-
               }
           })
          
@@ -917,13 +915,12 @@
                         message: '编辑信息和OCR信息一致',
                         type: 'success'
                     })
-                    this.idCardIsEdit = true;
+                    this.idCardIsEdit = false;
                 }else{
                     this.IdInfo.userName = this.idCardForm.userName;
                     this.IdInfo.idCard = this.idCardForm.idCard;
                     this.idCardIsEdit = true;
                 }
-                this.idCardEdit = false;                
               }
            })
       },
