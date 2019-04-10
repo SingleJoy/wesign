@@ -775,7 +775,7 @@
         var contractName = file.name.replace(/\s+/g, "");
         var contractNo = file.response.contractNo;
         var resultCode = file.response.resultCode;
-        if (this.uploadFile == true) {
+        if (this.uploadFile == true && contractNo) {
           this.$message({
             showClose: true,
             message: "上传成功",
@@ -790,6 +790,13 @@
           sessionStorage.setItem("contractName", suffix);
           sessionStorage.setItem("contractNo", contractNo);
           this.$router.push("/Contractsigning");
+        }else{
+             this.$message({
+                showClose: true,
+                message: file.response.resultMessage,
+                type: "warning"
+            });
+            
         }
       },
       fileSuccess1(name, file, fileList) {
