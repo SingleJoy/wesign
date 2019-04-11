@@ -614,8 +614,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false;
-        }
-        else if (name.size > max_size * 1024 * 1024) {
+        } else if (name.size > max_size * 1024 * 1024) {
           this.$message({
             showClose: true,
             message: "文件大小超过限制",
@@ -625,8 +624,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false;
-        }
-        else if (fileContName.length > 50) {
+        }else if (fileContName.length > 50) {
           this.$message({
             showClose: true,
             message: "上传文件名称不得超过50字符！",
@@ -636,8 +634,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false;
-        }
-        else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
+        }else if((this.b2bNum>=0)&&(this.b2cNum<=0)){
             if (this.accountLevel == 1) {
               this.$confirm(
                 <div class="warn-num ">
@@ -655,8 +652,7 @@
             this.uploadFile = false;
             this.$loading.hide();
             return false
-        }
-        else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
+        } else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
           if (this.accountLevel == 1) {
             this.$confirm(
               <div class="warn-num ">
@@ -696,8 +692,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false;
-        }
-        else if (name.size > max_size * 1024 * 1024) {
+        } else if (name.size > max_size * 1024 * 1024) {
           this.$message({
             showClose: true,
             message: "文件大小超过限制",
@@ -707,8 +702,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false;
-        }
-        else if (fileContName.length > 50) {
+        }else if (fileContName.length > 50) {
           this.$message({
             showClose: true,
             message: "上传文件名称不得超过50字符！",
@@ -718,8 +712,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false;
-        }
-        else if((this.b2bNum<=0)&&(this.b2cNum>=0)){
+        }else if((this.b2bNum<=0)&&(this.b2cNum>=0)){
           if (this.accountLevel == 1) {
             this.$confirm(
               <div class="warn-num ">
@@ -740,8 +733,7 @@
           this.uploadFile = false;
           this.$loading.hide();
           return false
-        }
-        else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
+        }else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
 
           if (this.accountLevel == 1) {
             this.$confirm(
@@ -763,8 +755,7 @@
           this.$loading.hide();
 
           return false
-        }
-        else {
+        } else {
           this.loading2 = true;
           this.uploadFile = true;
         }
@@ -776,20 +767,20 @@
         var contractNo = file.response.contractNo;
         var resultCode = file.response.resultCode;
         if (this.uploadFile == true && contractNo) {
-          this.$message({
-            showClose: true,
-            message: "上传成功",
-            type: "success"
-          });
-          var index1 = contractName.lastIndexOf(".");
-          var suffix = contractName.slice(0, index1);
-          this.$store.dispatch("fileSuccess1", {
-            contractName: suffix,
-            contractNo: contractNo
-          });
-          sessionStorage.setItem("contractName", suffix);
-          sessionStorage.setItem("contractNo", contractNo);
-          this.$router.push("/Contractsigning");
+            this.$message({
+                showClose: true,
+                message: "上传成功",
+                type: "success"
+            });
+            var index1 = contractName.lastIndexOf(".");
+            var suffix = contractName.slice(0, index1);
+            this.$store.dispatch("fileSuccess1", {
+                contractName: suffix,
+                contractNo: contractNo
+            });
+            sessionStorage.setItem("contractName", suffix);
+            sessionStorage.setItem("contractNo", contractNo);
+            this.$router.push("/Contractsigning");
         }else{
              this.$message({
                 showClose: true,
@@ -805,7 +796,7 @@
         var contractName = file.name.replace(/\s+/g, "");
         var contractNo = file.response.contractNo;
         var resultCode = file.response.resultCode;
-        if (this.uploadFile == true) {
+        if (this.uploadFile == true  && contractNo) {
           this.$message({
             showClose: true,
             message: "上传成功",
@@ -820,6 +811,12 @@
           sessionStorage.setItem("contractName", suffix);
           sessionStorage.setItem("contractNo", contractNo);
           this.$router.push("/Signature"); //更改路由地址
+        }else{
+            this.$message({
+                showClose: true,
+                message: file.response.resultMessage,
+                type: "warning"
+            });
         }
       }
     },

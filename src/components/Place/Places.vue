@@ -507,6 +507,9 @@
     box-sizing: border-box;
     position: absolute;
   }
+  .morePerson dl:nth-child(3) dd[data-v-77aee466]:nth-child(2){
+      margin-top:-30px;
+  }
   .infoStyle{
     text-align:center;
     line-height:86px;
