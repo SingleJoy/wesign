@@ -817,11 +817,13 @@
                             type: 'success'
                         })
                         this.licenseIsEdit = false
+                        this.attorneyEdit = false
                   }else{
                         this.licenseInfo.tenantName = this.editLicenseForm.tenantName
                         this.licenseInfo.creditCode = this.editLicenseForm.creditCode
                         this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
                         this.licenseIsEdit = true
+                        this.attorneyEdit = false
                   }
               }
           })
@@ -916,10 +918,12 @@
                         type: 'success'
                     })
                     this.idCardIsEdit = false;
+                    this.idCardEdit = false
                 }else{
                     this.IdInfo.userName = this.idCardForm.userName;
                     this.IdInfo.idCard = this.idCardForm.idCard;
                     this.idCardIsEdit = true;
+                    this.idCardEdit = false
                 }
               }
            })
