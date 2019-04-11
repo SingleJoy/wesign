@@ -655,6 +655,16 @@
         idCardIsEdit:false,
         interfaceParam:{
             interfaceCode:cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].interfaceCode:'',
+        },
+        OCRLicenseInfo:{   //OCR信息 作为编辑前后的信息对比
+            tenantName:'',
+            creditCode:'',
+            legalPerson:''
+        },
+        OCRIdCardInfo:{
+            userName:'',
+            idCard:''
+
         }
       }
     },
@@ -675,6 +685,11 @@
           licenseInfo.creditCode = data.creditCode
           licenseInfo.creditPhoto = data.creditPhoto
           licenseInfo.legalPerson = data.legalPerson
+
+            this.OCRLicenseInfo.tenantName = data.tenantName;
+            this.OCRLicenseInfo.creditCode = data.creditCode;
+            this.OCRLicenseInfo.legalPerson = data.legalPerson;
+
           if(licenseInfo.tenantName){
             this.licenseInputShow = true;
           }
@@ -685,6 +700,9 @@
           IdInfo.backPhoto = data.backPhoto
           IdInfo.adminType = data.authorizerType
           IdInfo.email = data.email;
+
+            this.OCRIdCardInfo.userName = data.userName;
+            this.OCRIdCardInfo.idCard = data.idCard;
           if(IdInfo.idCard){
             this.IdInfoShow = true;
             // this.smsSend = true;
@@ -784,6 +802,11 @@
           this.licenseInfo.creditPhoto = name.data.creditPhoto;
           this.licenseInfo.legalPerson = name.data.legalPerson;
           this.bankInfo.to_acc_name = name.data.tenantName;
+
+        this.OCRLicenseInfo.tenantName = name.data.tenantName;
+        this.OCRLicenseInfo.creditCode = name.data.creditCode;
+        this.OCRLicenseInfo.legalPerson = name.data.legalPerson;
+
           this.licenseStatus = true;
           this.$loading.hide();
           this.$message({
@@ -810,8 +833,8 @@
       editLicenseConfirm(form){
           this.$refs[form].validate((valid)=>{
               if(valid){
-                  if((this.licenseInfo.tenantName == this.editLicenseForm.tenantName)&&( this.licenseInfo.creditCode == this.editLicenseForm.creditCode)&&(this.licenseInfo.legalPerson == this.editLicenseForm.legalPerson)){
-                      this.$message({
+                  if((this.OCRLicenseInfo.tenantName == this.editLicenseForm.tenantName)&&( this.OCRLicenseInfo.creditCode == this.editLicenseForm.creditCode)&&(this.OCRLicenseInfo.legalPerson == this.editLicenseForm.legalPerson)){
+                        this.$message({
                             showClose: true,
                             message: '编辑信息和OCR信息一致',
                             type: 'success'
@@ -819,6 +842,11 @@
                         this.licenseIsEdit = false
                         this.attorneyEdit = false
                   }else{
+                        this.$message({
+                            showClose: true,
+                            message: '编辑信息和OCR信息不一致，将会触发人工审核',
+                            type: 'error'
+                        })
                         this.licenseInfo.tenantName = this.editLicenseForm.tenantName
                         this.licenseInfo.creditCode = this.editLicenseForm.creditCode
                         this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
@@ -867,6 +895,9 @@
           this.IdInfo.frontPhoto = name.data.frontPhoto;
           this.IdInfo.userName = name.data.name
           this.IdInfo.idCard = name.data.idCard
+
+          this.OCRIdCardInfo.userName = name.data.name
+          this.OCRIdCardInfo.idCard = name.data.idCard
           this.IdInfoShow = true;
           this.IdStatus = true;
           // if(this.authorizerType){
@@ -911,7 +942,7 @@
       idCardConfirm(form){
            this.$refs[form].validate((valid)=>{
               if(valid){
-                if((this.IdInfo.userName == this.idCardForm.userName)&&(this.IdInfo.idCard == this.idCardForm.idCard)){
+                if((this.OCRIdCardInfo.userName == this.idCardForm.userName)&&(this.OCRIdCardInfo.idCard == this.idCardForm.idCard)){
                     this.$message({
                         showClose: true,
                         message: '编辑信息和OCR信息一致',
@@ -920,6 +951,11 @@
                     this.idCardIsEdit = false;
                     this.idCardEdit = false
                 }else{
+                    this.$message({
+                        showClose: true,
+                        message: '编辑信息和OCR信息不一致，将会触发人工审核',
+                        type: 'error'
+                    })
                     this.IdInfo.userName = this.idCardForm.userName;
                     this.IdInfo.idCard = this.idCardForm.idCard;
                     this.idCardIsEdit = true;
@@ -1270,30 +1306,13 @@
             backPhoto:this.IdInfo.backPhoto,
             email:this.IdInfo.email,
             isEdit:this.idCardEdit
-            //   isEdit:true
         }
         server.IdCardInfo(params).then(res=>{
             if(res.data.resultCode==1){
                 this.sigleClick = false;
                 this.IdStatus = true;
                 this.countRequest+=1;  //计数器
-                if(this.licenseIsEdit || this.idCardEdit){  //企业信息或个人信息编辑过触发人工审核 未
-                // 企业和个人认证通过进入打款页面=>查询人工审核状态=>审核通过=>银行信息提交=>轮询打款状态=>打款验证=>实名完成
-                                                            //=>审核不通过=>返回企业认证页面=>重新编辑提交触发上述流程
-                    let params={
-                        to_acc_name:this.bankInfo.to_acc_name,               //企业名称
-                        to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
-                        to_bank_name:this.bankInfo.to_bank_name,                   //银行名称
-                        to_pro_name:this.bankInfo.to_pro_name,                    //开户行省名
-                        to_city_name:this.bankInfo.to_city_name,                   //开户行市名
-                        to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
-                    }
-                    this.$router.push('/EnterprisePayment');
-                    sessionStorage.setItem('bankInfo',JSON.stringify(params))
-                    console.log('触发了人工审核')
-                }else{
-                    this.subbankInfo()
-                }
+                this.saveBankInfo()
             }else{
                 this.sigleClick = false;
                 this.IdStatus = false;
@@ -1309,7 +1328,10 @@
         })
       },
       //银行信息提交
-      subbankInfo(){
+      //企业信息或个人信息编辑过触发人工审核 未
+      // 企业和个人认证通过进入打款页面=>查询人工审核状态=>审核通过=>银行信息提交=>轮询打款状态=>打款验证=>实名完成
+                                                            //=>审核不通过=>返回企业认证页面=>重新编辑提交触发上述流程
+      saveBankInfo(){
         let params={
           to_acc_name:this.bankInfo.to_acc_name,               //企业名称
           to_acc_no:this.bankInfo.to_acc_no,                     //收款账号
@@ -1325,7 +1347,8 @@
             this.bankStatus = true;
             this.$loading.hide();
             if(this.countRequest==2){
-              this.$router.push('/EnterprisePayment');
+                sessionStorage.setItem('bankInfo',JSON.stringify(params))
+                this.$router.push('/EnterprisePayment');
             }
           }else{
             this.sigleClick = false;

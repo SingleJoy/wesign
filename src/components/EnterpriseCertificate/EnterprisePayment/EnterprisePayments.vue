@@ -396,8 +396,6 @@ export default {
 
                 })
             }
-
-
         },
         // 查询企业银行信息
         getBankInfo(){
@@ -492,17 +490,17 @@ export default {
         subBankInfo(params){
             let interfaceCode = this.interfaceCode;
             certificateServer.bankInfo(params,interfaceCode).then(res=>{
-            if(res.data.resultCode==1){
-                this.getBankInfo()
-                this.defineMoneyPoll()
-            }else{
-                this.$router.push('/EnterpriseCertificate');
-                this.$message({
-                    showClose: true,
-                    message:res.data.resultMessage,
-                    type: 'error'
-                })
-            }
+                if(res.data.resultCode==1){
+                    this.getBankInfo()
+                    this.defineMoneyPoll()
+                }else{
+                    this.$router.push('/EnterpriseCertificate');
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
+                }
             }).catch(error=>{
 
             })
