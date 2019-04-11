@@ -413,11 +413,11 @@
           } else{
             if(item.templateSpecies == "batch") {
                this.$store.dispatch("template", {
-                 templateName: item.name,
+                 templateName: item.templateName,
                  templateNo: item.templateNo
            });
            this.$store.dispatch("templateType", {templateGenre: item.templateSpecificType});
-           sessionStorage.setItem("templateName",item.name);
+           sessionStorage.setItem("templateName",item.templateName);
            sessionStorage.setItem("templateNo", item.templateNo);
            sessionStorage.setItem( "templateGenre", item.templateSpecificType);
            if(this.b2cNum<=0){
@@ -426,10 +426,10 @@
            this.$router.push("/batchSetting");
          } else {
               this.$store.dispatch("template", {
-                templateName: item.name,
+                templateName: item.templateName,
                 templateNo: item.templateNo
               });
-           sessionStorage.setItem("templateName", item.name);
+           sessionStorage.setItem("templateName", item.templateName);
            sessionStorage.setItem("templateNo", item.templateNo);
               if(this.b2cNum<=0){
                 return false
