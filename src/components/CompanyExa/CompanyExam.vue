@@ -221,7 +221,7 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remind,contractSignUserInfo,contractimgs} from '@/api/detail';
+  import {remind,contractSignUserInfo,b2bContractimgs} from '@/api/detail';
   import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExam',
@@ -279,7 +279,7 @@
         this.$loading.show(); //显示
         let data =[];
         let t=Math.random();
-        contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
+        b2bContractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
           for (let i = 0; i < res.data.dataList.length;i++) {
             let contractUrl = res.data.dataList[i].contractUrl;
             data[i] = contractUrl

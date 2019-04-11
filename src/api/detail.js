@@ -38,6 +38,14 @@ export function contractimgs(interfaceCode,contractNo,t){
     })
 }
 
+// b2b合同图片
+export function b2bContractimgs(interfaceCode,contractNo,t){
+    return request({
+        url: "/api/v1.4/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs?t="+t,
+        method: "get",
+        params: ''
+    })
+}
 
 /* 签署历史 */
 export function contractSignUserInfo(param,contractNo){

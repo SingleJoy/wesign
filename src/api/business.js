@@ -11,7 +11,7 @@ export function echoContractSetting(interfaceCode,contractNo) {
   })
 }
 
-// 查看合同图片
+// 查看合同图片这是b2b的bcc的不一样！！  b2c调的是v1
 export function contractimgs(interfaceCode,contractNo){
   return request({
     url: "api/v1.4/tenant/" +interfaceCode + "/contract/"+contractNo+'/contractimgs',
