@@ -159,9 +159,10 @@
       realName() {
 
         var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+        var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //人工审核或小额打款中跳转payment
 
         this.$store.dispatch('tabIndex',{tabIndex:5});
-        if(auditSteps==2){
+        if(auditSteps==2 ||  auditStatus == 4){
             this.$router.push('/EnterprisePayment');
         }else{
             this.$router.push('/EnterpriseCertificate');

@@ -260,7 +260,7 @@
                   </el-input>
                 </div>
                 <div class="input-item" style="text-align:right;">
-                     <el-button type="primary" style='width:200px;margin-right:88px;' @click="editLicense">编辑</el-button>
+                     <el-button type="primary" style='width:200px;margin-right:88px;' @click="editLicense" v-if="licenseStatus !=2">编辑</el-button>
                 </div>
               </div>
 
@@ -359,7 +359,7 @@
                   </el-input>
                 </div>
                 <div class="input-item" style="text-align:right;">
-                     <el-button type="primary" style='width:200px;margin-right:88px;' @click="editIDCard">编辑</el-button>
+                     <el-button type="primary" style='width:200px;margin-right:88px;' @click="editIDCard" v-if="idCardStatus != 1 ">编辑</el-button>
                 </div>
                 <div class="input-item">
                   <span class="input-title">绑定邮箱</span>
@@ -665,7 +665,10 @@
             userName:'',
             idCard:''
 
-        }
+        },
+        licenseStatus:'', //企业信息认证是否成功
+        idCardStatus:'', //个人信息认证是否成功
+
       }
     },
     created(){
@@ -689,7 +692,7 @@
             this.OCRLicenseInfo.tenantName = data.tenantName;
             this.OCRLicenseInfo.creditCode = data.creditCode;
             this.OCRLicenseInfo.legalPerson = data.legalPerson;
-
+            this.licenseStatus = data.auditStatus  //企业认证状态
           if(licenseInfo.tenantName){
             this.licenseInputShow = true;
           }
@@ -703,6 +706,7 @@
 
             this.OCRIdCardInfo.userName = data.userName;
             this.OCRIdCardInfo.idCard = data.idCard;
+            this.idCardStatus = data.authStatus
           if(IdInfo.idCard){
             this.IdInfoShow = true;
             // this.smsSend = true;

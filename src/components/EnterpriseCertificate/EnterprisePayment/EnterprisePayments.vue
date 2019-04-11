@@ -512,10 +512,11 @@ export default {
             return
         }
         this.enterpriseName = sessionStorage.getItem("companyName");
+        var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //人工审核中
         //查询人工审核信息
         let params = sessionStorage.getItem('bankInfo');  //银行信息
             params = JSON.parse(params)
-        if(params&&params.to_acc_dept){
+        if(params&&params.to_acc_dept || auditStatus == 4){
            this.defineReviewPoll(params)    //查询人工审核
            this.once = true;
         }else{
