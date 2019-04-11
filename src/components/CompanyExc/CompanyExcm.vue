@@ -130,94 +130,12 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-
-  .CompanyExbm .main .title{
-    height: 46px;
-    margin: -65px 0 0 15px;
-    line-height: 46px;
-    padding-left: 40px;
-    color: #fff;
-    font-size: 20px;
-    padding-top: 0 !important;
-    border-top: none !important;
-    background: url("/static/images/Common/title.png") no-repeat;
-  }
-  .CompanyExbm .main .text{
-    margin-top: -30px;
-    float: right;
-    padding-right: 50px;
-  }
-  .back-home{
-    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
-    width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
-  }
-  .main .first #sign-icon{
-    background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
-    height: 60px;
-    position: absolute;
-    text-align: center;
-    display: inline-block;
-    margin-left: 20px;
-    background-size: cover;
-    line-height: 44px;
-    padding-left: 35px;
-    padding-right: 15px;
-    span{
-      color:#fff;
-      font-size: 12px;
-      padding-left: 0;
-    }
-    .department{
-      font-size: 14px;
-      display: block;
-      font-weight: 500;
-      margin-top: 10px;
-    }
-
-  }
-  .el-table--scrollable-x .el-table__body-wrapper{
-    overflow: hidden;
-  }
-  .showDialogs .el-dialog__body{
-    padding: 30px 20px;
-    color: #606266;
-    font-size: 14px;
-    overflow-y: scroll;
-    height: 700px;
-  }
-  .el-step__title.is-process,.el-step__description.is-process{
-    color:#4091fb
-  }
-  .el-tabs__nav-scroll{
-    font-size: 16px;
-    color: #333;
-  }
-  #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
-    font-size: 16px;
-  }
-  .el-table th>.cell{
-    text-align: center;
-  }
-
-  .showDialogs{
-    height: 700px;
-    // overflow-y: scroll;
-    overflow: hidden;
-  }
-  .backHome{
-    float: right;
-    margin-right: 20px;
-    margin-top: 10px;
-    font-size: 16px;
-  }
-</style>
 <script>
   import {state, actions,mutations} from '@/store/index';
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {updateContractTime,contractimgs,contractSignUserInfo} from '@/api/detail';
+  import {updateContractTime,b2bContractimgs,contractSignUserInfo} from '@/api/detail';
   import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExcm',
@@ -256,14 +174,14 @@
         this.$loading.show(); //显示
         let data =[];
         let t=Math.random();
-        contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
-
+        b2bContractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
           for (let i = 0; i < res.data.dataList.length;i++) {
             let contractUrl = res.data.dataList[i].contractUrl
             data[i] = contractUrl
             this.$loading.hide(); //隐藏
           }
           this.imgList = data
+          console.log(this.imgList)
 
         }).catch(error=>{
 
@@ -470,7 +388,85 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
   @import "../../styles/CompanyExbm/CompanyExbm.scss";
+  .CompanyExbm .main .title{
+    height: 46px;
+    margin: -65px 0 0 15px;
+    line-height: 46px;
+    padding-left: 40px;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 0 !important;
+    border-top: none !important;
+    background: url("/static/images/Common/title.png") no-repeat;
+  }
+  .CompanyExbm .main .text{
+    margin-top: -30px;
+    float: right;
+    padding-right: 50px;
+  }
+  .back-home{
+    background: url("/static/images/ContractInfo/back-home.png") no-repeat 10px 10px;
+    width: 60px;height: 30px;padding-left:35px;color: #333;line-height: 45px;vertical-align: middle;
+  }
+  .main .first #sign-icon{
+    background: url("/static/images/ContractInfo/detail_sign.png") no-repeat;
+    height: 60px;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    margin-left: 20px;
+    background-size: cover;
+    line-height: 44px;
+    padding-left: 35px;
+    padding-right: 15px;
+    span{
+      color:#fff;
+      font-size: 12px;
+      padding-left: 0;
+    }
+    .department{
+      font-size: 14px;
+      display: block;
+      font-weight: 500;
+      margin-top: 10px;
+    }
 
+  }
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden;
+  }
+  .showDialogs .el-dialog__body{
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    overflow-y: scroll;
+    height: 700px;
+  }
+  .el-step__title.is-process,.el-step__description.is-process{
+    color:#4091fb
+  }
+  .el-tabs__nav-scroll{
+    font-size: 16px;
+    color: #333;
+  }
+  #tab-first,#tab-second,#tab-third,#tab-fourth,#tab-five{
+    font-size: 16px;
+  }
+  .el-table th>.cell{
+    text-align: center;
+  }
+
+  .showDialogs{
+    height: 700px;
+    // overflow-y: scroll;
+    overflow: hidden;
+  }
+  .backHome{
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
 </style>
