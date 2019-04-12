@@ -1352,7 +1352,7 @@
             this.$loading.hide();
             if(this.countRequest==2){
                 sessionStorage.setItem('bankInfo',JSON.stringify(params))
-                this.$router.push('/EnterprisePayment');
+                this.saveCheckStatus()
             }
           }else{
             this.sigleClick = false;
@@ -1368,6 +1368,20 @@
 
         })
       },
+
+      saveCheckStatus(){
+          let params={
+              isTenentEdit:this.licenseIsEdit,
+              isPersonEdit:this.idCardEdit
+          }
+          server.saveCheckStatus(this.interfaceCode,params).then(res=>{
+              if(res.data.resultCode==1){
+                    this.$router.push('/EnterprisePayment');
+              }
+          }).catch(err=>{
+
+          })
+      }
     },
     watch:{
       countRequest:function(val){
