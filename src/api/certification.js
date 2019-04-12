@@ -60,7 +60,7 @@ const service = {
     //银行信息
     saveBankInfo(param,interfaceCode) {
         return request({
-            url: '/api/v1.4/tenant/'+interfaceCode+'/saveBank',
+            url: '/api/v1.8/tenant/'+interfaceCode+'/saveBank',
             method: 'post',
             data:param
         })
