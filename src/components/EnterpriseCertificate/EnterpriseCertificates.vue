@@ -1350,7 +1350,9 @@
             this.bankStatus = true;
             this.$loading.hide();
             if(this.countRequest==2){
-                sessionStorage.setItem('bankInfo',JSON.stringify(params))
+                if(this.isPersonEdit || this.isPersonEdit ){
+                    sessionStorage.setItem('bankInfo',JSON.stringify(params))
+                }
                 this.saveCheckStatus()
             }
           }else{
