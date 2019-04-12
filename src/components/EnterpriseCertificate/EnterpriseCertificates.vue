@@ -668,6 +668,9 @@
         },
         licenseStatus:'', //企业信息认证是否成功
         idCardStatus:'', //个人信息认证是否成功
+        isPersonEdit:true,
+        isTenentEdit:true
+
 
       }
     },
@@ -1344,7 +1347,7 @@
           to_acc_dept:this.bankInfo.to_acc_dept,               //支行名称
         }
         let interfaceCode = this.interfaceCode;
-        server.bankInfo(params,interfaceCode).then(res=>{
+        server.saveBankInfo(params,interfaceCode).then(res=>{
           if(res.data.resultCode==1){
             this.sigleClick = false;
             this.bankStatus = true;

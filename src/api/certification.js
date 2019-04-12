@@ -57,6 +57,14 @@ const service = {
             data:param
         })
     },
+    //银行信息
+    saveBankInfo(param,interfaceCode) {
+        return request({
+            url: '/api/v1.4/tenant/'+interfaceCode+'/saveBank',
+            method: 'post',
+            data:param
+        })
+    },
     //信息回显v1.6/tenant/{interfaceCode}/tenantDetails
     companyInfoDetail(param,interfaceCode) {
         return request({
