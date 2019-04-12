@@ -76,7 +76,7 @@ const service = {
     //是否触发人工审核
     saveCheckStatus(interfaceCode,param) {
         return request({
-        url: '/api/v1.8/tenant/'+ interfaceCode+'/saveCheckStatus',
+        url: '/api/v1.8/'+ interfaceCode+'/saveCheckStatus',
         method: 'post',
         params: param
         })

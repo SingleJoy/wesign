@@ -1272,8 +1272,7 @@
           creditPhoto:this.licenseInfo.creditPhoto,
           legalPerson:this.licenseInfo.legalPerson,
           interfaceCode:this.interfaceCode,
-          isEdit:this.licenseIsEdit
-        //   isEdit:true
+          isTenentEdit:this.licenseIsEdit
         }
         server.licenseInfo(param).then(res=>{
           if(res.data.resultCode==1){
@@ -1309,7 +1308,7 @@
             frontPhoto:this.IdInfo.frontPhoto,
             backPhoto:this.IdInfo.backPhoto,
             email:this.IdInfo.email,
-            isEdit:this.idCardEdit
+            isPersonEdit:this.idCardIsEdit
         }
         server.IdCardInfo(params).then(res=>{
             if(res.data.resultCode==1){
