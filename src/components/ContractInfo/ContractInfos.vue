@@ -1,5 +1,5 @@
 <template>
-  <div class="ContractInfos"style="margin-top: 20px;">
+  <div class="ContractInfos" style="margin-top: 20px;">
     <div class="main">
       <div class="first" style="display: inherit;">
         <p style="line-height: 60px;float: left;">
