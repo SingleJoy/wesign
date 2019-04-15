@@ -508,7 +508,7 @@
         let imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
         let signH = parseInt(document.getElementById('signImg').style.height)//签章高度
         let signW =  parseInt(document.getElementById('signImg').style.width)
-        let signatureW =  parseInt(document.getElementById('signCanvasImg').style.width)//手写
+        let signatureW =  parseInt(document.getElementById('signCanvasImg').style.width) //手写
         let signatureH =  parseInt(document.getElementById('signCanvasImg').style.height)
         let params = {
           'tenantSignCode':this.interfaceCode,
@@ -525,6 +525,7 @@
           'personalPositionStr':this.signPosit
         }
         contractmoresign(this.interfaceCode,this.userCode,this.contractNo,params).then(res=> {
+          this.$loading.hide(); //隐藏
           if (res.data.responseCode == 1) {
             this.centerDialogVisible = false;
             this.$message({
@@ -534,7 +535,7 @@
             });
             this.$router.push('/SignSuccess');
           }else{
-            this.$loading.hide(); //隐藏
+
           }
         }).catch(error=>{
 
