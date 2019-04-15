@@ -668,8 +668,8 @@
         },
         licenseStatus:'', //企业信息认证是否成功
         idCardStatus:'', //个人信息认证是否成功
-        isPersonEdit:true,
-        isTenentEdit:true
+        isPersonEdit:false,
+        isTenentEdit:false
 
 
       }
