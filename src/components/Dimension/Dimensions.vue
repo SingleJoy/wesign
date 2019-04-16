@@ -101,7 +101,7 @@
   import md5 from "js-md5";
   import cookie from '@/common/js/getTenant'
   import {prohibit} from '@/common/js/prohibitBrowser'
-  import { getSignatureImg,contractimgs,getSignature,callSignerpositions,contractmoresign,qRCode} from '@/api/business'
+  import { getSignatureImg,contractimgs,getSignature,callSignerpositions,contractmoresign,qRCode,getSignatureImgTemp} from '@/api/business'
   import { verifySignPassword } from '@/api/personal.js'
 
   export default {
@@ -265,11 +265,13 @@
     },
     methods:{
       showDialog(){
-        let smCode = document.getElementById('smCode')
-        smCode.style.display ='block'
-        this.recapture = false
-        let t = Math.random()
-        getSignatureImg(this.contractNo ,this.userCode,t).then(res=> {
+        let smCode = document.getElementById('smCode');
+        smCode.style.display ='block';
+        this.recapture = false;
+        let temp='0';
+        let t = Math.random();
+
+        getSignatureImgTemp(this.contractNo ,this.userCode,t,temp).then(res=> {
           if(res.data == '1'){
             for(let i = 0;i<this.arrow.length;i++){
               let signCanvas = document.getElementById("div-" + i)
@@ -279,7 +281,7 @@
               }
             }
             // var timer = null
-            this.timer = setInterval(function () {
+            this.timer = setInterval(()=> {
               this.pollingPanel(this.timer)
             }, 3000)
           }
@@ -503,7 +505,6 @@
       },
       submitContract () { //确认签署
         this.$loading.show(); //显示
-
         let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
         let imgHeight = document.getElementById('imgSign').offsetHeight //获取合同页面的高度
         let signH = parseInt(document.getElementById('signImg').style.height)//签章高度
@@ -534,8 +535,20 @@
               type: 'success'
             });
             this.$router.push('/SignSuccess');
-          }else{
+          }else if(res.data.responseCode == 2){
 
+            this.$confirm(res.data.responseMsg, '提示', {
+              confirmButtonText: '确定',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push('/CompanyExa');
+            }).catch(() => {
+              this.$router.push('/CompanyExa');
+            })
+
+
+          }else{
+            this.$router.push('/Home');
           }
         }).catch(error=>{
 

@@ -358,6 +358,13 @@
               })
               this.$loading.hide(); //隐藏
               this.$router.push('/Templatecomplete')
+            }else if(res.data.responseCode==2){
+              this.$message({
+                type: 'error',
+                message: res.data.resultMessage
+              });
+              this.$loading.hide(); //隐藏
+              this.$router.push('/ContractInfo');
             }else if(res.data.responseCode==1){
               this.flag = true;
               this.$loading.hide(); //隐藏

@@ -436,6 +436,17 @@ export default {
                 })
                 this.$loading.hide(); //隐藏
                 this.$router.push('/Complete')
+            }else if(res.data.responseCode == 2){
+              this.$loading.hide(); //隐藏
+              this.$confirm(res.data.responseMsg, '提示', {
+                confirmButtonText: '确定',
+                type: 'warning'
+              }).then(() => {
+                this.$router.push('/ContractInfo');
+              }).catch(() => {
+                this.$router.push('/ContractInfo');
+              })
+
             }else{
                 this.$message({
                     showClose: true,

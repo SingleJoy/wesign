@@ -57,7 +57,7 @@ export function contractSignUser(contractNo) {
 }
 
 
-/* 轮询手写面板 */
+/* 开始轮询手写面板 */
 export function getSignatureImg(contractNo,userCode,t) {
   return request({
     url: "api/v1.4/contract/" + contractNo + '/user/'+userCode+'/getSignatureImg?t='+t,
@@ -66,6 +66,14 @@ export function getSignatureImg(contractNo,userCode,t) {
   })
 }
 
+/* 重新打开轮询  getSignatureImgTemp*/
+export function getSignatureImgTemp(contractNo,userCode,t,temp) {
+  return request({
+    url: "api/v1.4/contract/" + contractNo + '/user/'+userCode+'/getSignatureImg?t='+t+'&temp='+temp,
+    method: "get",
+    params: ''
+  })
+}
 /* b2b获取签章 */
 export function getSignature(interfaceCode) {
   return request({
