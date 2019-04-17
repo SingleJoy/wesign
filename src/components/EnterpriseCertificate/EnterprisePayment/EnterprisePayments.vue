@@ -433,6 +433,8 @@ export default {
                     this.$alert(res.data.resultMessage, '提示',{
                         confirmButtonText: '确定'
                     }).then(()=>{
+                    clearInterval(this.timer);
+                    this.timer = null;
                         this.$router.push('/EnterpriseCertificate')
                     });
                 }
@@ -491,7 +493,7 @@ export default {
             let interfaceCode = this.interfaceCode;
             certificateServer.bankInfo(params,interfaceCode).then(res=>{
                 if(res.data.resultCode==1){
-                    this.getBankInfo()
+                    //this.getBankInfo()
                     this.defineMoneyPoll()
                 }else{
                     this.$router.push('/EnterpriseCertificate');
@@ -507,21 +509,25 @@ export default {
         },
     },
     created() {
+        let params2 = this.$route.params;
         if (cookie.getJSON("tenant")[1].auditSteps == 3) {
             this.$router.push("/Home")
             return
         }
-        this.enterpriseName = sessionStorage.getItem("companyName");
-        var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //人工审核中
+       // this.enterpriseName = sessionStorage.getItem("companyName");
+        //var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //人工审核中
         //查询人工审核信息
         let params = sessionStorage.getItem('bankInfo');  //银行信息
+        if(params) {
             params = JSON.parse(params)
-        if(params&&params.to_acc_dept || auditStatus == 4){
-           this.defineReviewPoll(params)    //查询人工审核
-           this.once = true;
-        }else{
-            this.getBankInfo()
-            this.defineMoneyPoll()
+        } 
+         this.getBankInfo()
+        if(params2.isPersonEdit || params2.isTenentEdit) {
+            this.defineReviewPoll(params)    //查询人工审核
+            this.once = true;
+        } else {
+            this.subBankInfo(params) //触发小额打款
+            this.defineMoneyPoll()   //打款状态查询
         }
     }
   }
