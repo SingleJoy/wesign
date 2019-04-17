@@ -157,15 +157,35 @@
         this.centerDialogVisible = false
       },
       realName() {
+        // var auditSteps = cookie.getJSON('tenant')[0].auditSteps
+        // var auditStatus = cookie.getJSON('tenant')[0].auditStatus   //人工审核或小额打款中跳转payment
+        // var authStatus = cookie.getJSON('tenant')[0].authStatus  
+        let param = {};
+        server.companyInfoDetail(param,this.interfaceCode).then(res=>{
+            if(res.data.resultCode==1) {
+                let auditInfo = res.data.data;
+                let auditSteps = auditInfo.auditSteps,
+                    auditStatus = auditInfo.auditStatus,
+                    authStatus = auditInfo.authStatus;
+                this.$store.dispatch('tabIndex',{tabIndex:5});
+                if(auditSteps==2 ||  auditStatus == 4||authStatus==2){
+                    this.$router.push({
+                        name: 'EnterprisePayment',
+                        params: {
+                            isPersonEdit: auditInfo.isPersonEdit == 1 ? false : true,
+                            isTenentEdit: auditInfo.isTenantEdit == 1 ? false : true
+                        }
+                    });
+                }else{
+                    this.$router.push('/EnterpriseCertificate');
+                }
+            } else {
+                
+            }
+        }).catch(error => {
 
-        var auditSteps = cookie.getJSON('tenant')[1].auditSteps
-
-        this.$store.dispatch('tabIndex',{tabIndex:5});
-        if(auditSteps==2){
-            this.$router.push('/EnterprisePayment');
-        }else{
-            this.$router.push('/EnterpriseCertificate');
-        }
+        })
+        
 
       },
       submitForm(formName) {

@@ -168,8 +168,8 @@
         };
         let urlParam = sessionStorage.getItem('interfaceCode');
          homePage(param,urlParam).then(res => {
-           cookie.set("tenant", res.data.dataList);  //更新cookie
-           sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
+            cookie.set("tenant", res.data.dataList);  //更新cookie
+            sessionStorage.setItem('enterpriseName',res.data.dataList[1].companyName)
         }).catch(error=>{
 
         })

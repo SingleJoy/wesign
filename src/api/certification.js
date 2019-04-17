@@ -57,6 +57,14 @@ const service = {
             data:param
         })
     },
+    //银行信息
+    saveBankInfo(param,interfaceCode) {
+        return request({
+            url: '/api/v1.8/tenant/'+interfaceCode+'/saveBank',
+            method: 'post',
+            data:param
+        })
+    },
     //信息回显v1.6/tenant/{interfaceCode}/tenantDetails
     companyInfoDetail(param,interfaceCode) {
         return request({
@@ -73,6 +81,15 @@ const service = {
         params: param
         })
     },
+    //是否触发人工审核
+    saveCheckStatus(interfaceCode,param) {
+        return request({
+        url: '/api/v1.8/'+ interfaceCode+'/saveCheckStatus',
+        method: 'post',
+        params: param
+        })
+    },
+    
 }
 export default service;
 
