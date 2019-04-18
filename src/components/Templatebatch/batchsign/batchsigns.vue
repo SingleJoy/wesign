@@ -364,6 +364,8 @@
                 message: res.data.resultMessage
               });
               this.$loading.hide(); //隐藏
+              cookie.set("state", "Home");
+
               this.$router.push('/ContractInfo');
             }else if(res.data.responseCode==1){
               this.flag = true;
