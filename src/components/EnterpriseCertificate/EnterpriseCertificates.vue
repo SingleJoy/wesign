@@ -190,7 +190,7 @@
           <div class="title-bg">
             <span class="title-name">企业信息</span>
           </div>
-          <p  v-if="licenseStatus==2" class="el-icon-warning  result-warning"><span style="margin-left:10px">企业信息审核未通过，请上传真实有效的企业信息</span></p>
+          <p  v-if="licenseWarn && auditStatus !=2" class="el-icon-warning  result-warning"><span style="margin-left:10px">企业信息审核未通过，请上传真实有效的企业信息</span></p>
           <div class="content-bg">
             <div class="content-box">
               <div class="content-title">
@@ -223,11 +223,12 @@
                 </div>
 
               </div>
-              <p class="upload-tip" style="color:#999" :v-if="!licenseInputShow">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
-              <p class="upload-tip" v-if="licenseInputShow"> 
+              <p class="upload-tip" style="color:#999" v-if="!licenseInputShow">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
+              <p class="upload-tip" v-if="licenseInputShow && auditStatus !=2"> 
                     <span class="el-icon-warning"></span>
-                    <span>以下信息为系统自动识别信息，若与贵公司实际信息不符，请重新拍照后上传或</span>
-                    <span  class="info-edit" @click="editLicense" v-if="licenseStatus !=2">点此进行编辑</span>
+                    <span>以下信息为系统自动识别信息，若与贵公司实际信息不符，请重新拍照后上传</span>
+                    <span v-if="auditStatus !=2">或</span>
+                    <span  class="info-edit" @click="editLicense" v-if="auditStatus !=2">点此进行编辑</span>
                 </p>
               <div class="company-input" v-if="licenseInputShow">
                 <div class="input-item">
@@ -264,7 +265,7 @@
                   </el-input>
                 </div>
                 <!-- <div class="input-item" style="text-align:right;">
-                     <el-button type="primary" style='width:200px;margin-right:88px;' @click="editLicense" v-if="licenseStatus !=2">编辑</el-button>
+                     <el-button type="primary" style='width:200px;margin-right:88px;' @click="editLicense" v-if="licenseWarn !=2">编辑</el-button>
                 </div> -->
               </div>
 
@@ -277,7 +278,7 @@
             <span class="title-name">管理员信息</span>
           </div>
          
-          <p  v-if="!IdStatus" class="el-icon-warning  result-warning"><span style="margin-left:10px;">个人信息审核未通过，请上传真实有效的个人信息</span></p>
+          <p  v-if="IdCardWarn && authStatus!=1" class="el-icon-warning  result-warning"><span style="margin-left:10px;">个人信息审核未通过，请上传真实有效的个人信息</span></p>
            <div class="admin-type">
             <el-radio-group @change="changeAuthorType" v-model="adminType">
               <el-radio  label='1' style='float:left;padding-top:5px;'>被授权人</el-radio>
@@ -339,10 +340,10 @@
 
               </div>
               <p class="upload-tip" style="color:#999">温馨提示：上传单张图片大小应小于5M,可支持JPEG、JPG、PNG格式</p>
-               <p class="upload-tip" v-if="IdInfoShow"> 
+               <p class="upload-tip" v-if="IdInfoShow && authStatus!=1"> 
                     <span class="el-icon-warning"></span>
                     <span>以下信息为系统自动识别信息，若与实际信息不符，请重新拍照后上传或</span>
-                    <span  class="info-edit" @click="editIDCard" v-if="0 != 1 ">点此进行编辑</span>
+                    <span  class="info-edit" @click="editIDCard" v-if="authStatus!= 1 ">点此进行编辑</span>
                 </p>
               <div class="company-input" v-if="IdInfoShow">
                 <div class="input-item">
@@ -546,7 +547,7 @@
         licenseInfoEdit:false,   //营业执照信息
         licenseInputShow:false,
         IdInfoShow:false,
-        isSubmitCode: false,
+        isSubmitCode: true,
         licenseInfo:{              //企业信息
           tenantName:'',
           creditCode:'',
@@ -624,8 +625,8 @@
         smsSend:false,
         synopsis:false,
         attorney:false,
-        licenseStatus:true,        //营业执照认证状态
-        IdStatus:true,        //管理员信息认证状态
+        licenseWarn:false,        //营业执照信息不通过提醒
+        IdCardWarn:false,        //管理员信息不通过提醒
         bankStatus:true,   //企业信息认证状态
         countRequest:0,           //请求计数
         options:[],
@@ -675,11 +676,7 @@
             userName:'',
             idCard:''
 
-        },
-        licenseStatus:'', //企业信息认证是否成功
-        idCardStatus:'', //个人信息认证是否成功
-
-
+        }
       }
     },
     created(){
@@ -695,7 +692,7 @@
         if(res.data.resultCode==1){
           this.showData = false
           let data = res.data.data;
-          console.log(data);
+          
           sessionStorage.setItem('authorizerType',this.adminType)
           licenseInfo.tenantName = data.tenantName
           licenseInfo.creditCode = data.creditCode
@@ -705,13 +702,21 @@
             this.OCRLicenseInfo.tenantName = data.ocrStr.TenantName;
             this.OCRLicenseInfo.creditCode = data.ocrStr.creditCode;
             this.OCRLicenseInfo.legalPerson = data.ocrStr.legalPerson;
-            if(data.isPersonEdit != null) {
-                this.isPersonEdit=data.isPersonEdit == 1 ? false : true 
+            if(data.isPersonEdit != null) {         //
+                this.isPersonEdit = data.isPersonEdit == 1 ? false : true 
             } 
             if(data.isTenantEdit != null) {
-                this.isTenentEdit=data.isTenantEdit == 1 ? false : true
+                this.isTenentEdit=data.isTenantEdit == 1 ? false : true   //传isTenentEdit 接口反的是 isTenantEdit
             }
-            this.licenseStatus = data.auditStatus  //企业认证状态
+            //如果人工审核通过 默认触发人工审核再置为false
+            if(data.auditStatus == 2){
+                this.isTenentEdit = false
+            }
+            if(data.authStatus == 1){
+                this.isPersonEdit = false
+            }
+
+            console.log(this.isTenentEdit,this.isPersonEdit)
           if(licenseInfo.tenantName){
             this.licenseInputShow = true;
           }
@@ -743,11 +748,16 @@
 
           this.auditStatus = data.auditStatus;
           this.authStatus = data.authStatus;
-          if(this.auditStatus==2){
-            this.licenseStatus = true;
+          //判断审核未通过提示是否显示
+          if(this.auditStatus==2){  //企业认证成功
+            this.licenseWarn = false;
+          }else{
+              this.licenseWarn = true;
           }
-          if(this.auditStatus ==1){
-            this.IdStatus = true;
+          if(this.authStatus ==1){ //个人认证成功
+            this.IdCardWarn = false;
+          }else{
+               this.IdCardWarn = true;
           }
 
         }
@@ -830,7 +840,7 @@
         this.OCRLicenseInfo.creditCode = name.data.creditCode;
         this.OCRLicenseInfo.legalPerson = name.data.legalPerson;
 
-          this.licenseStatus = true;
+          this.licenseWarn = false;
           this.$loading.hide();
           this.$message({
             showClose: true,
@@ -853,35 +863,34 @@
       editLicense(){
         this.attorneyEditTip = true;
       },
-      //营业执照编辑保存
-      editLicenseConfirm(form){
-          this.$refs[form].validate((valid)=>{
-              if(valid){
-                  if((this.OCRLicenseInfo.tenantName == this.editLicenseForm.tenantName)&&( this.OCRLicenseInfo.creditCode == this.editLicenseForm.creditCode)&&(this.OCRLicenseInfo.legalPerson == this.editLicenseForm.legalPerson)){
-                        this.$message({
-                            showClose: true,
-                            message: '编辑信息和OCR信息一致',
-                            type: 'success'
-                        })
-                        this.isTenentEdit = false
-                        this.attorneyEditDialog = false  //弹框
-                  }else{
-                        this.$message({
-                            showClose: true,
-                            message: '编辑信息和OCR信息不一致，将会触发人工审核',
-                            type: 'error'
-                        })
-                        this.licenseInfo.tenantName = this.editLicenseForm.tenantName
-                        this.licenseInfo.creditCode = this.editLicenseForm.creditCode
-                        this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
-                        this.bankInfo.to_acc_name=this.editLicenseForm.tenantName
-                        this.isTenentEdit = true
-                        this.attorneyEditDialog = false  //弹框
-                  }
-              }
-          })
-         
-      },
+        //营业执照编辑保存
+        editLicenseConfirm(form){
+            this.$refs[form].validate((valid)=>{
+                if(valid){
+                    if((this.OCRLicenseInfo.tenantName == this.editLicenseForm.tenantName)&&( this.OCRLicenseInfo.creditCode == this.editLicenseForm.creditCode)&&(this.OCRLicenseInfo.legalPerson == this.editLicenseForm.legalPerson)){
+                            this.$message({
+                                showClose: true,
+                                message: '编辑信息和OCR信息一致',
+                                type: 'success'
+                            })
+                            this.isTenentEdit = false
+                            this.attorneyEditDialog = false  //弹框
+                    }else{
+                            this.$message({
+                                showClose: true,
+                                message: '编辑信息和OCR信息不一致，将会触发人工审核',
+                                type: 'error'
+                            })
+                            this.isTenentEdit = true
+                            this.attorneyEditDialog = false  //弹框
+                    }
+                    this.licenseInfo.tenantName = this.editLicenseForm.tenantName
+                    this.licenseInfo.creditCode = this.editLicenseForm.creditCode
+                    this.licenseInfo.legalPerson = this.editLicenseForm.legalPerson
+                    this.bankInfo.to_acc_name=this.editLicenseForm.tenantName
+                }
+            })
+        },
       //营业执照编辑确定弹框
       editTipConfirm(){
         this.attorneyEditTip = false;
@@ -924,7 +933,7 @@
           this.OCRIdCardInfo.userName = name.data.name
           this.OCRIdCardInfo.idCard = name.data.idCard
           this.IdInfoShow = true;
-          this.IdStatus = true;
+          this.IdCardWarn = false;
           // if(this.authorizerType){
           this.IdInfo.mobile = sessionStorage.getItem('mobile')
           // }
@@ -966,27 +975,27 @@
       //身份信息编辑提交
       idCardConfirm(form){
            this.$refs[form].validate((valid)=>{
-              if(valid){
-                if((this.OCRIdCardInfo.userName == this.idCardForm.userName)&&(this.OCRIdCardInfo.idCard == this.idCardForm.idCard)){
-                    this.$message({
-                        showClose: true,
-                        message: '编辑信息和OCR信息一致',
-                        type: 'success'
-                    })
+                if(valid){
+                    if((this.OCRIdCardInfo.userName == this.idCardForm.userName)&&(this.OCRIdCardInfo.idCard == this.idCardForm.idCard)){
+                        this.$message({
+                            showClose: true,
+                            message: '编辑信息和OCR信息一致',
+                            type: 'success'
+                        })
 
-                    this.isPersonEdit = false;
-                    this.idCardEditDialog = false
-                }else{
-                    this.$message({
-                        showClose: true,
-                        message: '编辑信息和OCR信息不一致，将会触发人工审核',
-                        type: 'error'
-                    })
+                        this.isPersonEdit = false;
+                        this.idCardEditDialog = false
+                    }else{
+                        this.$message({
+                            showClose: true,
+                            message: '编辑信息和OCR信息不一致，将会触发人工审核',
+                            type: 'error'
+                        })
+                        this.isPersonEdit = true;
+                        this.idCardEditDialog = false
+                    }
                     this.IdInfo.userName = this.idCardForm.userName;
                     this.IdInfo.idCard = this.idCardForm.idCard;
-                    this.isPersonEdit = true;
-                    this.idCardEditDialog = false
-                }
               }
            })
       },
@@ -1135,13 +1144,11 @@
         }
         server.smsValite(param).then(res=>{
           if(res.data.resultCode == 1){
-              console.log(true)
               this.isSubmitCode = true;
           }else{
             this.smsTip=true;
             this.smsTipText = "验证码错误";
             this.isSubmitCode = false;
-            console.log(false)
           }
         })
       },
@@ -1151,7 +1158,8 @@
       },
       //授权人类型
       changeAuthorType(){
-        this.IdStatus = true;
+        this.IdCardWarn = false;
+        this.licenseWarn = false;
         this.IdInfoShow = false;
         this.IdCardFrontSize = 0;
         this.IdCardBackSize = 0;
@@ -1195,10 +1203,6 @@
       },
       //提交
       submit(bankInfo){
-          console.log(this.isSubmitCode);
-        if(!this.isSubmitCode) {
-            return;
-        }
         this.countRequest = 0;
         if(!this.licenseInfo.creditPhoto){
           this.$message({
@@ -1262,6 +1266,14 @@
           })
           return
         }
+        if(!this.smsSend){
+         this.$message({
+            showClose: true,
+            message: '请先获取验证码',
+            type: 'error'
+          })
+          return
+        }
         if(this.IdInfo.mobile != this.IdInfo.resultMobile){
           this.$message({
             showClose: true,
@@ -1284,9 +1296,17 @@
         }else{
           this.cityTip = false;
         }
+        if(!this.isSubmitCode){
+            this.$message({
+                showClose: true,
+                message: '验证码有误',
+                type: 'error'
+            })
+            return
+        }
         this.$refs[bankInfo].validate((valid) => {
           if(valid){
-
+            this.sigleClick = true  //单点操作
             this.$loading.show(
               '信息提交中...',
             );
@@ -1307,13 +1327,16 @@
         server.licenseInfo(param).then(res=>{
           if(res.data.resultCode==1){
             this.sigleClick = false;
-            this.licenseStatus = true;
+            this.licenseWarn = false;
+            if(this.isTenentEdit){
+                this.auditStatus == 2
+            }
             this.subIdInfo();
             this.$loading.hide();
             this.countRequest+=1;
           }else{
             this.sigleClick = false;
-            this.licenseStatus = false;
+            this.licenseWarn = true;
             this.$loading.hide();
             this.countRequest-=1;
             this.$message({
@@ -1329,7 +1352,6 @@
       },
       //身份证信息提交
       subIdInfo(){
-
         let params={
             userName:this.IdInfo.userName,
             idCard:this.IdInfo.idCard,
@@ -1344,12 +1366,15 @@
         server.IdCardInfo(params).then(res=>{
             if(res.data.resultCode==1){
                 this.sigleClick = false;
-                this.IdStatus = true;
+                this.IdCardWarn = false;
+                if(this.isPersonEdit){      //如果未出发人工审核提交通过即认为认证通过
+                    this.authStatus == 1
+                }
                 this.countRequest+=1;  //计数器
                 this.saveBankInfo()
             }else{
                 this.sigleClick = false;
-                this.IdStatus = false;
+                this.IdCardWarn = true;
                 this.countRequest-=1;
                 this.$message({
                     showClose: true,

@@ -150,7 +150,7 @@ export function slicePhone(str){
  *  @param {*社会信用统一代码} str
  */
 export function socialCreditNum(str){
-    const reg = /[0-9A-Z]{18}/
+    const reg = /^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g
     return reg.test(str)
 }
 // /[@#\$%\^&\*]+/g 特殊字符
