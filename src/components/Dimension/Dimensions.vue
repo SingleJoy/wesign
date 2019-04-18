@@ -557,45 +557,48 @@
       pollingPanel(timer) { //轮询手写面板
         let t = Math.random();
         getSignatureImg(this.contractNo,this.userCode,t).then(res=>{
-          this.canvasTest =  res.data
-          if(res.data != '') {
-            var smCode = document.getElementById('smCode')
-            smCode.style.display ='none';
-          }
-          setTimeout(() => {
-            if(this.canvasTest!=''){
-              let signPosit = ''
-              for (let i =0 ; i<this.group.length; i++){
-                let pageNum = this.group[i].pageNum;
-                let offsetX = this.group[i].offsetX;
-                let offsetY = this.group[i].offsetY;
-                let parentBox = document.getElementById('contractImg')
-                let firstImg =parentBox.getElementsByTagName('img')[1]
-                let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
-                let imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
-                let signCanvas =document.getElementById('signCanvas')
-                let leftX = offsetX * imgWight;
-                let topY = (pageNum - 1 + offsetY) * imgHeight;
-                let signPng = document.getElementById('signCanvasImg').cloneNode(true);
-                parentBox.appendChild(signPng);
-                signPng.style.position= 'absolute';
-                signPng.style.top= topY + 'px'
-                signPng.style.left = leftX + 'px'
-                signPng.setAttribute("id", "div-" + i);
-                this.arrow.push (i)
-                signCanvas.style.display='none'
-                var windowScrollTop = document.documentElement.scrollTop
-                if(i == this.group.length-1){
-                  signPosit += pageNum+","+leftX+","+offsetY * (imgHeight);
-                }else{
-                  signPosit += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+            this.canvasTest =  res.data
+            if(res.data) {
+                var smCode = document.getElementById('smCode');
+                smCode.style.display ='none';
+                this.recapture=true;
+            }
+            if(this.canvasTest){
+                setTimeout(()=>{
+                    let signPosit = '';
+                    for (let i =0 ; i<this.group.length; i++){
+                    let pageNum = this.group[i].pageNum;
+                    let offsetX = this.group[i].offsetX;
+                    let offsetY = this.group[i].offsetY;
+                    let parentBox = document.getElementById('contractImg')
+                    let firstImg =parentBox.getElementsByTagName('img')[1]
+                    let imgWight = document.getElementById('imgSign').offsetWidth //获取合同页面的宽度
+                    let imgHeight = document.getElementById('imgSign').offsetHeight//获取合同页面的高度
+                    let signCanvas =document.getElementById('signCanvas')
+                    let leftX = offsetX * imgWight;
+                    let topY = (pageNum - 1 + offsetY) * imgHeight;
+                    let signPng = document.getElementById('signCanvasImg').cloneNode(true);
+                    parentBox.appendChild(signPng);
+                    signPng.style.position= 'absolute';
+                    signPng.style.top= topY + 'px'
+                    signPng.style.left = leftX + 'px'
+                    signPng.setAttribute("id", "div-" + i);
+                    this.arrow.push (i)
+                    signCanvas.style.display='none'
+                    var windowScrollTop = document.documentElement.scrollTop
+                    if(i == this.group.length-1){
+                    signPosit += pageNum+","+leftX+","+offsetY * (imgHeight);
+                    }else{
+                    signPosit += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+                    }
                 }
-              }
+            },1000)
+             
               clearInterval(this.timer)
               this.signPosit = signPosit
               this.recapture = true
             }
-          },1000)
+          
         }).catch(error=>{
 
         })

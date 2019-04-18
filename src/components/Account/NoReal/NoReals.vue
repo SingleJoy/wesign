@@ -172,8 +172,8 @@
                     this.$router.push({
                         name: 'EnterprisePayment',
                         params: {
-                            isPersonEdit: auditInfo.isPersonEdit == 1 ? false : true,
-                            isTenentEdit: auditInfo.isTenantEdit == 1 ? false : true
+                            isPersonEdit: auditInfo.isPersonEdit == 0? false : true,
+                            isTenentEdit: auditInfo.isTenantEdit == 0 ? false : true
                         }
                     });
                 }else{
