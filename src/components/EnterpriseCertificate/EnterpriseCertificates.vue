@@ -703,10 +703,10 @@
             this.OCRLicenseInfo.creditCode = data.ocrStr.creditCode;
             this.OCRLicenseInfo.legalPerson = data.ocrStr.legalPerson;
             if(data.isPersonEdit != null) {         //
-                this.isPersonEdit = data.isPersonEdit == 1 ? false : true 
+                this.isPersonEdit = data.isPersonEdit == 0 ? false : true 
             } 
             if(data.isTenantEdit != null) {
-                this.isTenentEdit=data.isTenantEdit == 1 ? false : true   //传isTenentEdit 接口反的是 isTenantEdit
+                this.isTenentEdit=data.isTenantEdit == 0 ? false : true   //传isTenentEdit 接口反的是 isTenantEdit
             }
             //如果人工审核通过 默认触发人工审核再置为false
             if(data.auditStatus == 2){
