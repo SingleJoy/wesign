@@ -541,11 +541,12 @@
               confirmButtonText: '确定',
               type: 'warning'
             }).then(() => {
+              cookie.set("state", "Home");
               this.$router.push('/CompanyExa');
             }).catch(() => {
+              cookie.set("state", "Home");
               this.$router.push('/CompanyExa');
             })
-
 
           }else{
             this.$router.push('/Home');

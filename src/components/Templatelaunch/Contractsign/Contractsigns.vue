@@ -441,8 +441,11 @@
                 confirmButtonText: '确定',
                 type: 'warning'
               }).then(() => {
+                cookie.set("state", "Home");
+
                 this.$router.push('/ContractInfo');
               }).catch(() => {
+                cookie.set("state", "Home");
                 this.$router.push('/ContractInfo');
               })
             }else{
