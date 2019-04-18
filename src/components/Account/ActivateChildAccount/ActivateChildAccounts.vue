@@ -58,7 +58,7 @@
                   width="400px"
                   center>
                   <div  class="send-code">为确保是您本人愿意签署，请点击获取验证码。<br/>
-                  认证通过后，认证授权书即时生效</div>
+                    认证通过后，认证授权书即时生效</div>
                   <div style="color: #333;text-align: left;padding-bottom: 10px;font-weight: bold;">{{mobileShowFirst}}&nbsp;<sub >****</sub>&nbsp;{{mobileShowLast}}</div>
                   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 
@@ -276,16 +276,13 @@
           this.$loading.show("正在提交数据，请等待...");
         });
         this.$refs[formName].validate((valid) => {
-        let params={
-          'mobile': this.mobile,
-          'smsNo': this.smsNoVer,
-          'smsCode': this.ruleForm.smsCode,
-          'appId': this.appId
-        };
-        if(this.flag){
-          return false
-        }
-        this.flag=true;
+          let params={
+            'mobile': this.mobile,
+            'smsNo': this.smsNoVer,
+            'smsCode': this.ruleForm.smsCode,
+            'appId': this.appId
+          };
+
           server.valiteSmsCode(params).then(res => {
 
             this.$nextTick(()=> {
@@ -303,16 +300,20 @@
                 this.$loading.show("数据提交成功，正在校验...");
               });
               let params={
-                  'authorizerCode': authorizerCode,
-                  'mobile': this.mobile,
-                  'smsNo': this.smsNoVer,
-                  'appId': this.appId,
-                  'smsCode': this.ruleForm.smsCode,
-                  'signatureImg': signatureImg,
-                  'accountCode': accountCode,
-                };
-                this.flag=false;
-                SignAuthbook(params).then(res=> {
+                'authorizerCode': authorizerCode,
+                'mobile': this.mobile,
+                'smsNo': this.smsNoVer,
+                'appId': this.appId,
+                'smsCode': this.ruleForm.smsCode,
+                'signatureImg': signatureImg,
+                'accountCode': accountCode,
+              };
+
+              if(this.flag){
+                return false
+              }
+              this.flag=true;
+              SignAuthbook(params).then(res=> {
 
                 this.$nextTick(()=> {
                   this.$loading.hide();
@@ -325,6 +326,9 @@
                   this.$nextTick(()=> {
                     this.$loading.show("激活成功，正在初始化数据，请等待...");
                   });
+                  setTimeout(()=>{
+                    this.flag=false;
+                  },1500);
 
                   server.login(param,urlParam).then(res => {
                     cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
@@ -350,7 +354,7 @@
 
               }).catch(error=>{
 
-                })
+              })
             }
           }).catch(error=>{
 
