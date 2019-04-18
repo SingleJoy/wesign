@@ -111,15 +111,15 @@
 
 </template>
 <script>
-  import server from '@/api/url.js'
-  import cookie from '@/common/js/getTenant'
-  import {validateOpenName,TrimAll,validateDecimal,onlyChinese,validateCard,validateMoblie,validateSmsCode} from '@/common/js/validate'
-  import {valitedSmsCode,sendSmsCodefourth} from '@/api/common'
-  export default {
+import server from '@/api/url.js'
+import certificateServer from '@/api/certification.js'
+import cookie from '@/common/js/getTenant'
+import {validateOpenName,TrimAll,validateDecimal,onlyChinese,validateCard,validateMoblie,validateSmsCode} from '@/common/js/validate'
+import {valitedSmsCode,sendSmsCodefourth} from '@/api/common'
+export default {
     name: 'EnterprisePayments',
-
     data () {
-      //校验打款金额
+    //校验打款金额
         let validatePaymentNum=(rule,value,callback)=>{
             if (value === '') {
             callback(new Error('请输入打款金额'));
@@ -128,7 +128,7 @@
             }
         }
 
-      // 法人身份证号校验
+    // 法人身份证号校验
         let validateIDcard=(rule,value,callback)=>{
             if(value===''){
             callback(new Error('法人身份证号不可为空'))
@@ -138,7 +138,7 @@
             callback()
             }
         }
-      //手机号码
+    //手机号码
         let validateLegalMobile=(rule,value,callback)=>{
             if(value===''){
             callback(new Error('法人手机号不可为空'))
@@ -149,7 +149,7 @@
             }
         }
 
-      //校验6位手机验证码
+    //校验6位手机验证码
         let validatePhoneCode=(rule,value,callback)=>{
             if(value===''){
             callback(new Error('验证码不为空'))
@@ -178,7 +178,8 @@
             verifySub:false, //五次打款验证提交
             // showAlert:true,  //轮询查询打款失败  第一次弹窗
             time:0,
-            // allowInput:false,//打款失败 禁止输入
+            timeReviewNum:0,   //人工审核查验计数
+            timerReview:null,
             rules:{
                 paymentNum: [
                     {validator: validatePaymentNum, trigger: 'blur' }
@@ -214,263 +215,326 @@
 
         }
     },
-    beforeDestroy() {
-        clearInterval(this.timer);
-        this.timer = null;
-    },
     methods:{
-      change (val) {
-        this.province=val[0]
-        this.city=val[1]
-      },
-    sendCode(){
-        let mobile=this.legalForm.legalMobile;
-        if(!mobile){
-            this.$message({
-                showClose: true,
-                message: '手机号为空',
-                type: 'error'
-            })
-        }else{
-            this.repeat = true;
-            var codeType = '0';
-            var count = 60;
-            var curCount = count;
-            var timer = null;
-            this.sms = true;
-            let param={
-                'mobile':mobile,
-                'sendType':codeType,
-                'interfaceCode':this.interfaceCode
-            }
-            sendSmsCodefourth(param).then(res=>{
-                this.smsNoVer=res.data.smsNo   //短信编号
-                this.appId=res.data.appId     //appId
-                var resultCode = res.data.resultCode;
-                var smsNo = res.data.smsNo;
-                var smsCode = res.data.smsCode;
-                var message = res.data.resultMessage;
-                if (resultCode === '1') {
-                this.smsNo = true;
-                this.smsCodeNum +=1;
-                if(this.smsCodeNum == 3){
-                    this.isDisabled = true
-                } else{
-                    this.isDisabled = false
-                }
-                let codeInfo = document.getElementById('code')
-                codeInfo.innerText =  curCount + '秒'
-                this.smsNum = smsNo
-                codeInfo.setAttribute('disabled', 'true')
-
-                timer = setInterval(()=> {
-                    codeInfo.innerText =  (curCount - 1) + '秒'
-                    if (curCount === 0) {
-                    codeInfo.innerText = '获取'
-                    clearInterval(timer)
-                    codeInfo.removeAttribute('disabled')
-                    this.repeat = false
-                    } else {
-                    curCount--
-                    }
-                }, 1000)
-                }else{
-
-                this.smsNo = false
-                this.repeat = false
-
-                this.$alert(res.data.resultMessage,'提示', {
-                    confirmButtonText: '确定'
+        beforeDestroy() {
+            clearInterval(this.timer);
+            this.timer = null;
+        },
+        change (val) {
+            this.province=val[0]
+            this.city=val[1]
+        },
+        sendCode(){
+            let mobile=this.legalForm.legalMobile;
+            if(!mobile){
+                this.$message({
+                    showClose: true,
+                    message: '手机号为空',
+                    type: 'error'
                 })
+            }else{
+                this.repeat = true;
+                var codeType = '0';
+                var count = 60;
+                var curCount = count;
+                var timer = null;
+                this.sms = true;
+                let param={
+                    'mobile':mobile,
+                    'sendType':codeType,
+                    'interfaceCode':this.interfaceCode
+                }
+                sendSmsCodefourth(param).then(res=>{
+                    this.smsNoVer=res.data.smsNo   //短信编号
+                    this.appId=res.data.appId     //appId
+                    var resultCode = res.data.resultCode;
+                    var smsNo = res.data.smsNo;
+                    var smsCode = res.data.smsCode;
+                    var message = res.data.resultMessage;
+                    if (resultCode === '1') {
+                    this.smsNo = true;
+                    this.smsCodeNum +=1;
+                    if(this.smsCodeNum == 3){
+                        this.isDisabled = true
+                    } else{
+                        this.isDisabled = false
+                    }
+                    let codeInfo = document.getElementById('code')
+                    codeInfo.innerText =  curCount + '秒'
+                    this.smsNum = smsNo
+                    codeInfo.setAttribute('disabled', 'true')
+                    timer = setInterval(()=> {
+                        codeInfo.innerText =  (curCount - 1) + '秒'
+                        if (curCount === 0) {
+                        codeInfo.innerText = '获取'
+                        clearInterval(timer)
+                        codeInfo.removeAttribute('disabled')
+                        this.repeat = false
+                        } else {
+                        curCount--
+                        }
+                    }, 1000)
+                    }else{
+                    this.smsNo = false
+                    this.repeat = false
+                    this.$alert(res.data.resultMessage,'提示', {
+                        confirmButtonText: '确定'
+                    })
+                    }
+                }).catch(error=>{
+                })
+            }
+        },
+        // 解冻打款失败
+        thaw(legalForm){
+            this.$refs[legalForm].validate((valid) => {
+                this.verifySub = true;
+                if(valid){
+                    let param={
+                        'mobile': this.legalForm.legalMobile,
+                        'smsNo': this.smsNoVer,
+                        'smsCode': this.legalForm.phoneCode,
+                        'appId': this.appId
+                    }
+                    valitedSmsCode(param).then(res=>{
+                        //手机号验证码检验失败
+                        if (res.data.resultCode != 1) {
+                            this.verifySub = false
+                            this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: 'error'
+                            })
+                        }else {
+                        //手机号验证码检验成功
+                            this.verifySub = false;
+                            let params ={
+                                'userName':this.legalForm.legalPerson,
+                                'idCard':this.legalForm.IDcard,
+                                'mobile':this.legalForm.legalMobile,
+                                'interfaceCode':this.interfaceCode,
+                            };
 
+                            server.unfreezeRemittance(params).then(res=> {
+                                if (res.data.resultCode == '1') {
+                                    this.verifySub = false
+                                    this.$message({
+                                        showClose: true,
+                                        message: res.data.resultMessage,
+                                        type: 'success'
+                                    })
+                                    this.dialogAgreement=false;
+                                    this.ruleForm.paymentNum='';
+                                    this.legalForm.IDcard='';
+                                    this.legalForm.legalMobile='';
+                                    this.legalForm.phoneCode='';
+                                } else {
+                                    this.$message({
+                                        showClose: true,
+                                        message: res.data.resultMessage,
+                                        type: 'error'
+                                    })
+                                    this.dialogAgreement=false;
+                                }
+                            })
+                        }
+                    }).catch(error=>{
+
+                    })
+                }
+            })
+        },
+        cancel(){
+            this.$store.dispatch('tabIndex',{tabIndex:0});
+            this.$router.push('/Merchant')
+        },
+        //提交
+        submit(){
+            if(this.ruleForm.paymentNum==''){
+                this.$alert('打款金额不可为空', '提示',{
+                confirmButtonText: '确定'
+                });
+                return false
+            }else if(this.ruleForm.paymentNum<0.01||this.ruleForm.paymentNum>0.99||this.ruleForm.paymentNum.length>4){
+                this.$alert('打款金额必须是0.01~0.99之间', '提示',{
+                confirmButtonText: '确定'
+                });
+                return false
+            }else{
+                this.once=true;
+                let param ={'trans_money':this.ruleForm.paymentNum};
+                server.verifyRemittance(param,this.interfaceCode).then(res => {
+                if (res.data.resultCode == 0) {
+                    this.$message({
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                    })
+                    this.once=false;
+                } else if (res.data.resultCode == 1) {
+                    this.once=false;
+                    this.$alert(res.data.resultMessage, '提示', {
+                    confirmButtonText: '确定'
+                    }).then(() => {
+                        this.$router.push('/EnterpriseRegisterSucc')
+                    })
+                    this.once=false;
+                } else if(res.data.resultCode == '-4'){
+                    this.once=false;
+                    this.message=res.data.resultMessage;
+                    this.legalForm.legalPerson=res.data.data;
+                    this.dialogAgreement=true;
+
+                }else{
+                    this.once=false;
+                    this.$message({
+                    showClose: true,
+                    message:res.data.resultMessage,
+                    type: 'error'
+                    })
+                }
+
+                })
+            }
+        },
+        // 查询企业银行信息
+        getBankInfo(){
+            server.getBank(this.interfaceCode).then(response => {
+                if (response.data.resultCode == '1') {
+                    this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
+                    this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
+                    this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
+                    this.ruleForm.bankArea = response.data.data.to_pro_name + response.data.data.to_city_name; //收款人开户行省市名
+                    this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
+                }else if(response.data.resultCode == '0') {
+                    this.$message({
+                        showClose: true,
+                        message: response.data.resultMessage,
+                        type: 'error'
+                    })
+                }
+            })
+        },
+
+        //轮询
+        pollingPanel(timer){ //轮询打款状态
+             
+            server.moneyStatus(this.interfaceCode).then(res=> {
+                if(res.data.resultCode=='1') {
+                    clearInterval(timer);
+                    this.timer = null;
+                }else if(res.data.resultCode=='-4'){
+                    if(this.time>(60*60)){
+                    clearInterval(timer);
+                    this.timer = null;
+                    }
+                }else if(res.data.resultCode=='-1'){
+                    clearInterval(timer);
+                    this.timer = null;
+                    this.$alert(res.data.resultMessage, '提示',{
+                        confirmButtonText: '确定'
+                    }).then(()=>{
+                    clearInterval(timer);
+                    this.timer = null;
+                        this.$router.push('/EnterpriseCertificate')
+                    });
+                }else{
+                     clearInterval(this.timer);
                 }
             }).catch(error=>{
 
             })
-        }
+        },
 
-      },
-      // 解冻打款失败
-      thaw(legalForm){
-        this.$refs[legalForm].validate((valid) => {
-            this.verifySub = true;
-            if(valid){
-                let param={
-                    'mobile': this.legalForm.legalMobile,
-                    'smsNo': this.smsNoVer,
-                    'smsCode': this.legalForm.phoneCode,
-                    'appId': this.appId
+        //定义轮询触发
+        defineMoneyPoll(){
+            // 轮询查找打款进度信息
+            let timer = null;
+            this.timer = setInterval(()=> {
+                this.pollingPanel(this.timer)
+            }, 5000);
+            setInterval(()=> {
+                this.time=this.time+2;
+            },2000) 
+        },
+
+        //定义人工审核轮询
+        defineReviewPoll(params){
+            this.timerReview = setInterval(()=> {
+                 if(this.timeReviewNum>60*60){
+                    clearInterval(this.timerReview);
+                    return 
                 }
-                valitedSmsCode(param).then(res=>{
-                    //手机号验证码检验失败
-                    if (res.data.resultCode != 1) {
-                        this.verifySub = false
-                        this.$message({
+                this.pollingReviewStatus(this.timerReview,params)
+                this.timeReviewNum+=5;
+            }, 5000);
+        },
+        // 查询人工审核状态
+        pollingReviewStatus(timerReview,params){
+            server.checkManualReview({},this.interfaceCode).then(res=>{
+                if(res.data.resultCode == 0){
+                    clearInterval(this.timerReview);
+                    this.subBankInfo(params)
+                    this.once = false 
+                }else if(res.data.resultCode == 1 || res.data.resultCode == 2 || res.data.resultCode == 3){
+                    this.$message({
                         showClose: true,
-                        message: res.data.resultMessage,
+                        message:res.data.resultMessage,
                         type: 'error'
-                        })
-                    }else {
-                    //手机号验证码检验成功
-                        this.verifySub = false;
-                        let params ={
-                            'userName':this.legalForm.legalPerson,
-                            'idCard':this.legalForm.IDcard,
-                            'mobile':this.legalForm.legalMobile,
-                            'interfaceCode':this.interfaceCode,
-                        };
+                    })
+                    clearInterval(this.timerReview);
+                    this.$router.push('/EnterpriseCertificate');
+                }else{
 
-                        server.unfreezeRemittance(params).then(res=> {
-                            if (res.data.resultCode == '1') {
-                                this.verifySub = false
-                                this.$message({
-                                    showClose: true,
-                                    message: res.data.resultMessage,
-                                    type: 'success'
-                                })
-                                this.dialogAgreement=false;
-                                this.ruleForm.paymentNum='';
-                                this.legalForm.IDcard='';
-                                this.legalForm.legalMobile='';
-                                this.legalForm.phoneCode='';
-                            } else {
-                                this.$message({
-                                    showClose: true,
-                                    message: res.data.resultMessage,
-                                    type: 'error'
-                                })
-                                this.dialogAgreement=false;
-                            }
-                        })
-                    }
-                }).catch(error=>{
-
-                })
-            }
-        })
-      },
-      cancel(){
-        this.$store.dispatch('tabIndex',{tabIndex:0});
-        this.$router.push('/Merchant')
-      },
-      //提交
-      submit(){
-          if(this.ruleForm.paymentNum==''){
-            this.$alert('打款金额不可为空', '提示',{
-              confirmButtonText: '确定'
-            });
-            return false
-          }else if(this.ruleForm.paymentNum<0.01||this.ruleForm.paymentNum>0.99||this.ruleForm.paymentNum.length>4){
-            this.$alert('打款金额必须是0.01~0.99之间', '提示',{
-              confirmButtonText: '确定'
-            });
-            return false
-          }else{
-            this.once=true;
-            let param ={'trans_money':this.ruleForm.paymentNum};
-            server.verifyRemittance(param,this.interfaceCode).then(res => {
-              if (res.data.resultCode == 0) {
-                this.$message({
-                  showClose: true,
-                  message:res.data.resultMessage,
-                  type: 'error'
-                })
-                this.once=false;
-              } else if (res.data.resultCode == 1) {
-                this.once=false;
-                this.$alert(res.data.resultMessage, '提示', {
-                  confirmButtonText: '确定'
-                }).then(() => {
-                    this.$router.push('/EnterpriseRegisterSucc')
-                })
-                this.once=false;
-              } else if(res.data.resultCode == '-4'){
-                this.once=false;
-                this.message=res.data.resultMessage;
-                this.legalForm.legalPerson=res.data.data;
-                this.dialogAgreement=true;
-
-              }else{
-                this.once=false;
-                this.$message({
-                  showClose: true,
-                  message:res.data.resultMessage,
-                  type: 'error'
-                })
-              }
+                }
+            }).catch(err=>{
+                  clearInterval(this.timerReview);
+            })
+        },
+      //银行信息提交
+        subBankInfo(params){
+            let interfaceCode = this.interfaceCode;
+            certificateServer.bankInfo(params,interfaceCode).then(res=>{
+                if(res.data.resultCode==1){
+                    //this.getBankInfo()
+                    this.defineMoneyPoll()
+                }else{
+                    this.$router.push('/EnterpriseCertificate');
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
+                }
+            }).catch(error=>{
 
             })
-          }
-
-
-      },
-
-      //轮询
-      pollingPanel(timer){ //轮询打款状态
-
-        server.moneyStatus(this.interfaceCode).then(res=> {
-          if(res.data.resultCode=='1') {
-            clearInterval(this.timer);
-            this.timer = null;
-          }else if(res.data.resultCode=='-4'){
-            if(this.time>(60*60)){
-              clearInterval(this.timer);
-              this.timer = null;
-            }
-          }else if(res.data.resultCode=='-1'){
-            clearInterval(this.timer);
-            this.timer = null;
-            this.$alert(res.data.resultMessage, '提示',{
-                confirmButtonText: '确定'
-              }).then(()=>{
-                   this.$router.push('/EnterpriseCertificate')
-              });
-          }
-
-        }).catch(error=>{
-
-        })
-      },
-
+        },
     },
     created() {
-      if (cookie.getJSON("tenant")[1].auditSteps == 3) {
-        this.$router.push("/Home")
-        return
-      }
-      this.enterpriseName = sessionStorage.getItem("companyName");
-
-      // 查询企业银行信息
-      server.getBank(this.interfaceCode).then(response => {
-        if (response.data.resultCode == '1') {
-          this.ruleForm.bankAccount = response.data.data.to_acc_no; //收款人银行帐号
-          this.ruleForm.bankName = response.data.data.to_bank_name; //收款人银行名称
-          this.ruleForm.enterpriseName = response.data.data.to_acc_name; //收款人银行名称
-          this.ruleForm.bankArea = response.data.data.to_pro_name + response.data.data.to_city_name; //收款人开户行省市名
-          this.ruleForm.bankBranchName = response.data.data.to_acc_dept; //收款人开户行机构名
-
-        } else if (response.data.resultCode == '0') {
-          this.$message({
-            showClose: true,
-            message: response.data.resultMessage,
-            type: 'error'
-          })
+        let params2 = this.$route.params;
+        if (cookie.getJSON("tenant")[1].auditSteps == 3) {
+            this.$router.push("/Home")
+            return
         }
-      })
-
-      // 轮询查找打款进度信息
-
-      let timer = null;
-        this.timer = setInterval(()=> {
-            this.pollingPanel(this.timer)
-        }, 5000);
-
-      setInterval(()=> {
-        this.time=this.time+2;
-      },2000)
-
+       // this.enterpriseName = sessionStorage.getItem("companyName");
+        //var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //人工审核中
+        //查询人工审核信息
+        let params = sessionStorage.getItem('bankInfo');  //银行信息
+        if(params) {
+            params = JSON.parse(params)
+        } 
+         this.getBankInfo()
+        if(params2.isPersonEdit || params2.isTenentEdit) {
+            this.defineReviewPoll(params)    //查询人工审核
+            this.once = true;
+        } else {
+            if(params){
+                this.subBankInfo(params) //触发小额打款
+            }   
+            this.defineMoneyPoll()   //打款状态查询
+        }
     }
-
   }
 </script>
 

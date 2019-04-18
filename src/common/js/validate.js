@@ -146,7 +146,13 @@ export  function onlyChinese(str){
 export function slicePhone(str){
     return str.slice(0,3) + '****' +str.slice(-4)
 }
-
+/**
+ *  @param {*社会信用统一代码} str
+ */
+export function socialCreditNum(str){
+    const reg = /^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g
+    return reg.test(str)
+}
 // /[@#\$%\^&\*]+/g 特殊字符
 /**
  * 加 g 去除全部空格 不加去除前后空格

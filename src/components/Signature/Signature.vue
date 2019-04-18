@@ -44,7 +44,7 @@
                     class="upload-demo"
                     :action='urlloadUrl()'
                     :data=Type
-                    :before-upload="handleChange"input
+                    :before-upload="handleChange"
                     :on-success="fileSuccess"
                     :on-error="fileErron"
                     :show-file-list= false

@@ -1,16 +1,12 @@
 <template>
   <div class="Version">
     <div id="dialog">
-      <div class="box">
-        <div class="box-container">
-          <a href="javascript:void(0);" id='close' @click='closes'>X</a>
+        <div class="box">
+            <img :src="baseURL+'/img/version-info1.7.3.png'" alt="">
+            <div class="box-container">
+            <a href="javascript:void(0);" id='close' @click='closes'>X</a>
+            </div>
         </div>
-        <!--<div class="box-text">-->
-          <!--<h4>1.全新定义计费方式，完成实名即送十份合同</h4>-->
-          <!--<h4>2.账单自动生成，对账更方便</h4>-->
-          <!--<h4>3.新增在线电子发票，开票更快捷</h4>-->
-        <!--</div>-->
-      </div>
     </div>
   </div>
 </template>
@@ -20,6 +16,11 @@
   export default {
     name:'Version',
     props: ['message'],
+    data() {
+      return {
+        baseURL:this.baseURL.BASE_URL,
+      }
+    },
     methods:{
       closes(){
         this.showVersion=false;
@@ -33,7 +34,7 @@
   .Version{
      #dialog{
       width:100%;
-      height: 100%;
+      height: 1080px;
       position: absolute;
       z-index:1000;
       background-color:rgba(0,0,0,0.5);
@@ -43,17 +44,21 @@
       bottom:0;
       margin:auto;
       }
-  .box{
-      width:529px;
-      height: 417px;
-      background:url('/static/images/Top/version-info1.7.3.png') no-repeat;
-      background-size: 100% 100%;
-      position: absolute;
-      left:0;
-      top:0;
-      right: 0;
-      bottom:0;
-      margin: auto;
+  .box {
+        width:529px;
+        height: 417px;
+        background-size: 100% 100%;
+        position: absolute;
+        left:0;
+        top:0;
+        right: 0;
+        bottom:0;
+        margin: auto;
+      img{
+        width:100%;
+        height: 100%;
+      }
+      
      .box-container a{
        position: absolute;
        right:0;
