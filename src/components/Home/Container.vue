@@ -149,8 +149,9 @@
             :action='urlloadUrl()'
             :before-upload="handleChange"
             :on-success="fileSuccess"
+            :on-error="uploadErr"
             :show-file-list= false
-            :limit=1
+            :file-list="fileList"
             accept='.docx,.pdf,.doc,.txt'
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
@@ -167,7 +168,7 @@
             :before-upload="handleChange1"
             :on-success="fileSuccess1"
             :show-file-list= false
-            :limit=1
+            :file-list="fileList"
             accept='.docx,.pdf,.doc,.txt'
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
@@ -288,6 +289,7 @@
         num:'',
         accountLevel:sessionStorage.getItem("accountLevel"),     //账户类型 1是一级账号 2是二级账号
         mobile:sessionStorage.getItem("mobile"),
+        fileList:[]
       };
     },
     methods: {
@@ -760,7 +762,11 @@
           this.uploadFile = true;
         }
       },
+      uploadErr(name,file,filelist){
+          console.log(name,file,filelist)
+      },
       fileSuccess(name, file, fileList) {
+          console.log(name,file,fileList)
         //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
         this.$loading.hide();
         var contractName = file.name.replace(/\s+/g, "");
@@ -782,6 +788,7 @@
             sessionStorage.setItem("contractNo", contractNo);
             this.$router.push("/Contractsigning");
         }else{
+            this.fileList = [];
              this.$message({
                 showClose: true,
                 message: file.response.resultMessage,
@@ -812,6 +819,7 @@
           sessionStorage.setItem("contractNo", contractNo);
           this.$router.push("/Signature"); //更改路由地址
         }else{
+            this.fileList = [];
             this.$message({
                 showClose: true,
                 message: file.response.resultMessage,

@@ -31,7 +31,7 @@
             :before-upload="handleChange"
             :on-success="fileSuccess"
             :show-file-list= false
-            :limit=1
+            :file-list="fileList"
             accept='.docx,.pdf,.doc,.txt'
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
@@ -48,7 +48,7 @@
             :before-upload="handleChange1"
             :on-success="fileSuccess1"
             :show-file-list= false
-            :limit=1
+             :file-list="fileList"
             accept='.docx,.pdf,.doc,.txt'
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
@@ -155,6 +155,7 @@
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
         b2bNum:'',
         b2cNum:'',
+        fileList:[]
       }
     },
     methods: {
@@ -390,6 +391,7 @@
           sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Contractsigning')
         }else{
+            this.fileList = [];
             this.$message({
                 showClose: true,
                 message: file.response.resultMessage,
@@ -415,6 +417,7 @@
           sessionStorage.setItem('contractNo', contractNo)
           this.$router.push('/Signature')
         }else{
+            this.fileList = [];
             this.$message({
                 showClose: true,
                 message: file.response.resultMessage,

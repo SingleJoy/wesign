@@ -754,6 +754,16 @@
   .el-table .cell{
       text-align: center;
   }
+    /deep/ .showDialogs {
+     .el-dialog__body {
+        padding: 30px 20px;
+        color: #606266;
+        font-size: 14px;
+        overflow-y: scroll;
+        height: 700px;
+    }
+
+  }
 
 
 </style>
@@ -766,7 +776,7 @@
   .showDialogs{
     box-sizing: border-box !important;
     height: 700px !important;
-     /* overflow-y: scroll !important; */
+     overflow-y: hidden;
   }
 </style>
 
