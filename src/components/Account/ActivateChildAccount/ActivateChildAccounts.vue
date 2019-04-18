@@ -129,6 +129,7 @@
         smsCodeNum:0,
         smsNo:false,
         repeat:false,
+        flag:false,
         once:false,
         authorizationImg:'',
         timer:null,
@@ -281,11 +282,12 @@
           'smsCode': this.ruleForm.smsCode,
           'appId': this.appId
         };
+        if(this.flag){
+          return false
+        }
+        this.flag=true;
           server.valiteSmsCode(params).then(res => {
-            this.fullscreenLoading = true;
-            setTimeout(() => {
-              this.fullscreenLoading = false;
-            }, 2000);
+
             this.$nextTick(()=> {
               this.$loading.hide();
             });
@@ -294,7 +296,8 @@
                 showClose: true,
                 message: res.data.resultMessage,
                 type: 'error'
-              })
+              });
+              this.flag=false;
             } else {
               this.$nextTick(()=> {
                 this.$loading.show("数据提交成功，正在校验...");
@@ -308,11 +311,9 @@
                   'signatureImg': signatureImg,
                   'accountCode': accountCode,
                 };
+                this.flag=false;
                 SignAuthbook(params).then(res=> {
-                 this.fullscreenLoading = true;
-                 setTimeout(() => {
-                  this.fullscreenLoading = false;
-                }, 3000);
+
                 this.$nextTick(()=> {
                   this.$loading.hide();
                 });
@@ -324,17 +325,14 @@
                   this.$nextTick(()=> {
                     this.$loading.show("激活成功，正在初始化数据，请等待...");
                   });
-                  this.fullscreenLoading = true;
-                  setTimeout(() => {
-                    this.fullscreenLoading = false;
-                  }, 3000);
+
                   server.login(param,urlParam).then(res => {
                     cookie.set("tenant", res.data.dataList); // 存入cookie 所需信息
                     this.$store.dispatch("tabIndex", { tabIndex: 0 }); //导航高亮
                     this.$nextTick(()=> {
                       this.$loading.hide();
                     });
-                    sessionStorage.setItem('accountStatus','1')
+                    sessionStorage.setItem('accountStatus','1');
                     this.$router.push("/Home");
                   })
                 }else {
