@@ -566,8 +566,8 @@
                 smCode.style.display ='none';
                 this.recapture=true;
             }
-            if(this.canvasTest){
-                // setTimeout(()=>{
+            setTimeout(()=>{   //放到if里会出现签名不显示只显示边框
+                if(this.canvasTest){
                     let signPosit = '';
                     for (let i =0 ; i<this.group.length; i++){
                         let pageNum = this.group[i].pageNum;
@@ -596,11 +596,10 @@
                         }
                     }
                     this.signPosit = signPosit
-            // },1000)
                     clearInterval(this.timer)
                     this.recapture = true
-            }
-          
+                }
+            },1000)
         }).catch(error=>{
 
         })
