@@ -19,14 +19,17 @@
           <!-- <span  v-if='status=="已截止" && operator == accountCode' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
         </p>
 
-      </div>
-      <div class="second">
-      <div class="title">签署文件</div>
-      <span class="text">
-               <strong>当前状态：</strong>
-               <span>{{status}}</span>
-             </span>
-      </div>
+        </div>
+
+        <p class="second">
+            <div class="title">签署文件</div>
+            <span class="text">
+                <strong>当前状态：</strong>
+                <span>{{status}}</span>
+            </span>
+        </p>
+
+
       <div class="three">
         <p class="details2" style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit">{{contractName}}</span>
@@ -320,6 +323,17 @@
               break;
           }
           this.status = res.data.data.status
+            switch (this.status){
+                case "1":
+                this.status = '签署中'
+                break;
+                case "2":
+                this.status = '已生效'
+                break;
+                default:
+                this.status = '已截止'
+                break;
+            }
           this.operator = res.data.data.operator
           this.validTime = res.data.data.validTime
           let signUserVo = res.data.dataList
