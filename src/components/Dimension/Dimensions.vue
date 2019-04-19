@@ -590,15 +590,19 @@
                     signCanvas.style.display='none'
                     var windowScrollTop = document.documentElement.scrollTop
                     if(i == this.group.length-1){
-                    signPosit += pageNum+","+leftX+","+offsetY * (imgHeight);
+                      console.log(this.group.length)
+                      console.log(i)
+                      signPosit += pageNum+","+leftX+","+offsetY * (imgHeight);
+                      this.signPosit = signPosit
                     }else{
-                    signPosit += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+                        signPosit += pageNum+","+leftX+","+offsetY * (imgHeight)+"&";
+                      this.signPosit = signPosit
                     }
                 }
             },1000)
              
               clearInterval(this.timer)
-              this.signPosit = signPosit
+
               this.recapture = true
             }
           
