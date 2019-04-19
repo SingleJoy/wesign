@@ -438,11 +438,12 @@
     overflow: hidden;
   }
   .showDialogs .el-dialog__body{
-    padding: 30px 20px;
-    color: #606266;
-    font-size: 14px;
-    overflow-y: scroll;
-    height: 700px;
+       padding: 0px 20px;
+        color: #606266;
+        font-size: 14px;
+        overflow-y: scroll;
+        height: 649px;
+        box-sizing: border-box;
   }
   .el-step__title.is-process,.el-step__description.is-process{
     color:#4091fb

@@ -129,9 +129,12 @@
   }
 
   .showDialogs .el-dialog__body{
-    height: 700px;
+      padding: 0px 20px;
+    color: #606266;
+    font-size: 14px;
     overflow-y: scroll;
-    overflow-x: hidden;
+    height: 649px;
+    box-sizing: border-box;
   }
   .backHome{
     float: right;

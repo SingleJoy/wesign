@@ -756,13 +756,13 @@
   }
     /deep/ .showDialogs {
      .el-dialog__body {
-        padding: 30px 20px;
+        padding: 0 20px;
         color: #606266;
         font-size: 14px;
         overflow-y: scroll;
-        height: 700px;
+        height: 649px;
     }
-
+    
   }
 
 

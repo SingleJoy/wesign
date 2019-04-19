@@ -100,9 +100,7 @@
 
             </el-form>
           </el-dialog>
-
         </div>
-        <input type="hidden" v-model="time">
 
       </div>
 
@@ -177,7 +175,8 @@ export default {
             once:false, //提交按钮单次点击,
             verifySub:false, //五次打款验证提交
             // showAlert:true,  //轮询查询打款失败  第一次弹窗
-            time:0,
+            timerMoneyNum:0,             //打款计数器
+            timerMoney:null,         //查询打款装填定时器
             timeReviewNum:0,   //人工审核查验计数
             timerReview:null,
             rules:{
@@ -215,11 +214,16 @@ export default {
 
         }
     },
+    beforeDestroy() {
+         if(this.timerMoney){
+             clearInterval(this.timerMoney);
+         }
+         if(this.timerReview){
+              clearInterval(this.timerReview);
+         } 
+    },
     methods:{
-        beforeDestroy() {
-            clearInterval(this.timer);
-            this.timer = null;
-        },
+       
         change (val) {
             this.province=val[0]
             this.city=val[1]
@@ -415,47 +419,44 @@ export default {
                 }
             })
         },
-
+          //定义打款验证轮询
+        defineMoneyPoll(){
+            // 轮询查找打款进度信息
+            this.timerMoney = setInterval(()=> {
+                if(this.timerMoneyNum>(60*60)){
+                    clearInterval(this.timerMoney);
+                    return
+                }
+                this.pollingPanel()
+                this.timerMoneyNum += 5
+            }, 4000);
+        },
         //轮询
-        pollingPanel(timer){ //轮询打款状态
-             
+        pollingPanel(){ 
             server.moneyStatus(this.interfaceCode).then(res=> {
                 if(res.data.resultCode=='1') {
-                    clearInterval(timer);
-                    this.timer = null;
+                     this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'success'
+                    })
                 }else if(res.data.resultCode=='-4'){
-                    if(this.time>(60*60)){
-                    clearInterval(timer);
-                    this.timer = null;
-                    }
+                    this.$message({
+                        showClose: true,
+                        message:res.data.resultMessage,
+                        type: 'error'
+                    })
                 }else if(res.data.resultCode=='-1'){
-                    clearInterval(timer);
-                    this.timer = null;
                     this.$alert(res.data.resultMessage, '提示',{
                         confirmButtonText: '确定'
                     }).then(()=>{
-                    clearInterval(timer);
-                    this.timer = null;
                         this.$router.push('/EnterpriseCertificate')
                     });
-                }else{
-                     clearInterval(this.timer);
                 }
+                clearInterval(this.timerMoney);
             }).catch(error=>{
-
+                clearInterval(this.timerMoney);
             })
-        },
-
-        //定义轮询触发
-        defineMoneyPoll(){
-            // 轮询查找打款进度信息
-            let timer = null;
-            this.timer = setInterval(()=> {
-                this.pollingPanel(this.timer)
-            }, 5000);
-            setInterval(()=> {
-                this.time=this.time+2;
-            },2000) 
         },
 
         //定义人工审核轮询
@@ -465,15 +466,14 @@ export default {
                     clearInterval(this.timerReview);
                     return 
                 }
-                this.pollingReviewStatus(this.timerReview,params)
+                this.pollingReviewStatus(params)
                 this.timeReviewNum+=5;
             }, 5000);
         },
         // 查询人工审核状态
-        pollingReviewStatus(timerReview,params){
+        pollingReviewStatus(params){
             server.checkManualReview({},this.interfaceCode).then(res=>{
                 if(res.data.resultCode == 0){
-                    clearInterval(this.timerReview);
                     this.subBankInfo(params)
                     this.once = false 
                 }else if(res.data.resultCode == 1 || res.data.resultCode == 2 || res.data.resultCode == 3){
@@ -482,13 +482,11 @@ export default {
                         message:res.data.resultMessage,
                         type: 'error'
                     })
-                    clearInterval(this.timerReview);
                     this.$router.push('/EnterpriseCertificate');
-                }else{
-
                 }
+                clearInterval(this.timerReview);
             }).catch(err=>{
-                  clearInterval(this.timerReview);
+                clearInterval(this.timerReview);
             })
         },
       //银行信息提交
