@@ -492,13 +492,12 @@ export default {
                     this.once = false 
                     clearInterval(this.timerReview);
                 }else if(res.data.resultCode == 1 || res.data.resultCode == 2 || res.data.resultCode == 3){
-                    this.$message({
-                        showClose: true,
-                        message:res.data.resultMessage,
-                        type: 'error'
-                    })
                     clearInterval(this.timerReview);
-                    this.$router.push('/EnterpriseCertificate');
+                    this.$alert(res.data.resultMessage, '提示',{
+                        confirmButtonText: '确定'
+                    }).then(()=>{
+                        this.$router.push('/EnterpriseCertificate')
+                    });
                 }else if(res.data.resultCode == 4){
                     //继续轮询审核状态
                 }
