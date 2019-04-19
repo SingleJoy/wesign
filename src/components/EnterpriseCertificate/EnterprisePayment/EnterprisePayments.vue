@@ -434,26 +434,35 @@ export default {
         //轮询
         pollingPanel(){ 
             server.moneyStatus(this.interfaceCode).then(res=> {
-                if(res.data.resultCode=='1') {
+                // -1:打款失败
+                //  -4：冻结
+                //  1：打款成功
+                //其他状态值正在打款中继续轮询
+                if(res.data.resultCode=='1') {   
+                    clearInterval(this.timerMoney);
                      this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
                         type: 'success'
                     })
                 }else if(res.data.resultCode=='-4'){
+                    clearInterval(this.timerMoney);
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
                         type: 'error'
                     })
                 }else if(res.data.resultCode=='-1'){
+                    clearInterval(this.timerMoney);
                     this.$alert(res.data.resultMessage, '提示',{
                         confirmButtonText: '确定'
                     }).then(()=>{
                         this.$router.push('/EnterpriseCertificate')
                     });
+                }else{
+                    //继续轮询打款
                 }
-                clearInterval(this.timerMoney);
+
             }).catch(error=>{
                 clearInterval(this.timerMoney);
             })
@@ -473,18 +482,26 @@ export default {
         // 查询人工审核状态
         pollingReviewStatus(params){
             server.checkManualReview({},this.interfaceCode).then(res=>{
+                // 0 通过
+                // 1 企业信息和个人信息后台审核未通过
+                // 2 企业信息后台审核未通过
+                // 3 个人信息后台审核未通过
+                // 4 后台审核进行中，请联系工作人员
                 if(res.data.resultCode == 0){
                     this.subBankInfo(params)
                     this.once = false 
+                    clearInterval(this.timerReview);
                 }else if(res.data.resultCode == 1 || res.data.resultCode == 2 || res.data.resultCode == 3){
                     this.$message({
                         showClose: true,
                         message:res.data.resultMessage,
                         type: 'error'
                     })
+                    clearInterval(this.timerReview);
                     this.$router.push('/EnterpriseCertificate');
+                }else if(res.data.resultCode == 4){
+                    //继续轮询审核状态
                 }
-                clearInterval(this.timerReview);
             }).catch(err=>{
                 clearInterval(this.timerReview);
             })
