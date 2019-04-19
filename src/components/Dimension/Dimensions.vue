@@ -596,10 +596,11 @@
                     }
                 }
             },1000)
-             
-              clearInterval(this.timer)
-              this.signPosit = signPosit
-              this.recapture = true
+                console.log(signPosit)
+                    clearInterval(this.timer)
+                    this.signPosit = signPosit
+                    this.recapture = true
+                    console.log( this.signPosit)
             }
           
         }).catch(error=>{
