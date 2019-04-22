@@ -129,13 +129,13 @@
       >
          <el-form :model="editLicenseForm" class="edit-license" :rules="licenseRules" ref="editLicense">
             <el-form-item label="企业名称：" prop="tenantName">
-                <el-input v-model="editLicenseForm.tenantName" autocomplete="off"></el-input>
+                <el-input v-model="editLicenseForm.tenantName" autocomplete="off" type="text"></el-input>
             </el-form-item>
             <el-form-item label="统一社会信用代码：" prop="creditCode">
-                 <el-input v-model="editLicenseForm.creditCode" autocomplete="off"></el-input>
+                 <el-input v-model="editLicenseForm.creditCode" autocomplete="off" type="text"></el-input>
             </el-form-item>
             <el-form-item label="法人/企业负责人姓名：" prop="legalPerson">
-                 <el-input v-model="editLicenseForm.legalPerson" autocomplete="off"></el-input>
+                 <el-input v-model="editLicenseForm.legalPerson" autocomplete="off" type="text"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="edit-license-footer dialog-footer">
@@ -171,10 +171,10 @@
       >
          <el-form :model="idCardForm" class="edit-license" :rules="idCardRules" ref="editId">
             <el-form-item label="姓名：" prop="userName">
-                <el-input v-model="idCardForm.userName" autocomplete="off"></el-input>
+                <el-input v-model="idCardForm.userName" autocomplete="off" type="text"></el-input>
             </el-form-item>
             <el-form-item label="身份证：" prop="idCard">
-                 <el-input v-model="idCardForm.idCard" autocomplete="off"></el-input>
+                 <el-input v-model="idCardForm.idCard" autocomplete="off" type="text"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="edit-license-footer dialog-footer">
@@ -630,7 +630,7 @@
         bankStatus:true,   //企业信息认证状态
         countRequest:0,           //请求计数
         options:[],
-        isTenentEdit:false,   //企业信息是否编辑过
+        isTenantEdit:false,   //企业信息是否编辑过
         attorneyEditDialog:false,  //企业信息编辑弹框
         attorneyEditTip:false, //企业信息编辑提示
         editLicenseForm:{
@@ -706,17 +706,17 @@
                 this.isPersonEdit = data.isPersonEdit == 0 ? false : true 
             } 
             if(data.isTenantEdit != null) {
-                this.isTenentEdit=data.isTenantEdit == 0 ? false : true   //传isTenentEdit 接口反的是 isTenantEdit
+                this.isTenantEdit=data.isTenantEdit == 0 ? false : true   
             }
             //如果人工审核通过 默认触发人工审核再置为false
             if(data.auditStatus == 2){
-                this.isTenentEdit = false
+                this.isTenantEdit = false
             }
             if(data.authStatus == 1){
                 this.isPersonEdit = false
             }
 
-            console.log(this.isTenentEdit,this.isPersonEdit)
+            console.log(this.isTenantEdit,this.isPersonEdit)
           if(licenseInfo.tenantName){
             this.licenseInputShow = true;
           }
@@ -749,15 +749,15 @@
           this.auditStatus = data.auditStatus;
           this.authStatus = data.authStatus;
           //判断审核未通过提示是否显示
-          if(this.auditStatus==2){  //企业认证成功
-            this.licenseWarn = false;
+          if(this.auditStatus== -4){  //企业认证驳回
+            this.licenseWarn = true;
           }else{
-              this.licenseWarn = true;
+              this.licenseWarn = false;
           }
-          if(this.authStatus ==1){ //个人认证成功
-            this.IdCardWarn = false;
+          if(this.authStatus ==3){ //个人认证驳回
+            this.IdCardWarn = true;
           }else{
-               this.IdCardWarn = true;
+               this.IdCardWarn = false;
           }
 
         }
@@ -847,7 +847,7 @@
             message: '营业执照上传成功',
             type: 'success'
           })
-          this.isTenentEdit = false;
+          this.isTenantEdit = false;
         }else{
           this.$loading.hide();
           //  this.IdInfoShow = false;
@@ -873,7 +873,7 @@
                                 message: '编辑信息和OCR信息一致',
                                 type: 'success'
                             })
-                            this.isTenentEdit = false
+                            this.isTenantEdit = false
                             this.attorneyEditDialog = false  //弹框
                     }else{
                             this.$message({
@@ -881,7 +881,7 @@
                                 message: '编辑信息和OCR信息不一致，将会触发人工审核',
                                 type: 'error'
                             })
-                            this.isTenentEdit = true
+                            this.isTenantEdit = true
                             this.attorneyEditDialog = false  //弹框
                     }
                     this.licenseInfo.tenantName = this.editLicenseForm.tenantName
@@ -1117,7 +1117,7 @@
               that.smsCodeText =  (curCount - 1) + '秒'
               if (curCount === 0) {
                 that.smsCodeText  = '获取验证码'
-                that.smsSend = false;
+                // that.smsSend = false;
                 clearInterval(timer)
               } else {
                 curCount--
@@ -1322,13 +1322,13 @@
           creditPhoto:this.licenseInfo.creditPhoto,
           legalPerson:this.licenseInfo.legalPerson,
           interfaceCode:this.interfaceCode,
-          isTenentEdit:this.isTenentEdit
+          isTenantEdit:this.isTenantEdit
         }
         server.licenseInfo(param).then(res=>{
           if(res.data.resultCode==1){
             this.sigleClick = false;
             this.licenseWarn = false;
-            if(this.isTenentEdit){
+            if(this.isTenantEdit){
                 this.auditStatus == 2
             }
             this.subIdInfo();
@@ -1406,10 +1406,6 @@
             this.bankStatus = true;
             this.$loading.hide();
             if(this.countRequest==2){        //计数器 只有企业和个人信息过之后才查询
-                // if(this.isPersonEdit || this.isTenentEdit ){
-                //     sessionStorage.setItem('bankInfo',JSON.stringify(params))
-                // }
-                sessionStorage.setItem('bankInfo',JSON.stringify(params))
                 this.saveCheckStatus()
             }
           }else{
@@ -1429,18 +1425,12 @@
        //提交是否触发人工审核给后台
       saveCheckStatus(){
         let params={
-            isTenentEdit:this.isTenentEdit,
+            isTenantEdit:this.isTenantEdit,
             isPersonEdit:this.isPersonEdit
         }
         server.saveCheckStatus(this.interfaceCode,params).then(res=>{
             if(res.data.resultCode==1){
-            this.$router.push({
-                name: 'EnterprisePayment', 
-                params: {
-                    isTenentEdit: this.isTenentEdit,
-                    isPersonEdit: this.isPersonEdit
-                }
-            });
+                this.$router.push("/EnterprisePayment")
         }
         }).catch(err=>{
 

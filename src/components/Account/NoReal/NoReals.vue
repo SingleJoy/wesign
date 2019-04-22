@@ -169,13 +169,14 @@
                     authStatus = auditInfo.authStatus;
                 this.$store.dispatch('tabIndex',{tabIndex:5});
                 if(auditSteps==2 ||  auditStatus == 4||authStatus==2){
-                    this.$router.push({
-                        name: 'EnterprisePayment',
-                        params: {
-                            isPersonEdit: auditInfo.isPersonEdit == 0? false : true,
-                            isTenentEdit: auditInfo.isTenantEdit == 0 ? false : true
-                        }
-                    });
+                    // this.$router.push({
+                    //     name: 'EnterprisePayment',
+                    //     params: {
+                    //         isPersonEdit: auditInfo.isPersonEdit == 0? false : true,
+                    //         isTenentEdit: auditInfo.isTenantEdit == 0 ? false : true
+                    //     }
+                    // });
+                    this.$router.push("/EnterprisePayment")
                 }else{
                     this.$router.push('/EnterpriseCertificate');
                 }

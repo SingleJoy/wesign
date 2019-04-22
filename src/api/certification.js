@@ -57,7 +57,7 @@ const service = {
             data:param
         })
     },
-    //银行信息
+    //保存银行信息
     saveBankInfo(param,interfaceCode) {
         return request({
             url: '/api/v1.8/tenant/'+interfaceCode+'/saveBank',

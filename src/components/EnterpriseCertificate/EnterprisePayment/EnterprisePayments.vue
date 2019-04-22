@@ -498,6 +498,13 @@ export default {
                     }).then(()=>{
                         this.$router.push('/EnterpriseCertificate')
                     });
+                }else if(res.data.resultCode == 5){
+                    clearInterval(this.timerReview);
+                    this.$alert(res.data.resultMessage, '提示',{
+                        confirmButtonText: '确定'
+                    }).then(()=>{
+                        this.$router.push('/')
+                    });
                 }else if(res.data.resultCode == 4){
                     //继续轮询审核状态
                 }
@@ -526,28 +533,35 @@ export default {
         },
     },
     created() {
-        let params2 = this.$route.params;
         if (cookie.getJSON("tenant")[1].auditSteps == 3) {
             this.$router.push("/Home")
             return
         }
-       // this.enterpriseName = sessionStorage.getItem("companyName");
-        //var auditStatus = cookie.getJSON('tenant')[1].auditStatus   //人工审核中
-        //查询人工审核信息
-        let params = sessionStorage.getItem('bankInfo');  //银行信息
-        if(params) {
-            params = JSON.parse(params)
-        } 
-         this.getBankInfo()
-        if(params2.isPersonEdit || params2.isTenentEdit) {
-            this.defineReviewPoll(params)    //查询人工审核
-            this.once = true;
-        } else {
-            if(params){
-                this.subBankInfo(params) //触发小额打款
+        this.getBankInfo()  //显示银行信息
+        let param = {}
+        certificateServer.companyInfoDetail(param,this.interfaceCode).then(res=>{   //查询是否触发了人工审核以及银行信息
+            if(res.data.resultCode == 1){
+                let resultData = res.data.data
+                let bankInfo = {
+                    to_acc_name:resultData.to_acc_name,                 //企业名称
+                    to_acc_no:resultData.to_acc_no,                     //收款账号
+                    to_bank_name:resultData.to_bank_name,               //银行名称
+                    to_pro_name:resultData.to_pro_name,                 //开户行省名
+                    to_city_name:resultData.to_city_name,               //开户行市名
+                    to_acc_dept:resultData.to_acc_dept,                  //支行名称
+                }
+                if(resultData.isPersonEdit || resultData.isTenantEdit) {   
+                    this.defineReviewPoll(bankInfo)     //查询人工审核
+                    this.once = true;
+                }else{
+                    this.subBankInfo(bankInfo)            //触发小额打款  
+                }
             }   
-            this.defineMoneyPoll()   //打款状态查询
-        }
+        }).catch(err=>{
+
+        })
+
+       
     }
   }
 </script>

@@ -72,10 +72,11 @@
     background: #000;
     background: rgba(0, 0, 0, 0.6);
     width: 100%;
-    height: 1080px;
-    position: absolute;
+    height: 100%;
+    position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
     z-index: 1999;
   }
   .Top .nav a{

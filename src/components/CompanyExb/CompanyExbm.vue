@@ -19,17 +19,14 @@
           <!-- <span  v-if='status=="已截止" && operator == accountCode' class="extension-btn" @click="extensionClick()">延&nbsp;&nbsp;期</span> -->
         </p>
 
-        </div>
-
-        <p class="second">
+      </div>
+      <p class="second">
             <div class="title">签署文件</div>
             <span class="text">
-                <strong>当前状态：</strong>
-                <span>{{status}}</span>
-            </span>
-        </p>
-
-
+               <strong>当前状态：</strong>
+               <span>{{status}}</span>
+             </span>
+      </p>
       <div class="three">
         <p class="details2" style="text-align:left;">
           <strong>合同文件：</strong><span class="lengthLimit">{{contractName}}</span>
@@ -201,7 +198,7 @@
   import { Switch } from 'element-ui';
   import cookie from '@/common/js/getTenant';
   import server from '@/api/url';
-  import {remind,contractSignUserInfo,contractimgs} from '@/api/detail';
+  import {remind,contractSignUserInfo,b2bContractimgs} from '@/api/detail';
   import {signFinish} from '@/api/business';
   export default {
     name: 'CompanyExbm',
@@ -258,7 +255,7 @@
         this.$loading.show(); //显示
         let data =[];
         let t=Math.random();
-        contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
+        b2bContractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
           for (let i = 0; i < res.data.dataList.length;i++) {
             let contractUrl = res.data.dataList[i].contractUrl
             data[i] = contractUrl
@@ -323,7 +320,7 @@
               break;
           }
           this.status = res.data.data.status
-            switch (this.status){
+          switch (this.status ){
                 case "1":
                 this.status = '签署中'
                 break;
