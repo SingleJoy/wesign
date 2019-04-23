@@ -354,6 +354,7 @@
             let that = this;
             noSignRemind(that.accountCode).then(res=>{
                 if(res.data.resultCode == 1){
+                    sessionStorage.setItem('hasClose',true)
                     that.$message({
                         showClose: true,
                         message:res.data.resultMessage,

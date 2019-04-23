@@ -66,7 +66,7 @@
                   <h3>单次发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="singleTemplate" >
-                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in single" :label="item.templateNo" :key="item.templateNo" :checked="item.flag">{{item.templateName}}</el-checkbox>
                     </el-checkbox-group>
                   </template>
 
@@ -76,7 +76,7 @@
                   <h3>批量发起模板</h3>
                   <template>
                     <el-checkbox-group v-model="batchTemplate" >
-                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.name}}</el-checkbox>
+                      <el-checkbox v-for="item in batch" :label="item.templateNo"   :key="item.templateNo" :checked="item.flag">{{item.templateName}}</el-checkbox>
                     </el-checkbox-group>
                   </template>
 
