@@ -401,6 +401,7 @@
                   <el-input
                     style='width:230px;'
                     placeholder=""
+                    type="text"
                     v-model="IdInfo.smsCode"
                     @blur='validateIdInfo("smsCode")'
                     :disabled= fullName
@@ -434,13 +435,13 @@
             <div class="company-input">
               <el-form :model="bankInfo" :rules="bankRules" ref="bankInfo">
                 <el-form-item  label="企业名称" prop="to_acc_name" label-width="473px">
-                  <el-input disabled v-model="bankInfo.to_acc_name"  placeholder="请输入"></el-input>
+                  <el-input disabled v-model="bankInfo.to_acc_name"  placeholder="请输入" type="text"></el-input>
                 </el-form-item>
                 <el-form-item label="企业银行账号" prop="to_acc_no" label-width="473px">
-                  <el-input v-model="bankInfo.to_acc_no" placeholder="请输入"></el-input>
+                  <el-input v-model="bankInfo.to_acc_no" placeholder="请输入" type="text"></el-input>
                 </el-form-item>
                 <el-form-item  label="银行名称"  prop="to_bank_name" label-width="473px">
-                  <el-input   v-model="bankInfo.to_bank_name" placeholder="请输入"></el-input>
+                  <el-input   v-model="bankInfo.to_bank_name" placeholder="请输入" type="text"></el-input>
                 </el-form-item>
 
                 <el-form-item label="开户行所在省／市"  label-width="473px">
@@ -452,7 +453,7 @@
                   <span style="position: absolute; left: 0;top: 30px;margin-left: 0;" v-if="cityTip" class="validate-tip">请选择省市</span>
                 </el-form-item>
                 <el-form-item  label="开户行支行名称"  prop="to_acc_dept" label-width="473px">
-                  <el-input v-model="bankInfo.to_acc_dept" placeholder="请输入"></el-input>
+                  <el-input v-model="bankInfo.to_acc_dept" placeholder="请输入" type="text"></el-input>
                 </el-form-item>
               </el-form>
             </div>
@@ -623,6 +624,7 @@
         cityTip:false,
         smsTipText:'',
         smsSend:false,
+        hasGetCode:false,
         synopsis:false,
         attorney:false,
         licenseWarn:false,        //营业执照信息不通过提醒
@@ -1113,16 +1115,20 @@
             that.IdInfo.smsNo =  res.data.smsNo
             that.IdInfo.resultMobile = res.data.mobile     //发送验证码后返回的手机号
             that.smsSend = true;
+            this.hasGetCode = true;
             timer = setInterval(function () {
               that.smsCodeText =  (curCount - 1) + '秒'
               if (curCount === 0) {
                 that.smsCodeText  = '获取验证码'
-                // that.smsSend = false;
+                that.smsSend = false;
                 clearInterval(timer)
               } else {
                 curCount--
               }
             }, 1000)
+            setTimeout(function(){
+                this.hasGetCode = false   //  5s后重新获取验证码
+            },5000)
           }else{
             this.$message({
               message: res.data.resultMessage,
@@ -1266,7 +1272,7 @@
           })
           return
         }
-        if(!this.smsSend){
+        if(!this.hasGetCode){
          this.$message({
             showClose: true,
             message: '请先获取验证码',

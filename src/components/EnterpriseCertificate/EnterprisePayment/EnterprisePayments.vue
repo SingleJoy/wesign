@@ -550,7 +550,7 @@ export default {
                     to_city_name:resultData.to_city_name,               //开户行市名
                     to_acc_dept:resultData.to_acc_dept,                  //支行名称
                 }
-                if(resultData.isPersonEdit || resultData.isTenantEdit) {   
+                if(resultData.auditStatus == 4 || resultData.authStatus == 2) {   
                     this.defineReviewPoll(bankInfo)     //查询人工审核
                     this.once = true;
                 }else{
