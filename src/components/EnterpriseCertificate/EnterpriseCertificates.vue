@@ -391,7 +391,7 @@
                     placeholder=""
                     v-model="IdInfo.mobile"
                     @blur='validateIdInfo("mobile")'
-                    :disabled = true
+                    :disabled = authorizerType
                   >
                   </el-input>
                   <span v-if="mobileTip" class="validate-tip">{{mobileTipText}}</span>
@@ -577,7 +577,7 @@
         IdBackImg:'',             //反面img
         IdCardFrontSize:0,     //身份证正面
         IdCardBackSize:0,      //身份证反面
-        authorizerType:true,     //管理员了类型  false:0 法人/true:1 授权人
+        authorizerType:true,     //管理员了类型  false:0 法人/true:1 被授权人
         adminType:'1',
         idMobile:true,
         checked:false,
@@ -936,9 +936,9 @@
           this.OCRIdCardInfo.idCard = name.data.idCard
           this.IdInfoShow = true;
           this.IdCardWarn = false;
-          // if(this.authorizerType){
-          this.IdInfo.mobile = sessionStorage.getItem('mobile')
-          // }
+          if(this.authorizerType){
+            this.IdInfo.mobile = sessionStorage.getItem('mobile')
+          }
           this.$loading.hide();
           this.getAuthDate()
 
