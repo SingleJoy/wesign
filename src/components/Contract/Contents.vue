@@ -155,10 +155,10 @@ export default {
     pages:function(){
         this.showItem = 10;
         let pag = [];
-        // console.log(this.currentIndex)
+        let i = '';
         if( this.currentIndex < this.showItem ){ //如果当前的激活的项 小于要显示的条数
                 //总页数和要显示的条数那个大就显示多少条
-                let i = Math.min(this.showItem,this.allpage);
+                i = Math.min(this.showItem,this.allpage);
                 while(i){
                     pag.unshift(i--);
                 }

@@ -110,7 +110,7 @@
         interfaceCode:sessionStorage.getItem("interfaceCode"),
         contractNo:sessionStorage.getItem("contractNo"),
         contractName:sessionStorage.getItem("contractName"),
-        templateName:sessionStorage.getItem("templateName"),
+        templateName:'',
         signUser:[],
         validTime:'',
         dialogTableVisible:false,
@@ -162,6 +162,7 @@
           this.signUser = res.data.signUserVo
           var contractVo = res.data.contractVo
           this.validTime = contractVo.validTime
+          this.contractName = contractVo.contractName
 
       }).catch(error=>{
 

@@ -134,9 +134,11 @@ export  function Trim(str){
 }
 //去除输入框所有空格
 export  function TrimAll(str){
-    // if(str){
+    if(str == 'undefined' || str == ''){
+        return ''        
+    }else{
         return str.replace(/\s/g, "");
-    // }
+    }
   }
 export  function onlyChinese(str){
   const reg=/[^\u4E00-\u9FA5]/g;
