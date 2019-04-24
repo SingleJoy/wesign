@@ -162,7 +162,7 @@
           this.signUser = res.data.signUserVo
           var contractVo = res.data.contractVo
           this.validTime = contractVo.validTime
-          this.contractName = contractVo.contractName
+          this.templateName = contractVo.contractName
 
       }).catch(error=>{
 

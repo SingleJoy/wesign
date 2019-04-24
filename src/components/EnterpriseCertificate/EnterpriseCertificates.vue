@@ -718,7 +718,7 @@
                 this.isPersonEdit = false
             }
 
-            console.log(this.isTenantEdit,this.isPersonEdit)
+            // console.log(this.isTenantEdit,this.isPersonEdit)
           if(licenseInfo.tenantName){
             this.licenseInputShow = true;
           }
@@ -727,7 +727,7 @@
           IdInfo.mobile = data.mobile
           IdInfo.frontPhoto = data.frontPhoto
           IdInfo.backPhoto = data.backPhoto
-          IdInfo.adminType = data.authorizerType
+          this.adminType = data.authorizerType
           IdInfo.email = data.email;
             //OCR信息个人
             this.OCRIdCardInfo.userName = data.ocrStr.userName;
