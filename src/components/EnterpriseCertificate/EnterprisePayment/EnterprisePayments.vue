@@ -469,18 +469,18 @@ export default {
         },
 
         //定义人工审核轮询
-        defineReviewPoll(params){
+        defineReviewPoll(params,auditStatus){
             this.timerReview = setInterval(()=> {
                  if(this.timeReviewNum>60*60){
                     clearInterval(this.timerReview);
                     return 
                 }
-                this.pollingReviewStatus(params)
+                this.pollingReviewStatus(params,auditStatus)  
                 this.timeReviewNum+=5;
             }, 5000);
         },
         // 查询人工审核状态
-        pollingReviewStatus(params){
+        pollingReviewStatus(params,auditStatus){
             server.checkManualReview({},this.interfaceCode).then(res=>{
                 // 0 通过
                 // 1 企业信息和个人信息后台审核未通过
@@ -488,7 +488,11 @@ export default {
                 // 3 个人信息后台审核未通过
                 // 4 后台审核进行中，请联系工作人员
                 if(res.data.resultCode == 0){
-                    this.subBankInfo(params)
+                    if(auditStatus == 2){
+                        this.defineMoneyPoll()    //打款中直接轮询打款状态
+                    }else{
+                        this.subBankInfo(params)
+                    }
                     this.once = false 
                     clearInterval(this.timerReview);
                 }else if(res.data.resultCode == 1 || res.data.resultCode == 2 || res.data.resultCode == 3){
@@ -551,10 +555,14 @@ export default {
                     to_acc_dept:resultData.to_acc_dept,                  //支行名称
                 }
                 if(resultData.auditStatus == 4 || resultData.authStatus == 2) {   
-                    this.defineReviewPoll(bankInfo)     //查询人工审核
+                    this.defineReviewPoll(bankInfo,resultData.auditSteps)     //查询人工审核
                     this.once = true;
                 }else{
-                    this.subBankInfo(bankInfo)            //触发小额打款  
+                    if(resultData.auditSteps == 2){        // == 2 打款中
+                        this.defineMoneyPoll()
+                    }else{
+                        this.subBankInfo(bankInfo)            //触发小额打款  
+                    }
                 }
             }   
         }).catch(err=>{
