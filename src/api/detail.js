@@ -13,7 +13,7 @@ export function b2bContrants(param,interfaceCode){
 /* b2b详情 */
 export function signFinish(contractNo){
     return request({
-        url: "/api/v1.4/contract/"+ contractNo +"/signFinish",
+        url: "/api/v1.4/contract/"+ contractNo +"/signFinish?t="+new Date().getTime(),
         method: "get",
         params: ''
     })

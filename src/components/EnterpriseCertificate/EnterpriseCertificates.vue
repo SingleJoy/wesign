@@ -281,8 +281,8 @@
           <p  v-if="IdCardWarn && authStatus!=1" class="el-icon-warning  result-warning"><span style="margin-left:10px;">个人信息审核未通过，请上传真实有效的个人信息</span></p>
            <div class="admin-type">
             <el-radio-group @change="changeAuthorType" v-model="adminType">
-              <el-radio  label='1' style='float:left;padding-top:5px;'>被授权人</el-radio>
-              <el-radio  label='0' style='float:left;padding-top:5px;'>法人本人</el-radio>
+              <!-- <el-radio  label='1' style='float:left;padding-top:5px;'>被授权人</el-radio> -->
+              <!-- <el-radio  label='0' style='float:left;padding-top:5px;'>法人本人</el-radio> -->
             </el-radio-group>
           </div>
           <div class="content-bg">
@@ -873,6 +873,7 @@
                             this.$message({
                                 showClose: true,
                                 message: '编辑信息和OCR信息一致',
+                                duration:'3000',
                                 type: 'success'
                             })
                             this.isTenantEdit = false
@@ -881,6 +882,7 @@
                             this.$message({
                                 showClose: true,
                                 message: '编辑信息和OCR信息不一致，将会触发人工审核',
+                                duration:'3000',
                                 type: 'error'
                             })
                             this.isTenantEdit = true
@@ -982,6 +984,7 @@
                         this.$message({
                             showClose: true,
                             message: '编辑信息和OCR信息一致',
+                            duration:'3000',
                             type: 'success'
                         })
 
@@ -991,6 +994,7 @@
                         this.$message({
                             showClose: true,
                             message: '编辑信息和OCR信息不一致，将会触发人工审核',
+                            duration:'3000',
                             type: 'error'
                         })
                         this.isPersonEdit = true;

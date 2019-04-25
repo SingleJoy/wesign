@@ -112,7 +112,7 @@ export function contractmoresign(interfaceCode,userCode,contractNo,param) {
 //签署成功
 export function signFinish(contractNo) {
   return request({
-    url: "api/v1.4/contract/"+contractNo+'/signFinish',
+    url: "api/v1.4/contract/"+contractNo+'/signFinish?t='+ new Date().getTime(),
     method: "get",
     params: ''
   })

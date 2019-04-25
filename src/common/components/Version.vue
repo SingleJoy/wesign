@@ -61,7 +61,7 @@
      .box-container a{
        position: absolute;
        right:0;
-       top:10px;
+       top:0px;
        width:30px;
        height: 30px;
        color:#fff;
