@@ -68,7 +68,7 @@ export function validateBank(str){
  *  @param {*validateBankNum} str
  */
 export function validateBankNum(str){
-    const reg = /^([0-9]\d{5,21})$/
+    const reg = /^([0-9]\d{5,30})$/
     return reg.test(str)
 }
 /**
