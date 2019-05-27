@@ -8,7 +8,7 @@
 <script>
 import OrderLists from './OrderLists';
 import Bottom from '@/common/components/Bottom';
-import Top from "../../../common/components/DemoTop";
+import Top from "@/common/components/Top";
   export default {
     name: 'OrderList',
     components:{
@@ -16,21 +16,11 @@ import Top from "../../../common/components/DemoTop";
       Top,
       Bottom
     },
-    data () {
-      return {
 
-      }
-    },
-
-    created() {
-
-    }
   }
 </script>
 <style lang="scss" scoped>
 
-  .OrderLists{
 
-  }
 </style>
 
