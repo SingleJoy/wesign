@@ -518,6 +518,15 @@ export const router = new Router({
           auth: true
         }
       },
+      {
+        //模板批量发起，合同列表
+        path: '/BatchContractList',
+        name: 'BatchContractList',
+        component: loadComponent('BatchImport/BatchContractList/BatchContractList'),
+        meta: {
+          auth: true
+        }
+      },
         //微签1.6 体验demo
         {
             path: '/DemoRegister',

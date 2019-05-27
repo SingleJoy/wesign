@@ -92,7 +92,7 @@
 
       },
       lookOrderListDetail(){
-        this.$router.push('/')
+        this.$router.push('/BatchContractList')
       }
     },
 
