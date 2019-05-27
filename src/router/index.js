@@ -38,6 +38,22 @@ export const router = new Router({
                 auth: false
             }
         }, {
+            path: '/BatchSigning',
+            name: 'BatchSigning',
+            component: loadComponent('BatchImport/BatchSign/BatchSigning'),
+            meta: {
+                auth: false
+            }
+        },
+        {
+            path: '/batchSigned',
+            name: 'batchSigned',
+            component: loadComponent('BatchImport/BatchSign/batchSigned'),
+            meta: {
+                auth: false
+            }
+        },
+        {
             path: '/Bind',
             name: 'BindCompany',
             component: loadComponent('UserRegister/BindCompany'),
