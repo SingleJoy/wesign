@@ -1,0 +1,73 @@
+.BatchContractLists{
+  position: relative;
+  .BatchContractLists-main{
+    width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    min-height: 600px;
+    .main-header{
+      position: relative;
+      border-bottom: 1px solid #ddd;
+      //padding-bottom: 20px;
+      background-color: #fff;
+      padding-top: 1px;
+      .header-name{
+        padding-bottom: 20px;
+        background-color: #fff;
+        padding-top: 1px;
+        .title{
+          height: 46px;
+          margin: 20px 0 0 15px;
+          line-height: 46px;
+          padding-left: 40px;
+          color: #fff;
+          font-size: 18px;
+          padding-top: 0 !important;
+          border-top: none !important;
+          background: url('/static/images/Common/title.png') no-repeat;
+        }
+      }
+      .order-info{
+        position: absolute;
+        display: inline-block;
+        margin-left: 200px;
+        margin-top: -40px;
+        span{
+          padding-left: 20px;
+          font-size: 14px;
+        }
+      }
+      .sign-operate{
+        float: right;
+        margin-right: 60px;
+        margin-top: -50px;
+        a{
+          display: inline-block;
+          border-radius: 5px;
+          width: 80px;
+          text-align: center;
+          font-size: 14px;
+          height: 30px;
+          line-height: 30px;
+          background-color: #4091fb;
+          color: #fff;
+        }
+      }
+
+    }
+    .main-body{
+      background-color: #fff;
+      position: relative;
+      padding: 20px;
+      .package-table{
+        padding: 20px;
+        .block{
+          text-align: center;
+          margin-top: 40px;
+        }
+      }
+    }
+
+  }
+
+}

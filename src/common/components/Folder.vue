@@ -140,7 +140,9 @@
         <div @click="EnterPer" :class="{'btn-active':$store.state.showTypePanel,'btn-default':(!$store.state.showTypePanel)}">企业对个人</div>
         <div style="margin-left: -5px;" @click="EnterEnter" :class="{'btn-active':(!$store.state.showTypePanel),'btn-default':$store.state.showTypePanel}">企业对企业</div>
       </div>
-
+      <div class="order-list" @click="goOrderList">
+        <p><img src="/static/images/Mycontract/shopping-cart.png"></p>
+      </div>
     </div>
 
     <el-dialog title="新增文件夹" :visible.sync="addFolderShow"  custom-class="folderDialog"  :before-close="handleClose">
@@ -567,7 +569,12 @@
          this.addFolderShow=false;
          this.ruleFormEdit.folderName='';
          this.ruleForm.folderName='';
+      },
+      //去批量合同订单列表
+      goOrderList(){
+        this.$router.push('/OrderList')
       }
+
     },
     created(){
       this.auditSteps = cookie.getJSON('tenant')[1].auditSteps;
@@ -583,7 +590,18 @@
 <style lang="scss" scoped>
   @import "../../common/styles/content.scss";
   @import "../../common/styles/Folder.scss";
-
+  .common-top{
+    position: relative;
+  }
+  .common-top .order-list{
+     display: inline-block;
+     position: absolute;
+     right: 20px;
+     top: 20px;
+   }
+  .common-top .order-list p{
+   cursor: pointer;
+  }
 </style>
 <style>
  .folderDialog,.add-folder-content{
@@ -592,9 +610,6 @@
   }
   .folderName-input{
    width: 360px;
-    /*padding: 0 15px;*/
-    /*height: 40px;*/
-    /*border: 1px solid #ddd;*/
     border-radius: 4px;
   }
 </style>

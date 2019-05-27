@@ -39,6 +39,22 @@ export const router = new Router({
                 auth: false
             }
         }, {
+            path: '/BatchSigning',
+            name: 'BatchSigning',
+            component: loadComponent('BatchImport/BatchSign/BatchSigning'),
+            meta: {
+                auth: false
+            }
+        },
+        {
+            path: '/batchSigned',
+            name: 'batchSigned',
+            component: loadComponent('BatchImport/BatchSign/batchSigned'),
+            meta: {
+                auth: false
+            }
+        },
+        {
             path: '/Bind',
             name: 'BindCompany',
             component: loadComponent('UserRegister/BindCompany'),
@@ -495,6 +511,24 @@ export const router = new Router({
                 auth: true
             }
         },
+      {
+        //模板批量发起，订单列表
+          path: '/OrderList',
+        name: 'OrderList',
+        component: loadComponent('BatchImport/OrderList/OrderList'),
+        meta: {
+          auth: true
+        }
+      },
+      {
+        //模板批量发起，合同列表
+        path: '/BatchContractList',
+        name: 'BatchContractList',
+        component: loadComponent('BatchImport/BatchContractList/BatchContractList'),
+        meta: {
+          auth: true
+        }
+      },
         //微签1.6 体验demo
         {
             path: '/DemoRegister',

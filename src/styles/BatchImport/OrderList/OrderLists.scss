@@ -1,0 +1,41 @@
+.OrderLists{
+  position: relative;
+  .OrderLists-main{
+    width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    min-height: 600px;
+    .main-header{
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+      background-color: #fff;
+      padding-top: 1px;
+      .title{
+        height: 46px;
+        margin: 20px 0 0 15px;
+        line-height: 46px;
+        padding-left: 40px;
+        color: #fff;
+        font-size: 18px;
+        padding-top: 0 !important;
+        border-top: none !important;
+        background: url('/static/images/Common/title.png') no-repeat;
+      }
+
+    }
+    .main-body{
+      background-color: #fff;
+      position: relative;
+      padding: 20px;
+      .package-table{
+        padding: 20px;
+        .block{
+          text-align: center;
+          margin-top: 40px;
+        }
+      }
+    }
+
+  }
+
+}
