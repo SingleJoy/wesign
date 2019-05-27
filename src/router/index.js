@@ -509,6 +509,15 @@ export const router = new Router({
                 auth: true
             }
         },
+      {
+        //模板批量发起，订单列表
+          path: '/OrderList',
+        name: 'OrderList',
+        component: loadComponent('BatchImport/OrderList/OrderList'),
+        meta: {
+          auth: true
+        }
+      },
         //微签1.6 体验demo
         {
             path: '/DemoRegister',
