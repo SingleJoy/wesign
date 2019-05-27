@@ -3,7 +3,10 @@
     <div class="BatchContractLists-main">
       <div class="main-header">
         <div class="header-name">
-          <p>合同列表</p>
+          <p class="title">合同列表</p>
+
+        </div>
+        <div class="order-info">
           <span>
             订单编号:
             <b>{{orderNum}}</b>
