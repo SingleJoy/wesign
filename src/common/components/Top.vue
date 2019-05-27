@@ -489,6 +489,7 @@
       },
     },
     created(){
+        console.log(33333)
 
       let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       if(auditSteps == 3){
