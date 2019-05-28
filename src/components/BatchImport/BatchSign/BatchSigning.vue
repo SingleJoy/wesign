@@ -3,13 +3,13 @@
         <Top></Top>
         <div class="batchsign-main">
             <div class="batchsign-progress">
-                <div class="batchsign-progress-title">已经完成100%</div>
+                <div class="batchsign-progress-title">已经完成70%</div>
                 <el-progress :percentage="70" :show-text="false"></el-progress>
             </div>
             <div class="progress-hint-title">你可以在当前页面等待说有的合同签署完成</div>
             <div class="progress-hint-operate">
                 <span>不想等待</span>
-                <span class="back">返回首页</span>
+                <button class="back" @click="goBack">返回首页</button>
             </div>
             <div class="contract-describe">
                 <div>
@@ -24,8 +24,13 @@
                     <div class="progress-hint-end">签署成功的链接将会通过短信的方式通知到签署合约方</div>
                     <div class="contract-link">
                         <span>签约室链接：</span>
-                        <span class="contract-link-url">www.zqsign.com</span>
-                        <span class="copy-link">复制链接</span>
+                        <span class="contract-link-url">{{url}}</span>
+                        <button 
+                            class="copy-link"  
+                            v-clipboard:copy="url"
+                            v-clipboard:success="onCopy"
+                            v-clipboard:error="onError">复制链接
+                        </button>
                     </div>
                 </div>
             </div>
@@ -33,7 +38,7 @@
         <Bottom></Bottom>
     </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
     .batchsign-main {
         width: 1200px;
         margin: 20px auto;
@@ -43,7 +48,7 @@
             width: 670px;
             margin: 30px auto;
             .batchsign-progress-title {
-                margin-bottom: 30px;
+                margin-bottom: 10px;
                 text-align: center;
                 color: #666666;
             }
@@ -64,6 +69,10 @@
                 color: #4091fb;
                 font-weight: 700;
                 margin-left: 20px;
+                border: none;
+                background-color: #fff;
+                cursor: pointer;
+                font-size: 16px;
             }
         }
         .progress-hint-content {
@@ -92,13 +101,16 @@
                 .copy-link {
                     display: inline-block;
                     width: 100px;
-                    height: 44px;
-                    line-height: 44px;
+                    height: 36px;
+                    line-height: 36px;
                     text-align: center;
                     color: #4091fb;
                     border: 1px solid #4091fb;
-                    border-radius: 15px;
+                    border-radius: 5px;
                     margin-left: 20px;
+                    border: 1px solid #4091fb;
+                    background-color: #fff;
+                    cursor: pointer;
                 }
             }
         }
@@ -112,12 +124,26 @@ export default {
     name: "BatchSigning",
     data() {
         return {
-
+            url: "www.zqsignmd.com"
         }
     },
     components: {
         Top,
         Bottom
+    },
+    methods: {
+        //复制成功
+        onCopy: function (e) {
+            console.log(e)
+        },
+        //复制失败
+        onError: function (e) {
+            console.log(e)
+        },
+        //返回首页
+        goBack(){
+            this.$router.push("/Home");
+        }
     }
 }
 </script>

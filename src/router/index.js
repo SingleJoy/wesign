@@ -46,9 +46,9 @@ export const router = new Router({
             }
         },
         {
-            path: '/batchSigned',
-            name: 'batchSigned',
-            component: loadComponent('BatchImport/BatchSign/batchSigned'),
+            path: '/BatchSigned',
+            name: 'BatchSigned',
+            component: loadComponent('BatchImport/BatchSign/BatchSigned'),
             meta: {
                 auth: false
             }
