@@ -490,6 +490,7 @@
       },
     },
     created(){
+        console.log(33333)
 
 
     },

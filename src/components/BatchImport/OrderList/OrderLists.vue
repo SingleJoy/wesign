@@ -3,7 +3,6 @@
      <div class="OrderLists-main">
        <div class="main-header">
          <p class="title">批量合同订单</p>
-
        </div>
        <div class="main-body">
          <div class="package-table">
@@ -92,7 +91,7 @@
 
       },
       lookOrderListDetail(){
-        this.$router.push('/')
+        this.$router.push('/BatchContractList')
       }
     },
 

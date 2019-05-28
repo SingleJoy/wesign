@@ -1,18 +1,22 @@
 <template>
-    <div class='BuyProduct'>
-        <!-- <BuyProducts></BuyProducts> -->
+    <div class='ImportData'>
+        <Tops></Tops>
+        <ImportDatas></ImportDatas>
         <Bottom></Bottom>
     </div>
 </template>
 <script>
-// import MuTop from '../../common/components/MuTop'
-import ImportData from './ImportData'
-// import Bottom from '../../common/components/Bottom'
+import Tops from '@/common/components/Tops'
+import ImportDatas from './ImportDatas'
+import Bottom from '@/common/components/Bottom'
 export default {
-  name: 'ImportData',
-  components: {
-    ImportData,
-    // Bottom
+    name: 'ImportData',
+    components: {
+        Tops,
+        ImportDatas,
+        Bottom
   }
 }
 </script>
+
+

@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsParallelPlugin = require('webpack-parallel-uglify-plugin');
 const md5 = require('js-md5') 
 
 const env = require('../config/prod.env')
@@ -42,6 +43,15 @@ const webpackConfig = merge(baseWebpackConfig, {
       sourceMap: config.build.productionSourceMap,
       parallel: true
     }),
+    //     new UglifyJsParallelPlugin({
+    //         cacheDir: '.cache/',
+    //         uglifyJS:{
+    //         output: {
+    //             comments: false
+    //         },
+    //         compress: false
+    //         }
+    // }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[chunkhash].css'+'?v='+md5(env.VERSION)),
@@ -73,7 +83,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
+      multihtmlCache: true
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),

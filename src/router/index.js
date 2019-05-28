@@ -13,6 +13,7 @@ import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署
 Vue.use(Router)
 
 function loadComponent(view) {
+    // console.log(22222)
     return () => import (/* webpackChunkName: "view-[request]" */ `@/components/${view}.vue`)
 }
 
@@ -238,6 +239,7 @@ export const router = new Router({
             path: '/batchSetting',
             name: 'batchSetting',
             component: loadComponent('Templatebatch/batchSetting/batchSetting'),
+            // component: resolve => require(['@/components/Templatebatch/batchSetting/batchSetting.vue'],resolve),
             meta: {
                 auth: true
             }
@@ -518,6 +520,15 @@ export const router = new Router({
           auth: true
         }
       },
+      {
+        //模板批量发起，合同列表
+        path: '/BatchContractList',
+        name: 'BatchContractList',
+        component: loadComponent('BatchImport/BatchContractList/BatchContractList'),
+        meta: {
+          auth: true
+        }
+      },
         //微签1.6 体验demo
         {
             path: '/DemoRegister',
@@ -577,6 +588,16 @@ export const router = new Router({
                 keepAlive: true
             }
         },
+
+        //微签1.9
+        {
+            path: '/ImportData',
+            name: 'ImportData',
+            component: loadComponent('BatchImport/ImportData/ImportData'),
+            meta: {
+                auth: true,
+            }
+        }
     ],
     scrollBehavior(to, from, savedPosition) {
         if(savedPosition) {
