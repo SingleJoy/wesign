@@ -88,7 +88,10 @@ export default {
     methods: {
         //复制成功
         onCopy: function (e) {
-            console.log(e)
+            this.$message({
+                message: '签约室链接复制成功',
+                type: 'success'
+            });
         },
         //复制失败
         onError: function (e) {
