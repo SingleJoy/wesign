@@ -1,127 +1,170 @@
 <template>
   <div class="BatchContractLists">
     <div class="BatchContractLists-main">
-      <div class="main-header">
-        <div class="header-name">
-          <p class="title">合同列表</p>
-
+        <div class="main-header">
+            <div class="header-name">
+            <p class="title">合同列表</p>
+            </div>
+            <div class="order-info">
+            <span>
+                订单编号:
+                <b>{{orderNum}}</b>
+            </span>
+            </div>
+            <div class="sign-operate">
+            <a href="javascript:void (0);">一键签署</a>
+            </div>
         </div>
-        <div class="order-info">
-          <span>
-            订单编号:
-            <b>{{orderNum}}</b>
-          </span>
+        <div class="main-body">
+            <div class="package-table">
+            <el-table
+                :data="tableData"
+                stripe
+                style="width: 100%"
+                :row-style="tableRowStyle"
+                :header-cell-style="tableHeaderColor">
+                <el-table-column
+                type="selection"
+                width="55">
+                </el-table-column>
+                <el-table-column
+                prop="contractName"
+                label="合同名称"
+                width="250"
+                align="center">
+                </el-table-column>
+                <el-table-column
+                prop="signer"
+                label="签署人"
+                width="150"
+                align="center">
+                </el-table-column>
+                <el-table-column
+                prop="createTime"
+                label="发起时间"
+                width="200"
+                align="center">
+                </el-table-column>
+                <el-table-column
+                prop="endTime"
+                label="截止时间"
+                width="200"
+                align="center">
+                </el-table-column>
+                <el-table-column
+                prop="currentState"
+                label="当前状态"
+                width="120"
+                align="center">
+                </el-table-column>
+                <el-table-column
+                prop="operation"
+                label="操作"
+                align="center">
+                <template slot-scope="scope">
+                    <el-button  type="text" size="mini" @click="sign">签署</el-button>
+                    <el-button  type="text" size="mini" @click="previerContract(scope.row)">查看</el-button>
+                </template>
+                </el-table-column>
+            </el-table>
+            <div class="block">
+                <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-size="10"
+                layout="prev, pager, next, total, jumper"
+                :total="totalItemNumber">
+                </el-pagination>
+            </div>
+            </div>
         </div>
-        <div class="sign-operate">
-           <a href="javascript:void (0);">一键签署</a>
-        </div>
-      </div>
-      <div class="main-body">
-        <div class="package-table">
-          <el-table
-            :data="tableData"
-            stripe
-            style="width: 100%"
-            :row-style="tableRowStyle"
-            :header-cell-style="tableHeaderColor">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              prop="contractName"
-              label="合同名称"
-              width="250"
-              align="center">
-            </el-table-column>
-            <el-table-column
-              prop="signer"
-              label="签署人"
-              width="150"
-              align="center">
-            </el-table-column>
-            <el-table-column
-              prop="createTime"
-              label="发起时间"
-              width="200"
-              align="center">
-            </el-table-column>
-            <el-table-column
-              prop="endTime"
-              label="截止时间"
-              width="200"
-              align="center">
-            </el-table-column>
-            <el-table-column
-              prop="currentState"
-              label="当前状态"
-              width="120"
-              align="center">
-            </el-table-column>
-            <el-table-column
-              prop="operation"
-              label="操作"
-              align="center">
-              <template slot-scope="scope">
-
-                <el-button  type="text" size="mini" @click="sign">签署</el-button>
-                <el-button  type="text" size="mini" @click="lookDetail">查看</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="block">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-size="10"
-              layout="prev, pager, next, total, jumper"
-              :total="totalItemNumber">
-            </el-pagination>
-          </div>
-        </div>
-
-      </div>
-
     </div>
+     <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="showDialogs">
+        <div class="img-body">
+            <div v-for="(item,index) in imgList" :key="index" >
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+            </div>
+            <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
+            <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
+            <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
+            <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
+            <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
+            <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
+        </div>
+        <div class="contract-detail">
+            <div class="contract-info-box">
+                <p>合同信息</p>
+                <ul>
+                    <li>
+                        <span class="info-title">合同名称：</span>
+                        <span class="content">租房</span>
+                    </li>
+                    <li>
+                        <span class="info-title">签署截止日期：</span>
+                        <span class="content">永久有效</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="signer-info-box">
+                <p>签署人员</p>
+                <ul>
+                    <li>
+                        <span class="info-title">姓名：</span>
+                        <span class="content">租房</span>
+                    </li>
+                    <li>
+                        <span class="info-title">身份证号：</span>
+                        <span class="content">111111111123122232</span>
+                    </li>
+                    <li>
+                        <span class="info-title">手机号码：</span>
+                        <span class="content">111111111123122232</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </el-dialog>
   </div>
 </template>
 <script>
-
   export default {
     name: 'OrderLists',
     data () {
       return {
-        tableData:[
-          {'contractName':'合同名称111','signer':'张三','createTime':'2019-01-01','endTime':'2020-01-01','currentState':'待我签署',}
-        ],
-        currentPage:0,
-        totalItemNumber:0,
-        orderNum:2222222222
-      }
+            dialVisible:false,
+            imgList:[],
+            tableData:[
+                {'contractName':'合同名称111','signer':'张三','createTime':'2019-01-01','endTime':'2020-01-01','currentState':'待我签署',}
+            ],
+            currentPage:0,
+            totalItemNumber:0,
+            orderNum:2222222222
+        }
     },
     methods:{
-      tableRowStyle({ row, rowIndex }) {
-        return 'border: 1px solid red;'
-      },
-      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex === 0) {
-          return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333333;'
-        }
-      },
-      handleSizeChange(value){
+        // 查看合同
+        previerContract(){
+            this.dialVisible = true;
+        },
+        tableRowStyle({ row, rowIndex }) {
+            return 'border: 1px solid red;'
+        },
+        tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+            if (rowIndex === 0) {
+            return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333333;'
+            }
+        },
+        handleSizeChange(value){
 
-      },
-      handleCurrentChange(){
+        },
+        handleCurrentChange(){
 
-      },
-      sign(){
+        },
+        sign(){
 
-      },
-      lookDetail(){
-
-        this.$router.push('/ContractInfo');
-      }
+        },
     },
 
     created() {
@@ -129,7 +172,103 @@
     }
   }
 </script>
+<style lang="scss">
+@import "@/common/styles/content.scss";
+.BatchContractLists {
+    .el-dialog__wrapper{
+        .img-body{
+            img{
+                width:100%;
+                margin-bottom: 10px;
+            }
+        }
+        .showDialogs{
+            margin-top: 44px!important;
+            width: 780px;
+            .el-dialog__header{
+                background: #fff;
+                border-bottom: 1px solid #dad4d4;
+            }
+            .el-dialog__body{
+                height: 787px;
+                overflow: auto;
+                background: #eaeaea;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px 20px;
+            }
+            /* 滚动槽 */
+            .el-dialog__body::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            .el-dialog__body::-webkit-scrollbar-track {
+                border-radius: 3px;
+                background: rgba(0,0,0,0.06);
+                -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
+            }
+            /* 滚动条滑块 */
+            .el-dialog__body::-webkit-scrollbar-thumb {
+                border-radius: 3px;
+                background: rgba(0,0,0,0.12);
+                -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            }
+        }
+        .contract-detail{
+            position: absolute;
+            right: -311px;
+            top: 90px;
+            ul li {
+                line-height: 14px;
+                margin-top:20px;
+                .info-title{
+                    font-size: 14px;
+                    color:#666
+                }
+                .content{
+                    font-size: 14px;
+                    color:#333;
+                }
+            }
+            .contract-info-box{
+                width: 291px;
+                height: 185px;
+                background: #ebf2fc;
+                border-radius: 5px;
+                padding: 20px 10px;
+                box-sizing: border-box;
+                p{
+                    font-size: 18px;
+                    color:#4091fb;
+                    border-bottom: 1px dashed #4091fb;
+                    padding-bottom: 20px;
+                    line-height: 18px;
+                }
+                
+            }
+            .signer-info-box{
+                width: 291px;
+                height: 185px;
+                background: #fdf6f1;
+                margin-top:20px;
+                border-radius: 5px;
+                box-sizing: border-box;
+                    padding: 20px 10px;
+                p{
+                    font-size: 18px;
+                    color:#FBBB40;
+                    padding-bottom: 20px;
+                    line-height: 18px;
+                    border-bottom: 1px dashed #FBBB40;
+                }
+            }
+
+        }
+            
+    }
+}
+</style>
 <style lang="scss" scoped>
-  @import "../../../styles/BatchImport/BatchContractList/BatchContractList.scss";
+@import "../../../styles/BatchImport/BatchContractList/BatchContractList.scss";
 </style>
 
