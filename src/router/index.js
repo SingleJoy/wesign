@@ -39,6 +39,14 @@ export const router = new Router({
                 auth: false
             }
         }, {
+            path: '/CreateContract',
+            name: 'CreateContract',
+            component: loadComponent('BatchImport/CreateContract/CreateContract'),
+            meta: {
+                auth: false
+            }
+        },
+        {
             path: '/BatchSigning',
             name: 'BatchSigning',
             component: loadComponent('BatchImport/BatchSign/BatchSigning'),
