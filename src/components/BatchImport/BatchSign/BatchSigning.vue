@@ -54,7 +54,7 @@ export default {
         Bottom
     },
     methods: {
-        //复制成功
+        //复制成功  
         onCopy: function (e) {
             this.$message({
                 message: '签约室链接复制成功',
