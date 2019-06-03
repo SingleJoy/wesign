@@ -249,11 +249,11 @@ export default {
                 margin-top: 20px;
                 display: flex;
                 justify-content: space-between;
-                .dashed-line{
-                    height:215px;
-                    border-left:1px dashed #529bfb;
-                    width:1px;
-                }
+                // .dashed-line{
+                //     height:215px;
+                //     border-left:1px dashed #529bfb;
+                //     width:1px;
+                // }
                 .boxshadow{
                     // box-shadow: 1px 2px 10px #ccc;
                     border-radius: 3px;
@@ -324,28 +324,25 @@ export default {
                         }
                     }
                 }
-                .importinfo-right{
-                    .unpass-title{
-                        font-size: 18px;
-                        color:#4091fb;
-                    }
-                    .reason-list{
-                        width: 495px;
-                        height: 109px;
-                        border:1px solid #4091fb;
-                        border-radius: 3px;
-                        margin-top:18px;
-                        overflow:auto;
-                        padding: 10px;
-                        box-sizing: border-box;
-                    }
-                    .item{
-                        margin-bottom: 14px;
-                    }
-                }
-               
-               
-
+                // .importinfo-right{
+                //     .unpass-title{
+                //         font-size: 18px;
+                //         color:#4091fb;
+                //     }
+                //     .reason-list{
+                //         width: 495px;
+                //         height: 109px;
+                //         border:1px solid #4091fb;
+                //         border-radius: 3px;
+                //         margin-top:18px;
+                //         overflow:auto;
+                //         padding: 10px;
+                //         box-sizing: border-box;
+                //     }
+                //     .item{
+                //         margin-bottom: 14px;
+                //     }
+                // }
             }
            
         }
