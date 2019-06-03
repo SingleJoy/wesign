@@ -469,18 +469,19 @@
   .dialogbg .warn-info{
     width: 59.5628rem;
     height:32.75rem;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
-    margin-left: -25.05rem;
-    margin-top: -20rem;
+    transform: translate(-50%, -50%);
+    max-height: calc(100% - 30px);
+    max-width: calc(100% - 30px);
     background-size: 100% 100%;
     background:url("/static/images/Merchant/Merchant-dialog.png") no-repeat;
   }
   .dialogbg .warn-info .close-warn{
     position: absolute;
-    right: 35px;
-    top: 20px;
+    right: 1rem;
+    top: 1rem;
     font-size: 20px;
     color: #666;
   }
