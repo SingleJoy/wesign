@@ -1,8 +1,10 @@
 <template>
   <div class='Merchants'>
-    <div v-show="topTip == false" class="main_tips" id="main_tips">
-      <span style="text-align: left;padding-left: 10px;">您还未完成实名认证，为了不影响您正常业务办理，请进入<span class="to-account" @click="toMyAccount">【我的账户】</span>完成实名认证</span>
-      <span class="cancelBtn" @click="cancelTip">X</span>
+
+    <div class="dialogbg" v-show="topTip">
+      <div class="warn-info">
+        <a  href="javascript:void(0);"  class="close-warn" @click="cancelTip">X</a>
+      </div>
     </div>
 
     <div class="main" style="background-color: #fff;padding-top: 10px;">
@@ -140,13 +142,12 @@
   import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
   import {homePageContractLists} from '@/api/home'
-
   export default {
     name: 'Merchants',
     data() {
       return {
         popup:false,
-        topTip:true,
+        topTip:false,
         tableData: [],
         download :'',
         loading: true,
@@ -159,8 +160,8 @@
         arr: [],
         uploadFile:true,
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-        auditStatus:'',
-
+        auditStatus:cookie.getJSON('tenant')[1].auditStatus,
+        auditSteps:cookie.getJSON('tenant')[1].auditSteps?cookie.getJSON('tenant')[1].auditSteps:'',
         num:''
       }
     },
@@ -188,8 +189,7 @@
         this.$router.push('/NoReal')
       },
       cancelTip(){
-
-        document.getElementById("main_tips").style.display="none";
+        this.topTip=false;
       },
       jumper (item,index) {
         if( item.templateSpecies == 'batch'){
@@ -275,15 +275,14 @@
       if(!cookie.getJSON('tenant')){
         return
       }
-      this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      var authStatus = cookie.getJSON('tenant')[0].authStatus
-      var auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+
+      let auditStatus = cookie.getJSON('tenant')[1].auditStatus
+      let auditSteps = cookie.getJSON('tenant')[1].auditSteps
       if(auditSteps!=3){
-        this.topTip = false
+        this.topTip = true
       }
-      var data =[];
-      var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
+      let data =[];
+      let requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
 
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
         this.num=res.data.content.length;
@@ -294,17 +293,17 @@
           obj.createTime = res.data.content[i].createTime;
           obj.signers =  res.data.content[i].signers;
           obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.validTime =  res.data.content[i].validTime
-          obj.contractType = res.data.content[i].contractType
-          obj.operation = ''
+          obj.validTime =  res.data.content[i].validTime;
+          obj.contractType = res.data.content[i].contractType;
+          obj.operation = '';
           switch (obj.contractStatus){
             case "1":
               obj.contractStatus="待我签署";
-              obj.operation = 1
+              obj.operation = 1;
               break;
             case "2":
               obj.contractStatus="待他人签署";
-              obj.operation = 2
+              obj.operation = 2;
               break;
             case "3":
               obj.contractStatus="已生效";
@@ -382,7 +381,6 @@
   .view{
     width: 100%;
     height: 100%;
-    background: #000;
     position: absolute;
     z-index: 4000;
     background-color: rgba(0,0,0,0.5);
@@ -390,17 +388,7 @@
     top:0;
 
   }
-  .dialogbg{
-    background:#000;
-    background:rgba(0,0,0,.3);
-    width:100%;
-    height:1080px;
-    position: absolute;
-    left:0;
-    top:0;
-    z-index: 1999;
 
-  }
   .el-upload-dragger{
     width: 680px !important;
     height: 154px !important;
@@ -467,5 +455,33 @@
     padding-top: 0 !important;
     border-top: none !important;
     background: url("/static/images/Common/title.png") no-repeat;
+  }
+  .dialogbg {
+    background: #000;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 1080px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1999;
+  }
+  .dialogbg .warn-info{
+    width: 59.5628rem;
+    height:32.75rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -25.05rem;
+    margin-top: -20rem;
+    background-size: 100% 100%;
+    background:url("/static/images/Merchant/Merchant-dialog.png") no-repeat;
+  }
+  .dialogbg .warn-info .close-warn{
+    position: absolute;
+    right: 35px;
+    top: 20px;
+    font-size: 20px;
+    color: #666;
   }
 </style>
