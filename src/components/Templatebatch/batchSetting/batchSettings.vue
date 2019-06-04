@@ -164,10 +164,15 @@
                     class="upload-demo"
                     action="https://jsonplaceholder.typicode.com/posts/"
                     :on-preview="handlePreview"
-                    
-                    :on-remove="handleRemove"
+                    :before-upload="handleChange1"
+                    :on-success="fileSuccess1"
+                    :show-file-list= false
+                    :file-list="fileList"
+                    accept='.excel'
+                    element-loading-text="拼命上传中"
+                    element-loading-background="rgba(0, 0, 0, 0.5)"
                     multiple
-                    :limit="3">
+                    >
                     <el-button size="small" type="primary">确定</el-button>
                 </el-upload>
             </span>
