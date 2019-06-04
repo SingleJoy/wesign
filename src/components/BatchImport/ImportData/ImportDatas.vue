@@ -30,13 +30,13 @@
                                 </p>
                             </li>
                         </ul>
-                        <div class="result-btn">
-                            <el-button type="primary" class="continue-import">继续导入</el-button>
-                            <el-button type="primary" class="import-data">导出数据</el-button>
-                        </div>
+                    </div>
+                    <div class="result-btn">
+                        <el-button type="primary" class="continue-import">继续导入</el-button>
+                        <el-button type="primary" class="import-data">导出数据</el-button>
                     </div>
                 </div>
-                <div class="dashed-line"></div>
+                <!-- <div class="dashed-line"></div>
                 <div class="importinfo-right boxshadow">
                     <p class="unpass-title">未通过原因</p>
                     <div class="reason-list">
@@ -45,7 +45,7 @@
                             <span>{{item.reason}}</span>
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="title" style="margin-top: 15px">签署人信息</div>
@@ -244,14 +244,16 @@ export default {
                 }
             }
             .info-box{
-                margin-top:20px;
+                width: 754px;
+                margin: 0 auto;
+                margin-top: 20px;
                 display: flex;
                 justify-content: space-between;
-                .dashed-line{
-                    height:215px;
-                    border-left:1px dashed #529bfb;
-                    width:1px;
-                }
+                // .dashed-line{
+                //     height:215px;
+                //     border-left:1px dashed #529bfb;
+                //     width:1px;
+                // }
                 .boxshadow{
                     // box-shadow: 1px 2px 10px #ccc;
                     border-radius: 3px;
@@ -260,6 +262,7 @@ export default {
                 .importinfo-left{
                     width:560px;
                     padding:0 10px;
+                    display: flex;
                      .result-list ul{
                         display: flex;
                         box-sizing: border-box;
@@ -303,8 +306,12 @@ export default {
                     }
                     .result-btn{
                         text-align: center;
-                        margin-top:35px;
-                        margin-bottom: 14px;
+                        margin-top:20px;
+                        margin-left: 30px;
+                        .el-button+.el-button {
+                            margin-left: 0;
+                            margin-top: 20px;
+                        }
                         .el-button{
                             background: #fff;
                             color: #4091fb;
@@ -317,28 +324,25 @@ export default {
                         }
                     }
                 }
-                .importinfo-right{
-                    .unpass-title{
-                        font-size: 18px;
-                        color:#4091fb;
-                    }
-                    .reason-list{
-                        width: 495px;
-                        height: 109px;
-                        border:1px solid #4091fb;
-                        border-radius: 3px;
-                        margin-top:18px;
-                        overflow:auto;
-                        padding: 10px;
-                        box-sizing: border-box;
-                    }
-                    .item{
-                        margin-bottom: 14px;
-                    }
-                }
-               
-               
-
+                // .importinfo-right{
+                //     .unpass-title{
+                //         font-size: 18px;
+                //         color:#4091fb;
+                //     }
+                //     .reason-list{
+                //         width: 495px;
+                //         height: 109px;
+                //         border:1px solid #4091fb;
+                //         border-radius: 3px;
+                //         margin-top:18px;
+                //         overflow:auto;
+                //         padding: 10px;
+                //         box-sizing: border-box;
+                //     }
+                //     .item{
+                //         margin-bottom: 14px;
+                //     }
+                // }
             }
            
         }
