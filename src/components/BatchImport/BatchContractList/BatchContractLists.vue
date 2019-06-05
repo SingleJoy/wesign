@@ -11,7 +11,7 @@
                 <b>{{conOrderNo}}</b>
             </span>
                 </div>
-                <div class="sign-operate">
+                <div class="sign-operate" @click="signAll()">
                     <a href="javascript:void (0);">一键签署</a>
                 </div>
             </div>
@@ -126,7 +126,7 @@
     </div>
 </template>
 <script>
-    import {getcontracts} from '@/api/template.js'
+    import {getcontracts,contractkeywordsignNew} from '@/api/template.js'
     export default {
         name: 'OrderLists',
         data () {
@@ -136,6 +136,7 @@
                 tableData:[],
                 pageNum:1,
                 totalItemNumber:0,
+                interfaceCode:sessionStorage.getItem("interfaceCode"),
                 accountCode:sessionStorage.getItem("accountCode"),
                 conOrderNo:sessionStorage.getItem("conOrderNo"),
             }
@@ -158,6 +159,18 @@
             },
             handleCurrentChange(){
 
+            },
+            signAll(){
+               let params={
+                   interfaceCode:this.interfaceCode,
+                   conOrderNo:this.conOrderNo,
+               };
+                contractkeywordsignNew(this.interfaceCode,this.conOrderNo,params).then(res=>{
+
+
+                }).catch(error=>{
+
+                })
             },
             sign(){
 

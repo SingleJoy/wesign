@@ -128,11 +128,18 @@ export function getconorderlock(accountCode,conOrderNo) {
 }
 //订单合同列表查询
 export function getcontracts(accountCode,conOrderNo,params) {
-
     return request({
         url: "api/v1.9/account/"+accountCode+'/conorder/'+conOrderNo+'/getcontracts',
         method: "get",
         params: params
+    })
+}
+// / 一键签署页面
+export function contractkeywordsignNew(interfaceCode,conOrderNo,params) {
+    return request({
+        url: "api/v1.9/tenant/"+interfaceCode+'/contractkeywordsign/'+conOrderNo,
+        method: "post",
+        data: params
     })
 }
 
