@@ -1,6 +1,6 @@
 <template>
     <div class='ImportData'>
-        <Tops></Tops>
+        <!-- <Tops></Tops> -->
         <ImportDatas></ImportDatas>
         <Bottom></Bottom>
     </div>
