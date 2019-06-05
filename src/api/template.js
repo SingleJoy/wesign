@@ -109,6 +109,32 @@ export function contractmoresign(interfaceCode,contractNo,param) {
   })
 }
 
+// 订单列表查询
+export function getcontractorders(accountCode,param) {
+  return request({
+    url: "api/v1.9/account/"+accountCode+'/conorder/getcontractorders',
+    method: "get",
+    params: param
+  })
+}
+//订单是否被操作
+export function getconorderlock(accountCode,conOrderNo) {
+    let t=Math.random();
+   return request({
+    url: "api/v1.9/account/"+accountCode+'/conorder/'+conOrderNo+'/getconorderlock?t='+t,
+    method: "get",
+    params: ''
+  })
+}
+//订单合同列表查询
+export function getcontracts(accountCode,conOrderNo,params) {
+
+    return request({
+        url: "api/v1.9/account/"+accountCode+'/conorder/'+conOrderNo+'/getcontracts',
+        method: "get",
+        params: params
+    })
+}
 
 //批量上传发起流程 api 
 

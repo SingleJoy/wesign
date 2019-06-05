@@ -1,106 +1,143 @@
 <template>
-  <div class="OrderLists">
-     <div class="OrderLists-main">
-       <div class="main-header">
-         <p class="title">批量合同订单</p>
-       </div>
-       <div class="main-body">
-         <div class="package-table">
-           <el-table
-             :data="tableData"
-             stripe
-             style="width: 100%"
-             :row-style="tableRowStyle"
-             :header-cell-style="tableHeaderColor">
-             <el-table-column
-               prop="orderName"
-               label="订单编号"
-               width="300"
-               align="center">
-             </el-table-column>
-             <el-table-column
-               prop="createdTime"
-               label="生成时间"
-               width="300"
-               align="center">
-             </el-table-column>
-             <el-table-column
-               prop="applyTemplate"
-               label="应用模板"
-               width="300"
-               align="center">
-             </el-table-column>
-             <el-table-column
-               prop="num"
-               label="份数"
-               align="center">
-             </el-table-column>
-             <el-table-column
-               prop="operation"
-               label="操作"
-               align="center">
-               <template slot-scope="scope">
+    <div class="OrderLists">
+        <div class="OrderLists-main">
+            <div class="main-header">
+                <p class="title">批量合同订单</p>
+            </div>
+            <div class="main-body">
+                <div class="package-table">
+                    <el-table
+                        :data="tableData"
+                        stripe
+                        style="width: 100%"
+                        :row-style="tableRowStyle"
+                        :header-cell-style="tableHeaderColor">
+                        <el-table-column
+                            prop="conOrderNo"
+                            label="订单编号"
+                            width="300"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="createdTime"
+                            label="生成时间"
+                            width="300"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="applyTemplate"
+                            label="应用模板"
+                            width="300"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="num"
+                            label="份数"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="operation"
+                            label="操作"
+                            align="center">
+                            <template slot-scope="scope">
 
-                 <el-button  type="primary" size="mini" @click="lookOrderListDetail">查看</el-button>
-               </template>
-             </el-table-column>
-           </el-table>
-           <div class="block">
-             <el-pagination
-               @size-change="handleSizeChange"
-               @current-change="handleCurrentChange"
-               :current-page="currentPage"
-               :page-size="10"
-               layout="prev, pager, next, total, jumper"
-               :total="totalItemNumber">
-             </el-pagination>
-           </div>
-         </div>
+                                <el-button  type="primary" size="mini" @click="lookOrderListDetail(scope.row)">查看</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="block">
+                        <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="pageNum"
+                            :page-size="10"
+                            layout="prev, pager, next, total, jumper"
+                            :total="totalItemNumber">
+                        </el-pagination>
+                    </div>
+                </div>
 
-       </div>
+            </div>
 
-     </div>
-  </div>
+        </div>
+    </div>
 </template>
 <script>
+    import {getcontractorders,getconorderlock} from '@/api/template.js'
+    export default {
+        name: 'OrderLists',
+        data () {
+            return {
+                accountCode:sessionStorage.getItem("accountCode"),
+                tableData:[],
+                pageNum:1,
+                totalItemNumber:0
+            }
+        },
+        methods:{
+            tableRowStyle({ row, rowIndex }) {
+                return 'border: 1px solid red;'
+            },
+            tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+                if (rowIndex === 0) {
+                    return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333333;'
+                }
+            },
+            handleSizeChange(){
 
-  export default {
-    name: 'OrderLists',
-    data () {
-      return {
-        tableData:[
-          {'orderName':'订单编号','createdTime':'创建时间','applyTemplate':'应用模板','num':'份数'}
-        ],
-        currentPage:0,
-        totalItemNumber:0
-      }
-    },
-    methods:{
-      tableRowStyle({ row, rowIndex }) {
-        return 'border: 1px solid red;'
-      },
-      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex === 0) {
-          return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333333;'
+            },
+            handleCurrentChange(value){
+                this.pageNum=value;
+                this.getData();
+            },
+            lookOrderListDetail(row){
+                console.log(row)
+                let conOrderNo=row.conOrderNo;
+                getconorderlock(this.accountCode,conOrderNo).then(res=>{
+                    if(res.data.resultCode==1){
+                        sessionStorage.setItem("conOrderNo",conOrderNo);
+                        this.$router.push('/BatchContractList');
+                    }else{
+                        this.$message({
+                            type: 'error',
+                            message: res.data.resultMessage
+                        });
+                    }
+
+                }).catch(error=>{
+
+                });
+
+
+            },
+            getData(){
+                let params={
+                    pageNum:this.pageNum,
+                    pageSize:10,
+                };
+                getcontractorders(this.accountCode,params).then(res=>{
+
+                    if(res.data.resultCode==1){
+                        this.totalItemNumber=res.data.data.totalItemNumber;
+                        this.tableData=res.data.dataList;
+                    }else{
+                        this.$message({
+                            type: 'error',
+                            message: res.data.resultMessage
+                        });
+                    }
+                }).catch(error=>{
+
+                })
+            }
+        },
+
+        created() {
+            this.getData()
         }
-      },
-      handleSizeChange(value){
-
-      },
-      handleCurrentChange(){
-
-      },
-      lookOrderListDetail(){
-        this.$router.push('/BatchContractList')
-      }
-    },
-
-    created() {
-
     }
-  }
 </script>
 <style lang="scss" scoped>
-  @import "../../../styles/BatchImport/OrderList/OrderLists";
+    @import "../../../styles/BatchImport/OrderList/OrderLists";
 </style>
 
