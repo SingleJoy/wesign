@@ -90,7 +90,7 @@
 			       <b class='info'>短信通知</b>
 		        	<el-checkbox></el-checkbox>
             <b class='info'>邮箱通知</b>-->
-            <el-button type="primary" size="medium" class="export-excel-data">导出Excel表格</el-button>
+            <el-button type="primary" size="medium" class="export-excel-data" @click="downloadTemplate">导出Excel表格</el-button>
             <el-button
               type="primary"
               size="medium"
@@ -228,12 +228,14 @@
         <span slot="footer" class="dialog-footer">
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            ref="upload"
+            :action="uploadUrl()"
             :before-upload="handleChange"
             :on-success="fileSuccess"
             :show-file-list="false"
             :file-list="fileList"
-            accept=".excel"
+            accept=".xls,.xlsx"
+            :data=uploadParams
             element-loading-text="拼命上传中"
             element-loading-background="rgba(0, 0, 0, 0.5)"
             multiple
@@ -249,7 +251,7 @@
 <script>
   import {validateMoblie,validateCard,TrimAll} from '@/common/js/validate'
   import cookie from '@/common/js/getTenant'
-  import { backContractTempSigner,getTemplateImgs,contractTemp} from '@/api/template'
+  import { backContractTempSigner,getTemplateImgs,contractTemp,downloadTemplateExcel,readTemplateExcel} from '@/api/template'
   import {prohibit} from '@/common/js/prohibitBrowser'
   import server from "@/api/url";
   export default {
@@ -300,6 +302,12 @@
                 text:'fsfsd'
             }
         ],
+        uploadParams: {
+            interfaceCode: cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
+            templateNo: sessionStorage.getItem('templateNo'),
+            AccountCode: sessionStorage.getItem('accountCode')
+        },
+        orderNo: "",
         fileList:[],
         importDataVisible:false,
         baseURL:this.baseURL.BASE_URL,
@@ -355,11 +363,22 @@
       }
     },
     methods: {
-        handleChange(){
+        uploadUrl() {
+            return `${this.baseURL}/restapi/wesign/v1.9/tenant/readTemplateExcel`
+        },
+        downloadTemplate() {
+            let downloadUrl = process.env.API_HOST + downloadTemplateExcel(this.templateNo);
+            let downloadTag = document.createElement('a');
+            document.body.appendChild(downloadTag)
+            downloadTag.setAttribute('href',downloadUrl);
+            downloadTag.click()
+        },
+        handleChange(name){
+            console.log(name)
             this.$loading.show();
-            var max_size = 5; // 5M
+            var max_size = 10; // 5M
             var fileContName = name.name.replace(/\s+/g, "");
-            var reg = /[.](excel)$/;
+            var reg = /[.](xls|xlsx)$/;
             if (!reg.test(fileContName)) {
                 this.$message({
                     showClose: true,
@@ -392,9 +411,18 @@
             }
             this.$loading.hide()
         },
-        fileSuccess(name, file, fileList){
-
-
+        fileSuccess(res){
+            if(res.resultCode == 1) {
+                sessionStorage.setItem("orderNo",res.data.orderNo);
+                this.$loading.hide();
+                this.$router.push('/importdata');
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: res.resultMessage,
+                    type: "error"
+                });
+            }
         },
 
 

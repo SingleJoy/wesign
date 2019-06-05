@@ -108,3 +108,38 @@ export function contractmoresign(interfaceCode,contractNo,param) {
     data: param
   })
 }
+
+
+//批量上传发起流程 api 
+
+//模板excel下载
+export function downloadTemplateExcel(templateNo) {
+    return "v1.9/tenant/" + templateNo + "/downloadTemplateExcel"
+}
+
+//模板excel上传(解析校验)
+export function readTemplateExcel(params) {
+    return request({
+        url: "v1.9/tenant/readTemplateExcel",
+        method: "post",
+        data: params
+    })
+}
+
+//模板excel再次上传(解析校验)
+export function RepeatedlyReadExcel(params) {
+    return request({
+        url: "v1.9/tenant/RepeatedlyReadExcel",
+        method: "post",
+        data: params
+    })
+}
+
+//错误excel下载
+export function downloadErrorExcel(orderNo, params) {
+    return request({
+        url: "v1.9/tenant/" + orderNo + "/downloadErrorExcel",
+        method: "post",
+        data: params
+    })
+}
