@@ -1,11 +1,30 @@
 <template>
     <div class="main">
+        <div class="Tops">
+      <nav class='nav'>
+        <p class='logo'>
+          <img src="/static/images/logo2.png" alt="">
+        </p>
+        <div class='buttons'>
+          <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+          <el-button style='color:#4091fb' @click="nextStepFit" :loading= load>下一步</el-button>
+        </div>
+        <!-- <el-dialog
+		  title="提示"
+		  :visible.sync="centerDialogVisible"
+		  width="25%"
+		  top='35vh'
+		  center>
+		  <span style="margin-left: 111px;">3秒后跳转回首页</span>
+		</el-dialog> -->
+      </nav>
+    </div>
         <div class="title" style="margin-top: 15px">导入数据</div>
         <div class="line"></div>
         <div class="import-info">
             <p class="batch-num">
                 <span>批量编号：</span>
-                <span class="num">{{batchNun}}</span>
+                <span class="num">{{uploadParams.orderNo}}</span>
             </p>
             <div class="info-box">
                 <div class="importinfo-left boxshadow">
@@ -32,8 +51,23 @@
                         </ul>
                     </div>
                     <div class="result-btn">
-                        <el-button type="primary" class="continue-import">继续导入</el-button>
-                        <el-button type="primary" class="import-data">导出数据</el-button>
+                        <el-upload
+                            class="upload-demo"
+                            ref="upload"
+                            :action="uploadUrl()"
+                            :before-upload="handleChange"
+                            :on-success="fileSuccess"
+                            :show-file-list="false"
+                            :file-list="fileList"
+                            accept=".xls,.xlsx"
+                            :data=uploadParams
+                            element-loading-text="拼命上传中"
+                            element-loading-background="rgba(0, 0, 0, 0.5)"
+                            multiple
+                        >
+                            <el-button type="primary" class="continue-import">继续导入</el-button>
+                        </el-upload>
+                        <el-button type="primary" class="import-data" @click="downloadTemplate">导出数据</el-button>  
                     </div>
                 </div>
                 <!-- <div class="dashed-line"></div>
@@ -56,12 +90,6 @@
                 style="width: 100%;text-align:center"
                 :header-cell-style="getRowClass"
                 >
-                <el-table-column
-                    prop="num"
-                    label="序号"
-                    align="center"
-                    width="">
-                </el-table-column>
                 <el-table-column
                     prop="userName"
                     label="签署人名称"
@@ -153,19 +181,24 @@
     </div>
 </template>
 <script>
+import { getContractOrder, getContractList, createContract, downloadErrorExcel } from '@/api/template'
 export default {
     name:'ImportData',
     data() {
         return{
             dialVisible:false,
             imgList:[],
-            num:'',
+            num: 0,
             currentPage:1,
             centerDialogVisible:false,
-            batchNun:'266878779978',
             passed:'12313',
             unpassed:'12313',
             total:'3322',
+            pageNo: 1,
+            pageSize: 10,
+            hasClick:false,
+            load: false,
+            baseURL:this.baseURL.BASE_URL,
             reasonList:[
                 {
                     reason:'的地方的好时机发生符合发的说法卡'
@@ -187,18 +220,123 @@ export default {
                     idCard:130689898989878987,
                     status:2
                 }
-            ]
+            ],
+            fileList:[],
+            uploadParams: {
+                orderNo: sessionStorage.getItem("orderNo")
+            },
         }
     },
     methods:{
-        handleSizeChange(){
-
+        downloadTemplate() {
+            let downloadUrl = downloadErrorExcel(this.uploadParams.orderNo);
+            let downloadTag = document.createElement('a');
+            document.body.appendChild(downloadTag)
+            downloadTag.setAttribute('href',downloadUrl);
+            downloadTag.click()
         },
-        handleCurrentChange(){
-
+        uploadUrl() {
+            console.log(this.uploadParams.orderNo)
+            return `${this.baseURL}/restapi/wesign/v1.9/tenant/RepeatedlyReadExcel`
+        },
+        handleChange(name){
+            console.log(name)
+            this.$loading.show();
+            var max_size = 10; // 5M
+            var fileContName = name.name.replace(/\s+/g, "");
+            var reg = /[.](xls|xlsx)$/;
+            if (!reg.test(fileContName)) {
+                this.$message({
+                    showClose: true,
+                    message: "只能传excel格式的文件",
+                    type: "error"
+                });
+                this.$refs.upload.clearFiles();
+                this.$loading.hide();
+                return false;
+            } else if (name.size > max_size * 1024 * 1024) {
+                this.$message({
+                    showClose: true,
+                    message: "文件大小超过限制",
+                    type: "error"
+                });
+                this.$refs.upload.clearFiles();
+                this.$loading.hide();
+                return false;
+            }else if (fileContName.length > 50) {
+                this.$message({
+                    showClose: true,
+                    message: "上传文件名称不得超过50字符！",
+                    type: "error"
+                });
+                this.$refs.upload.clearFiles();
+                this.$loading.hide();
+                return false;
+            }else {
+                
+            }
+            this.$loading.hide()
+        },
+        fileSuccess(res){
+            console.log(res)
+        },
+        handleSizeChange(pageSize){
+            this.pageSize = pageSize;
+            this.getSignerInfo(this.pageNo, this.pageSize);
+        },
+        handleCurrentChange(pageNo){
+            this.pageSize = pageNo;
+            this.getSignerInfo(this.pageNo, this.pageSize);
         },
         nextStepFit(){
+            let params = {
+                conOrderNo: this.uploadParams.orderNo
+            }
+            let interfaceCode = sessionStorage.getItem("interfaceCode");
+            createContract(interfaceCode, params).then(res => {
+               if(res.data.resultCode == "1") {
 
+               } else {
+                   this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
+               }
+            }).catch(error => {
+
+            })
+        },
+        SigleTempCancel() {    //取消操作
+            this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
+            const h = this.$createElement;
+            this.hasClick = true;
+            this.$msgbox({
+            title: '提示',
+            message: h('p', null, [
+                h('span', null, ' 确定将返回首页'),
+                h('i', { style: 'color: teal' }, '')
+            ]),
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            beforeClose: (action, instance, done) => {
+                if (action === 'confirm') {
+                instance.confirmButtonLoading = true;
+                instance.confirmButtonText = '执行中...';
+                setTimeout(() => {
+                    done();
+                    this.$router.push('/Home')
+                    setTimeout(() => {
+                    instance.confirmButtonLoading = false;
+                    }, 50);
+                }, 100);
+                } else {
+                this.hasClick = false;
+                done();
+                }
+            }
+            })
         },
         // 查看合同
         previerContract(){
@@ -211,11 +349,44 @@ export default {
                 return ''
             }
         },
+        //获取签署人信息
+        getSignerInfo(pageNo, pageSize){
+            let signParams = {
+                conOrderNo: this.uploadParams.orderNo,
+                pageNo: pageNo,
+                pageSize: pageSize,
+            }
+            getContractList(signParams).then(res => {
+                console.log(res.data.resultCode)
+                if(res.data.resultCode == "1") {
+                    this.importData = res.data.dataList;
+                    this.num = res.data.data.totalItemNumber;
+                }
+            }).catch(error => {
+
+            })
+        }
+    },
+    created() {
+        const params = {
+            conOrderNo: this.uploadParams.orderNo
+        };
+        getContractOrder(params).then(res => {
+           if(res.data.resultCode == "1") {
+               this.total = res.data.data.totalItem
+               this.passed = res.data.data.successItem
+               this.unpassed = res.data.data.failureItem
+           }
+        }).catch(error => {
+
+        })
+        this.getSignerInfo(this.pageNo, this.pageSize);
     }
 }
 </script>
 
 <style lang="scss">
+@import "../../../common/styles/Tops.css";
    @import "@/common/styles/content.scss";
     .ImportData .main{
         background: #fff;
@@ -321,6 +492,7 @@ export default {
                         .import-data{
                             color: #FB9C40;
                             border-color:#FB9C40;
+                            margin-top: 15px;
                         }
                     }
                 }

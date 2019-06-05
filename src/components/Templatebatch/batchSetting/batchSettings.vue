@@ -225,24 +225,26 @@
     <el-dialog title="提示" :visible.sync="importDataVisible" width="400px" class="import-excel">
       <p>导入数据后，手动添加的签署人将会被清除</p>
       <div class="import-footer">
-        <span slot="footer" class="dialog-footer">
-          <el-upload
-            class="upload-demo"
-            ref="upload"
-            :action="uploadUrl()"
-            :before-upload="handleChange"
-            :on-success="fileSuccess"
-            :show-file-list="false"
-            :file-list="fileList"
-            accept=".xls,.xlsx"
-            :data=uploadParams
-            element-loading-text="拼命上传中"
-            element-loading-background="rgba(0, 0, 0, 0.5)"
-            multiple
-          >
-            <el-button size="small" type="primary">确定</el-button>
-            <el-button @click="dialogVisible = false" size="small">取 消</el-button>
-          </el-upload>
+        <span slot="footer" class="dialog-footer"> 
+            <!-- <el-button size="small" type="primary">确定</el-button> -->
+             <el-upload
+                class="upload-demo"
+                ref="upload"
+                :action="uploadUrl()"
+                :before-upload="handleChange"
+                :on-error="errorChange"
+                :on-success="fileSuccess"
+                :show-file-list="false"
+                :file-list="fileList"
+                accept=".xls,.xlsx"
+                :data=uploadParams
+                element-loading-text="拼命上传中"
+                element-loading-background="rgba(0, 0, 0, 0.5)"
+                multiple
+            >
+                <el-button size="small" type="primary">确定</el-button>
+            </el-upload>
+            <el-button @click="uploadCencel" size="small">取 消</el-button>
         </span>
       </div>
     </el-dialog>
@@ -363,11 +365,14 @@
       }
     },
     methods: {
+        uploadCencel() {
+            this.importDataVisible = false;
+        },
         uploadUrl() {
             return `${this.baseURL}/restapi/wesign/v1.9/tenant/readTemplateExcel`
         },
         downloadTemplate() {
-            let downloadUrl = process.env.API_HOST + downloadTemplateExcel(this.templateNo);
+            let downloadUrl = downloadTemplateExcel(this.templateNo);
             let downloadTag = document.createElement('a');
             document.body.appendChild(downloadTag)
             downloadTag.setAttribute('href',downloadUrl);
@@ -412,6 +417,7 @@
             this.$loading.hide()
         },
         fileSuccess(res){
+            console.log(res)
             if(res.resultCode == 1) {
                 sessionStorage.setItem("orderNo",res.data.orderNo);
                 this.$loading.hide();
@@ -424,7 +430,9 @@
                 });
             }
         },
-
+        errorChange(error) {
+            console.log(error)
+        },
 
         getRowClass({ row, column, rowIndex, columnIndex }) {
             if (rowIndex == 0) {
@@ -897,12 +905,15 @@
   border-color: #b4d4ff;
 }
 .import-footer {
-  margin: 10px 0;
-  text-align: right;
-  padding: 10px 20px;
-  .dialog-footer {
-    display: flex;
-    flex-direction: row-reverse;
-  }
+    margin: 10px 0;
+    text-align: right;
+    padding: 10px 20px;
+    .dialog-footer {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .el-button {
+        margin-right: 15px;
+    }
 }
 </style>
