@@ -49,7 +49,7 @@
              <el-pagination
                @size-change="handleSizeChange"
                @current-change="handleCurrentChange"
-               :current-page="currentPage"
+               :current-page="pageNum"
                :page-size="10"
                layout="prev, pager, next, total, jumper"
                :total="totalItemNumber">
@@ -63,15 +63,14 @@
   </div>
 </template>
 <script>
-
+ import {getcontractorders} from '@/api/template.js'
   export default {
     name: 'OrderLists',
     data () {
       return {
-        tableData:[
-          {'orderName':'订单编号','createdTime':'创建时间','applyTemplate':'应用模板','num':'份数'}
-        ],
-        currentPage:0,
+        accountCode:sessionStorage.getItem("accountCode"),
+        tableData:[],
+        pageNum:0,
         totalItemNumber:0
       }
     },
@@ -84,19 +83,30 @@
           return 'background-color: rgb(245, 245, 245);font-weight: bold;color: #333333;'
         }
       },
-      handleSizeChange(value){
+      handleSizeChange(){
 
       },
-      handleCurrentChange(){
-
+      handleCurrentChange(value){
+        this.pageNum=value;
       },
       lookOrderListDetail(){
         this.$router.push('/BatchContractList')
+      },
+      getData(){
+        let params={
+          pageNum:this.pageNum,
+          pageSize:10,
+        };
+        getcontractorders(this.accountCode,params).then(res=>{
+          console.log(res)
+        }).catch(error=>{
+
+        })
       }
     },
 
     created() {
-
+       this.getData()
     }
   }
 </script>

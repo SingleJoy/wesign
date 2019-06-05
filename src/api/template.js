@@ -108,3 +108,13 @@ export function contractmoresign(interfaceCode,contractNo,param) {
     data: param
   })
 }
+
+
+// 订单列表查询
+export function getcontractorders(accountCode,param) {
+  return request({
+    url: "api/v1.9/account/"+accountCode+'/conorder/getcontractorders',
+    method: "get",
+    params: param
+  })
+}
