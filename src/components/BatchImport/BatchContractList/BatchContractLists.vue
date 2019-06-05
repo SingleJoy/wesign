@@ -72,7 +72,7 @@
                         <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :current-page="currentPage"
+                            :current-page="pageNum"
                             :page-size="10"
                             layout="prev, pager, next, total, jumper"
                             :total="totalItemNumber">
