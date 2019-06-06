@@ -116,7 +116,7 @@
                 >
                     <template slot-scope="scope">
                         <el-button type="primary" @click="previerContract(scope.row)" size="mini">预览</el-button>
-                        <el-button type="primary" size="mini">删除</el-button>
+                        <el-button type="primary" size="mini" @click="signerDel(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -181,7 +181,7 @@
     </div>
 </template>
 <script>
-import { getContractOrder, getContractList, createContract, downloadErrorExcel } from '@/api/template'
+import { getContractOrder, getContractList, createContract, downloadErrorExcel, delContractSigner, getContractImages } from '@/api/template'
 export default {
     name:'ImportData',
     data() {
@@ -236,11 +236,9 @@ export default {
             downloadTag.click()
         },
         uploadUrl() {
-            console.log(this.uploadParams.orderNo)
             return `${this.baseURL}/restapi/wesign/v1.9/tenant/RepeatedlyReadExcel`
         },
         handleChange(name){
-            console.log(name)
             this.$loading.show();
             var max_size = 10; // 5M
             var fileContName = name.name.replace(/\s+/g, "");
@@ -278,15 +276,40 @@ export default {
             this.$loading.hide()
         },
         fileSuccess(res){
-            console.log(res)
+            if(res.resultCode == "1") {
+                this.getSignerInfo(this.pageNo, this.pageSize);
+                let params = {
+                    conOrderNo: res.data.orderNo
+                }
+                this.getImportInfo(params);
+            }
         },
         handleSizeChange(pageSize){
             this.pageSize = pageSize;
             this.getSignerInfo(this.pageNo, this.pageSize);
         },
         handleCurrentChange(pageNo){
-            this.pageSize = pageNo;
+            this.pageNo = pageNo;
             this.getSignerInfo(this.pageNo, this.pageSize);
+        },
+        //删除签署人
+        signerDel(row) {
+            console.log(row);
+            let delParams = {
+                contractNo: row.contractNo,
+                userCode: row.userCode
+            }
+            delContractSigner(delParams).then(res => {
+                if(res.data.resultCode == "1") {
+                    const searchParams = {
+                        conOrderNo: delParams.contractNo
+                    }
+                    this.getImportInfo(searchParams);
+                    this.getSignerInfo(this.pageNo, this.pageSize);
+                }
+            }).catch(error => {
+
+            })
         },
         nextStepFit(){
             let params = {
@@ -339,8 +362,18 @@ export default {
             })
         },
         // 查看合同
-        previerContract(){
+        previerContract(row){
+            const previerContractParams = {
+                contractNo: row.contractNo
+            }
             this.dialVisible = true;
+            getContractImages(previerContractParams).then(res => {
+                if(res.data.resultCode == "1") {
+                    console.log(res.data)
+                }
+             }).catch(error => {
+
+            })
         },
         getRowClass({ row, column, rowIndex, columnIndex }) {
             if (rowIndex == 0) {
@@ -348,6 +381,18 @@ export default {
             } else {
                 return ''
             }
+        },
+        //导入数据信息
+        getImportInfo(params) {
+            getContractOrder(params).then(res => {
+                if(res.data.resultCode == "1") {
+                    this.total = res.data.data.totalItem
+                    this.passed = res.data.data.successItem
+                    this.unpassed = res.data.data.failureItem
+                }
+            }).catch(error => {
+
+            })
         },
         //获取签署人信息
         getSignerInfo(pageNo, pageSize){
@@ -357,7 +402,6 @@ export default {
                 pageSize: pageSize,
             }
             getContractList(signParams).then(res => {
-                console.log(res.data.resultCode)
                 if(res.data.resultCode == "1") {
                     this.importData = res.data.dataList;
                     this.num = res.data.data.totalItemNumber;
@@ -371,15 +415,7 @@ export default {
         const params = {
             conOrderNo: this.uploadParams.orderNo
         };
-        getContractOrder(params).then(res => {
-           if(res.data.resultCode == "1") {
-               this.total = res.data.data.totalItem
-               this.passed = res.data.data.successItem
-               this.unpassed = res.data.data.failureItem
-           }
-        }).catch(error => {
-
-        })
+        this.getImportInfo(params)
         this.getSignerInfo(this.pageNo, this.pageSize);
     }
 }

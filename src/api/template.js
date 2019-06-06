@@ -192,3 +192,21 @@ export function RepeatedlyReadExcel(params) {
 export function downloadErrorExcel(orderNo) {
     return "api/v1.9/tenant/" + orderNo + "/downloadErrorExcel"
 }
+
+//合同图片预览/查看
+export function getContractImages(params) {
+    return request({
+        url: "api/v1.9/order/getContractImages",
+        method: "post",
+        params: params
+    })
+}
+
+//删除签署人信息
+export function delContractSigner(params) {
+    return request({
+        url: "api/v1.9/order/delContractSigner",
+        method: "post",
+        data: params
+    })
+}
