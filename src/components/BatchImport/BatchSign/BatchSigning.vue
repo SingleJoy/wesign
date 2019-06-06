@@ -3,8 +3,8 @@
         <Top></Top>
         <div class="batchsign-main">
             <div class="batchsign-progress">
-                <div class="batchsign-progress-title">已经完成70%</div>
-                <el-progress :percentage="70" :show-text="false"></el-progress>
+                <div class="batchsign-progress-title">已经完成{{progress}}%</div>
+                <el-progress :percentage="progress" :show-text="false"></el-progress>
             </div>
             <div class="progress-hint-title">你可以在当前页面等待所有的合同签署完成</div>
             <div class="progress-hint-operate">
@@ -42,18 +42,51 @@
 import cookie from '@/common/js/getTenant'
 import Top from '@/common/components/Top.vue'
 import Bottom from '@/common/components/Bottom.vue'
+import { getsignresult } from '@/api/template'
 export default {
     name: "BatchSigning",
     data() {
         return {
-            url: "www.zqsignmd.com"
+            url: "www.zqsignmd.com",
+            progress: 0,
+            timer: null
         }
     },
     components: {
         Top,
         Bottom
     },
+    created() {
+        let interfaceCode = sessionStorage.getItem("interfaceCode");
+        let conOrderNo = sessionStorage.getItem("conOrderNo");
+        console.log(conOrderNo)
+        this.serchSignResult(interfaceCode, conOrderNo);
+    },
     methods: {
+        
+        serchSignResult(interfaceCode, conOrderNo) {
+            // this.timer = setInterval(() => {
+                getsignresult(interfaceCode, conOrderNo).then(res => {
+                    console.log(res.data.data.successNum,res.data.data.failNum,res.data.data.totalNum);
+                    if(res.data.resultCode == "0") {
+                        this.progress = (res.data.data.successNum + res.data.data.failNum) / res.data.totalNum;
+                        clearInterval(this.timer);
+                        return;
+                    } else if(res.data.resultCode == "1"){
+                        let schedule = res.data.data;
+                        console.log(schedule.successNum,schedule.failNum,schedule.totalNum);
+                        this.progress = (((Number(schedule.successNum) + Number(schedule.failNum)) / Number(schedule.totalNum)) * 100).tofixed(2);
+                        console.log(this.progress)
+                        // this.$router.push("/batchSigned");
+                        clearInterval(this.timer);
+                        return;
+                    }
+                }).catch(error => {
+
+                })
+            // }, 2000)
+            
+        },
         //复制成功  
         onCopy: function (e) {
             this.$message({
@@ -61,6 +94,7 @@ export default {
                 type: 'success'
             });
         },
+
         //复制失败
         onError: function (e) {
             console.log(e)
