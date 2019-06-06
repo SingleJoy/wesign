@@ -19,19 +19,19 @@
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="createdTime"
+                            prop="createTime"
                             label="生成时间"
                             width="300"
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="applyTemplate"
+                            prop="templateName"
                             label="应用模板"
                             width="300"
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="num"
+                            prop="contractNum"
                             label="份数"
                             align="center">
                         </el-table-column>
@@ -96,7 +96,12 @@
                 getconorderlock(this.accountCode,conOrderNo).then(res=>{
                     if(res.data.resultCode==1){
                         sessionStorage.setItem("conOrderNo",conOrderNo);
-                        this.$router.push('/BatchContractList');
+                        if(res.data.data.steps==0){
+                            this.$router.push('/importdata');
+                        }else{
+                            this.$router.push('/BatchContractList');
+                        }
+
                     }else{
                         this.$message({
                             type: 'error',
