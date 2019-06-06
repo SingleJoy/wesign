@@ -22,7 +22,8 @@
                         stripe
                         style="width: 100%"
                         :row-style="tableRowStyle"
-                        :header-cell-style="tableHeaderColor">
+                        :header-cell-style="tableHeaderColor"
+                         @selection-change="handleSelectionChange">
                         <el-table-column
                             type="selection"
                             align="center"
@@ -174,6 +175,9 @@
             },
             sign(){
 
+            },
+            handleSelectionChange(){
+                
             },
             getData(){
                 let params={
