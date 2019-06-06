@@ -204,7 +204,7 @@ export function downloadErrorExcel(orderNo) {
 export function getContractImages(params) {
     return request({
         url: "api/v1.9/order/getContractImages",
-        method: "post",
+        method: "get",
         params: params
     })
 }
@@ -215,5 +215,16 @@ export function delContractSigner(params) {
         url: "api/v1.9/order/delContractSigner",
         method: "post",
         data: params
+    })
+}
+
+/******* 订单合同列表 *********/
+
+//订单合同列表查询
+export function getContractLists(accountCode, conOrderNo, params) {
+    return request({
+        url: "api/v1.9/account/" + accountCode + "/conorder/" + conOrderNo + "/getcontracts",
+        method: "get",
+        params: params
     })
 }

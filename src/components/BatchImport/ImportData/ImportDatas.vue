@@ -7,7 +7,7 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style='color:#4091fb' @click="nextStepFit" :loading= load>下一步</el-button>
+          <el-button style='color:#4091fb' @click="nextStepFit" :loading=load>下一步</el-button>
         </div>
         <!-- <el-dialog
 		  title="提示"
@@ -24,7 +24,7 @@
         <div class="import-info">
             <p class="batch-num">
                 <span>批量编号：</span>
-                <span class="num">{{uploadParams.orderNo}}</span>
+                <span class="num">{{uploadParams.conOrderNo}}</span>
             </p>
             <div class="info-box">
                 <div class="importinfo-left boxshadow">
@@ -135,14 +135,8 @@
         <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="showDialogs">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
-                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
                 </div>
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
             </div>
             <div class="contract-detail">
                 <div class="contract-info-box">
@@ -150,11 +144,11 @@
                    <ul>
                        <li>
                            <span class="info-title">合同名称：</span>
-                           <span class="content">租房</span>
+                           <span class="content">{{contractSignInfo.contractName}}</span>
                        </li>
                         <li>
                            <span class="info-title">签署截止日期：</span>
-                           <span class="content">永久有效</span>
+                           <span class="content">{{contractSignInfo.validTimeStr}}</span>
                        </li>
                    </ul>
                 </div>
@@ -163,15 +157,15 @@
                     <ul>
                        <li>
                            <span class="info-title">姓名：</span>
-                           <span class="content">租房</span>
+                           <span class="content">{{contractSignInfo.userName}}</span>
                        </li>
                         <li>
                            <span class="info-title">身份证号：</span>
-                           <span class="content">111111111123122232</span>
+                           <span class="content">{{contractSignInfo.idCard}}</span>
                        </li>
                        <li>
                            <span class="info-title">手机号码：</span>
-                           <span class="content">111111111123122232</span>
+                           <span class="content">{{contractSignInfo.mobile}}</span>
                        </li>
                    </ul>
                 </div>
@@ -186,6 +180,7 @@ export default {
     name:'ImportData',
     data() {
         return{
+            contractSignInfo: {},
             dialVisible:false,
             imgList:[],
             num: 0,
@@ -223,13 +218,13 @@ export default {
             ],
             fileList:[],
             uploadParams: {
-                orderNo: sessionStorage.getItem("orderNo")
+                conOrderNo: sessionStorage.getItem("conOrderNo")
             },
         }
     },
     methods:{
         downloadTemplate() {
-            let downloadUrl = downloadErrorExcel(this.uploadParams.orderNo);
+            let downloadUrl = downloadErrorExcel(this.uploadParams.conOrderNo);
             let downloadTag = document.createElement('a');
             document.body.appendChild(downloadTag)
             downloadTag.setAttribute('href',downloadUrl);
@@ -279,7 +274,7 @@ export default {
             if(res.resultCode == "1") {
                 this.getSignerInfo(this.pageNo, this.pageSize);
                 let params = {
-                    conOrderNo: res.data.orderNo
+                    conOrderNo: res.data.conOrderNo
                 }
                 this.getImportInfo(params);
             }
@@ -294,7 +289,6 @@ export default {
         },
         //删除签署人
         signerDel(row) {
-            console.log(row);
             let delParams = {
                 contractNo: row.contractNo,
                 userCode: row.userCode
@@ -312,13 +306,15 @@ export default {
             })
         },
         nextStepFit(){
+            this.load = true;
             let params = {
-                conOrderNo: this.uploadParams.orderNo
+                conOrderNo: this.uploadParams.conOrderNo
             }
             let interfaceCode = sessionStorage.getItem("interfaceCode");
             createContract(interfaceCode, params).then(res => {
                if(res.data.resultCode == "1") {
-
+                   this.load = false;
+                   this.$router.push("/CreateContract");
                } else {
                    this.$message({
                         showClose: true,
@@ -369,7 +365,10 @@ export default {
             this.dialVisible = true;
             getContractImages(previerContractParams).then(res => {
                 if(res.data.resultCode == "1") {
-                    console.log(res.data)
+                    this.imgList = res.data.dataList;
+                    this.contractSignInfo = res.data.data;
+                } else {
+                    console.log(222)
                 }
              }).catch(error => {
 
@@ -397,7 +396,7 @@ export default {
         //获取签署人信息
         getSignerInfo(pageNo, pageSize){
             let signParams = {
-                conOrderNo: this.uploadParams.orderNo,
+                conOrderNo: this.uploadParams.conOrderNo,
                 pageNo: pageNo,
                 pageSize: pageSize,
             }
@@ -413,8 +412,9 @@ export default {
     },
     created() {
         const params = {
-            conOrderNo: this.uploadParams.orderNo
+            conOrderNo: this.uploadParams.conOrderNo
         };
+        console.log(this.uploadParams.conOrderNo)
         this.getImportInfo(params)
         this.getSignerInfo(this.pageNo, this.pageSize);
     }
