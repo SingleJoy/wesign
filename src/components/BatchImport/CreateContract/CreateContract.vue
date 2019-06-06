@@ -74,7 +74,8 @@
     </div>
 </template>
 <script>
-import Bottom from '@/common/components/Bottom.vue'
+import Bottom from '@/common/components/Bottom.vue';
+import { getcontracts } from '@/api/template'
 export default {
     name: "CreateContract",
     data(){
@@ -108,6 +109,17 @@ export default {
         Bottom
     },
     methods: {
+        getContractInfo(pageNo, pageSize) {
+            let contractInfo = {
+                pageNo: pageNo,
+                pageSize: pageSize
+            }
+            getContractLists(accountCode, conOrderNo, pageNo, pageSize).then(res => {
+
+            }).catch(error => {
+
+            })
+        },
         batchSigleCancel() {
 
         },

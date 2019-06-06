@@ -307,9 +307,8 @@
         uploadParams: {
             interfaceCode: cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
             templateNo: sessionStorage.getItem('templateNo'),
-            AccountCode: sessionStorage.getItem('accountCode')
+            accountCode: sessionStorage.getItem('accountCode')
         },
-        orderNo: "",
         fileList:[],
         importDataVisible:false,
         baseURL:this.baseURL.BASE_URL,
@@ -419,7 +418,7 @@
         fileSuccess(res){
             console.log(res)
             if(res.resultCode == 1) {
-                sessionStorage.setItem("orderNo",res.data.orderNo);
+                sessionStorage.setItem("conOrderNo",res.data.conOrderNo);
                 this.$loading.hide();
                 this.$router.push('/importdata');
             } else {
