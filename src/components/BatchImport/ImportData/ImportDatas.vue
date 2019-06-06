@@ -7,7 +7,7 @@
         </p>
         <div class='buttons'>
           <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style='color:#4091fb' @click="nextStepFit" :loading=load>下一步</el-button>
+          <el-button style='color:#4091fb' @click="nextStepFit" :loading=load>生成合同</el-button>
         </div>
         <!-- <el-dialog
 		  title="提示"
@@ -357,7 +357,7 @@ export default {
             }
             })
         },
-        // 查看合同
+        // 预览合同
         previerContract(row){
             const previerContractParams = {
                 contractNo: row.contractNo
@@ -422,8 +422,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../common/styles/Tops.css";
-   @import "@/common/styles/content.scss";
+    @import "../../../common/styles/Tops.css";
+    @import "@/common/styles/content.scss";
     .ImportData .main{
         background: #fff;
         margin-top:105px;
