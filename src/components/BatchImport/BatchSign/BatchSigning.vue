@@ -60,32 +60,34 @@ export default {
         let interfaceCode = sessionStorage.getItem("interfaceCode");
         let conOrderNo = sessionStorage.getItem("conOrderNo");
         console.log(conOrderNo)
-        this.serchSignResult(interfaceCode, conOrderNo);
+        this.timer = setInterval(() => {
+            this.serchSignResult(interfaceCode, conOrderNo);
+        }, 3000)
     },
     methods: {
-        
         serchSignResult(interfaceCode, conOrderNo) {
-            // this.timer = setInterval(() => {
-                getsignresult(interfaceCode, conOrderNo).then(res => {
-                    console.log(res.data.data.successNum,res.data.data.failNum,res.data.data.totalNum);
-                    if(res.data.resultCode == "0") {
-                        this.progress = (res.data.data.successNum + res.data.data.failNum) / res.data.totalNum;
-                        clearInterval(this.timer);
-                        return;
-                    } else if(res.data.resultCode == "1"){
-                        let schedule = res.data.data;
-                        console.log(schedule.successNum,schedule.failNum,schedule.totalNum);
-                        this.progress = (((Number(schedule.successNum) + Number(schedule.failNum)) / Number(schedule.totalNum)) * 100).tofixed(2);
-                        console.log(this.progress)
-                        // this.$router.push("/batchSigned");
-                        clearInterval(this.timer);
-                        return;
-                    }
-                }).catch(error => {
+            getsignresult(interfaceCode, conOrderNo).then(res => {;
+                let data = res.data.data,
+                    failNum = data.failNum,
+                    signRoomLink = data.signRoomLink,
+                    successNum = data.successNum,
+                    totalNum = data.totalNum;
+                if(res.data.resultCode == "0") {
+                    this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
+                } else if(res.data.resultCode == "1"){
+                    clearInterval(this.timer);
+                    this.$router.push({path:'/batchSigned',query:{
+                        failNum:failNum, 
+                        signRoomLink: signRoomLink, 
+                        successNum: successNum, 
+                        totalNum: totalNum
+                    }});
+                } else {
+                    clearInterval(this.timer);
+                }
+            }).catch(error => {
 
-                })
-            // }, 2000)
-            
+            })
         },
         //复制成功  
         onCopy: function (e) {

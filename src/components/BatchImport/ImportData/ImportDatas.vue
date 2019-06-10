@@ -9,14 +9,6 @@
           <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
           <el-button style='color:#4091fb' @click="nextStepFit" :loading=load>生成合同</el-button>
         </div>
-        <!-- <el-dialog
-		  title="提示"
-		  :visible.sync="centerDialogVisible"
-		  width="25%"
-		  top='35vh'
-		  center>
-		  <span style="margin-left: 111px;">3秒后跳转回首页</span>
-		</el-dialog> -->
       </nav>
     </div>
         <div class="title" style="margin-top: 15px">导入数据</div>
@@ -70,16 +62,6 @@
                         <el-button type="primary" class="import-data" @click="downloadTemplate">导出数据</el-button>  
                     </div>
                 </div>
-                <!-- <div class="dashed-line"></div>
-                <div class="importinfo-right boxshadow">
-                    <p class="unpass-title">未通过原因</p>
-                    <div class="reason-list">
-                        <p class="item" v-for="(item,index) in reasonList" :key="index" >
-                            <span>{{index+1}}</span>
-                            <span>{{item.reason}}</span>
-                        </p>
-                    </div>
-                </div> -->
             </div>
         </div>
         <div class="title" style="margin-top: 15px">签署人信息</div>
@@ -180,49 +162,44 @@ export default {
     name:'ImportData',
     data() {
         return{
+            //预览签署人信心
             contractSignInfo: {},
+            //预览弹框标识
             dialVisible:false,
+            //预览签署人信息图片列表
             imgList:[],
+            //签署人列表总条数
             num: 0,
+            //签署人当前显示页数
             currentPage:1,
-            centerDialogVisible:false,
-            passed:'12313',
-            unpassed:'12313',
-            total:'3322',
+            //签署人分页第几页
             pageNo: 1,
+            //签署人分页每页显示多少页
             pageSize: 10,
+            //检验通过数据
+            passed:'',
+            //检验未通过数据
+            unpassed:'',
+            //本次共导入数据
+            total:'',
+            //生成合同单点操作
             hasClick:false,
+            //生成合同load提示
             load: false,
+            //服务地址
             baseURL:this.baseURL.BASE_URL,
-            reasonList:[
-                {
-                    reason:'的地方的好时机发生符合发的说法卡'
-                },{
-                    reason:'费哦啊好多事覅滑丝胡覅都会 '
-                }
-            ],
-            importData:[
-                {
-                    num:47,
-                    userName:'测试',
-                    mobile:'13651305434',
-                    idCard:130689898989878987,
-                    status:2
-                },{
-                    num:4,
-                    userName:'测试33',
-                    mobile:'13651305434',
-                    idCard:130689898989878987,
-                    status:2
-                }
-            ],
+            //签署人列表数据
+            importData:[],
+            //上传文件列表
             fileList:[],
+            //批量编号
             uploadParams: {
                 conOrderNo: sessionStorage.getItem("conOrderNo")
             },
         }
     },
     methods:{
+        //导出错误数据
         downloadTemplate() {
             let downloadUrl = downloadErrorExcel(this.uploadParams.conOrderNo);
             let downloadTag = document.createElement('a');
@@ -230,9 +207,11 @@ export default {
             downloadTag.setAttribute('href',downloadUrl);
             downloadTag.click()
         },
+        //继续上传地址
         uploadUrl() {
             return `${this.baseURL}/restapi/wesign/v1.9/tenant/RepeatedlyReadExcel`
         },
+        //上传文件
         handleChange(name){
             this.$loading.show();
             var max_size = 10; // 5M
@@ -270,6 +249,7 @@ export default {
             }
             this.$loading.hide()
         },
+        //上传文件成功回显
         fileSuccess(res){
             if(res.resultCode == "1") {
                 this.getSignerInfo(this.pageNo, this.pageSize);
@@ -279,10 +259,12 @@ export default {
                 this.getImportInfo(params);
             }
         },
+        //切换分页每页显示数据
         handleSizeChange(pageSize){
             this.pageSize = pageSize;
             this.getSignerInfo(this.pageNo, this.pageSize);
         },
+        //切换分页显示第几页
         handleCurrentChange(pageNo){
             this.pageNo = pageNo;
             this.getSignerInfo(this.pageNo, this.pageSize);
@@ -305,6 +287,7 @@ export default {
 
             })
         },
+        //生成合同
         nextStepFit(){
             this.load = true;
             let params = {
@@ -326,6 +309,7 @@ export default {
 
             })
         },
+        //取消
         SigleTempCancel() {    //取消操作
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             const h = this.$createElement;
@@ -368,12 +352,13 @@ export default {
                     this.imgList = res.data.dataList;
                     this.contractSignInfo = res.data.data;
                 } else {
-                    console.log(222)
+                    this.$message.error(res.data.resultMessage);
                 }
              }).catch(error => {
 
             })
         },
+        //修改table样式
         getRowClass({ row, column, rowIndex, columnIndex }) {
             if (rowIndex == 0) {
                 return 'background:#efefef;font-weight:bold;'
@@ -388,6 +373,8 @@ export default {
                     this.total = res.data.data.totalItem
                     this.passed = res.data.data.successItem
                     this.unpassed = res.data.data.failureItem
+                } else {
+                    this.$message.error(res.data.resultMessage);
                 }
             }).catch(error => {
 
@@ -404,6 +391,8 @@ export default {
                 if(res.data.resultCode == "1") {
                     this.importData = res.data.dataList;
                     this.num = res.data.data.totalItemNumber;
+                } else {
+                    this.$message.error(res.data.resultMessage);
                 }
             }).catch(error => {
 
@@ -414,7 +403,6 @@ export default {
         const params = {
             conOrderNo: this.uploadParams.conOrderNo
         };
-        console.log(this.uploadParams.conOrderNo)
         this.getImportInfo(params)
         this.getSignerInfo(this.pageNo, this.pageSize);
     }

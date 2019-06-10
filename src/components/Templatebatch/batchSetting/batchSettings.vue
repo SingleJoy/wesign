@@ -364,12 +364,15 @@
       }
     },
     methods: {
+        //导入数据弹框
         uploadCencel() {
             this.importDataVisible = false;
         },
+        //上传execl地址
         uploadUrl() {
             return `${this.baseURL}/restapi/wesign/v1.9/tenant/readTemplateExcel`
         },
+        //导出execl表格
         downloadTemplate() {
             let downloadUrl = downloadTemplateExcel(this.templateNo);
             let downloadTag = document.createElement('a');
@@ -377,8 +380,8 @@
             downloadTag.setAttribute('href',downloadUrl);
             downloadTag.click()
         },
+        //上传execl表格
         handleChange(name){
-            console.log(name)
             this.$loading.show();
             var max_size = 10; // 5M
             var fileContName = name.name.replace(/\s+/g, "");
@@ -415,8 +418,8 @@
             }
             this.$loading.hide()
         },
+        //execl表格上传成功数据回显
         fileSuccess(res){
-            console.log(res)
             if(res.resultCode == 1) {
                 sessionStorage.setItem("conOrderNo",res.data.conOrderNo);
                 this.$loading.hide();
@@ -429,10 +432,14 @@
                 });
             }
         },
+        //execl表格上传失败
         errorChange(error) {
-            console.log(error)
+            this.$message({
+                showClose: true,
+                message: error.resultMessage,
+                type: "error"
+            });
         },
-
         getRowClass({ row, column, rowIndex, columnIndex }) {
             if (rowIndex == 0) {
                 return "background:#f5f5f5;text-align:center;font-weight:bold;";
