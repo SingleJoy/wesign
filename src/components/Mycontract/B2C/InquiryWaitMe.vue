@@ -283,7 +283,8 @@
             obj.signers =  res.data.content[i].signers;
             obj.validTime =  res.data.content[i].validTime;
             obj.contractStatus =  res.data.content[i].contractStatus;
-            obj.operator = res.data.content[i].operator
+            obj.operator = res.data.content[i].operator;
+            obj.createType = res.data.content[i].createType;
             obj.isCreater = isCreater;
             obj.operation = ''
             switch (obj.contractStatus){
@@ -411,11 +412,9 @@
         this.$router.push('/ContractInfo')
 
       },
-      signClick (row) { //待我签署
-
+        //待我签署
+      signClick (row) {
           let createType=row.createType;
-          console.log(row)
-          console.log(row.createType)
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
           sessionStorage.setItem('contractNo', row.contractNum)
           if(createType==1){

@@ -157,28 +157,27 @@ export default {
         }
     },
     created() {
-
         this.$loading.show(); //显示
-        let data =[]
+        let data =[];
         let t=Math.random();
-        let param = JSON.parse(sessionStorage.getItem('signleContract'));
-        this.contractNo = param.contractNo?param.contractNo:sessionStorage.getItem("contractNo");
+
+        this.contractNo =sessionStorage.getItem("contractNo");
         contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
 
         /*获取后台数据，并使用imgArray*/
             for(let i=0;i<res.data.length;i++){
-                let contractUrl = res.data[i].contractUrl
-                data[i] = contractUrl
+                let contractUrl = res.data[i].contractUrl;
+                data[i] = contractUrl;
                 this.$loading.hide(); //隐藏
             }
-            this.imgArray = data
+            this.imgArray = data;
             /*获取总的页码*/
-            this.allpage = res.data.length
+            this.allpage = res.data.length;
 
             this.$nextTick(() => {
-                this._initScroll()
-                this._calculateHeight()
-            })
+                this._initScroll();
+                this._calculateHeight();
+            });
             this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
             scrollY: true,
@@ -343,12 +342,12 @@ export default {
         },
         //提交签署
         submitContract () { 
-            let contractParam = JSON.parse(sessionStorage.getItem('signleContract'));
 
-            this.conOrderNo = contractParam.contractNo?contractParam.contractNo:sessionStorage.getItem("contractNo");
+           //单份合同签署  订单编号即为合同编号
+            this.conOrderNo =sessionStorage.getItem("contractNo");
             signleKeyWordSign(this.interfaceCode,this.conOrderNo).then(res=>{
                 if(res.data.resultCode == 1){
-                    this.$router.push('/signleSigned')
+                    this.$router.push('/SingleSigned')
                 }else{
                     //弹框点击确定跳转我的合同列表页面
                     this.$message({
