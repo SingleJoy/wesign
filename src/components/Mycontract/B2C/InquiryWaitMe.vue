@@ -412,9 +412,17 @@
 
       },
       signClick (row) { //待我签署
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        this.$router.push('/Contract')
+
+          let createType=row.createType;
+          console.log(row)
+          console.log(row.createType)
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          if(createType==1){
+              this.$router.push('/SingleSigning')
+          }else{
+              this.$router.push('/Contract')
+          }
       },
       remindClick (row) { //提醒
         let param={
