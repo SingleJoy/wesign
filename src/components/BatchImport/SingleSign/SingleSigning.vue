@@ -348,7 +348,7 @@ export default {
             this.conOrderNo = contractParam.contractNo?contractParam.contractNo:sessionStorage.getItem("contractNo");
             signleKeyWordSign(this.interfaceCode,this.conOrderNo).then(res=>{
                 if(res.data.resultCode == 1){
-                    this.$router.push('/SignleSigned')
+                    this.$router.push('/signleSigned')
                 }else{
                     //弹框点击确定跳转我的合同列表页面
                     this.$message({
