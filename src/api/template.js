@@ -81,7 +81,7 @@ export  function contracttempimgs(interfaceCode,contractNo) {
   })
 }
 
-// contractkeywordsign
+// contractkeywordsign 一键签署和单个签署
 export  function contractkeywordsign(interfaceCode,contractNo) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/user/'+interfaceCode+'/contractkeywordsign/'+contractNo,
@@ -89,6 +89,15 @@ export  function contractkeywordsign(interfaceCode,contractNo) {
     data: ''
   })
 }
+
+// contractkeywordsign 一键签署和单个签署
+export  function signleKeyWordSign(interfaceCode,contractNo) {
+    return request({
+      url: "api/v1.9/tenant/"+interfaceCode+'/user/'+interfaceCode+'/contract/'+contractNo +'/contractkeywordsign',
+      method: "post",
+      data: ''
+    })
+  }
 
 //signerpositions
 export  function signerpositions(interfaceCode,contractNo,param) {
@@ -139,7 +148,9 @@ export function contractkeywordsignNew(interfaceCode,conOrderNo,params) {
     return request({
         url: "api/v1.9/tenant/"+interfaceCode+'/contractkeywordsign/'+conOrderNo,
         method: "post",
-        data: params
+        data: params,
+        headers:{ 'Content-Type': 'application/json'},
+        qs:null
     })
 }
 

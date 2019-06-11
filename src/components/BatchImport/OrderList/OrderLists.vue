@@ -34,6 +34,9 @@
                             prop="contractNum"
                             label="份数"
                             align="center">
+                             <template slot-scope="scope">
+                                 <span>{{scope.row.contractNum?scope.row.contractNum:'--'}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="operation"
@@ -96,14 +99,14 @@
                 getconorderlock(this.accountCode,conOrderNo).then(res=>{
                     if(res.data.resultCode==1){
                         sessionStorage.setItem("conOrderNo",conOrderNo);
-                        if(res.data.data.steps==0){
-                            this.$router.push('/importdata');
+                        if(res.data.data.steps==0){                    // step==0 订单状态为导入数据
+                            this.$router.push('/importData');
                         }else{
-                            this.$router.push('/BatchContractList');
+                            this.$router.push('/BatchContractList');   //step == 1 订单状态为生成合同
                         }
 
-                    }else{
-                        this.$message({
+                    }else{                           //result == 0  签署中，合同生成中
+                        this.$message({             
                             type: 'error',
                             message: res.data.resultMessage
                         });

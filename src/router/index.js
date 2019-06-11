@@ -521,7 +521,7 @@ export const router = new Router({
         },
       {
         //模板批量发起，订单列表
-          path: '/OrderList',
+        path: '/OrderList',
         name: 'OrderList',
         component: loadComponent('BatchImport/OrderList/OrderList'),
         meta: {
@@ -537,6 +537,23 @@ export const router = new Router({
           auth: true
         }
       },
+      {
+        //模板批量发起，我的订单单个合同签署
+        path: '/SingleSigning',
+        name: 'SingleSigning',
+        component: loadComponent('BatchImport/SingleSign/SingleSigning'),
+        meta: {
+          auth: true
+        }
+      },
+         {  //模板批量发起，我的订单单个合同签署
+           path: '/singleSigned',
+           name: 'singleSigned',
+           component: loadComponent('BatchImport/SingleSign/SingleSigned'),
+           meta: {
+             auth: true
+           }
+         },
         //微签1.6 体验demo
         {
             path: '/DemoRegister',

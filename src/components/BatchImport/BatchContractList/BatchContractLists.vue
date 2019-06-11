@@ -22,7 +22,8 @@
                         stripe
                         style="width: 100%"
                         :row-style="tableRowStyle"
-                        :header-cell-style="tableHeaderColor">
+                        :header-cell-style="tableHeaderColor"
+                         @selection-change="handleSelectionChange">
                         <el-table-column
                             type="selection"
                             align="center"
@@ -35,7 +36,7 @@
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="signer"
+                            prop="signers"
                             label="签署人"
                             width="150"
                             align="center">
@@ -47,13 +48,13 @@
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="endTime"
+                            prop="validTime"
                             label="截止时间"
                             width="200"
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="currentState"
+                            prop="contractStatus"
                             label="当前状态"
                             width="120"
                             align="center">
@@ -63,7 +64,7 @@
                             label="操作"
                             align="center">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="mini" @click="sign">签署</el-button>
+                                <el-button  type="text" size="mini" @click="singleSign(scope.row)">签署</el-button>
                                 <el-button  type="text" size="mini" @click="previerContract(scope.row)">查看</el-button>
                             </template>
                         </el-table-column>
@@ -81,12 +82,11 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="showDialogs">
+        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="showDialogs" :close-on-click-modal='false'>
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
-                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
                 </div>
-                <img src="https://www.zqsign.com/restapi/wesign/v1/tenant/contract/img?contractUrl=group2/M01/5E/6F/wKgAGlzsnEOAJBgYAAdpDEThwJs569.JPG" alt="">
 
             </div>
             <div class="contract-detail">
@@ -95,11 +95,11 @@
                     <ul>
                         <li>
                             <span class="info-title">合同名称：</span>
-                            <span class="content">租房</span>
+                            <span class="content">{{contractDetail.contractName}}</span>
                         </li>
                         <li>
                             <span class="info-title">签署截止日期：</span>
-                            <span class="content">永久有效</span>
+                            <span class="content">{{contractDetail.validTimeStr}}</span>
                         </li>
                     </ul>
                 </div>
@@ -108,15 +108,15 @@
                     <ul>
                         <li>
                             <span class="info-title">姓名：</span>
-                            <span class="content">租房</span>
+                            <span class="content">{{contractDetail.userName}}</span>
                         </li>
                         <li>
                             <span class="info-title">身份证号：</span>
-                            <span class="content">111111111123122232</span>
+                            <span class="content">{{contractDetail.idCard}}</span>
                         </li>
                         <li>
                             <span class="info-title">手机号码：</span>
-                            <span class="content">111111111123122232</span>
+                            <span class="content">{{contractDetail.mobile}}</span>
                         </li>
                     </ul>
                 </div>
@@ -126,11 +126,12 @@
     </div>
 </template>
 <script>
-    import {getcontracts,contractkeywordsignNew} from '@/api/template.js'
+    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js'
     export default {
         name: 'OrderLists',
         data () {
             return {
+                baseURL:this.baseURL.BASE_URL,
                 dialVisible:false,
                 imgList:[],
                 tableData:[],
@@ -139,12 +140,34 @@
                 interfaceCode:sessionStorage.getItem("interfaceCode"),
                 accountCode:sessionStorage.getItem("accountCode"),
                 conOrderNo:sessionStorage.getItem("conOrderNo"),
+                paramsList:[],  //批量签署合同参数数组
+                contractDetail:{
+                    contractName:'',
+                    validTimeStr:'',
+                    userName:'',
+                    idCard:'',
+                    mobile:'',
+                }
             }
         },
         methods:{
             // 查看合同
-            previerContract(){
+            previerContract(val){
                 this.dialVisible = true;
+                let param = {
+                    contractNo:val.contractNo
+                }
+                getContractImages(param).then(res=>{
+                    if(res.data.resultCode ==1){
+                        this.contractDetail = res.data.data;
+                        this.imgList = res.data.dataList;
+                    }else{
+
+                    }
+                }).catch(err=>{
+                    
+                })
+
             },
             tableRowStyle({ row, rowIndex }) {
                 return 'border: 1px solid red;'
@@ -161,19 +184,45 @@
 
             },
             signAll(){
-               let params={
-                   interfaceCode:this.interfaceCode,
-                   conOrderNo:this.conOrderNo,
-               };
-                contractkeywordsignNew(this.interfaceCode,this.conOrderNo,params).then(res=>{
+                if(this.paramsList.length==0){
+                    this.$message({
+                        type: 'warning',
+                        message: '请勾选要签署的合同'
+                    });
+                }else{
+                    let param = {
+                        signContractVoList:this.paramsList
+                    }
+                    contractkeywordsignNew(this.interfaceCode,this.conOrderNo,JSON.stringify(param)).then(res=>{
+                        if(res.data.responseCode == 1){
+                            this.$router.push('/batchSigning')
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.data.responseMsg
+                            });
+                        }
 
+                    }).catch(error=>{
 
-                }).catch(error=>{
-
-                })
+                    })
+                }
+                
             },
-            sign(){
+            singleSign(val){
+                sessionStorage.setItem('signleContract',JSON.stringify(val))
+                this.$router.push('./SingleSigning')
 
+            },
+            //一键签署和单个签署
+            handleSelectionChange(value){
+                let val = value[0];
+                let contractObj = {
+                    contractNo:val.contractNo,
+                    contractName:val.contractName,
+                    mobile:val.mobile
+                }
+                this.paramsList.push(contractObj)
             },
             getData(){
                 let params={
