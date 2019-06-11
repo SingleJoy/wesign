@@ -291,6 +291,14 @@ export default {
         },
         //生成合同
         nextStepFit(){
+            if(!this.importData.length) {
+                this.$message({
+                    showClose: true,
+                    message: "签署人不能为空",
+                    type: "warning"
+                });
+                return;
+            }
             this.load = true;
             let params = {
                 conOrderNo: this.uploadParams.conOrderNo
@@ -301,7 +309,7 @@ export default {
                    this.load = false;
                    this.$router.push("/CreateContract");
                } else {
-                   this.$message({
+                    this.$message({
                         showClose: true,
                         message: res.data.resultMessage,
                         type: "error"

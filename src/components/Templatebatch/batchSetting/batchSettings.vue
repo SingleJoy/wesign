@@ -103,6 +103,7 @@
                 ref="upload"
                 :action="uploadUrl()"
                 :before-upload="handleChange"
+                :on-progress="uploading"
                 :on-error="errorChange"
                 :on-success="fileSuccess"
                 :show-file-list="false"
@@ -250,6 +251,7 @@
                 class="upload-demo"
                 ref="upload"
                 :action="uploadUrl()"
+                :on-progress="uploading"
                 :before-upload="handleChange"
                 :on-error="errorChange"
                 :on-success="fileSuccess"
@@ -399,24 +401,12 @@
             downloadTag.setAttribute('href',downloadUrl);
             downloadTag.click()
         },
+        uploading() {
+            this.$loading.show("数据读取中…");
+            this.importDataVisible = false;
+        },
         //上传execl表格
         handleChange(name){
-            var _this = this;
-            console.log(this.$loading.show)
-            // _this.aaa = _this.$loading({
-            //     lock: true,
-            //     text: 'Loading',
-            //     spinner: 'el-icon-loading',
-            //     background: 'rgba(0, 0, 0, 0.7)'
-            // });
-            // this.$loading = true;
-            // const loading = this.$loading({
-            //     lock: true,
-            //     text: 'Loading',
-            //     spinner: 'el-icon-loading',
-            //     background: 'rgba(0, 0, 0, 0.7)'
-            // });
-            this.$loading.show();
             var max_size = 10; // 5M
             var fileContName = name.name.replace(/\s+/g, "");
             var reg = /[.](xls|xlsx)$/;
@@ -427,7 +417,6 @@
                     type: "error"
                 });
                 this.$refs.upload.clearFiles();
-                this.$loading.hide();
                 return false;
             } else if (name.size > max_size * 1024 * 1024) {
                 this.$message({
@@ -436,7 +425,6 @@
                     type: "error"
                 });
                 this.$refs.upload.clearFiles();
-                this.$loading.hide();
                 return false;
             }else if (fileContName.length > 50) {
                 this.$message({
@@ -445,12 +433,10 @@
                     type: "error"
                 });
                 this.$refs.upload.clearFiles();
-                this.$loading.hide();
                 return false;
             }else {
                 
             }
-            this.$loading.hide()
         },
         //execl表格上传成功数据回显
         fileSuccess(res){
@@ -468,6 +454,7 @@
         },
         //execl表格上传失败
         errorChange(error) {
+            this.$loading.hide();
             this.$message({
                 showClose: true,
                 message: error.resultMessage,
