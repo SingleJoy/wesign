@@ -6,16 +6,18 @@ import {router} from '../router'
 
 
 const Axios = axios.create({
-    timeout: 30000,                    // request timeout
+    timeout: 30000,
     responseType: "json"
 })
 
 // 请求拦截
-Axios.interceptors.request.use((config)=>{
-    if(config.qs != null) {             //判断post请求不同数据类型是否需要qs转换
+Axios.interceptors.request.use((config) => {
+    console.log(config.qs)
+    if (config.qs == undefined) {             //判断post请求不同数据类型是否需要qs转换
+        console.log(1111)
         config.transformRequest = [
             function (data) {  // 将数据转换为表单数据
-                data = qs.stringify(data)
+                data = qs.stringify(data);
                 return data
             }
         ]

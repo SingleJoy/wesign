@@ -85,7 +85,7 @@
       <div class="setting">
         <h2 class="settingInfo">
           <div class="title">签署人信息</div>
-          <p class="batchInfo" style="margin-top:-40px;">
+          <p class="batchInfo" style="margin-top:-40px; display: flex;">
             <!-- <el-checkbox></el-checkbox>
 			       <b class='info'>短信通知</b>
 		        	<el-checkbox></el-checkbox>
@@ -261,7 +261,7 @@
                 element-loading-background="rgba(0, 0, 0, 0.5)"
                 multiple
             >
-                <el-button size="small" class="uploadSure" type="primary">确定</el-button>
+                <el-button size="small" type="primary">确定</el-button>
             </el-upload>
             <el-button @click="uploadCencel" size="small">取 消</el-button>
         </span>
@@ -844,6 +844,15 @@
 </style>
 
 <style lang="scss">
+.batchSettings {
+    .batchInfo {
+        .uploadSure {
+            height: 36px;
+            margin-left: 10px;
+            width: 98px;
+        }
+    }
+}
 .batchSettings .setting .title,
 .batchSettings .file .title {
   height: 46px;

@@ -240,14 +240,14 @@ export function getContractLists(accountCode, conOrderNo, params) {
     })
 }
 
-//一键签署
-export function batchContractkeywordsign(interfaceCode, conOrderNo) {
-    return request({
-        url: "api/v1.9/tenant/" + interfaceCode + "/contractkeywordsign/" + conOrderNo,
-        method: "post",
-        data: {}
-    })
-}
+// //一键签署
+// export function batchContractkeywordsign(interfaceCode, conOrderNo) {
+//     return request({
+//         url: "api/v1.9/tenant/" + interfaceCode + "/contractkeywordsign/" + conOrderNo,
+//         method: "post",
+//         data: {}
+//     })
+// }
 
 //轮询签署结果
 export function getsignresult(interfaceCode, conOrderNo) {

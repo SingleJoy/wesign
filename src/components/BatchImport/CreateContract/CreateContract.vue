@@ -146,7 +146,7 @@ import Bottom from '@/common/components/Bottom.vue';
 import cookie from '@/common/js/getTenant';
 import { verifySignPassword } from '@/api/personal';
 import md5 from "js-md5";
-import { getContractLists, getContractImages, batchContractkeywordsign } from '@/api/template'
+import { getContractLists, getContractImages, contractkeywordsignNew } from '@/api/template'
 export default {
     name: "CreateContract",
     data(){
@@ -305,7 +305,7 @@ export default {
         },
         keySign() {
             let interfaceCode = sessionStorage.getItem("interfaceCode");
-            batchContractkeywordsign(interfaceCode, this.conOrderNo).then(res => {
+            contractkeywordsignNew(interfaceCode, this.conOrderNo).then(res => {
                if(res.data.responseCode == "1") {
                    this.dialogVisibleSign = false;
                    this.load = false;
