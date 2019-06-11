@@ -162,7 +162,7 @@ export default {
         let data =[]
         let t=Math.random();
         let param = JSON.parse(sessionStorage.getItem('signleContract'));
-        this.contractNo = param.contractNo;
+        this.contractNo = param.contractNo?param.contractNo:sessionStorage.getItem("contractNo");
         contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
 
         /*获取后台数据，并使用imgArray*/
@@ -344,7 +344,8 @@ export default {
         //提交签署
         submitContract () { 
             let contractParam = JSON.parse(sessionStorage.getItem('signleContract'));
-            this.conOrderNo = contractParam.contractNo;
+
+            this.conOrderNo = contractParam.contractNo?contractParam.contractNo:sessionStorage.getItem("contractNo");
             signleKeyWordSign(this.interfaceCode,this.conOrderNo).then(res=>{
                 if(res.data.resultCode == 1){
                     this.$router.push('/SignleSigned')

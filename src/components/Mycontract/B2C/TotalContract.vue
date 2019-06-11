@@ -432,9 +432,16 @@
       },
 
       signClick (row) { //签署
-        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-        sessionStorage.setItem('contractNo', row.contractNum)
-        this.$router.push('/Contract')
+          console.log(row.createType)
+          let createType=row.createType;
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
+          if(createType==1){
+              this.$router.push('/SingleSigning')
+          }else{
+              this.$router.push('/Contract')
+          }
+
       },
 
       remindClick (row) { //提醒
