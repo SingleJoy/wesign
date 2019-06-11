@@ -15,10 +15,10 @@
                     <div class="progress-hint-end">签署成功的链接将会通过短信的方式通知到签署合约方</div>
                     <div class="contract-link">
                         <span>签约室链接：</span>
-                        <span class="contract-link-url">www.zqsign.com</span>
+                        <span class="contract-link-url">{{signRoomLink}}</span>
                         <button 
                             class="copy-link"
-                            v-clipboard:copy="url"
+                            v-clipboard:copy="signRoomLink"
                             v-clipboard:success="onCopy"
                             v-clipboard:error="onError">复制链接
                         </button>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="style-center">共创建合同</div>
                     <div class="style-center">
-                        <span class="num-color">40</span>
+                        <span class="num-color">{{totalNum}}</span>
                         <span>条</span>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="style-center">签署成功</div>
                     <div class="style-center">
-                        <span class="num-color">40</span>
+                        <span class="num-color">{{successNum}}</span>
                         <span>条</span>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="style-center">签署失败</div>
                     <div class="style-center">
-                        <span class="num-color">40</span>
+                        <span class="num-color">{{failNum}}</span>
                         <span>条</span>
                     </div>
                 </div>
@@ -78,12 +78,22 @@ export default {
     name: "BatchSigned",
     data() {
         return {
-            url: "www.zqsign.com"
+            signRoomLink: "", //签署链接
+            failNum: "",      //失败条数
+            successNum: "",   //成功条数
+            totalNum: "",     //总条数
         }
     },
     components: {
         Top,
         Bottom
+    },
+    created() {
+        let querys = this.$route.query;
+        this.failNum = querys.failNum;
+        this.signRoomLink = querys.signRoomLink;
+        this.successNum = querys.successNum;
+        this.totalNum = querys.totalNum;
     },
     methods: {
         //复制成功
@@ -99,7 +109,7 @@ export default {
         },
         //查看详情
         lookDetail() {
-            this.$router.push("/");   
+            this.$router.push("/BatchContractList");   
         }
     }
 }

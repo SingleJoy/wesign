@@ -161,7 +161,7 @@ export default {
         this.getContractInfo(this.pageNo, this.pageSize); 
     },
     methods: {
-        //回去table数据
+        //获取table数据
         getContractInfo(pageNo, pageSize) {
             let contractInfo = {
                 pageNo: pageNo,
