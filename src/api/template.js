@@ -144,13 +144,14 @@ export function getcontracts(accountCode,conOrderNo,params) {
     })
 }
 // / 一键签署页面
-export function contractkeywordsignNew(interfaceCode,conOrderNo,params) {
+export function contractkeywordsignNew(interfaceCode, conOrderNo, params) {
+    console.log(params);
     return request({
         url: "api/v1.9/tenant/"+interfaceCode+'/contractkeywordsign/'+conOrderNo,
         method: "post",
         data: params,
         headers:{ 'Content-Type': 'application/json'},
-        qs:null
+        qs: "qs"
     })
 }
 
