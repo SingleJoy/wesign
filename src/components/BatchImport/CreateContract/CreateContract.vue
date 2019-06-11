@@ -305,7 +305,7 @@ export default {
         },
         keySign() {
             let interfaceCode = sessionStorage.getItem("interfaceCode");
-            contractkeywordsignNew(interfaceCode, this.conOrderNo).then(res => {
+            contractkeywordsignNew(interfaceCode, this.conOrderNo, JSON.stringify({})).then(res => {
                if(res.data.responseCode == "1") {
                    this.dialogVisibleSign = false;
                    this.load = false;

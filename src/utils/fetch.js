@@ -12,9 +12,7 @@ const Axios = axios.create({
 
 // 请求拦截
 Axios.interceptors.request.use((config) => {
-    console.log(config.qs)
-    if (config.qs == undefined) {             //判断post请求不同数据类型是否需要qs转换
-        console.log(1111)
+    if (config.qs == undefined) {   //判断post请求不同数据类型是否需要qs转换
         config.transformRequest = [
             function (data) {  // 将数据转换为表单数据
                 data = qs.stringify(data);

@@ -401,6 +401,21 @@
         },
         //上传execl表格
         handleChange(name){
+            var _this = this;
+            console.log(this.$loading.show)
+            // _this.aaa = _this.$loading({
+            //     lock: true,
+            //     text: 'Loading',
+            //     spinner: 'el-icon-loading',
+            //     background: 'rgba(0, 0, 0, 0.7)'
+            // });
+            // this.$loading = true;
+            // const loading = this.$loading({
+            //     lock: true,
+            //     text: 'Loading',
+            //     spinner: 'el-icon-loading',
+            //     background: 'rgba(0, 0, 0, 0.7)'
+            // });
             this.$loading.show();
             var max_size = 10; // 5M
             var fileContName = name.name.replace(/\s+/g, "");
