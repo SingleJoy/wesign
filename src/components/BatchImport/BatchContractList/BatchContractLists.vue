@@ -24,15 +24,12 @@
                         :row-style="tableRowStyle"
                         :header-cell-style="tableHeaderColor"
                          @selection-change="handleSelectionChange">
-                        <el-table-column>
-                            <template slot-scope="scope">
-                               <el-table-column 
-                                    type="selection"
-                                    align="center"
-                                    width="55" 
-                                    v-if="scope.row.contractStatus == '1'">
-                                </el-table-column>
-                            </template>
+                        <el-table-column 
+                            type="selection"
+                            align="center"
+                            width="55" 
+                            :selectable="selectable"
+                        >
                         </el-table-column>
                         <el-table-column
                             prop="contractName"
@@ -63,7 +60,7 @@
                             width="120"
                             align="center">
                             <template slot-scope="scope">
-                               <span>{{scope.row.contractStatus | filtercontractStatus }}</span>
+                               <span>{{scope.row.contractStatus | filtercontractStatus}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -135,9 +132,10 @@
 </template>
 <script>
     import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js';
-    import { filtercontractStatus } from '@/common/js/filterStr'
+    import { filtercontractStatus } from '@/common/js/filterStr.js'
     export default {
         name: 'OrderLists',
+        filters: {filtercontractStatus},
         data () {
             return {
                 baseURL:this.baseURL.BASE_URL,
@@ -178,7 +176,13 @@
                 }).catch(err=>{
                     
                 })
-
+            },
+            selectable(row, index) {
+                if(row.contractStatus == "1") {
+                    return true
+                } else {
+                    return false;
+                }
             },
             tableRowStyle({ row, rowIndex }) {
                 return 'border: 1px solid red;'
@@ -189,12 +193,10 @@
                 }
             },
             handleSizeChange(value){
-                console.log(value)
                 this.pageSize = value;
                 this.getData(this.pageNo, this.pageSize);
             },
             handleCurrentChange(value){
-                console.log(value)
                 this.pageNo = value;
                 this.getData(this.pageNo, this.pageSize);
             },
@@ -232,13 +234,24 @@
             },
             //一键签署和单个签署
             handleSelectionChange(value){
-                let val = value[0];
-                let contractObj = {
-                    contractNo:val.contractNo,
-                    contractName:val.contractName,
-                    mobile:val.mobile
+
+                let contractObj = [];
+                for(let i = 0; i < value.length; i++) {
+                    contractObj.push({
+                        contractNo: value[i].contractNo,
+                        contractName: value[i].contractName,
+                        mobile: value[i].mobile
+                    }) 
                 }
-                this.paramsList.push(contractObj)
+                this.paramsList = contractObj;
+                // this.paramsList = [];
+                // let val = value[0];
+                // let contractObj = {
+                //     contractNo:val.contractNo,
+                //     contractName:val.contractName,
+                //     mobile:val.mobile
+                // }
+                // this.paramsList.push(contractObj)
             },
             getData(pageNo, pageSize){
                 let params={
