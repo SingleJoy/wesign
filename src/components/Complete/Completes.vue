@@ -90,7 +90,7 @@ import {prohibit} from '@/common/js/prohibitBrowser'
 import cookie from '@/common/js/getTenant'
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
-import {getContractDetails,signLink,getSignLink} from '@/api/personal'
+import {getContractDetails,signLink} from '@/api/personal'
 import {contractimgs} from '@/api/detail'
 import {signfinish} from '@/api/common'
 export default {
@@ -152,7 +152,8 @@ export default {
               this.roomlink = res.data.data.signRoomLink;
               this.signUser = res.data.dataList;
               this.validTime = res.data.data.validTime;
-              this.getContractName =res.data.data.contractName
+              this.getContractName =res.data.data.contractName;
+              this.contractlink = res.data.data.signLink;
           }else{
               this.$message({
                   type: 'error',
@@ -163,12 +164,7 @@ export default {
     }).catch(error=>{
 
     });
-    //获取签署链接
-   getSignLink(this.interfaceCode,this.contractNo).then(res=>{
-          this.contractlink = res.data
-    }).catch(error=>{
 
-    })
   },
   mounted() {
     prohibit()
