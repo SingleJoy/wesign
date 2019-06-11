@@ -24,10 +24,12 @@
                         :row-style="tableRowStyle"
                         :header-cell-style="tableHeaderColor"
                          @selection-change="handleSelectionChange">
-                        <el-table-column
+                        <el-table-column 
                             type="selection"
                             align="center"
-                            width="55">
+                            width="55" 
+                            :selectable="selectable"
+                        >
                         </el-table-column>
                         <el-table-column
                             prop="contractName"
@@ -54,17 +56,19 @@
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="contractStatus"
                             label="当前状态"
                             width="120"
                             align="center">
+                            <template slot-scope="scope">
+                               <span>{{scope.row.contractStatus | filtercontractStatus}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="operation"
                             label="操作"
                             align="center">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="mini" @click="singleSign(scope.row)">签署</el-button>
+                                <el-button  type="text" size="mini" v-if="scope.row.contractStatus == '1'" @click="singleSign(scope.row)">签署</el-button>
                                 <el-button  type="text" size="mini" @click="previerContract(scope.row)">查看</el-button>
                             </template>
                         </el-table-column>
@@ -127,9 +131,11 @@
     </div>
 </template>
 <script>
-    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js'
+    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js';
+    import { filtercontractStatus } from '@/common/js/filterStr.js'
     export default {
         name: 'OrderLists',
+        filters: {filtercontractStatus},
         data () {
             return {
                 baseURL:this.baseURL.BASE_URL,
@@ -170,7 +176,13 @@
                 }).catch(err=>{
                     
                 })
-
+            },
+            selectable(row, index) {
+                if(row.contractStatus == "1") {
+                    return true
+                } else {
+                    return false;
+                }
             },
             tableRowStyle({ row, rowIndex }) {
                 return 'border: 1px solid red;'
@@ -181,12 +193,10 @@
                 }
             },
             handleSizeChange(value){
-                console.log(value)
                 this.pageSize = value;
                 this.getData(this.pageNo, this.pageSize);
             },
             handleCurrentChange(value){
-                console.log(value)
                 this.pageNo = value;
                 this.getData(this.pageNo, this.pageSize);
             },
@@ -224,13 +234,24 @@
             },
             //一键签署和单个签署
             handleSelectionChange(value){
-                let val = value[0];
-                let contractObj = {
-                    contractNo:val.contractNo,
-                    contractName:val.contractName,
-                    mobile:val.mobile
+
+                let contractObj = [];
+                for(let i = 0; i < value.length; i++) {
+                    contractObj.push({
+                        contractNo: value[i].contractNo,
+                        contractName: value[i].contractName,
+                        mobile: value[i].mobile
+                    }) 
                 }
-                this.paramsList.push(contractObj)
+                this.paramsList = contractObj;
+                // this.paramsList = [];
+                // let val = value[0];
+                // let contractObj = {
+                //     contractNo:val.contractNo,
+                //     contractName:val.contractName,
+                //     mobile:val.mobile
+                // }
+                // this.paramsList.push(contractObj)
             },
             getData(pageNo, pageSize){
                 let params={

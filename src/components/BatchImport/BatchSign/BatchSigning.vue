@@ -94,7 +94,7 @@ export default {
                     clearInterval(this.timer);
                 }
             }).catch(error => {
-
+                clearInterval(this.timer);
             })
         },
         //复制成功  
@@ -112,7 +112,11 @@ export default {
         //返回首页
         goBack(){
             this.$router.push("/Home");
-        }
+            clearInterval(this.timer);
+        },
+        beforeDestroy() {
+            clearInterval(this.timer);
+        },
     }
 }
 </script>
