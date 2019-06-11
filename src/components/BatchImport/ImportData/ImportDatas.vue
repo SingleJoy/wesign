@@ -257,6 +257,12 @@ export default {
                     conOrderNo: res.data.conOrderNo
                 }
                 this.getImportInfo(params);
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: res.data.resultMessage,
+                    type: "error"
+                });
             }
         },
         //切换分页每页显示数据

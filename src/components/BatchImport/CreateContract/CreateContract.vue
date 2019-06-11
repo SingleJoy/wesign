@@ -338,7 +338,11 @@ export default {
                     this.imgList = res.data.dataList;
                     this.contractSignInfo = res.data.data;
                 } else {
-                    console.log(222)
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
                 }
              }).catch(error => {
 

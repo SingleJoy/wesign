@@ -83,12 +83,12 @@ export default {
                     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
                 } else if(res.data.resultCode == "1"){
                     clearInterval(this.timer);
-                    // this.$router.push({path:'/batchSigned',query:{
-                    //     failNum:failNum, 
-                    //     signRoomLink: signRoomLink, 
-                    //     successNum: successNum, 
-                    //     totalNum: totalNum
-                    // }});
+                    this.$router.push({path:'/batchSigned',query:{
+                        failNum:failNum, 
+                        signRoomLink: signRoomLink, 
+                        successNum: successNum, 
+                        totalNum: totalNum
+                    }});
                     return "complete"
                 } else {
                     clearInterval(this.timer);
