@@ -210,7 +210,8 @@
                 
             },
             singleSign(val){
-                sessionStorage.setItem('signleContract',JSON.stringify(val))
+                let contractNo=val.contractNo;
+                sessionStorage.setItem('contractNo',contractNo);
                 this.$router.push('./SingleSigning')
 
             },

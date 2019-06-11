@@ -92,6 +92,7 @@ import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
 import {getContractDetails,signLink,getSignLink} from '@/api/personal'
 import {contractimgs} from '@/api/detail'
+import {signfinish} from '@/api/common'
 export default {
   data () {
     return {
@@ -128,7 +129,7 @@ export default {
             this.imgList = data
       }).catch(error=>{
 
-      })
+      });
       this.dialogTableVisible = true
     },
     handleCopy(text, event) {
@@ -143,16 +144,25 @@ export default {
     }
   },
   created() {
-    this.roomlink = cookie.getJSON('tenant')[1].signRoomLink;
 
-    getContractDetails(this.interfaceCode,this.contractNo).then(res=>{
-        this.signUser = res.data.signUserVo
-        let contractVo = res.data.contractVo
-        this.validTime = contractVo.validTime
-        this.getContractName = contractVo.contractName
+
+      signfinish(this.contractNo).then(res=>{
+          console.log(res)
+          if(res.data.resultCode==1){
+              this.roomlink = res.data.data.signRoomLink;
+              this.signUser = res.data.dataList;
+              this.validTime = res.data.data.validTime;
+              this.getContractName =res.data.data.contractName
+          }else{
+              this.$message({
+                  type: 'error',
+                  message: res.data.resultMessage
+              });
+          }
+
     }).catch(error=>{
 
-    })
+    });
     //获取签署链接
    getSignLink(this.interfaceCode,this.contractNo).then(res=>{
           this.contractlink = res.data

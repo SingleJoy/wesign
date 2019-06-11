@@ -36,3 +36,12 @@ export function downloadContracts(interfaceCode,param) {
     data:param
   })
 }
+
+//b2c签署成功 数据回显
+export function signfinish(contractNo) {
+    return request({
+        url:"api/v1/contract/"+contractNo+"/signfinish",
+        method:"get",
+        params:''
+    })
+}
