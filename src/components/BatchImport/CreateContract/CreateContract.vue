@@ -7,7 +7,7 @@
                 </p>
                 <div class='buttons'>
                     <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-                    <el-button style='color:#4091fb' @click="nextStepFit" :loading=load>一键签署</el-button>
+                    <el-button style='color:#4091fb' @click="nextStepFit" :loading=loading>一键签署</el-button>
                 </div>
             </nav>
         </div>
@@ -119,19 +119,50 @@
             </div>
            
         </el-dialog>
+        <div class="sign_dialog">
+            <el-dialog
+                title="校验签署密码"
+                :visible.sync="dialogVisibleSign"
+                :before-close="closeSign"
+                width="30%">
+                <div class="sign_element">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
+                    <el-form-item label="请输入签署密码：" prop="password">
+                    <el-input type="password" placeholder="请输入签署密码" maxlength="16" v-model="ruleForm.password" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                            <el-button @click="closeSign()">取 消</el-button>
+                            <el-button type="primary" @click="submitForm('ruleForm')" :loading= load>确 定</el-button>
+                        </span>
+            </el-dialog>
+        </div>
         <Bottom></Bottom>
     </div>
 </template>
 <script>
 import Bottom from '@/common/components/Bottom.vue';
+import cookie from '@/common/js/getTenant';
+import { verifySignPassword } from '@/api/personal';
+import md5 from "js-md5";
 import { getContractLists, getContractImages, batchContractkeywordsign } from '@/api/template'
 export default {
     name: "CreateContract",
     data(){
+        var validatePassword = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入签署密码'));
+            } else{
+                callback()
+            }
+        };
         return {
             //取消按钮操作
             hasClick: false,
-            //以前签署loading标识
+            //一键签署loading标识
+            loading: false,
+            //验证码提交标识
             load: false,
             //合同列表总共条数
             totalItemNumber: 20,
@@ -151,6 +182,17 @@ export default {
             contractSignInfo: {},
             //服务地址引用
             baseURL:this.baseURL.BASE_URL,
+            //校验验证码弹框
+            dialogVisibleSign: false,
+            //验证码校验规则
+            ruleForm:{
+                password:'',
+            },
+            rules: {
+                password: [
+                    { validator: validatePassword, trigger: 'blur' }
+                ],
+            },
         }
     },
     components: {
@@ -213,10 +255,59 @@ export default {
         },
         //一键签署
         nextStepFit(){
+            this.loading = true;
+            let signVerify = cookie.getJSON('tenant')[1].signVerify;
+            if(signVerify == 1) {
+                this.dialogVisibleSign = true;
+            } else {
+                this.keySign();
+            }
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.validatePassword();
+                } else {
+                    return false;
+                }
+            });
+        },
+        //关闭验证码弹框
+        closeSign() {
+            this.$message({
+                type: 'info',
+                message: "取消签署"
+            });
+            this.dialogVisibleSign = false;
+            this.$refs.ruleForm.resetFields();
+            this.loading = false;
+        },
+        validatePassword () {
             this.load = true;
+            let signVerifyPassword = {
+                signVerifyPassword: md5(this.ruleForm.password)
+            };
+            const accountCode = sessionStorage.getItem("accountCode");
+            verifySignPassword(accountCode, signVerifyPassword).then(res => {
+                if(res.data.resultCode == 1) {
+                    this.keySign();
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: "签署密码错误"
+                    });
+                    this.repeat = true;
+                    this.load = false;
+                }
+            }).catch(error => {
+
+            })
+        },
+        keySign() {
             let interfaceCode = sessionStorage.getItem("interfaceCode");
             batchContractkeywordsign(interfaceCode, this.conOrderNo).then(res => {
                if(res.data.responseCode == "1") {
+                   this.dialogVisibleSign = false;
                    this.load = false;
                    this.$router.push("/BatchSigning");
                } else {
@@ -225,13 +316,12 @@ export default {
                         message: res.data.responseMsg,
                         type: "error"
                     });
+                    this.load = false;
+                    this.loading = false;
                }
             }).catch(error => {
 
             })
-        },
-        keySign() {
-
         },
         // 查看合同
         previerContract(row){
