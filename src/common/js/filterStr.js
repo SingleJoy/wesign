@@ -9,3 +9,20 @@ export function filterStr(value,length) {
   }
 
 }
+export function filtercontractStatus(value) {
+    console.log(value)
+    if (!value) {
+        return '';
+    };
+    if (value == "0") {
+        return "已过期";
+    } else if (value == "1") {
+        return "待我签署";
+    } else if (value == "2") {
+        return "待他人签署";
+    } else if (value == "3") {
+        return "已生效";
+    } else {
+
+    }
+}

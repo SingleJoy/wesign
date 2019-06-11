@@ -24,10 +24,15 @@
                         :row-style="tableRowStyle"
                         :header-cell-style="tableHeaderColor"
                          @selection-change="handleSelectionChange">
-                        <el-table-column
-                            type="selection"
-                            align="center"
-                            width="55">
+                        <el-table-column>
+                            <template slot-scope="scope">
+                               <el-table-column 
+                                    type="selection"
+                                    align="center"
+                                    width="55" 
+                                    v-if="scope.row.contractStatus == '1'">
+                                </el-table-column>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="contractName"
@@ -54,17 +59,19 @@
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="contractStatus"
                             label="当前状态"
                             width="120"
                             align="center">
+                            <template slot-scope="scope">
+                               <span>{{scope.row.contractStatus | filtercontractStatus }}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="operation"
                             label="操作"
                             align="center">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="mini" @click="singleSign(scope.row)">签署</el-button>
+                                <el-button  type="text" size="mini" v-if="scope.row.contractStatus == '1'" @click="singleSign(scope.row)">签署</el-button>
                                 <el-button  type="text" size="mini" @click="previerContract(scope.row)">查看</el-button>
                             </template>
                         </el-table-column>
@@ -127,7 +134,8 @@
     </div>
 </template>
 <script>
-    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js'
+    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js';
+    import { filtercontractStatus } from '@/common/js/filterStr'
     export default {
         name: 'OrderLists',
         data () {
