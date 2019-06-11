@@ -157,9 +157,8 @@ export default {
         }
     },
     created() {
-
         this.$loading.show(); //显示
-        let data =[]
+        let data =[];
         let t=Math.random();
         let param = JSON.parse(sessionStorage.getItem('signleContract'));
         this.contractNo = param.contractNo?param.contractNo:sessionStorage.getItem("contractNo");
@@ -167,18 +166,18 @@ export default {
 
         /*获取后台数据，并使用imgArray*/
             for(let i=0;i<res.data.length;i++){
-                let contractUrl = res.data[i].contractUrl
-                data[i] = contractUrl
+                let contractUrl = res.data[i].contractUrl;
+                data[i] = contractUrl;
                 this.$loading.hide(); //隐藏
             }
-            this.imgArray = data
+            this.imgArray = data;
             /*获取总的页码*/
-            this.allpage = res.data.length
+            this.allpage = res.data.length;
 
             this.$nextTick(() => {
-                this._initScroll()
-                this._calculateHeight()
-            })
+                this._initScroll();
+                this._calculateHeight();
+            });
             this.rightScroll = new BScroll(this.$refs.rightWrapper, {
             probeType: 3,
             scrollY: true,
