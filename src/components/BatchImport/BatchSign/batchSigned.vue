@@ -89,6 +89,10 @@ export default {
         Bottom
     },
     created() {
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
         let querys = this.$route.query;
         this.failNum = querys.failNum;
         this.signRoomLink = querys.signRoomLink;

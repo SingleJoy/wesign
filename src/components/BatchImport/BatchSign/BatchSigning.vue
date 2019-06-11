@@ -24,10 +24,10 @@
                     <div class="progress-hint-end">签署成功的链接将会通过短信的方式通知到签署合约方</div>
                     <div class="contract-link">
                         <span>签约室链接：</span>
-                        <span class="contract-link-url">{{url}}</span>
+                        <span class="contract-link-url">{{signUrl}}</span>
                         <button 
                             class="copy-link"  
-                            v-clipboard:copy="url"
+                            v-clipboard:copy="signUrl"
                             v-clipboard:success="onCopy"
                             v-clipboard:error="onError">复制链接
                         </button>
@@ -47,7 +47,7 @@ export default {
     name: "BatchSigning",
     data() {
         return {
-            url: "www.zqsignmd.com",
+            signUrl: "",
             progress: 0,
             timer: null
         }
@@ -57,6 +57,10 @@ export default {
         Bottom
     },
     created() {
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
         let interfaceCode = sessionStorage.getItem("interfaceCode");
         let conOrderNo = sessionStorage.getItem("conOrderNo");
         let isComplete = this.serchSignResult(interfaceCode, conOrderNo);
@@ -72,16 +76,17 @@ export default {
                     signRoomLink = data.signRoomLink,
                     successNum = data.successNum,
                     totalNum = data.totalNum;
+                    this.signUrl = signRoomLink;
                 if(res.data.resultCode == "0") {
                     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
                 } else if(res.data.resultCode == "1"){
                     clearInterval(this.timer);
-                    this.$router.push({path:'/batchSigned',query:{
-                        failNum:failNum, 
-                        signRoomLink: signRoomLink, 
-                        successNum: successNum, 
-                        totalNum: totalNum
-                    }});
+                    // this.$router.push({path:'/batchSigned',query:{
+                    //     failNum:failNum, 
+                    //     signRoomLink: signRoomLink, 
+                    //     successNum: successNum, 
+                    //     totalNum: totalNum
+                    // }});
                     return "complete"
                 } else {
                     clearInterval(this.timer);

@@ -201,6 +201,10 @@ export default {
     created() {
         //进去页面获取table数据
         this.getContractInfo(this.pageNo, this.pageSize); 
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
     },
     methods: {
         //获取table数据
