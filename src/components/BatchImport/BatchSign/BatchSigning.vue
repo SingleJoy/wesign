@@ -60,13 +60,16 @@ export default {
         let interfaceCode = sessionStorage.getItem("interfaceCode");
         let conOrderNo = sessionStorage.getItem("conOrderNo");
         console.log(conOrderNo)
+        let isComplete = this.serchSignResult(interfaceCode, conOrderNo);
         this.timer = setInterval(() => {
+            console.log("第二次");
             this.serchSignResult(interfaceCode, conOrderNo);
-        }, 3000)
+        }, 2000);
     },
     methods: {
         serchSignResult(interfaceCode, conOrderNo) {
-            getsignresult(interfaceCode, conOrderNo).then(res => {;
+            console.log("第一次");
+            getsignresult(interfaceCode, conOrderNo).then(res => {
                 let data = res.data.data,
                     failNum = data.failNum,
                     signRoomLink = data.signRoomLink,
@@ -82,6 +85,7 @@ export default {
                         successNum: successNum, 
                         totalNum: totalNum
                     }});
+                    return "complete"
                 } else {
                     clearInterval(this.timer);
                 }

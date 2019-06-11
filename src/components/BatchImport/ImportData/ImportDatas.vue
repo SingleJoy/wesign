@@ -273,7 +273,9 @@ export default {
         signerDel(row) {
             let delParams = {
                 contractNo: row.contractNo,
-                userCode: row.userCode
+                userCode: row.userCode,
+                conOrderNo: this.uploadParams.conOrderNo,
+                mobile: row.mobile,
             }
             delContractSigner(delParams).then(res => {
                 if(res.data.resultCode == "1") {
@@ -304,6 +306,7 @@ export default {
                         message: res.data.resultMessage,
                         type: "error"
                     });
+                    this.load = false;
                }
             }).catch(error => {
 

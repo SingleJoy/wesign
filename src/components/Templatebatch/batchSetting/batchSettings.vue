@@ -96,7 +96,26 @@
               size="medium"
               @click="importData"
               class="import-btach-data"
+              v-if="tableDate3.length"
             >导入数据</el-button>
+             <el-upload
+                class="upload-demo"
+                ref="upload"
+                :action="uploadUrl()"
+                :before-upload="handleChange"
+                :on-error="errorChange"
+                :on-success="fileSuccess"
+                :show-file-list="false"
+                :file-list="fileList"
+                accept=".xls,.xlsx"
+                :data=uploadParams
+                element-loading-text="拼命上传中"
+                element-loading-background="rgba(0, 0, 0, 0.5)"
+                multiple
+                v-if="!tableDate3.length"
+            >
+                <el-button size="small" class="uploadSure" type="primary">导入数据</el-button>
+            </el-upload>
             <el-dialog
               title="添加人员"
               :visible.sync="modifyPassword"
@@ -227,7 +246,7 @@
       <div class="import-footer">
         <span slot="footer" class="dialog-footer"> 
             <!-- <el-button size="small" type="primary">确定</el-button> -->
-             <el-upload
+            <el-upload
                 class="upload-demo"
                 ref="upload"
                 :action="uploadUrl()"
@@ -242,7 +261,7 @@
                 element-loading-background="rgba(0, 0, 0, 0.5)"
                 multiple
             >
-                <el-button size="small" type="primary">确定</el-button>
+                <el-button size="small" class="uploadSure" type="primary">确定</el-button>
             </el-upload>
             <el-button @click="uploadCencel" size="small">取 消</el-button>
         </span>
@@ -783,7 +802,7 @@
 
         //导入数据
         importData(){
-            this.importDataVisible = true;
+            this.importDataVisible = true;  
         }
     },
     created() {
