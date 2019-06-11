@@ -277,17 +277,38 @@ export default {
                 conOrderNo: this.uploadParams.conOrderNo,
                 mobile: row.mobile,
             }
-            delContractSigner(delParams).then(res => {
-                if(res.data.resultCode == "1") {
-                    const searchParams = {
-                        conOrderNo: delParams.contractNo
+            this.$confirm('此操作删除该签署人, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                delContractSigner(delParams).then(res => {
+                    if(res.data.resultCode == "1") {
+                        const searchParams = {
+                            conOrderNo: delParams.contractNo
+                        }
+                        this.getImportInfo(searchParams);
+                        this.getSignerInfo(this.pageNo, this.pageSize);
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: res.data.resultMessage
+                        });
                     }
-                    this.getImportInfo(searchParams);
-                    this.getSignerInfo(this.pageNo, this.pageSize);
-                }
-            }).catch(error => {
+                }).catch(error => {
 
-            })
+                })
+                
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         },
         //生成合同
         nextStepFit(){
