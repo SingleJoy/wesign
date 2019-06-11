@@ -118,25 +118,25 @@ export default {
         dialogVisibleSign: false, //签署密码弹框
         load: false,
         repeat:true,  // 标识是否可以点击
-      baseURL:this.baseURL.BASE_URL,
-      interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-      contractName:sessionStorage.getItem('contractName'),
-      contractNo:sessionStorage.getItem('contractNo'),
-      current: 0,
-      showItem:0,
-      allpage: 0,
-      imgArray:[],
-      imgHeight: [],
-      contractImgHeight: 0,
-      contractUrl:[],
-      scrollY: 0,
-      contractSignImg:'',
-      flag: true,//重复提交标示
-      clickSign:false,
-      centerDialogVisible:false,
-      signPosition:'',
-      contSignImg:false, // 确认签隐藏标示
-      resubmit:true
+        baseURL:this.baseURL.BASE_URL,
+        interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
+        contractName:sessionStorage.getItem('contractName'),
+        contractNo:sessionStorage.getItem('contractNo'),
+        current: 0,
+        showItem:0,
+        allpage: 0,
+        imgArray:[],
+        imgHeight: [],
+        contractImgHeight: 0,
+        contractUrl:[],
+        scrollY: 0,
+        contractSignImg:'',
+        flag: true,//重复提交标示
+        clickSign:false,
+        centerDialogVisible:false,
+        signPosition:'',
+        contSignImg:false, // 确认签隐藏标示
+        resubmit:true
     }
   },
   computed:{
