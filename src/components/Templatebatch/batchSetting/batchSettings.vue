@@ -454,6 +454,7 @@
         },
         //execl表格上传失败
         errorChange(error) {
+            console.log(error)
             this.$loading.hide();
             this.$message({
                 showClose: true,

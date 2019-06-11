@@ -74,8 +74,9 @@
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="pageNum"
+                            :page-sizes="[10, 20, 50, 100]"
                             :page-size="10"
-                            layout="prev, pager, next, total, jumper"
+                            layout="total, sizes, prev, pager, next, jumper"
                             :total="totalItemNumber">
                         </el-pagination>
                     </div>
@@ -147,7 +148,9 @@
                     userName:'',
                     idCard:'',
                     mobile:'',
-                }
+                },
+                pageNo: 1,
+                pageSize: 10,
             }
         },
         methods:{
@@ -178,10 +181,14 @@
                 }
             },
             handleSizeChange(value){
-
+                console.log(value)
+                this.pageSize = value;
+                this.getData(this.pageNo, this.pageSize);
             },
-            handleCurrentChange(){
-
+            handleCurrentChange(value){
+                console.log(value)
+                this.pageNo = value;
+                this.getData(this.pageNo, this.pageSize);
             },
             signAll(){
                 if(this.paramsList.length==0){
@@ -224,10 +231,10 @@
                 }
                 this.paramsList.push(contractObj)
             },
-            getData(){
+            getData(pageNo, pageSize){
                 let params={
-                    pageNo:this.pageNum,
-                    pageSize:10,
+                    pageNo:pageNo,
+                    pageSize:pageSize,
                 };
                 getcontracts(this.accountCode,this.conOrderNo,params).then(res=>{
 
@@ -247,7 +254,7 @@
         },
 
         created() {
-            this.getData()
+            this.getData(this.pageNo, this.pageSize);
         }
     }
 </script>
