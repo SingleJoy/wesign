@@ -298,7 +298,7 @@ export default {
                         const searchParams = {
                             conOrderNo: delParams.contractNo
                         }
-                        this.getImportInfo(searchParams);
+                        // this.getImportInfo(searchParams);
                         this.getSignerInfo(this.pageNo, this.pageSize);
                         this.$message({
                             type: 'success',
