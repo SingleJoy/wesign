@@ -87,7 +87,8 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="showDialogs" :close-on-click-modal='false'>
+
+        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="ContractDialogs" :close-on-click-modal='false'>
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
                     <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
@@ -290,7 +291,7 @@
                     margin-bottom: 10px;
                 }
             }
-            .showDialogs{
+            .ContractDialogs{
                 margin-top: 44px!important;
                 width: 780px;
                 .el-dialog__header{
@@ -331,7 +332,7 @@
                     margin-top:20px;
                     .info-title{
                         font-size: 14px;
-                        color:#666
+                        color:#666;
                     }
                     .content{
                         font-size: 14px;

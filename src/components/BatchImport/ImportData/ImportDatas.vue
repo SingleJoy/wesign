@@ -114,7 +114,7 @@
                 :total=Number(num)>
             </el-pagination>
         </div>
-        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="showDialogs">
+        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="importDataDialogs">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
                     <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
@@ -449,7 +449,7 @@ export default {
 
 <style lang="scss">
     @import "../../../common/styles/Tops.css";
-    @import "@/common/styles/content.scss";
+    @import "../../../common/styles/content.scss";
     .ImportData .main{
         background: #fff;
         margin-top:105px;
@@ -587,7 +587,7 @@ export default {
                     margin-bottom: 10px;
                 }
             }
-            .showDialogs{
+            .importDataDialogs{
                 margin-top: 44px!important;
                 width: 780px;
                 .el-dialog__header{
