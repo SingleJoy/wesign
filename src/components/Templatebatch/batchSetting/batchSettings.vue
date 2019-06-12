@@ -235,6 +235,7 @@
         </div>
       </div>
     </div>
+
     <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index">
         <img

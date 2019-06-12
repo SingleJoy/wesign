@@ -141,7 +141,7 @@
         <div style="margin-left: -5px;" @click="EnterEnter" :class="{'btn-active':(!$store.state.showTypePanel),'btn-default':$store.state.showTypePanel}">企业对企业</div>
       </div>
       <div class="order-list" @click="goOrderList">
-        <p><img src="/static/images/Mycontract/shopping-cart.png"></p>
+        <p><img src="/static/images/Mycontract/shopping-cart.png" title="批量合同模块"></p>
       </div>
     </div>
 
