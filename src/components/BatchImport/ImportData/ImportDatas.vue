@@ -117,7 +117,7 @@
         <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="importDataDialogs" :before-close="hideDialog">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
-                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractImagePath" alt="" style='width:100%;'>
+                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'>
                 </div>
             </div>
             <div class="contract-detail">

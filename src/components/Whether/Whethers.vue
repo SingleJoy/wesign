@@ -53,7 +53,7 @@
           <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+ele" alt="" style='width: 100%;height:844px;' id='signImg'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractImagePath='+ele" alt="" style='width: 100%;height:844px;' id='signImg'>
             </li>
           </ul>
           </div>
@@ -303,8 +303,8 @@ export default {
             this.calculateHeight()
         })
         for (let i = 0; i < res.data.length;i++) {
-            let contractUrl = res.data[i].contractUrl
-            data[i] = contractUrl
+            let contractImagePath = res.data[i].contractImagePath
+            data[i] = contractImagePath
             this.$loading.hide(); //隐藏
         }
         this.imgList = data

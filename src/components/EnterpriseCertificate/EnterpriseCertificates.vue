@@ -212,7 +212,7 @@
                     :disabled="this.auditStatus==2"
                   >
                     <div class="license-wrap">
-                      <img  v-if="licenseInfo.creditPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+licenseInfo.creditPhoto" class="avatar">
+                      <img  v-if="licenseInfo.creditPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+licenseInfo.creditPhoto" class="avatar">
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </div>
 

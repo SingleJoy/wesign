@@ -48,7 +48,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id="contractImg">
             <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" id='imgSign' style='width: 100%;height:844px;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item" alt="" id='imgSign' style='width: 100%;height:844px;'>
             </li>
             <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
           </ul>
@@ -178,8 +178,8 @@
       contractimgs(this.interfaceCode,this.contractNo,t).then(res=> {
         /*获取后台数据，并使用imgArray*/
         for(let i=0;i<res.data.length;i++){
-          let contractUrl = res.data[i].contractUrl
-          data[i] = contractUrl
+          let contractImagePath = res.data[i].contractImagePath
+          data[i] = contractImagePath
           this.$loading.hide(); //隐藏
         }
         this.imgArray = data

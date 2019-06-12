@@ -239,7 +239,7 @@
     <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index">
         <img
-          :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item"
+          :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item"
           alt
           style="width:100%;"
         >
@@ -536,8 +536,8 @@
             getTemplateImgs(this.interfaceCode,this.templateNo,params).then(res=> {
 
                 for (let i = 0; i < res.data.list.length;i++) {
-                    let contractUrl = res.data.list[i]
-                    data[i] = contractUrl
+                    let contractImagePath = res.data.list[i]
+                    data[i] = contractImagePath
                 }
                 this.imgList = data
                 this.$loading.hide(); //隐藏

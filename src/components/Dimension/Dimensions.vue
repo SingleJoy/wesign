@@ -45,8 +45,8 @@
         <!-- 合同内容开始 -->
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id="contractImg">
-            <li v-for="(lis, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+lis" alt="" id='imgSign' style='width:100%;height:844px;'>
+            <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" id='imgSign' style='width:100%;height:844px;'>
             </li>
             <div id='hidden' style='display:none'><img :src="[contractSignImg]"  id="signImg" style="height:125px;width:125px"></div>
             <div id='signCanvas' style='display:none;'>
@@ -206,20 +206,18 @@
       let data =[]
       let t=Math.random();
       contractimgs(this.interfaceCode,this.contractNo,t).then(res=> {
+        setTimeout(()=>{
+            this.$loading.hide(); //隐藏
+        },1000);
 
-        for(let i=0;i<res.data.dataList.length;i++){
-          let contractUrl = res.data.dataList[i].contractUrl
-          data[i] = contractUrl
-          this.$loading.hide(); //隐藏
-        }
-        this.imgArray = data
+        this.imgArray = res.data.dataList
         /*获取总的页码*/
         this.allpage = res.data.dataList.length
 
         this.$nextTick(() => {
           this._initScroll()
           this._calculateHeight()
-        })
+        });
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
           probeType: 3,
           scrollY: true,
