@@ -94,7 +94,7 @@
                 this.getData();
             },
             lookOrderListDetail(row){
-                console.log(row)
+
                 let conOrderNo=row.conOrderNo;
                 getconorderlock(this.accountCode,conOrderNo).then(res=>{
                     if(res.data.resultCode==1){
@@ -119,12 +119,15 @@
 
             },
             getData(){
+                this.$loading.show();
                 let params={
                     pageNum:this.pageNum,
                     pageSize:10,
                 };
                 getcontractorders(this.accountCode,params).then(res=>{
-
+                      setTimeout(()=>{
+                          this.$loading.hide();
+                      },1000);
                     if(res.data.resultCode==1){
                         this.totalItemNumber=res.data.data.totalItemNumber;
                         this.tableData=res.data.dataList;

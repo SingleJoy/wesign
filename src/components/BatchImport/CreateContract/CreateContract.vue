@@ -62,7 +62,7 @@
                         align="center"
                         width="200">
                         <template slot-scope="scope">
-                            <el-button @click="previerContract(scope.row)" type="text" size="small">查看</el-button>
+                            <el-button @click="previewContract(scope.row)" type="text" size="small">查看</el-button>
                         </template>
                     </el-table-column>
 		        </el-table>
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="createContractDialogs">
+        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="createContractDialogs" :before-close="hideDialog">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
                     <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
@@ -207,6 +207,11 @@ export default {
         });
     },
     methods: {
+        hideDialog(){
+            this.imgList = [];
+            this.contractSignInfo = {};
+            this.dialVisible = false;
+        },
         //获取table数据
         getContractInfo(pageNo, pageSize) {
             let contractInfo = {
@@ -328,12 +333,18 @@ export default {
             })
         },
         // 查看合同
-        previerContract(row){
-            const previerContractParams = {
+        previewContract(row){
+
+            const previewContractParams = {
                 contractNo: row.contractNo
-            }
+            };
             this.dialVisible = true;
-            getContractImages(previerContractParams).then(res => {
+            let t = Math.random();
+            this.$loading.show();
+            getContractImages(previewContractParams,t).then(res => {
+                setTimeout(()=>{
+                    this.$loading.hide();
+                },1000);
                 if(res.data.resultCode == "1") {
                     this.imgList = res.data.dataList;
                     this.contractSignInfo = res.data.data;
@@ -373,7 +384,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../common/styles/Tops.css";
-@import "@/common/styles/content.scss";
+@import "../../../common/styles/content.scss";
 .signing-contain {
     .main-batch {
         width: 1200px;

@@ -69,7 +69,7 @@
                             align="center">
                             <template slot-scope="scope">
                                 <el-button  type="text" size="mini" v-if="scope.row.contractStatus == '1'" @click="singleSign(scope.row)">签署</el-button>
-                                <el-button  type="text" size="mini" @click="previerContract(scope.row)">查看</el-button>
+                                <el-button  type="text" size="mini" @click="previewContract(scope.row)">查看</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="ContractDialogs" :close-on-click-modal='false'>
+        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="ContractDialogs" :close-on-click-modal='false' :before-close="hideDialog">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
                     <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
@@ -161,18 +161,32 @@
             }
         },
         methods:{
+            hideDialog(){
+                this.imgList = [];
+                this.contractDetail = {};
+                this.dialVisible = false;
+            },
             // 查看合同
-            previerContract(val){
+            previewContract(val){
                 this.dialVisible = true;
                 let param = {
                     contractNo:val.contractNo
-                }
-                getContractImages(param).then(res=>{
+                };
+                let t = Math.random();
+                this.$loading.show();
+                getContractImages(param,t).then(res=>{
+                    setTimeout(()=>{
+                        this.$loading.hide();
+                    },1000);
                     if(res.data.resultCode ==1){
                         this.contractDetail = res.data.data;
                         this.imgList = res.data.dataList;
                     }else{
-
+                        this.$message({
+                            showClose: true,
+                            message: res.data.resultMessage,
+                            type: "error"
+                        });
                     }
                 }).catch(err=>{
                     

@@ -211,10 +211,10 @@ export function downloadErrorExcel(orderNo) {
     return "api/v1.9/tenant/" + orderNo + "/downloadErrorExcel"
 }
 
-//合同图片预览/查看
-export function getContractImages(params) {
+//V1.9  合同图片预览/查看
+export function getContractImages(params,t) {
     return request({
-        url: "api/v1.9/order/getContractImages",
+        url: "api/v1.9/order/getContractImages?t="+t,
         method: "get",
         params: params
     })
