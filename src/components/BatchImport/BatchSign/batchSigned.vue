@@ -81,7 +81,7 @@ export default {
             signRoomLink: "", //签署链接
             failNum: "",      //失败条数
             successNum: "",   //成功条数
-            totalNum: "",     //总条数
+            totalNum: ""     //总条数
         }
     },
     components: {
