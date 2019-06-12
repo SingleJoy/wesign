@@ -13,7 +13,7 @@
             </div>
             <div class="contract-describe">
                 <div>
-                    <img src="../../../../static/images/Common/contract-sign-success.png" alt="">
+                    <img src="/static/images/Common/contract-sign-success.png" alt="">
                 </div>
                 <div>
                     <div class="progress-hint-content">
@@ -86,7 +86,7 @@ export default {
                     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
                 } else if(res.data.resultCode == "1"){
                     clearInterval(this.timer);
-                    this.$router.push({path:'/batchSigned',query:{
+                    this.$router.push({path:'/BatchSigned',query:{
                         failNum:failNum, 
                         signRoomLink: signRoomLink, 
                         successNum: successNum, 

@@ -13,7 +13,6 @@ import DemoContractSign from '../demo/DemoContractSign.vue'   //demo添加签署
 Vue.use(Router)
 
 function loadComponent(view) {
-    // console.log(22222)
     return () => import (/* webpackChunkName: "view-[request]" */ `@/components/${view}.vue`)
 }
 
