@@ -193,12 +193,15 @@
                 });
               }
             }else {
-              this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo});
-              this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
-              sessionStorage.setItem('templateName', row.templateName)
-              sessionStorage.setItem('templateNo',row.templateNo)
-              sessionStorage.setItem('templateGenre',row.templateGenre)
-              this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
+                this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo});
+                this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
+                sessionStorage.setItem('templateName', row.templateName)
+                sessionStorage.setItem('templateNo',row.templateNo)
+                sessionStorage.setItem('templateGenre',row.templateGenre)
+                this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
+                this.$router.push({path:'/batchSetting',query:{
+                    templateSpecificType: row.templateGenre,
+                }});
             }
 
           }

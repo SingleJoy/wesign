@@ -77,7 +77,10 @@ export default {
                     successNum = data.successNum,
                     totalNum = data.totalNum;
                 if(res.data.resultCode == "0") {
+                    console.log(this.signUrl);
+                    console.log(signRoomLink);
                     if(!this.signUrl) {
+                        console.log(signRoomLink);
                         this.signUrl = signRoomLink;
                     }
                     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
