@@ -85,7 +85,7 @@
                         <el-table-column
                             label="合同名称"
                             width="260"
-                            style="text-align:center"
+                            align="center"
                             :show-overflow-tooltip='true'
                         >
                             <template slot-scope="scope">
@@ -98,17 +98,20 @@
                             prop="signers"
                             label="签署人"
                             width="250"
+                            align="center"
                             :show-overflow-tooltip='true'
                         >
                         </el-table-column>
                         <el-table-column
                             prop="createTime"
                             label="发起时间"
+                            align="center"
                             width="150">
                         </el-table-column>
                         <el-table-column
                             prop="validTime"
                             label="截止时间"
+                            align="center"
                             width="150">
                         </el-table-column>
                         <el-table-column
@@ -119,6 +122,7 @@
                         <el-table-column
                             prop="operation"
                             label="操作"
+                            align="center"
                             width="200"
                         >
                             <template slot-scope="scope">

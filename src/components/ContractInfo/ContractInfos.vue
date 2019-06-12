@@ -51,21 +51,24 @@
           <el-table-column
             prop="signUserName"
             label="姓名"
-            style="text-align:center"
+            align="center"
             width="200">
           </el-table-column>
           <el-table-column
             prop="mobile"
             label="手机号"
+            align="center"
             width="200">
           </el-table-column>
           <el-table-column
             prop="idCard"
             label="身份证号码"
+            align="center"
             width="320">
           </el-table-column>
           <el-table-column
             prop="signStatus"
+            align="center"
             label="状态"
             width="250"
           >
