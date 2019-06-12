@@ -449,11 +449,10 @@
             if(res.resultCode == 1) {
                 sessionStorage.setItem("conOrderNo",res.data.conOrderNo);
                 this.$loading.hide();
-                this.$router.push('/importdata');
+                this.$router.push('/Importdata');
                 this.disabled = false;
                 this.hasClick = false;
             } else {
-                console.log(1111)
                 this.disabled = false;
                 this.hasClick = false;
                 this.$loading.hide();

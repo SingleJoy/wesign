@@ -221,14 +221,9 @@ export const router = new Router({
             meta: {
                 auth: true
             }
-        }, {
-            path: '/Fillinformation',
-            name: 'Fillinformation',
-            component: loadComponent('Templatelaunch/Fillinformation/Fillinformation'),
-            meta: {
-                auth: true
-            }
-        },{
+        },
+
+        {
             path: '/Templatecomplete',
             name: 'Templatecomplete',
             component: loadComponent('Templatebatch/Templatecomplete/Templatecomplete'),
@@ -633,12 +628,12 @@ export const router = new Router({
             }
         }
     }
-})
+});
 //确保要调用 next 方法，否则钩子就不会被 resolved;
 //需要再meta中添加auth认证 否则会死循环
 //this.$message 会报错 需要绑定到vue实例上
 router.beforeEach((to, from, next) => {
-	var userInfo = cookie.getJSON('tenant')
+	let userInfo = cookie.getJSON('tenant')
 	if (to.meta.auth == true) {
 		if (!userInfo) {
 			Vue.prototype.$message({
@@ -646,7 +641,7 @@ router.beforeEach((to, from, next) => {
 				duration: 1000,
 				message: "请登录",
 				type: 'warning'
-			})
+			});
 			setTimeout(function(){
 				next({
 					path: '/'

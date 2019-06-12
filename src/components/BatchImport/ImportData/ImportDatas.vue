@@ -6,7 +6,7 @@
           <img src="/static/images/logo2.png" alt="">
         </p>
         <div class='buttons'>
-          <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SigleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+          <el-button type="info" style='background:#ccc' :disabled="hasClick" @click="SingleTempCancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
           <el-button style='color:#4091fb' @click="nextStepFit" :loading=load>生成合同</el-button>
         </div>
       </nav>
@@ -97,7 +97,7 @@
                     width=""
                 >
                     <template slot-scope="scope">
-                        <el-button type="primary" @click="previerContract(scope.row)" size="mini">预览</el-button>
+                        <el-button type="primary" @click="previewContract(scope.row)" size="mini">预览</el-button>
                         <el-button type="primary" size="mini" @click="signerDel(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -114,7 +114,7 @@
                 :total=Number(num)>
             </el-pagination>
         </div>
-        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="importDataDialogs">
+        <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="importDataDialogs" :before-close="hideDialog">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
                     <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.contractFileImagePath" alt="" style='width:100%;'>
@@ -199,6 +199,11 @@ export default {
         }
     },
     methods:{
+        hideDialog(){
+            this.imgList = [];
+            this.contractSignInfo = {};
+            this.dialVisible = false;
+        },
         //导出错误数据
         downloadTemplate() {
             let downloadUrl = downloadErrorExcel(this.uploadParams.conOrderNo);
@@ -214,9 +219,9 @@ export default {
         //上传文件
         handleChange(name){
             this.$loading.show();
-            var max_size = 10; // 5M
-            var fileContName = name.name.replace(/\s+/g, "");
-            var reg = /[.](xls|xlsx)$/;
+            let max_size = 10; // 5M
+            let fileContName = name.name.replace(/\s+/g, "");
+            let reg = /[.](xls|xlsx)$/;
             if (!reg.test(fileContName)) {
                 this.$message({
                     showClose: true,
@@ -348,7 +353,7 @@ export default {
             })
         },
         //取消
-        SigleTempCancel() {    //取消操作
+        SingleTempCancel() {    //取消操作
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             const h = this.$createElement;
             this.hasClick = true;
@@ -380,17 +385,27 @@ export default {
             })
         },
         // 预览合同
-        previerContract(row){
-            const previerContractParams = {
+        previewContract(row){
+            const previewContractParams = {
                 contractNo: row.contractNo
-            }
+            };
             this.dialVisible = true;
-            getContractImages(previerContractParams).then(res => {
+            let t = Math.random();
+            this.$loading.show();
+            getContractImages(previewContractParams,t).then(res => {
+                setTimeout(()=>{
+                    this.$loading.hide();
+                },1000);
                 if(res.data.resultCode == "1") {
                     this.imgList = res.data.dataList;
                     this.contractSignInfo = res.data.data;
                 } else {
-                    this.$message.error(res.data.resultMessage);
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
+
                 }
              }).catch(error => {
 
@@ -412,7 +427,11 @@ export default {
                     this.passed = res.data.data.successItem
                     this.unpassed = res.data.data.failureItem
                 } else {
-                    this.$message.error(res.data.resultMessage);
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
                 }
             }).catch(error => {
 
@@ -424,13 +443,17 @@ export default {
                 conOrderNo: this.uploadParams.conOrderNo,
                 pageNo: pageNo,
                 pageSize: pageSize,
-            }
+            };
             getContractList(signParams).then(res => {
                 if(res.data.resultCode == "1") {
                     this.importData = res.data.dataList;
                     this.num = res.data.data.totalItemNumber;
                 } else {
-                    this.$message.error(res.data.resultMessage);
+                    this.$message({
+                        showClose: true,
+                        message: res.data.resultMessage,
+                        type: "error"
+                    });
                 }
             }).catch(error => {
 
