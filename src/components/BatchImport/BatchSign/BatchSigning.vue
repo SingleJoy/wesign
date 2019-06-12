@@ -77,13 +77,10 @@ export default {
                     successNum = data.successNum,
                     totalNum = data.totalNum;
                 if(res.data.resultCode == "0") {
-                    // console.log(signRoomLink);
                     if(!this.signUrl) {
-                        // console.log(signRoomLink);
                         this.signUrl = signRoomLink;
                     }
-                    this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
-                    console.log(this.progress);
+                    this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
                 } else if(res.data.resultCode == "1"){
                     clearInterval(this.timer);
                     this.$router.push({path:'/BatchSigned',query:{
@@ -120,23 +117,12 @@ export default {
         goBack(){
             this.$router.push("/Home");
             clearInterval(this.timer);
-        },
-        beforeDestroy() {
-            console.log("beforeDestroy");
-            if(this.timer) { //如果定时器在运行则关闭
-                console.log(this.timer);
-                console.log(2222);
-                clearInterval(this.timer); 
-            }
-        },
-        destroyed(){
-            console.log("destroyed");
-            if(this.timer) { //如果定时器在运行则关闭
-                console.log(this.timer);
-                console.log(111);
-                clearInterval(this.timer); 
-                this.timer = null;
-            }
+        }, 
+    },
+    beforeDestroy() {
+        if(this.timer) { //如果定时器在运行则关闭
+            clearInterval(this.timer); 
+            this.timer = null;
         }
     }
 }
