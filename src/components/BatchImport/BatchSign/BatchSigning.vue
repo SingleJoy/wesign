@@ -13,7 +13,7 @@
             </div>
             <div class="contract-describe">
                 <div>
-                    <img src="../../../../static/images/Common/contract-sign-success.png" alt="">
+                    <img src="/static/images/Common/contract-sign-success.png" alt="">
                 </div>
                 <div>
                     <div class="progress-hint-content">
