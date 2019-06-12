@@ -12,7 +12,7 @@
             :disabled="hasClick"
             @click="batchTempCancel"
           >取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
-          <el-button style="color:#4091fb" @click="nextStepFit" :loading="load">下一步</el-button>
+          <el-button style="color:#4091fb" @click="nextStepFit" :loading="load" :disabled="disabled">下一步</el-button>
         </div>
       </nav>
     </div>
@@ -90,8 +90,9 @@
 			       <b class='info'>短信通知</b>
 		        	<el-checkbox></el-checkbox>
             <b class='info'>邮箱通知</b>-->
-            <el-button type="primary" size="medium" class="export-excel-data" @click="downloadTemplate">导出Excel表格</el-button>
+            <el-button v-show="templateSpecificType == 'fillreference'" type="primary" size="medium" class="export-excel-data" @click="downloadTemplate">导出Excel表格</el-button>
             <el-button
+                v-show="templateSpecificType == 'fillreference'"
               type="primary"
               size="medium"
               @click="importData"
@@ -99,6 +100,7 @@
               v-if="tableDate3.length"
             >导入数据</el-button>
              <el-upload
+                v-show="templateSpecificType == 'fillreference'"
                 class="upload-demo"
                 ref="upload"
                 :action="uploadUrl()"
@@ -183,7 +185,7 @@
               <span v-else>{{ scope.row.signUserName }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="手机号" width="300">
+          <el-table-column label="手机号" style="text-align:center" width="300">
             <template slot-scope="scope">
               <template v-if="scope.row.edit">
                 <el-input v-model="scope.row.mobile" placeholder :maxlength="11" size="mini"></el-input>
@@ -191,7 +193,7 @@
               <span v-else>{{ scope.row.mobile }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="身份证号" width="300">
+          <el-table-column label="身份证号" style="text-align:center" width="300">
             <template slot-scope="scope">
               <template v-if="scope.row.edit">
                 <el-input v-model="scope.row.idCard" placeholder :maxlength="18" size="mini"></el-input>
@@ -199,7 +201,7 @@
               <span v-else>{{ scope.row.idCard }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="state" label="操作" width="250">
+          <el-table-column prop="state" style="text-align:center" label="操作" width="250">
             <template slot-scope="scope">
               <el-button
                 @click="confirmEdit(scope.row)"
@@ -355,6 +357,7 @@
         },
         tableDate3: [],
         hasClick:false,
+        disabled: false,
         formLabelWidth: '80px',
         rules: {
           signUserName: [
@@ -382,6 +385,7 @@
         type:sessionStorage.getItem('type'),
         b2cNum:sessionStorage.getItem("b2cNum")?sessionStorage.getItem('b2cNum'):0,
         b2bNum:sessionStorage.getItem("b2bNum")?sessionStorage.getItem('b2bNum'):0,
+        templateSpecificType: sessionStorage.getItem("templateGenre")
       }
     },
     methods: {
@@ -403,6 +407,8 @@
         },
         uploading() {
             this.$loading.show("数据读取中…");
+            this.disabled = true;
+            this.hasClick = true;
             this.importDataVisible = false;
         },
         //上传execl表格
@@ -444,7 +450,11 @@
                 sessionStorage.setItem("conOrderNo",res.data.conOrderNo);
                 this.$loading.hide();
                 this.$router.push('/importdata');
+                this.disabled = true;
+                this.hasClick = true;
             } else {
+                this.disabled = true;
+                this.hasClick = true;
                 this.$message({
                     showClose: true,
                     message: res.resultMessage,
@@ -454,7 +464,8 @@
         },
         //execl表格上传失败
         errorChange(error) {
-            console.log(error)
+            this.disabled = true;
+            this.hasClick = true;
             this.$loading.hide();
             this.$message({
                 showClose: true,
@@ -854,6 +865,9 @@
             margin-left: 10px;
             width: 98px;
         }
+    }
+    .el-table td, .el-table th.is-leaf {
+        text-align: center;
     }
 }
 .batchSettings .setting .title,
