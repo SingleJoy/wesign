@@ -547,8 +547,8 @@ export const router = new Router({
         }
       },
          {  //模板批量发起，我的订单单个合同签署
-           path: '/singleSigned',
-           name: 'singleSigned',
+           path: '/SingleSigned',
+           name: 'SingleSigned',
            component: loadComponent('BatchImport/SingleSign/SingleSigned'),
            meta: {
              auth: true
