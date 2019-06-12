@@ -245,22 +245,18 @@
                     }) 
                 }
                 this.paramsList = contractObj;
-                // this.paramsList = [];
-                // let val = value[0];
-                // let contractObj = {
-                //     contractNo:val.contractNo,
-                //     contractName:val.contractName,
-                //     mobile:val.mobile
-                // }
-                // this.paramsList.push(contractObj)
-            },
-            getData(pageNo, pageSize){
-                let params={
-                    pageNo:pageNo,
-                    pageSize:pageSize,
-                };
-                getcontracts(this.accountCode,this.conOrderNo,params).then(res=>{
 
+            },
+            getData(){
+                let params={
+                    pageNo:this.pageNo,
+                    pageSize:this.pageSize,
+                };
+                this.$loading.show();
+                getcontracts(this.accountCode,this.conOrderNo,params).then(res=>{
+                    setTimeout(()=>{
+                        this.$loading.hide();
+                    },1000)
                     if(res.data.resultCode==1){
                         this.totalItemNumber=res.data.data.totalItemNumber;
                         this.tableData=res.data.dataList;
@@ -277,7 +273,7 @@
         },
 
         created() {
-            this.getData(this.pageNo, this.pageSize);
+            this.getData();
         }
     }
 </script>
