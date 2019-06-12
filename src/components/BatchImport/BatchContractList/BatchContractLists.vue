@@ -11,7 +11,7 @@
                 <b>{{conOrderNo}}</b>
             </span>
                 </div>
-                <div class="sign-operate" @click="signAll()">
+                <div class="sign-operate" v-if="isSIgner" @click="signAll()">
                     <a href="javascript:void (0);">一键签署</a>
                 </div>
             </div>
@@ -132,7 +132,7 @@
     </div>
 </template>
 <script>
-    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign} from '@/api/template.js';
+    import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign,getsignresult} from '@/api/template.js';
     import { filtercontractStatus } from '@/common/js/filterStr.js'
     export default {
         name: 'OrderLists',
@@ -158,6 +158,7 @@
                 },
                 pageNo: 1,
                 pageSize: 10,
+                isSIgner: true,
             }
         },
         methods:{
@@ -273,11 +274,29 @@
                 }).catch(error=>{
 
                 })
+            },
+            //查询合同是否都签署完成
+            getSIgned() {
+                getsignresult(this.interfaceCode, this.conOrderNo).then(res => {
+                    if(res.data.resultCode == "1") {
+                        let data = res.data.data,
+                        failNum = data.failNum,
+                        signRoomLink = data.signRoomLink,
+                        successNum = data.successNum,
+                        totalNum = data.totalNum;
+                        if(successNum == totalNum) {
+                            this.isSIgner = false;
+                        }
+                    }
+                }).catch(error => {
+
+                })
             }
         },
 
         created() {
             this.getData(this.pageNo, this.pageSize);
+            this.getSIgned();
         }
     }
 </script>

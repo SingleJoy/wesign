@@ -77,13 +77,13 @@ export default {
                     successNum = data.successNum,
                     totalNum = data.totalNum;
                 if(res.data.resultCode == "0") {
-                    console.log(this.signUrl);
-                    console.log(signRoomLink);
+                    // console.log(signRoomLink);
                     if(!this.signUrl) {
-                        console.log(signRoomLink);
+                        // console.log(signRoomLink);
                         this.signUrl = signRoomLink;
                     }
                     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));;
+                    console.log(this.progress);
                 } else if(res.data.resultCode == "1"){
                     clearInterval(this.timer);
                     this.$router.push({path:'/BatchSigned',query:{
@@ -95,6 +95,10 @@ export default {
                     return "complete"
                 } else {
                     clearInterval(this.timer);
+                    this.$message({
+                        message: res.data.resultMessage,
+                        type: 'error'
+                    })
                 }
             }).catch(error => {
                 clearInterval(this.timer);
@@ -118,8 +122,22 @@ export default {
             clearInterval(this.timer);
         },
         beforeDestroy() {
-            clearInterval(this.timer);
+            console.log("beforeDestroy");
+            if(this.timer) { //如果定时器在运行则关闭
+                console.log(this.timer);
+                console.log(2222);
+                clearInterval(this.timer); 
+            }
         },
+        destroyed(){
+            console.log("destroyed");
+            if(this.timer) { //如果定时器在运行则关闭
+                console.log(this.timer);
+                console.log(111);
+                clearInterval(this.timer); 
+                this.timer = null;
+            }
+        }
     }
 }
 </script>

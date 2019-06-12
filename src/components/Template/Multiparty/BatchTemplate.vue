@@ -199,11 +199,7 @@
                 sessionStorage.setItem('templateNo',row.templateNo)
                 sessionStorage.setItem('templateGenre',row.templateGenre)
                 this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
-                this.$router.push({path:'/batchSetting',query:{
-                    templateSpecificType: row.templateGenre,
-                }});
             }
-
           }
         })
 

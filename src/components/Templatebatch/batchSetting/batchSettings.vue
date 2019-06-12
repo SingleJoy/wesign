@@ -450,11 +450,13 @@
                 sessionStorage.setItem("conOrderNo",res.data.conOrderNo);
                 this.$loading.hide();
                 this.$router.push('/importdata');
-                this.disabled = true;
-                this.hasClick = true;
+                this.disabled = false;
+                this.hasClick = false;
             } else {
-                this.disabled = true;
-                this.hasClick = true;
+                console.log(1111)
+                this.disabled = false;
+                this.hasClick = false;
+                this.$loading.hide();
                 this.$message({
                     showClose: true,
                     message: res.resultMessage,
@@ -464,8 +466,8 @@
         },
         //execl表格上传失败
         errorChange(error) {
-            this.disabled = true;
-            this.hasClick = true;
+            this.disabled = false;
+            this.hasClick = false;
             this.$loading.hide();
             this.$message({
                 showClose: true,
@@ -534,12 +536,11 @@
             getTemplateImgs(this.interfaceCode,this.templateNo,params).then(res=> {
 
                 for (let i = 0; i < res.data.list.length;i++) {
-                let contractUrl = res.data.list[i]
-                data[i] = contractUrl
-                this.$loading.hide(); //隐藏
+                    let contractUrl = res.data.list[i]
+                    data[i] = contractUrl
                 }
                 this.imgList = data
-
+                this.$loading.hide(); //隐藏
             }).catch(error=>{
 
             })
