@@ -8,7 +8,7 @@
             </div>
             <div class="contract-describe">
                 <div class="contract-describe-img">
-                    <img src="../../../../static/images/Common/contract-sign-success.png" alt="">
+                    <img src="/static/images/Common/contract-sign-success.png" alt="">
                 </div>
                 <div>
                     <div class="progress-hint-content">恭喜合同签署完成</div>
@@ -30,7 +30,7 @@
                 <div class="contract-number-statistics contract-number-first">
                     <div class="contract-number-all">共创建合同数</div>
                     <div class="contract-number-image">
-                        <img src="../../../../static/images/BatchImport/create-contract.png" alt="">
+                        <img src="/static/images/BatchImport/create-contract.png" alt="">
                     </div>
                     <div class="style-center">共创建合同</div>
                     <div class="style-center">
@@ -41,7 +41,7 @@
                 <div class="contract-number-statistics">
                     <div class="contract-number-all">签署成功</div>
                     <div class="contract-number-image">
-                        <img src="../../../../static/images/BatchImport/contract-success.png" alt="">
+                        <img src="/static/images/BatchImport/contract-success.png" alt="">
                     </div>
                     <div class="style-center">签署成功</div>
                     <div class="style-center">
@@ -52,7 +52,7 @@
                 <div class="contract-number-statistics contract-number-end">
                     <div class="contract-number-all">签署失败</div>
                     <div class="contract-number-image">
-                        <img src="../../../../static/images/BatchImport/contract-fail.png" alt="">
+                        <img src="/static/images/BatchImport/contract-fail.png" alt="">
                     </div>
                     <div class="style-center">签署失败</div>
                     <div class="style-center">
