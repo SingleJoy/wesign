@@ -213,7 +213,7 @@
                     }
                     contractkeywordsignNew(this.interfaceCode,this.conOrderNo,JSON.stringify(param)).then(res=>{
                         if(res.data.responseCode == 1){
-                            this.$router.push('/batchSigning')
+                            this.$router.push('/BatchSigning')
                         }else{
                             this.$message({
                                 type: 'error',

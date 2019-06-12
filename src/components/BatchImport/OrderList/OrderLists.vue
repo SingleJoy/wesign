@@ -100,7 +100,7 @@
                     if(res.data.resultCode==1){
                         sessionStorage.setItem("conOrderNo",conOrderNo);
                         if(res.data.data.steps==0){                    // step==0 订单状态为导入数据
-                            this.$router.push('/importData');
+                            this.$router.push('/ImportData');
                         }else{
                             this.$router.push('/BatchContractList');   //step == 1 订单状态为生成合同
                         }
