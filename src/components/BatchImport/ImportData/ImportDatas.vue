@@ -337,24 +337,28 @@ export default {
                 conOrderNo: this.uploadParams.conOrderNo
             }
             let interfaceCode = sessionStorage.getItem("interfaceCode");
+            this.$loading.show();
             createContract(interfaceCode, params).then(res => {
                if(res.data.resultCode == "1") {
                    this.load = false;
                    this.$router.push("/CreateContract");
+                   this.$loading.hide();
                } else {
                     this.$message({
                         showClose: true,
                         message: res.data.resultMessage,
                         type: "error"
                     });
+                    this.$loading.hide();
                     this.load = false;
                }
             }).catch(error => {
-
+                this.$loading.hide();
             })
         },
         //取消
         SingleTempCancel() {    //取消操作
+            this.$loading.hide();
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             const h = this.$createElement;
             this.hasClick = true;
@@ -379,8 +383,9 @@ export default {
                     }, 50);
                 }, 100);
                 } else {
-                this.hasClick = false;
-                done();
+                    this.hasClick = false;
+                    done();
+                    this.$loading.show();
                 }
             }
             })
