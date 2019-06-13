@@ -128,8 +128,8 @@
             for (let i = 0; i < res.data.length;i++) {
                 let contractImagePath = res.data[i].contractImagePath
                 data[i] = contractImagePath
-                this.$loading.hide(); //隐藏
             }
+            this.$loading.hide(); //隐藏
             this.imgList = data
         }).catch(error=>{
 

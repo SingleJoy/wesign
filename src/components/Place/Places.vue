@@ -327,15 +327,15 @@
     contractSignUser(this.contractNo).then(res=>{
       let signUserVo = []
       let analogueVo = []
-      signUserVo.push(res.data.dataList[0])
-      signUserVo.push(res.data.dataList[1])
-      analogueVo.push(res.data.dataList[2])
-      analogueVo.push(res.data.dataList[3])
+      signUserVo.push(res.data.dataList[0]);
+      signUserVo.push(res.data.dataList[1]);
+      analogueVo.push(res.data.dataList[2]);
+      analogueVo.push(res.data.dataList[3]);
       this.signUserList = signUserVo
       this.analogueList = analogueVo
     }).catch(error=>{
 
-    })
+    });
 
     let data =[];
     let t=Math.random();
@@ -343,14 +343,14 @@
 
         this.allpage = res.data.dataList.length
         this.$nextTick(() => {
-          this.initScroll()
-          this.calculateHeight()
-        })
+          this.initScroll();
+          this.calculateHeight();
+        });
         for (let i = 0; i < res.data.dataList.length;i++) {
-          let contractImagePath = res.data.dataList[i].contractImagePath
-          data[i] = contractImagePath
-          this.$loading.hide(); //隐藏
+          let contractImagePath = res.data.dataList[i].contractImagePath;
+          data[i] = contractImagePath;
         }
+        this.$loading.hide(); //隐藏
         this.imgList = data;
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
           probeType: 3,

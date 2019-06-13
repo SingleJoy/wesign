@@ -138,7 +138,7 @@
         imgArray:[],
         imgHeight: [],
         contractImgHeight: 0,
-        contractUrl:[],
+        contractImagePath:[],
         scrollY: 0,
         contractSignImg:'',
         flag: true,//重复提交标示

@@ -120,11 +120,11 @@
         contractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
 
             for (let i = 0; i < res.data.dataList.length;i++) {
-              let contractImagePath = res.data.dataList[i].contractImagePath
-              data[i] = contractImagePath
-              this.$loading.hide(); //隐藏
+              let contractImagePath = res.data.dataList[i].contractImagePath;
+              data[i] = contractImagePath;
             }
-            this.imgList = data
+            this.$loading.hide(); //隐藏
+            this.imgList = data;
 
         }).catch(error=>{
 
