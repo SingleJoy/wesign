@@ -386,8 +386,10 @@ export default {
         },
         // 预览合同
         previewContract(row){
+            console.log(row)
             const previewContractParams = {
-                contractNo: row.contractNo
+                contractNo: row.contractNo,
+                conOrderNo: this.uploadParams.conOrderNo
             };
             this.dialVisible = true;
             let t = Math.random();

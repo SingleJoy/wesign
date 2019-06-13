@@ -944,8 +944,6 @@
     height: 48px;
   }
 }
-.import-excel {
-}
 .el-table__empty-block {
   display: none;
 }
