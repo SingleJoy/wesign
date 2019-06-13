@@ -306,10 +306,10 @@
         this._calculateHeight()
       })
       for (let i = 0; i < res.data.length;i++) {
-        let contractImagePath = res.data[i].contractImagePath
-        data[i] = contractImagePath
-        this.$loading.hide(); //隐藏
+        let contractImagePath = res.data[i].contractImagePath;
+        data[i] = contractImagePath;
       }
+        this.$loading.hide(); //隐藏
       this.rightScroll = new BScroll(this.$refs.rightWrapper, {
         probeType: 3,
         scrollY: true,

@@ -92,7 +92,7 @@
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
                     <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'>
-                    <!--<img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'>-->
+
                 </div>
 
             </div>
@@ -167,12 +167,14 @@
                 this.imgList = [];
                 this.contractDetail = {};
                 this.dialVisible = false;
+                this.$loading.hide();
             },
             // 查看合同
             previewContract(val){
                 this.dialVisible = true;
                 let param = {
-                    contractNo:val.contractNo
+                    contractNo:val.contractNo,
+                    conOrderNo: this.conOrderNo
                 };
                 let t = Math.random();
                 this.$loading.show();

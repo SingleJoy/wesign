@@ -211,6 +211,7 @@ export default {
             this.imgList = [];
             this.contractSignInfo = {};
             this.dialVisible = false;
+            this.$loading.hide();
         },
         //获取table数据
         getContractInfo(pageNo, pageSize) {
@@ -232,34 +233,36 @@ export default {
         },
         //取消按钮操作
         SigleTempCancel() {    //取消操作
+            this.$loading.hide();
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             const h = this.$createElement;
             this.hasClick = true;
             this.$msgbox({
-            title: '提示',
-            message: h('p', null, [
-                h('span', null, ' 确定将返回首页'),
-                h('i', { style: 'color: teal' }, '')
-            ]),
-            showCancelButton: true,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            beforeClose: (action, instance, done) => {
-                if (action === 'confirm') {
-                instance.confirmButtonLoading = true;
-                instance.confirmButtonText = '执行中...';
-                setTimeout(() => {
-                    done();
-                    this.$router.push('/Home')
-                    setTimeout(() => {
-                    instance.confirmButtonLoading = false;
-                    }, 50);
-                }, 100);
-                } else {
-                this.hasClick = false;
-                done();
+                title: '提示',
+                message: h('p', null, [
+                    h('span', null, ' 确定将返回首页'),
+                    h('i', { style: 'color: teal' }, '')
+                ]),
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                beforeClose: (action, instance, done) => {
+                    if (action === 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        instance.confirmButtonText = '执行中...';
+                        setTimeout(() => {
+                            done();
+                            this.$router.push('/Home')
+                            setTimeout(() => {
+                                instance.confirmButtonLoading = false;
+                            }, 50);
+                        }, 100);
+                    } else {
+                        this.hasClick = false;
+                        done();
+                        this.$loading.show();
+                    }
                 }
-            }
             })
         },
         //一键签署
@@ -313,12 +316,14 @@ export default {
             })
         },
         keySign() {
+            this.$loading.show();
             let interfaceCode = sessionStorage.getItem("interfaceCode");
             contractkeywordsignNew(interfaceCode, this.conOrderNo, JSON.stringify({})).then(res => {
                if(res.data.responseCode == "1") {
                    this.dialogVisibleSign = false;
                    this.load = false;
                    this.$router.push("/BatchSigning");
+                   this.$loading.hide();
                } else {
                    this.$message({
                         showClose: true,
@@ -327,16 +332,18 @@ export default {
                     });
                     this.load = false;
                     this.loading = false;
+                    this.$loading.hide();
                }
             }).catch(error => {
-
+                this.$loading.hide();
             })
         },
         // 查看合同
         previewContract(row){
 
             const previewContractParams = {
-                contractNo: row.contractNo
+                contractNo: row.contractNo,
+                conOrderNo: this.conOrderNo
             };
             this.dialVisible = true;
             let t = Math.random();
