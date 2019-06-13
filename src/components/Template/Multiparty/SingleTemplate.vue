@@ -63,8 +63,8 @@
               </div>
             </div>
             <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='showDialogs'>
-              <div v-for="(itemImg,indexImg) in item.imgs" :key="indexImg" >
-                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+itemImg" alt="" style='width:100%;'>
+              <div v-for="(item,indexImg) in item.imgs" :key="indexImg" >
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item" alt="" style='width:100%;'>
               </div>
             </el-dialog>
             <div class="line" v-if="index+1<tableData.length"></div>

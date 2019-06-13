@@ -238,11 +238,8 @@
 
     <el-dialog title="合同详情图片" :visible.sync="dialVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index">
-        <img
-          :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item"
-          alt
-          style="width:100%;"
-        >
+        <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item"
+          alt style="width:100%;">
       </div>
     </el-dialog>
     <el-dialog title="提示" :visible.sync="importDataVisible" width="400px" class="import-excel">

@@ -1,3 +1,4 @@
+<script src="../../../dist/static/js/0.2af4f72faaa900678328.js"></script>
 <template>
     <div class='Container' style="margin-top: 20px;">
         <div class='main' style="background-color: #fff;">
@@ -296,6 +297,8 @@
                 fileList:[]
             };
         },
+
+
         methods: {
             handleSelectionChange(val) {
                 this.multipleSelection = val;
