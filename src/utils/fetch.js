@@ -6,7 +6,7 @@ import {router} from '../router'
 
 
 const Axios = axios.create({
-    timeout: 30000,
+    timeout: 120000,
     responseType: "text"
 })
 
