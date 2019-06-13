@@ -336,7 +336,8 @@ export default {
         previewContract(row){
 
             const previewContractParams = {
-                contractNo: row.contractNo
+                contractNo: row.contractNo,
+                conOrderNo: this.conOrderNo
             };
             this.dialVisible = true;
             let t = Math.random();

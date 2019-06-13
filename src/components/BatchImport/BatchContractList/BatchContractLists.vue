@@ -172,7 +172,8 @@
             previewContract(val){
                 this.dialVisible = true;
                 let param = {
-                    contractNo:val.contractNo
+                    contractNo:val.contractNo,
+                    conOrderNo: this.conOrderNo
                 };
                 let t = Math.random();
                 this.$loading.show();
