@@ -167,6 +167,7 @@
                 this.imgList = [];
                 this.contractDetail = {};
                 this.dialVisible = false;
+                this.$loading.hide();
             },
             // 查看合同
             previewContract(val){

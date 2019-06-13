@@ -211,6 +211,7 @@ export default {
             this.imgList = [];
             this.contractSignInfo = {};
             this.dialVisible = false;
+            this.$loading.hide();
         },
         //获取table数据
         getContractInfo(pageNo, pageSize) {

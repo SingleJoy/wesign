@@ -203,6 +203,7 @@ export default {
             this.imgList = [];
             this.contractSignInfo = {};
             this.dialVisible = false;
+            this.$loading.hide();
         },
         //导出错误数据
         downloadTemplate() {
@@ -386,7 +387,6 @@ export default {
         },
         // 预览合同
         previewContract(row){
-            console.log(row)
             const previewContractParams = {
                 contractNo: row.contractNo,
                 conOrderNo: this.uploadParams.conOrderNo
