@@ -125,9 +125,7 @@
                     pageSize:10,
                 };
                 getcontractorders(this.accountCode,params).then(res=>{
-                      setTimeout(()=>{
-                          this.$loading.hide();
-                      },1000);
+                    this.$loading.hide();
                     if(res.data.resultCode==1){
                         this.totalItemNumber=res.data.data.totalItemNumber;
                         this.tableData=res.data.dataList;
