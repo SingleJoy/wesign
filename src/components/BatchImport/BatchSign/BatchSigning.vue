@@ -91,21 +91,6 @@ export default {
                         }
                         this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
                     }
-                // if(res.data.resultCode == "0") {
-                //     if(!this.signUrl) {
-                //         this.signUrl = signRoomLink;
-                //     }
-                //     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
-                // } else if(res.data.resultCode == "1"){
-                //     clearInterval(this.timer);
-                //     this.$router.push({path:'/BatchSigned',query:{
-                //         failNum:failNum, 
-                //         signRoomLink: signRoomLink, 
-                //         successNum: successNum, 
-                //         totalNum: totalNum
-                //     }});
-                //     return "complete"
-                // }
             }).catch(error => {
                 // clearInterval(this.timer);
             })
