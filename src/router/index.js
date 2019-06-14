@@ -207,6 +207,14 @@ export const router = new Router({
             meta: {
                 auth: true
             }
+        },
+        {
+            path: '/Fillinformation',
+            name: 'Fillinformation',
+            component: loadComponent('Templatelaunch/Fillinformation/Fillinformation'),
+            meta: {
+                auth: true
+            }
         },{
             path: '/Contractsign',
             name: 'Contractsign',
