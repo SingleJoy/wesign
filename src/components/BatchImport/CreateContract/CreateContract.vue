@@ -424,6 +424,7 @@ export default {
             
     }
     /deep/ .el-dialog__wrapper{
+        background: rgba(0,0,0,0.5);
         .img-body{
             img{
                 width:100%;

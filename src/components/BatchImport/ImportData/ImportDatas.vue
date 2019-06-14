@@ -588,29 +588,11 @@ export default {
                         }
                     }
                 }
-                // .importinfo-right{
-                //     .unpass-title{
-                //         font-size: 18px;
-                //         color:#4091fb;
-                //     }
-                //     .reason-list{
-                //         width: 495px;
-                //         height: 109px;
-                //         border:1px solid #4091fb;
-                //         border-radius: 3px;
-                //         margin-top:18px;
-                //         overflow:auto;
-                //         padding: 10px;
-                //         box-sizing: border-box;
-                //     }
-                //     .item{
-                //         margin-bottom: 14px;
-                //     }
-                // }
             }
            
         }
         /deep/ .el-dialog__wrapper{
+            background: rgba(0,0,0,0.5);
             .img-body{
                 img{
                     width:100%;
