@@ -118,6 +118,7 @@
                         <el-table-column
                             prop="contractStatus"
                             label="当前状态"
+                            align="center"
                             width="150">
                         </el-table-column>
                         <el-table-column
