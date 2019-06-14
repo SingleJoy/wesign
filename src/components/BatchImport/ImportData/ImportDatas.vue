@@ -203,6 +203,7 @@ export default {
             this.imgList = [];
             this.contractSignInfo = {};
             this.dialVisible = false;
+            this.$loading.hide();
         },
         //导出错误数据
         downloadTemplate() {
@@ -336,24 +337,28 @@ export default {
                 conOrderNo: this.uploadParams.conOrderNo
             }
             let interfaceCode = sessionStorage.getItem("interfaceCode");
+            this.$loading.show();
             createContract(interfaceCode, params).then(res => {
                if(res.data.resultCode == "1") {
                    this.load = false;
                    this.$router.push("/CreateContract");
+                   this.$loading.hide();
                } else {
                     this.$message({
                         showClose: true,
                         message: res.data.resultMessage,
                         type: "error"
                     });
+                    this.$loading.hide();
                     this.load = false;
                }
             }).catch(error => {
-
+                this.$loading.hide();
             })
         },
         //取消
         SingleTempCancel() {    //取消操作
+            this.$loading.hide();
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             const h = this.$createElement;
             this.hasClick = true;
@@ -378,15 +383,15 @@ export default {
                     }, 50);
                 }, 100);
                 } else {
-                this.hasClick = false;
-                done();
+                    this.hasClick = false;
+                    done();
+                    this.$loading.show();
                 }
             }
             })
         },
         // 预览合同
         previewContract(row){
-            console.log(row)
             const previewContractParams = {
                 contractNo: row.contractNo,
                 conOrderNo: this.uploadParams.conOrderNo
@@ -583,29 +588,11 @@ export default {
                         }
                     }
                 }
-                // .importinfo-right{
-                //     .unpass-title{
-                //         font-size: 18px;
-                //         color:#4091fb;
-                //     }
-                //     .reason-list{
-                //         width: 495px;
-                //         height: 109px;
-                //         border:1px solid #4091fb;
-                //         border-radius: 3px;
-                //         margin-top:18px;
-                //         overflow:auto;
-                //         padding: 10px;
-                //         box-sizing: border-box;
-                //     }
-                //     .item{
-                //         margin-bottom: 14px;
-                //     }
-                // }
             }
            
         }
         /deep/ .el-dialog__wrapper{
+            background: rgba(0,0,0,0.5);
             .img-body{
                 img{
                     width:100%;

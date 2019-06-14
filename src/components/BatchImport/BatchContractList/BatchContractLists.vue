@@ -91,7 +91,8 @@
         <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="ContractDialogs" :close-on-click-modal='false' :before-close="hideDialog">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
-                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'>
+                    <!-- <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'> -->
+                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractUrl" alt="" style='width:100%;'>
 
                 </div>
 
@@ -134,6 +135,7 @@
 </template>
 <script>
     import {getcontracts,contractkeywordsignNew,getContractImages,signleKeyWordSign,getsignresult} from '@/api/template.js';
+    import {getContractDetails,contractimgs} from '@/api/detail.js';     //此处合同详情是有签章的故应调之前的老接口
     import { filtercontractStatus } from '@/common/js/filterStr.js'
     export default {
         name: 'OrderLists',
@@ -167,6 +169,7 @@
                 this.imgList = [];
                 this.contractDetail = {};
                 this.dialVisible = false;
+                this.$loading.hide();
             },
             // 查看合同
             previewContract(val){
@@ -177,22 +180,45 @@
                 };
                 let t = Math.random();
                 this.$loading.show();
-                getContractImages(param,t).then(res=>{
-                    setTimeout(()=>{
-                        this.$loading.hide();
-                    },1000);
-                    if(res.data.resultCode ==1){
-                        this.contractDetail = res.data.data;
-                        this.imgList = res.data.dataList;
-                    }else{
-                        this.$message({
-                            showClose: true,
-                            message: res.data.resultMessage,
-                            type: "error"
-                        });
-                    }
+                // getContractImages(param,t).then(res=>{
+                //     setTimeout(()=>{
+                //         this.$loading.hide();
+                //     },1000);
+                //     if(res.data.resultCode ==1){
+                //         this.contractDetail = res.data.data;
+                //         this.imgList = res.data.dataList;
+                //     }else{
+                //         this.$message({
+                //             showClose: true,
+                //             message: res.data.resultMessage,
+                //             type: "error"
+                //         });
+                //     }
+                // }).catch(err=>{
+                    
+                // })
+                //获取合同详情
+                getContractDetails(this.interfaceCode,val.contractNo).then(res=>{  //随机数写在接口api里 避免每次都格外传入
+                    // if(res.data.resultCode ==1){
+                        let contractData = res.data.contractVo;
+                        let signertData = res.data.signUserVo?res.data.signUserVo[0]:'';  //数组第一个代表企业 第二个代表个人
+                        this.contractDetail = {
+                            contractName:contractData.contractName,
+                            validTimeStr:contractData.validTime,
+                            userName:signertData.signUserName,
+                            idCard:signertData.idCard,
+                            mobile:signertData.mobile,
+                        }
+                    // }
                 }).catch(err=>{
                     
+                })
+                //获取合同图片
+                contractimgs(this.interfaceCode,val.contractNo).then(res=>{
+                    this.imgList = res.data;
+                    this.$loading.hide(); //隐藏
+                }).catch(err=>{
+
                 })
             },
             selectable(row, index) {
@@ -316,6 +342,7 @@
     @import "../../../common/styles/content.scss";
     .BatchContractLists {
         .el-dialog__wrapper{
+            background: rgba(0,0,0,0.5);
             .img-body{
                 img{
                     width:100%;
