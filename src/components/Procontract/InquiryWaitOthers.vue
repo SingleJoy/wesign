@@ -204,7 +204,7 @@
         dialogChooseFolder:false,
         folderList:[],
         batchFolderListNo:'',
-        defaultContractNum:'',
+        defaultContractNo:'',
       };
     },
     methods: {
@@ -225,7 +225,7 @@
 
         }else{
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
+            str += this.multipleSelection[i].contractNo + ',';
           }
 
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
@@ -261,7 +261,7 @@
               isCreater = false;
             }
             obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
+            obj.contractNo = res.data.content[i].contractNo;
             obj.createTime = res.data.content[i].createTime;
             obj.signers = res.data.content[i].signers;
             obj.contractStatus = res.data.content[i].contractStatus;
@@ -411,12 +411,10 @@
       rowLockClick(row) {
         if (row.contractType == "0") {
 
-          sessionStorage.setItem("contractNo", row.contractNum);
           cookie.set('state','list')
           this.$router.push("/CompanyExb");
         } else {
 
-          sessionStorage.setItem("contractNo", row.contractNum);
           cookie.set('state','list')
           this.$router.push("/ContractInfo");
         }
@@ -425,17 +423,16 @@
         //签署
         if (row.contractType == "0") {
 
-          sessionStorage.setItem("contractNo", row.contractNum);
+
           this.$router.push("/Dimension");
         } else {
 
-          sessionStorage.setItem("contractNo", row.contractNum);
           this.$router.push("/Contract");
         }
       },
       downloadClick(row) {
         //下载
-        let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNum;
+        let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNo;
         let up = document.createElement("a");
         document.body.appendChild(up);
         up.setAttribute("href", url);
@@ -444,7 +441,7 @@
 
       // 查询所有归档文件夹接口
       folderClick(row){
-        this.defaultContractNum=row.contractNum;
+        this.defaultContractNo=row.contractNo;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
@@ -467,7 +464,7 @@
         let params={
           oldFilingNo:this.$store.state.showFilingNoDefault,
           newFilingNo:this.showFilingNo,
-          contractNo:this.defaultContractNum
+          contractNo:this.defaultContractNo
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
           this.showFilingNo=this.$store.state.showFilingNoDefault;
@@ -504,9 +501,9 @@
           return false
         }else {
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
+            str += this.multipleSelection[i].contractNo + ',';
           }
-          this.defaultContractNum=str;
+          this.defaultContractNo=str;
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){

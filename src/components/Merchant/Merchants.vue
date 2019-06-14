@@ -193,103 +193,96 @@
       },
       jumper (item,index) {
         if( item.templateSpecies == 'batch'){
-          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})
-          sessionStorage.setItem('templateName', item.name)
-          sessionStorage.setItem('templateNo', item.templateNo)
-          sessionStorage.setItem('templateGenre',item.templateSpecies)
-          this.$router.push('/batchSetting')
+          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo});
+          this.$store.dispatch('templateType',{templateGenre:item.templateSpecies});
+          sessionStorage.setItem('templateName', item.name);
+          sessionStorage.setItem('templateNo', item.templateNo);
+          sessionStorage.setItem('templateGenre',item.templateSpecies);
+          this.$router.push('/batchSetting');
         } else {
-          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          sessionStorage.setItem('templateName',item.name)
-          sessionStorage.setItem('templateNo', item.templateNo)
-          this.$router.push('/Fillinformation')
+          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo});
+          sessionStorage.setItem('templateName',item.name);
+          sessionStorage.setItem('templateNo', item.templateNo);
+          this.$router.push('/Fillinformation');
         }
       },
       animated () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                               //待我签署
-        sessionStorage.setItem('second','second')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','second');
+        this.$router.push('Procontract');
       },
       wait () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                   //待他人签署
-        sessionStorage.setItem('second','third')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','third');
+        this.$router.push('Procontract');
       },
       takeEff (){
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                           //已生效
-        sessionStorage.setItem('second','fourth')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','fourth');
+        this.$router.push('Procontract');
       },
       end () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                      //已截止
-        sessionStorage.setItem('second','five')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','five');
+        this.$router.push('Procontract');
       },
       signClick (row) { //签署
+          sessionStorage.setItem('contractNo', row.contractNo);
         if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          this.$router.push('/Dimension')
+          this.$router.push('/Dimension');
         }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          this.$router.push('/Contract')
+          this.$router.push('/Contract');
         }
       },
       downloadClick (row) { //下载
-        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ row.contractNum;
-        var up = document.createElement('a');
-        document.body.appendChild(up)
+        let url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ row.contractNo;
+        let up = document.createElement('a');
+        document.body.appendChild(up);
         up.setAttribute('href',url);
-        up.click()
+        up.click();
       },
       choice(){
-        this.$router.push('/BuyProduct')
+        this.$router.push('/BuyProduct');
 
       },
       jump () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        this.$router.push('/Procontract')
+        this.$router.push('/Procontract');
       },
       more (){
         this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push('/More')
-        // this.$router.push('/BuyProduct')
+        this.$router.push('/More');
+
       },
-      rowLockClick (row) { //查看
+      rowLockClick (row) {
+          //查看
+          sessionStorage.setItem('contractNo', row.contractNo);
         if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          cookie.set('state','home')
-          this.$router.push('/CompanyExb')
+          cookie.set('state','home');
+          this.$router.push('/CompanyExb');
         }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          cookie.set('state','home')
-          this.$router.push('/ContractInfo')
+          cookie.set('state','home');
+          this.$router.push('/ContractInfo');
         }
       }
     },
     created() {
       if(!cookie.getJSON('tenant')){
-        return
+        return false;
       }
-
-      let auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      let auditSteps = cookie.getJSON('tenant')[1].auditSteps
+      let auditStatus = cookie.getJSON('tenant')[1].auditStatus;
+      let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       if(auditSteps!=3){
         this.topTip = true
       }
       let data =[];
       let requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
         this.num=res.data.content.length;
         for (let i = 0; i < res.data.content.length;i++) {
           var obj = {}
           obj.contractName = res.data.content[i].contractName;
-          obj.contractNum = res.data.content[i].contractNum;
+          obj.contractNo = res.data.content[i].contractNo;
           obj.createTime = res.data.content[i].createTime;
           obj.signers =  res.data.content[i].signers;
           obj.contractStatus =  res.data.content[i].contractStatus;
@@ -315,31 +308,31 @@
           }
           data[i] = obj
         }
-        this.tableData = data
-        this.loading = false
+        this.tableData = data;
+        this.loading = false;
 
       }).catch(error=>{
 
-      })
+      });
 
       let requestType=['bwaitForMeSign','bwaitForOtherSign','btakeEffect','bdeadline'];
-      let responseType=['waitMe','waitOther','takeEffect','deadline']
+      let responseType=['waitMe','waitOther','takeEffect','deadline'];
       let param={
         accountCode:this.accountCode
-      }
+      };
       for(let i=0;i< requestType.length;i++){
         let type =  responseType[i];
         server[requestType[i]](param,this.interfaceCode).then(res=>{
-          this[type] = res.data.count
+          this[type] = res.data.count;
         }).catch(error=>{
 
-        })
+        });
       }
-      this.count = 0
+      this.count = 0;
     },
     mounted() {
-      sessionStorage.removeItem("type")
-      sessionStorage.removeItem("contractNo")
+      sessionStorage.removeItem("type");
+      sessionStorage.removeItem("contractNo");
     }
   }
 </script>
