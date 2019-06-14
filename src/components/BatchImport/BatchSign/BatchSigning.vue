@@ -47,8 +47,11 @@ export default {
     name: "BatchSigning",
     data() {
         return {
+            //签约室链接
             signUrl: "",
+            //进度条
             progress: 0,
+            //定时器
             timer: null
         }
     },
@@ -57,6 +60,7 @@ export default {
         Bottom
     },
     created() {
+        //禁止浏览器后退
         history.pushState(null, null, document.URL);
         window.addEventListener('popstate', function () {
             history.pushState(null, null, document.URL);
@@ -64,11 +68,13 @@ export default {
         let interfaceCode = sessionStorage.getItem("interfaceCode");
         let conOrderNo = sessionStorage.getItem("conOrderNo");
         let isComplete = this.serchSignResult(interfaceCode, conOrderNo);
+        //轮询签署结果
         this.timer = setInterval(() => {
             this.serchSignResult(interfaceCode, conOrderNo);
-        }, 2000);
+        }, 3000);
     },
     methods: {
+        //获取签署状态
         serchSignResult(interfaceCode, conOrderNo) {
             getsignresult(interfaceCode, conOrderNo).then(res => {
                 let data = res.data.data,
@@ -76,29 +82,25 @@ export default {
                     signRoomLink = data.signRoomLink,
                     successNum = data.successNum,
                     totalNum = data.totalNum;
-                if(res.data.resultCode == "0") {
-                    if(!this.signUrl) {
-                        this.signUrl = signRoomLink;
+                    // 1 => 签署完成
+                    if(res.data.resultCode == "1"){
+                        clearInterval(this.timer);
+                        this.$router.push({path:'/BatchSigned',query:{
+                            failNum:failNum, 
+                            signRoomLink: signRoomLink, 
+                            successNum: successNum, 
+                            totalNum: totalNum
+                        }});
+                        return "complete"
+                    } else {
+                        // 未签署完继续轮询
+                        if(!this.signUrl) {
+                            this.signUrl = signRoomLink;
+                        }
+                        this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
                     }
-                    this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
-                } else if(res.data.resultCode == "1"){
-                    clearInterval(this.timer);
-                    this.$router.push({path:'/BatchSigned',query:{
-                        failNum:failNum, 
-                        signRoomLink: signRoomLink, 
-                        successNum: successNum, 
-                        totalNum: totalNum
-                    }});
-                    return "complete"
-                } else {
-                    clearInterval(this.timer);
-                    this.$message({
-                        message: res.data.resultMessage,
-                        type: 'error'
-                    })
-                }
             }).catch(error => {
-                clearInterval(this.timer);
+                // clearInterval(this.timer);
             })
         },
         //复制成功  
@@ -119,6 +121,7 @@ export default {
             clearInterval(this.timer);
         }, 
     },
+    //离开当前页面清除定时器
     beforeDestroy() {
         if(this.timer) { //如果定时器在运行则关闭
             clearInterval(this.timer); 
