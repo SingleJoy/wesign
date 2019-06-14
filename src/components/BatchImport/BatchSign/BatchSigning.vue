@@ -66,7 +66,7 @@ export default {
         let isComplete = this.serchSignResult(interfaceCode, conOrderNo);
         this.timer = setInterval(() => {
             this.serchSignResult(interfaceCode, conOrderNo);
-        }, 2000);
+        }, 3000);
     },
     methods: {
         serchSignResult(interfaceCode, conOrderNo) {
