@@ -76,29 +76,38 @@ export default {
                     signRoomLink = data.signRoomLink,
                     successNum = data.successNum,
                     totalNum = data.totalNum;
-                if(res.data.resultCode == "0") {
-                    if(!this.signUrl) {
-                        this.signUrl = signRoomLink;
+                    if(res.data.resultCode == "1"){
+                        clearInterval(this.timer);
+                        this.$router.push({path:'/BatchSigned',query:{
+                            failNum:failNum, 
+                            signRoomLink: signRoomLink, 
+                            successNum: successNum, 
+                            totalNum: totalNum
+                        }});
+                        return "complete"
+                    } else {
+                        if(!this.signUrl) {
+                            this.signUrl = signRoomLink;
+                        }
+                        this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
                     }
-                    this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
-                } else if(res.data.resultCode == "1"){
-                    clearInterval(this.timer);
-                    this.$router.push({path:'/BatchSigned',query:{
-                        failNum:failNum, 
-                        signRoomLink: signRoomLink, 
-                        successNum: successNum, 
-                        totalNum: totalNum
-                    }});
-                    return "complete"
-                } else {
-                    clearInterval(this.timer);
-                    this.$message({
-                        message: res.data.resultMessage,
-                        type: 'error'
-                    })
-                }
+                // if(res.data.resultCode == "0") {
+                //     if(!this.signUrl) {
+                //         this.signUrl = signRoomLink;
+                //     }
+                //     this.progress = parseFloat(((Number(successNum) + Number(failNum))/Number(totalNum)*100).toFixed(2));
+                // } else if(res.data.resultCode == "1"){
+                //     clearInterval(this.timer);
+                //     this.$router.push({path:'/BatchSigned',query:{
+                //         failNum:failNum, 
+                //         signRoomLink: signRoomLink, 
+                //         successNum: successNum, 
+                //         totalNum: totalNum
+                //     }});
+                //     return "complete"
+                // }
             }).catch(error => {
-                clearInterval(this.timer);
+                // clearInterval(this.timer);
             })
         },
         //复制成功  
