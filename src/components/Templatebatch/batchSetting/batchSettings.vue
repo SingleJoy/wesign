@@ -246,7 +246,7 @@
     <el-dialog title="提示" :visible.sync="importDataVisible" width="400px" class="import-excel">
       <p>导入数据后，手动添加的签署人将会被清除</p>
       <div class="import-footer">
-        <span slot="footer"> 
+        <div slot="footer" class="dialog-footer"> 
             <!-- <el-button size="small" type="primary">确定</el-button> -->
             <el-upload
                 class="upload-demo"
@@ -267,7 +267,7 @@
                 <el-button size="small" type="primary">确定</el-button>
             </el-upload>
             <el-button @click="uploadCencel" size="small">取 消</el-button>
-        </span>
+        </div>
       </div>
     </el-dialog>
     <el-dialog
