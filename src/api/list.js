@@ -21,9 +21,9 @@ export function b2cContrants(param,interfaceCode){
 }
 
 /* 提醒 */
-export function remind(param,interfaceCode,contractNum){
+export function remind(param,interfaceCode,contractNo){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode + "/contract/" + contractNum +"/remind",
+        url: "/api/v1/tenant/" + interfaceCode + "/contract/" + contractNo +"/remind",
         method: "get",
         params: param
     })

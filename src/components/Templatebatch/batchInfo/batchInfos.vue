@@ -298,10 +298,6 @@
         })
       },
       lastStepFit () {
-        // this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.templateNo})
-        // this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
-        // this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
-        // this.$store.dispatch('type',{type:'back'})
 
         sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
         sessionStorage.setItem('type','back')
