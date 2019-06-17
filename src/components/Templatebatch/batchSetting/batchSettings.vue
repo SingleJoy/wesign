@@ -246,7 +246,7 @@
     <el-dialog title="提示" :visible.sync="importDataVisible" width="400px" class="import-excel">
       <p>导入数据后，手动添加的签署人将会被清除</p>
       <div class="import-footer">
-        <span slot="footer" class="dialog-footer"> 
+        <span slot="footer"> 
             <!-- <el-button size="small" type="primary">确定</el-button> -->
             <el-upload
                 class="upload-demo"
@@ -279,12 +279,12 @@
         center
         @close="importDataReminder=false"
     >
-        <p class="import-data">1、根据模板中的参数设置，生成一份Execl表格</p>
+        <p>1、根据模板中的参数设置，生成一份Execl表格</p>
         <p class="import-data">2、将合同参数按照参数要求填充到表格中</p>
         <p class="import-data">3、点击”导入数据“将完善好的表格导入到系统中</p>
         <p class="import-hint import-data">4、请勿编辑导出的Execl表格表头数据，否则可能会导致数据读取失败</p>
         <p class="import-hint import-data">5、每次至多可导入100条数据，超过100条系统将自动截取掉</p>
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" style="margin-top: 15px;">
             <el-button type="primary" @click="importDataReminder=false" size="medium">确 定</el-button>
         </div>
     </el-dialog>
@@ -939,7 +939,8 @@
       color: red;
   }
   .import-data {
-      margin-top: 15px;
+      margin-top: 8px;
+      margin-bottom: 8px;
   }
 }
 .showDialogs {
