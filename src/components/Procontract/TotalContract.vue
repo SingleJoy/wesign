@@ -207,7 +207,7 @@
         dialogChooseFolder:false,
         folderList:[],
         batchFolderListNo:'',
-        defaultContractNum:'',
+        defaultContractNo:'',
       }
     },
     methods: {
@@ -228,7 +228,7 @@
 
         }else{
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
+            str += this.multipleSelection[i].contractNo + ',';
           }
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
           let up = document.createElement('a');
@@ -267,42 +267,42 @@
               isCreater = false;
             }
             obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
+            obj.contractNo = res.data.content[i].contractNo;
             obj.createTime = res.data.content[i].createTime;
             obj.signers =  res.data.content[i].signers;
             obj.contractStatus =  res.data.content[i].contractStatus;
-            obj.validTime =  res.data.content[i].validTime
-            obj.contractType = res.data.content[i].contractType
-            obj.operator = res.data.content[i].operator
+            obj.validTime =  res.data.content[i].validTime;
+            obj.contractType = res.data.content[i].contractType;
+            obj.operator = res.data.content[i].operator;
             obj.isCreater = isCreater;
-            obj.operation = ''
+            obj.operation = '';
             switch (obj.contractStatus){
               case "1":
                 obj.contractStatus="待我签署";
-                obj.operation = 1
+                obj.operation = 1;
                 break;
               case "2":
                 obj.contractStatus="待他人签署";
-                obj.operation = 2
+                obj.operation = 2;
                 break;
               case "3":
                 obj.contractStatus="已生效";
-                obj.operation = 3
+                obj.operation = 3;
                 break;
               default:
                 obj.contractStatus="已截止";
-                obj.operation = 4
+                obj.operation = 4;
                 break;
             }
             data[i] = obj
           }
-          this.tableData2 = data
-          this.num = res.data.totalItemNumber
-          this.loading = false
+          this.tableData2 = data;
+          this.num = res.data.totalItemNumber;
+          this.loading = false;
 
         }).catch(error=>{
 
-        })
+        });
       },
       handleCurrentChange(val) {
         this.queryAccountCode = this.accountLevel==2?sessionStorage.getItem('accountCode'):this.queryAccountCode;
@@ -379,50 +379,45 @@
           'contractStatus':'0',
           'filingNo':this.$store.state.showFilingNo,
         };
-        this.getData (requestVo)
-        this.currentPage = 1
+        this.getData (requestVo);
+        this.currentPage = 1;
         this.$message({
           showClose: true,
           message: '查询成功!',
           type: 'success'
         });
-        this.inquiry = true
+        this.inquiry = true;
       },
       rowLockClick (row) {//详情
+          sessionStorage.setItem('contractNo', row.contractNo)
         if(row.contractType == '0'){
-
-          sessionStorage.setItem('contractNo', row.contractNum)
           cookie.set('state','list')
           this.$router.push('/CompanyExb')
         }else{
 
-          sessionStorage.setItem('contractNo', row.contractNum)
           cookie.set('state','list')
           this.$router.push('/ContractInfo')
         }
       },
       signClick (row) { //签署
+          sessionStorage.setItem('contractNo', row.contractNo)
         if(row.contractType == '0'){
-
-          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Dimension')
         }else{
-
-          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Contract')
         }
       },
       downloadClick (row) { //下载
-        let url = process.env.API_HOST+'/contract/'+ this.interfaceCode + '/'+ row.contractNum;
+        let url = process.env.API_HOST+'/contract/'+ this.interfaceCode + '/'+ row.contractNo;
         let up = document.createElement('a');
         document.body.appendChild(up)
         up.setAttribute('href',url);
-        up.click()
+        up.click();
       },
 
       // 查询所有归档文件夹接口
       folderClick(row){
-        this.defaultContractNum=row.contractNum;
+        this.defaultContractNo=row.contractNo;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
@@ -438,13 +433,13 @@
           }
         }).catch(error=>{
 
-        })
+        });
       },
-      contractFiling(filingNo){
+      contractFiling(){
         let params={
           oldFilingNo:this.$store.state.showFilingNoDefault,
           newFilingNo:this.showFilingNo,
-          contractNo:this.defaultContractNum
+          contractNo:this.defaultContractNo
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
           this.showFilingNo=this.$store.state.showFilingNoDefault;
@@ -466,7 +461,7 @@
           }
         }).catch(error=>{
 
-        })
+        });
       },
       batchFolder(){
         let length = this.multipleSelection.length;
@@ -478,12 +473,12 @@
             message: '请先勾选想要归档合同文件',
             type: "error"
           });
-          return false
+          return false;
         }else {
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
+            str += this.multipleSelection[i].contractNo + ',';
           }
-          this.defaultContractNum=str;
+          this.defaultContractNo=str;
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){

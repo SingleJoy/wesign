@@ -420,7 +420,7 @@
                 let signH = parseInt(document.getElementById('signImg').style.height)
                 let signW =  parseInt(document.getElementById('signImg').style.width)
                 let signContractVo = {
-                    'contractNum':this.contractNo,
+                    'contractNo':this.contractNo,
                     'phoneHeight':imgHeight,
                     'phoneWidth': imgWight,
                     'signatureImg': base64Img,

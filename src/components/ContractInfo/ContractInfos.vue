@@ -249,13 +249,13 @@
     },
     methods: {
       remindSignClick (row) {
-        //  var notificationReq = {"type":'0',"contractNo":this.$store.state.rowNumber,"userCode":row.userCode,"mobile":row.mobile}
+
         let remindParam = {
           userCode:row.userCode,
           contractType:1
-        }
+        };
         remind(remindParam,this.interfaceCode,this.contractNo).then(res=>{
-            let resultCode = res.data.resultCode
+            let resultCode = res.data.resultCode;
             if ( resultCode === '0') {
                 this.$message({
                     message: '短信通知成功',
@@ -275,43 +275,25 @@
 
       },
       extensionClick(){
-        if (this.contractType == "0") {
           sessionStorage.setItem("contractNo", this.contractNo);
+        if (this.contractType == "0") {
           cookie.set("state", "E");
           this.$router.push("/CompanyExc");
         } else {
-          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-          sessionStorage.setItem("contractNo", this.contractNo);
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
       },
       signClick(row){
         //签署
-        if (this.contractType == "0") {
-          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
           sessionStorage.setItem("contractNo", this.contractNo);
+        if (this.contractType == "0") {
           this.$router.push("/Dimension");
         } else {
-          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-          sessionStorage.setItem("contractNo", this.contractNo);
           this.$router.push("/Contract");
         }
       },
 
-      seeClick(row) {
-        //延期
-        if (row.contractType == "0") {
-          sessionStorage.setItem("contractNo", row.contractNum);
-          cookie.set("state", "E");
-          this.$router.push("/CompanyExc");
-        } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", row.contractNum);
-          cookie.set("state", "D");
-          this.$router.push("/ContractDelay");
-        }
-      },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return 'background:#efefef;font-weight:bold;'
@@ -322,7 +304,6 @@
       seeContractImg (){
         this.imgList =[];
         this.$loading.show(); //显示
-
         let t=Math.random();
         contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
             this.imgList = res.data;
@@ -333,7 +314,7 @@
         this.dialogTableVisible = true
       },
       downloadClick () {
-        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+ this.contractNo
+        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+ this.contractNo;
         let download = document.createElement('a');
         document.body.appendChild(download)
         download.setAttribute('href',url);
@@ -358,72 +339,64 @@
             this.sponsorInterfaceCode = res.data.contractVo.interfaceCode;
             switch (type) {
               case '1':
-                this.createType = '模板发起'
+                this.createType = '模板发起';
                 break;
               default:
-                this.createType = '上传发起'
+                this.createType = '上传发起';
                 break;
             }
             switch (this.status ){
               case "1":
-                this.status = '签署中'
+                this.status = '签署中';
                 break;
               case "2":
-                this.status = '已生效'
+                this.status = '已生效';
                 break;
               default:
-                this.status = '已截止'
+                this.status = '已截止';
                 break;
             }
             if(currentFaceCode == res.data.contractVo.interfaceCode){
-              isCreater = true
+              isCreater = true;
             }else{
-              isCreater = false
+              isCreater = false;
             }
             for (let i = 0; i < signUserVo.length;i++) {
-              let obj = {}
-              obj.signUserName = signUserVo[i].signUserName
-              obj.mobile = signUserVo[i].mobile
-              obj.idCard = signUserVo[i].idCard
-              obj.signStatus = signUserVo[i].signStatus
-              obj.userCode = signUserVo[i].userCode
-              obj.isCreater = isCreater
+              let obj = {};
+              obj.signUserName = signUserVo[i].signUserName;
+              obj.mobile = signUserVo[i].mobile;
+              obj.idCard = signUserVo[i].idCard;
+              obj.signStatus = signUserVo[i].signStatus;
+              obj.userCode = signUserVo[i].userCode;
+              obj.isCreater = isCreater;
               switch ( obj.signStatus ){
                 case "0":
-                  obj.signStatus = 0
+                  obj.signStatus = 0;
                   break;
                 default:
-                  obj.signStatus = 1
+                  obj.signStatus = 1;
                   break;
               }
               if (obj.idCard === null || obj.idCard === 'undefined') {
-                obj.idCard = ''
+                obj.idCard = '';
               }
-              data[i] = obj
+              data[i] = obj;
             }
-            this.tableData2 = data
+            this.tableData2 = data;
             let param={
                 contractNoZq:contractNoZq
-            }
+            };
             contractSignUserInfo(param,this.contractNo).then(res=>{
-                this.History = res.data.dataList
+                this.History = res.data.dataList;
             }).catch(error=>{
 
-            })
+            });
         }).catch(error=>{
 
-        })
+        });
 
       },
       backHome(){
-        // console.log("state"+cookie.getJSON('state'))
-        // if(cookie.getJSON('state')=='List'){
-        //     this.$router.push("/Mycontract")
-        //     this.$store.dispatch('tabIndex',{tabIndex:1});
-        // }else{
-        //     this.$store.dispatch('tabIndex',{tabIndex:0});
-        //     this.$router.push("/Home")
-        // }
 
             if(cookie.getJSON('state')=='list'){
                 this.$router.push("/Procontract")
@@ -439,18 +412,6 @@
                 this.$store.dispatch('tabIndex',{tabIndex:1});
             }
 
-
-        // if(cookie.getJSON('state') == 'A' || cookie.getJSON('state') == 'B'){
-        //   if(cookie.getJSON('state') == 'A'){
-        //     this.$store.dispatch('tabIndex',{tabIndex:1});
-        //   }else{
-        //     this.$store.dispatch('tabIndex',{tabIndex:0});
-        //   }
-        //   this.$router.push("/Home")
-        // }else{
-        //   this.$router.push("/Mycontract")
-        //     this.$store.dispatch('tabIndex',{tabIndex:1});
-        // }
       }
     },
 
@@ -461,15 +422,17 @@
       let accountCode = sessionStorage.getItem('accountCode');
       let detailAccountCode = sessionStorage.getItem('detailAccountCode');
 
-      this.seeContractDetails()
+      this.seeContractDetails();
       //判断是不是二级账户如果是不请求顶部显示部门姓名
       if(accountLevel != 2){
         let param={
           accountCode:detailAccountCode
-        }
+        };
         server.getAccountName(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
             this.accountName = res.data.data
+          }else{
+
           }
         }).catch(error=>{
 

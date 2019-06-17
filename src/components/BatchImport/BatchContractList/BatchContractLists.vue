@@ -91,8 +91,8 @@
         <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="ContractDialogs" :close-on-click-modal='false' :before-close="hideDialog">
             <div class="img-body">
                 <div v-for="(item,index) in imgList" :key="index" >
-                    <!-- <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'> -->
-                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractUrl" alt="" style='width:100%;'>
+                   
+                    <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.contractImagePath" alt="" style='width:100%;'>
 
                 </div>
 
@@ -178,25 +178,9 @@
                     contractNo:val.contractNo,
                     conOrderNo: this.conOrderNo
                 };
-                let t = Math.random();
+
                 this.$loading.show();
-                // getContractImages(param,t).then(res=>{
-                //     setTimeout(()=>{
-                //         this.$loading.hide();
-                //     },1000);
-                //     if(res.data.resultCode ==1){
-                //         this.contractDetail = res.data.data;
-                //         this.imgList = res.data.dataList;
-                //     }else{
-                //         this.$message({
-                //             showClose: true,
-                //             message: res.data.resultMessage,
-                //             type: "error"
-                //         });
-                //     }
-                // }).catch(err=>{
-                    
-                // })
+
                 //获取合同详情
                 getContractDetails(this.interfaceCode,val.contractNo).then(res=>{  //随机数写在接口api里 避免每次都格外传入
                     // if(res.data.resultCode ==1){
@@ -209,17 +193,18 @@
                             idCard:signertData.idCard,
                             mobile:signertData.mobile,
                         }
-                    // }
+
                 }).catch(err=>{
                     
-                })
+                });
                 //获取合同图片
+
                 contractimgs(this.interfaceCode,val.contractNo).then(res=>{
                     this.imgList = res.data;
                     this.$loading.hide(); //隐藏
                 }).catch(err=>{
 
-                })
+                });
             },
             selectable(row, index) {
                 if(row.contractStatus == "1") {

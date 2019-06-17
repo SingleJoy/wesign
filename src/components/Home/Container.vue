@@ -118,7 +118,6 @@
                         <el-table-column
                             prop="contractStatus"
                             label="当前状态"
-                            align="center"
                             width="150">
                         </el-table-column>
                         <el-table-column
@@ -189,7 +188,7 @@
 
             <div class="upload-warn">
                 <a  href="javascript:void(0);"  class="close-warn" @click="shutAuthority">X</a>
-                <!--<p>{{contractNum}}</p>-->
+
                 <div class="contract-num">
                     <p class="b2b">{{b2bNum}}</p>
                     <p class="b2c">{{b2cNum}}</p>
@@ -298,7 +297,6 @@
                 fileList:[]
             };
         },
-
 
         methods: {
             handleSelectionChange(val) {
@@ -476,8 +474,8 @@
     },
     signClick(row) {
         let createType=row.createType;
-        this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-        sessionStorage.setItem("contractNo", row.contractNum);
+        this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+        sessionStorage.setItem("contractNo", row.contractNo);
         //签署B2B
         if (row.contractType == "0") {
             this.$router.push("/Dimension");
@@ -496,7 +494,7 @@
         let remindParam={
             contractType:row.contractType==0?0:1
         };
-        remind(remindParam,this.interfaceCode,row.contractNum).then(res=>{
+        remind(remindParam,this.interfaceCode,row.contractNo).then(res=>{
             let resultCode = res.data.resultCode;
             let resultMessage = res.data.resultMessage;
             if (resultCode === "0") {
@@ -531,12 +529,12 @@
     seeClick(row) {
         //延期
         if (row.contractType == "0") {
-            sessionStorage.setItem("contractNo", row.contractNum);
+            sessionStorage.setItem("contractNo", row.contractNo);
             cookie.set("state", "Home");
             this.$router.push("/CompanyExc");
         } else {
-            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", row.contractNum);
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+            sessionStorage.setItem("contractNo", row.contractNo);
             cookie.set("state", "Home");
             this.$router.push("/ContractDelay");
         }
@@ -544,7 +542,7 @@
     //单次下载
     downloadClick(row) {
         //下载
-        let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNum;
+        let url = process.env.API_HOST + "v1/contract/" + this.interfaceCode + "/" + row.contractNo;
         let up = document.createElement("a");
         document.body.appendChild(up);
         up.setAttribute("href", url);
@@ -577,7 +575,7 @@
         if(cookie.getJSON('tenant')[1].createContractRole== 1){
             this.$alert('您暂无上传发起权限','提示', {
                 confirmButtonText: '确定'
-            })
+            });
         }else{
             this.popupContainer = !this.popupContainer;
             this.getContractNum();
@@ -588,7 +586,7 @@
     },
     shutAuthority(){
         this.welcomeMessage = !this.welcomeMessage;
-        sessionStorage.setItem('welcomePage',true)
+        sessionStorage.setItem('welcomePage',true);
     },
     jump() {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
@@ -601,15 +599,15 @@
     rowLockClick(row) {
         //查看
         if (row.contractType == "0") {
-            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", row.contractNum);
-            sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+            sessionStorage.setItem("contractNo", row.contractNo);
+            sessionStorage.setItem("detailAccountCode",row.operator); //查看详情时二级账户的accountCode
             cookie.set("state", "Home");
             this.$router.push("/CompanyExa");//企业对企业
         } else {
-            this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-            sessionStorage.setItem("contractNo", row.contractNum);
-            sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
+            this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+            sessionStorage.setItem("contractNo", row.contractNo);
+            sessionStorage.setItem("detailAccountCode",row.operator); //查看详情时二级账户的accountCode
             cookie.set("state", "Home");
             this.$router.push("/ContractInfo");//企业对个人
         }
@@ -664,10 +662,10 @@
             confirmButtonText: '取消',
         });
     }
-    this.$refs.upload.clearFiles();
-    this.uploadFile = false;
-    this.$loading.hide();
-    return false
+      this.$refs.upload.clearFiles();
+       this.uploadFile = false;
+       this.$loading.hide();
+       return false;
     } else if((this.b2bNum<=0)&&(this.b2cNum<=0)){
         if (this.accountLevel == 1) {
             this.$confirm(
@@ -881,7 +879,7 @@
                 res.data.content[i].flag = flag;
                 let obj = {};
                 obj.contractName = res.data.content[i].contractName;
-                obj.contractNum = res.data.content[i].contractNum;
+                obj.contractNo = res.data.content[i].contractNo;
                 obj.createTime = res.data.content[i].createTime;
                 obj.signers = res.data.content[i].signers;
                 obj.contractStatus = res.data.content[i].contractStatus;
