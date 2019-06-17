@@ -117,8 +117,9 @@
                 multiple
                 v-if="!tableDate3.length"
             >
-                <el-button size="small" class="uploadSure" type="primary">导入数据</el-button>
+                <el-button size="primary" class="uploadSure" type="primary">导入数据</el-button>
             </el-upload>
+            <span @click="importReminder()" class="lead-hint"><img src="/static/images/BatchImport/lead-hint.png" alt=""></span>
             <el-dialog
               title="添加人员"
               :visible.sync="modifyPassword"
@@ -269,6 +270,24 @@
         </span>
       </div>
     </el-dialog>
+    <el-dialog
+        title="提示"
+        :visible.sync="importDataReminder"
+        width="26%"
+        top="30vh"
+        custom-class="tempBatchOut"
+        center
+        @close="importDataReminder=false"
+    >
+        <p class="import-data">1、根据模板中的参数设置，生成一份Execl表格</p>
+        <p class="import-data">2、将合同参数按照参数要求填充到表格中</p>
+        <p class="import-data">3、点击”导入数据“将完善好的表格导入到系统中</p>
+        <p class="import-hint import-data">4、请勿编辑导出的Execl表格表头数据，否则可能会导致数据读取失败</p>
+        <p class="import-hint import-data">5、每次至多可导入100条数据，超过100条系统将自动截取掉</p>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="importDataReminder=false" size="medium">确 定</el-button>
+        </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -325,6 +344,7 @@
                 text:'fsfsd'
             }
         ],
+        importDataReminder: false,
         uploadParams: {
             interfaceCode: cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
             templateNo: sessionStorage.getItem('templateNo'),
@@ -387,6 +407,10 @@
       }
     },
     methods: {
+        //导入提示
+        importReminder() {
+            this.importDataReminder = true;
+        },
         //导入数据弹框
         uploadCencel() {
             this.importDataVisible = false;
@@ -855,13 +879,21 @@
 @import "../../../common/styles/SigningSteps.css";
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .batchSettings {
+    .lead-hint {
+        cursor: pointer;
+        img {
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+    }
     .batchInfo {
         .uploadSure {
-            height: 36px;
             margin-left: 10px;
             width: 98px;
+            height: 36px;
+            line-height: 0px;
         }
     }
     .el-table td, .el-table th.is-leaf {
@@ -903,6 +935,12 @@
   height: 320px !important;
   width: 400px !important;
   overflow-y: hidden !important;
+  .import-hint {
+      color: red;
+  }
+  .import-data {
+      margin-top: 15px;
+  }
 }
 .showDialogs {
   position: relative !important;
