@@ -552,7 +552,7 @@
             }
             perfectContract(params,this.interfaceCode ,this.contractNo).then(res=> {
 
-              if (res.data.resultCode == 0) {
+              if (res.data.resultCode == "1") {
 
                 sessionStorage.setItem('needSign',needSign)
                 if(needSign == 1){
