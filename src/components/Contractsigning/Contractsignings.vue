@@ -625,7 +625,7 @@
 
             perfectContract(this.contractVo,this.interfaceCode,this.contractNo).then(res=>{
 
-                if (res.data.resultCode == '0') {
+                if (res.data.resultCode == '1') {
                   sessionStorage.setItem('contractName', TrimAll(this.contractName))
                   this.isNext = false;
 
