@@ -204,7 +204,8 @@ export default {
             fileList:[],
             //批量编号
             uploadParams: {
-                conOrderNo: sessionStorage.getItem("conOrderNo")
+                conOrderNo: sessionStorage.getItem("conOrderNo"),
+                mobile:sessionStorage.getItem("mobile"),
             },
         }
     },
@@ -368,15 +369,16 @@ export default {
         },
         //取消
         SingleTempCancel() {    //取消操作
-            this.$loading.hide();
+        
+        //    console.log( this.$loading.hide());
             this.$store.dispatch('tabIndex',{tabIndex:0});  //导航高亮
             const h = this.$createElement;
             this.hasClick = true;
             this.$msgbox({
-            title: '提示',
-            message: h('p', null, [
-                h('span', null, ' 确定将返回首页'),
-                h('i', { style: 'color: teal' }, '')
+                title: '提示',
+                message: h('p', null, [
+                    h('span', null, ' 确定将返回首页'),
+                    h('i', { style: 'color: teal' }, '')
             ]),
             showCancelButton: true,
             confirmButtonText: '确定',
@@ -395,7 +397,7 @@ export default {
                 } else {
                     this.hasClick = false;
                     done();
-                    this.$loading.show();
+                    // this.$loading.show();
                 }
             }
             })

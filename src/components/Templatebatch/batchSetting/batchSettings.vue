@@ -348,7 +348,8 @@
         uploadParams: {
             interfaceCode: cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
             templateNo: sessionStorage.getItem('templateNo'),
-            accountCode: sessionStorage.getItem('accountCode')
+            accountCode: sessionStorage.getItem('accountCode'),
+            mobile:sessionStorage.getItem('mobile')
         },
         fileList:[],
         importDataVisible:false,
