@@ -119,7 +119,7 @@
             >
                 <el-button size="primary" class="uploadSure export-excel-data" type="primary">导入数据</el-button>
             </el-upload>
-            <span @click="importReminder()" class="lead-hint"><img src="/static/images/BatchImport/lead-hint.png" alt=""></span>
+            <span @click="importReminder()"  v-show="templateSpecificType == 'fillreference'" class="lead-hint"><img src="/static/images/BatchImport/lead-hint.png" alt=""></span>
             <el-dialog
               title="添加人员"
               :visible.sync="modifyPassword"

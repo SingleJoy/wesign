@@ -43,6 +43,7 @@
                         </ul>
                     </div>
                     <div class="result-btn">
+                        
                         <el-upload
                             class="upload-demo"
                             ref="upload"
@@ -60,6 +61,15 @@
                             <el-button type="primary" class="continue-import">继续导入</el-button>
                         </el-upload>
                         <el-button type="primary" class="import-data" @click="downloadTemplate">导出数据</el-button>  
+                    </div>
+                </div>
+                <div class="dashed-line"></div>
+                <div class="importinfo-right boxshadow">
+                    <p class="unpass-title">温馨提示</p>
+                    <div class="reason-list">
+                        <p>1、表格中填充的数据不符合系统格式要求，将无法通过校验</p>
+                        <p>2、点击【导出数据】按钮，可将未通过校验的数据导出，查看未通过原因</p>
+                        <p>3、点击【继续导入】按钮，可继续导入数据</p>
                     </div>
                 </div>
             </div>
@@ -507,16 +517,15 @@ export default {
                 }
             }
             .info-box{
-                width: 754px;
                 margin: 0 auto;
                 margin-top: 20px;
                 display: flex;
                 justify-content: space-between;
-                // .dashed-line{
-                //     height:215px;
-                //     border-left:1px dashed #529bfb;
-                //     width:1px;
-                // }
+                .dashed-line{
+                    height:205px;
+                    border-left:1px dashed #529bfb;
+                    width:1px;
+                }
                 .boxshadow{
                     // box-shadow: 1px 2px 10px #ccc;
                     border-radius: 3px;
@@ -525,7 +534,7 @@ export default {
                 .importinfo-left{
                     width:560px;
                     padding:0 10px;
-                    display: flex;
+                    // display: flex;
                      .result-list ul{
                         display: flex;
                         box-sizing: border-box;
@@ -537,11 +546,12 @@ export default {
                         box-sizing: border-box;
                         border-radius: 3px;
                         p{
-                            margin-top:90px;
+                            margin-top:80px;
                         }
                     }
                     .result-item-left{
                         background: url('/static/images/BatchImport/batch-total.png') no-repeat;
+                        background-size: 100% 100%;
                         span{
                             font-size: 18px;
                             color:#529bfb
@@ -549,6 +559,7 @@ export default {
                     }
                     .result-item-center{
                         background: url('/static/images/BatchImport/batch-pass.png') no-repeat;
+                        background-size: 100% 100%;
                         span{
                             font-size: 18px;
                             color:#fb9c40
@@ -556,6 +567,7 @@ export default {
                     }
                     .result-item-right{
                         background: url('/static/images/BatchImport/batch-unpass.png') no-repeat;
+                        background-size: 100% 100%;
                         span{
                             font-size: 18px;
                             color:#ff0000
@@ -570,7 +582,8 @@ export default {
                     .result-btn{
                         text-align: center;
                         margin-top:20px;
-                        margin-left: 30px;
+                        margin-left: 140px;
+                        display: flex;
                         .el-button+.el-button {
                             margin-left: 0;
                             margin-top: 20px;
@@ -584,8 +597,32 @@ export default {
                         .import-data{
                             color: #FB9C40;
                             border-color:#FB9C40;
-                            margin-top: 15px;
+                            margin-left: 20px;
                         }
+                    }
+                }
+                 .importinfo-right{
+                    .unpass-title{
+                        font-size: 18px;
+                        color:#4091fb;
+                    }
+                    .reason-list{
+                        width: 495px;
+                        height: 120px;
+                        border:1px solid #4091fb;
+                        border-radius: 3px;
+                        margin-top:18px;
+                        overflow:auto;
+                        padding: 10px;
+                        box-sizing: border-box;
+                        p{
+                            font-size: 14px;
+                            color: #333;
+                            line-height: 28px;
+                        }
+                    }
+                    .item{
+                        margin-bottom: 14px;
                     }
                 }
             }
