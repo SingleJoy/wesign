@@ -354,14 +354,23 @@ export default {
                    this.load = false;
                    this.$router.push("/CreateContract");
                    this.$loading.hide();
-               } else {
+               } else if(res.data.resultCode == '2') {
+                    this.$alert('合同余量不足，请充值后再试', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                    }).then(() => {
+                        this.$router.push("/PackageBuy");
+                    }).catch(() => {
+                                 
+                    });;
+                    this.$loading.hide();
+                    this.load = false;
+               }else{
                     this.$message({
                         showClose: true,
                         message: res.data.resultMessage,
-                        type: "error"
+                        type: "warning"
                     });
-                    this.$loading.hide();
-                    this.load = false;
                }
             }).catch(error => {
                 this.$loading.hide();
