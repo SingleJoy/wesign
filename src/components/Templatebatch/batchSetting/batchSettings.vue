@@ -90,13 +90,13 @@
 			       <b class='info'>短信通知</b>
 		        	<el-checkbox></el-checkbox>
             <b class='info'>邮箱通知</b>-->
-            <el-button v-show="templateSpecificType == 'fillreference'" type="primary" size="medium" class="export-excel-data" @click="downloadTemplate">导出Excel表格</el-button>
+            <el-button v-show="templateSpecificType == 'fillreference'" type="primary" size="medium" @click="downloadTemplate">导出Excel表格</el-button>
             <el-button
                 v-show="templateSpecificType == 'fillreference'"
               type="primary"
               size="medium"
               @click="importData"
-              class="import-btach-data"
+              class="import-btach-data export-excel-data"
               v-if="tableDate3.length"
             >导入数据</el-button>
              <el-upload
@@ -117,7 +117,7 @@
                 multiple
                 v-if="!tableDate3.length"
             >
-                <el-button size="primary" class="uploadSure" type="primary">导入数据</el-button>
+                <el-button size="primary" class="uploadSure export-excel-data" type="primary">导入数据</el-button>
             </el-upload>
             <span @click="importReminder()"  v-show="templateSpecificType == 'fillreference'" class="lead-hint"><img src="/static/images/BatchImport/lead-hint.png" alt=""></span>
             <el-dialog
