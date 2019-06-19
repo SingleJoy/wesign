@@ -269,6 +269,11 @@ export default {
         //上传文件成功回显
         fileSuccess(res){
             if(res.resultCode == "1") {
+                this.$message({
+                    showClose: true,
+                    message: res.resultMessage,
+                    type: "success"
+                });
                 this.getSignerInfo(this.pageNo, this.pageSize);
                 let params = {
                     conOrderNo: res.data.conOrderNo
@@ -277,7 +282,7 @@ export default {
             } else {
                 this.$message({
                     showClose: true,
-                    message: res.data.resultMessage,
+                    message: res.resultMessage,
                     type: "error"
                 });
             }
