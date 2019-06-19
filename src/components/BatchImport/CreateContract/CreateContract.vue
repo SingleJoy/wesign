@@ -145,6 +145,7 @@
 import Bottom from '@/common/components/Bottom.vue';
 import cookie from '@/common/js/getTenant';
 import { verifySignPassword } from '@/api/personal';
+import {getContractDetails,contractimgs} from '@/api/detail.js';
 import md5 from "js-md5";
 import { getContractLists, getContractImages, contractkeywordsignNew } from '@/api/template'
 export default {
@@ -339,32 +340,39 @@ export default {
             })
         },
         // 查看合同
-        previewContract(row){
-
-            const previewContractParams = {
-                contractNo: row.contractNo,
-                conOrderNo: this.conOrderNo
-            };
+        previewContract(val){
             this.dialVisible = true;
-            let t = Math.random();
-            this.$loading.show();
-            getContractImages(previewContractParams,t).then(res => {
-                setTimeout(()=>{
-                    this.$loading.hide();
-                },1000);
-                if(res.data.resultCode == "1") {
-                    this.imgList = res.data.dataList;
-                    this.contractSignInfo = res.data.data;
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.resultMessage,
-                        type: "error"
-                    });
-                }
-             }).catch(error => {
+                let param = {
+                    contractNo:val.contractNo,
+                    conOrderNo: this.conOrderNo
+                };
 
-            })
+                this.$loading.show();
+
+                //获取合同详情
+                getContractDetails(this.interfaceCode,val.contractNo).then(res=>{  //随机数写在接口api里 避免每次都格外传入
+            
+                        let contractData = res.data.contractVo;
+                        let signertData = res.data.signUserVo?res.data.signUserVo[0]:'';  //数组第一个代表企业 第二个代表个人
+                        this.contractSignInfo = {
+                            contractName:contractData.contractName,
+                            validTimeStr:contractData.validTime,
+                            userName:signertData.signUserName,
+                            idCard:signertData.idCard,
+                            mobile:signertData.mobile,
+                        }
+
+                }).catch(err=>{
+                    
+                });
+                //获取合同图片
+                let interfaceCode = sessionStorage.getItem("interfaceCode");
+                contractimgs(interfaceCode,val.contractNo).then(res=>{
+                    this.imgList = res.data;
+                    this.$loading.hide(); //隐藏
+                }).catch(err=>{
+
+                });
         },
         //修改每页显示多少数据
         handleSizeChange(val) {
