@@ -3,7 +3,7 @@
     <div>
         <Top></Top>
         <div class="Completes">
-            <div class="state" style="padding-top:200px;">
+            <div class="state" style="padding:100px 0;">
                 <div class="stateInfo">
                     <div>
                         <img src="/static/images/Common/contract-sign-success.png" alt="" style="margin-top: 10px;">
