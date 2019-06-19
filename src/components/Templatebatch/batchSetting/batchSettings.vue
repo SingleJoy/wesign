@@ -90,13 +90,13 @@
 			       <b class='info'>短信通知</b>
 		        	<el-checkbox></el-checkbox>
             <b class='info'>邮箱通知</b>-->
-            <el-button v-show="templateSpecificType == 'fillreference'" type="primary" size="medium" class="export-excel-data" @click="downloadTemplate">导出Excel表格</el-button>
+            <el-button v-show="templateSpecificType == 'fillreference'" type="primary" size="medium" @click="downloadTemplate">导出Excel表格</el-button>
             <el-button
                 v-show="templateSpecificType == 'fillreference'"
               type="primary"
               size="medium"
               @click="importData"
-              class="import-btach-data"
+              class="import-btach-data export-excel-data"
               v-if="tableDate3.length"
             >导入数据</el-button>
              <el-upload
@@ -117,8 +117,9 @@
                 multiple
                 v-if="!tableDate3.length"
             >
-                <el-button size="small" class="uploadSure" type="primary">导入数据</el-button>
+                <el-button size="primary" class="uploadSure export-excel-data" type="primary">导入数据</el-button>
             </el-upload>
+            <span @click="importReminder()"  v-show="templateSpecificType == 'fillreference'" class="lead-hint"><img src="/static/images/BatchImport/lead-hint.png" alt=""></span>
             <el-dialog
               title="添加人员"
               :visible.sync="modifyPassword"
@@ -245,7 +246,7 @@
     <el-dialog title="提示" :visible.sync="importDataVisible" width="400px" class="import-excel">
       <p>导入数据后，手动添加的签署人将会被清除</p>
       <div class="import-footer">
-        <span slot="footer" class="dialog-footer"> 
+        <div slot="footer" class="dialog-footer"> 
             <!-- <el-button size="small" type="primary">确定</el-button> -->
             <el-upload
                 class="upload-demo"
@@ -266,8 +267,26 @@
                 <el-button size="small" type="primary">确定</el-button>
             </el-upload>
             <el-button @click="uploadCencel" size="small">取 消</el-button>
-        </span>
+        </div>
       </div>
+    </el-dialog>
+    <el-dialog
+        title="提示"
+        :visible.sync="importDataReminder"
+        width="26%"
+        top="30vh"
+        custom-class="tempBatchOut"
+        center
+        @close="importDataReminder=false"
+    >
+        <p>1、根据模板中的参数设置，生成一份Execl表格</p>
+        <p class="import-data">2、将合同参数按照参数要求填充到表格中</p>
+        <p class="import-data">3、点击”导入数据“将完善好的表格导入到系统中</p>
+        <p class="import-hint import-data">4、请勿编辑导出的Execl表格表头数据，否则可能会导致数据读取失败</p>
+        <p class="import-hint import-data">5、每次至多可导入100条数据，超过100条系统将自动截取掉</p>
+        <div slot="footer" style="margin-top: 15px;">
+            <el-button type="primary" @click="importDataReminder=false" size="medium">确 定</el-button>
+        </div>
     </el-dialog>
   </div>
 </template>
@@ -325,10 +344,12 @@
                 text:'fsfsd'
             }
         ],
+        importDataReminder: false,
         uploadParams: {
             interfaceCode: cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
             templateNo: sessionStorage.getItem('templateNo'),
-            accountCode: sessionStorage.getItem('accountCode')
+            accountCode: sessionStorage.getItem('accountCode'),
+            mobile:sessionStorage.getItem('mobile')
         },
         fileList:[],
         importDataVisible:false,
@@ -387,6 +408,10 @@
       }
     },
     methods: {
+        //导入提示
+        importReminder() {
+            this.importDataReminder = true;
+        },
         //导入数据弹框
         uploadCencel() {
             this.importDataVisible = false;
@@ -855,13 +880,21 @@
 @import "../../../common/styles/SigningSteps.css";
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .batchSettings {
+    .lead-hint {
+        cursor: pointer;
+        img {
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+    }
     .batchInfo {
         .uploadSure {
-            height: 36px;
             margin-left: 10px;
             width: 98px;
+            height: 36px;
+            line-height: 0px;
         }
     }
     .el-table td, .el-table th.is-leaf {
@@ -903,6 +936,13 @@
   height: 320px !important;
   width: 400px !important;
   overflow-y: hidden !important;
+  .import-hint {
+      color: red;
+  }
+  .import-data {
+      margin-top: 8px;
+      margin-bottom: 8px;
+  }
 }
 .showDialogs {
   position: relative !important;
