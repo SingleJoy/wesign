@@ -206,6 +206,8 @@ export default {
             uploadParams: {
                 conOrderNo: sessionStorage.getItem("conOrderNo"),
                 mobile:sessionStorage.getItem("mobile"),
+                primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:''
+
             },
         }
     },
@@ -687,7 +689,7 @@ export default {
             .contract-detail{
                 position: absolute;
                 right: -311px;
-                top: 90px;
+                top: 0px;
                 ul li {
                     line-height: 14px;
                     margin-top:20px;

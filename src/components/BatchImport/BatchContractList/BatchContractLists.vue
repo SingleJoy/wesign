@@ -11,7 +11,7 @@
                 <b>{{conOrderNo}}</b>
             </span>
                 </div>
-                <div class="sign-operate" v-if="isSIgner" @click="signAll()">
+                <div class="sign-operate" v-if="isSIgner && currentPageCanSign" @click="signAll()">
                     <a href="javascript:void (0);">一键签署</a>
                 </div>
             </div>
@@ -87,6 +87,25 @@
                 </div>
             </div>
         </div>
+        <div class="sign_dialog">
+            <el-dialog
+                title="校验签署密码"
+                :visible.sync="dialogVisibleSign"
+                :before-close="closeSign"
+                width="30%">
+                <div class="sign_element">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
+                    <el-form-item label="请输入签署密码：" prop="password">
+                    <el-input type="password" placeholder="请输入签署密码" maxlength="16" v-model="ruleForm.password" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                            <el-button @click="closeSign()">取 消</el-button>
+                            <el-button type="primary" @click="submitForm('ruleForm')" :loading= load>确 定</el-button>
+                        </span>
+            </el-dialog>
+        </div>
 
         <el-dialog title="合同详情图片"  :visible.sync="dialVisible" custom-class="ContractDialogs" :close-on-click-modal='false' :before-close="hideDialog">
             <div class="img-body">
@@ -140,7 +159,15 @@
     export default {
         name: 'OrderLists',
         filters: {filtercontractStatus},
+        
         data () {
+            var validatePassword = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入签署密码'));
+                } else{
+                    callback()
+                }
+            };
             return {
                 baseURL:this.baseURL.BASE_URL,
                 dialVisible:false,
@@ -161,7 +188,17 @@
                 },
                 pageNo: 1,
                 pageSize: 10,
-                isSIgner: true,
+                isSIgner: true, //合同是否签署完成
+                currentPageCanSign:true,  //当前页是否显示一键签署按钮 根据列表第一条数据状态判断
+                dialogVisibleSign:false,
+                ruleForm:{
+                    password:'',
+                },
+                rules: {
+                    password: [
+                        { validator: validatePassword, trigger: 'blur' }
+                    ],
+                },
             }
         },
         methods:{
@@ -236,25 +273,64 @@
                         message: '请勾选要签署的合同'
                     });
                 }else{
-                    let param = {
-                        signContractVoList:this.paramsList
+                    let signVerify = cookie.getJSON('tenant')[1].signVerify;
+                    if(signVerify == 1) {
+                        this.dialogVisibleSign = true;
+                    } else {
+                        this.submitContract();
                     }
-                    contractkeywordsignNew(this.interfaceCode,this.conOrderNo,JSON.stringify(param)).then(res=>{
-                        if(res.data.responseCode == 1){
-                            this.$router.push('/BatchSigning')
-                        }else{
-                            this.$message({
-                                type: 'error',
-                                message: res.data.responseMsg
-                            });
-                        }
-
-                    }).catch(error=>{
-
-                    })
                 }
                 
             },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.validatePassword();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            validatePassword () {
+                this.load = true;
+                let signVerifyPassword = {
+                    signVerifyPassword: md5(this.ruleForm.password)
+                };
+                const accountCode = sessionStorage.getItem("accountCode");
+                verifySignPassword(accountCode, signVerifyPassword).then(res => {
+                    if(res.data.resultCode == 1) {
+                        this.submitContract();
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: "签署密码错误"
+                        });
+                        this.repeat = true;
+                        this.load = false;
+                    }
+                }).catch(error => {
+
+                })
+            },
+            submitContract(){
+                let param = {
+                    signContractVoList:this.paramsList
+                }
+                contractkeywordsignNew(this.interfaceCode,this.conOrderNo,JSON.stringify(param)).then(res=>{
+                    if(res.data.responseCode == 1){
+                        this.$router.push('/BatchSigning')
+                    }else{
+                        this.$message({
+                            type: 'error',
+                            message: res.data.responseMsg
+                        });
+                    }
+
+                }).catch(error=>{
+
+                })
+            },
+           
             singleSign(val){
                 let contractNo=val.contractNo;
                 sessionStorage.setItem('contractNo',contractNo);
@@ -263,7 +339,6 @@
             },
             //一键签署和单个签署
             handleSelectionChange(value){
-
                 let contractObj = [];
                 for(let i = 0; i < value.length; i++) {
                     contractObj.push({
@@ -288,6 +363,7 @@
                     if(res.data.resultCode==1){
                         this.totalItemNumber=res.data.data.totalItemNumber;
                         this.tableData=res.data.dataList;
+                        this.currentPageCanSign = res.data.dataList[0].contractStatus == 1?true:false
                     }else{
                         this.$message({
                             type: 'error',
@@ -369,7 +445,7 @@
             .contract-detail{
                 position: absolute;
                 right: -311px;
-                top: 90px;
+                top: 0px;
                 ul li {
                     line-height: 14px;
                     margin-top:20px;

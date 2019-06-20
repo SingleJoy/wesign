@@ -254,17 +254,14 @@
         this.$router.push('/More');
 
       },
-      rowLockClick (row) {
-          //查看
-          sessionStorage.setItem('contractNo', row.contractNo);
-        if(row.contractType == '0'){
-          cookie.set('state','home');
-          this.$router.push('/CompanyExb');
-        }else{
-          cookie.set('state','home');
-          this.$router.push('/ContractInfo');
+        rowLockClick (row) {
+            //查看
+            sessionStorage.setItem('contractNo', row.contractNo);
+            if(row.contractType == '0'){
+                cookie.set('state','home');
+                this.$router.push('/CompanyExb');
+            }
         }
-      }
     },
     created() {
       if(!cookie.getJSON('tenant')){
@@ -468,8 +465,8 @@
     transform: translate(-50%, -50%);
     max-height: calc(100% - 30px);
     max-width: calc(100% - 30px);
+    background:url("/static/images/Merchant/Merchant-dialog.png")  no-repeat;
     background-size: 100% 100%;
-    background:url("/static/images/Merchant/Merchant-dialog.png") no-repeat;
   }
   .dialogbg .warn-info .close-warn{
     position: absolute;

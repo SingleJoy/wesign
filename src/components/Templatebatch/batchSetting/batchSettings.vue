@@ -349,7 +349,9 @@
             interfaceCode: cookie.getJSON('tenant')?cookie.getJSON('tenant')[1].interfaceCode:'',
             templateNo: sessionStorage.getItem('templateNo'),
             accountCode: sessionStorage.getItem('accountCode'),
-            mobile:sessionStorage.getItem('mobile')
+            mobile:sessionStorage.getItem('mobile'),
+            primaryMobile: cookie.getJSON('tenant')[1].parentAccountmobile?cookie.getJSON('tenant')[1].parentAccountmobile:''
+
         },
         fileList:[],
         importDataVisible:false,

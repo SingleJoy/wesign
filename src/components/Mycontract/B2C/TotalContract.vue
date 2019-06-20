@@ -433,11 +433,10 @@
             },
 
             signClick (row) { //签署
-
                 let createType=row.createType;
                 this.$store.dispatch('contractsInfo',{contractNo:row.contractNo})
                 sessionStorage.setItem('contractNo', row.contractNo)
-                if(createType==1){
+                if(createType==1){       //标识模板发起 关键字签署
                     this.$router.push('/SingleSigning')
                 }else{
                     this.$router.push('/Contract')
