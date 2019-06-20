@@ -93,13 +93,13 @@
 										<p class="subcompany-name">{{item.enterpriseName}}&nbsp;&nbsp;&nbsp;/<span>({{item.accountName}})</span></p>
 										<div class="sign_info">
 											<span class="dot dot-waitme"></span>
-											<span>待我签署</span>
-											<p style="color: #a0d8ef">{{item.waitForMeSign?item.waitForMeSign:0}}</p>
+											<span>待他人签署</span>
+											<p style="color: #a0d8ef">{{item.waitForOtherSign?item.waitForOtherSign:0}}</p>
 										</div>
 										<div class="sign_info">
 											<span class="dot dot-waitother"></span>
-											<span>待他人签署</span>
-											<p style="color: #84a2d4">{{item.waitForOtherSign?item.waitForOtherSign:0}}</p>
+											<span>已生效合同</span>
+											<p style="color: #84a2d4">{{item.takeEffect?item.takeEffect:0}}</p>
 										</div>
 
 									</div>

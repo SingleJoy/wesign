@@ -474,7 +474,7 @@ export default {
         .contract-detail{
             position: absolute;
             right: -311px;
-            top: 90px;
+            top: 0px;
             ul li {
                 line-height: 14px;
                 margin-top:20px;

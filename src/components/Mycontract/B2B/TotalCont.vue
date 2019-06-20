@@ -414,30 +414,17 @@
         //   console.log(this.currentPage)
       },
       rowlookClick (row) {//详情
-        if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNo});
-          sessionStorage.setItem('contractNo', row.contractNo);
-          sessionStorage.setItem("detailAccountCode",row.operator); //查看详情时二级账户的accountCode
-          cookie.set('state','List');
-          this.$router.push('/CompanyExa');
-        }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNo});
-          sessionStorage.setItem('contractNo', row.contractNo);
-          sessionStorage.setItem("detailAccountCode",row.operator); //查看详情时二级账户的accountCode
-          this.$router.push('/ContractInfo');
-        }
+        this.$store.dispatch('contractsInfo',{contractNo:row.contractNo});
+        sessionStorage.setItem('contractNo', row.contractNo);
+        sessionStorage.setItem("detailAccountCode",row.operator); //查看详情时二级账户的accountCode
+        this.$router.push('/CompanyExa');
         this.$store.dispatch('tabIndex',{tabIndex:1});
       },
       affixClick (row) { //签署
-        if(row.contractType == '0'){
           this.$store.dispatch('contractsInfo',{contractNo:row.contractNo});
           sessionStorage.setItem('contractNo', row.contractNo);
           this.$router.push('/Dimension');
-        }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNo});
-          sessionStorage.setItem('contractNo', row.contractNo);
-          this.$router.push('/Contract');
-        }
+        
       },
       warnClick (row) { //提醒
         let param={
