@@ -138,7 +138,7 @@
                             <p class="tips-img"  @click="showTipsImg" title="查看示例"></p>
                             <span>录入公章防伪码在线生成</span>
                             <b class="tips">签章生成后，将不可编辑，请仔细<br/>核对录入信息</b>
-                            <el-input type="text" v-model="createSeal"  ></el-input>
+                            <el-input type="text" v-model="createSeal" :maxlength =13></el-input>
                             <a href="javascript:void(0);" @click="newSeal">生成公章</a>
                         </div>
                     </div>
@@ -688,7 +688,6 @@
     },
     methods: {
         resetFormData(){
-
             this.signCodeForm.signSmsCode = '';
             this.signCodeText = '获取验证码';
             this.signForm={
