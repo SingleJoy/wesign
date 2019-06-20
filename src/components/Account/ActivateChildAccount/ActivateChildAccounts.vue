@@ -262,13 +262,7 @@
       },
 
       submitForm(formName){
-        if(!this.repeat){
-          this.$message({
-            type: 'error',
-            message: '请先获取短信验证码!'
-          });
-          return false
-        }
+
         let accountCode = sessionStorage.getItem("accountCode");
         let authorizerCode = sessionStorage.getItem("authorizerCode");
         let signatureImg = this.canvasTest;

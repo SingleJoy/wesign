@@ -43,10 +43,10 @@
                 </div>
                 <dl class="second">
                     <dd><h3>合同分享</h3></dd>
-                    <dd><p><span>合同链接：</span><span id='contractAddress'>{{contractlink}}</span></p></dd>  <!--加查看对应合同地址-->
+                    <dd><p><span>合同链接：</span><span id='contractAddress'>{{signLink}}</span></p></dd>  <!--加查看对应合同地址-->
                     <dt class="roomInfo"><img src="/static/images/Room/hand.png" alt=""></dt>
                     <dd clas='adressInfo'>
-                        <a href="javascript:void(0);" @click='handleCopy(contractlink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
+                        <a href="javascript:void(0);" @click='handleCopy(signLink,$event)' style='padding-left: 36px;padding-top: 72px;display: inline-block;
                     color: #4091fb;'>复制链接</a>
                     </dd>
                 </dl>
@@ -96,6 +96,7 @@
                 dialogTableVisible:false,
                 imgList:[],
                 contractlink:'',
+                signLink:'',
                 roomlink:'',
                 getContractName:'', //显示的合同名称
                 contractNo:sessionStorage.getItem('contractNo'), //合同编号
@@ -148,7 +149,7 @@
                     this.signUser = res.data.dataList;
                     this.validTime = res.data.data.validTime;
                     this.getContractName = res.data.data.contractName;
-                    this.contractlink = res.data.data.contractlink;
+                    this.signLink = res.data.data.signLink;
                 }
 
             }).catch(error=>{
