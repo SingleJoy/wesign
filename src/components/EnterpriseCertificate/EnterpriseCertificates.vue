@@ -212,7 +212,7 @@
                     :disabled="this.auditStatus==2"
                   >
                     <div class="license-wrap">
-                      <img  v-if="licenseInfo.creditPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+licenseInfo.creditPhoto" class="avatar">
+                      <img  v-if="licenseInfo.creditPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+licenseInfo.creditPhoto" class="avatar">
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </div>
 
@@ -306,7 +306,7 @@
                       :disabled="this.authStatus==1"
                     >
                       <div class="upload_warp">
-                        <img  v-if="IdInfo.frontPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdInfo.frontPhoto" class="avatar">
+                        <img  v-if="IdInfo.frontPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+IdInfo.frontPhoto" class="avatar">
                         <img v-else src="/static/images/Credentials/Personal/Pupload/left-card.png" alt="">
                       </div>
                     </el-upload>
@@ -327,7 +327,7 @@
                       :disabled="this.authStatus==1"
                     >
                       <div class="upload_warp">
-                        <img  v-if="IdInfo.backPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+IdInfo.backPhoto" class="avatar">
+                        <img  v-if="IdInfo.backPhoto" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+IdInfo.backPhoto" class="avatar">
                         <img v-else src="/static/images/Credentials/Personal/Pupload/right-card.png" alt="">
                       </div>
                     </el-upload>

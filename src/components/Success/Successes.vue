@@ -85,7 +85,7 @@
     </div>
     <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class="showDialogs">
       <div v-for="(item,index) in imgList" :key="index" >
-        <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+        <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item" alt="" style='width:100%;'>
       </div>
     </el-dialog>
   </div>
@@ -126,10 +126,10 @@
         let t=Math.random();
         contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
-                let contractUrl = res.data[i].contractUrl
-                data[i] = contractUrl
-                this.$loading.hide(); //隐藏
+                let contractImagePath = res.data[i].contractImagePath
+                data[i] = contractImagePath
             }
+            this.$loading.hide(); //隐藏
             this.imgList = data
         }).catch(error=>{
 

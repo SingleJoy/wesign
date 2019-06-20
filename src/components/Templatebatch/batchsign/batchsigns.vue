@@ -37,7 +37,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id="contractImg">
             <li v-for="(item, index) in imgArray" :key="index" class="contractImg-hook" style="height:844px;">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id='imgSign' style='width: 593px;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractImagePath='+item" alt="" id='imgSign' style='width: 593px;'>
             </li>
           </ul>
         </div>
@@ -116,7 +116,7 @@
         imgArray:[],
         imgHeight: [],
         contractImgHeight: 0,
-        contractUrl:[],
+        contractImagePath:[],
         scrollY: 0,
         contractSignImg:'',
         flag: true,
@@ -168,39 +168,39 @@
     created() {
 
       this.$loading.show(); //显示
-      let data =[]
+      let data =[];
       contracttempimgs(this.interfaceCode,this.contractNo).then(res=> {
         /*获取后台数据，并使用imgArray*/
         for(let i=0;i<res.data.length;i++){
-          let contractUrl = res.data[i].contractUrl
-          data[i] = contractUrl
+          let contractImagePath = res.data[i].contractImagePath;
+          data[i] = contractImagePath;
 
         }
-        this.imgArray = data
+        this.imgArray = data;
         /*获取总的页码*/
-        this.allpage = res.data.length
+        this.allpage = res.data.length;
         this.$nextTick(() => {
-          this._initScroll()
-          this._calculateHeight()
-        })
+          this._initScroll();
+          this._calculateHeight();
+        });
       }).catch(error=> {
 
-      })
+      });
       this.$loading.hide(); //隐藏
     },
     methods:{
       goto (currentIndex){
-        this.clickNav(currentIndex)
+        this.clickNav(currentIndex);
       },
       goto2 (currentIndex){
-        currentIndex++
-        this.clickNav(currentIndex)
+        currentIndex++;
+        this.clickNav(currentIndex);
       },
       clickNav(index) {
 
-        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-        let el = imgList[index - 1]
-        this.rightScroll.scrollToElement(el, 300)
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook');
+        let el = imgList[index - 1];
+        this.rightScroll.scrollToElement(el, 300);
 
       },
       _initScroll(){
@@ -216,20 +216,20 @@
           },
           preventDefault:false,
           probeType: 3,
-        })
+        });
 
         this.rightScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y))
-        })
+        });
       },
       _calculateHeight(){
-        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook')
-        let height = 0
-        this.imgHeight.push(height)
+        let imgList = this.$refs.rightWrapper.getElementsByClassName('contractImg-hook');
+        let height = 0;
+        this.imgHeight.push(height);
         for (let i = 1; i < imgList.length; i++) {
-          let item = imgList[i]
-          height += item.clientHeight
-          this.imgHeight.push(height)
+          let item = imgList[i];
+          height += item.clientHeight;
+          this.imgHeight.push(height);
         }
       },
       tempBatchSignCancel() {    //取消操作

@@ -1,8 +1,10 @@
 <template>
   <div class='Merchants'>
-    <div v-show="topTip == false" class="main_tips" id="main_tips">
-      <span style="text-align: left;padding-left: 10px;">您还未完成实名认证，为了不影响您正常业务办理，请进入<span class="to-account" @click="toMyAccount">【我的账户】</span>完成实名认证</span>
-      <span class="cancelBtn" @click="cancelTip">X</span>
+
+    <div class="dialogbg" v-show="topTip">
+      <div class="warn-info">
+        <a  href="javascript:void(0);"  class="close-warn" @click="cancelTip">X</a>
+      </div>
     </div>
 
     <div class="main" style="background-color: #fff;padding-top: 10px;">
@@ -140,13 +142,12 @@
   import cookie from '@/common/js/getTenant'
   import server from "@/api/url";
   import {homePageContractLists} from '@/api/home'
-
   export default {
     name: 'Merchants',
     data() {
       return {
         popup:false,
-        topTip:true,
+        topTip:false,
         tableData: [],
         download :'',
         loading: true,
@@ -159,8 +160,8 @@
         arr: [],
         uploadFile:true,
         interfaceCode:cookie.getJSON('tenant')[1].interfaceCode,
-        auditStatus:'',
-
+        auditStatus:cookie.getJSON('tenant')[1].auditStatus,
+        auditSteps:cookie.getJSON('tenant')[1].auditSteps?cookie.getJSON('tenant')[1].auditSteps:'',
         num:''
       }
     },
@@ -188,123 +189,114 @@
         this.$router.push('/NoReal')
       },
       cancelTip(){
-
-        document.getElementById("main_tips").style.display="none";
+        this.topTip=false;
       },
       jumper (item,index) {
         if( item.templateSpecies == 'batch'){
-          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          this.$store.dispatch('templateType',{templateGenre:item.templateSpecies})
-          sessionStorage.setItem('templateName', item.name)
-          sessionStorage.setItem('templateNo', item.templateNo)
-          sessionStorage.setItem('templateGenre',item.templateSpecies)
-          this.$router.push('/batchSetting')
+          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo});
+          this.$store.dispatch('templateType',{templateGenre:item.templateSpecies});
+          sessionStorage.setItem('templateName', item.name);
+          sessionStorage.setItem('templateNo', item.templateNo);
+          sessionStorage.setItem('templateGenre',item.templateSpecies);
+          this.$router.push('/batchSetting');
         } else {
-          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo})
-          sessionStorage.setItem('templateName',item.name)
-          sessionStorage.setItem('templateNo', item.templateNo)
-          this.$router.push('/Fillinformation')
+          this.$store.dispatch('template',{templateName:item.name,templateNo:item.templateNo});
+          sessionStorage.setItem('templateName',item.name);
+          sessionStorage.setItem('templateNo', item.templateNo);
+          this.$router.push('/Fillinformation');
         }
       },
       animated () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                               //待我签署
-        sessionStorage.setItem('second','second')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','second');
+        this.$router.push('Procontract');
       },
       wait () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                   //待他人签署
-        sessionStorage.setItem('second','third')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','third');
+        this.$router.push('Procontract');
       },
       takeEff (){
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                           //已生效
-        sessionStorage.setItem('second','fourth')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','fourth');
+        this.$router.push('Procontract');
       },
       end () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮                                                                      //已截止
-        sessionStorage.setItem('second','five')
-        this.$router.push('Procontract')
+        sessionStorage.setItem('second','five');
+        this.$router.push('Procontract');
       },
       signClick (row) { //签署
+          sessionStorage.setItem('contractNo', row.contractNo);
         if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          this.$router.push('/Dimension')
+          this.$router.push('/Dimension');
         }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          this.$router.push('/Contract')
+          this.$router.push('/Contract');
         }
       },
       downloadClick (row) { //下载
-        var url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ row.contractNum;
-        var up = document.createElement('a');
-        document.body.appendChild(up)
+        let url = process.env.API_HOST+'v1/contract/'+ cookie.getJSON('tenant')[1].interfaceCode +'/'+ row.contractNo;
+        let up = document.createElement('a');
+        document.body.appendChild(up);
         up.setAttribute('href',url);
-        up.click()
+        up.click();
       },
       choice(){
-        this.$router.push('/BuyProduct')
+        this.$router.push('/BuyProduct');
 
       },
       jump () {
         this.$store.dispatch('tabIndex',{tabIndex:1});  //导航高亮
-        this.$router.push('/Procontract')
+        this.$router.push('/Procontract');
       },
       more (){
         this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
-        this.$router.push('/More')
-        // this.$router.push('/BuyProduct')
+        this.$router.push('/More');
+
       },
-      rowLockClick (row) { //查看
+      rowLockClick (row) {
+          //查看
+          sessionStorage.setItem('contractNo', row.contractNo);
         if(row.contractType == '0'){
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          cookie.set('state','home')
-          this.$router.push('/CompanyExb')
+          cookie.set('state','home');
+          this.$router.push('/CompanyExb');
         }else{
-          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
-          sessionStorage.setItem('contractNo', row.contractNum)
-          cookie.set('state','home')
-          this.$router.push('/ContractInfo')
+          cookie.set('state','home');
+          this.$router.push('/ContractInfo');
         }
       }
     },
     created() {
       if(!cookie.getJSON('tenant')){
-        return
+        return false;
       }
-      this.auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      var authStatus = cookie.getJSON('tenant')[0].authStatus
-      var auditStatus = cookie.getJSON('tenant')[1].auditStatus
-      var auditSteps = cookie.getJSON('tenant')[1].auditSteps
+      let auditStatus = cookie.getJSON('tenant')[1].auditStatus;
+      let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
       if(auditSteps!=3){
-        this.topTip = false
+        this.topTip = true
       }
-      var data =[];
-      var requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-
+      let data =[];
+      let requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
       homePageContractLists(requestVo,this.interfaceCode).then(res=>{
         this.num=res.data.content.length;
         for (let i = 0; i < res.data.content.length;i++) {
           var obj = {}
           obj.contractName = res.data.content[i].contractName;
-          obj.contractNum = res.data.content[i].contractNum;
+          obj.contractNo = res.data.content[i].contractNo;
           obj.createTime = res.data.content[i].createTime;
           obj.signers =  res.data.content[i].signers;
           obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.validTime =  res.data.content[i].validTime
-          obj.contractType = res.data.content[i].contractType
-          obj.operation = ''
+          obj.validTime =  res.data.content[i].validTime;
+          obj.contractType = res.data.content[i].contractType;
+          obj.operation = '';
           switch (obj.contractStatus){
             case "1":
               obj.contractStatus="待我签署";
-              obj.operation = 1
+              obj.operation = 1;
               break;
             case "2":
               obj.contractStatus="待他人签署";
-              obj.operation = 2
+              obj.operation = 2;
               break;
             case "3":
               obj.contractStatus="已生效";
@@ -316,31 +308,31 @@
           }
           data[i] = obj
         }
-        this.tableData = data
-        this.loading = false
+        this.tableData = data;
+        this.loading = false;
 
       }).catch(error=>{
 
-      })
+      });
 
       let requestType=['bwaitForMeSign','bwaitForOtherSign','btakeEffect','bdeadline'];
-      let responseType=['waitMe','waitOther','takeEffect','deadline']
+      let responseType=['waitMe','waitOther','takeEffect','deadline'];
       let param={
         accountCode:this.accountCode
-      }
+      };
       for(let i=0;i< requestType.length;i++){
         let type =  responseType[i];
         server[requestType[i]](param,this.interfaceCode).then(res=>{
-          this[type] = res.data.count
+          this[type] = res.data.count;
         }).catch(error=>{
 
-        })
+        });
       }
-      this.count = 0
+      this.count = 0;
     },
     mounted() {
-      sessionStorage.removeItem("type")
-      sessionStorage.removeItem("contractNo")
+      sessionStorage.removeItem("type");
+      sessionStorage.removeItem("contractNo");
     }
   }
 </script>
@@ -382,7 +374,6 @@
   .view{
     width: 100%;
     height: 100%;
-    background: #000;
     position: absolute;
     z-index: 4000;
     background-color: rgba(0,0,0,0.5);
@@ -390,17 +381,7 @@
     top:0;
 
   }
-  .dialogbg{
-    background:#000;
-    background:rgba(0,0,0,.3);
-    width:100%;
-    height:1080px;
-    position: absolute;
-    left:0;
-    top:0;
-    z-index: 1999;
 
-  }
   .el-upload-dragger{
     width: 680px !important;
     height: 154px !important;
@@ -467,5 +448,34 @@
     padding-top: 0 !important;
     border-top: none !important;
     background: url("/static/images/Common/title.png") no-repeat;
+  }
+  .dialogbg {
+    background: #000;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 1080px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1999;
+  }
+  .dialogbg .warn-info{
+    width: 59.5628rem;
+    height:32.75rem;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-height: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+    background-size: 100% 100%;
+    background:url("/static/images/Merchant/Merchant-dialog.png") no-repeat;
+  }
+  .dialogbg .warn-info .close-warn{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 20px;
+    color: #666;
   }
 </style>

@@ -2,7 +2,7 @@
   <div class="Version">
     <div id="dialog">
         <div class="box">
-            <img :src="baseURL+'/img/version-info1.7.3.png?v=1.8'" alt="">
+            <img src="https://www.zqsign.com/img/version-info1.7.3.png?v=1.8" alt="">
             <div class="box-container">
             <a href="javascript:void(0);" id='close' @click='closes'>X</a>
             </div>

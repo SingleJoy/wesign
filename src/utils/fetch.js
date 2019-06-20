@@ -6,19 +6,23 @@ import {router} from '../router'
 
 
 const Axios = axios.create({
-    timeout: 30000,                    // request timeout
-    responseType: "text",
-    // ContentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-    transformRequest: [function (data) {  // 将数据转换为表单数据
-        data = qs.stringify(data)
-        return data
-    }],
+    timeout: 120000,
+    responseType: "text"
 })
 
-
 // 请求拦截
-Axios.interceptors.request.use((config)=>{
+Axios.interceptors.request.use((config) => {
+
+    if (config.qs == undefined) {   //判断post请求不同数据类型是否需要qs转换
+        config.transformRequest = [
+            function (data) {  // 将数据转换为表单数据
+                data = qs.stringify(data);
+                return data
+            }
+        ]
+    }
     //做点什么
+    // config
     return config;
   },(error)=>{
     //做点什么

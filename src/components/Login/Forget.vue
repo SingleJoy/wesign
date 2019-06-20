@@ -153,13 +153,7 @@
         this.$router.push('/');
       },
       submitForm(formName) {
-        if(!this.getCode){
-          this.$message({
-            message: '请先获取验证码！',
-            type: 'warning'
-          })
-          return false
-        }
+
         if(this.ruleForm.mobile != this.ruleForm.username){//校验发送验证码的手机和提交时的手机是否是一个
           this.$message({
             message: '请检查手机号是否正确',

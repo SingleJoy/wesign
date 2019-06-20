@@ -18,7 +18,7 @@
             <div class="contract-box">
               <div class="contract-content">
                 <div class="content-left" @click="previewContract(item)">
-                  <img  style="height: 270px; width: 180px;" v-if="item.imgs" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.imgs[0]" alt="" />
+                  <img  style="height: 270px; width: 180px;" v-if="item.imgs" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.imgs[0]" alt="" />
                   <p>{{item.templateName}}</p>
                 </div>
                 <div class="content-right">
@@ -61,7 +61,7 @@
             </div>
             <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='showDialogs'>
               <div v-for="(itemImg,indexImg) in item.imgs" :key="indexImg" >
-                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+itemImg" alt="" style='width:100%;'>
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+itemImg" alt="" style='width:100%;'>
               </div>
             </el-dialog>
             <div class="line"></div>
@@ -193,14 +193,13 @@
                 });
               }
             }else {
-              this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo});
-              this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
-              sessionStorage.setItem('templateName', row.templateName)
-              sessionStorage.setItem('templateNo',row.templateNo)
-              sessionStorage.setItem('templateGenre',row.templateGenre)
-              this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
+                this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo});
+                this.$store.dispatch('templateType',{templateGenre:row.templateGenre,signatory:row.signatory})
+                sessionStorage.setItem('templateName', row.templateName)
+                sessionStorage.setItem('templateNo',row.templateNo)
+                sessionStorage.setItem('templateGenre',row.templateGenre)
+                this.$router.push('/batchSetting') //需要传模板编号和模板有几方 传至Signaturesetting
             }
-
           }
         })
 

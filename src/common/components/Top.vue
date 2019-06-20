@@ -12,7 +12,7 @@
         <li @click="dialogVisible"><a href="javascript:void(0);">版本</a></li>
         <li class="contract-add no-border"><router-link  to='/MultipartyUp'>模板发起</router-link></li>
         <li class="contract-add no-border" @click='choice'><a href="javascript:void(0);">上传发起</a></li>
-        <li v-if="Jurisdiction"><router-link to='/Account'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
+        <li v-if="auditSteps==3"><router-link to='/Account'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
         <li v-else><router-link to='/NoReal'><img src="/static/images/setup.png" alt="">我的账户</router-link></li>
         <li class="login-out-btn no-border" @click='amendPassWord'><a><img src="/static/images/back.png" alt="">退出</a></li>
       </ul>
@@ -138,6 +138,7 @@
     },
     data() {
       return {
+        auditSteps:cookie.getJSON('tenant')[1].auditSteps,//认证步骤
         baseURL:this.baseURL.BASE_URL,
         showVersion:false, //版本号默认不显示
         fullscreenLoading: false,
@@ -150,7 +151,7 @@
         tabIndex:'',
         auditStatus:"" ,  //企业实名情况 2表示实名通过大B号  其他数字表示实名未通过 小B号
         oneAccount:sessionStorage.getItem("auditStatus"),
-        Jurisdiction:true,
+
         showAccount:true,
         isBusiness: cookie.getJSON("tenant")?cookie.getJSON("tenant")[1].isBusiness:'',
         contractNum:cookie.getJSON("tenant")[1].contractNum="null"?10:cookie.getJSON("tenant")[1].contractNum,    //合同剩余次数contractNum
@@ -489,14 +490,7 @@
       },
     },
     created(){
-
-      let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
-      if(auditSteps == 3){
-        this.Jurisdiction = true
-      }else {
-        this.Jurisdiction = false
-      }
-
+        
     },
 
   }

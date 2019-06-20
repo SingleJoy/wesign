@@ -81,7 +81,7 @@ export  function contracttempimgs(interfaceCode,contractNo) {
   })
 }
 
-// contractkeywordsign
+// contractkeywordsign 一键签署和单个签署
 export  function contractkeywordsign(interfaceCode,contractNo) {
   return request({
     url: "api/v1/tenant/"+interfaceCode+'/user/'+interfaceCode+'/contractkeywordsign/'+contractNo,
@@ -89,6 +89,15 @@ export  function contractkeywordsign(interfaceCode,contractNo) {
     data: ''
   })
 }
+
+// contractkeywordsign 一键签署和单个签署
+export  function signleKeyWordSign(interfaceCode,contractNo) {
+    return request({
+      url: "api/v1.9/tenant/"+interfaceCode+'/user/'+interfaceCode+'/contract/'+contractNo +'/contractkeywordsign',
+      method: "post",
+      data: ''
+    })
+  }
 
 //signerpositions
 export  function signerpositions(interfaceCode,contractNo,param) {
@@ -107,4 +116,144 @@ export function contractmoresign(interfaceCode,contractNo,param) {
     method: "post",
     data: param
   })
+}
+
+// 订单列表查询
+export function getcontractorders(accountCode,param) {
+  return request({
+    url: "api/v1.9/account/"+accountCode+'/conorder/getcontractorders',
+    method: "get",
+    params: param
+  })
+}
+//订单是否被操作
+export function getconorderlock(accountCode,conOrderNo) {
+    let t=Math.random();
+   return request({
+    url: "api/v1.9/account/"+accountCode+'/conorder/'+conOrderNo+'/getconorderlock?t='+t,
+    method: "get",
+    params: ''
+  })
+}
+//订单合同列表查询
+export function getcontracts(accountCode,conOrderNo,params) {
+    return request({
+        url: "api/v1.9/account/"+accountCode+'/conorder/'+conOrderNo+'/getcontracts',
+        method: "get",
+        params: params
+    })
+}
+// / 一键签署页面
+export function contractkeywordsignNew(interfaceCode, conOrderNo, params) {
+    return request({
+        url: "api/v1.9/tenant/"+interfaceCode+'/contractkeywordsign/'+conOrderNo,
+        method: "post",
+        data: params,
+        headers:{ 'Content-Type': 'application/json'},
+        qs: "qs"
+    })
+}
+
+//批量上传发起流程 api 
+
+//模板excel下载
+export function downloadTemplateExcel(templateNo) {
+    return "api/v1.9/tenant/" + templateNo + "/downloadTemplateExcel"
+}
+
+//模板excel上传(解析校验)
+export function readTemplateExcel(params) {
+    return request({
+        url: "api/v1.9/tenant/readTemplateExcel",
+        method: "post",
+        data: params
+    })
+}
+
+//查询模板信息
+export function getContractOrder(params) {
+    return request({
+        url: "api/v1.9/order/getContractOrder",
+        method: "get",
+        params: params
+    })
+}
+
+//查询签署人信息/查询合同信息
+export function getContractList(params) {
+    return request({
+        url: "api/v1.9/order/getContractList",
+        method: "get",
+        params: params
+    })
+}
+
+//生成合同
+export function createContract(interfaceCode, params) {
+    return request({
+        url: "api/v1.9/order/" + interfaceCode + "/createContract",
+        method: "post",
+        data: params
+    })
+}
+
+//模板excel再次上传(解析校验)
+export function RepeatedlyReadExcel(params) {
+    return request({
+        url: "api/v1.9/tenant/RepeatedlyReadExcel",
+        method: "post",
+        data: params
+    })
+}
+
+//错误excel下载
+export function downloadErrorExcel(orderNo) {
+    return "api/v1.9/tenant/" + orderNo + "/downloadErrorExcel"
+}
+
+//V1.9  合同图片预览/查看
+export function getContractImages(params,t) {
+    return request({
+        url: "api/v1.9/order/getContractImages?t="+t,
+        method: "get",
+        params: params
+    })
+}
+
+//删除签署人信息
+export function delContractSigner(params) {
+    return request({
+        url: "api/v1.9/order/delContractSigner",
+        method: "post",
+        data: params
+    })
+}
+
+/******* 订单合同列表 *********/
+
+//订单合同列表查询
+export function getContractLists(accountCode, conOrderNo, params) {
+    return request({
+        url: "api/v1.9/account/" + accountCode + "/conorder/" + conOrderNo + "/getcontracts",
+        method: "get",
+        params: params
+    })
+}
+
+// //一键签署
+// export function batchContractkeywordsign(interfaceCode, conOrderNo) {
+//     return request({
+//         url: "api/v1.9/tenant/" + interfaceCode + "/contractkeywordsign/" + conOrderNo,
+//         method: "post",
+//         data: {}
+//     })
+// }
+
+//轮询签署结果
+export function getsignresult(interfaceCode, conOrderNo) {
+    return request({
+        url: "api/v1.9/tenant/" + interfaceCode + "/conorder/" + conOrderNo + "/getsignresult",
+        method: "get",
+        data: {}
+    })
 }

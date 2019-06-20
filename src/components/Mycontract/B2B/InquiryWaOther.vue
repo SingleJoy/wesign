@@ -210,7 +210,7 @@
         dialogChooseFolder:false,
         folderList:[],
         batchFolderListNo:'',
-        defaultContractNum:'',
+        defaultContractNo:'',
       };
     },
     methods: {
@@ -231,7 +231,7 @@
 
         }else{
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
+            str += this.multipleSelection[i].contractNo + ',';
           }
 
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
@@ -275,7 +275,7 @@
             }
             let obj = {};
             obj.contractName = res.data.content[i].contractName;
-            obj.contractNum = res.data.content[i].contractNum;
+            obj.contractNo = res.data.content[i].contractNo;
             obj.createTime = res.data.content[i].createTime;
             obj.signers = res.data.content[i].signers;
             obj.contractStatus = res.data.content[i].contractStatus;
@@ -434,24 +434,24 @@
       lookClick(row) {
         //延期
         if (row.contractType == "0") {
-          sessionStorage.setItem("contractNo", row.contractNum);
+          sessionStorage.setItem("contractNo", row.contractNo);
           this.$router.push("/CompanyExc");
         } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", row.contractNum);
+          this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+          sessionStorage.setItem("contractNo", row.contractNo);
           this.$router.push("/ContractDelay");
         }
       },
       rowlookClick(row) {
         if (row.contractType == "0") {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", row.contractNum);
+          this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+          sessionStorage.setItem("contractNo", row.contractNo);
           sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
           cookie.set("state", "List");
           this.$router.push("/CompanyExa");
         } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", row.contractNum);
+          this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+          sessionStorage.setItem("contractNo", row.contractNo);
           sessionStorage.setItem("detailAccountCode",row.operator) //查看详情时二级账户的accountCode
           this.$router.push("/ContractInfo");
         }
@@ -460,12 +460,12 @@
       affixClick(row) {
         //签署
         if (row.contractType == "0") {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", row.contractNum);
+          this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+          sessionStorage.setItem("contractNo", row.contractNo);
           this.$router.push("/Dimension");
         } else {
-          this.$store.dispatch("contractsInfo", { contractNo: row.contractNum });
-          sessionStorage.setItem("contractNo", row.contractNum);
+          this.$store.dispatch("contractsInfo", { contractNo: row.contractNo });
+          sessionStorage.setItem("contractNo", row.contractNo);
           this.$router.push("/Contract");
         }
       },
@@ -475,7 +475,7 @@
           contractType:0,
           remindType:0
         }
-        remind(param,this.interfaceCode,row.contractNum).then(res=>{
+        remind(param,this.interfaceCode,row.contractNo).then(res=>{
           let resultCode = res.data.resultCode;
           let resultMessage = res.data.resultMessage;
           if (resultCode === "0") {
@@ -497,7 +497,7 @@
       },
       downloadClick(row) {
         //下载
-        let url =process.env.API_HOST + "v1/contract/" +this.interfaceCode + "/" + row.contractNum;
+        let url =process.env.API_HOST + "v1/contract/" +this.interfaceCode + "/" + row.contractNo;
         let up = document.createElement("a");
         document.body.appendChild(up);
         up.setAttribute("href", url);
@@ -520,7 +520,7 @@
       },
       folderClick(row){
 
-        this.defaultContractNum=row.contractNum;
+        this.defaultContractNo=row.contractNo;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
@@ -542,7 +542,7 @@
         let params={
           oldFilingNo:this.$store.state.showFilingNoDefault,
           newFilingNo:this.showFilingNo,
-          contractNo:this.defaultContractNum
+          contractNo:this.defaultContractNo
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
           this.showFilingNo=this.$store.state.showFilingNoDefault;
@@ -579,9 +579,9 @@
           return false
         }else {
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNum + ',';
+            str += this.multipleSelection[i].contractNo + ',';
           }
-          this.defaultContractNum=str;
+          this.defaultContractNo=str;
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){

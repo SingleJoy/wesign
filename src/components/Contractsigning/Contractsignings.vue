@@ -79,7 +79,7 @@
       </div>
       <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible" custom-class='showDialogs' >   <!-- :lock-scroll= false有问题！！！！ -->
         <div v-for="(item,index) in imgList" :key="index">
-          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+          <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item" alt="" style='width:100%;'>
         </div>
       </el-dialog>
       <!-- 文件信息结束 -->
@@ -202,6 +202,7 @@
         if(value === ''){
           callback(new Error('请输入手机号'))
         } else if (value !== '' && !validateMoblie(value)){
+            console.log(333)
           callback(new Error('手机号格式错误'))
         } else if (mobileArray.indexOf(value) != -1){
           callback(new Error('此手机号已添加'))
@@ -336,10 +337,10 @@
         let t=Math.random();
         contractimgs(this.interfaceCode,this.contractNo,t).then(res=>{
             for (let i = 0; i < res.data.length;i++) {
-              let contractUrl = res.data[i].contractUrl;
-              data[i] = contractUrl
-              this.$loading.hide(); //隐藏
+              let contractImagePath = res.data[i].contractImagePath;
+              data[i] = contractImagePath;
             }
+            this.$loading.hide(); //隐藏
             this.imgList = data
         }).catch(error=>{
 
@@ -624,7 +625,7 @@
 
             perfectContract(this.contractVo,this.interfaceCode,this.contractNo).then(res=>{
 
-                if (res.data.resultCode == '0') {
+                if (res.data.resultCode == '1') {
                   sessionStorage.setItem('contractName', TrimAll(this.contractName))
                   this.isNext = false;
 

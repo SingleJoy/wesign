@@ -65,7 +65,7 @@
         </div>
         <el-dialog title="合同详情图片" :visible.sync="dialogTableVisible"  custom-class='showDialogs'>
             <div v-for="(item,index) in imgList" :key="index" >
-            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item" alt="" style='width:100%;'>
+            <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item" alt="" style='width:100%;'>
             </div>
         </el-dialog>
       <div class='table' style="width: 1200px;padding:15px;box-sizing: border-box;">
@@ -176,24 +176,23 @@
         let t=Math.random();
         b2bContractimgs(this.interfaceCode ,this.contractNo,t).then(res=> {
           for (let i = 0; i < res.data.dataList.length;i++) {
-            let contractUrl = res.data.dataList[i].contractUrl
-            data[i] = contractUrl
-            this.$loading.hide(); //隐藏
+            let contractImagePath = res.data.dataList[i].contractImagePath;
+            data[i] = contractImagePath;
           }
-          this.imgList = data
-          console.log(this.imgList)
+          this.$loading.hide(); //隐藏
+          this.imgList = data;
 
         }).catch(error=>{
 
-        })
-        this.dialogTableVisible = true
+        });
+        this.dialogTableVisible = true;
       },
       downloadClick () {
         let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode +'/'+ this.contractNo;
         let download = document.createElement('a');
-        document.body.appendChild(download)
+        document.body.appendChild(download);
         download.setAttribute('href',url);
-        download.click()
+        download.click();
       },
       seeContractDetails () {
         let data =[];
@@ -209,68 +208,68 @@
           this.sponsorInterfaceCode = res.data.data.interfaceCode;
           switch (type) {
             case '1':
-              this.createType = '模板发起'
+              this.createType = '模板发起';
               break;
             default:
-              this.createType = '上传发起'
+              this.createType = '上传发起';
               break;
           }
-          this.status = res.data.data.status
+          this.status = res.data.data.status;
            switch (this.status ){
                 case "1":
-                this.status = '签署中'
+                this.status = '签署中';
                 break;
                 case "2":
-                this.status = '已生效'
+                this.status = '已生效';
                 break;
                 default:
-                this.status = '已截止'
+                this.status = '已截止';
                 break;
             }
           if(res.data.data.perpetualValid == '1'){
-            this.checked3 = true
-            this.validTime = ''
+            this.checked3 = true;
+            this.validTime = '';
           }else{
-            this.checked3 = false
-            this.validTime = res.data.data.validTime
+            this.checked3 = false;
+            this.validTime = res.data.data.validTime;
           }
 
-          let signUserVo = res.data.dataList
+          let signUserVo = res.data.dataList;
           for (let i = 0; i < signUserVo.length;i++) {
-            let obj = {}
-            obj.signUserName = signUserVo[i].signUserName
-            obj.email = signUserVo[i].email
-            obj.userName = signUserVo[i].userName
-            obj.mobile = signUserVo[i].mobile
-            obj.idCard = signUserVo[i].idCard
-            obj.signStatus = signUserVo[i].signStatus
-            obj.userCode = signUserVo[i].userCode
+            let obj = {};
+            obj.signUserName = signUserVo[i].signUserName;
+            obj.email = signUserVo[i].email;
+            obj.userName = signUserVo[i].userName;
+            obj.mobile = signUserVo[i].mobile;
+            obj.idCard = signUserVo[i].idCard;
+            obj.signStatus = signUserVo[i].signStatus;
+            obj.userCode = signUserVo[i].userCode;
             switch ( obj.signStatus ){
               case "0":
-                obj.signStatus = 0
+                obj.signStatus = 0;
                 break;
               default:
-                obj.signStatus = 1
+                obj.signStatus = 1;
                 break;
             }
             if (obj.idCard === null || obj.idCard === 'undefined') {
               obj.idCard = ''
             }
-            data[i] = obj
+            data[i] = obj;
           }
-          this.tableData2 = data
+          this.tableData2 = data;
           let params={
             'contractNoZq':contractNoZq
-          }
+          };
           contractSignUserInfo(params,this.contractNo).then(res=> {
-            this.History = res.data.dataList
+            this.History = res.data.dataList;
           }).catch(error=>{
 
-          })
+          });
 
         }).catch(error=>{
 
-        })
+        });
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
@@ -281,12 +280,10 @@
       },
       extensionClick(){
         if (this.contractType == "0") {
-          sessionStorage.setItem("contractNo", this.contractNo);
+
           cookie.set("state", "E");
           this.$router.push("/CompanyExc");
         } else {
-          this.$store.dispatch("contractsInfo", { contractNo: this.contractNo });
-          sessionStorage.setItem("contractNo", this.contractNo);
           cookie.set("state", "D");
           this.$router.push("/ContractDelay");
         }
@@ -297,34 +294,34 @@
       },
       checkedBox () {
         if(this.checked3 == true){
-          this.validTime = ''
-          this.hasClick = false
+          this.validTime = '';
+          this.hasClick = false;
         }else{
-          this.hasClick = true
+          this.hasClick = true;
         }
       },
       dateModified () {  // 修改日期
-        let perpetualValid = ''
+        let perpetualValid = '';
         if (this.checked3 == true){
-          perpetualValid = '1'
-          this.hasClick = false
+          perpetualValid = '1';
+          this.hasClick = false;
         } else {
-          perpetualValid = '0'
-          this.hasClick = true
+          perpetualValid = '0';
+          this.hasClick = true;
         }
         if(this.validTime =='' && this.checked3 == false){
           this.$message({
             showClose: true,
             message: '请选择时间选项!',
             type: 'error'
-          })
-          return  false
+          });
+          return  false;
         } else {
           this.hasClick = true;
           let params={
             'validTime':this.validTime,
             'perpetualValid':perpetualValid
-          }
+          };
           updateContractTime(params,this.interfaceCode ,this.contractNo).then(res=> {
 
             if( res.data.resultCode == 0){
@@ -333,39 +330,35 @@
                 message: res.data.resultMessage,
                 type: 'success'
               });
-              this.seeContractDetails()
+              this.seeContractDetails();
             }
 
           }).catch(error=>{
 
-          })
+          });
         }
       },
       backHome(){
-        // console.log("state"+cookie.getJSON('state'))
-        // if(cookie.getJSON('state') == 'List'){
-        //     this.$router.push("/Home")
-        // }else{
-        //     this.$router.push("/Mycontract")
+
 
         if(cookie.getJSON('state')=='list'){
-          this.$router.push("/Procontract")
+          this.$router.push("/Procontract");
           this.$store.dispatch('tabIndex',{tabIndex:1});
         }else if(cookie.getJSON('state')=='home'){
-          this.$router.push("/Merchant")
+          this.$router.push("/Merchant");
           this.$store.dispatch('tabIndex',{tabIndex:0});
         }else if(cookie.getJSON('state')== 'Home'){
-          this.$router.push("/Home")
+          this.$router.push("/Home");
           this.$store.dispatch('tabIndex',{tabIndex:0});
         }else if(cookie.getJSON('state') == 'List'){
-          this.$router.push("/Mycontract")
+          this.$router.push("/Mycontract");
           this.$store.dispatch('tabIndex',{tabIndex:1});
         }
 
       }
     },
     created() {
-      this.signMobile = cookie.getJSON('tenant')[0].mobile
+      this.signMobile = cookie.getJSON('tenant')[0].mobile;
 
       let accountLevel = sessionStorage.getItem('accountLevel');
       let accountCode = sessionStorage.getItem('accountCode');
@@ -376,14 +369,14 @@
       if(accountLevel != 2){
         let param={
           accountCode:detailAccountCode
-        }
+        };
         server.getAccountName(param,this.interfaceCode).then(res=>{
           if(res.data.resultCode == 1){
-            this.accountName = res.data.data
+            this.accountName = res.data.data;
           }
         }).catch(error=>{
 
-        })
+        });
       }
     }
   }
