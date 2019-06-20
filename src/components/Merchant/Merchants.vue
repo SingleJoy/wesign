@@ -12,6 +12,7 @@
             <div class="goEnterpriseCertificate" @click="goEnterpriseCertificate">去实名</div>
         </div>
 
+
         <div class="main" style="background-color: #fff;padding-top: 10px;">
 
             <div class='main_left'>
@@ -194,8 +195,8 @@
             toMyAccount(){
                 this.$router.push('/NoReal')
             },
-            cancelTipDialog(){
-                this.$store.dispatch('topTipDialog',{topTipDialog:false});
+            cancelTip(){
+                this.topTip=false;
             },
             jumper (item,index) {
                 if( item.templateSpecies == 'batch'){
@@ -259,7 +260,6 @@
                 this.$store.dispatch('tabIndex',{tabIndex:2});  //导航高亮
                 this.$router.push('/More');
 
-<<<<<<< HEAD
             },
             rowLockClick (row) {
                 //查看
@@ -267,81 +267,23 @@
                 if(row.contractType == '0'){
                     cookie.set('state','home');
                     this.$router.push('/CompanyExb');
-                }else{
-                    cookie.set('state','home');
-                    this.$router.push('/ContractInfo');
                 }
+            },
+            cancelTipDialog(){
+                this.$store.dispatch('topTipDialog',{topTipDialog:false});
             },
             goEnterpriseCertificate(){
                 this.$router.push('/EnterpriseCertificate')
             }
         },
         created() {
-            console.log(this.$store.state.topTipDialog)
             if(!cookie.getJSON('tenant')){
                 return false;
             }
             let auditStatus = cookie.getJSON('tenant')[1].auditStatus;
             let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
             if(auditSteps!=3){
-=======
-      },
-        rowLockClick (row) {
-            //查看
-            sessionStorage.setItem('contractNo', row.contractNo);
-            if(row.contractType == '0'){
-                cookie.set('state','home');
-                this.$router.push('/CompanyExb');
-            }
-        }
-    },
-    created() {
-      if(!cookie.getJSON('tenant')){
-        return false;
-      }
-      let auditStatus = cookie.getJSON('tenant')[1].auditStatus;
-      let auditSteps = cookie.getJSON('tenant')[1].auditSteps;
-      if(auditSteps!=3){
-        this.topTip = true
-      }
-      let data =[];
-      let requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
-      homePageContractLists(requestVo,this.interfaceCode).then(res=>{
-        this.num=res.data.content.length;
-        for (let i = 0; i < res.data.content.length;i++) {
-          var obj = {}
-          obj.contractName = res.data.content[i].contractName;
-          obj.contractNo = res.data.content[i].contractNo;
-          obj.createTime = res.data.content[i].createTime;
-          obj.signers =  res.data.content[i].signers;
-          obj.contractStatus =  res.data.content[i].contractStatus;
-          obj.validTime =  res.data.content[i].validTime;
-          obj.contractType = res.data.content[i].contractType;
-          obj.operation = '';
-          switch (obj.contractStatus){
-            case "1":
-              obj.contractStatus="待我签署";
-              obj.operation = 1;
-              break;
-            case "2":
-              obj.contractStatus="待他人签署";
-              obj.operation = 2;
-              break;
-            case "3":
-              obj.contractStatus="已生效";
-              obj.operation = 3
-              break;
-            default:
-              obj.contractStatus="已截止";
-              obj.operation = 4
-          }
-          data[i] = obj
-        }
-        this.tableData = data;
-        this.loading = false;
->>>>>>> 3b3b8739c0b7fe68147f6225f714ac00fde497d7
-
-                this.topTip = true;
+                this.topTip = true
             }
             let data =[];
             let requestVo ={'pageNo':'1','pageSize':'7','contractStatus':'0'};
@@ -482,7 +424,6 @@
         white-space: nowrap !important;
     }
 
-<<<<<<< HEAD
     #title{
         text-align:left !important;
     }
@@ -537,8 +478,8 @@
         transform: translate(-50%, -50%);
         max-height: calc(100% - 30px);
         max-width: calc(100% - 30px);
+        background:url("/static/images/Merchant/Merchant-dialog.png")  no-repeat;
         background-size: 100% 100%;
-        background:url("/static/images/Merchant/Merchant-dialog.png") no-repeat;
     }
     .dialogbg .warn-info .close-warn{
         position: absolute;
@@ -566,70 +507,4 @@
         color: #fff;
         margin-top: 10rem;
     }
-=======
-  #title{
-    text-align:left !important;
-  }
-  .one:hover{
-    border: 1px solid #4091fb;
-  }
-  .two:hover{
-    border: 1px solid #4091fb;
-  }
-  #close{
-    width:30px;
-    height:30px;
-    border-radius: 50%;
-    text-align:center;
-    line-height:30px;
-    display:block;
-    background:#fff;
-    color:#000;
-  }
-  .el-button--primary:focus{
-    background: #eee;
-    border-color: #95989d;
-    color: #333;
-  }
-  .Merchants .main .title{
-    height: 46px;
-    margin: 0px 0 0 15px;
-    line-height: 46px;
-    padding-left: 40px;
-    color: #fff;
-    font-size: 20px;
-    padding-top: 0 !important;
-    border-top: none !important;
-    background: url("/static/images/Common/title.png") no-repeat;
-  }
-  .dialogbg {
-    background: #000;
-    background: rgba(0, 0, 0, 0.6);
-    width: 100%;
-    height: 1080px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1999;
-  }
-  .dialogbg .warn-info{
-    width: 59.5628rem;
-    height:32.75rem;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-height: calc(100% - 30px);
-    max-width: calc(100% - 30px);
-    background:url("/static/images/Merchant/Merchant-dialog.png")  no-repeat;
-    background-size: 100% 100%;
-  }
-  .dialogbg .warn-info .close-warn{
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    font-size: 20px;
-    color: #666;
-  }
->>>>>>> 3b3b8739c0b7fe68147f6225f714ac00fde497d7
 </style>
