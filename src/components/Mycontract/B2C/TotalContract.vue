@@ -218,8 +218,8 @@
         },
         methods: {
             getSelectValue(val){
-                console.log(val)
-                console.log(this.showFilingNo)
+                // console.log(val)
+                // console.log(this.showFilingNo)
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;

@@ -113,7 +113,7 @@ export default {
 
         //复制失败
         onError: function (e) {
-            console.log(e)
+            // console.log(e)
         },
         //返回首页
         goBack(){

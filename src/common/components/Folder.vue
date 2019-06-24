@@ -517,7 +517,7 @@
         }else{
           return false
         }
-        console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
+        // console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
       },
 
       slideRight(){
@@ -533,7 +533,7 @@
         }else{
           return false
         }
-        console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
+        // console.log("当前文件夹是:"+(1-this.nowIndex)+"页");
       },
 
       addSure(){

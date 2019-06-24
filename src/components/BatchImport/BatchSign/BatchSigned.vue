@@ -109,7 +109,7 @@ export default {
         },
         //复制失败
         onError: function (e) {
-            console.log(e)
+            // console.log(e)
         },
         //查看详情
         lookDetail() {

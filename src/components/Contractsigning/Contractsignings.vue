@@ -202,7 +202,6 @@
         if(value === ''){
           callback(new Error('请输入手机号'))
         } else if (value !== '' && !validateMoblie(value)){
-            console.log(333)
           callback(new Error('手机号格式错误'))
         } else if (mobileArray.indexOf(value) != -1){
           callback(new Error('此手机号已添加'))

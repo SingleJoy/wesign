@@ -241,7 +241,7 @@
 
 
             }else {
-                console.log(111,row.templateNo)
+                // console.log(111,row.templateNo)
               var templateName = ''
               var templateNo = ''
               this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})

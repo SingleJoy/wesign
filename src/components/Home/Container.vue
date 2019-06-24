@@ -775,10 +775,10 @@
     }
     },
     uploadErr(name,file,filelist){
-        console.log(name,file,filelist)
+        // console.log(name,file,filelist)
     },
     fileSuccess(name, file, fileList) {
-        console.log(name,file,fileList)
+        // console.log(name,file,fileList)
         //上传文件，传参数 contractName contractNo 渲染 Contractsigning.vue
         this.$loading.hide();
         var contractName = file.name.replace(/\s+/g, "");
