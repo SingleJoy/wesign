@@ -64,10 +64,12 @@
 <script>
 import clip from '@/common/js/clipboard.js' // use clipboard directly
 import clipboard from '@/common/directive/clipboard/index.js' // use clipboard by v-directive
+import myMixin  from "@/common/js/mixin.js"
 import cookie from '@/common/js/getTenant'
 import {showSignRoomInfo,saveSignRoomName} from '@/api/account'
 export default {
   name: 'Rooming',
+  mixins:[myMixin],
   data () {
     return {
       baseURL:this.baseURL.BASE_URL,

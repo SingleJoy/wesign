@@ -435,7 +435,7 @@
                 type: 'error'
               });
             }
-          }).catch(error=>{
+          }).catch(errot=>{
 
           })
         }

@@ -50,7 +50,7 @@
         <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li v-for="(item, index) in imgList" :key="index" class="contractImg-hook" style="height:844px;">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractImagePath='+item" alt="" style='width: 100%;height:844px;' id='signImg'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" style='width: 100%;height:844px;' id='signImg'>
             </li>
           </ul>
         </div>
@@ -310,11 +310,11 @@
         preventDefaultException: { className: /(^|\s)sign_left(\s|$)/ }
       });
       for (let i = 0; i < res.data.length;i++) {
-        let contractImagePath = res.data[i].contractImagePath
-        data[i] = contractImagePath;
+        let contractUrl = res.data[i].contractUrl
+        data[i] = contractUrl
+        this.$loading.hide(); //隐藏
       }
-      this.$loading.hide(); //隐藏
-      this.imgList = data;
+      this.imgList = data
 
     }).catch(error=>{
 

@@ -196,7 +196,7 @@
         dialogChooseFolder:false,
         folderList:[],
         batchFolderListNo:'',
-        defaultContractNo:'',
+        defaultContractNum:'',
       }
     },
     methods: {
@@ -217,7 +217,7 @@
 
         }else{
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNo + ',';
+            str += this.multipleSelection[i].contractNum + ',';
           }
 
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;
@@ -247,7 +247,7 @@
           for (let i = 0; i < res.data.content.length;i++) {
             let obj = {}
             obj.contractName = res.data.content[i].contractName;
-            obj.contractNo = res.data.content[i].contractNo;
+            obj.contractNum = res.data.content[i].contractNum;
             obj.createTime = res.data.content[i].createTime;
             obj.signers =  res.data.content[i].signers;
             obj.contractStatus =  res.data.content[i].contractStatus;
@@ -327,8 +327,8 @@
         this.queryAccountCode=value
       },
       contractInquiryExpired () {
-        let start = this.filters.column.create_start_date;
-        let end =   this.filters.column.create_end_date;
+        let start = this.filters.column.create_start_date
+        let end =   this.filters.column.create_end_date
         if(start == null) {start =null}else{start = moment(start).format().slice(0,10)}
         if(end==null){end=''}else{end = moment(end).format().slice(0,10)}
         let requestVo ={
@@ -341,47 +341,49 @@
           'accountCode':this.queryAccountCode,
           'filingNo':this.$store.state.showFilingNo,
         };
-        this.getData (requestVo);
-        this.inquiry = true;
+        this.getData (requestVo)
+        this.inquiry = true
       },
       rowLockClick (row) {
-          sessionStorage.setItem('contractNo', row.contractNo)
         if(row.contractType == '0'){
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
           cookie.set('state','list')
           this.$router.push('/CompanyExb')
         }else{
-
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
           cookie.set('state','list')
           this.$router.push('/ContractInfo')
         }
       },
       signClick (row) { //签署
-          sessionStorage.setItem('contractNo', row.contractNo)
         if(row.contractType == '0'){
-
-
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Dimension')
         }else{
-
+          this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+          sessionStorage.setItem('contractNo', row.contractNum)
           this.$router.push('/Contract')
         }
       },
       downloadClick (row) { //下载
-        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNo;
+        let url = process.env.API_HOST+'v1/contract/'+ this.interfaceCode + '/'+ row.contractNum;
         let up = document.createElement('a');
         document.body.appendChild(up)
         up.setAttribute('href',url);
         up.click()
       },
       seeClick (row) { //延期合同
-
-        sessionStorage.setItem('contractNo', row.contractNo)
+        this.$store.dispatch('contractsInfo',{contractNo:row.contractNum})
+        sessionStorage.setItem('contractNo', row.contractNum)
         this.$router.push('/ContractDelay')
       },
 
       // 查询所有归档文件夹接口
       folderClick(row){
-        this.defaultContractNo=row.contractNo;
+        this.defaultContractNum=row.contractNum;
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){
             this.folderList=res.data.dataList;
@@ -405,7 +407,7 @@
         let params={
           oldFilingNo:this.$store.state.showFilingNoDefault,
           newFilingNo:this.showFilingNo,
-          contractNo:this.defaultContractNo
+          contractNo:this.defaultContractNum
         };
         contractFiling(this.interfaceCode,this.accountCode,params).then(res=>{
           this.showFilingNo=this.$store.state.showFilingNoDefault;
@@ -442,9 +444,9 @@
           return false
         }else {
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNo + ',';
+            str += this.multipleSelection[i].contractNum + ',';
           }
-          this.defaultContractNo=str;
+          this.defaultContractNum=str;
         }
         contractFilings(this.interfaceCode,this.accountCode).then(res=>{
           if(res.data.resultCode=='1'){

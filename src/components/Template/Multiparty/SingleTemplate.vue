@@ -19,7 +19,7 @@
             <div class="contract-box">
               <div class="contract-content">
                 <div class="content-left" @click="previewContract(item)">
-                  <img  style="height: 270px; width: 180px;" v-if="item.imgs" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item.imgs[0]" alt="" />
+                  <img  style="height: 270px; width: 180px;" v-if="item.imgs" :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+item.imgs[0]" alt="" />
                   <p>{{item.templateName}}</p>
                 </div>
                 <div class="content-right">
@@ -63,8 +63,8 @@
               </div>
             </div>
             <el-dialog title="模板详情图片" :visible.sync="item.dialogTableVisible"  custom-class='showDialogs'>
-              <div v-for="(item,indexImg) in item.imgs" :key="indexImg" >
-                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+item" alt="" style='width:100%;'>
+              <div v-for="(itemImg,indexImg) in item.imgs" :key="indexImg" >
+                <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+itemImg" alt="" style='width:100%;'>
               </div>
             </el-dialog>
             <div class="line" v-if="index+1<tableData.length"></div>
@@ -241,7 +241,7 @@
 
 
             }else {
-                // console.log(111,row.templateNo)
+                console.log(111,row.templateNo)
               var templateName = ''
               var templateNo = ''
               this.$store.dispatch('template',{templateName:row.templateName,templateNo:row.templateNo})

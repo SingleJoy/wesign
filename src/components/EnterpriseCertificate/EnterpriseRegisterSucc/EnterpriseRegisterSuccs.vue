@@ -71,7 +71,7 @@
           <div class="right-side certification-bg">
 
             <div class="right-content ">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+signBadgePath" alt="" >
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+signBadgePath" alt="" >
 
             </div>
           </div>

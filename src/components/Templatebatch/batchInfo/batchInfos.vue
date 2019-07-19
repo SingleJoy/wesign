@@ -47,7 +47,7 @@
         <div class='sign_center' ref="rightWrapper"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id="contractImg">
             <li v-for="(item,index) in imgList" :key="index" class="contractImg-hook">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractImagePath='+item" alt="" id="imgSign"  style='width:100%;width: 639px;'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractName=zqsign&contractUrl='+item" alt="" id="imgSign"  style='width:100%;width: 639px;'>
             </li>
           </ul>
         </div>
@@ -298,6 +298,10 @@
         })
       },
       lastStepFit () {
+        // this.$store.dispatch('template',{templateName:this.$store.state.templateName,templateNo:this.templateNo})
+        // this.$store.dispatch('fileSuccess1',{contractNo:this.$store.state.contractNo1})
+        // this.$store.dispatch('templateType',{templateGenre:this.$store.state.templateGenre})
+        // this.$store.dispatch('type',{type:'back'})
 
         sessionStorage.setItem('templateGenre',this.$store.state.templateGenre)
         sessionStorage.setItem('type','back')

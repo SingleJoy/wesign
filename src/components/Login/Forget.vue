@@ -29,6 +29,9 @@
               <el-input v-model="ruleForm.code" maxlength="6" placeholder="请输入短信验证码" class="">
                 <el-button slot="append" @click='sendCode' id='code'>获取验证码</el-button>
               </el-input>
+              <!-- </el-form-item> -->
+              <!-- <el-input type="text" placeholder="请输入短信验证码" class='forget-messageInput' v-model="ruleForm.message" style="width: 200px;"></el-input>
+						  <el-button type="primary" class="forget-messageButton" @click='sendCode' id='code' style="margin-left: 20px;">获取</el-button> -->
             </el-form-item>
             <el-form-item prop="password">
               <el-input v-model="ruleForm.password" type="password" placeholder="请设置登录密码"></el-input>
@@ -150,9 +153,14 @@
         this.$router.push('/');
       },
       submitForm(formName) {
-
-        if(this.ruleForm.mobile != this.ruleForm.username){
-            //校验发送验证码的手机和提交时的手机是否是一个
+        if(!this.getCode){
+          this.$message({
+            message: '请先获取验证码！',
+            type: 'warning'
+          })
+          return false
+        }
+        if(this.ruleForm.mobile != this.ruleForm.username){//校验发送验证码的手机和提交时的手机是否是一个
           this.$message({
             message: '请检查手机号是否正确',
             type: 'warning'
@@ -223,6 +231,7 @@
         }
 
         var codeType = '0'
+        var InterValObj = 60
         var count = 60
         var curCount = count
         var timer = null
@@ -241,14 +250,14 @@
           if (resultCode === '0') {
             this.iscode = true;
             this.getCode = true;
-            var codeInfo = document.getElementById('code');
-            codeInfo.innerText =  curCount + '秒后获取';
+            var codeInfo = document.getElementById('code')
+            codeInfo.innerText =  curCount + '秒后获取'
             this.smsNum = smsNo
-            codeInfo.setAttribute('disabled', 'true');
+            codeInfo.setAttribute('disabled', 'true')
             timer = setInterval(function () {
               codeInfo.innerText =  (curCount - 1) + '秒后获取'
               if (curCount === 0) {
-                codeInfo.innerText = '重新获取验证码';
+                codeInfo.innerText = '重新获取验证码'
                 clearInterval(timer)
                 codeInfo.removeAttribute('disabled')
               } else {

@@ -49,7 +49,7 @@
         <div class='sign_center' ref="rightWrapper" id="div1"> <!-- 渲染合同页面 -->
           <ul class='content contractImg' id='div2' style="position: relative;cursor:pointer;">
             <li  v-for="(ele,i) in imgList" :key="i" class="contractImg-hook" style="height:844px;">
-              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractImagePath='+ele" alt="" style="width:100%;height:844px;" id='signImg'>
+              <img :src="baseURL+'/restapi/wesign/v1/tenant/contract/img?contractUrl='+ele" alt="" style="width:100%;height:844px;" id='signImg'>
             </li>
           </ul>
         </div>
@@ -327,15 +327,15 @@
     contractSignUser(this.contractNo).then(res=>{
       let signUserVo = []
       let analogueVo = []
-      signUserVo.push(res.data.dataList[0]);
-      signUserVo.push(res.data.dataList[1]);
-      analogueVo.push(res.data.dataList[2]);
-      analogueVo.push(res.data.dataList[3]);
+      signUserVo.push(res.data.dataList[0])
+      signUserVo.push(res.data.dataList[1])
+      analogueVo.push(res.data.dataList[2])
+      analogueVo.push(res.data.dataList[3])
       this.signUserList = signUserVo
       this.analogueList = analogueVo
     }).catch(error=>{
 
-    });
+    })
 
     let data =[];
     let t=Math.random();
@@ -343,14 +343,14 @@
 
         this.allpage = res.data.dataList.length
         this.$nextTick(() => {
-          this.initScroll();
-          this.calculateHeight();
-        });
+          this.initScroll()
+          this.calculateHeight()
+        })
         for (let i = 0; i < res.data.dataList.length;i++) {
-          let contractImagePath = res.data.dataList[i].contractImagePath;
-          data[i] = contractImagePath;
+          let contractUrl = res.data.dataList[i].contractUrl
+          data[i] = contractUrl
+          this.$loading.hide(); //隐藏
         }
-        this.$loading.hide(); //隐藏
         this.imgList = data;
         this.rightScroll = new BScroll(this.$refs.rightWrapper, {
           probeType: 3,

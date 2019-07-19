@@ -262,21 +262,26 @@
       },
 
       submitForm(formName){
-
+        if(!this.repeat){
+          this.$message({
+            type: 'error',
+            message: '请先获取短信验证码!'
+          });
+          return false
+        }
         let accountCode = sessionStorage.getItem("accountCode");
         let authorizerCode = sessionStorage.getItem("authorizerCode");
         let signatureImg = this.canvasTest;
-        
+        this.$nextTick(()=> {
+          this.$loading.show("正在提交数据，请等待...");
+        });
         this.$refs[formName].validate((valid) => {
-            let params={
-                'mobile': this.mobile,
-                'smsNo': this.smsNoVer,
-                'smsCode': this.ruleForm.smsCode,
-                'appId': this.appId
-            };
-            this.$nextTick(()=> {
-                this.$loading.show("正在提交数据，请等待...");
-            });
+          let params={
+            'mobile': this.mobile,
+            'smsNo': this.smsNoVer,
+            'smsCode': this.ruleForm.smsCode,
+            'appId': this.appId
+          };
 
           server.valiteSmsCode(params).then(res => {
 
@@ -309,6 +314,7 @@
               }
               this.flag=true;
               SignAuthbook(params).then(res=> {
+
                 this.$nextTick(()=> {
                   this.$loading.hide();
                 });

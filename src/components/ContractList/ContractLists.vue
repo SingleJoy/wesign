@@ -182,7 +182,7 @@
 
         }else{
           for (let i = 0; i < length; i++) {
-            str += this.multipleSelection[i].contractNo + ',';
+            str += this.multipleSelection[i].contractNum + ',';
           }
           this.fullscreenLoading=true;
           let url = '/api/v1.7/contract/'+this.interfaceCode+'/downloadContracts?interfaceCode='+this.interfaceCode+'&contractNoArray='+str;

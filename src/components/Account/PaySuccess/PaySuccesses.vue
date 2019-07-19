@@ -54,7 +54,7 @@
         this.$router.push('/PackagePurchase');
       },
       packageBuy(){
-        this.$router.push('/PackageBuy');
+        this.$router.push('/packageBuy');
       },
     },
     created(){

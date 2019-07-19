@@ -183,23 +183,23 @@
         hide1.style.display='none';
       },
       close(){
-        var interfaceCode = cookie.getJSON('interfaceCode');
-        var contractNo = cookie.getJSON('contractNo');
-        var userCode = cookie.getJSON('user_code');
-        var base64Img = this.url;
+        var interfaceCode = cookie.getJSON('interfaceCode')
+        var contractNum = cookie.getJSON('contractNo')
+        var userCode = cookie.getJSON('user_code')
+        var base64Img = this.url
         var signContractVo = {
-          'contractNum':contractNo,
+          'contractNum':contractNum,
           'phoneHeight':'500',
           'phoneWidth': '300',
           'signatureImg': base64Img,
           'signH':'100',
           'signW':'100',
           'signPositionStr':''
-        };
-        this.dialog = false;
+        }
+        this.dialog = false
       },
       closeCan () {
-        this.$router.push('/ContractInfo');
+        this.$router.push('/ContractInfo')
       },
       mutate(word) {
         this.$emit("input", word);

@@ -3,7 +3,7 @@
  * @param {*moblie} str
  */
 export function validateMoblie(str) {
-    const reg = /^0?(13[0-9]|15[0123456789]|18[0123456789]|14[135789]|17[0123467859]|16[6]|19[891])[0-9]{8}$/
+    const reg = /^0?(13[0-9]|15[0123456789]|18[0123456789]|14[135789]|17[0123467859]|16[6]|19[89])[0-9]{8}$/
     return reg.test(str)
 }
 
@@ -68,7 +68,7 @@ export function validateBank(str){
  *  @param {*validateBankNum} str
  */
 export function validateBankNum(str){
-    const reg = /^([0-9]\d{5,30})$/
+    const reg = /^([0-9]\d{5,21})$/
     return reg.test(str)
 }
 /**

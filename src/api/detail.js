@@ -22,9 +22,9 @@ export function signFinish(contractNo){
 
 
 /* b2c 合同详情 */
-export function getContractDetails(interfaceCode,contractNo,t){  //t 先不要删除 组件中多处有传入 
+export function getContractDetails(interfaceCode,contractNo,t){
     return request({
-      url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+Math.random(),  //随机数写在接口api里 避免每次都格外传入
+      url: "/api/v1/tenant/" + interfaceCode + "/contract/"+contractNo+"/getContractDetails?t="+t,
         method: "get",
         params: ''
     })
@@ -32,7 +32,7 @@ export function getContractDetails(interfaceCode,contractNo,t){  //t 先不要�
 /* b2c合同图片 */
 export function contractimgs(interfaceCode,contractNo,t){
     return request({
-        url: "/api/v1/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs?t="+Math.random(),
+        url: "/api/v1/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs?t="+t,
         method: "get",
         params: ''
     })
@@ -41,7 +41,7 @@ export function contractimgs(interfaceCode,contractNo,t){
 // b2b合同图片
 export function b2bContractimgs(interfaceCode,contractNo,t){
     return request({
-        url: "/api/v1.4/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs?t="+Math.random(),
+        url: "/api/v1.4/tenant/" + interfaceCode + '/contract/' + contractNo +"/contractimgs?t="+t,
         method: "get",
         params: ''
     })
